@@ -23,7 +23,7 @@
 // non-inline display that a bare <span> doesn't have by default, which is
 // exactly what silently broke it here before; a count list doesn't have that
 // failure mode and reads just as clearly at this width). Segment COLORS come
-// from semantic token strings (var(--color-success) etc) via inline style,
+// from semantic token strings (var(--color-background-utility-success) etc) via inline style,
 // never hardcoded. bcn-oversight-hero is the reusable home; the shell is
 // esa-card.
 import EsaCard from '@esa/ecology/esa-card.astro';
@@ -92,7 +92,7 @@ const segments = severityBreakdown.map((slice) => {
            sweep to the current active backlog, so the heading contradicted the data.
            It is now the only thing naming the set — the card's caption, which restated
            it and told the reader to click, came out with `subtitle` on 2026-08-16. -->
-      <h4 class="bcn-ohero__section-title type-card-title">Active Observations</h4>
+      <h4 class="bcn-ohero__section-title typography-title">Active Observations</h4>
       <div class="cluster" data-gap="lg" data-align="center">
         <div class="bcn-ohero__donut">
           <svg class="bcn-ohero__ring" viewBox="0 0 42 42" role="group" aria-label="Active observations by severity">
@@ -127,7 +127,7 @@ const segments = severityBreakdown.map((slice) => {
           </svg>
           <a class="bcn-ohero__hole" href={observationsHref}>
             <span class="bcn-ohero__hole-value">{sliceTotal}</span>
-            <span class="bcn-ohero__hole-cap type-caption">{asOfLabel}</span>
+            <span class="bcn-ohero__hole-cap typography-meta">{asOfLabel}</span>
           </a>
         </div>
 
@@ -136,8 +136,8 @@ const segments = severityBreakdown.map((slice) => {
             <li>
               <a class="bcn-ohero__legend-row" href={s.href}>
                 <span class="bcn-ohero__dot" style={`--_c: ${s.hex};`}></span>
-                <span class="bcn-ohero__legend-label type-body-small">{s.label}</span>
-                <span class="bcn-ohero__legend-value type-label">{s.value}</span>
+                <span class="bcn-ohero__legend-label typography-body-sm">{s.label}</span>
+                <span class="bcn-ohero__legend-value typography-label">{s.value}</span>
               </a>
             </li>
           ))}
@@ -148,24 +148,24 @@ const segments = severityBreakdown.map((slice) => {
     <!-- ── Two category count lists, by severity ── -->
     <div class="bcn-ohero__breakdowns cluster" data-gap="xl" data-align="start">
       <section class="stack" data-gap="xs">
-        <h4 class="bcn-ohero__section-title type-card-title">Needs Attention by Category</h4>
+        <h4 class="bcn-ohero__section-title typography-title">Needs Attention by Category</h4>
         <ul class="bcn-ohero__counts stack" data-gap="2xs">
           {needsAttentionCategories.map((c) => (
             <li class="bcn-ohero__count-row">
-              <span class="bcn-ohero__count-label type-body-small">{c.category}</span>
-              <span class="bcn-ohero__count-value type-label">{c.value}</span>
+              <span class="bcn-ohero__count-label typography-body-sm">{c.category}</span>
+              <span class="bcn-ohero__count-value typography-label">{c.value}</span>
             </li>
           ))}
         </ul>
       </section>
 
       <section class="stack" data-gap="xs">
-        <h4 class="bcn-ohero__section-title type-card-title">Non-Compliance by Category</h4>
+        <h4 class="bcn-ohero__section-title typography-title">Non-Compliance by Category</h4>
         <ul class="bcn-ohero__counts stack" data-gap="2xs">
           {nonComplianceCategories.map((c) => (
             <li class="bcn-ohero__count-row">
-              <span class="bcn-ohero__count-label type-body-small">{c.category}</span>
-              <span class="bcn-ohero__count-value type-label">{c.value}</span>
+              <span class="bcn-ohero__count-label typography-body-sm">{c.category}</span>
+              <span class="bcn-ohero__count-value typography-label">{c.value}</span>
             </li>
           ))}
         </ul>
@@ -183,10 +183,10 @@ const segments = severityBreakdown.map((slice) => {
     min-inline-size: 0;
   }
   /* Shared by the donut's own heading and the two count-list headings — one
-     step up from .type-label so all three sections read with equal weight. */
+     step up from .typography-label so all three sections read with equal weight. */
   .bcn-ohero__section-title {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* ── Donut: stacked circle strokes, each an <a>. Color from data (--_c / the
@@ -205,7 +205,7 @@ const segments = severityBreakdown.map((slice) => {
     overflow: visible;
   }
   .bcn-ohero__track {
-    stroke: var(--color-surface-sunken);
+    stroke: var(--color-background-elevation-sunken);
   }
   .bcn-ohero__seg circle {
     transition: stroke-width 120ms ease-out, opacity 120ms ease-out;
@@ -232,21 +232,21 @@ const segments = severityBreakdown.map((slice) => {
     justify-content: center;
     gap: 1px;
     border-radius: var(--radius-full);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     text-decoration: none;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-ohero__hole-value {
-    font-family: var(--font-display, var(--font-sans));
-    font-size: var(--type-size-600);
-    font-weight: var(--font-weight-bold);
+    font-family: var(--typography-font-family-display, var(--typography-font-family-sans));
+    font-size: var(--font-size-600);
+    font-weight: var(--typography-font-weight-bold);
     line-height: 1;
   }
   .bcn-ohero__hole-cap {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-ohero__hole:hover .bcn-ohero__hole-value {
-    color: var(--color-primary-hover);
+    color: var(--color-background-brand-hover);
   }
   .bcn-ohero__hole:focus-visible {
     outline: var(--focus-ring-width) solid var(--focus-ring-color);
@@ -267,11 +267,11 @@ const segments = severityBreakdown.map((slice) => {
     padding: var(--spacing-100) var(--spacing-200);
     border-radius: var(--radius-200);
     text-decoration: none;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-ohero__legend-row:hover {
-    background: var(--color-surface-sunken);
-    color: var(--color-text-primary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default);
   }
   .bcn-ohero__legend-row:focus-visible {
     outline: var(--focus-ring-width) solid var(--focus-ring-color);
@@ -289,7 +289,7 @@ const segments = severityBreakdown.map((slice) => {
     text-overflow: ellipsis;
   }
   .bcn-ohero__legend-value {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     font-variant-numeric: tabular-nums;
     text-align: right;
   }
@@ -305,16 +305,16 @@ const segments = severityBreakdown.map((slice) => {
     padding-block: var(--spacing-100);
   }
   .bcn-ohero__count-row + .bcn-ohero__count-row {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-ohero__count-label {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .bcn-ohero__count-value {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     font-variant-numeric: tabular-nums;
     text-align: right;
   }

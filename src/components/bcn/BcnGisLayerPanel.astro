@@ -46,7 +46,7 @@
 // CSS below is that divider glue plus the row's own grid.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import EsaIconLink from '@esa/ecology/esa-button.astro';
 import BcnStatusChip from './BcnStatusChip.astro';
 
 export interface GisLayer {
@@ -131,8 +131,8 @@ const onCount = layers.filter((l) => l.defaultOn).length;
                 <span class="bcn-gis-row__swatch" style={`--_swatch: ${layer.color};`} />
 
                 <span class="bcn-gis-row__text">
-                  <span class="bcn-gis-row__name type-body">{layer.name}</span>
-                  <span class="bcn-gis-row__meta type-body-small">
+                  <span class="bcn-gis-row__name typography-body-md">{layer.name}</span>
+                  <span class="bcn-gis-row__meta typography-body-sm">
                     {layer.category} · {featureNote(layer.features)}
                   </span>
                 </span>
@@ -158,8 +158,8 @@ const onCount = layers.filter((l) => l.defaultOn).length;
     {
       manageHref && (
         <div class="repel" slot="footer">
-          <span class="bcn-gis-panel__note type-body-small">Sources refresh nightly</span>
-          <EsaIconLink href={manageHref} iconRight="arrow-right" size="sm">
+          <span class="bcn-gis-panel__note typography-body-sm">Sources refresh nightly</span>
+          <EsaIconLink variant="chrome" href={manageHref} iconRight="arrow-right" size="sm">
             Manage data feeds
           </EsaIconLink>
         </div>
@@ -249,7 +249,7 @@ const onCount = layers.filter((l) => l.defaultOn).length;
     flex-direction: column;
   }
   .bcn-gis-panel__list > li + li {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 
   /* [ activatable main | switch ] — the split that keeps the control out of the
@@ -276,7 +276,7 @@ const onCount = layers.filter((l) => l.defaultOn).length;
     cursor: pointer;
   }
   .bcn-gis-row__main:hover {
-    background: var(--color-surface-hover);
+    background: var(--color-background-default-hover);
   }
 
   /* The swatch is the row's key to the map, so it is the one thing that dims when the
@@ -287,7 +287,7 @@ const onCount = layers.filter((l) => l.defaultOn).length;
     border-radius: var(--radius-xs);
     background: var(--_swatch);
     /* A ring in the swatch's own darkened color, so pale layers don't vanish on white. */
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--_swatch) 65%, var(--color-text-primary));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--_swatch) 65%, var(--color-content-default));
     flex-shrink: 0;
     transition: opacity 120ms ease;
   }
@@ -301,16 +301,16 @@ const onCount = layers.filter((l) => l.defaultOn).length;
     gap: 2px;
     min-width: 0;
   }
-  /* type-body's relaxed line-height would open a gap between the name and the meta
+  /* typography-body-md's relaxed line-height would open a gap between the name and the meta
      line under it; a scoped selector outranks the role class. */
   .bcn-gis-row__name {
     line-height: 1.4;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-gis-row__meta {
     line-height: 1.4;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* display:flex on the HOST is the vertical-centering fix documented in BcnFlagRow:
@@ -333,6 +333,6 @@ const onCount = layers.filter((l) => l.defaultOn).length;
   }
 
   .bcn-gis-panel__note {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 </style>

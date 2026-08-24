@@ -30,15 +30,15 @@ const { code, size = 'md', tone = 'commitment' } = Astro.props;
   .bcn-cbadge {
     display: inline-block;
     flex-shrink: 0;
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-semibold);
+    font-family: var(--typography-font-family-mono);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
     border-radius: var(--radius-100);
     white-space: nowrap;
   }
   .bcn-cbadge--md {
-    font-size: var(--type-size-100);
+    font-size: var(--font-size-100);
     padding: 1px var(--spacing-200);
   }
   .bcn-cbadge--sm {
@@ -47,7 +47,7 @@ const { code, size = 'md', tone = 'commitment' } = Astro.props;
   }
   /* Same chip, no entity colour — the gray companion. */
   .bcn-cbadge--neutral {
-    font-family: var(--font-sans);
+    font-family: var(--typography-font-family-sans);
     color: var(--bcn-gray-700);
     background: var(--bcn-gray-100);
   }

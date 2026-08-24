@@ -197,9 +197,12 @@ for (const page of SETTINGS_PAGES) {
      tokens default to an off-brand ring, so point them at the house link color. Scoped
      to this one field, so nothing leaks. */
   .bcn-settings-search__field {
-    --form-padding-x-md: 2rem;
-    --form-border-color-focus: var(--color-text-link);
-    --focus-ring-color: var(--color-text-link);
+    /* Private hook: the public --form-padding-* surface was deleted upstream
+       (form-padding-to-spacing, no successor). Same reach-in as BcnEvidenceSearch;
+       a leading-icon slot on the field legos is the pending hub request. */
+    --_field-padding-x: 2rem;
+    --form-border-color-focus: var(--color-content-link);
+    --focus-ring-color: var(--color-content-link);
     display: block;
   }
 
@@ -211,14 +214,14 @@ for (const page of SETTINGS_PAGES) {
     transform: translateY(-50%);
     display: inline-flex;
     z-index: 1;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     pointer-events: none;
   }
 
   /* ── Results panel: an overlay hung under the field, over the nav ── */
   /* Elevation is the white card surface plus a shadow — the semantic layer has no
-     surface-raised token, so --color-surface (white on the rail's off-white ground) IS the
-     raised value, and --shadow-300 lifts it off the nav rows showing through around it.
+     surface-raised token, so --color-background-elevation-raised (white on the rail's off-white ground) IS the
+     raised value, and --elevation-4 lifts it off the nav rows showing through around it.
      z-index 30 only has to beat the nav below (everything in the rail is auto/0); it stays
      far under the fixed topbar (1100) and any dialog, so an open panel can never cover
      app chrome. Scrolls internally once the ten ranked rows plus the count exceed the cap. */
@@ -231,10 +234,10 @@ for (const page of SETTINGS_PAGES) {
     flex-direction: column;
     max-block-size: min(24rem, 60vh);
     overflow-y: auto;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
-    box-shadow: var(--shadow-300);
+    box-shadow: var(--elevation-4);
   }
   .bcn-settings-search__panel[hidden] {
     display: none;
@@ -248,9 +251,9 @@ for (const page of SETTINGS_PAGES) {
     gap: var(--spacing-200);
     margin: 0;
     padding: var(--spacing-150) var(--spacing-250);
-    border-bottom: 1px solid var(--color-border-light, var(--color-border));
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
   .bcn-settings-search__count kbd {
     display: inline-flex;
@@ -261,10 +264,10 @@ for (const page of SETTINGS_PAGES) {
     padding: 0 5px;
     font-family: inherit;
     font-size: 11px;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-tertiary);
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-tertiary);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
     border-radius: 4px;
   }
 
@@ -292,18 +295,18 @@ for (const page of SETTINGS_PAGES) {
   }
   .bcn-settings-search__result:hover,
   .bcn-settings-search__result.is-active {
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
 
   .bcn-settings-search__result-label {
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
     line-height: 1.35;
   }
   .bcn-settings-search__result:hover .bcn-settings-search__result-label,
   .bcn-settings-search__result.is-active .bcn-settings-search__result-label {
-    color: var(--color-text-link);
+    color: var(--color-content-link);
   }
 
   /* Matched substring — highlighter-yellow with dark text, the one search-hit treatment
@@ -311,15 +314,15 @@ for (const page of SETTINGS_PAGES) {
      the controller, so it needs :global() under the scoped label class. */
   .bcn-settings-search__result-label :global(mark) {
     background: #fde047;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     border-radius: 2px;
     padding: 0 1px;
   }
 
   /* Zone · page breadcrumb — genuine meta. */
   .bcn-settings-search__result-meta {
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
     line-height: 1.4;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -330,12 +333,12 @@ for (const page of SETTINGS_PAGES) {
   .bcn-settings-search__empty {
     margin: 0;
     padding: var(--spacing-200) var(--spacing-250);
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
   .bcn-settings-search__more {
-    border-top: 1px solid var(--color-border-light, var(--color-border));
-    color: var(--color-text-tertiary);
+    border-top: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+    color: var(--color-content-default-tertiary);
   }
   .bcn-settings-search__more[hidden],
   .bcn-settings-search__empty[hidden] {

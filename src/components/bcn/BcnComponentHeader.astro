@@ -54,7 +54,7 @@
 // inside it is a lego.
 import BcnEntityLogo from './BcnEntityLogo.astro';
 import BcnStatusChip from './BcnStatusChip.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import type { ComponentRecord } from '../../data/component-detail';
 
 interface Props {
@@ -81,7 +81,7 @@ const fmtDate = (iso: string): string => {
 // current state (brand primary, like the project's phase chip), Complete is the
 // one status that earns success green, and On Hold recedes.
 const STATUS_TONE: Record<ComponentRecord['status'], { key: string; hex: string }> = {
-  Active: { key: 'active', hex: 'var(--color-primary)' },
+  Active: { key: 'active', hex: 'var(--color-background-brand)' },
   'On Hold': { key: 'on-hold', hex: 'var(--bcn-status-not-started)' },
   Complete: { key: 'complete', hex: 'var(--bcn-status-completed)' },
 };
@@ -107,7 +107,7 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
            and drops unknown attributes, so a data-* on the lego goes nowhere.
            The click bubbles out of the button to this span. -->
       <span class="bcn-chd__logo-edit" data-logo-edit>
-        <EsaIconButton icon="pencil" label="Change component logo" size="sm" />
+        <EsaIconButton variant="chrome" iconOnly icon="pencil" label="Change component logo" size="sm" />
       </span>
     </span>
 
@@ -119,10 +119,10 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
         the far edge, so the three things about THIS component read as one group. */}
     <div class="bcn-chd__ident">
       <div class="bcn-chd__title-row">
-        <h1 class="bcn-chd__name type-page-title">{component.name}</h1>
+        <h1 class="bcn-chd__name typography-heading-lg">{component.name}</h1>
         <BcnStatusChip status={tone.key} label={component.status} hex={tone.hex} />
         <span class="bcn-chd__star" data-star-toggle data-pressed={String(starred)} data-name={component.name}>
-          <EsaIconButton icon="star" label={starLabel} size="md" />
+          <EsaIconButton variant="chrome" iconOnly icon="star" label={starLabel} size="md" />
         </span>
       </div>
     </div>
@@ -181,8 +181,8 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
     flex-direction: column;
     gap: var(--spacing-300);
     padding: var(--spacing-200) var(--spacing-600);
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border-bottom: 1px solid var(--color-border-default);
   }
 
   /* The eyebrow / wayfinding rules that lived here are gone with the markup —
@@ -221,9 +221,9 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
     bottom: calc(var(--spacing-150) * -1);
     display: inline-flex;
     border-radius: var(--radius-full);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-content-default-secondary);
     opacity: 0;
     transition: opacity 150ms ease;
   }
@@ -254,12 +254,12 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
   }
   .bcn-chd__name {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-chd__desc {
     margin: 0;
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
   .bcn-chd__facts {
     display: flex;
@@ -267,15 +267,15 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
     gap: var(--spacing-150);
     flex-wrap: wrap;
     margin: 0;
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-chd__fact-value {
-    color: var(--color-text-secondary);
-    font-weight: var(--font-weight-medium);
+    color: var(--color-content-default-secondary);
+    font-weight: var(--typography-font-weight-medium);
   }
   .bcn-chd__dot-sep {
-    color: var(--color-border-strong);
+    color: var(--color-border-default-strong);
   }
 
   .bcn-chd__actions {
@@ -287,7 +287,7 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
   }
   /* Pressed = the user's own star (per-user, never a team designation). */
   .bcn-chd__star :global(button[aria-pressed='true']) {
-    color: var(--color-warning);
+    color: var(--color-background-utility-warning);
   }
   .bcn-chd__star :global(button[aria-pressed='true'] svg) {
     fill: currentColor;

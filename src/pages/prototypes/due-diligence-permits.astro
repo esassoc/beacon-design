@@ -55,38 +55,38 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
     ]}
   >
     <div slot="utilities">
-      <span id="pm-excel"><EsaButton color="ghost" appearance="outline" icon="download">Export to Excel</EsaButton></span>
-      <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="primary" icon="arrow-right">View report</EsaButton></a>
+      <span id="pm-excel"><EsaButton variant="ghost" appearance="outline" icon="download">Export to Excel</EsaButton></span>
+      <a href={withBase('/prototypes/due-diligence-report')}><EsaButton variant="primary" icon="arrow-right">View report</EsaButton></a>
     </div>
 
     <div class="stack" data-gap="lg">
       <div class="grid" data-gap="md" style="--grid-min: 14rem;">
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Permits identified</span>
-            <span class="type-page-title">{PERMITS.length}</span>
-            <span class="type-body-small">{PERMITS.filter((p) => p.applicability === 'applicable').length} applicable · {PERMITS.filter((p) => p.applicability === 'potentially').length} potentially</span>
+            <span class="typography-body-sm">Permits identified</span>
+            <span class="typography-heading-lg">{PERMITS.length}</span>
+            <span class="typography-body-sm">{PERMITS.filter((p) => p.applicability === 'applicable').length} applicable · {PERMITS.filter((p) => p.applicability === 'potentially').length} potentially</span>
           </div>
         </EsaCard>
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Local</span>
-            <span class="type-page-title">{PERMITS.filter((p) => p.level === 'Local').length}</span>
-            <span class="type-body-small">Kern County departments</span>
+            <span class="typography-body-sm">Local</span>
+            <span class="typography-heading-lg">{PERMITS.filter((p) => p.level === 'Local').length}</span>
+            <span class="typography-body-sm">Kern County departments</span>
           </div>
         </EsaCard>
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">State / Regional</span>
-            <span class="type-page-title">{PERMITS.filter((p) => p.level === 'State' || p.level === 'Regional').length}</span>
-            <span class="type-body-small">CDFW · SWRCB · KCAPCD</span>
+            <span class="typography-body-sm">State / Regional</span>
+            <span class="typography-heading-lg">{PERMITS.filter((p) => p.level === 'State' || p.level === 'Regional').length}</span>
+            <span class="typography-body-sm">CDFW · SWRCB · KCAPCD</span>
           </div>
         </EsaCard>
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Federal &amp; Utility</span>
-            <span class="type-page-title">{PERMITS.filter((p) => p.level === 'Federal' || p.level === 'Utility').length}</span>
-            <span class="type-body-small">USACE · USFWS · SCE</span>
+            <span class="typography-body-sm">Federal &amp; Utility</span>
+            <span class="typography-heading-lg">{PERMITS.filter((p) => p.level === 'Federal' || p.level === 'Utility').length}</span>
+            <span class="typography-body-sm">USACE · USFWS · SCE</span>
           </div>
         </EsaCard>
       </div>
@@ -120,8 +120,8 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
           <div class="grid" data-gap="md" style="--grid-min: 20rem;">
             {AHJ_NOTES.map((n) => (
               <EsaCard title={n.topic}>
-                <Fragment slot="actions"><span class="type-body-small">Assistant draft</span></Fragment>
-                <p class="type-body-small">{n.summary}</p>
+                <Fragment slot="actions"><span class="typography-body-sm">Assistant draft</span></Fragment>
+                <p class="typography-body-sm">{n.summary}</p>
               </EsaCard>
             ))}
           </div>
@@ -137,12 +137,12 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
        of who changed what and when, and a free-text comments thread. -->
   <esa-side-dialog id="pm-drawer" size="md" style="--_width: 560px;">
     <div slot="header" class="stack" data-gap="xs">
-      <span class="type-body-small" id="pm-d-level">—</span>
-      <span class="type-card-title" id="pm-d-name">—</span>
+      <span class="typography-body-sm" id="pm-d-level">—</span>
+      <span class="typography-title" id="pm-d-name">—</span>
     </div>
     <div class="stack" data-gap="lg">
       <div class="stack" data-gap="xs">
-        <span class="type-body-small pm-d-label">Details</span>
+        <span class="typography-body-sm pm-d-label">Details</span>
         <dl class="pm-kv">
           <dt>Agency</dt><dd id="pm-d-agency">—</dd>
           <dt>Requirement</dt><dd id="pm-d-requirement">—</dd>
@@ -151,31 +151,31 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
       </div>
 
       <div class="stack" data-gap="md">
-        <span class="type-body-small pm-d-label">Status</span>
+        <span class="typography-body-sm pm-d-label">Status</span>
         <esa-select id="pm-d-applicability" label="Applicable?" size="md"></esa-select>
         <esa-select id="pm-d-review" label="Review status" size="md"></esa-select>
       </div>
 
       <div class="stack" data-gap="xs">
-        <span class="type-body-small pm-d-label">Activity</span>
+        <span class="typography-body-sm pm-d-label">Activity</span>
         <ul class="pm-activity" id="pm-d-activity"></ul>
       </div>
 
       <div class="stack" data-gap="xs">
-        <span class="type-body-small pm-d-label">Comments</span>
+        <span class="typography-body-sm pm-d-label">Comments</span>
         <ul class="pm-comments" id="pm-d-comments"></ul>
         <div class="stack" data-gap="xs">
           <esa-textarea id="pm-d-comment-input" rows="2" placeholder="Add a note…"></esa-textarea>
           <div class="repel">
-            <span class="type-body-small" style="color: var(--color-text-tertiary);">Posting as {PROJECT.team[0].name}</span>
-            <span id="pm-d-post"><EsaButton color="primary" size="sm">Post</EsaButton></span>
+            <span class="typography-body-sm" style="color: var(--color-content-default-tertiary);">Posting as {PROJECT.team[0].name}</span>
+            <span id="pm-d-post"><EsaButton variant="primary" size="sm">Post</EsaButton></span>
           </div>
         </div>
       </div>
     </div>
     <div slot="footer" class="cluster" data-justify="end">
-      <span id="pm-d-save"><EsaButton color="primary">Save</EsaButton></span>
-      <span id="pm-d-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="pm-d-save"><EsaButton variant="primary">Save</EsaButton></span>
+      <span id="pm-d-cancel"><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
     </div>
   </esa-side-dialog>
 </AppShell>
@@ -469,7 +469,7 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
     padding-block: var(--spacing-200) !important;
   }
   :global(.dd-chip) {
-    --_tone: var(--color-text-muted, #8a9099);
+    --_tone: var(--bcn-content-muted, #8a9099);
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-150);
@@ -477,10 +477,10 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
     border-radius: var(--radius-100);
     font-size: 0.8125rem;
     line-height: 1.5;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     white-space: nowrap;
     background: color-mix(in srgb, var(--_tone) 16%, transparent);
-    color: color-mix(in srgb, var(--_tone) 70%, var(--color-text-primary));
+    color: color-mix(in srgb, var(--_tone) 70%, var(--color-content-default));
   }
   :global(.dd-chip::before) {
     content: '';
@@ -490,21 +490,21 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
     background: var(--_tone);
     flex-shrink: 0;
   }
-  :global(.dd-chip[data-tone='applicable'])     { --_tone: var(--color-warning, #f59e0b); }
-  :global(.dd-chip[data-tone='potentially'])    { --_tone: var(--color-info, #228be6); }
-  :global(.dd-chip[data-tone='not-likely'])     { --_tone: var(--color-success, #2e7571); }
-  :global(.dd-chip[data-tone='not-applicable']) { --_tone: var(--color-text-muted, #8a9099); }
-  :global(.dd-chip[data-tone='High'])           { --_tone: var(--color-danger, #e5484d); }
-  :global(.dd-chip[data-tone='Med'])            { --_tone: var(--color-warning, #f59e0b); }
-  :global(.dd-chip[data-tone='Low'])            { --_tone: var(--color-info, #228be6); }
-  :global(.dd-chip[data-tone='—'])              { --_tone: var(--color-text-muted, #8a9099); }
-  :global(.dd-chip[data-tone='preliminary'])    { --_tone: var(--color-text-muted, #8a9099); }
-  :global(.dd-chip[data-tone='confirmed'])      { --_tone: var(--color-success, #2e7571); }
+  :global(.dd-chip[data-tone='applicable'])     { --_tone: var(--color-background-utility-warning, #f59e0b); }
+  :global(.dd-chip[data-tone='potentially'])    { --_tone: var(--color-background-utility-info, #228be6); }
+  :global(.dd-chip[data-tone='not-likely'])     { --_tone: var(--color-background-utility-success, #2e7571); }
+  :global(.dd-chip[data-tone='not-applicable']) { --_tone: var(--bcn-content-muted, #8a9099); }
+  :global(.dd-chip[data-tone='High'])           { --_tone: var(--color-background-utility-danger, #e5484d); }
+  :global(.dd-chip[data-tone='Med'])            { --_tone: var(--color-background-utility-warning, #f59e0b); }
+  :global(.dd-chip[data-tone='Low'])            { --_tone: var(--color-background-utility-info, #228be6); }
+  :global(.dd-chip[data-tone='—'])              { --_tone: var(--bcn-content-muted, #8a9099); }
+  :global(.dd-chip[data-tone='preliminary'])    { --_tone: var(--bcn-content-muted, #8a9099); }
+  :global(.dd-chip[data-tone='confirmed'])      { --_tone: var(--color-background-utility-success, #2e7571); }
 
   /* Permit editor drawer — read-only details, and the two log lists (activity +
      comments) that share one row shape (text line + a by/when meta line). */
   .pm-d-label {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .pm-kv {
     display: grid;
@@ -514,11 +514,11 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
     padding-left: var(--spacing-300);
   }
   .pm-kv dt {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .pm-kv dd {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .pm-activity,
   .pm-comments {
@@ -532,14 +532,14 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
   }
   :global(.pm-log__text) {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   :global(.pm-log__meta) {
-    color: var(--color-text-tertiary);
-    font-size: var(--type-size-150);
+    color: var(--color-content-default-tertiary);
+    font-size: var(--font-size-150);
   }
   :global(.pm-log__empty) {
-    color: var(--color-text-tertiary);
-    font-size: var(--type-size-200);
+    color: var(--color-content-default-tertiary);
+    font-size: var(--font-size-200);
   }
 </style>

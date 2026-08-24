@@ -15,7 +15,7 @@
 //
 // ANCHORS: the wrapper carries id="s-<item.id>", so search results deep-link to
 // `#s-<id>`. Arriving there fires a :target animation that settles a synthesis-blue tint
-// (--color-info-subtle) back to transparent, which is what tells the reader WHICH row the
+// (--color-background-utility-info-subtle) back to transparent, which is what tells the reader WHICH row the
 // result meant. scroll-margin keeps the row clear of a sticky app bar.
 //
 // LABELLING: toggle / text / select / textarea each resolve to a single form-associated
@@ -83,20 +83,20 @@ const selectOptionsJson =
     <span class="bcn-setting-row__name cluster">
       {
         isGroup ? (
-          <span class="bcn-setting-row__label type-body" id={labelId}>
+          <span class="bcn-setting-row__label typography-body-md" id={labelId}>
             {item.label}
           </span>
         ) : (
-          <label class="bcn-setting-row__label type-body" id={labelId} for={controlId}>
+          <label class="bcn-setting-row__label typography-body-md" id={labelId} for={controlId}>
             {item.label}
           </label>
         )
       }
-      <span class="bcn-setting-row__saved type-body-small" data-setting-saved role="status" hidden>
+      <span class="bcn-setting-row__saved typography-body-sm" data-setting-saved role="status" hidden>
         Saved
       </span>
     </span>
-    <p class="bcn-setting-row__desc type-body-small">{item.description}</p>
+    <p class="bcn-setting-row__desc typography-body-sm">{item.description}</p>
   </div>
 
   <div class={controlClass} role={isGroup ? 'group' : undefined} aria-labelledby={isGroup ? labelId : undefined}>
@@ -160,7 +160,7 @@ const selectOptionsJson =
             </span>
             <EsaButton
               size="sm"
-              color="secondary"
+              variant="secondary"
               appearance="outline"
               icon="upload"
               aria-describedby={labelId}
@@ -179,7 +179,7 @@ const selectOptionsJson =
           {control.value.map((v) => (
             <EsaPill label={v} size="sm" removable={false} />
           ))}
-          <EsaButton size="sm" color="ghost" appearance="outline" icon="plus" aria-describedby={labelId}>
+          <EsaButton size="sm" variant="ghost" appearance="outline" icon="plus" aria-describedby={labelId}>
             Add
           </EsaButton>
         </>
@@ -294,8 +294,8 @@ const selectOptionsJson =
      a result shows WHICH row was meant. `both` holds the transparent end state. */
   @keyframes bcn-setting-row-target {
     from {
-      background-color: var(--color-info-subtle);
-      box-shadow: 0 0 0 1px var(--color-info-border);
+      background-color: var(--color-background-utility-info-subtle);
+      box-shadow: 0 0 0 1px var(--color-border-utility-info);
     }
     to {
       background-color: transparent;
@@ -309,8 +309,8 @@ const selectOptionsJson =
   @media (prefers-reduced-motion: reduce) {
     .bcn-setting-row:target {
       animation: none;
-      background-color: var(--color-info-subtle);
-      box-shadow: 0 0 0 1px var(--color-info-border);
+      background-color: var(--color-background-utility-info-subtle);
+      box-shadow: 0 0 0 1px var(--color-border-utility-info);
     }
   }
 
@@ -333,8 +333,8 @@ const selectOptionsJson =
      to ignore once trusted, present enough to answer "did that take?". */
   .bcn-setting-row__saved {
     line-height: 1.4;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-success);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-background-utility-success);
     white-space: nowrap;
   }
   .bcn-setting-row__saved[hidden] {
@@ -345,12 +345,12 @@ const selectOptionsJson =
      labelled row in the settings surface reads at one scale. */
   .bcn-setting-row__label {
     line-height: 1.4;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-setting-row__desc {
     line-height: 1.4;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     max-inline-size: 60ch;
   }
 
@@ -410,14 +410,14 @@ const selectOptionsJson =
     --gap: var(--spacing-250);
   }
   .bcn-setting-row__filename {
-    font-size: var(--type-size-150);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default);
   }
   .bcn-setting-row__filename.is-empty {
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
   }
   .bcn-setting-row__help {
-    font-size: var(--type-size-100);
+    font-size: var(--font-size-100);
     color: var(--form-help-color);
     text-align: end;
   }

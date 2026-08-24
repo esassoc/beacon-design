@@ -96,9 +96,9 @@ const props = [
 
   <Section id="tokens" title="Tokens">
     <ul class="tokens">
-      <li><code>--color-surface</code> · <code>--color-border</code> · <code>--color-text-primary</code></li>
-      <li><code>--color-gray-900</code> · <code>--color-text-inverse</code> (inverse appearance)</li>
-      <li><code>--shadow-300</code> · <code>--z-dropdown</code></li>
+      <li><code>--color-background-elevation-raised</code> · <code>--color-border-default</code> · <code>--color-content-default</code></li>
+      <li><code>--color-gray-900</code> · <code>--color-content-default-knockout</code> (inverse appearance)</li>
+      <li><code>--elevation-4</code> · <code>--z-dropdown</code></li>
       <li><code>--radius-200</code> · <code>--spacing-300</code></li>
     </ul>
   </Section>
@@ -110,11 +110,11 @@ const props = [
   .trigger {
     padding: 0.5rem 1rem;
     border-radius: var(--radius-200, 0.5rem);
-    border: 1px solid var(--color-border-strong, #d4d4d4);
-    background: var(--color-surface, #fff);
-    color: var(--color-text-primary, #171717);
+    border: 1px solid var(--color-border-default-strong, #d4d4d4);
+    background: var(--color-background-elevation-raised, #fff);
+    color: var(--color-content-default, #171717);
     font-family: inherit;
-    font-size: var(--type-size-200, 0.9375rem);
+    font-size: var(--font-size-200, 0.9375rem);
     cursor: pointer;
   }
 </style>

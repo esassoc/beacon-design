@@ -7,7 +7,7 @@
 // resolved. See src/data/monitoring-oversight-fixture.ts for the scenario.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import FilterContainer from '@esa/ecology/esa-filter-container.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
@@ -28,8 +28,8 @@ import {
 } from '../../../data/monitoring-oversight-fixture';
 
 const STATUS_DISPLAY_META: Record<'active' | 'resolved', { label: string; hex: string }> = {
-  active: { label: 'Active', hex: 'var(--color-info)' },
-  resolved: { label: 'Resolved', hex: 'var(--color-text-tertiary)' },
+  active: { label: 'Active', hex: 'var(--color-background-utility-info)' },
+  resolved: { label: 'Resolved', hex: 'var(--color-content-default-tertiary)' },
 };
 
 const gridRows = OBSERVATIONS.map((o) => ({
@@ -138,7 +138,7 @@ const oversightNav = [
         <span id="ov-clear-filters" class="bcn-filterbar__clear"><FilterClearButton /></span>
         <div class="bcn-filterbar__search">
           <esa-text-field id="ov-search" placeholder="Search ID, category, area, inspector…" size="md"></esa-text-field>
-          <span id="ov-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+          <span id="ov-search-clear" hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
         </div>
       </div>
     </div>
@@ -147,7 +147,7 @@ const oversightNav = [
     <div id="ov-list-pane">
       <div id="ov-grid" class="ov-grid"></div>
       <div class="table-footer">
-        <span id="ov-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
+        <span id="ov-download"><EsaButton variant="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
         <div class="row-count-data">
           Total Records: <span id="ov-total">0</span>
           <span id="ov-filtered" class="filtered-rows-count" hidden></span>
@@ -492,32 +492,32 @@ const oversightNav = [
      primitives — checked esa-* (no filter-bar-shell, no data-grid,
      no read-only-record-panel lego) and Beacon. */
 
-  .bcn-filterbar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-200); margin-bottom: var(--spacing-400); }
+  .bcn-filterbar { background: var(--color-background-elevation-raised); border: 1px solid var(--color-border-default); border-radius: var(--radius-200); margin-bottom: var(--spacing-400); }
   .bcn-filterbar__top { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); flex-wrap: wrap; }
-  .bcn-filterbar__group { display: inline-flex; align-items: center; gap: var(--spacing-200); padding-right: var(--spacing-300); border-right: 1px solid var(--color-border-light); }
-  .bcn-filterbar__label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
+  .bcn-filterbar__group { display: inline-flex; align-items: center; gap: var(--spacing-200); padding-right: var(--spacing-300); border-right: 1px solid var(--color-border-default-subtle); }
+  .bcn-filterbar__label { font-size: var(--font-size-150); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-tertiary); white-space: nowrap; }
   .bcn-filterbar__clear { margin-left: var(--spacing-100); }
   .bcn-filterbar__search { margin-left: auto; display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 280px; }
   .bcn-filterbar__search :global(esa-text-field) { flex: 1; }
 
   /* Grid host + footer */
   .ov-grid { width: 100%; height: calc(100vh - 460px); min-height: 480px; }
-  .table-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); background: var(--color-background); border: 1px solid var(--color-border); border-top: 0; border-radius: 0 0 var(--radius-100) var(--radius-100); }
-  .row-count-data { display: flex; align-items: center; gap: var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
-  .filtered-rows-count { color: var(--color-text-tertiary); }
+  .table-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); background: var(--color-background-default); border: 1px solid var(--color-border-default); border-top: 0; border-radius: 0 0 var(--radius-100) var(--radius-100); }
+  .row-count-data { display: flex; align-items: center; gap: var(--spacing-400); font-size: var(--font-size-100); color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+  .filtered-rows-count { color: var(--color-content-default-tertiary); }
   .filtered-rows-count[hidden] { display: none; }
 
   /* AG Grid injected cells (global) */
   :global(.ag-cell.bcn-grid-status-cell) { display: flex; align-items: center; }
-  :global(.bcn-grid-chip) { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.8125rem; /* 13px — dense-meta floor */ line-height: 1.5; font-weight: var(--font-weight-semibold); white-space: nowrap; background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, var(--color-text-primary)); }
+  :global(.bcn-grid-chip) { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.8125rem; /* 13px — dense-meta floor */ line-height: 1.5; font-weight: var(--typography-font-weight-semibold); white-space: nowrap; background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, var(--color-content-default)); }
   :global(.bcn-grid-chip__dot) { width: 7px; height: 7px; border-radius: 50%; background: var(--_chip); flex-shrink: 0; }
-  :global(.bcn-grid-name) { color: var(--color-text-link); font-weight: var(--font-weight-regular); text-decoration: underline; }
-  :global(.bcn-grid-name:hover) { color: var(--color-primary-hover); }
+  :global(.bcn-grid-name) { color: var(--color-content-link); font-weight: var(--typography-font-weight-regular); text-decoration: underline; }
+  :global(.bcn-grid-name:hover) { color: var(--color-background-brand-hover); }
 
   /* Detail panel header + body glue */
   .bcn-detail__head { display: flex; flex-direction: column; gap: var(--spacing-150); min-width: 0; padding: var(--spacing-400) var(--spacing-500); flex: 1; }
   .bcn-detail__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
-  .bcn-detail__title { margin: 0; font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.3; }
+  .bcn-detail__title { margin: 0; font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); line-height: 1.3; }
   .bcn-detail__chips { display: flex; gap: var(--spacing-200); margin-bottom: var(--spacing-400); }
   .bcn-detail__grid { display: flex; flex-direction: column; gap: var(--spacing-400); margin-bottom: var(--spacing-400); }
   .bcn-detail__body :global(esa-side-dialog) { display: block; }

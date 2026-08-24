@@ -39,7 +39,7 @@ export interface ObservationPin {
   lng: number;
   label: string;
   /** Fill color. May be a literal (`#b3261e`) OR a token reference
-   *  (`var(--color-danger)`) — the script resolves vars to a computed literal,
+   *  (`var(--color-background-utility-danger)`) — the script resolves vars to a computed literal,
    *  because Leaflet cannot take a raw `var(...)` string. */
   hex: string;
 }
@@ -107,9 +107,9 @@ const label =
   const rootStyle = () => getComputedStyle(document.documentElement);
 
   /**
-   * Leaflet paths take LITERAL colors, so a `var(--color-danger)` prop has to be
-   * resolved first (same move BcnProjectMap makes for --color-secondary /
-   * --color-primary). Recurses because a semantic token may itself alias another
+   * Leaflet paths take LITERAL colors, so a `var(--color-background-utility-danger)` prop has to be
+   * resolved first (same move BcnProjectMap makes for --color-background-brand-muted /
+   * --color-background-brand). Recurses because a semantic token may itself alias another
    * var(), and honors an inline var() fallback.
    */
   function resolveColor(value: string, depth = 0): string {
@@ -159,7 +159,7 @@ const label =
 
     const mapId = host.dataset.mapId || '';
     const interactive = host.dataset.interactive !== 'false';
-    const stroke = rootStyle().getPropertyValue('--color-surface').trim() || '#ffffff';
+    const stroke = rootStyle().getPropertyValue('--color-background-elevation-raised').trim() || '#ffffff';
 
     // A view must exist BEFORE any layer is added; fitBounds then takes over.
     const map = L.map(host, interactive ? LIVE_OPTIONS : INSET_OPTIONS).setView(
@@ -227,15 +227,15 @@ const label =
   .bcn-obsmap {
     width: 100%;
     border-radius: var(--radius-200);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     overflow: hidden;
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
 
   /* Leaflet injects .leaflet-container itself, so it is out of Astro's scope. */
   .bcn-obsmap :global(.leaflet-container) {
-    font-family: var(--font-sans, inherit);
-    background: var(--color-surface-sunken);
+    font-family: var(--typography-font-family-sans, inherit);
+    background: var(--color-background-elevation-sunken);
   }
 
   /* A picture must not offer a grab cursor it won't honor. */

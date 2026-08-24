@@ -26,7 +26,7 @@ export interface ComponentStatusMeta {
  * Re-pointed off raw literals (#bdbdbd / #f59e0b / #656565 / #22c55e) onto the Beacon
  * status-color standard declared in theme-beacon.css, so this surface can never drift
  * from the dashboards, the grid chips, and the pulses. Note `complete` moves from the
- * generic #22c55e to Beacon's own --color-success (#2e7571) — that was the whole point
+ * generic #22c55e to Beacon's own --color-background-utility-success (#2e7571) — that was the whole point
  * of the standard. `on-hold` had no --bcn-status-* entry when this was re-pointed; the
  * hook was added alongside the component index (the first surface to render all four
  * lifecycle states side by side), and it is deliberately DARKER than not-started — a
@@ -34,9 +34,9 @@ export interface ComponentStatusMeta {
  */
 export const STATUS_META: Record<ComponentStatus, ComponentStatusMeta> = {
   'not-started': { label: 'Not started', hex: 'var(--bcn-status-not-started)' },
-  'in-progress': { label: 'In progress', hex: 'var(--color-warning)' },
+  'in-progress': { label: 'In progress', hex: 'var(--color-background-utility-warning)' },
   'on-hold': { label: 'On hold', hex: 'var(--bcn-status-on-hold)' },
-  complete: { label: 'Complete', hex: 'var(--color-success)' },
+  complete: { label: 'Complete', hex: 'var(--color-background-utility-success)' },
 };
 
 /** Fixed display order for the breakdown bar + legend. */

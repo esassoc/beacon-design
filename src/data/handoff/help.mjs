@@ -52,9 +52,9 @@ export default {
       intent:
         'The front door to the knowledge base: the animated Aldo mark, the page title, a one-line lede, and a LARGE search field that is the page\'s primary action — plus a quiet "What\'s new in Beacon" doorway to the release notes. Search is the primary path into help; browsing is the fallback, which is why the field outweighs everything else on the surface.',
       decisions: [
-        'The search control IS the esa-text-field lego at size="lg", scaled up by a SCOPED re-point of its public size tokens (--form-height-lg: 3.5rem, --form-font-size-lg, --form-padding-x-lg, --form-radius-lg) on the field\'s own class. This is the sanctioned component-token override — localized, nothing leaks globally.',
-        'The lego\'s focus tokens default to Radix grass (an off-brand green ring); --form-border-color-focus and --focus-ring-color are re-pointed to --color-text-link, scoped to this one field.',
-        'The leading magnifier is a decorative esa-icon overlay positioned in the gutter that the enlarged --form-padding-x-lg opens. The field still owns its own box — the icon is never inside it.',
+        'The search control IS the esa-text-field lego at size="lg", scaled up on the field\'s own class: font-size cascades into the shadow input (font: inherit), and padding/radius ride the lego\'s private --_field-* hooks — the public --form-* size surface was removed upstream (2026-08) with no successor, so this is a documented reach-in pending a leading-icon slot on the hub. Localized; nothing leaks globally.',
+        'The lego\'s focus tokens default to Radix grass (an off-brand green ring); --form-border-color-focus and --focus-ring-color are re-pointed to --color-content-link, scoped to this one field.',
+        'The leading magnifier is a decorative esa-icon overlay positioned in the gutter that the enlarged --_field-padding-x opens. The field still owns its own box — the icon is never inside it.',
         'The hero is deliberately COMPACT (no card, no surface of its own, modest padding) so the category grid sits near the fold.',
         'The "What\'s new" doorway is a quiet neutral link that only takes the house link color on hover — it is a doorway, not a second call to action.',
       ],
@@ -76,8 +76,8 @@ export default {
       decisions: [
         'PROGRESSIVE, NOT CLIENT-RENDERED: every article is server-rendered as a hidden row up front. The controller only shows/hides rows and wraps matches in <mark> — the article corpus never enters the JS bundle.',
         'Keyboard: ArrowUp/ArrowDown move the active row, Enter opens it, Esc closes the dropdown. The active row is mirrored into aria-activedescendant against each row\'s id.',
-        'The active/hover row gets a quiet neutral sunken wash (--color-surface-sunken) and shifts the title to the link color — never a tint, never a colored left border.',
-        'Match highlighting is a neutral translucent wash (color-mix of --color-text-primary at 12%), which reads on both white and the sunken active row.',
+        'The active/hover row gets a quiet neutral sunken wash (--color-background-elevation-sunken) and shifts the title to the link color — never a tint, never a colored left border.',
+        'Match highlighting is a neutral translucent wash (color-mix of --color-content-default at 12%), which reads on both white and the sunken active row.',
         'The category label and the summary are genuine meta, floored at 13px; the row title sits at 15px — a deliberate dense-list size with no type role that fits.',
       ],
       gotchas: [

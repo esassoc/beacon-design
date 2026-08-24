@@ -71,7 +71,7 @@ const isSample =
 
 <section id={anchorId} class="bcn-set">
   <EsaCard variant="outlined" title={section.title}>
-    {section.description && <p class="bcn-set__desc type-body">{section.description}</p>}
+    {section.description && <p class="bcn-set__desc typography-body-md">{section.description}</p>}
     {
       /* EVERY collection's add action sits in the card HEADER, right-aligned by
          esa-card's own actions slot (grids first, then the table sections joined them —
@@ -87,7 +87,7 @@ const isSample =
         <EsaButton
           slot="actions"
           size="sm"
-          color="ghost"
+          variant="ghost"
           appearance="outline"
           icon="plus"
           data-settings-add={section.id}
@@ -212,7 +212,7 @@ const isSample =
     flex-direction: column;
   }
   .bcn-set__rows > li + li {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 
   /* ── pairs: a table that scrolls inside its own container when the three columns
@@ -228,12 +228,12 @@ const isSample =
 
   .bcn-set__th {
     padding: 0 var(--spacing-400) var(--spacing-250);
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
     text-align: left;
     white-space: nowrap;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
   }
 
   /* Cells carry the tenant's own terms, so they read as CONTENT in primary ink, not as
@@ -241,14 +241,14 @@ const isSample =
      (1.6) steps — neither lands where a dense data row wants to sit. */
   .bcn-set__td {
     padding: var(--spacing-250) var(--spacing-400);
-    font-size: var(--type-size-200);
+    font-size: var(--font-size-200);
     line-height: 1.4;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     text-align: left;
     vertical-align: middle;
   }
   .bcn-set__tr + .bcn-set__tr .bcn-set__td {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 
   /* Flush the outer columns with the card's content edge. */
@@ -263,8 +263,8 @@ const isSample =
 
   /* The first column leads the row. */
   .bcn-set__td--lead {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
     white-space: nowrap;
   }
 
@@ -275,15 +275,15 @@ const isSample =
      first thing in the body instead. */
   .bcn-set__desc {
     margin: 0 0 var(--spacing-400);
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* How much of the list is on screen — a caption for the list above it, so it sits
      quiet: the 14px step, tertiary ink, no rule of its own. */
   .bcn-set__count {
     margin: var(--spacing-250) 0 0;
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
   }
 
   /* Terminology override fields. */

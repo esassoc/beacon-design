@@ -75,24 +75,24 @@ const selected = opts.find((o) => o.value === current) ?? opts[0];
 <style>
   /* Label matches the legos' .field__label (esa-date-picker / esa-select), 4px gap. */
   .bcn-status-select { display: flex; flex-direction: column; gap: var(--spacing-100); }
-  .bcn-status-select__label { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+  .bcn-status-select__label { font-size: 0.875rem; font-weight: var(--typography-font-weight-medium); color: var(--form-label-color); }
 
   .bcn-status-select__dd { position: relative; }
   .bcn-status-select__trigger {
     display: flex; align-items: center; gap: var(--spacing-200); width: 100%;
     height: 40px; padding: 0 var(--spacing-300);
-    font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary);
-    background: var(--color-surface); border: 1px solid var(--form-border-color);
-    border-radius: var(--form-radius-md); cursor: pointer;
+    font-size: 0.875rem; font-weight: var(--typography-font-weight-medium); color: var(--color-content-default);
+    background: var(--color-background-elevation-raised); border: 1px solid var(--form-border-color);
+    border-radius: var(--radius-md); cursor: pointer;
     transition: border-color 150ms ease, box-shadow 150ms ease;
   }
-  .bcn-status-select__trigger:hover { border-color: var(--color-border-strong); }
+  .bcn-status-select__trigger:hover { border-color: var(--color-border-default-strong); }
   .bcn-status-select__trigger[aria-expanded='true'] {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent);
+    border-color: var(--color-background-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-background-brand) 18%, transparent);
   }
   .bcn-status-select__value { flex: 1; text-align: left; }
-  .bcn-status-select__chev { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 150ms ease; }
+  .bcn-status-select__chev { color: var(--color-content-default-tertiary); flex-shrink: 0; transition: transform 150ms ease; }
   .bcn-status-select__trigger[aria-expanded='true'] .bcn-status-select__chev { transform: rotate(180deg); }
 
   /* Default-set dot colors are token-driven (option mode supplies inline color instead). */
@@ -108,15 +108,15 @@ const selected = opts.find((o) => o.value === current) ?? opts[0];
     /* Grows to the longest option (min = trigger width) instead of wrapping rows. */
     position: absolute; top: calc(100% + 4px); left: 0; min-width: 100%; width: max-content; z-index: 20;
     margin: 0; padding: var(--spacing-100); list-style: none;
-    background: var(--color-surface); border: 1px solid var(--color-border);
-    border-radius: var(--form-radius-md); box-shadow: var(--shadow-300);
+    background: var(--color-background-elevation-raised); border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md); box-shadow: var(--elevation-4);
   }
   .bcn-status-select__menu[hidden] { display: none; }
   .bcn-status-select__opt {
     display: flex; align-items: center; gap: var(--spacing-200);
-    padding: var(--spacing-200) var(--spacing-300); font-size: 0.875rem; color: var(--color-text-primary);
+    padding: var(--spacing-200) var(--spacing-300); font-size: 0.875rem; color: var(--color-content-default);
     border-radius: var(--radius-200); cursor: pointer; white-space: nowrap;
   }
-  .bcn-status-select__opt:hover { background: var(--color-surface-sunken); }
-  .bcn-status-select__opt[aria-selected='true'] { background: var(--color-surface-sunken); font-weight: var(--font-weight-semibold); }
+  .bcn-status-select__opt:hover { background: var(--color-background-elevation-sunken); }
+  .bcn-status-select__opt[aria-selected='true'] { background: var(--color-background-elevation-sunken); font-weight: var(--typography-font-weight-semibold); }
 </style>

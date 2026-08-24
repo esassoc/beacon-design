@@ -231,9 +231,9 @@ export interface GisLayerFixture {
 }
 
 export const RISK_HEX: Record<Risk, string> = {
-  high: '#e5484d', // --color-danger
-  medium: '#f59e0b', // --color-warning
-  low: '#228be6', // --color-info
+  high: '#e5484d', // --color-background-utility-danger
+  medium: '#f59e0b', // --color-background-utility-warning
+  low: '#228be6', // --color-background-utility-info
   none: '#8a9099', // neutral fallback (matches the map components' MARK_FALLBACK)
 };
 

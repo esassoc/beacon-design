@@ -79,23 +79,23 @@ const observations = rows.map((r) => ({
       <div class="grid" data-gap="md" style="--grid-min: 14rem;">
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Candidates screened</span>
-            <span class="type-page-title">{rows.length}</span>
-            <span class="type-body-small">Five acquisition criteria each</span>
+            <span class="typography-body-sm">Candidates screened</span>
+            <span class="typography-heading-lg">{rows.length}</span>
+            <span class="typography-body-sm">Five acquisition criteria each</span>
           </div>
         </EsaCard>
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Passed all criteria</span>
-            <span class="type-page-title" style="color: var(--color-success);">{passedCount}</span>
-            <span class="type-body-small">Eligible to advance</span>
+            <span class="typography-body-sm">Passed all criteria</span>
+            <span class="typography-heading-lg" style="color: var(--color-background-utility-success);">{passedCount}</span>
+            <span class="typography-body-sm">Eligible to advance</span>
           </div>
         </EsaCard>
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Advancing to due diligence</span>
-            <span class="type-page-title">{advanced.codeName}</span>
-            <span class="type-body-small">{advanced.county} · {advanced.acres} ac</span>
+            <span class="typography-body-sm">Advancing to due diligence</span>
+            <span class="typography-heading-lg">{advanced.codeName}</span>
+            <span class="typography-body-sm">{advanced.county} · {advanced.acres} ac</span>
           </div>
         </EsaCard>
       </div>
@@ -119,22 +119,22 @@ const observations = rows.map((r) => ({
   <!-- Candidate profile drawer — the criteria checklist + facts + the Advance CTA -->
   <esa-side-dialog id="stg-drawer" size="md" style="--_width: 520px;">
     <div slot="header" class="stack" data-gap="xs">
-      <span class="type-body-small" id="stg-d-region">—</span>
-      <span class="type-card-title" id="stg-d-name">—</span>
+      <span class="typography-body-sm" id="stg-d-region">—</span>
+      <span class="typography-title" id="stg-d-name">—</span>
     </div>
     <div class="stack" data-gap="lg">
       <div class="stack" data-gap="xs">
-        <span class="type-body-small stg-d-label">Acquisition criteria</span>
+        <span class="typography-body-sm stg-d-label">Acquisition criteria</span>
         <ul class="stg-checklist" id="stg-d-checklist"></ul>
       </div>
       <div class="stack" data-gap="xs">
-        <span class="type-body-small stg-d-label">Property facts</span>
+        <span class="typography-body-sm stg-d-label">Property facts</span>
         <dl class="stg-kv" id="stg-d-facts"></dl>
       </div>
-      <p class="type-body-small" id="stg-d-reason" hidden></p>
+      <p class="typography-body-sm" id="stg-d-reason" hidden></p>
     </div>
     <div slot="footer">
-      <span id="stg-d-advance"><EsaButton color="primary" icon="arrow-right">Advance to Due Diligence</EsaButton></span>
+      <span id="stg-d-advance"><EsaButton variant="primary" icon="arrow-right">Advance to Due Diligence</EsaButton></span>
     </div>
   </esa-side-dialog>
 </AppShell>
@@ -345,13 +345,13 @@ const observations = rows.map((r) => ({
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--typography-font-weight-bold);
   }
   :global(.stg-check[data-pass='true']) {
-    color: var(--color-success);
+    color: var(--color-background-utility-success);
   }
   :global(.stg-check[data-pass='false']) {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   :global(.stg-result) {
     display: inline-flex;
@@ -359,18 +359,18 @@ const observations = rows.map((r) => ({
     padding: 2px var(--spacing-250);
     border-radius: var(--radius-100);
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
   }
   :global(.stg-result[data-pass='true']) {
-    background: color-mix(in srgb, var(--color-success) 16%, transparent);
-    color: color-mix(in srgb, var(--color-success) 72%, #1a1a1a);
+    background: color-mix(in srgb, var(--color-background-utility-success) 16%, transparent);
+    color: color-mix(in srgb, var(--color-background-utility-success) 72%, #1a1a1a);
   }
   :global(.stg-result[data-pass='false']) {
-    background: var(--color-surface-sunken);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
   }
   .stg-d-label {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .stg-checklist {
     list-style: none;
@@ -394,10 +394,10 @@ const observations = rows.map((r) => ({
     padding-left: var(--spacing-300);
   }
   .stg-kv dt {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .stg-kv dd {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 </style>

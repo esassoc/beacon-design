@@ -22,7 +22,7 @@
 // search + clear pair as page markup, not a shared control. bcn-grid-chrome is the
 // reusable home; its own CSS is the search field's minimum width, which no lego owns.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 
 interface Props {
   /**
@@ -54,7 +54,7 @@ const showClear = only !== 'search';
     <span class="bcn-gchrome__search">
       <esa-text-field placeholder={searchPlaceholder} size="sm" {...{ [`data-${prefix}-search`]: true }} />
       <span {...{ [`data-${prefix}-search-clear`]: true }} hidden>
-        <EsaIconButton icon="x" label="Clear search" size="sm" />
+        <EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" />
       </span>
     </span>
   )
@@ -63,7 +63,7 @@ const showClear = only !== 'search';
 {
   showClear && (
     <span {...{ [`data-${prefix}-clear-filters`]: true }}>
-      <EsaButton color="ghost" appearance="outline" size="sm">
+      <EsaButton variant="ghost" appearance="outline" size="sm">
         Clear Filters
       </EsaButton>
     </span>

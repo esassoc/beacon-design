@@ -9,7 +9,7 @@
 // SCSS → spoke-token translation (no hardcoded hex/px):
 //   $gray-N → the --bcn-gray ramp; $spacing-* → the --spacing ramp;
 //   font-weight 650 → the bold weight token; the decorative font token kept
-//   (Besley); $type-size-500 → var(--type-size-500).
+//   (Besley); $type-size-500 → var(--font-size-500).
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 
 export interface Breadcrumb {
@@ -248,8 +248,8 @@ const hasCrumbEnd = Astro.slots.has('breadcrumb-end');
     align-items: center;
     gap: var(--spacing-200);
     font-family: var(--font-decorative);
-    font-weight: var(--font-weight-bold);
-    font-size: var(--type-size-500);
+    font-weight: var(--typography-font-weight-bold);
+    font-size: var(--font-size-500);
     margin: 0;
     color: var(--bcn-gray-1000);
   }

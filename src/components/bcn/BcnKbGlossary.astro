@@ -18,7 +18,7 @@ const glossary = glossaryArticles();
 ---
 
 <section class="bcn-kbg" aria-labelledby="bcn-kbg-title">
-  <h2 id="bcn-kbg-title" class="bcn-kbg__title type-section-title">Glossary</h2>
+  <h2 id="bcn-kbg-title" class="bcn-kbg__title typography-heading-md">Glossary</h2>
   <ul class="bcn-kbg__terms" role="list">
     {
       glossary.map((a) => (
@@ -37,12 +37,12 @@ const glossary = glossaryArticles();
     flex-direction: column;
     gap: var(--spacing-400);
     padding-block-start: var(--spacing-500);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
   }
 
   .bcn-kbg__title {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   .bcn-kbg__terms {
@@ -60,17 +60,17 @@ const glossary = glossaryArticles();
   .bcn-kbg__link {
     font-size: 0.9375rem; /* 15px — dense term list */
     line-height: 1.4;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     text-decoration: none;
     transition: color 120ms ease;
   }
   .bcn-kbg__link:hover {
-    color: var(--color-text-link);
+    color: var(--color-content-link);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
   .bcn-kbg__link:focus-visible {
-    outline: 2px solid var(--color-text-link);
+    outline: 2px solid var(--color-content-link);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }

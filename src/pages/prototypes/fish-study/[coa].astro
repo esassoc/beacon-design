@@ -103,8 +103,8 @@ const fishNav = [
       <BcnStatusChip status={s.execStatus} label={exec.label} hex={exec.hex} />
     </span>
     <div slot="utilities" class="bcn-study__utils">
-      <EsaButton color="ghost" appearance="outline" size="sm" icon="file-text">Generate sketch (.docx)</EsaButton>
-      <EsaButton color="primary" size="sm" icon="upload">Submit for CDFW review</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" size="sm" icon="file-text">Generate sketch (.docx)</EsaButton>
+      <EsaButton variant="primary" size="sm" icon="upload">Submit for CDFW review</EsaButton>
     </div>
 
     <div class="bcn-study">
@@ -117,7 +117,7 @@ const fishNav = [
             title="Sketch not yet drafted"
             description="This study is tracked in the crosswalk and schedule, but its 9-field science-plan sketch hasn't been authored yet. Draft it to include the study in the next plan export to CDFW."
           >
-            <EsaButton slot="action" color="primary" icon="plus">Draft study sketch</EsaButton>
+            <EsaButton slot="action" variant="primary" icon="plus">Draft study sketch</EsaButton>
           </EsaEmptyState>
         )}
 
@@ -226,7 +226,7 @@ const fishNav = [
      layout lego) and Beacon. No reinvented primitive. */
 
   .bcn-study__badges { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
-  .bcn-study__coa { font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); }
+  .bcn-study__coa { font-family: var(--typography-font-family-mono); font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-tertiary); }
   .bcn-study__utils { display: inline-flex; align-items: center; gap: var(--spacing-200); }
 
   .bcn-study { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--spacing-600); align-items: start; }
@@ -235,28 +235,28 @@ const fishNav = [
 
   /* rail key/value + chips (small, matches BcnKeyValue) */
   .bcn-study__kv { display: flex; flex-direction: column; gap: var(--spacing-150); }
-  .bcn-study__kv-label { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+  .bcn-study__kv-label { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); color: var(--form-label-color); }
   .bcn-study__chips { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
-  .bcn-study__empty { font-size: var(--type-size-100); color: var(--color-text-tertiary); font-style: italic; }
+  .bcn-study__empty { font-size: var(--font-size-100); color: var(--color-content-default-tertiary); font-style: italic; }
 
   .bcn-study__coa-link, .bcn-study__coa-ref {
     display: inline-flex; align-items: center;
-    font-family: var(--font-mono); font-size: 0.75rem; font-weight: var(--font-weight-semibold);
+    font-family: var(--typography-font-family-mono); font-size: 0.75rem; font-weight: var(--typography-font-weight-semibold);
     padding: 1px var(--spacing-200); border-radius: var(--radius-100);
-    background: var(--color-surface-sunken); border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-sunken); border: 1px solid var(--color-border-default);
   }
-  .bcn-study__coa-link { color: var(--color-primary); text-decoration: none; }
-  .bcn-study__coa-link:hover { background: var(--color-primary-subtle); border-color: var(--color-primary-border); }
-  .bcn-study__coa-ref { color: var(--color-text-tertiary); }
+  .bcn-study__coa-link { color: var(--color-background-brand); text-decoration: none; }
+  .bcn-study__coa-link:hover { background: var(--color-background-brand-subtle); border-color: var(--color-border-brand); }
+  .bcn-study__coa-ref { color: var(--color-content-default-tertiary); }
 
   .bcn-study__deliv, .bcn-study__roles { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-study__deliv-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-200); }
-  .bcn-study__deliv-name { font-size: var(--type-size-100); color: var(--color-text-primary); }
-  .bcn-study__role-row { display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--spacing-150); border-bottom: 1px solid var(--color-border-light); }
+  .bcn-study__deliv-name { font-size: var(--font-size-100); color: var(--color-content-default); }
+  .bcn-study__role-row { display: flex; flex-direction: column; gap: 1px; padding-bottom: var(--spacing-150); border-bottom: 1px solid var(--color-border-default-subtle); }
   .bcn-study__role-row:last-child { border-bottom: 0; padding-bottom: 0; }
-  .bcn-study__role-stream { font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
-  .bcn-study__role-org { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: var(--type-size-100); color: var(--color-text-primary); }
-  .bcn-study__role-person { color: var(--color-text-tertiary); }
+  .bcn-study__role-stream { font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-secondary); }
+  .bcn-study__role-org { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: var(--font-size-100); color: var(--color-content-default); }
+  .bcn-study__role-person { color: var(--color-content-default-tertiary); }
 
   @media (max-width: 900px) {
     .bcn-study { grid-template-columns: 1fr; }

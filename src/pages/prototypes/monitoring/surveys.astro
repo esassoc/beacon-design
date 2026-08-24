@@ -11,7 +11,7 @@
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import FilterContainer from '@esa/ecology/esa-filter-container.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import { SURVEYS, SURVEY_STATUS_META, SURVEY_COUNT, PROJECT_NAME } from '../../../data/monitoring';
@@ -76,7 +76,7 @@ const gridPayload = {
         </div>
         <div class="bcn-filterbar__search">
           <esa-text-field id="sv-search" placeholder="Search surveys…" size="md"></esa-text-field>
-          <span id="sv-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+          <span id="sv-search-clear" hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
         </div>
       </div>
       <div class="bcn-filterbar__bottom">
@@ -95,7 +95,7 @@ const gridPayload = {
     <!-- ═══ Surveys grid ═══ -->
     <div id="sv-grid" class="sv-grid"></div>
     <div class="table-footer">
-      <span id="sv-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download (CSV)</EsaButton></span>
+      <span id="sv-download"><EsaButton variant="ghost" appearance="outline" size="sm" icon="download">Download (CSV)</EsaButton></span>
       <div class="row-count-data">
         Total surveys: <span id="sv-total">0</span>
         <span id="sv-filtered" class="filtered-rows-count" hidden></span>
@@ -270,28 +270,28 @@ const gridPayload = {
      primitives — checked esa-* (no data-grid lego; AG Grid is the kit) and Beacon. */
 
   /* Filter bar (Tracker / Fish parity) */
-  .bcn-filterbar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-200); margin-bottom: var(--spacing-400); }
+  .bcn-filterbar { background: var(--color-background-elevation-raised); border: 1px solid var(--color-border-default); border-radius: var(--radius-200); margin-bottom: var(--spacing-400); }
   .bcn-filterbar__top { display: flex; align-items: center; gap: var(--spacing-400); padding: var(--spacing-300) var(--spacing-400); flex-wrap: wrap; }
-  .bcn-filterbar__bottom { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); border-top: 1px solid var(--color-border); flex-wrap: wrap; }
+  .bcn-filterbar__bottom { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); border-top: 1px solid var(--color-border-default); flex-wrap: wrap; }
   .bcn-filterbar__group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
-  .bcn-filterbar__label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
+  .bcn-filterbar__label { font-size: var(--font-size-150); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-tertiary); white-space: nowrap; }
   .bcn-filterbar__search { margin-left: auto; display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 300px; }
   .bcn-filterbar__search :global(esa-text-field) { flex: 1; }
   .bcn-filterbar__clear { margin-left: auto; }
 
   /* Grid host + footer */
   .sv-grid { width: 100%; height: calc(100vh - 320px); min-height: 540px; }
-  .table-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); background: var(--color-background); border: 1px solid var(--color-border); border-top: 0; border-radius: 0 0 var(--radius-100) var(--radius-100); }
-  .row-count-data { display: flex; align-items: center; gap: var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
-  .filtered-rows-count { color: var(--color-text-tertiary); }
+  .table-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); background: var(--color-background-default); border: 1px solid var(--color-border-default); border-top: 0; border-radius: 0 0 var(--radius-100) var(--radius-100); }
+  .row-count-data { display: flex; align-items: center; gap: var(--spacing-400); font-size: var(--font-size-100); color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+  .filtered-rows-count { color: var(--color-content-default-tertiary); }
   .filtered-rows-count[hidden] { display: none; }
 
   /* AG Grid injected cells (global) */
   :global(.ag-cell.bcn-grid-status-cell) { display: flex; align-items: center; }
-  :global(.bcn-grid-chip) { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.75rem; line-height: 1.5; font-weight: var(--font-weight-semibold); white-space: nowrap; background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a); }
+  :global(.bcn-grid-chip) { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.75rem; line-height: 1.5; font-weight: var(--typography-font-weight-semibold); white-space: nowrap; background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a); }
   :global(.bcn-grid-chip__dot) { width: 7px; height: 7px; border-radius: 50%; background: var(--_chip); flex-shrink: 0; }
-  :global(.bcn-grid-name) { color: var(--color-text-link); font-weight: var(--font-weight-regular); text-decoration: underline; font-variant-numeric: tabular-nums; }
-  :global(.bcn-grid-name:hover) { color: var(--color-primary-hover); }
-  :global(.bcn-grid-dl) { display: inline-flex; align-items: center; justify-content: center; color: var(--color-secondary); }
-  :global(.bcn-grid-dl:hover) { color: var(--color-primary); }
+  :global(.bcn-grid-name) { color: var(--color-content-link); font-weight: var(--typography-font-weight-regular); text-decoration: underline; font-variant-numeric: tabular-nums; }
+  :global(.bcn-grid-name:hover) { color: var(--color-background-brand-hover); }
+  :global(.bcn-grid-dl) { display: inline-flex; align-items: center; justify-content: center; color: var(--color-background-brand-muted); }
+  :global(.bcn-grid-dl:hover) { color: var(--color-background-brand); }
 </style>

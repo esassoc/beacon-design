@@ -27,7 +27,7 @@
 // the catalog in the bundle. Every CONTROL above the table IS a lego and the bar shell is
 // bcn-filter-bar. bcn-prototype-index is the reusable home.
 import BcnFilterBar from './BcnFilterBar.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import {
@@ -83,7 +83,7 @@ const facets = [
 
 <section class="bcn-pi" aria-labelledby="bcn-pi-title" data-prototype-index>
   <div class="bcn-pi__head">
-    <h2 id="bcn-pi-title" class="bcn-pi__title type-section-title">Prototypes</h2>
+    <h2 id="bcn-pi-title" class="bcn-pi__title typography-heading-md">Prototypes</h2>
     <p class="bcn-pi__count">
       <span data-pi-count>{efforts.length}</span> of {efforts.length} efforts · {pageCount} pages
     </p>
@@ -97,7 +97,7 @@ const facets = [
       aria-label="Search prototypes"
       size="md"></esa-text-field>
     <span slot="search" data-pi-search-clear hidden>
-      <EsaIconButton icon="x" label="Clear search" size="sm" />
+      <EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" />
     </span>
 
     {
@@ -230,13 +230,13 @@ const facets = [
   }
   .bcn-pi__title {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   /* A genuine tally, so 14px tertiary is honest meta. */
   .bcn-pi__count {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     font-variant-numeric: tabular-nums;
   }
 
@@ -244,15 +244,15 @@ const facets = [
      Re-point its PUBLIC focus properties to the house link colour, scoped to this
      surface so nothing leaks. (Same fix bcn-kb-hero carries.) */
   .bcn-pi :global([data-pi-search]) {
-    --form-border-color-focus: var(--color-text-link);
-    --focus-ring-color: var(--color-text-link);
+    --form-border-color-focus: var(--color-content-link);
+    --focus-ring-color: var(--color-content-link);
   }
 
   /* ── Table skin. Rows divide with hairlines; no outer box fights the filter card. ── */
   .bcn-pi__table {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--type-size-200);
+    font-size: var(--font-size-200);
     /* FIXED, not auto: with auto layout the browser re-measures every column from the
        rows currently VISIBLE, so expanding an effort — which introduces long page titles
        and the first non-empty Status cells — resized the whole table under the cursor.
@@ -268,9 +268,9 @@ const facets = [
     padding: var(--spacing-250) var(--spacing-300);
     text-align: left;
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid var(--color-border);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+    border-bottom: 1px solid var(--color-border-default);
     white-space: nowrap;
   }
   .bcn-pi__table td,
@@ -278,7 +278,7 @@ const facets = [
     padding: var(--spacing-250) var(--spacing-300);
     text-align: left;
     vertical-align: middle;
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-pi__row[hidden] {
     display: none;
@@ -287,10 +287,10 @@ const facets = [
   /* ── Effort row — the line item. Its hairline is full-strength so each effort reads
         as the start of a block; its pages divide with the lighter rule. ── */
   .bcn-pi__row--effort th {
-    border-bottom-color: var(--color-border);
+    border-bottom-color: var(--color-border-default);
   }
   .bcn-pi__row--effort:hover {
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-pi__cell-effort {
     padding: 0 !important;
@@ -308,22 +308,22 @@ const facets = [
     font: inherit;
     text-align: left;
     cursor: pointer;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-pi__toggle:focus-visible {
-    outline: 2px solid var(--color-text-link);
+    outline: 2px solid var(--color-content-link);
     outline-offset: -2px;
   }
   .bcn-pi__chevron {
     flex: none;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     transition: transform 140ms ease;
   }
   .bcn-pi__toggle[aria-expanded='true'] .bcn-pi__chevron {
     transform: rotate(90deg);
   }
   .bcn-pi__effort-title {
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.35;
   }
   /* Search hits — highlighter-yellow with dark text, the same #fde047 the omni-search
@@ -331,15 +331,15 @@ const facets = [
   .bcn-pi__toggle :global(mark),
   .bcn-pi__link :global(mark) {
     background: #fde047;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     border-radius: 2px;
     padding: 0 1px;
   }
   /* A genuine count, so 13px tertiary is honest meta. */
   .bcn-pi__pages {
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-regular);
-    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-regular);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
 
@@ -348,10 +348,10 @@ const facets = [
     padding-left: calc(var(--spacing-300) + var(--spacing-600)) !important;
   }
   .bcn-pi__row--page:hover {
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-pi__link {
-    color: var(--color-text-link);
+    color: var(--color-content-link);
     text-decoration: none;
     line-height: 1.35;
   }
@@ -361,12 +361,12 @@ const facets = [
   }
 
   .bcn-pi__cell-meta {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     white-space: nowrap;
   }
   .bcn-pi__cell-date {
     white-space: nowrap;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     font-variant-numeric: tabular-nums;
   }
 
@@ -376,7 +376,7 @@ const facets = [
     align-items: center;
     gap: var(--spacing-150);
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     white-space: nowrap;
   }
   .bcn-pi__status-dot {
@@ -384,10 +384,10 @@ const facets = [
     block-size: 8px;
     border-radius: 50%;
     flex: none;
-    background: var(--color-text-muted);
+    background: var(--bcn-content-muted);
   }
   .bcn-pi__status[data-status='live'] .bcn-pi__status-dot {
-    background: var(--color-success);
+    background: var(--color-background-utility-success);
   }
   .bcn-pi__status[data-status='in-progress'] .bcn-pi__status-dot {
     background: var(--bcn-flag-on-color);

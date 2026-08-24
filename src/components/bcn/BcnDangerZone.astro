@@ -39,17 +39,17 @@ const headingId = `bcn-danger-zone-${++nextId}`;
 
 <style>
   .bcn-danger-zone { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .bcn-danger-zone__heading { margin: 0; font-size: var(--type-size-250); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-danger-zone__heading { margin: 0; font-size: var(--font-size-250); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
   .bcn-danger-zone__box {
     padding: var(--spacing-500);
-    border: 1px solid var(--color-danger);
+    border: 1px solid var(--color-background-utility-danger);
     border-radius: var(--radius-200);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
   }
   .bcn-danger-zone__item { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); }
   .bcn-danger-zone__text { display: flex; flex-direction: column; gap: var(--spacing-100); min-width: 0; }
-  .bcn-danger-zone__title { margin: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-danger-zone__desc { margin: 0; font-size: var(--form-font-size-md); color: var(--color-text-secondary); }
+  .bcn-danger-zone__title { margin: 0; font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-danger-zone__desc { margin: 0; font-size: var(--typography-label-md-font-size); color: var(--color-content-default-secondary); }
   .bcn-danger-zone__action { flex-shrink: 0; }
 
   @media (max-width: 640px) {

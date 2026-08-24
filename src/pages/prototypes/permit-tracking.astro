@@ -23,7 +23,7 @@ import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import '../../styles/beacon-map.css'; // shared Leaflet chrome (.leaflet-tooltip restyle for all map pages)
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
@@ -164,7 +164,7 @@ const payload = {
     ]}
   >
     <div slot="utilities">
-      <span id="notif-open"><EsaButton color="ghost" appearance="outline" size="sm" icon="bell">Notifications</EsaButton></span>
+      <span id="notif-open"><EsaButton variant="ghost" appearance="outline" size="sm" icon="bell">Notifications</EsaButton></span>
     </div>
 
     <!-- No "New Permit" here on purpose: permits ARE source documents — this page
@@ -185,7 +185,7 @@ const payload = {
             <esa-button-toggle id="status-toggle" value="all" size="md"></esa-button-toggle>
           </div>
           <span class="map-filterbar__actions">
-            <span id="download-kmz"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download KMZ</EsaButton></span>
+            <span id="download-kmz"><EsaButton variant="ghost" appearance="outline" size="sm" icon="download">Download KMZ</EsaButton></span>
           </span>
         </div>
 
@@ -285,7 +285,7 @@ const payload = {
             </div>
             <div class="bcn-filterbar__search">
               <esa-text-field id="pt-search" placeholder="Search permits…" size="md"></esa-text-field>
-              <span id="pt-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+              <span id="pt-search-clear" hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
             </div>
           </div>
           <div class="bcn-filterbar__bottom">
@@ -302,8 +302,8 @@ const payload = {
         <div class="bulk-bar" id="bulk-bar" hidden>
           <span class="bulk-bar__count" id="bulk-count">0 selected</span>
           <esa-select id="bulk-status" placeholder="Set status…"></esa-select>
-          <span id="bulk-apply"><EsaButton color="primary" size="sm">Apply status</EsaButton></span>
-          <span id="bulk-clear"><EsaButton color="ghost" appearance="outline" size="sm">Clear selection</EsaButton></span>
+          <span id="bulk-apply"><EsaButton variant="primary" size="sm">Apply status</EsaButton></span>
+          <span id="bulk-clear"><EsaButton variant="ghost" appearance="outline" size="sm">Clear selection</EsaButton></span>
         </div>
 
         <div class="bcn-view-pane" id="pane-permits">
@@ -314,7 +314,7 @@ const payload = {
         </div>
 
         <div class="table-footer">
-          <span id="pt-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
+          <span id="pt-download"><EsaButton variant="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
           <div class="row-count-data">
             Total Records: <span id="pt-total">0</span>
             <span id="pt-filtered" class="filtered-rows-count" hidden></span>
@@ -523,7 +523,7 @@ const payload = {
           </div>
           <div class="pd__compose-foot">
             <span class="pd__compose-hint">Posting as Andy Lovseth</span>
-            <span id="pd-comment-post"><EsaButton color="primary" size="sm">Post comment</EsaButton></span>
+            <span id="pd-comment-post"><EsaButton variant="primary" size="sm">Post comment</EsaButton></span>
           </div>
         </div>
       </section>
@@ -538,8 +538,8 @@ const payload = {
       </section>
     </div>
     <div slot="footer" class="pd__footer">
-      <span id="pd-cancel"><EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
-      <span id="pd-save"><EsaButton color="primary" size="md">Save</EsaButton></span>
+      <span id="pd-cancel"><EsaButton variant="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
+      <span id="pd-save"><EsaButton variant="primary" size="md">Save</EsaButton></span>
     </div>
   </esa-side-dialog>
 
@@ -583,8 +583,8 @@ const payload = {
       </ul>
     </div>
     <div slot="footer" class="notif__footer">
-      <span id="notif-cancel"><EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
-      <span id="notif-save"><EsaButton color="primary" size="md">Save preferences</EsaButton></span>
+      <span id="notif-cancel"><EsaButton variant="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
+      <span id="notif-save"><EsaButton variant="primary" size="md">Save preferences</EsaButton></span>
     </div>
   </esa-dialog>
 
@@ -1975,8 +1975,8 @@ const payload = {
     --side-dialog-inset: 44px;
   }
   #permit-dialog.is-stacked {
-    --color-backdrop: transparent;
-    --backdrop-filter: none;
+    --color-background-overlay-backdrop: transparent;
+    --side-dialog-backdrop-filter: none;
   }
 
   /* Pre-upgrade FOUC guard: only the default (Map) panel shows until the lego defines */
@@ -1990,7 +1990,7 @@ const payload = {
     width: 100%;
     height: 70vh;
     min-height: 480px;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
     overflow: hidden;
   }
@@ -2016,8 +2016,8 @@ const payload = {
     flex-wrap: wrap;
     margin-bottom: var(--spacing-300);
     padding: var(--spacing-250) var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
   }
   .map-filterbar__group {
@@ -2028,13 +2028,13 @@ const payload = {
   .map-filterbar__divider {
     width: 1px;
     align-self: stretch;
-    background: var(--color-border);
+    background: var(--color-border-default);
     margin: 0 var(--spacing-100);
   }
   .map-filterbar__label {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   .map-filterbar__actions {
@@ -2053,18 +2053,18 @@ const payload = {
     flex-direction: column;
     gap: var(--spacing-150);
     padding: var(--spacing-300) var(--spacing-400);
-    background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+    background: color-mix(in srgb, var(--color-background-elevation-raised) 94%, transparent);
     backdrop-filter: blur(4px);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
-    box-shadow: var(--shadow-400);
+    box-shadow: var(--elevation-5);
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .map-legend__title {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .map-legend__row {
     display: flex;
@@ -2085,8 +2085,8 @@ const payload = {
     gap: var(--spacing-200);
     margin-top: var(--spacing-400);
     padding: var(--spacing-300) var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   .burndown__head {
@@ -2098,16 +2098,16 @@ const payload = {
   }
   .burndown__title {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .burndown__summary {
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .burndown__summary strong {
     color: var(--st-cleared);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--typography-font-weight-bold);
   }
   .burndown__bar {
     display: flex;
@@ -2117,7 +2117,7 @@ const payload = {
     background: var(--bcn-gray-100);
   }
   .burndown__bar > :global(div + div) {
-    border-left: 1px solid var(--color-surface);
+    border-left: 1px solid var(--color-background-elevation-raised);
   }
   .burndown__legend {
     list-style: none;
@@ -2132,7 +2132,7 @@ const payload = {
     align-items: center;
     gap: var(--spacing-150);
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .burndown__legend-item[data-empty='true'] {
     opacity: 0.4;
@@ -2144,14 +2144,14 @@ const payload = {
     flex-shrink: 0;
   }
   .burndown__legend-label {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .burndown__legend-mi {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .burndown__legend-pct {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
   /* ═══ Insight cards (lists injected by JS → ins-* classes are :global) ═══
@@ -2173,20 +2173,20 @@ const payload = {
     flex-direction: column;
     gap: var(--spacing-200);
     padding: var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   .ins-card__title {
     margin: 0;
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .ins-card__sub {
     margin: calc(-1 * var(--spacing-100)) 0 0;
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .ins-list {
     list-style: none;
@@ -2202,7 +2202,7 @@ const payload = {
     padding: var(--spacing-200) 0;
   }
   :global(.ins-row + .ins-row) {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   :global(.ins-row[data-ins-permit]) {
     cursor: pointer;
@@ -2226,11 +2226,11 @@ const payload = {
     flex-direction: column;
     gap: 1px;
     font-size: 0.875rem;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   :global(.ins-row__sub) {
     font-size: 0.75rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   :global(.ins-row__val) {
     display: flex;
@@ -2238,8 +2238,8 @@ const payload = {
     align-items: flex-end;
     gap: 1px;
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
@@ -2258,8 +2258,8 @@ const payload = {
     gap: var(--spacing-200);
     margin-top: var(--spacing-400);
     padding: var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   .ctb__head {
@@ -2272,13 +2272,13 @@ const payload = {
   .ctb__title {
     margin: 0;
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .ctb__sub {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .ctb__axisrow {
     display: grid;
@@ -2294,12 +2294,12 @@ const payload = {
     top: 0;
     transform: translateX(-50%);
     font-size: 0.75rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   :global(.ctb-tick--today) {
-    color: var(--color-primary);
-    font-weight: var(--font-weight-semibold);
+    color: var(--color-background-brand);
+    font-weight: var(--typography-font-weight-semibold);
   }
   .ctb__rows {
     list-style: none;
@@ -2312,7 +2312,7 @@ const payload = {
     gap: var(--spacing-400);
     align-items: center;
     padding: var(--spacing-200) 0;
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
     cursor: pointer;
   }
   :global(.ctb-row:hover) {
@@ -2323,13 +2323,13 @@ const payload = {
     flex-direction: column;
     gap: 1px;
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   :global(.ctb-row__sub) {
     font-size: 0.75rem;
-    font-weight: var(--font-weight-regular);
-    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-regular);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2355,7 +2355,7 @@ const payload = {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 2px solid var(--color-surface);
+    border: 2px solid var(--color-background-elevation-raised);
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
   }
   :global(.ctb-row__meta) {
@@ -2366,8 +2366,8 @@ const payload = {
     min-width: 0;
     text-align: right;
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     font-variant-numeric: tabular-nums;
   }
 
@@ -2378,8 +2378,8 @@ const payload = {
     gap: var(--spacing-300);
     margin-bottom: var(--spacing-300);
     padding: var(--spacing-200) var(--spacing-400);
-    background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
-    border: 1px solid color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
+    background: color-mix(in srgb, var(--color-background-brand) 5%, var(--color-background-elevation-raised));
+    border: 1px solid color-mix(in srgb, var(--color-background-brand) 25%, var(--color-border-default));
     border-radius: var(--radius-200);
   }
   .bulk-bar[hidden] {
@@ -2387,8 +2387,8 @@ const payload = {
   }
   .bulk-bar__count {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     margin-right: var(--spacing-200);
   }
   .bulk-bar :global(esa-select) {
@@ -2410,8 +2410,8 @@ const payload = {
   /* ═══ Filter bar — carded two-band, faithful copy of requirement-tracker's
      page glue. Every control inside is a lego. ═══ */
   .bcn-filterbar {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     margin-bottom: var(--spacing-400);
   }
@@ -2427,7 +2427,7 @@ const payload = {
     align-items: center;
     gap: var(--spacing-300);
     padding: var(--spacing-300) var(--spacing-400);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
     flex-wrap: wrap;
   }
   .bcn-filterbar__group {
@@ -2436,9 +2436,9 @@ const payload = {
     gap: var(--spacing-300);
   }
   .bcn-filterbar__label {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   .bcn-filterbar__search {
@@ -2477,8 +2477,8 @@ const payload = {
     justify-content: space-between;
     gap: var(--spacing-400);
     padding: var(--spacing-200) var(--spacing-400);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-top: 0;
     border-radius: 0 0 var(--radius-100) var(--radius-100);
   }
@@ -2486,12 +2486,12 @@ const payload = {
     display: flex;
     align-items: center;
     gap: var(--spacing-400);
-    font-size: var(--type-size-100);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
   .filtered-rows-count {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .filtered-rows-count[hidden] {
     display: none;
@@ -2512,7 +2512,7 @@ const payload = {
     border-radius: var(--radius-100);
     font-size: 0.75rem;
     line-height: 1.5;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     white-space: nowrap;
     background: color-mix(in srgb, var(--_chip) 16%, transparent);
     color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a);
@@ -2541,9 +2541,9 @@ const payload = {
   }
   .sd__title {
     margin: 0;
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .sd__meta {
     display: grid;
@@ -2551,8 +2551,8 @@ const payload = {
     gap: var(--spacing-300) var(--spacing-400);
     margin: 0;
     padding: var(--spacing-400);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   .sd__kv {
@@ -2562,20 +2562,20 @@ const payload = {
   }
   .sd__kv dt {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     color: var(--form-label-color);
   }
   .sd__kv dd {
     margin: 0;
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .sd__section {
     margin: 0;
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .sd__section :global(.esa-badge) {
     vertical-align: middle;
@@ -2599,15 +2599,15 @@ const payload = {
     width: 100%;
     padding: var(--spacing-300);
     text-align: left;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
     cursor: pointer;
     transition: border-color 120ms ease, background 120ms ease;
   }
   .sd-permit__btn:hover {
     background: var(--grid-row-bg-hover);
-    border-color: var(--color-border-strong);
+    border-color: var(--color-border-default-strong);
   }
   .sd-permit__main {
     display: flex;
@@ -2618,12 +2618,12 @@ const payload = {
   }
   .sd-permit__name {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .sd-permit__agency {
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .sd-permit__meta {
     display: flex;
@@ -2642,11 +2642,11 @@ const payload = {
     padding: 1px var(--spacing-200);
     border-radius: var(--radius-full);
     font-size: 0.6875rem;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    background: var(--color-text-primary);
-    color: var(--color-surface);
+    background: var(--color-content-default);
+    color: var(--color-background-elevation-raised);
     white-space: nowrap;
   }
   .sd-permit__gating[hidden] {
@@ -2654,11 +2654,11 @@ const payload = {
   }
   .sd-permit__date {
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   .sd-permit__btn :global(.esa-icon) {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     flex-shrink: 0;
   }
 
@@ -2678,9 +2678,9 @@ const payload = {
   }
   .pd__title {
     margin: 0;
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .pd__section {
     padding-block: var(--spacing-400);
@@ -2689,20 +2689,20 @@ const payload = {
     padding-top: var(--spacing-100);
   }
   .pd__section + .pd__section {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .pd__section-head {
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
     margin: 0 0 var(--spacing-300);
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .pd__section-head :global(.esa-icon) {
     flex-shrink: 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .pd__group {
     display: flex;
@@ -2716,9 +2716,9 @@ const payload = {
   }
   /* Read-only values slotted into BcnKeyValue (mirrors its __val tier) */
   .pd__kv-val {
-    font-size: var(--form-font-size-md);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .pd__footer {
     display: flex;
@@ -2761,7 +2761,7 @@ const payload = {
      and its label sit close together (the default 1.3/1.6 leave a big gap). */
   .exec__hero-headline {
     --stat-value-size: clamp(3rem, 7vw, 4.25rem);
-    --stat-value-weight: var(--font-weight-bold);
+    --stat-value-weight: var(--typography-font-weight-bold);
     --line-height-tight: 1;
     --line-height-normal: 1.35;
   }
@@ -2781,7 +2781,7 @@ const payload = {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    height: calc(var(--type-size-700, 2.25rem) * 1.3);
+    height: calc(var(--font-size-700, 2.25rem) * 1.3);
   }
   .exec__kpi-icon {
     display: inline-flex;
@@ -2790,8 +2790,8 @@ const payload = {
     width: 32px;
     height: 32px;
     border-radius: var(--radius-full);
-    background: var(--color-surface-sunken);
-    color: var(--color-text-tertiary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-tertiary);
     flex-shrink: 0;
   }
   .exec__kpi-icon--up {
@@ -2806,9 +2806,9 @@ const payload = {
   .exec__asof {
     margin: var(--spacing-400) 0 0;
     text-align: right;
-    font-size: var(--type-size-100);
+    font-size: var(--font-size-100);
     font-style: italic;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
   /* Status donut (conic-gradient; hero % in the hole) + legend */
@@ -2835,7 +2835,7 @@ const payload = {
     position: absolute;
     inset: 30px;
     border-radius: var(--radius-full);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2843,15 +2843,15 @@ const payload = {
     gap: 1px;
   }
   .exec__donut-pct {
-    font-family: var(--font-display, var(--font-sans));
-    font-size: var(--type-size-500);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
+    font-family: var(--typography-font-family-display, var(--typography-font-family-sans));
+    font-size: var(--font-size-500);
+    font-weight: var(--typography-font-weight-bold);
+    color: var(--color-content-default);
     line-height: 1;
   }
   .exec__donut-cap {
-    font-size: var(--type-size-100);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
   }
   .exec__legend {
     list-style: none;
@@ -2867,7 +2867,7 @@ const payload = {
     grid-template-columns: auto minmax(0, 1fr) auto auto;
     align-items: center;
     gap: var(--spacing-200);
-    font-size: var(--type-size-150);
+    font-size: var(--font-size-150);
     white-space: nowrap;
   }
   :global(.exec-legend__item[data-empty='true']) {
@@ -2880,17 +2880,17 @@ const payload = {
     flex-shrink: 0;
   }
   :global(.exec-legend__label) {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     overflow: hidden;
     text-overflow: ellipsis;
   }
   :global(.exec-legend__mi) {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     font-variant-numeric: tabular-nums;
   }
   :global(.exec-legend__pct) {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     font-variant-numeric: tabular-nums;
     min-width: 34px;
     text-align: right;
@@ -2917,18 +2917,18 @@ const payload = {
     gap: var(--spacing-300);
   }
   :global(.exec-path__name) {
-    font-size: var(--type-size-250);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-250);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   :global(.exec-path__metric) {
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
   :global(.exec-path__metric strong) {
     color: var(--st-cleared);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--typography-font-weight-bold);
   }
   :global(.exec-path__bar) {
     display: flex;
@@ -2941,19 +2941,19 @@ const payload = {
     height: 100%;
   }
   :global(.exec-path__seg + .exec-path__seg) {
-    border-left: 1px solid var(--color-surface);
+    border-left: 1px solid var(--color-background-elevation-raised);
   }
   :global(.exec-path__foot) {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: var(--spacing-300);
-    font-size: var(--type-size-100);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
   }
   :global(.exec-path__clearby) {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
 
@@ -2973,11 +2973,11 @@ const payload = {
     overflow: visible;
   }
   :global(.bu-grid) {
-    stroke: var(--color-border-light);
+    stroke: var(--color-border-default-subtle);
     stroke-width: 1;
   }
   :global(.bu-target) {
-    stroke: var(--color-text-tertiary);
+    stroke: var(--color-content-default-tertiary);
     stroke-width: 1.5;
     stroke-dasharray: 2 3;
   }
@@ -2990,7 +2990,7 @@ const payload = {
     opacity: 0.75;
   }
   :global(.bu-today) {
-    stroke: var(--color-primary);
+    stroke: var(--color-background-brand);
     stroke-width: 1;
     stroke-dasharray: 3 3;
     opacity: 0.6;
@@ -3008,22 +3008,22 @@ const payload = {
   }
   :global(.bu-dot) {
     fill: var(--st-cleared);
-    stroke: var(--color-surface);
+    stroke: var(--color-background-elevation-raised);
     stroke-width: 1.5;
   }
   :global(.bu-ylabel) {
-    fill: var(--color-text-tertiary);
+    fill: var(--color-content-default-tertiary);
     font-size: 12.5px;
     text-anchor: end;
     dominant-baseline: middle;
   }
   :global(.bu-xlabel) {
-    fill: var(--color-text-tertiary);
+    fill: var(--color-content-default-tertiary);
     font-size: 12.5px;
     text-anchor: middle;
   }
   :global(.bu-todaylabel) {
-    fill: var(--color-primary);
+    fill: var(--color-background-brand);
     font-size: 13.5px;
     font-weight: 600;
     text-anchor: middle;
@@ -3041,8 +3041,8 @@ const payload = {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-200) var(--spacing-500);
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
   .exec__burnup-legend li {
     display: flex;
@@ -3064,7 +3064,7 @@ const payload = {
     border-top-style: dashed;
   }
   .exec__burnup-key--target {
-    border-top-color: var(--color-text-tertiary);
+    border-top-color: var(--color-content-default-tertiary);
     border-top-style: dotted;
   }
 
@@ -3115,7 +3115,7 @@ const payload = {
   :global(.pd-comment--empty) {
     display: block;
     font-size: 0.875rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   :global(.pd-comment__avatar) {
     display: inline-flex;
@@ -3124,10 +3124,10 @@ const payload = {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: var(--_c, var(--color-secondary));
+    background: var(--_c, var(--color-background-brand-muted));
     color: #fff;
     font-size: 0.6875rem;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--typography-font-weight-bold);
     flex-shrink: 0;
     letter-spacing: 0.02em;
   }
@@ -3150,25 +3150,25 @@ const payload = {
   }
   :global(.pd-comment__author) {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   :global(.pd-comment__time) {
     font-size: 0.75rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   :global(.pd-comment__text) {
     margin: 0;
     font-size: 0.875rem;
     line-height: 1.5;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     white-space: pre-wrap;
     word-break: break-word;
   }
   :global(.pd-mention) {
-    color: var(--color-primary);
-    font-weight: var(--font-weight-semibold);
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-background-brand);
+    font-weight: var(--typography-font-weight-semibold);
+    background: color-mix(in srgb, var(--color-background-brand) 10%, transparent);
     border-radius: var(--radius-050);
     padding: 0 2px;
   }
@@ -3184,10 +3184,10 @@ const payload = {
     height: 18px;
     padding: 0 5px;
     border-radius: var(--radius-full);
-    background: var(--color-surface-sunken);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
     font-size: 0.6875rem;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--typography-font-weight-bold);
     vertical-align: middle;
     margin-left: var(--spacing-100);
   }
@@ -3213,10 +3213,10 @@ const payload = {
     list-style: none;
     margin: 0;
     padding: var(--spacing-100);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    box-shadow: var(--shadow-400);
+    box-shadow: var(--elevation-5);
     max-height: 208px;
     overflow-y: auto;
   }
@@ -3230,7 +3230,7 @@ const payload = {
     padding: var(--spacing-200);
     border-radius: var(--radius-100);
     font-size: 0.875rem;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     cursor: pointer;
   }
   :global(.pd-mention-opt:hover) {
@@ -3244,7 +3244,7 @@ const payload = {
   }
   .pd__compose-hint {
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* Notification settings dialog */
@@ -3257,10 +3257,10 @@ const payload = {
     margin: 0;
     font-size: 0.9375rem;
     line-height: 1.6;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .notif__lede strong {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .notif__list {
     list-style: none;
@@ -3277,7 +3277,7 @@ const payload = {
     padding: var(--spacing-300) 0;
   }
   .notif__row + .notif__row {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .notif__text {
     display: flex;
@@ -3287,12 +3287,12 @@ const payload = {
   }
   .notif__title {
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .notif__sub {
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .notif :global(esa-switch-toggle) {
     flex-shrink: 0;

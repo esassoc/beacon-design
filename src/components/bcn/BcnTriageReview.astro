@@ -35,7 +35,7 @@
 // dialog is the closest prod relative and is a modal, not a persistent pane.
 // bcn-triage-review is the reusable home.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
@@ -96,7 +96,7 @@ const FILE_PLUS =
               {/* Closing returns the pane to its unselected state — the same place you were
                   before opening a record, rather than a half-dismissed one. */}
               <span class="bcn-triage-review__close" data-triage-close>
-                <EsaIconButton icon="x" label="Close this record" size="sm" />
+                <EsaIconButton variant="chrome" iconOnly icon="x" label="Close this record" size="sm" />
               </span>
             </div>
             <p class="bcn-triage-review__notes">{item.notes}</p>
@@ -159,7 +159,7 @@ const FILE_PLUS =
                   does, so a data-* passed to it is silently dropped. Click bubbles either way.
                   LEGO GAP: esa-icon-button should forward extra attrs like esa-button. */}
               <span class="bcn-triage-review__add" data-triage-add={item.id}>
-                <EsaIconButton icon="plus" label="Add a suggested action" size="sm" />
+                <EsaIconButton variant="chrome" iconOnly icon="plus" label="Add a suggested action" size="sm" />
               </span>
             </h3>
 
@@ -193,10 +193,10 @@ const FILE_PLUS =
                           </div>
 
                           <div class="bcn-triage-sug__act" data-triage-sug-act>
-                            <EsaButton size="sm" color="primary" data-triage-sug-approve>
+                            <EsaButton size="sm" variant="primary" data-triage-sug-approve>
                               Approve
                             </EsaButton>
-                            <EsaButton size="sm" color="danger" appearance="outline" data-triage-sug-dismiss>
+                            <EsaButton size="sm" variant="danger" appearance="outline" data-triage-sug-dismiss>
                               Dismiss
                             </EsaButton>
                           </div>
@@ -205,7 +205,7 @@ const FILE_PLUS =
                             <span data-triage-sug-verdict>
                               <EsaBadge value="Attached" variant="success" size="sm" />
                             </span>
-                            <EsaButton size="sm" color="ghost" data-triage-sug-undo>
+                            <EsaButton size="sm" variant="ghost" data-triage-sug-undo>
                               Undo
                             </EsaButton>
                           </div>
@@ -263,8 +263,8 @@ const FILE_PLUS =
     </div>
 
     <div slot="footer" class="bcn-triage-add__actions">
-      <EsaButton size="md" color="primary" data-triage-add-commit disabled>Add</EsaButton>
-      <EsaButton size="md" color="ghost" data-triage-add-cancel>Cancel</EsaButton>
+      <EsaButton size="md" variant="primary" data-triage-add-commit disabled>Add</EsaButton>
+      <EsaButton size="md" variant="ghost" data-triage-add-cancel>Cancel</EsaButton>
     </div>
   </esa-dialog>
 
@@ -287,15 +287,15 @@ const FILE_PLUS =
           </div>
 
           <div class="bcn-triage-sug__act" data-triage-sug-act>
-            <EsaButton size="sm" color="primary" data-triage-sug-approve>Approve</EsaButton>
-            <EsaButton size="sm" color="danger" appearance="outline" data-triage-sug-dismiss>
+            <EsaButton size="sm" variant="primary" data-triage-sug-approve>Approve</EsaButton>
+            <EsaButton size="sm" variant="danger" appearance="outline" data-triage-sug-dismiss>
               Dismiss
             </EsaButton>
           </div>
 
           <div class="bcn-triage-sug__done" data-triage-sug-done hidden>
             <span data-triage-sug-verdict><EsaBadge value="Attached" variant="success" size="sm" /></span>
-            <EsaButton size="sm" color="ghost" data-triage-sug-undo>Undo</EsaButton>
+            <EsaButton size="sm" variant="ghost" data-triage-sug-undo>Undo</EsaButton>
           </div>
         </div>
       </EsaCard>
@@ -316,8 +316,8 @@ const FILE_PLUS =
     min-height: 0;
     max-height: 100%;
     overflow-y: auto;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
   }
 
@@ -352,7 +352,7 @@ const FILE_PLUS =
     flex-direction: column;
     gap: var(--spacing-200);
     padding: var(--spacing-400) var(--spacing-400) var(--spacing-300);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
   }
 
   /* One step down from a card title: this pane is dense, and the record's NAME is not the
@@ -371,17 +371,17 @@ const FILE_PLUS =
   .bcn-triage-review__title {
     min-width: 0;
     margin: 0;
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.3;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   .bcn-triage-review__notes {
     margin: 0;
     font-size: 0.8125rem;
     line-height: 1.45;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* Four label/value pairs on one dense row, wrapping only when it must. Replaces a
@@ -426,22 +426,22 @@ const FILE_PLUS =
     /* 13px is the house FLOOR for genuine meta — never smaller. The label/value hierarchy is
        carried by colour and weight instead: secondary + regular here, primary + medium below. */
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-triage-review__facts dd {
     margin: 0;
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
   }
 
   /* An ABSENCE, not a warning. Orange claimed something was wrong; muted italic says the
      field simply has no value yet, which is all "Not set" means. */
   .bcn-triage-review__facts dd[data-warn] {
-    font-weight: var(--font-weight-regular, 400);
+    font-weight: var(--typography-font-weight-regular, 400);
     font-style: italic;
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
   }
 
   /* The files disclosure closes out the record block, divided by a rule rather than given a
@@ -449,7 +449,7 @@ const FILE_PLUS =
      collapsed it should read as one quiet line. */
   .bcn-triage-review__files {
     margin-top: var(--spacing-150);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
   }
 
   /* Asymmetric on purpose: more above the summary than below it, so the rule reads as
@@ -481,13 +481,13 @@ const FILE_PLUS =
   }
 
   .bcn-triage-review__section + .bcn-triage-review__section {
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
   }
 
   /* The drawer's in-drawer section-header SHAPE — icon + label, semibold, primary text, with
      the glyph subordinate in a quieter tone — using the spoke's own entity vocabulary
      (paperclip = evidence, radar = actions) so the icons mark structure rather than decorate
-     it. Sized to --type-size-150 rather than the drawer's 250 on purpose: two of this pane's
+     it. Sized to --font-size-150 rather than the drawer's 250 on purpose: two of this pane's
      three sections ARE esa-collapsible, whose summary is fixed at 150 with no hook to
      re-point, so matching it is the only way all three headers read as one tier. The drawer
      can afford the larger step; this pane is dense.
@@ -500,10 +500,10 @@ const FILE_PLUS =
     /* Matches .esa-collapsible__summary's padding-block in the Files section, so a plain
        heading and a disclosure heading occupy the same box. */
     padding-block: var(--spacing-150);
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.25;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* One glyph tone across all three section headers. esa-collapsible paints its own summary
@@ -516,7 +516,7 @@ const FILE_PLUS =
   .bcn-triage-review__legend :global(.esa-icon),
   .bcn-triage-review__files :global(.esa-collapsible__summary .esa-icon) {
     flex: none;
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
   }
 
   /* Sits a little away from the label so it reads as a count OF the section rather than a
@@ -530,15 +530,15 @@ const FILE_PLUS =
      sized to the type rather than the type shrunk to the bubble. The drawer fills its bubble
      grey because an attachment count is neutral; this one is blue because it counts the
      thing the section exists for.
-     --color-info-strong rather than --color-info: the brighter step puts white text at
-     4.8:1, where --color-info (#228be6) would land near 3.6 and fail AA at this size. */
+     --color-content-utility-info rather than --color-background-utility-info: the brighter step puts white text at
+     4.8:1, where --color-background-utility-info (#228be6) would land near 3.6 and fail AA at this size. */
   .bcn-triage-review__legendcount :global(.esa-badge) {
     --badge-radius: var(--radius-full);
-    /* A step toward --color-info without landing on it. The full step measures ~3.6:1 against
+    /* A step toward --color-background-utility-info without landing on it. The full step measures ~3.6:1 against
        white text and an 18% mix measures 4.4 — both fail AA at 13px — so this sits at 8%,
        which is as light as the contrast allows while staying above 4.5. */
-    --badge-bg: color-mix(in srgb, var(--color-info) 8%, var(--color-info-strong));
-    --badge-text-color: var(--color-text-inverse, #fff);
+    --badge-bg: color-mix(in srgb, var(--color-background-utility-info) 8%, var(--color-content-utility-info));
+    --badge-text-color: var(--color-content-default-knockout, #fff);
     min-width: 19px;
     height: 19px;
     padding: 0 4px;
@@ -549,7 +549,7 @@ const FILE_PLUS =
     font-size: 0.8125rem;
     font-variant-numeric: tabular-nums;
     line-height: 1;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
   }
 
   /* Centred and italic: this is the section reporting on ITSELF, not prose addressed to the
@@ -561,7 +561,7 @@ const FILE_PLUS =
     font-style: italic;
     line-height: 1.45;
     text-align: center;
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
   }
 
   /* The whole block steps in from the panel edge — header and contents together — while the
@@ -587,7 +587,7 @@ const FILE_PLUS =
      INTO" idea, in the info colour instead of the neutral one. The tint says "these are
      proposals" once, for the region, rather than per card. */
   .bcn-triage-review__section[aria-label='Suggested actions'] {
-    background: var(--color-info-subtle);
+    background: var(--color-background-utility-info-subtle);
   }
 
 
@@ -607,7 +607,7 @@ const FILE_PLUS =
      legend, so a blue border was sitting around a grey glyph.
      Change the one --triage-add-ink value to recolour both. */
   .bcn-triage-review__add :global(.esa-icon-button) {
-    --triage-add-ink: var(--color-text-muted);
+    --triage-add-ink: var(--bcn-content-muted);
     border: 1px solid currentColor;
     border-radius: var(--radius-100);
     background: transparent;
@@ -620,8 +620,8 @@ const FILE_PLUS =
   }
 
   .bcn-triage-review__add :global(.esa-icon-button:hover) {
-    color: var(--color-text-primary);
-    background: var(--color-surface-sunken);
+    color: var(--color-content-default);
+    background: var(--color-background-elevation-sunken);
   }
 
   /* ── The add-a-suggestion modal ──────────────────────────────────────── */
@@ -639,7 +639,7 @@ const FILE_PLUS =
   .bcn-triage-add__scope {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* Windows order: the primary sits LEFT of the secondary within a right-aligned group. */
@@ -667,14 +667,14 @@ const FILE_PLUS =
      the meaning into one side. White fill keeps the card an object, not a tinted region. */
   .bcn-triage-sug {
     --card-padding: var(--spacing-250);
-    --card-bg: var(--color-surface);
-    --card-border-color: color-mix(in srgb, var(--color-info) 45%, transparent);
+    --card-bg: var(--color-background-elevation-raised);
+    --card-border-color: color-mix(in srgb, var(--color-background-utility-info) 45%, transparent);
     --card-radius: var(--radius-100);
   }
 
   /* THEME GAP, patched locally. esa-button's outline appearance takes its LABEL colour from
-     --color-primary-strong (the hub: "step 11 = colored text on surfaces… Override in your
-     theme when changing the primary ramp"). theme-beacon.css re-points --color-primary to
+     --color-content-brand (the hub: "step 11 = colored text on surfaces… Override in your
+     theme when changing the primary ramp"). theme-beacon.css re-points --color-background-brand to
      teal-900 but never overrode *-strong, so it is still the hub's GRASS green — which is why
      a primary-outline button renders a teal border around a green label.
      Scoped here rather than fixed in the theme because the same token also drives
@@ -682,7 +682,7 @@ const FILE_PLUS =
      re-pointing it spoke-wide is right, but it is a deliberate site-wide change. */
   .bcn-triage-review,
   .bcn-triage-sug {
-    --color-primary-strong: var(--color-primary);
+    --color-content-brand: var(--color-background-brand);
   }
 
   .bcn-triage-sug[data-state='dismissed'] {
@@ -707,10 +707,10 @@ const FILE_PLUS =
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: var(--type-size-150, 0.875rem);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-150, 0.875rem);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.35;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   .bcn-ev-row__spacer {
@@ -732,9 +732,9 @@ const FILE_PLUS =
   }
 
   .bcn-ev-row__tags :global(.esa-badge) {
-    --badge-bg: var(--color-surface-sunken);
-    --badge-text-color: var(--color-text-secondary);
-    font-weight: var(--font-weight-medium);
+    --badge-bg: var(--color-background-elevation-sunken);
+    --badge-text-color: var(--color-content-default-secondary);
+    font-weight: var(--typography-font-weight-medium);
   }
 
   /* The confidence mark, wearing the drawer's suggestion-marker treatment: an info-subtle
@@ -749,7 +749,7 @@ const FILE_PLUS =
     gap: var(--spacing-200);
     margin-top: var(--spacing-250);
     padding-top: var(--spacing-200);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 
   .bcn-triage-sug__act[hidden],

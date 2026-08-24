@@ -64,7 +64,7 @@ const breakdownAria = summary.breakdown
 
   <EsaCard title="Needs attention">
     <div class="bcn-summary__attention">
-      <div style={summary.attentionCount > 0 ? '--stat-value-color: var(--color-danger-strong)' : undefined}>
+      <div style={summary.attentionCount > 0 ? '--stat-value-color: var(--color-content-utility-danger)' : undefined}>
         <EsaStat value={summary.attentionCount} label="Components with overdue actions" />
       </div>
 
@@ -106,11 +106,11 @@ const breakdownAria = summary.breakdown
     min-width: 22px;
     height: 22px;
     padding: 0 var(--spacing-150);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
     font-variant-numeric: tabular-nums;
   }
@@ -123,7 +123,7 @@ const breakdownAria = summary.breakdown
     border-radius: var(--radius-full);
     overflow: hidden;
     display: flex;
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-summary__seg { height: 100%; background: var(--_c); }
 
@@ -132,11 +132,11 @@ const breakdownAria = summary.breakdown
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
   .bcn-summary__dot { width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--_c); flex-shrink: 0; }
-  .bcn-summary__legend-count { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
+  .bcn-summary__legend-count { font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); font-variant-numeric: tabular-nums; }
 
   /* attention lane */
   .bcn-summary__attention { display: flex; flex-direction: column; }
@@ -144,33 +144,33 @@ const breakdownAria = summary.breakdown
     list-style: none;
     margin: var(--spacing-400) 0 0;
     padding: var(--spacing-400) 0 0;
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-200);
   }
   .bcn-summary__att-row { display: flex; align-items: center; gap: var(--spacing-200); justify-content: space-between; }
-  .bcn-summary__att-name { font-size: var(--type-size-150); color: var(--color-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-summary__att-name { font-size: var(--font-size-150); color: var(--color-content-default); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-summary__att-flag {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-100);
     padding: 1px var(--spacing-200);
     border-radius: var(--radius-100);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-danger-strong);
-    background: color-mix(in srgb, var(--color-danger) 12%, white);
-    border: 1px solid color-mix(in srgb, var(--color-danger) 26%, white);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-utility-danger);
+    background: color-mix(in srgb, var(--color-background-utility-danger) 12%, white);
+    border: 1px solid color-mix(in srgb, var(--color-background-utility-danger) 26%, white);
     white-space: nowrap;
     flex-shrink: 0;
   }
-  .bcn-summary__att-more { font-size: var(--type-size-100); color: var(--color-text-muted); }
+  .bcn-summary__att-more { font-size: var(--font-size-100); color: var(--bcn-content-muted); }
   .bcn-summary__att-clear {
     margin: var(--spacing-400) 0 0;
     padding: var(--spacing-400) 0 0;
-    border-top: 1px solid var(--color-border-light);
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    border-top: 1px solid var(--color-border-default-subtle);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
 </style>

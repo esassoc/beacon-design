@@ -59,18 +59,18 @@ const { total } = Astro.props;
      SANCTIONED HARD-CODE: --badge-height-md is a real hook but no token defines it. */
   .bcn-triage-counts__chip :global(.esa-badge) {
     --badge-height-md: 24px;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
   }
 
   /* Waiting: the neutral tag treatment the drawer uses for its facets. */
   .bcn-triage-counts__chip :global(.esa-badge) {
-    --badge-bg: var(--color-surface-sunken);
-    --badge-text-color: var(--color-text-secondary);
+    --badge-bg: var(--color-background-elevation-sunken);
+    --badge-text-color: var(--color-content-default-secondary);
   }
 
   .bcn-triage-counts__showing {
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-triage-counts__showing[hidden] {

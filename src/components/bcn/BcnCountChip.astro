@@ -84,7 +84,7 @@ const hookAttr = hook ? { [hook]: '' } : {};
     justify-content: center;
     width: 100%;
     height: 100%;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     /* 18px — a step OFF the scale on purpose. esa-icon jumps sm(16) to md(20), and 16 was
        too small here (it was the previous setting) while 20 is a shade too heavy beside a
        15px bubble. Re-pointed through the lego own --icon-size-md rather than styling the
@@ -113,10 +113,10 @@ const hookAttr = hook ? { [hook]: '' } : {};
        reads: the named variants (success, info, …) assign the badge's internal fill
        directly and would silently ignore both. */
     /* SOLID, no outline. Without a border the fill has to carry the shape on its own, so
-       it steps from --color-surface-sunken (#efefef, which needed the border to read) to
-       --color-border (#dcdcdc) — still grey, still quiet, but definite against the card. */
-    --badge-bg: var(--color-border);
-    --badge-text-color: var(--color-text-secondary);
+       it steps from --color-background-elevation-sunken (#efefef, which needed the border to read) to
+       --color-border-default (#dcdcdc) — still grey, still quiet, but definite against the card. */
+    --badge-bg: var(--color-border-default);
+    --badge-text-color: var(--color-content-default-secondary);
     min-width: 19px;
     height: 19px;
     padding: 0 4px;
@@ -132,7 +132,7 @@ const hookAttr = hook ? { [hook]: '' } : {};
     line-height: 1;
     /* A ring in the card's own surface colour punches the bubble out of the glyph beneath
        it — without it the two shapes merge at small sizes. */
-    box-shadow: 0 0 0 1.5px var(--color-surface);
+    box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);
   }
   /* The visible chip is a glyph and a digit; this is the sentence it stands for. */
   .bcn-countchip__sr {

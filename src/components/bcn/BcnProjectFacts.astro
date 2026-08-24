@@ -64,9 +64,9 @@ const { facts, description, files = [], title = 'Project details' } = Astro.prop
 <style>
   .bcn-pf__desc {
     margin: 0 0 var(--spacing-300);
-    font-size: var(--type-size-150);
+    font-size: var(--font-size-150);
     line-height: var(--line-height-normal);
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-pf {
     margin: 0;
@@ -80,17 +80,17 @@ const { facts, description, files = [], title = 'Project details' } = Astro.prop
     padding: var(--spacing-250) 0;
   }
   .bcn-pf__fact + .bcn-pf__fact {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-pf__label {
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-pf__value {
     margin: 0;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
 
   /* Project.Files — quiet attachment rows, divided from the facts. */
@@ -98,7 +98,7 @@ const { facts, description, files = [], title = 'Project details' } = Astro.prop
     list-style: none;
     margin: 0;
     padding: var(--spacing-250) 0 0;
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-200);
@@ -107,12 +107,12 @@ const { facts, description, files = [], title = 'Project details' } = Astro.prop
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
     min-width: 0;
   }
   .bcn-pf__file-name {
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

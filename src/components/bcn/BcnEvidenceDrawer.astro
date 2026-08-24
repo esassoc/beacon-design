@@ -78,10 +78,10 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   <div slot="footer" class="bcn-ev__foot">
     <div class="bcn-ev__actions">
       <span data-evidence-save>
-        <EsaButton color="primary" size="md" disabled>Save</EsaButton>
+        <EsaButton variant="primary" size="md" disabled>Save</EsaButton>
       </span>
       <span data-drawer-close>
-        <EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" size="md">Cancel</EsaButton>
       </span>
     </div>
   </div>
@@ -118,7 +118,7 @@ import EsaButton from '@esa/ecology/esa-button.astro';
        filter selects, the tabs, the buttons. Declared HERE, once, because these are
        inherited custom properties: a copy per control is how the four existing bcn-*
        workarounds for this same bug ended up disagreeing with each other.
-       Why it is needed: the hub wires focus to --color-border-focus → --color-grass-8
+       Why it is needed: the hub wires focus to --color-border-default-focus → --color-grass-8
        (#65ba74), a chain Beacon's theme has no hook into, so every field in the app
        focuses GREEN. These three values are the verbatim port of prod's own input focus
        (Beacon.Web/src/scss/variables/_form-inputs.scss:25-28) —
@@ -128,21 +128,21 @@ import EsaButton from '@esa/ecology/esa-button.astro';
        — and prod applies them as border-color + `box-shadow: 0 0 0 $focus-ring-width
        $focus-ring-color`, which is exactly the pair the esa-* form legos read. The 30%
        alpha is load-bearing: a solid ring reads as an error state at a glance.
-       The real fix is re-pointing --color-border-focus in theme-beacon.css, which would
+       The real fix is re-pointing --color-border-default-focus in theme-beacon.css, which would
        correct every surface at once and let the bcn-* workarounds be deleted. */
-    --form-border-color-focus: var(--color-secondary);
-    --focus-ring-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);
+    --form-border-color-focus: var(--color-background-brand-muted);
+    --focus-ring-color: color-mix(in srgb, var(--color-background-brand-muted) 30%, transparent);
     --focus-ring-width: 2px;
 
     /* Same family of leak, different token: the legos colour SELECTED/active option text
-       with --color-primary-strong, whose hub default is #3a7c59 — green again — and which
+       with --color-content-brand, whose hub default is #3a7c59 — green again — and which
        Beacon also never re-points. Ten legos read it, so it is not specific to the select.
        Prod's own selected option (ui-search-select.component.scss:217) is `background:
        $teal-100` with NO colour override — it tints the row and leaves the text alone. The
        nearest single token that serves every role this variable plays here (selected rows,
-       match highlights, chips) is --color-primary, so the accent reads deep teal on the
+       match highlights, chips) is --color-background-brand, so the accent reads deep teal on the
        teal-tinted row rather than green on it. */
-    --color-primary-strong: var(--color-primary);
+    --color-content-brand: var(--color-background-brand);
 
     /* Distance from each column's hairline down to its search field. Declared here because
        the two columns reach it from opposite directions — the left inherits the tab panel's
@@ -168,16 +168,16 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     flex-wrap: wrap;
     min-width: 0;
   }
-  /* Drawer title at the house drawer size — --type-size-400 semibold, the same value
+  /* Drawer title at the house drawer size — --font-size-400 semibold, the same value
      esa-side-dialog's own .title uses and the same one the guidance drawer and the
      work-area drawers already carry. NOT the page-title role: this is drawer chrome, not
-     a page, and at --type-size-600 it read like a route heading. */
+     a page, and at --font-size-600 it read like a route heading. */
   .bcn-ev__title {
     margin: 0;
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.2;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* ── Body ── */
@@ -195,11 +195,11 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     min-height: 0;
   }
 
-  /* The seam itself — the whole 1px track IS the rule. --color-border, not
-     --color-border-light: it meets the header and footer rules BcnBottomDrawer draws, and
+  /* The seam itself — the whole 1px track IS the rule. --color-border-default, not
+     --color-border-default-subtle: it meets the header and footer rules BcnBottomDrawer draws, and
      three edges of the same drawer should be one weight. */
   .bcn-ev__joint {
-    background: var(--color-border);
+    background: var(--color-border-default);
   }
 
   /* ── Footer: Windows order — primary left of Cancel inside a right-aligned group. ── */

@@ -168,8 +168,8 @@ const rowFor = (item: TriageItem) => {
     flex-direction: column;
     min-height: 0; /* lets the scroll region actually scroll inside the fixed frame */
     height: 100%;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
     overflow: hidden;
   }
@@ -202,14 +202,14 @@ const rowFor = (item: TriageItem) => {
     z-index: 1;
     margin: 0;
     padding: var(--spacing-100) var(--spacing-300);
-    /* The sunken step, not the page canvas: at --color-background the bands sat too close to
+    /* The sunken step, not the page canvas: at --color-background-default the bands sat too close to
        the white rows to divide them. */
-    background: var(--color-surface-sunken);
-    border-block: 1px solid var(--color-border-light);
+    background: var(--color-background-elevation-sunken);
+    border-block: 1px solid var(--color-border-default-subtle);
     font-size: 0.875rem;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     line-height: 1.4;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* The first band sits flush against the pane's top edge. */
@@ -233,8 +233,8 @@ const rowFor = (item: TriageItem) => {
     flex-direction: column;
     gap: var(--spacing-150);
     padding: var(--spacing-300);
-    border-bottom: 1px solid var(--color-border-light);
-    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+    background: var(--color-background-elevation-raised);
   }
 
   /* The band below already draws its own top rule; a second one here would double it. */
@@ -249,20 +249,20 @@ const rowFor = (item: TriageItem) => {
   /* Half a step toward the selected fill, so hover and selection are the same gesture at
      two strengths rather than two different colours. */
   .bcn-triage-row:hover {
-    background: color-mix(in srgb, var(--color-surface-sunken) 50%, var(--color-surface));
+    background: color-mix(in srgb, var(--color-background-elevation-sunken) 50%, var(--color-background-elevation-raised));
   }
 
-  /* NEUTRAL, not the brand tint. --color-primary-subtle is a mint wash, and beside the blue
+  /* NEUTRAL, not the brand tint. --color-background-brand-subtle is a mint wash, and beside the blue
      the suggestions area now carries it read as a third accent belonging to nothing — two
      pale colours in one view, neither of them meaning the same thing. Selection is a state of
      the LIST, not a category, so it takes a plain surface step: white -> hover -> sunken.
      Still a surface alone, never a colored left border (a banned pattern). */
   .bcn-triage-row[data-active],
   .bcn-triage-row[data-active]:hover {
-    /* One step BELOW the day bands. At --color-surface-sunken the selected row was the exact
-       fill of a date separator, so a selection read as a divider. --color-border is the next
+    /* One step BELOW the day bands. At --color-background-elevation-sunken the selected row was the exact
+       fill of a date separator, so a selection read as a divider. --color-border-default is the next
        neutral down, which keeps the ladder legible: row -> hover -> band -> selected. */
-    background: var(--color-border);
+    background: var(--color-border-default);
   }
 
   .bcn-triage-row__body {
@@ -280,7 +280,7 @@ const rowFor = (item: TriageItem) => {
   }
 
   .bcn-triage-row__body:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-background-brand);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }
@@ -298,18 +298,18 @@ const rowFor = (item: TriageItem) => {
     font-size: 0.875rem; /* 14px — the dense-surface floor; darkened rather than grayed */
     font-weight: 600;
     line-height: 1.35;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   .bcn-triage-row__date {
     flex: none;
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-triage-row__meta {
     font-size: 0.8125rem; /* 13px meta */
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-triage-row__foot[hidden] {
@@ -359,16 +359,16 @@ const rowFor = (item: TriageItem) => {
      sixteen of them do not fight the row titles they sit under. Approved patterns are canon;
      it is also now the same chip as the confidence mark in the review panel. */
   .bcn-triage-row__sug :global(.esa-badge) {
-    --badge-bg: var(--color-info-subtle);
-    --badge-text-color: var(--color-text-primary);
+    --badge-bg: var(--color-background-utility-info-subtle);
+    --badge-text-color: var(--color-content-default);
     /* esa-badge's md step is 28px tall, which is sized for a chip standing on its own. In a
        dense list row it reads as a button. 24px keeps the 13px label comfortable and lets the
        chip sit INSIDE the row's rhythm instead of setting it.
        SANCTIONED HARD-CODE: --badge-height-md is a real hook, but no token defines it (the
        lego only ever uses it with a literal fallback), so there is nothing to point at. */
     --badge-height-md: 24px;
-    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-    font-weight: var(--font-weight-medium);
+    border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+    font-weight: var(--typography-font-weight-medium);
   }
 
   .bcn-triage-queue__empty {

@@ -36,7 +36,7 @@ for (const entry of entries) {
 <div class="bcn-consultation-log">
   {addable && (
     <div class="bcn-consultation-log__add">
-      <EsaButton color="secondary" appearance="outline" size="sm" icon="plus">
+      <EsaButton variant="secondary" appearance="outline" size="sm" icon="plus">
         Log consultation
       </EsaButton>
     </div>
@@ -84,7 +84,7 @@ for (const entry of entries) {
     position: relative;
     margin-left: 5px;
     padding: 0 0 var(--spacing-400) var(--spacing-500);
-    border-left: 2px solid var(--color-border);
+    border-left: 2px solid var(--color-border-default);
   }
   .bcn-consultation-log__day:last-child { border-left-color: transparent; padding-bottom: 0; }
   .bcn-consultation-log__day::before {
@@ -95,15 +95,15 @@ for (const entry of entries) {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--color-surface);
-    border: 2px solid var(--color-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 2px solid var(--color-background-brand-muted);
   }
 
   .bcn-consultation-log__date {
     margin: 0 0 var(--spacing-200);
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
 
   .bcn-consultation-log__entries {
@@ -123,8 +123,8 @@ for (const entry of entries) {
     margin: 0;
     font-size: 1rem;
     line-height: 1.45;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
-  .bcn-consultation-log__by { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .bcn-consultation-log__by { font-size: 0.75rem; color: var(--color-content-default-tertiary); }
 </style>

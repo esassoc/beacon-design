@@ -169,7 +169,7 @@ const fmtDate = (iso: string): string =>
   /* Releases below the first carry a hairline separator — a rule, never a
      status border. */
   .bcn-release + .bcn-release {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-release:first-child { padding-block-start: var(--spacing-500); }
 
@@ -189,27 +189,27 @@ const fmtDate = (iso: string): string =>
     flex-wrap: wrap;
     font-size: 0.875rem;
     line-height: 1.4;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-release__latest {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
   }
   .bcn-release__latest::after {
     content: '·';
     margin-inline: var(--spacing-200);
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
   }
   /* Serif display tier — the release number. Besley at ~30px (type-size-600),
      tight leading, a hair of negative tracking for the large optical size. */
   .bcn-release__version {
     margin: 0;
     font-family: var(--font-decorative);
-    font-size: var(--type-size-600);
+    font-size: var(--font-size-600);
     font-weight: 600;
     line-height: 1.15;
     letter-spacing: -0.01em;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* ── Headlines — the big stories (richest tier), serif-titled ─────── */
@@ -235,14 +235,14 @@ const fmtDate = (iso: string): string =>
     font-weight: 500;
     line-height: 1.3;
     letter-spacing: -0.005em;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-release__headline-link {
     color: inherit;
     text-decoration: none;
   }
   .bcn-release__headline-link:hover {
-    color: var(--color-text-link);
+    color: var(--color-content-link);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
@@ -251,7 +251,7 @@ const fmtDate = (iso: string): string =>
     max-inline-size: 42rem;
     font-size: 1rem;
     line-height: var(--line-height-normal);
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* ── Area groups + entries ──────────────────────────────────────── */
@@ -262,10 +262,10 @@ const fmtDate = (iso: string): string =>
   .bcn-release__group-title {
     margin: 0 0 var(--spacing-400);
     padding-block-end: var(--spacing-200);
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
     font-size: 1.0625rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-release__entries {
@@ -287,9 +287,9 @@ const fmtDate = (iso: string): string =>
   .bcn-release__entry-title {
     margin: 0;
     font-size: 1rem;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.4;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   /* Feature-flag note — quiet neutral chip, the flag name in mono (genuine
      technical meta, so 13px is legitimate). */
@@ -298,20 +298,20 @@ const fmtDate = (iso: string): string =>
     align-items: baseline;
     gap: var(--spacing-100);
     padding: 2px var(--spacing-200);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-release__flag code {
-    font-family: var(--font-mono);
+    font-family: var(--typography-font-family-mono);
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-release__applies {
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
   /* ── Blocks (p / bullets / callout) — held to the reading measure ── */
@@ -325,7 +325,7 @@ const fmtDate = (iso: string): string =>
     margin: 0;
     font-size: 1rem;
     line-height: var(--line-height-normal);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-release__bullets {
     margin: 0;
@@ -337,9 +337,9 @@ const fmtDate = (iso: string): string =>
   .bcn-release__bullet {
     font-size: 1rem;
     line-height: var(--line-height-normal);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
-  .bcn-release__bullet::marker { color: var(--color-text-tertiary); }
+  .bcn-release__bullet::marker { color: var(--color-content-default-tertiary); }
   /* Quiet neutral note box — leading icon + text. Sunken surface + hairline, no
      colour, no left border. */
   .bcn-release__callout {
@@ -348,20 +348,20 @@ const fmtDate = (iso: string): string =>
     align-items: start;
     gap: var(--spacing-300);
     padding: var(--spacing-400);
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-200);
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-release__callout-icon {
     display: inline-flex;
     margin-block-start: 2px;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-release__callout-text {
     margin: 0;
     font-size: 1rem;
     line-height: var(--line-height-normal);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* ── Fixes — de-emphasized small print, collapsed by default ─────── */
@@ -371,11 +371,11 @@ const fmtDate = (iso: string): string =>
   .bcn-release__fixes-summary {
     cursor: pointer;
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
     list-style-position: inside;
   }
-  .bcn-release__fixes-summary:hover { color: var(--color-text-primary); }
+  .bcn-release__fixes-summary:hover { color: var(--color-content-default); }
   .bcn-release__fixes-list {
     margin: var(--spacing-300) 0 0;
     padding-inline-start: var(--spacing-500);
@@ -387,20 +387,20 @@ const fmtDate = (iso: string): string =>
   .bcn-release__fix {
     font-size: 0.875rem;
     line-height: var(--line-height-normal);
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
-  .bcn-release__fix::marker { color: var(--color-border-strong); }
+  .bcn-release__fix::marker { color: var(--color-border-default-strong); }
 
   /* Injected inline spans from the formatter (set:html bypasses Astro scoping;
      :global under the component root keeps them bounded here). */
-  .bcn-release :global(strong) { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-release :global(strong) { font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
   .bcn-release :global(code) {
-    font-family: var(--font-mono);
+    font-family: var(--typography-font-family-mono);
     font-size: 0.875em;
     padding: 1px 5px;
     border-radius: var(--radius-100);
-    background: var(--color-surface-sunken);
-    color: var(--color-text-primary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default);
   }
 
   @media (max-width: 32rem) {

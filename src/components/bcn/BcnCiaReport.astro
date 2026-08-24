@@ -190,7 +190,7 @@ const tocEntries: TocEntry[] = [
   <!-- Document utilities. Print is wired locally (it acts on this document);
        anything that navigates is the host's, via the `actions` slot. -->
   <div class="bcn-cia__utilities repel" data-gap="sm">
-    <p class="bcn-cia__utilities-note type-body-small">
+    <p class="bcn-cia__utilities-note typography-body-sm">
       Section structure follows ESA's standard CIA template — Findings and Recommendations per
       resource, permit matrix, explicit limitations.
     </p>
@@ -210,11 +210,11 @@ const tocEntries: TocEntry[] = [
     <!-- ── Table of contents (scroll-spy) ── -->
     <aside class="bcn-cia__aside">
       <nav class="bcn-cia__toc" aria-label="Report contents">
-        <p class="bcn-cia__toc-heading type-body">Contents</p>
+        <p class="bcn-cia__toc-heading typography-body-md">Contents</p>
         <ul class="bcn-cia__toc-list">
           {tocEntries.map((t) => (
             <li class="bcn-cia__toc-item" data-level={t.level}>
-              <a class="bcn-cia__toc-link type-body-small" href={`#${t.id}`} data-toc-for={t.id}>
+              <a class="bcn-cia__toc-link typography-body-sm" href={`#${t.id}`} data-toc-for={t.id}>
                 {t.riskHex && (
                   <span class="bcn-cia__dot" style={`--_risk-dot:${t.riskHex}`} aria-hidden="true"></span>
                 )}
@@ -230,15 +230,15 @@ const tocEntries: TocEntry[] = [
     <article class="bcn-cia__doc stack" data-gap="xl">
       <header class="bcn-cia__masthead stack" data-gap="sm">
         <div class="repel" data-gap="sm" data-align="start">
-          <h1 class="bcn-cia__h1 type-page-title">{title}</h1>
+          <h1 class="bcn-cia__h1 typography-heading-lg">{title}</h1>
           <EsaBadge variant="warning" size="sm" value={statusBadgeLabel} />
         </div>
-        <p class="bcn-cia__subtitle type-body-large">{subtitle}</p>
+        <p class="bcn-cia__subtitle typography-body-lg">{subtitle}</p>
         <dl class="bcn-cia__meta">
           {meta.map((m) => (
             <>
-              <dt class="bcn-cia__meta-term type-body-small">{m.label}</dt>
-              <dd class="bcn-cia__meta-def type-body-small" set:html={m.value} />
+              <dt class="bcn-cia__meta-term typography-body-sm">{m.label}</dt>
+              <dd class="bcn-cia__meta-def typography-body-sm" set:html={m.value} />
             </>
           ))}
         </dl>
@@ -246,12 +246,12 @@ const tocEntries: TocEntry[] = [
 
       <!-- ── Executive summary ── -->
       <section class="bcn-cia__sec stack" data-gap="sm" id="cia-summary">
-        <h2 class="bcn-cia__h2 type-section-title">Executive Summary</h2>
-        {execSummaryParagraphs.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+        <h2 class="bcn-cia__h2 typography-heading-md">Executive Summary</h2>
+        {execSummaryParagraphs.map((p) => <p class="bcn-cia__p typography-body-md" set:html={p} />)}
         {summaryBullets.length > 0 && (
           <>
-            <h3 class="bcn-cia__h4 type-body">Summary of findings</h3>
-            <ul class="bcn-cia__list type-body">
+            <h3 class="bcn-cia__h4 typography-body-md">Summary of findings</h3>
+            <ul class="bcn-cia__list typography-body-md">
               {summaryBullets.map((b) => <li set:html={b} />)}
             </ul>
           </>
@@ -260,18 +260,18 @@ const tocEntries: TocEntry[] = [
 
       <!-- ── 1. Project description ── -->
       <section class="bcn-cia__sec stack" data-gap="sm" id="cia-project">
-        <h2 class="bcn-cia__h2 type-section-title">1. Project Description</h2>
-        {projectDescriptionParagraphs.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+        <h2 class="bcn-cia__h2 typography-heading-md">1. Project Description</h2>
+        {projectDescriptionParagraphs.map((p) => <p class="bcn-cia__p typography-body-md" set:html={p} />)}
       </section>
 
       <!-- ── 2. Methodology ── -->
       <section class="bcn-cia__sec stack" data-gap="sm" id="cia-methodology">
-        <h2 class="bcn-cia__h2 type-section-title">2. Methodology</h2>
-        {methodologyParagraphs.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+        <h2 class="bcn-cia__h2 typography-heading-md">2. Methodology</h2>
+        {methodologyParagraphs.map((p) => <p class="bcn-cia__p typography-body-md" set:html={p} />)}
         {datasetsReviewed.length > 0 && (
           <>
-            <h3 class="bcn-cia__h4 type-body">Datasets reviewed</h3>
-            <ul class="bcn-cia__list type-body">
+            <h3 class="bcn-cia__h4 typography-body-md">Datasets reviewed</h3>
+            <ul class="bcn-cia__list typography-body-md">
               {datasetsReviewed.map((d) => <li set:html={d} />)}
             </ul>
           </>
@@ -280,8 +280,8 @@ const tocEntries: TocEntry[] = [
 
       <!-- ── 3. Environmental characteristics ── -->
       <section class="bcn-cia__sec stack" data-gap="sm" id="cia-findings">
-        <h2 class="bcn-cia__h2 type-section-title">3. Environmental Characteristics</h2>
-        <p class="bcn-cia__p type-body">
+        <h2 class="bcn-cia__h2 typography-heading-md">3. Environmental Characteristics</h2>
+        <p class="bcn-cia__p typography-body-md">
           The following sections summarize findings for each resource area considered in this
           assessment. Each subsection presents <em>Findings</em> from the desktop review, followed by
           <em>Recommendations</em> for the additional study or actions to weigh in subsequent design
@@ -291,27 +291,27 @@ const tocEntries: TocEntry[] = [
 
       {resources.map((r, i) => (
         <section class="bcn-cia__sec bcn-cia__resource stack" data-gap="sm" id={r.id}>
-          <h3 class="bcn-cia__h3 type-card-title">
+          <h3 class="bcn-cia__h3 typography-title">
             <span class="bcn-cia__num">{r.number || `3.${i + 1}`}</span>
             {r.title}
           </h3>
 
           <div class="bcn-cia__resource-summary cluster" data-gap="sm">
-            <span class="bcn-cia__field-label type-body-small">Severity</span>
+            <span class="bcn-cia__field-label typography-body-sm">Severity</span>
             <span class="bcn-cia__risk cluster">
               <span class="bcn-cia__dot" style={`--_risk-dot:${r.riskHex}`} aria-hidden="true"></span>
               <EsaBadge variant={riskVariant(r.risk)} size="sm" value={riskLabel(r.risk)} />
             </span>
             {r.leadAgency && (
               <>
-                <span class="bcn-cia__field-label type-body-small">Lead agency</span>
-                <span class="type-body-small">{r.leadAgency}</span>
+                <span class="bcn-cia__field-label typography-body-sm">Lead agency</span>
+                <span class="typography-body-sm">{r.leadAgency}</span>
               </>
             )}
           </div>
 
-          <h4 class="bcn-cia__h4 type-body">Findings</h4>
-          {r.findings.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+          <h4 class="bcn-cia__h4 typography-body-md">Findings</h4>
+          {r.findings.map((p) => <p class="bcn-cia__p typography-body-md" set:html={p} />)}
 
           {r.aiNote && (
             <div class="bcn-cia__note">
@@ -321,21 +321,21 @@ const tocEntries: TocEntry[] = [
             </div>
           )}
 
-          <h4 class="bcn-cia__h4 type-body">Recommendations</h4>
-          {r.recommendations.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+          <h4 class="bcn-cia__h4 typography-body-md">Recommendations</h4>
+          {r.recommendations.map((p) => <p class="bcn-cia__p typography-body-md" set:html={p} />)}
         </section>
       ))}
 
       <!-- ── 4. Critical issues ── -->
       <section class="bcn-cia__sec stack" data-gap="sm" id="cia-critical">
-        <h2 class="bcn-cia__h2 type-section-title">4. Critical Issues &amp; Recommendations</h2>
+        <h2 class="bcn-cia__h2 typography-heading-md">4. Critical Issues &amp; Recommendations</h2>
         {summaryBullets.length > 0 && (
           <>
-            <p class="bcn-cia__p type-body">
+            <p class="bcn-cia__p typography-body-md">
               The results of the desktop resource evaluation are summarized below. Based on this
               review, the following critical issues have been identified for the Project:
             </p>
-            <ul class="bcn-cia__list type-body">
+            <ul class="bcn-cia__list typography-body-md">
               {summaryBullets.map((b) => <li set:html={b} />)}
             </ul>
           </>
@@ -343,21 +343,21 @@ const tocEntries: TocEntry[] = [
 
         {resourceSummaryRows.length > 0 && (
           <>
-            <h3 class="bcn-cia__h4 type-body">Resource summary</h3>
+            <h3 class="bcn-cia__h4 typography-body-md">Resource summary</h3>
             <div class="bcn-cia__table-scroll">
               <table class="bcn-cia__table">
                 <thead>
                   <tr>
-                    <th class="type-body-small" scope="col" style="width: 26%;">Resource</th>
-                    <th class="type-body-small" scope="col" style="width: 14%;">Severity</th>
-                    <th class="type-body-small" scope="col">Findings &amp; recommendations</th>
+                    <th class="typography-body-sm" scope="col" style="width: 26%;">Resource</th>
+                    <th class="typography-body-sm" scope="col" style="width: 14%;">Severity</th>
+                    <th class="typography-body-sm" scope="col">Findings &amp; recommendations</th>
                   </tr>
                 </thead>
                 <tbody>
                   {resourceSummaryRows.map((row) => (
                     <tr>
-                      <th class="bcn-cia__row-head type-body-small" scope="row" set:html={row.name} />
-                      <td class="type-body-small">
+                      <th class="bcn-cia__row-head typography-body-sm" scope="row" set:html={row.name} />
+                      <td class="typography-body-sm">
                         <span class="bcn-cia__risk cluster">
                           <span
                             class="bcn-cia__dot"
@@ -367,7 +367,7 @@ const tocEntries: TocEntry[] = [
                           <EsaBadge variant={riskVariant(row.risk)} size="sm" value={riskLabel(row.risk)} />
                         </span>
                       </td>
-                      <td class="type-body-small" set:html={row.note} />
+                      <td class="typography-body-sm" set:html={row.note} />
                     </tr>
                   ))}
                 </tbody>
@@ -376,13 +376,13 @@ const tocEntries: TocEntry[] = [
           </>
         )}
 
-        {criticalIssuesNarrative.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+        {criticalIssuesNarrative.map((p) => <p class="bcn-cia__p typography-body-md" set:html={p} />)}
       </section>
 
       <!-- ── 5. Permit & approval matrix ── -->
       <section class="bcn-cia__sec stack" data-gap="sm" id="cia-permits">
-        <h2 class="bcn-cia__h2 type-section-title">5. Permit &amp; Approval Matrix</h2>
-        <p class="bcn-cia__p type-body">
+        <h2 class="bcn-cia__h2 typography-heading-md">5. Permit &amp; Approval Matrix</h2>
+        <p class="bcn-cia__p typography-body-md">
           The table below summarizes the environmental permits and approvals that may be required by
           local, State, and Federal agencies based on this desktop review. Not all permits listed
           will be required; conversely, other permits not listed may become necessary as the Project
@@ -393,24 +393,24 @@ const tocEntries: TocEntry[] = [
           <table class="bcn-cia__table">
             <thead>
               <tr>
-                <th class="type-body-small" scope="col" style="width: 20%;">Agency</th>
-                <th class="type-body-small" scope="col" style="width: 20%;">Permit / approval</th>
-                <th class="type-body-small" scope="col">Requirement</th>
-                <th class="type-body-small" scope="col" style="width: 11rem;">Applicable?</th>
-                {hasReviewStatus && <th class="type-body-small" scope="col" style="width: 9rem;">Review status</th>}
-                <th class="type-body-small" scope="col" style="width: 20%;">Comments</th>
+                <th class="typography-body-sm" scope="col" style="width: 20%;">Agency</th>
+                <th class="typography-body-sm" scope="col" style="width: 20%;">Permit / approval</th>
+                <th class="typography-body-sm" scope="col">Requirement</th>
+                <th class="typography-body-sm" scope="col" style="width: 11rem;">Applicable?</th>
+                {hasReviewStatus && <th class="typography-body-sm" scope="col" style="width: 9rem;">Review status</th>}
+                <th class="typography-body-sm" scope="col" style="width: 20%;">Comments</th>
               </tr>
             </thead>
             <tbody>
               {permits.map((p) => (
                 <tr>
-                  <th class="bcn-cia__row-head type-body-small" scope="row">
+                  <th class="bcn-cia__row-head typography-body-sm" scope="row">
                     <span class="bcn-cia__agency">{p.agency}</span>
-                    <span class="bcn-cia__agency-level type-body-small">{p.level}</span>
+                    <span class="bcn-cia__agency-level typography-body-sm">{p.level}</span>
                   </th>
-                  <td class="type-body-small">{p.name}</td>
-                  <td class="type-body-small" set:html={p.requirement} />
-                  <td class="type-body-small">
+                  <td class="typography-body-sm">{p.name}</td>
+                  <td class="typography-body-sm" set:html={p.requirement} />
+                  <td class="typography-body-sm">
                     <EsaBadge
                       variant={TONE_VARIANT[p.applicabilityTone] ?? 'secondary'}
                       size="sm"
@@ -418,7 +418,7 @@ const tocEntries: TocEntry[] = [
                     />
                   </td>
                   {hasReviewStatus && (
-                    <td class="type-body-small">
+                    <td class="typography-body-sm">
                       {p.reviewStatusLabel && (
                         <EsaBadge
                           variant={p.reviewStatusLabel === 'Confirmed' ? 'success' : 'secondary'}
@@ -428,14 +428,14 @@ const tocEntries: TocEntry[] = [
                       )}
                     </td>
                   )}
-                  <td class="bcn-cia__muted type-body-small" set:html={p.notes} />
+                  <td class="bcn-cia__muted typography-body-sm" set:html={p.notes} />
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         {liveMatrixHref && (
-          <p class="bcn-cia__muted type-body-small">
+          <p class="bcn-cia__muted typography-body-sm">
             See the <a class="bcn-cia__link" href={liveMatrixHref}>live permit matrix</a> for filters
             and Excel export.
           </p>
@@ -444,14 +444,14 @@ const tocEntries: TocEntry[] = [
 
       <!-- ── 6. Limitations ── -->
       <section class="bcn-cia__sec stack" data-gap="sm" id="cia-limitations">
-        <h2 class="bcn-cia__h2 type-section-title">6. Limitations</h2>
-        <p class="bcn-cia__p type-body">
+        <h2 class="bcn-cia__h2 typography-heading-md">6. Limitations</h2>
+        <p class="bcn-cia__p typography-body-md">
           As noted throughout this report, the assessment of potential issues was limited to publicly
           available desktop information. No onsite surveys or other fieldwork were conducted, and no
           formal coordination or consultation with agencies was undertaken. The conclusions rely on
           the accuracy of the public data currently available.
         </p>
-        <p class="bcn-cia__p type-body">
+        <p class="bcn-cia__p typography-body-md">
           Not all CEQA resources were covered. This assessment evaluates the resource areas most
           likely to drive critical permits or affect scope, schedule, or cost — not the full Appendix
           G inventory. Coverage is summarized below.
@@ -459,14 +459,14 @@ const tocEntries: TocEntry[] = [
         <div class="bcn-cia__limitations grid" data-gap="md">
           {limitations.map((g) => (
             <div class="bcn-cia__limitation stack" data-gap="xs">
-              <p class="bcn-cia__h4 type-body">{g.covered}</p>
-              <ul class="bcn-cia__list type-body">
+              <p class="bcn-cia__h4 typography-body-md">{g.covered}</p>
+              <ul class="bcn-cia__list typography-body-md">
                 {g.items.map((i) => <li set:html={i} />)}
               </ul>
             </div>
           ))}
         </div>
-        <p class="bcn-cia__p type-body">
+        <p class="bcn-cia__p typography-body-md">
           Resources deferred to the CEQA stage will be addressed in the Initial Study or
           Environmental Impact Report prepared during the Planning &amp; Permitting phase.
         </p>
@@ -474,16 +474,16 @@ const tocEntries: TocEntry[] = [
 
       <!-- ── 7. References ── -->
       <section class="bcn-cia__sec stack" data-gap="sm" id="cia-references">
-        <h2 class="bcn-cia__h2 type-section-title">7. References</h2>
-        <ul class="bcn-cia__list type-body">
+        <h2 class="bcn-cia__h2 typography-heading-md">7. References</h2>
+        <ul class="bcn-cia__list typography-body-md">
           {references.map((r) => <li set:html={r} />)}
         </ul>
       </section>
 
       <!-- ── Figures & appendices ── -->
       <section class="bcn-cia__sec stack" data-gap="sm" id="cia-figures">
-        <h2 class="bcn-cia__h2 type-section-title">Figures &amp; Appendices</h2>
-        <ul class="bcn-cia__list type-body">
+        <h2 class="bcn-cia__h2 typography-heading-md">Figures &amp; Appendices</h2>
+        <ul class="bcn-cia__list typography-body-md">
           {figures.map((f) => <li set:html={f} />)}
         </ul>
       </section>
@@ -550,7 +550,7 @@ const tocEntries: TocEntry[] = [
     display: flex;
     flex-direction: column;
     gap: var(--spacing-400);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* ── Document utilities ── */
@@ -558,7 +558,7 @@ const tocEntries: TocEntry[] = [
     --align: center;
   }
   .bcn-cia__utilities-note {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     max-width: 56ch;
   }
 
@@ -574,15 +574,15 @@ const tocEntries: TocEntry[] = [
   .bcn-cia__toc {
     position: sticky;
     top: var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     padding: var(--spacing-300);
     max-height: calc(100vh - 8rem);
     overflow-y: auto;
   }
   .bcn-cia__toc-heading {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     font-weight: var(--typography-font-weight-semibold);
     padding: 0 var(--spacing-200) var(--spacing-200);
   }
@@ -597,16 +597,16 @@ const tocEntries: TocEntry[] = [
     gap: var(--spacing-200);
     padding: var(--spacing-150) var(--spacing-200);
     border-radius: var(--radius-100);
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     text-decoration: none;
   }
   .bcn-cia__toc-link:hover {
-    background: var(--color-surface-sunken);
-    color: var(--color-text-primary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default);
   }
   .bcn-cia__toc-link.is-active {
-    background: var(--color-primary-subtle);
-    color: var(--color-primary);
+    background: var(--color-background-brand-subtle);
+    color: var(--color-background-brand);
     font-weight: var(--typography-font-weight-semibold);
   }
   .bcn-cia__toc-item[data-level='2'] .bcn-cia__toc-link {
@@ -623,21 +623,21 @@ const tocEntries: TocEntry[] = [
     width: 0.5rem;
     height: 0.5rem;
     border-radius: var(--radius-full);
-    background: var(--_risk-dot, var(--color-text-muted));
+    background: var(--_risk-dot, var(--bcn-content-muted));
     align-self: center;
   }
 
   /* ── Document surface ── */
   .bcn-cia__doc {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     padding: var(--spacing-650) var(--spacing-700);
     min-width: 0;
   }
 
   .bcn-cia__masthead {
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
     padding-bottom: var(--spacing-400);
   }
   /* The report voice: Beacon's designated document/serif face, used for the
@@ -645,10 +645,10 @@ const tocEntries: TocEntry[] = [
   .bcn-cia__h1,
   .bcn-cia__h2 {
     font-family: var(--font-decorative);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-cia__subtitle {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-cia__meta {
     display: grid;
@@ -657,12 +657,12 @@ const tocEntries: TocEntry[] = [
     margin-top: var(--spacing-200);
   }
   .bcn-cia__meta-term {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     font-weight: var(--typography-font-weight-medium);
   }
   .bcn-cia__meta-def {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   .bcn-cia__sec {
@@ -671,26 +671,26 @@ const tocEntries: TocEntry[] = [
   }
   .bcn-cia__h2 {
     padding-bottom: var(--spacing-200);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
   }
   .bcn-cia__h3 {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     margin-top: var(--spacing-200);
   }
   .bcn-cia__num {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     margin-right: var(--spacing-250);
   }
   /* Findings / Recommendations / Summary-of-findings. A label is content, not
      decoration — normal case, body size, weight does the work. */
   .bcn-cia__h4 {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     font-weight: var(--typography-font-weight-semibold);
     margin-top: var(--spacing-200);
   }
   .bcn-cia__p {
     line-height: 1.65;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-cia__list {
     margin: 0;
@@ -701,21 +701,21 @@ const tocEntries: TocEntry[] = [
     gap: var(--spacing-150);
   }
   .bcn-cia__muted {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-cia__link {
-    color: var(--color-primary);
+    color: var(--color-background-brand);
   }
 
   /* ── Per-resource severity strip ── */
   .bcn-cia__resource-summary {
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border-light);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-100);
     padding: var(--spacing-250) var(--spacing-300);
   }
   .bcn-cia__field-label {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     font-weight: var(--typography-font-weight-medium);
   }
   .bcn-cia__risk {
@@ -740,26 +740,26 @@ const tocEntries: TocEntry[] = [
     text-align: left;
     vertical-align: top;
     padding: var(--spacing-250) var(--spacing-300);
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
     line-height: 1.55;
   }
   .bcn-cia__table thead th {
-    background: var(--color-surface-sunken);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
     font-weight: var(--typography-font-weight-semibold);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
     white-space: nowrap;
   }
   .bcn-cia__row-head {
     font-weight: var(--typography-font-weight-semibold);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-cia__agency {
     display: block;
   }
   .bcn-cia__agency-level {
     display: block;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     font-weight: var(--typography-font-weight-regular);
   }
 

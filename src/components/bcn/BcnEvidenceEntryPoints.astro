@@ -38,8 +38,8 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
 
 <section class="bcn-ev-entries stack" data-gap="md" aria-labelledby="bcn-ev-entries-title">
   <div class="bcn-ev-entries__intro">
-    <h2 class="type-section-title" id="bcn-ev-entries-title">Four ways in</h2>
-    <p class="type-body bcn-ev-entries__lede">
+    <h2 class="typography-heading-md" id="bcn-ev-entries-title">Four ways in</h2>
+    <p class="typography-body-md bcn-ev-entries__lede">
       The drawer is the same workspace every time. What changes is what is already on it when it
       opens. Try each one — then close it and open it from the Attach Evidence of Compliance button in the
       bottom bar.
@@ -50,17 +50,17 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
     <!-- 1 · Cold open -->
     <EsaCard variant="outlined">
       <div class="bcn-ev-entry">
-        <h3 class="type-card-title">{preset('cold').label}</h3>
-        <p class="type-body-small bcn-ev-entry__blurb">{preset('cold').blurb}</p>
+        <h3 class="typography-title">{preset('cold').label}</h3>
+        <p class="typography-body-sm bcn-ev-entry__blurb">{preset('cold').blurb}</p>
         <div class="bcn-ev-entry__demo bcn-ev-entry__demo--quiet">
-          <p class="type-body-small">
+          <p class="typography-body-sm">
             The Attach Evidence of Compliance button sits in the floating bar at the bottom of every page,
             where Search used to be.
           </p>
         </div>
         <div class="bcn-ev-entry__act">
           <span data-evidence-open="cold">
-            <EsaButton color="primary" size="md">Open the drawer</EsaButton>
+            <EsaButton variant="primary" size="md">Open the drawer</EsaButton>
           </span>
         </div>
       </div>
@@ -69,20 +69,20 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
     <!-- 2 · From a single action -->
     <EsaCard variant="outlined">
       <div class="bcn-ev-entry">
-        <h3 class="type-card-title">{preset('single-action').label}</h3>
-        <p class="type-body-small bcn-ev-entry__blurb">{preset('single-action').blurb}</p>
+        <h3 class="typography-title">{preset('single-action').label}</h3>
+        <p class="typography-body-sm bcn-ev-entry__blurb">{preset('single-action').blurb}</p>
         <div class="bcn-ev-entry__demo">
-          <p class="bcn-ev-entry__mocklabel type-caption">An open action</p>
+          <p class="bcn-ev-entry__mocklabel typography-meta">An open action</p>
           <p class="bcn-ev-entry__mocktitle">
             <BcnCommitmentBadge code={single.code} size="sm" />
             <span>{single.name}</span>
           </p>
-          <p class="type-body-small bcn-ev-entry__mockmeta">
+          <p class="typography-body-sm bcn-ev-entry__mockmeta">
             {FREQUENCY_LABEL[single.frequency]} · {single.period}
           </p>
           <div class="bcn-ev-entry__mockact">
             <span data-evidence-open="single-action">
-              <EsaButton color="ghost" appearance="outline" size="sm">Add evidence</EsaButton>
+              <EsaButton variant="ghost" appearance="outline" size="sm">Add evidence</EsaButton>
             </span>
           </div>
         </div>
@@ -92,10 +92,10 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
     <!-- 3 · Bulk -->
     <EsaCard variant="outlined">
       <div class="bcn-ev-entry">
-        <h3 class="type-card-title">{preset('bulk').label}</h3>
-        <p class="type-body-small bcn-ev-entry__blurb">{preset('bulk').blurb}</p>
+        <h3 class="typography-title">{preset('bulk').label}</h3>
+        <p class="typography-body-sm bcn-ev-entry__blurb">{preset('bulk').blurb}</p>
         <div class="bcn-ev-entry__demo">
-          <p class="bcn-ev-entry__mocklabel type-caption">An action list, four selected</p>
+          <p class="bcn-ev-entry__mocklabel typography-meta">An action list, four selected</p>
           <ul class="bcn-ev-entry__rows">
             {bulkRows.map((a) => (
               <li class="bcn-ev-entry__row">
@@ -109,7 +109,7 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
           </ul>
           <div class="bcn-ev-entry__mockact">
             <span data-evidence-open="bulk">
-              <EsaButton color="ghost" appearance="outline" size="sm">
+              <EsaButton variant="ghost" appearance="outline" size="sm">
                 Add evidence to {bulkRows.length} actions
               </EsaButton>
             </span>
@@ -121,17 +121,17 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
     <!-- 4 · Existing evidence -->
     <EsaCard variant="outlined">
       <div class="bcn-ev-entry">
-        <h3 class="type-card-title">{preset('existing').label}</h3>
-        <p class="type-body-small bcn-ev-entry__blurb">{preset('existing').blurb}</p>
+        <h3 class="typography-title">{preset('existing').label}</h3>
+        <p class="typography-body-sm bcn-ev-entry__blurb">{preset('existing').blurb}</p>
         <div class="bcn-ev-entry__demo bcn-ev-entry__demo--quiet">
-          <p class="type-body-small">
+          <p class="typography-body-sm">
             Andrew raised this as a real need: the evidence table is already long, and it grows
             every day the monitoring portal runs.
           </p>
         </div>
         <div class="bcn-ev-entry__act">
           <span data-evidence-open="existing">
-            <EsaButton color="ghost" appearance="outline" size="md">Open on existing evidence</EsaButton>
+            <EsaButton variant="ghost" appearance="outline" size="md">Open on existing evidence</EsaButton>
           </span>
         </div>
       </div>
@@ -143,7 +143,7 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
   .bcn-ev-entries__lede {
     margin: var(--spacing-200) 0 0;
     max-width: 78ch;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-ev-entries__grid {
     display: grid;
@@ -160,7 +160,7 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
   }
   .bcn-ev-entry__blurb {
     margin: 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* The mocked fragment of the surface this entry comes from. Sunken so it reads as a
@@ -168,33 +168,33 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
   .bcn-ev-entry__demo {
     margin-top: auto;
     padding: var(--spacing-300);
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-200);
-    background: var(--color-background);
+    background: var(--color-background-default);
   }
   .bcn-ev-entry__demo--quiet {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-ev-entry__demo--quiet p {
     margin: 0;
   }
   .bcn-ev-entry__mocklabel {
     margin: 0 0 var(--spacing-200);
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-ev-entry__mocktitle {
     display: flex;
     align-items: baseline;
     gap: var(--spacing-200);
     margin: 0;
-    font-size: var(--type-size-200, 0.9375rem);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-200, 0.9375rem);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.35;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-ev-entry__mockmeta {
     margin: 2px 0 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-ev-entry__mockact {
     margin-top: var(--spacing-300);
@@ -213,8 +213,8 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
     align-items: center;
     gap: var(--spacing-200);
     min-width: 0;
-    font-size: var(--type-size-150, 0.875rem);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150, 0.875rem);
+    color: var(--color-content-default);
   }
   /* A checked box, drawn rather than interactive — this is a picture of another screen. */
   .bcn-ev-entry__check {
@@ -225,8 +225,8 @@ const preset = (id: string) => ENTRY_PRESETS.find((p) => p.id === id)!;
     width: 16px;
     height: 16px;
     border-radius: var(--radius-100);
-    background: var(--color-primary);
-    color: var(--color-text-inverse);
+    background: var(--color-background-brand);
+    color: var(--color-content-default-knockout);
   }
   .bcn-ev-entry__rowname {
     min-width: 0;

@@ -208,7 +208,7 @@ const payload = { columns, rows, hasBadges };
 
   /* The first column leads the row — same weight the table's lead cell carried. */
   .bcn-settings-grid :global(.bcn-settings-grid__lead) {
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
   }
 
   /* Quiet badge: neutral surface, secondary ink, the 4px radius the settings chrome
@@ -217,10 +217,10 @@ const payload = { columns, rows, hasBadges };
     display: inline-block;
     padding: 2px var(--spacing-150);
     border-radius: var(--radius-100);
-    background: var(--color-surface-sunken);
-    color: var(--color-text-secondary);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-medium);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-medium);
     line-height: 1.4;
   }
 

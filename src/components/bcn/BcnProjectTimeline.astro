@@ -499,13 +499,13 @@ const payload = { today: TODAY, actions, milestones, seasons };
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-100);
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
     text-decoration: none;
     white-space: nowrap;
   }
-  .bcn-tl__full:hover { color: var(--color-primary-hover); }
+  .bcn-tl__full:hover { color: var(--color-background-brand-hover); }
 
   .bcn-tl {
     position: relative;
@@ -524,8 +524,8 @@ const payload = { today: TODAY, actions, milestones, seasons };
   .bcn-tl__row--more { margin-top: calc(var(--spacing-250) * -1); }
   .bcn-tl__lane-label {
     font-size: 0.8125rem; /* 13px — meta floor */
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-tl__track {
@@ -542,7 +542,7 @@ const payload = { today: TODAY, actions, milestones, seasons };
     right: 0;
     top: 50%;
     height: 1px;
-    background: var(--color-border);
+    background: var(--color-border-default);
   }
 
   .bcn-tl__today {
@@ -559,7 +559,7 @@ const payload = { today: TODAY, actions, milestones, seasons };
     top: -2px;
     left: 4px;
     font-size: 0.75rem;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-orange-400, #f9a134);
   }
 
@@ -568,18 +568,18 @@ const payload = { today: TODAY, actions, milestones, seasons };
     padding: 0;
     font-family: inherit;
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
     background: none;
     border: 0;
     cursor: pointer;
   }
-  .bcn-tl__showall:hover { color: var(--color-primary-hover); }
+  .bcn-tl__showall:hover { color: var(--color-background-brand-hover); }
 
   .bcn-tl__empty {
     margin: 0;
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
   }
 
   /* ── JS-INJECTED NODES ──
@@ -591,7 +591,7 @@ const payload = { today: TODAY, actions, milestones, seasons };
     top: 2px;
     transform: translateX(-50%);
     font-size: 0.75rem;
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
     white-space: nowrap;
   }
 
@@ -613,10 +613,10 @@ const payload = { today: TODAY, actions, milestones, seasons };
   }
   .bcn-tl :global(.bcn-tl__item:hover),
   .bcn-tl :global(.bcn-tl__item[data-pinned]) {
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--color-background-brand) 10%, transparent);
   }
   .bcn-tl :global(.bcn-tl__item:focus-visible) {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-background-brand);
     outline-offset: -2px;
   }
 
@@ -625,16 +625,16 @@ const payload = { today: TODAY, actions, milestones, seasons };
     width: 11px;
     height: 11px;
     border-radius: var(--radius-full);
-    background: var(--color-border-strong);
-    border: 2px solid var(--color-surface);
-    box-shadow: 0 0 0 1px var(--color-border);
+    background: var(--color-border-default-strong);
+    border: 2px solid var(--color-background-elevation-raised);
+    box-shadow: 0 0 0 1px var(--color-border-default);
   }
   .bcn-tl :global([data-urgency='overdue'] .bcn-tl__dot) {
-    background: var(--color-danger);
+    background: var(--color-background-utility-danger);
     box-shadow: none;
   }
   .bcn-tl :global([data-urgency='due-soon'] .bcn-tl__dot) {
-    background: var(--color-warning);
+    background: var(--color-background-utility-warning);
     box-shadow: none;
   }
 
@@ -644,7 +644,7 @@ const payload = { today: TODAY, actions, milestones, seasons };
     display: block;
     width: 11px;
     height: 11px;
-    background: var(--color-info);
+    background: var(--color-background-utility-info);
     transform: rotate(45deg);
   }
 
@@ -656,8 +656,8 @@ const payload = { today: TODAY, actions, milestones, seasons };
     align-items: center;
     gap: var(--spacing-200);
     padding: 0 var(--spacing-150);
-    background: color-mix(in srgb, var(--color-secondary) 16%, var(--color-surface));
-    border: 1px solid color-mix(in srgb, var(--color-secondary) 40%, var(--color-surface));
+    background: color-mix(in srgb, var(--color-background-brand-muted) 16%, var(--color-background-elevation-raised));
+    border: 1px solid color-mix(in srgb, var(--color-background-brand-muted) 40%, var(--color-background-elevation-raised));
     border-radius: var(--radius-100);
     overflow: hidden;
     cursor: pointer;
@@ -665,12 +665,12 @@ const payload = { today: TODAY, actions, milestones, seasons };
   }
   .bcn-tl :global(.bcn-tl__bar:hover),
   .bcn-tl :global(.bcn-tl__bar[data-pinned]) {
-    background: color-mix(in srgb, var(--color-secondary) 26%, var(--color-surface));
+    background: color-mix(in srgb, var(--color-background-brand-muted) 26%, var(--color-background-elevation-raised));
   }
   .bcn-tl :global(.bcn-tl__bar-label) {
     font-size: 0.75rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--bcn-teal-800, var(--color-secondary-hover));
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--bcn-teal-800, var(--color-background-brand-muted-hover));
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -678,7 +678,7 @@ const payload = { today: TODAY, actions, milestones, seasons };
   .bcn-tl :global(.bcn-tl__bar-dates) {
     margin-left: auto;
     font-size: 0.75rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
 
@@ -694,10 +694,10 @@ const payload = { today: TODAY, actions, milestones, seasons };
     flex-direction: column;
     gap: var(--spacing-250);
     padding: var(--spacing-350, var(--spacing-300)) var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    box-shadow: var(--shadow-300, 0 8px 24px -6px rgba(0, 0, 0, 0.18));
+    box-shadow: var(--elevation-4, 0 8px 24px -6px rgba(0, 0, 0, 0.18));
   }
   :global(.bcn-tl__pop[hidden]) { display: none; }
 
@@ -708,15 +708,15 @@ const payload = { today: TODAY, actions, milestones, seasons };
   }
   :global(.bcn-tl__pop-type) {
     font-size: 0.75rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
     text-transform: capitalize;
   }
   :global(.bcn-tl__pop-title) {
     margin: 0;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: var(--line-height-tight);
   }
   :global(.bcn-tl__pop-facts) {
@@ -732,16 +732,16 @@ const payload = { today: TODAY, actions, milestones, seasons };
   }
   :global(.bcn-tl__pop-facts dt) {
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   :global(.bcn-tl__pop-facts dd) {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   :global(.bcn-tl__pop-late) {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-danger);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-utility-danger);
   }
   :global(.bcn-tl__pop-species) {
     display: flex;
@@ -751,24 +751,24 @@ const payload = { today: TODAY, actions, milestones, seasons };
   :global(.bcn-tl__pop-chip) {
     padding: 1px var(--spacing-200);
     font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border-light);
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-100);
   }
   :global(.bcn-tl__pop-link) {
     align-self: flex-start;
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
     text-decoration: none;
   }
   /* The popover's commitment badge is bcn-commitment-badge's markup, injected at
      runtime — restate it here since the badge component's scoped CSS can't reach it. */
   :global(.bcn-tl__pop .bcn-cbadge) {
     display: inline-block;
-    font-family: var(--font-mono);
-    font-weight: var(--font-weight-semibold);
+    font-family: var(--typography-font-family-mono);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
     border-radius: var(--radius-100);

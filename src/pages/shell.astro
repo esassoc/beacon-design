@@ -76,18 +76,18 @@ import AppShell from '../layouts/AppShell.astro';
   .demo__title {
     margin: 0;
     font-size: 1.75rem;
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-bold);
+    color: var(--color-content-default);
   }
   .demo__subtitle {
     margin: var(--spacing-100) 0 0;
     font-size: 0.9375rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .demo__count {
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .demo__grid {
     display: grid;
@@ -99,21 +99,21 @@ import AppShell from '../layouts/AppShell.astro';
     flex-direction: column;
     gap: var(--spacing-200);
     padding: var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--spacing-200);
   }
   .demo__card-title {
     margin: 0;
     font-size: 1.0625rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .demo__card-body {
     margin: 0;
     font-size: 0.9375rem;
     line-height: 1.5;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .demo__pill {
     align-self: flex-start;
@@ -128,15 +128,15 @@ import AppShell from '../layouts/AppShell.astro';
   }
   .demo__pill--in-progress {
     background: color-mix(in srgb, var(--bcn-status-in-progress) 18%, transparent);
-    color: var(--color-warning-strong, #b45309);
+    color: var(--color-content-utility-warning, #b45309);
   }
   .demo__pill--completed {
     background: var(--color-success-100);
-    color: var(--color-success-strong, #15803d);
+    color: var(--color-content-utility-success, #15803d);
   }
   .demo__filler {
     font-size: 0.9375rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     max-width: 60ch;
   }
 </style>

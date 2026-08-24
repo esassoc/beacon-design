@@ -33,20 +33,20 @@ const { commitment } = Astro.props;
     align-items: center;
     gap: var(--spacing-250);
     padding: var(--spacing-200) var(--spacing-300);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     cursor: pointer;
     transition: border-color 150ms ease, background 150ms ease;
   }
-  .bcn-crow:hover { border-color: var(--color-border-strong); background: var(--color-surface-sunken); }
-  .bcn-crow:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+  .bcn-crow:hover { border-color: var(--color-border-default-strong); background: var(--color-background-elevation-sunken); }
+  .bcn-crow:focus-visible { outline: 2px solid var(--color-background-brand); outline-offset: 2px; }
 
   .bcn-crow__code {
     flex-shrink: 0;
-    font-family: var(--font-mono);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
+    font-family: var(--typography-font-family-mono);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
     padding: 1px var(--spacing-200);
@@ -55,13 +55,13 @@ const { commitment } = Astro.props;
   .bcn-crow__title {
     flex: 1;
     min-width: 0;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .bcn-crow__open { flex-shrink: 0; display: inline-flex; color: var(--color-text-tertiary); }
-  .bcn-crow:hover .bcn-crow__open { color: var(--color-secondary); }
+  .bcn-crow__open { flex-shrink: 0; display: inline-flex; color: var(--color-content-default-tertiary); }
+  .bcn-crow:hover .bcn-crow__open { color: var(--color-background-brand-muted); }
 </style>

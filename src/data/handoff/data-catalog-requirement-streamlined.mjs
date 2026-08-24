@@ -84,14 +84,14 @@ export default {
         'One connected lineage spine leading the rail: the entity chain this requirement descends from — Project → Source Document → Commitment → this Requirement — on a single line with one circular-icon treatment. It places the merged record in the catalog hierarchy and doubles as upward navigation to its provenance.',
       decisions: [
         'A single <ol> renders all four nodes so they share the connecting line + circular icon chips — it must read as ONE spine, ported verbatim from the standard twin (data-catalog-requirement.astro) so the two workflows stay visually parallel.',
-        'The CURRENT node (this Requirement) gets the secondary-ring accent (border + text in --color-secondary) and a non-link name; ancestry nodes are links in the brand link color.',
+        'The CURRENT node (this Requirement) gets the secondary-ring accent (border + text in --color-background-brand-muted) and a non-link name; ancestry nodes are links in the brand link color.',
         'Each node shows a "kind" caption (Project / Source Document / Commitment / Requirement) above the entity name. The Commitment node names both id and title (MM-BIO-2 — Nesting Birds and Raptors).',
         'Lineage LEADS the rail (above Details / Timing / Notifications) — provenance first, config second. It replaced the removed "Track this Requirement" jump-off as the rail\'s opening module.',
       ],
       gotchas: [
         'The connecting line is a ::before on each node, hidden on :last-child — keep all nodes in the one <ol> or the line breaks.',
         'This is composition glue shared across the catalog detail family (requirement / commitment / source-document), not an esa-* lego — the lego lookup found no ancestry-spine component. If Angular already has an entity-breadcrumb/lineage control, reuse it; otherwise this is a promotion candidate.',
-        'The current-node ring is --color-secondary here (the requirement family), whereas the source-document page fills the current dot with --color-primary — keep each page\'s family accent.',
+        'The current-node ring is --color-background-brand-muted here (the requirement family), whereas the source-document page fills the current dot with --color-background-brand — keep each page\'s family accent.',
       ],
       acceptance: [
         'One unbroken spine Project → Source Document → Commitment → Requirement, the Requirement node carrying the secondary ring and a non-link name; ancestry names link to their catalog targets.',

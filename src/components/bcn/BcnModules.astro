@@ -172,14 +172,14 @@ const cards = modules.map((m) => {
     flex-direction: column;
     gap: var(--spacing-300);
     padding: var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
     transition: border-color 150ms ease, box-shadow 150ms ease;
   }
   .bcn-mod__card:hover {
-    border-color: var(--color-border-strong);
-    box-shadow: var(--shadow-50, 0 1px 4px 0 rgba(0, 0, 0, 0.05));
+    border-color: var(--color-border-default-strong);
+    box-shadow: var(--elevation-1, 0 1px 4px 0 rgba(0, 0, 0, 0.05));
   }
   .bcn-mod__portal {
     position: absolute;
@@ -187,7 +187,7 @@ const cards = modules.map((m) => {
     border-radius: var(--radius-300);
   }
   .bcn-mod__portal:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-background-brand);
     outline-offset: -2px;
   }
 
@@ -200,13 +200,13 @@ const cards = modules.map((m) => {
     height: 34px;
     flex-shrink: 0;
     border-radius: var(--radius-200);
-    background: var(--color-surface-sunken);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
   }
   .bcn-mod__name {
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
 
   .bcn-mod__rollup {
@@ -214,10 +214,10 @@ const cards = modules.map((m) => {
     flex-wrap: wrap;
     gap: var(--spacing-300) var(--spacing-500);
     padding-bottom: var(--spacing-300);
-    border-bottom: 1px solid var(--color-border-light);
-    --stat-value-size: var(--type-size-400);
-    --stat-label-size: var(--type-size-150);
-    --stat-label-color: var(--color-text-tertiary);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+    --stat-value-size: var(--font-size-400);
+    --stat-label-size: var(--font-size-150);
+    --stat-label-color: var(--color-content-default-tertiary);
   }
 
   /* The module's urgent ACTIONS — each row is the "red/yellow circle that
@@ -244,24 +244,24 @@ const cards = modules.map((m) => {
     height: 9px;
     margin-top: 5px;
     border-radius: var(--radius-full);
-    background: var(--color-border-strong);
+    background: var(--color-border-default-strong);
     flex-shrink: 0;
   }
-  [data-urgency='overdue'] .bcn-mod__dot { background: var(--color-danger); }
-  [data-urgency='due-soon'] .bcn-mod__dot { background: var(--color-warning); }
+  [data-urgency='overdue'] .bcn-mod__dot { background: var(--color-background-utility-danger); }
+  [data-urgency='due-soon'] .bcn-mod__dot { background: var(--color-background-utility-warning); }
 
   .bcn-mod__action-body { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
   .bcn-mod__action-name {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
     line-height: var(--line-height-tight);
   }
-  .bcn-mod__action:hover .bcn-mod__action-name { color: var(--color-primary); }
+  .bcn-mod__action:hover .bcn-mod__action-name { color: var(--color-background-brand); }
   .bcn-mod__action-name :global(.bcn-cbadge) { margin-right: var(--spacing-150); }
   .bcn-mod__action-meta {
     font-size: 0.8125rem; /* 13px — meta floor */
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -271,11 +271,11 @@ const cards = modules.map((m) => {
     position: relative;
     z-index: 1;
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
     text-decoration: none;
   }
-  .bcn-mod__more:hover { color: var(--color-primary); }
+  .bcn-mod__more:hover { color: var(--color-background-brand); }
 
   /* Named sub-surfaces — quiet links riding above the portal. */
   .bcn-mod__links {
@@ -285,7 +285,7 @@ const cards = modules.map((m) => {
     flex-direction: column;
     gap: var(--spacing-100);
     padding-top: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-mod__link {
     display: inline-flex;
@@ -293,12 +293,12 @@ const cards = modules.map((m) => {
     gap: var(--spacing-100);
     align-self: flex-start;
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
     text-decoration: none;
   }
-  .bcn-mod__link:hover { color: var(--color-primary); }
-  .bcn-mod__link :global(.esa-icon) { color: var(--color-text-muted); }
+  .bcn-mod__link:hover { color: var(--color-background-brand); }
+  .bcn-mod__link :global(.esa-icon) { color: var(--bcn-content-muted); }
 
   .bcn-mod__open {
     display: inline-flex;
@@ -306,9 +306,9 @@ const cards = modules.map((m) => {
     gap: var(--spacing-100);
     margin-top: auto;
     padding-top: var(--spacing-200);
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
   }
-  .bcn-mod__card:hover .bcn-mod__open { color: var(--color-primary-hover); }
+  .bcn-mod__card:hover .bcn-mod__open { color: var(--color-background-brand-hover); }
 </style>

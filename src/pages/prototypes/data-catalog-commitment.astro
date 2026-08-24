@@ -32,7 +32,7 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaPill from '@esa/ecology/esa-pill.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
-import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import EsaIconLink from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import FilterContainer from '@esa/ecology/esa-filter-container.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
@@ -199,7 +199,7 @@ const editPayload = {
           </div>
         </div>
         <div class="bcn-cmt__head-actions">
-          <span id="edit-cmt"><EsaButton color="primary" size="sm"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit commitment</span></EsaButton></span>
+          <span id="edit-cmt"><EsaButton variant="primary" size="sm"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit commitment</span></EsaButton></span>
         </div>
       </header>
 
@@ -215,7 +215,7 @@ const editPayload = {
                 ))}
               </ul>
               <footer class="bcn-cmttext__footer">
-                <span data-bcn-source><EsaButton color="ghost" size="sm" icon="file-text">View in Source Document</EsaButton></span>
+                <span data-bcn-source><EsaButton variant="ghost" size="sm" icon="file-text">View in Source Document</EsaButton></span>
               </footer>
             </article>
           </section>
@@ -224,7 +224,7 @@ const editPayload = {
           <section class="bcn-cmt__section">
             <header class="bcn-cmt__section-head">
               <h2 class="bcn-section-title">Requirements <span class="bcn-count-neutral"><EsaBadge size="sm" value={requirementsTotal} /></span></h2>
-              <EsaIconLink href="#add-requirement" icon="plus" size="sm" weight="medium">Add requirement</EsaIconLink>
+              <EsaIconLink variant="chrome" href="#add-requirement" icon="plus" size="sm">Add requirement</EsaIconLink>
             </header>
 
             <div class="bcn-reqfilters">
@@ -342,7 +342,7 @@ const editPayload = {
               ))}
             </ol>
             <div class="bcn-revs__add">
-              <span id="add-rev"><EsaButton color="ghost" appearance="outline"><span class="bcn-btn-ico"><EsaIcon name="plus" size="xs" />Add New Version</span></EsaButton></span>
+              <span id="add-rev"><EsaButton variant="ghost" appearance="outline"><span class="bcn-btn-ico"><EsaIcon name="plus" size="xs" />Add New Version</span></EsaButton></span>
             </div>
           </EsaCollapsible>
         </aside>
@@ -350,13 +350,13 @@ const editPayload = {
 
       <!-- Danger zone — GitHub layout; opens a simple confirm, matching prod. -->
       <BcnDangerZone title="Delete this commitment" description="Deleting this commitment also deletes all requirements and actions defined under it. This action cannot be undone.">
-        <span id="delete-cmt"><EsaButton color="danger" appearance="soft">Delete commitment</EsaButton></span>
+        <span id="delete-cmt"><EsaButton variant="danger" appearance="soft">Delete commitment</EsaButton></span>
       </BcnDangerZone>
     </div>
   </PageLayout>
 
   <!-- ═══ Edit Commitment MODAL — single-column form (prod field set). ═══ -->
-  <esa-dialog id="edit-dialog" heading="Edit Commitment" style="--_dialog-width: 760px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
+  <esa-dialog id="edit-dialog" heading="Edit Commitment" style="--_dialog-width: 760px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-background-elevation-raised, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
     <div class="bcn-form bcn-form--dialog">
       <esa-text-field id="c-title" label="Title" required></esa-text-field>
       <div class="bcn-grid-2">
@@ -372,13 +372,13 @@ const editPayload = {
       <esa-textarea id="c-text" label="Full Commitment Text" rows="10"></esa-textarea>
     </div>
     <div slot="footer" class="bcn-editor__foot">
-      <span id="ec-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-      <span id="ec-save"><EsaButton color="primary">Save</EsaButton></span>
+      <span id="ec-cancel"><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="ec-save"><EsaButton variant="primary">Save</EsaButton></span>
     </div>
   </esa-dialog>
 
   <!-- ═══ Add New Version MODAL — prod create-version field set (with file upload). ═══ -->
-  <esa-dialog id="rev-add-dialog" heading="Add New Version" style="--_dialog-width: 640px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
+  <esa-dialog id="rev-add-dialog" heading="Add New Version" style="--_dialog-width: 640px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-background-elevation-raised, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
     <div class="bcn-form bcn-form--dialog">
       <esa-text-field id="rv-originator" label="Originator of Change" required></esa-text-field>
       <esa-date-picker id="rv-effective" label="Effective Date"></esa-date-picker>
@@ -389,31 +389,31 @@ const editPayload = {
       </div>
     </div>
     <div slot="footer" class="bcn-editor__foot">
-      <span id="rv-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-      <span id="rv-save"><EsaButton color="primary">Add version</EsaButton></span>
+      <span id="rv-cancel"><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="rv-save"><EsaButton variant="primary">Add version</EsaButton></span>
     </div>
   </esa-dialog>
 
   <!-- ═══ Edit Version Metadata MODAL — prod edit-metadata field set (no upload). ═══ -->
-  <esa-dialog id="rev-edit-dialog" heading="Edit Version Metadata" style="--_dialog-width: 640px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
+  <esa-dialog id="rev-edit-dialog" heading="Edit Version Metadata" style="--_dialog-width: 640px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-background-elevation-raised, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
     <div class="bcn-form bcn-form--dialog">
       <esa-text-field id="re-originator" label="Originator of Change" required></esa-text-field>
       <esa-date-picker id="re-effective" label="Effective Date"></esa-date-picker>
       <esa-textarea id="re-summary" label="Summary of Change" rows="4" required></esa-textarea>
     </div>
     <div slot="footer" class="bcn-editor__foot">
-      <span id="re-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-      <span id="re-save"><EsaButton color="primary">Save</EsaButton></span>
+      <span id="re-cancel"><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="re-save"><EsaButton variant="primary">Save</EsaButton></span>
     </div>
   </esa-dialog>
 
   <!-- Source-document viewer. -->
-  <esa-side-dialog id="source-drawer" heading={SOURCE_DOCUMENT} size="lg" style="--_width: 66vw; --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);">
+  <esa-side-dialog id="source-drawer" heading={SOURCE_DOCUMENT} size="lg" style="--_width: 66vw; --z-modal: 1300; --z-modal-backdrop: 1250; --side-dialog-backdrop-filter: blur(4px);">
     <div class="bcn-source-pdf">
       <iframe class="bcn-source-pdf__frame" src={`${sourcePdf}#view=FitH&navpanes=0&pagemode=none`} title={`Source document — ${SOURCE_DOCUMENT} (sample)`}></iframe>
     </div>
     <span slot="footer" class="bcn-source-foot">
-      <EsaIconLink href={sourceDocHref} trailing="arrow-right" size="sm" weight="medium">Open Source Document</EsaIconLink>
+      <EsaIconLink variant="chrome" href={sourceDocHref} iconRight="arrow-right" size="sm">Open Source Document</EsaIconLink>
     </span>
   </esa-side-dialog>
 
@@ -606,36 +606,36 @@ const editPayload = {
 
   .bcn-cmt { display: flex; flex-direction: column; gap: var(--spacing-600); }
 
-  .bcn-cmt__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .bcn-cmt__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border-default); }
   .bcn-cmt__head-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
   .bcn-cmt__identity { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-100); min-width: 0; }
   .bcn-cmt__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
-  .bcn-cmt__title { margin: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
-  .bcn-cmt__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; }
+  .bcn-cmt__title { margin: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--typography-font-weight-semibold); line-height: 1.2; color: var(--color-content-default); }
+  .bcn-cmt__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); line-height: 1.4; white-space: nowrap; }
   .bcn-cmt__badge--commitment { color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
-  .bcn-cmt__badge--type { color: var(--color-text-secondary); background: var(--color-surface-sunken); transform: translateY(2px); }
-  .bcn-cmt__badge--phase { color: var(--color-text-secondary); background: transparent; border: 1px solid var(--color-border); }
+  .bcn-cmt__badge--type { color: var(--color-content-default-secondary); background: var(--color-background-elevation-sunken); transform: translateY(2px); }
+  .bcn-cmt__badge--phase { color: var(--color-content-default-secondary); background: transparent; border: 1px solid var(--color-border-default); }
 
   .bcn-cmt__body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--spacing-600); align-items: start; }
   .bcn-cmt__main { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-600); }
   .bcn-cmt__rail { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-500); }
-  .bcn-cmt__rail :global(.esa-collapsible__title) { font-size: var(--type-size-250); font-weight: var(--font-weight-semibold); }
+  .bcn-cmt__rail :global(.esa-collapsible__title) { font-size: var(--font-size-250); font-weight: var(--typography-font-weight-semibold); }
 
   .bcn-cmt__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-cmt__section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); }
-  .bcn-section-title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-section-title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--font-size-300); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
   .bcn-btn-ico { display: inline-flex; align-items: center; gap: var(--spacing-150); }
 
   /* Neutral count badge — re-point esa-badge to the house neutral pair. */
-  .bcn-count-neutral { display: inline-flex; align-items: center; --badge-bg: var(--color-surface-sunken); --badge-text-color: var(--color-text-secondary); }
+  .bcn-count-neutral { display: inline-flex; align-items: center; --badge-bg: var(--color-background-elevation-sunken); --badge-text-color: var(--color-content-default-secondary); }
 
   /* Commitment-text card — serif regulatory voice, parsed bullets with bold lead-ins. */
-  .bcn-cmttext { display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-500); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-300); }
+  .bcn-cmttext { display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-500); background: var(--color-background-elevation-raised); border: 1px solid var(--color-border-default); border-radius: var(--radius-300); }
   .bcn-cmttext__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-400); }
-  .bcn-cmttext__item { font-family: var(--font-decorative); font-size: 1.0625rem; line-height: 1.65; color: var(--color-text-primary); }
-  .bcn-cmttext__footer { display: flex; justify-content: flex-end; gap: var(--spacing-100); padding-top: var(--spacing-200); border-top: 1px solid var(--color-border-light); }
-  .bcn-cmttext__footer :global(.esa-button--color-ghost .esa-button__native) { color: var(--color-primary); }
-  .bcn-cmttext__footer :global(.esa-button--color-ghost .esa-button__native:hover:not(:disabled)) { color: var(--color-primary-hover); background: color-mix(in srgb, var(--color-primary) 8%, transparent); }
+  .bcn-cmttext__item { font-family: var(--font-decorative); font-size: 1.0625rem; line-height: 1.65; color: var(--color-content-default); }
+  .bcn-cmttext__footer { display: flex; justify-content: flex-end; gap: var(--spacing-100); padding-top: var(--spacing-200); border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-cmttext__footer :global(.esa-button--color-ghost .esa-button__native) { color: var(--color-background-brand); }
+  .bcn-cmttext__footer :global(.esa-button--color-ghost .esa-button__native:hover:not(:disabled)) { color: var(--color-background-brand-hover); background: color-mix(in srgb, var(--color-background-brand) 8%, transparent); }
 
   /* Requirements filter bar (canonical: search + filter-dropdowns + clear). */
   .bcn-reqfilters { display: flex; flex-direction: column; gap: var(--spacing-250); }
@@ -648,46 +648,46 @@ const editPayload = {
   .bcn-row {
     display: flex; align-items: center; gap: var(--spacing-300);
     padding: var(--spacing-300) var(--spacing-400);
-    border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+    border: 1px solid var(--color-border-default); border-radius: var(--radius-200); background: var(--color-background-elevation-raised);
     text-decoration: none;
     transition: background-color 120ms ease;
   }
-  .bcn-row:hover { background: color-mix(in srgb, var(--color-primary) 4%, var(--color-surface)); }
-  .bcn-row__name { flex: 1; min-width: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-row:hover { background: color-mix(in srgb, var(--color-background-brand) 4%, var(--color-background-elevation-raised)); }
+  .bcn-row__name { flex: 1; min-width: 0; font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
   .bcn-row .bcn-cmt__badge--type,
   .bcn-row .bcn-cmt__badge--phase { transform: none; }
-  .bcn-row > :global(.esa-icon:last-child) { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 120ms ease, color 120ms ease; }
-  .bcn-row:hover > :global(.esa-icon:last-child) { transform: translateX(2px); color: var(--color-text-secondary); }
+  .bcn-row > :global(.esa-icon:last-child) { color: var(--color-content-default-tertiary); flex-shrink: 0; transition: transform 120ms ease, color 120ms ease; }
+  .bcn-row:hover > :global(.esa-icon:last-child) { transform: translateX(2px); color: var(--color-content-default-secondary); }
 
-  .bcn-reqs__empty { border: 1px dashed var(--color-border); border-radius: var(--radius-200); padding: var(--spacing-400); }
-  .bcn-reqs__empty :global(.esa-empty-state__title) { color: var(--color-text-tertiary); font-weight: var(--font-weight-regular); }
+  .bcn-reqs__empty { border: 1px dashed var(--color-border-default); border-radius: var(--radius-200); padding: var(--spacing-400); }
+  .bcn-reqs__empty :global(.esa-empty-state__title) { color: var(--color-content-default-tertiary); font-weight: var(--typography-font-weight-regular); }
 
   /* Roomier file rows; the lego's density knob inherits into its shadow DOM. */
   #cmt-files { --file-list-row-padding-y: var(--spacing-200); }
 
   /* Rail extras */
   .bcn-tagrow { display: flex; flex-wrap: wrap; gap: var(--spacing-150); margin-top: var(--spacing-100); }
-  .bcn-tagrow :global(.esa-pill) { border-radius: var(--radius-100); background: var(--color-surface-sunken); border: 1px solid var(--color-border); color: var(--color-text-secondary); }
+  .bcn-tagrow :global(.esa-pill) { border-radius: var(--radius-100); background: var(--color-background-elevation-sunken); border: 1px solid var(--color-border-default); color: var(--color-content-default-secondary); }
   .bcn-lists { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-150); margin: 0; padding: 0; list-style: none; }
-  .bcn-list-link { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-primary); text-decoration: none; }
+  .bcn-list-link { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); color: var(--color-background-brand); text-decoration: none; }
   .bcn-list-link:hover { text-decoration: underline; }
-  .bcn-rail-meta { margin: var(--spacing-300) 0 0; padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-light); font-size: 0.75rem; color: var(--color-text-secondary); }
+  .bcn-rail-meta { margin: var(--spacing-300) 0 0; padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-default-subtle); font-size: 0.75rem; color: var(--color-content-default-secondary); }
 
   /* Lineage / Revisions spine modules (family treatment). */
   .bcn-lineage { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
   .bcn-lineage__node { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-300); padding-bottom: var(--spacing-400); }
-  .bcn-lineage__node::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; background: var(--color-border); }
+  .bcn-lineage__node::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; background: var(--color-border-default); }
   .bcn-lineage__node:last-child { padding-bottom: 0; }
   .bcn-lineage__node:last-child::before { display: none; }
-  .bcn-lineage__icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text-secondary); }
+  .bcn-lineage__icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: var(--color-background-elevation-raised); border: 1px solid var(--color-border-default); color: var(--color-content-default-secondary); }
   .bcn-lineage__icon :global(.esa-icon) { --_icon-size: 14px; }
-  .bcn-lineage__node--current .bcn-lineage__icon { border-color: var(--color-primary); background: var(--color-primary); color: var(--color-text-inverse); }
+  .bcn-lineage__node--current .bcn-lineage__icon { border-color: var(--color-background-brand); background: var(--color-background-brand); color: var(--color-content-default-knockout); }
   .bcn-lineage__body { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding-top: 2px; }
-  .bcn-lineage__kind { font-size: 0.75rem; color: var(--color-primary); text-decoration: none; width: fit-content; }
+  .bcn-lineage__kind { font-size: 0.75rem; color: var(--color-background-brand); text-decoration: none; width: fit-content; }
   a.bcn-lineage__kind:hover { text-decoration: underline; }
-  .bcn-lineage__name { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); line-height: 1.35; color: var(--color-primary); text-decoration: none; }
+  .bcn-lineage__name { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); line-height: 1.35; color: var(--color-background-brand); text-decoration: none; }
   a.bcn-lineage__name:hover { text-decoration: underline; }
-  .bcn-lineage__name--current { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+  .bcn-lineage__name--current { color: var(--color-content-default); font-weight: var(--typography-font-weight-semibold); }
 
   /* Child rollup nodes (Requirements / Actions) — single-line link + neutral count. */
   .bcn-lineage__node.bcn-lineage__node--child { align-items: center; }
@@ -698,12 +698,12 @@ const editPayload = {
   /* Revisions spine — caption-style kind, change metadata, inline edit, add action. */
   .bcn-revs .bcn-lineage__body { gap: 2px; }
   .bcn-revs__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-200); }
-  .bcn-revs .bcn-lineage__kind { color: var(--color-text-tertiary); }
-  .bcn-revs__edit { border: 0; background: none; padding: 0; cursor: pointer; font-size: 0.75rem; font-weight: var(--font-weight-medium); color: var(--color-primary); }
+  .bcn-revs .bcn-lineage__kind { color: var(--color-content-default-tertiary); }
+  .bcn-revs__edit { border: 0; background: none; padding: 0; cursor: pointer; font-size: 0.75rem; font-weight: var(--typography-font-weight-medium); color: var(--color-background-brand); }
   .bcn-revs__edit:hover { text-decoration: underline; }
-  .bcn-revs__summary { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); line-height: 1.35; color: var(--color-text-primary); }
-  .bcn-revs__meta { font-size: 0.75rem; color: var(--color-text-secondary); }
-  .bcn-revs__by { font-size: 0.75rem; color: var(--color-text-tertiary); margin-top: 1px; }
+  .bcn-revs__summary { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); line-height: 1.35; color: var(--color-content-default); }
+  .bcn-revs__meta { font-size: 0.75rem; color: var(--color-content-default-secondary); }
+  .bcn-revs__by { font-size: 0.75rem; color: var(--color-content-default-tertiary); margin-top: 1px; }
   .bcn-revs__add { padding-top: var(--spacing-300); }
   #add-rev { display: block; }
   #add-rev :global(.esa-button) { width: 100%; justify-content: center; }
@@ -716,17 +716,17 @@ const editPayload = {
   .bcn-form { display: flex; flex-direction: column; gap: var(--spacing-400); }
   .bcn-form--dialog { padding: var(--spacing-100) 0; }
   .bcn-form :global(esa-input-tag) {
-    --_chip-bg: var(--color-surface-sunken);
-    --_chip-color: var(--color-text-primary);
+    --_chip-bg: var(--color-background-elevation-sunken);
+    --_chip-color: var(--color-content-default);
     --_chip-radius: var(--radius-100);
   }
   .bcn-field { display: flex; flex-direction: column; gap: var(--spacing-150); }
-  .bcn-field__label { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+  .bcn-field__label { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); color: var(--color-content-default); }
   .bcn-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-300); }
   .bcn-editor__foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; width: 100%; }
 
   .bcn-source-pdf { height: 100%; min-height: 60vh; }
-  .bcn-source-pdf__frame { width: 100%; height: 100%; min-height: 60vh; border: 0; border-radius: var(--radius-200); background: var(--color-surface-sunken); }
+  .bcn-source-pdf__frame { width: 100%; height: 100%; min-height: 60vh; border: 0; border-radius: var(--radius-200); background: var(--color-background-elevation-sunken); }
   .bcn-source-foot { display: flex; justify-content: flex-end; width: 100%; }
 </style>
 

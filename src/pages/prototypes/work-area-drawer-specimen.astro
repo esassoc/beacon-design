@@ -36,7 +36,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
@@ -213,7 +213,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                   <span>within buffer · est. through {formatDate(until184)}</span>
                 </p>
                 <div class="decide__actions">
-                  <EsaButton color="danger" size="sm">Confirm block</EsaButton>
+                  <EsaButton variant="danger" size="sm">Confirm block</EsaButton>
                 </div>
               </div>
 
@@ -266,7 +266,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
               </div>
             </div>
             <footer class="drawer__foot">
-              <EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton>
+              <EsaButton variant="ghost" appearance="outline" size="md">Edit site details</EsaButton>
             </footer>
           </article>
         </figure>
@@ -301,7 +301,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                   </span>
                 </div>
                 <div class="decide__actions">
-                  <EsaButton color="ghost" appearance="outline" size="sm">Edit start</EsaButton>
+                  <EsaButton variant="ghost" appearance="outline" size="sm">Edit start</EsaButton>
                 </div>
               </div>
 
@@ -340,7 +340,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
               </div>
             </div>
             <footer class="drawer__foot">
-              <EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton>
+              <EsaButton variant="ghost" appearance="outline" size="md">Edit site details</EsaButton>
             </footer>
           </article>
         </figure>
@@ -429,7 +429,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
               </div>
             </div>
             <footer class="drawer__foot">
-              <EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton>
+              <EsaButton variant="ghost" appearance="outline" size="md">Edit site details</EsaButton>
             </footer>
           </article>
 
@@ -439,14 +439,14 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
               <div class="drawer__headrow">
                 <h4 class="drawer__title">Biological review</h4>
                 <BcnStatusChip status={g010bio.status} label={meta(g010bio.status).label} hex={meta(g010bio.status).hex} />
-                <span class="drawer__close"><EsaIconButton icon="x" label="Close review history" size="sm" /></span>
+                <span class="drawer__close"><EsaIconButton variant="chrome" iconOnly icon="x" label="Close review history" size="sm" /></span>
               </div>
               <p class="drawer__sub">{wa010.id} · the latest completed review sets this status</p>
             </header>
             <div class="drawer__body">
               <div class="child__bar">
                 <span class="child__count">2 reviews</span>
-                <EsaButton color="ghost" appearance="outline" size="sm">Add review</EsaButton>
+                <EsaButton variant="ghost" appearance="outline" size="sm">Add review</EsaButton>
               </div>
               <ol class="revs">
                 <li class="rev" data-kind="scheduled">
@@ -486,7 +486,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
               </ol>
             </div>
             <footer class="drawer__foot">
-              <EsaButton color="ghost" appearance="outline" size="md">Close</EsaButton>
+              <EsaButton variant="ghost" appearance="outline" size="md">Close</EsaButton>
             </footer>
           </article>
         </div>
@@ -577,8 +577,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                     {formatDate(wa184.plannedStartDate)} (in {daysUntil(wa184.plannedStartDate!)} days)
                   </p>
                   <div class="action__btns">
-                    <EsaButton color="primary" size="sm">Confirm block</EsaButton>
-                    <EsaButton color="ghost" appearance="outline" size="sm">Review gates</EsaButton>
+                    <EsaButton variant="primary" size="sm">Confirm block</EsaButton>
+                    <EsaButton variant="ghost" appearance="outline" size="sm">Review gates</EsaButton>
                   </div>
                 </div>
               </section>
@@ -639,7 +639,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
               </div>
             </div>
             <footer class="drawer__foot">
-              <EsaButton color="ghost" appearance="outline" size="md">Edit clearance</EsaButton>
+              <EsaButton variant="ghost" appearance="outline" size="md">Edit clearance</EsaButton>
             </footer>
           </article>
         </figure>
@@ -670,7 +670,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                     Planned start {formatDate(wa014.plannedStartDate)} lands before both pending reviews.
                   </p>
                   <div class="action__btns">
-                    <EsaButton color="ghost" appearance="outline" size="sm">Edit planned start</EsaButton>
+                    <EsaButton variant="ghost" appearance="outline" size="sm">Edit planned start</EsaButton>
                   </div>
                 </div>
               </section>
@@ -723,7 +723,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
               </div>
             </div>
             <footer class="drawer__foot">
-              <EsaButton color="ghost" appearance="outline" size="md">Edit clearance</EsaButton>
+              <EsaButton variant="ghost" appearance="outline" size="md">Edit clearance</EsaButton>
             </footer>
           </article>
         </figure>
@@ -804,7 +804,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                   <blockquote class="note note--sm">{wa014.biologistNote}</blockquote>
                 </BcnKeyValue>
                 <div class="disc-panel__foot">
-                  <EsaButton color="ghost" appearance="outline" size="sm">Edit biological review</EsaButton>
+                  <EsaButton variant="ghost" appearance="outline" size="sm">Edit biological review</EsaButton>
                 </div>
               </section>
 
@@ -815,8 +815,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                 </div>
                 <p class="empty">No cultural resources review has been recorded for this work area.</p>
                 <div class="disc-panel__foot">
-                  <EsaButton color="ghost" appearance="outline" size="sm">Add review</EsaButton>
-                  <EsaButton color="ghost" appearance="outline" size="sm">Mark no review required</EsaButton>
+                  <EsaButton variant="ghost" appearance="outline" size="sm">Add review</EsaButton>
+                  <EsaButton variant="ghost" appearance="outline" size="sm">Mark no review required</EsaButton>
                 </div>
               </section>
 
@@ -832,7 +832,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                 <BcnKeyValue label="Determination note"><span class="kv-text">{g014noise.note}</span></BcnKeyValue>
                 <BcnKeyValue label="Survey record" value="No noise survey on record" />
                 <div class="disc-panel__foot">
-                  <EsaButton color="ghost" appearance="outline" size="sm">Edit noise review</EsaButton>
+                  <EsaButton variant="ghost" appearance="outline" size="sm">Edit noise review</EsaButton>
                 </div>
               </section>
 
@@ -852,12 +852,12 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                   This review lands one day after the planned start ({formatDate(wa014.plannedStartDate)}).
                 </p>
                 <div class="disc-panel__foot">
-                  <EsaButton color="ghost" appearance="outline" size="sm">Edit geology review</EsaButton>
+                  <EsaButton variant="ghost" appearance="outline" size="sm">Edit geology review</EsaButton>
                 </div>
               </section>
             </div>
             <footer class="drawer__foot">
-              <EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton>
+              <EsaButton variant="ghost" appearance="outline" size="md">Edit site details</EsaButton>
             </footer>
           </article>
         </figure>
@@ -944,7 +944,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                         {formatDate(swha.estEndDate)}.
                       </p>
                       <div class="action__btns">
-                        <EsaButton color="primary" size="sm">Confirm block</EsaButton>
+                        <EsaButton variant="primary" size="sm">Confirm block</EsaButton>
                       </div>
                     </div>
                   </div>
@@ -999,7 +999,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                     <p class="step__title">Notification <span class="step__when">not on record</span></p>
                     <p class="step__text">No 30-day landowner notification recorded.</p>
                     <div class="step__act">
-                      <EsaButton color="ghost" appearance="outline" size="sm">Record notification</EsaButton>
+                      <EsaButton variant="ghost" appearance="outline" size="sm">Record notification</EsaButton>
                     </div>
                   </div>
                 </li>
@@ -1039,7 +1039,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                       <li class="check__row">
                         <span class="check__dot" data-none="true"></span>
                         <span class="check__dim">Cultural Resources</span>
-                        <span class="check__act"><EsaButton color="ghost" appearance="outline" size="sm">Add review</EsaButton></span>
+                        <span class="check__act"><EsaButton variant="ghost" appearance="outline" size="sm">Add review</EsaButton></span>
                         <span class="check__state">Not reviewed</span>
                       </li>
                     </ul>
@@ -1065,7 +1065,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
                       ({formatDate(g014noise.reviewDate)}) — move the start or expedite the reviews.
                     </p>
                     <div class="step__act">
-                      <EsaButton color="ghost" appearance="outline" size="sm">Edit planned start</EsaButton>
+                      <EsaButton variant="ghost" appearance="outline" size="sm">Edit planned start</EsaButton>
                     </div>
                   </div>
                 </li>
@@ -1095,7 +1095,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
 
   <style>
     :global(body) {
-      background: var(--color-background);
+      background: var(--color-background-default);
     }
 
     /* ═══ Page frame ═══ */
@@ -1116,19 +1116,19 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       margin: 0;
       font-family: var(--font-decorative);
       font-size: 2rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .spec__intro {
       margin: 0;
       max-width: 86ch;
-      font-size: var(--type-size-200, 1rem);
+      font-size: var(--font-size-200, 1rem);
       line-height: 1.6;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .spec__intro strong {
-      color: var(--color-text-primary);
-      font-weight: var(--font-weight-semibold);
+      color: var(--color-content-default);
+      font-weight: var(--typography-font-weight-semibold);
     }
 
     /* ═══ v2 deep dive ═══ */
@@ -1145,8 +1145,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .v2__title {
       margin: 0;
       font-size: 1.5rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .v2__changes {
       margin: 0;
@@ -1159,11 +1159,11 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .v2__changes li {
       font-size: 1rem;
       line-height: 1.55;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .v2__changes strong {
-      color: var(--color-text-primary);
-      font-weight: var(--font-weight-semibold);
+      color: var(--color-content-default);
+      font-weight: var(--typography-font-weight-semibold);
     }
     .v2__pair {
       display: grid;
@@ -1180,8 +1180,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .v2__sub {
       margin: var(--spacing-300) 0 0;
       font-size: 1.1875rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
 
     /* Date band — always-visible decision inputs directly under the header
@@ -1191,15 +1191,15 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       grid-template-columns: repeat(3, 1fr);
       gap: var(--spacing-200) var(--spacing-300);
       padding: var(--spacing-250) var(--spacing-400);
-      background: var(--color-background);
-      border-bottom: 1px solid var(--color-border);
+      background: var(--color-background-default);
+      border-bottom: 1px solid var(--color-border-default);
     }
     .band--4 {
       grid-template-columns: repeat(4, 1fr);
     }
     .band__alert {
-      font-size: var(--form-font-size-md);
-      font-weight: var(--font-weight-semibold);
+      font-size: var(--typography-label-md-font-size);
+      font-weight: var(--typography-font-weight-semibold);
       color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
     }
 
@@ -1213,8 +1213,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       gap: var(--spacing-200);
       padding: var(--spacing-250) var(--spacing-300);
       border-radius: var(--radius-200);
-      background: var(--color-background);
-      border: 1px solid var(--color-border);
+      background: var(--color-background-default);
+      border: 1px solid var(--color-border-default);
     }
     .decide--prov {
       background: color-mix(in srgb, var(--st-provisional-block) 6%, transparent);
@@ -1222,7 +1222,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       /* Confirm block is the serious action — esa-button's own danger variant,
          re-pointed from the hub's #ef4444 to the page's committed status red
          so button, border, and ink stay one red family. */
-      --color-danger: var(--st-provisional-block);
+      --color-background-utility-danger: var(--st-provisional-block);
     }
     .decide--blocked {
       background: color-mix(in srgb, var(--st-blocked) 10%, transparent);
@@ -1231,9 +1231,9 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .decide__line {
       margin: 0;
       font-size: 0.9375rem;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--typography-font-weight-semibold);
       line-height: 1.45;
-      color: var(--color-text-primary);
+      color: var(--color-content-default);
     }
     /* Row 1 of the slim confirm: badge + fact, full width, wraps freely. */
     .decide__line--fact {
@@ -1256,12 +1256,12 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
     .obs-id {
       flex-shrink: 0;
-      font-family: var(--font-mono);
+      font-family: var(--typography-font-family-mono);
       font-size: 0.8125rem;
       font-weight: 500;
       padding: 1px var(--spacing-200);
       border-radius: var(--radius-100);
-      background: var(--color-surface);
+      background: var(--color-background-elevation-raised);
       border: 1px solid color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
       color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
       white-space: nowrap;
@@ -1279,7 +1279,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       flex: 1;
       min-width: 0;
       font-size: 0.875rem;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--typography-font-weight-semibold);
       line-height: 1.45;
       color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
     }
@@ -1290,18 +1290,18 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       cursor: pointer;
       text-align: left;
       font-family: inherit;
-      border: 1px solid var(--color-border-light);
-      background: var(--color-surface);
+      border: 1px solid var(--color-border-default-subtle);
+      background: var(--color-background-elevation-raised);
       transition: border-color 120ms ease, background 120ms ease;
     }
     .board__cell--btn:hover {
-      border-color: var(--color-border-strong);
-      background: var(--grid-row-bg-hover, var(--color-background));
+      border-color: var(--color-border-default-strong);
+      background: var(--grid-row-bg-hover, var(--color-background-default));
     }
     .board__cell--btn[data-active] {
-      border-color: var(--color-primary);
-      box-shadow: inset 0 0 0 1px var(--color-primary);
-      background: var(--color-primary-subtle);
+      border-color: var(--color-background-brand);
+      box-shadow: inset 0 0 0 1px var(--color-background-brand);
+      background: var(--color-background-brand-subtle);
     }
     .board__cellhead {
       display: flex;
@@ -1315,7 +1315,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
     .board__chev {
       display: inline-flex;
-      color: var(--color-text-tertiary);
+      color: var(--color-content-default-tertiary);
     }
 
     /* ═══ The parent → child drawer stack (static depiction of esa-side-dialog
@@ -1354,7 +1354,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
     .drawer__close {
       margin-left: auto;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
 
     /* Child drawer — review history */
@@ -1366,8 +1366,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
     .child__count {
       font-size: 0.9375rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .revs {
       list-style: none;
@@ -1394,7 +1394,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       top: 20px;
       bottom: 2px;
       width: 2px;
-      background: var(--color-border);
+      background: var(--color-border-default);
     }
     .rev__dot {
       width: 16px;
@@ -1402,8 +1402,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       border-radius: var(--radius-full);
       margin-top: 2px;
       z-index: 1;
-      background: var(--color-surface);
-      border: 2px solid var(--color-border-strong);
+      background: var(--color-background-elevation-raised);
+      border: 2px solid var(--color-border-default-strong);
     }
     .rev[data-kind='scheduled'] .rev__dot {
       border-color: var(--st-survey-scheduled);
@@ -1425,13 +1425,13 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       gap: var(--spacing-200);
       margin: 0;
       font-size: 1rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .rev__when {
       font-size: 0.875rem;
-      font-weight: var(--font-weight-medium);
-      color: var(--color-text-secondary);
+      font-weight: var(--typography-font-weight-medium);
+      color: var(--color-content-default-secondary);
     }
     .rev__chiprow {
       display: flex;
@@ -1441,34 +1441,34 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
     .rev__until {
       font-size: 0.875rem;
-      font-weight: var(--font-weight-medium);
-      color: var(--color-text-secondary);
+      font-weight: var(--typography-font-weight-medium);
+      color: var(--color-content-default-secondary);
     }
     .rev__current {
       display: inline-flex;
       align-items: center;
       padding: 1px var(--spacing-200);
       border-radius: var(--radius-full);
-      background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-      border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+      background: color-mix(in srgb, var(--color-background-brand) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-background-brand) 30%, transparent);
       font-size: 0.75rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-background-brand);
       white-space: nowrap;
     }
     .rev__note {
       margin: 0;
       font-size: 0.9375rem;
       line-height: 1.55;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
 
     /* Data-model note */
     .model-note {
       max-width: 86ch;
       padding: var(--spacing-400) var(--spacing-500);
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
+      background: var(--color-background-elevation-raised);
+      border: 1px solid var(--color-border-default);
       border-radius: var(--radius-300);
       display: flex;
       flex-direction: column;
@@ -1477,26 +1477,26 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .model-note__title {
       margin: 0;
       font-size: 1rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .model-note__text {
       margin: 0;
       font-size: 0.9375rem;
       line-height: 1.6;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .model-note__text code {
-      font-family: var(--font-mono);
+      font-family: var(--typography-font-family-mono);
       font-size: 0.875em;
       padding: 1px 5px;
       border-radius: var(--radius-100);
-      background: var(--color-background);
-      border: 1px solid var(--color-border-light);
+      background: var(--color-background-default);
+      border: 1px solid var(--color-border-default-subtle);
     }
     .model-note__text strong {
-      color: var(--color-text-primary);
-      font-weight: var(--font-weight-semibold);
+      color: var(--color-content-default);
+      font-weight: var(--typography-font-weight-semibold);
     }
 
     /* ═══ Round 1 (reference) ═══ */
@@ -1505,7 +1505,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       flex-direction: column;
       gap: var(--spacing-500);
       padding-top: var(--spacing-600);
-      border-top: 1px solid var(--color-border);
+      border-top: 1px solid var(--color-border-default);
     }
     .round1__head {
       display: flex;
@@ -1515,15 +1515,15 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .round1__title {
       margin: 0;
       font-size: 1.5rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .round1__line {
       margin: 0;
       max-width: 86ch;
       font-size: 1rem;
       line-height: 1.55;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
 
     /* ═══ Concept columns ═══ */
@@ -1552,8 +1552,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       gap: var(--spacing-250);
       margin: 0;
       font-size: 1.25rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .concept__num {
       display: inline-flex;
@@ -1562,17 +1562,17 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       width: 28px;
       height: 28px;
       border-radius: var(--radius-full);
-      background: var(--color-primary);
+      background: var(--color-background-brand);
       color: #fff;
       font-size: 1rem;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--typography-font-weight-semibold);
       flex-shrink: 0;
     }
     .concept__line {
       margin: 0;
       font-size: 1rem;
       line-height: 1.5;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .concept__pt {
       display: flex;
@@ -1582,8 +1582,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .concept__pt-label {
       margin: var(--spacing-150) 0 0;
       font-size: 0.9375rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .concept__pt ul {
       margin: 0;
@@ -1595,7 +1595,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .concept__pt li {
       font-size: 0.9375rem;
       line-height: 1.5;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
 
     /* ═══ Mockup framing ═══ */
@@ -1607,15 +1607,15 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
     .mockup__case {
       font-size: 0.875rem;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--typography-font-weight-semibold);
       line-height: 1.5;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
 
     /* ═══ Drawer shell (static stand-in for esa-side-dialog) ═══ */
     .drawer {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
+      background: var(--color-background-elevation-raised);
+      border: 1px solid var(--color-border-default);
       border-radius: var(--radius-300);
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
       overflow: hidden;
@@ -1625,7 +1625,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       flex-direction: column;
       gap: 2px;
       padding: var(--spacing-400);
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border-default);
     }
     .drawer__headrow {
       display: flex;
@@ -1634,14 +1634,14 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
     .drawer__title {
       margin: 0;
-      font-size: var(--type-size-400);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-size: var(--font-size-400);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .drawer__sub {
       margin: 0;
       font-size: 0.875rem;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .drawer__body {
       display: flex;
@@ -1654,8 +1654,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       justify-content: flex-end;
       gap: var(--spacing-200);
       padding: var(--spacing-300) var(--spacing-400);
-      border-top: 1px solid var(--color-border);
-      background: var(--color-surface);
+      border-top: 1px solid var(--color-border-default);
+      background: var(--color-background-elevation-raised);
     }
     .drawer__section {
       display: flex;
@@ -1663,29 +1663,29 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       gap: var(--spacing-200);
       margin: 0 0 var(--spacing-300);
       font-size: 0.9375rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .drawer__section :global(.esa-icon) {
       flex-shrink: 0;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .drawer__more {
       display: flex;
       flex-direction: column;
     }
     .drawer__more :global(.esa-collapsible + .esa-collapsible) {
-      border-top: 1px solid var(--color-border-light);
+      border-top: 1px solid var(--color-border-default-subtle);
     }
 
     /* Provisional-block chips — the OUTLINED-red hollow variant (the live page's
        committed idiom: white fill + red ring + hollow dot). */
     :global(.bcn-status-chip[data-status='provisional-block']) {
-      background: var(--color-surface);
+      background: var(--color-background-elevation-raised);
       box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
     }
     :global(.bcn-status-chip[data-status='provisional-block'] .bcn-status-chip__dot) {
-      background: var(--color-surface);
+      background: var(--color-background-elevation-raised);
       box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
     }
 
@@ -1694,11 +1694,11 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       display: inline-flex;
       align-items: center;
       padding: 2px var(--spacing-250);
-      border: 1px dashed var(--color-border-strong);
+      border: 1px dashed var(--color-border-default-strong);
       border-radius: var(--radius-full);
-      font-size: var(--type-size-100);
-      font-weight: var(--font-weight-medium);
-      color: var(--color-text-tertiary);
+      font-size: var(--font-size-100);
+      font-weight: var(--typography-font-weight-medium);
+      color: var(--color-content-default-tertiary);
       white-space: nowrap;
     }
 
@@ -1709,8 +1709,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       gap: var(--spacing-250);
       padding: var(--spacing-400);
       border-radius: var(--radius-300);
-      background: var(--color-background);
-      border: 1px solid var(--color-border);
+      background: var(--color-background-default);
+      border: 1px solid var(--color-border-default);
     }
     .action--provisional {
       background: color-mix(in srgb, var(--st-provisional-block) 6%, transparent);
@@ -1723,8 +1723,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .action__title {
       margin: 0;
       font-size: 1.0625rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .action--provisional .action__title {
       color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
@@ -1733,17 +1733,17 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       margin: 0;
       font-size: 0.9375rem;
       line-height: 1.55;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .action__text strong {
       color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--typography-font-weight-semibold);
     }
     .action__facts {
       margin: 0;
       font-size: 0.875rem;
-      font-weight: var(--font-weight-medium);
-      color: var(--color-text-secondary);
+      font-weight: var(--typography-font-weight-medium);
+      color: var(--color-content-default-secondary);
     }
     .action__conflict {
       display: flex;
@@ -1751,7 +1751,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       gap: var(--spacing-150);
       margin: 0;
       font-size: 0.9375rem;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--typography-font-weight-semibold);
       line-height: 1.45;
       color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
     }
@@ -1776,18 +1776,18 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       align-items: flex-start;
       gap: var(--spacing-150);
       padding: var(--spacing-250) var(--spacing-300);
-      border: 1px solid var(--color-border-light);
+      border: 1px solid var(--color-border-default-subtle);
       border-radius: var(--radius-200);
-      background: var(--color-surface);
+      background: var(--color-background-elevation-raised);
     }
     .board__dim {
       font-size: 0.875rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .board__meta {
       font-size: 0.8125rem;
-      color: var(--color-text-tertiary);
+      color: var(--color-content-default-tertiary);
     }
 
     /* ═══ Shared row idioms (conflict / survey / note / dates / empty) ═══ */
@@ -1805,8 +1805,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       justify-content: space-between;
       gap: var(--spacing-300);
       padding: var(--spacing-250) var(--spacing-300);
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
+      background: var(--color-background-elevation-raised);
+      border: 1px solid var(--color-border-default);
       border-radius: var(--radius-300);
     }
     .conflict__main {
@@ -1816,8 +1816,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       min-width: 0;
       flex: 1;
       font-size: 0.9375rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .conflict__meta {
       display: flex;
@@ -1825,38 +1825,38 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       align-items: flex-end;
       gap: 2px;
       font-size: 0.875rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
       white-space: nowrap;
     }
     .conflict__sub {
       font-size: 0.8125rem;
-      font-weight: var(--font-weight-regular);
-      color: var(--color-text-tertiary);
+      font-weight: var(--typography-font-weight-regular);
+      color: var(--color-content-default-tertiary);
     }
     .survey {
       padding: var(--spacing-100) 0;
     }
     .survey__link {
       font-size: 0.9375rem;
-      font-weight: var(--font-weight-medium);
-      color: var(--color-secondary);
+      font-weight: var(--typography-font-weight-medium);
+      color: var(--color-background-brand-muted);
       text-decoration: none;
       cursor: pointer;
     }
     .survey__link:hover {
-      color: var(--color-secondary-hover);
+      color: var(--color-background-brand-muted-hover);
       text-decoration: underline;
     }
     .note {
       margin: 0;
       padding: var(--spacing-300) var(--spacing-400);
-      background: var(--color-background);
-      border: 1px solid var(--color-border);
+      background: var(--color-background-default);
+      border: 1px solid var(--color-border-default);
       border-radius: var(--radius-300);
       font-size: 1rem;
       line-height: 1.6;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
       white-space: pre-line;
     }
     .note--sm {
@@ -1871,12 +1871,12 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .empty {
       margin: 0;
       font-size: 0.875rem;
-      color: var(--color-text-tertiary);
+      color: var(--color-content-default-tertiary);
     }
     .kv-text {
       font-size: 0.9375rem;
       line-height: 1.5;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
 
     /* ═══ Concept 2 — rollup strip + discipline switcher + panel ═══ */
@@ -1885,8 +1885,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       align-items: center;
       gap: var(--spacing-250);
       padding: var(--spacing-250) var(--spacing-300);
-      background: var(--color-background);
-      border: 1px solid var(--color-border);
+      background: var(--color-background-default);
+      border: 1px solid var(--color-border-default);
       border-radius: var(--radius-200);
     }
     .strip :global(.esa-icon) {
@@ -1896,11 +1896,11 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .strip__text {
       font-size: 0.875rem;
       line-height: 1.45;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .strip__text strong {
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
 
     .disc-tabs {
@@ -1914,20 +1914,20 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       align-items: center;
       gap: var(--spacing-100);
       padding: var(--spacing-200) var(--spacing-100);
-      border: 1px solid var(--color-border);
+      border: 1px solid var(--color-border-default);
       border-radius: var(--radius-200);
-      background: var(--color-surface);
+      background: var(--color-background-elevation-raised);
       font-family: inherit;
       cursor: pointer;
       transition: border-color 120ms ease, background 120ms ease;
     }
     .disc-tabs [role='tab']:hover {
-      border-color: var(--color-border-strong);
+      border-color: var(--color-border-default-strong);
     }
     .disc-tabs [role='tab'][aria-selected='true'] {
-      border-color: var(--color-primary);
-      background: var(--color-primary-subtle);
-      box-shadow: inset 0 0 0 1px var(--color-primary);
+      border-color: var(--color-background-brand);
+      background: var(--color-background-brand-subtle);
+      box-shadow: inset 0 0 0 1px var(--color-background-brand);
     }
     .disc-tabs__dot {
       width: 10px;
@@ -1936,13 +1936,13 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       flex-shrink: 0;
     }
     .disc-tabs__dot[data-none='true'] {
-      background: var(--color-surface);
-      border: 1px dashed var(--color-border-strong);
+      background: var(--color-background-elevation-raised);
+      border: 1px dashed var(--color-border-default-strong);
     }
     .disc-tabs__label {
       font-size: 0.875rem;
-      font-weight: var(--font-weight-medium);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-medium);
+      color: var(--color-content-default);
     }
 
     .disc-panel {
@@ -1950,9 +1950,9 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       flex-direction: column;
       gap: var(--spacing-300);
       padding: var(--spacing-400);
-      border: 1px solid var(--color-border);
+      border: 1px solid var(--color-border-default);
       border-radius: var(--radius-300);
-      background: var(--color-surface);
+      background: var(--color-background-elevation-raised);
     }
     .disc-panel[hidden] {
       display: none;
@@ -1964,8 +1964,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
     .disc-panel__when {
       font-size: 0.875rem;
-      font-weight: var(--font-weight-medium);
-      color: var(--color-text-secondary);
+      font-weight: var(--typography-font-weight-medium);
+      color: var(--color-content-default-secondary);
     }
     .disc-panel__warn {
       display: flex;
@@ -1973,7 +1973,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       gap: var(--spacing-150);
       margin: 0;
       font-size: 0.875rem;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--typography-font-weight-semibold);
       line-height: 1.45;
       color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
     }
@@ -2014,7 +2014,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       top: 28px;
       bottom: 4px;
       width: 2px;
-      background: var(--color-border);
+      background: var(--color-border-default);
     }
     .step__dot {
       display: flex;
@@ -2023,14 +2023,14 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       width: 24px;
       height: 24px;
       border-radius: var(--radius-full);
-      background: var(--color-surface);
-      border: 2px solid var(--color-border-strong);
+      background: var(--color-background-elevation-raised);
+      border: 2px solid var(--color-border-default-strong);
       margin-top: 0;
       z-index: 1;
     }
     .step[data-state='done'] .step__dot {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
+      background: var(--color-background-brand);
+      border-color: var(--color-background-brand);
     }
     .step[data-state='done'] .step__dot::after {
       content: '';
@@ -2068,7 +2068,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
     .step[data-state='future'] .step__dot {
       border-style: dashed;
-      border-color: var(--color-border-strong);
+      border-color: var(--color-border-default-strong);
     }
     .step__content {
       display: flex;
@@ -2084,13 +2084,13 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       gap: var(--spacing-200);
       margin: 0;
       font-size: 1rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .step__when {
       font-size: 0.875rem;
-      font-weight: var(--font-weight-medium);
-      color: var(--color-text-secondary);
+      font-weight: var(--typography-font-weight-medium);
+      color: var(--color-content-default-secondary);
     }
     .step[data-state='live-red'] .step__when {
       color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
@@ -2099,7 +2099,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       margin: 0;
       font-size: 0.9375rem;
       line-height: 1.5;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .step__flag {
       display: flex;
@@ -2107,7 +2107,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       gap: var(--spacing-150);
       margin: 0;
       font-size: 0.9375rem;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--typography-font-weight-semibold);
       line-height: 1.45;
       color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
     }
@@ -2138,7 +2138,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       padding: var(--spacing-200) 0;
     }
     .check__row + .check__row {
-      border-top: 1px solid var(--color-border-light);
+      border-top: 1px solid var(--color-border-default-subtle);
     }
     .check__dot {
       width: 10px;
@@ -2147,18 +2147,18 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       justify-self: center;
     }
     .check__dot[data-none='true'] {
-      background: var(--color-surface);
-      border: 1px dashed var(--color-border-strong);
+      background: var(--color-background-elevation-raised);
+      border: 1px dashed var(--color-border-default-strong);
     }
     .check__dim {
       font-size: 0.9375rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .check__state {
       grid-column: 2 / -1;
       font-size: 0.875rem;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .check__act {
       grid-row: 1;
@@ -2169,8 +2169,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .evaluate {
       max-width: 86ch;
       padding: var(--spacing-500);
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
+      background: var(--color-background-elevation-raised);
+      border: 1px solid var(--color-border-default);
       border-radius: var(--radius-300);
       display: flex;
       flex-direction: column;
@@ -2179,8 +2179,8 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .evaluate__title {
       margin: 0;
       font-size: 1.25rem;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-semibold);
+      color: var(--color-content-default);
     }
     .evaluate__list {
       margin: 0;
@@ -2192,7 +2192,7 @@ const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     .evaluate__list li {
       font-size: 1rem;
       line-height: 1.55;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
   </style>
 </BaseLayout>

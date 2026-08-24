@@ -73,7 +73,7 @@ const statusMeta = statusOptions.find((o) => o.value === statusValue);
       </template>
 
       <span class="bcn-dassign__edit" data-da-edit>
-        <EsaButton color="ghost" appearance="outline" size="sm" icon="pencil">Edit assignments</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil">Edit assignments</EsaButton>
       </span>
     </>
   )}
@@ -115,14 +115,14 @@ const statusMeta = statusOptions.find((o) => o.value === statusValue);
   }
   /* Mirrors bcn-key-value's label → value tier exactly (one KV treatment). */
   .bcn-dassign__k {
-    font-size: var(--form-font-size-md, 0.9375rem);
-    font-weight: var(--font-weight-medium);
+    font-size: var(--typography-label-md-font-size, 0.9375rem);
+    font-weight: var(--typography-font-weight-medium);
     color: var(--form-label-color);
   }
   .bcn-dassign__v {
-    font-size: var(--form-font-size-md, 0.9375rem);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--typography-label-md-font-size, 0.9375rem);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-dassign__roles {
     display: flex;
@@ -133,34 +133,34 @@ const statusMeta = statusOptions.find((o) => o.value === statusValue);
     flex-direction: column;
     gap: 2px;
     padding: var(--spacing-200) 0;
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-dassign__role:last-child {
     border-bottom: 0;
   }
   .bcn-dassign__ws {
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-dassign__who {
     display: inline-flex;
     align-items: baseline;
     flex-wrap: wrap;
     gap: var(--spacing-200);
-    font-size: var(--type-size-150);
+    font-size: var(--font-size-150);
   }
   .bcn-dassign__org {
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-medium);
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-medium);
   }
   .bcn-dassign__person {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-dassign__tent {
-    font-size: var(--type-size-100);
+    font-size: var(--font-size-100);
     font-style: italic;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-dassign__edit {
     align-self: flex-start;

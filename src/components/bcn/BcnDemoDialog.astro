@@ -25,7 +25,7 @@ const INTERESTS = [
 
 <esa-dialog id="bcn-demo-dialog" heading="Schedule a demo" size="md">
   <form class="stack" data-gap="md" id="bcn-demo-form" novalidate>
-    <p class="type-body bcn-demo__lede">
+    <p class="typography-body-md bcn-demo__lede">
       Tell us about your project and we'll set up a walkthrough with the Beacon team.
     </p>
 
@@ -46,8 +46,8 @@ const INTERESTS = [
   </form>
 
   <div class="stack" data-gap="sm" id="bcn-demo-done" hidden>
-    <p class="type-card-title">Thanks — we'll be in touch.</p>
-    <p class="type-body">
+    <p class="typography-title">Thanks — we'll be in touch.</p>
+    <p class="typography-body-md">
       Someone from the Beacon team will reach out within two business days to schedule your
       walkthrough.
     </p>
@@ -57,11 +57,11 @@ const INTERESTS = [
     <!-- Wrapper spans, not the buttons themselves: `hidden` on an <EsaButton> reaches
          only the native control, leaving the styled .esa-button wrapper on screen. -->
     <span class="cluster" data-gap="sm" id="bcn-demo-actions">
-      <EsaButton color="ghost" appearance="soft" type="button" id="bcn-demo-cancel">Cancel</EsaButton>
-      <EsaButton color="primary" type="button" id="bcn-demo-submit">Send request</EsaButton>
+      <EsaButton variant="ghost" appearance="soft" type="button" id="bcn-demo-cancel">Cancel</EsaButton>
+      <EsaButton variant="primary" type="button" id="bcn-demo-submit">Send request</EsaButton>
     </span>
     <span id="bcn-demo-close-wrap" hidden>
-      <EsaButton color="primary" type="button" id="bcn-demo-close">Close</EsaButton>
+      <EsaButton variant="primary" type="button" id="bcn-demo-close">Close</EsaButton>
     </span>
   </span>
 </esa-dialog>
@@ -173,11 +173,11 @@ const INTERESTS = [
 
   .bcn-demo__lede {
     margin: 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
-  #bcn-demo-done .type-card-title,
-  #bcn-demo-done .type-body {
+  #bcn-demo-done .typography-title,
+  #bcn-demo-done .typography-body-md {
     margin: 0;
   }
 </style>

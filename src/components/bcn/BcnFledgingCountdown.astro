@@ -109,21 +109,21 @@ const INFO = '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 
   }
   .bcn-fledge__num {
     font-family: var(--font-decorative);
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-bold);
     line-height: 1;
-    color: var(--color-secondary);
+    color: var(--color-background-brand-muted);
     font-variant-numeric: tabular-nums;
   }
-  .bcn-fledge__unit { font-size: 0.7em; font-weight: var(--font-weight-semibold); }
+  .bcn-fledge__unit { font-size: 0.7em; font-weight: var(--typography-font-weight-semibold); }
   .bcn-fledge__caption {
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
     white-space: nowrap;
   }
   .bcn-fledge[data-fledged='true'] .bcn-fledge__num {
-    font-size: var(--type-size-300);
-    color: var(--color-success);
+    font-size: var(--font-size-300);
+    color: var(--color-background-utility-success);
   }
 
   /* ── Dated rail (right) ── */
@@ -140,14 +140,14 @@ const INFO = '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 
     right: 7px;
     height: 6px;
     border-radius: var(--radius-full);
-    background: var(--color-border);
+    background: var(--color-border-default);
   }
   .bcn-fledge__fill {
     position: absolute;
     inset: 0 auto 0 0;
     height: 100%;
     border-radius: var(--radius-full);
-    background: var(--color-secondary);
+    background: var(--color-background-brand-muted);
   }
   .bcn-fledge__dot {
     position: absolute;
@@ -156,17 +156,17 @@ const INFO = '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 
     width: 12px;
     height: 12px;
     border-radius: var(--radius-full);
-    background: var(--color-surface);
-    border: 2px solid var(--color-border-strong);
+    background: var(--color-background-elevation-raised);
+    border: 2px solid var(--color-border-default-strong);
     z-index: 1;
   }
   .bcn-fledge__dot[data-reached='true'] {
-    background: var(--color-secondary);
-    border-color: var(--color-secondary);
+    background: var(--color-background-brand-muted);
+    border-color: var(--color-background-brand-muted);
   }
   .bcn-fledge__dot--end[data-reached='true'] {
-    background: var(--color-success);
-    border-color: var(--color-success);
+    background: var(--color-background-utility-success);
+    border-color: var(--color-background-utility-success);
   }
   .bcn-fledge__today {
     position: absolute;
@@ -175,8 +175,8 @@ const INFO = '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 
     height: 18px;
     transform: translate(-50%, -50%);
     border-radius: var(--radius-full);
-    background: var(--color-secondary);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-secondary) 16%, transparent);
+    background: var(--color-background-brand-muted);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-background-brand-muted) 16%, transparent);
     z-index: 2;
   }
 
@@ -192,13 +192,13 @@ const INFO = '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 
   .bcn-fledge__cap--mid { transform: translateX(-50%); align-items: center; text-align: center; }
   .bcn-fledge__cap--end { right: 0; align-items: flex-end; text-align: right; }
   .bcn-fledge__cap-label {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-fledge__cap-date {
-    font-size: var(--type-size-100);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
 
@@ -208,9 +208,9 @@ const INFO = '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 
     align-items: flex-start;
     gap: var(--spacing-150);
     margin: 0;
-    font-size: var(--type-size-150);
+    font-size: var(--font-size-150);
     line-height: 1.45;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
-  .bcn-fledge__note :global(.esa-icon) { flex-shrink: 0; margin-top: 1px; color: var(--color-text-tertiary); }
+  .bcn-fledge__note :global(.esa-icon) { flex-shrink: 0; margin-top: 1px; color: var(--color-content-default-tertiary); }
 </style>

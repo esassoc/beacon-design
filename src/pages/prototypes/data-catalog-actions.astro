@@ -16,7 +16,7 @@
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import { actions, PROJECT_NAME } from '../../data/tracker-fixture';
 import { withBase } from '../../lib/base';
 
@@ -74,16 +74,16 @@ const gridPayload = {
     <div class="grid-header">
       <div class="grid-header__filter">
         <esa-text-field id="dc-search" placeholder="Search grid…" size="sm"></esa-text-field>
-        <span id="dc-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+        <span id="dc-search-clear" hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
       </div>
-      <span id="dc-clear-filters"><EsaButton color="ghost" appearance="outline" size="sm">Clear Filters</EsaButton></span>
+      <span id="dc-clear-filters"><EsaButton variant="ghost" appearance="outline" size="sm">Clear Filters</EsaButton></span>
     </div>
 
     <div id="dc-grid" class="tracker-grid"></div>
 
     <!-- Grid footer: download · record count -->
     <div class="table-footer">
-      <span id="dc-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
+      <span id="dc-download"><EsaButton variant="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
       <div class="row-count-data">
         Total Records: <span id="dc-total">0</span>
         <span id="dc-filtered" class="filtered-rows-count" hidden></span>
@@ -220,8 +220,8 @@ const gridPayload = {
     justify-content: space-between;
     gap: var(--spacing-400);
     padding: var(--spacing-200) var(--spacing-400);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-top: 0;
     border-radius: 0 0 var(--radius-100) var(--radius-100);
   }
@@ -229,19 +229,19 @@ const gridPayload = {
     display: flex;
     align-items: center;
     gap: var(--spacing-400);
-    font-size: var(--type-size-100);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
-  .filtered-rows-count { color: var(--color-text-tertiary); }
+  .filtered-rows-count { color: var(--color-content-default-tertiary); }
   .filtered-rows-count[hidden] { display: none; }
 
   /* AG Grid cell renderers (global — AG Grid injects cells outside Astro's scope) */
   :global(.ag-row) { cursor: pointer; }
   :global(.bcn-grid-name) {
-    color: var(--color-text-link);
-    font-weight: var(--font-weight-regular);
+    color: var(--color-content-link);
+    font-weight: var(--typography-font-weight-regular);
     text-decoration: underline;
   }
-  :global(.bcn-grid-name:hover) { color: var(--color-primary-hover); }
+  :global(.bcn-grid-name:hover) { color: var(--color-background-brand-hover); }
 </style>

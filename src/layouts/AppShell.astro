@@ -6,16 +6,16 @@
 //   - side-nav-modern.component.*        → side nav (logo, project-switcher, main-nav)
 //
 // SCSS → spoke-token translation (no hardcoded hex/px):
-//   $gray-N → var(--bcn-gray-N); $primary → var(--color-primary);
-//   rgba($primary,.1) → color-mix(...); $white → var(--color-surface);
-//   $accent → var(--color-accent); $danger-600/50 → var(--color-danger[-subtle]);
+//   $gray-N → var(--bcn-gray-N); $primary → var(--color-background-brand);
+//   rgba($primary,.1) → color-mix(...); $white → var(--color-background-elevation-raised);
+//   $accent → var(--color-background-accent); $danger-600/50 → var(--color-background-utility-danger[-subtle]);
 //   $spacing-* → var(--spacing-*). Radii kept as spacing vars (verbatim).
 //
 // Driven by a static fixture (see defaults below). The collapse toggle + user
 // panel are wired with a tiny inline script — no framework.
 import BaseLayout from './BaseLayout.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import BcnSearchTrigger from '../components/bcn/BcnSearchTrigger.astro';
 import BcnOmniSearch from '../components/bcn/BcnOmniSearch.astro';
 import BcnHelpBar from '../components/bcn/BcnHelpBar.astro';
@@ -267,7 +267,7 @@ if (activeNavId) {
           <EsaIcon name="sliders-horizontal" size="md" paths={LUCIDE['sliders-horizontal']} />
         </a>
 
-        <EsaIconButton
+        <EsaIconButton variant="chrome" iconOnly
           icon="settings"
           label="Admin settings"
           size="md"
@@ -479,8 +479,8 @@ if (activeNavId) {
     padding: var(--spacing-050) var(--spacing-200);
     font-size: 0.8125rem; /* 13px — the meta/dense floor; was 12px */
     font-weight: 600;
-    background: var(--color-accent);
-    color: var(--color-surface);
+    background: var(--color-background-accent);
+    color: var(--color-background-elevation-raised);
     border-radius: var(--spacing-100);
     white-space: nowrap;
   }
@@ -546,10 +546,10 @@ if (activeNavId) {
   }
   .sidebar-toggle:hover {
     background: var(--bcn-gray-200);
-    color: var(--color-primary);
+    color: var(--color-background-brand);
   }
   .sidebar-toggle:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-background-brand);
     outline-offset: 2px;
   }
   .sidebar-toggle__icon {
@@ -583,7 +583,7 @@ if (activeNavId) {
      their resting icon color via the zone. The hand-rolled .icon-button (ESA-Config)
      reads the same semantic token below. */
   .topbar__right :global(.esa-icon-button) {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .icon-button {
@@ -596,21 +596,21 @@ if (activeNavId) {
     border: none;
     border-radius: var(--spacing-050);
     background: transparent;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     text-decoration: none;
     cursor: pointer;
     transition: background 150ms ease, color 150ms ease;
   }
   .icon-button:hover {
-    background: var(--color-surface-sunken);
-    color: var(--color-primary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-background-brand);
   }
   .icon-button--active {
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-background-brand) 10%, transparent);
+    color: var(--color-background-brand);
   }
   .icon-button:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-background-brand);
     outline-offset: 2px;
   }
 
@@ -635,7 +635,7 @@ if (activeNavId) {
     transform: scale(1.05);
   }
   .user-menu-trigger:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-background-brand);
     outline-offset: 2px;
   }
   .user-menu-trigger__avatar {
@@ -654,7 +654,7 @@ if (activeNavId) {
     color: var(--bcn-gray-500);
   }
   .user-menu-trigger:hover .user-menu-trigger__avatar {
-    border-color: var(--color-primary);
+    border-color: var(--color-background-brand);
   }
 
   /* User panel dropdown (ui-dropdown content, position bottom-end) */
@@ -663,7 +663,7 @@ if (activeNavId) {
     top: calc(100% + var(--spacing-200));
     right: 0;
     min-width: 280px;
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     border-radius: var(--spacing-200);
     border: 1px solid var(--bcn-gray-200);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
@@ -747,16 +747,16 @@ if (activeNavId) {
     background: var(--bcn-gray-100);
   }
   .user-panel__item--danger {
-    color: var(--color-danger);
+    color: var(--color-background-utility-danger);
   }
   .user-panel__item--danger:hover {
-    background: var(--color-danger-subtle);
+    background: var(--color-background-utility-danger-subtle);
   }
   .user-panel__item :global(.esa-icon) {
     color: var(--bcn-gray-500);
   }
   .user-panel__item--danger :global(.esa-icon) {
-    color: var(--color-danger);
+    color: var(--color-background-utility-danger);
   }
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -834,7 +834,7 @@ if (activeNavId) {
     min-width: 0;
     box-sizing: border-box;
     padding: var(--spacing-200) var(--spacing-300);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     border: 1px solid var(--bcn-gray-200);
     border-radius: var(--spacing-200);
     cursor: pointer;
@@ -930,16 +930,16 @@ if (activeNavId) {
   }
   .nav-section__header:hover {
     background: rgba(0, 0, 0, 0.04);
-    color: var(--color-primary);
+    color: var(--color-background-brand);
   }
   .nav-section__header:hover :global(.esa-icon) {
-    color: var(--color-primary);
+    color: var(--color-background-brand);
   }
   .nav-section--active .nav-section__header {
-    color: var(--color-primary);
+    color: var(--color-background-brand);
   }
   .nav-section--active .nav-section__header :global(.esa-icon) {
-    color: var(--color-primary);
+    color: var(--color-background-brand);
   }
 
   /* icon (first esa-icon in the header) */
@@ -1024,6 +1024,6 @@ if (activeNavId) {
   }
   .nav-sublink.active {
     background: rgba(0, 0, 0, 0.04);
-    color: var(--color-primary);
+    color: var(--color-background-brand);
   }
 </style>

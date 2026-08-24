@@ -81,24 +81,24 @@ const { title, rows, count = false, countLabel, chevrons = false, footer } = Ast
     color: inherit;
   }
   .bcn-lrc li + li .bcn-lrc__row {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-lrc__label {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
     min-width: 0;
   }
-  .bcn-lrc__row:hover .bcn-lrc__label { color: var(--color-primary); }
+  .bcn-lrc__row:hover .bcn-lrc__label { color: var(--color-background-brand); }
   .bcn-lrc__right { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
   .bcn-lrc__meta {
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
-  .bcn-lrc__chev { color: var(--color-text-muted); }
-  .bcn-lrc__row:hover .bcn-lrc__chev { color: var(--color-primary); }
+  .bcn-lrc__chev { color: var(--bcn-content-muted); }
+  .bcn-lrc__row:hover .bcn-lrc__chev { color: var(--color-background-brand); }
 
   /* View-all footer — divided from the rows, the section-link voice. */
   .bcn-lrc__footer {
@@ -107,12 +107,12 @@ const { title, rows, count = false, countLabel, chevrons = false, footer } = Ast
     gap: var(--spacing-100);
     margin-top: var(--spacing-100);
     padding-top: var(--spacing-250);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
     width: 100%;
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
     text-decoration: none;
   }
-  .bcn-lrc__footer:hover { color: var(--color-primary-hover); }
+  .bcn-lrc__footer:hover { color: var(--color-background-brand-hover); }
 </style>

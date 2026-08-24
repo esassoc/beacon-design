@@ -102,7 +102,7 @@ const BADGE_VARIANT = {
                 </span>
 
                 <span class="bcn-dds__title-row repel" data-gap="xs">
-                  <span class="bcn-dds__label type-card-title">{s.label}</span>
+                  <span class="bcn-dds__label typography-title">{s.label}</span>
                   {!s.disabled && (
                     <span class="bcn-dds__chev" aria-hidden="true">
                       <EsaIcon name="chevron-right" size="sm" />
@@ -110,7 +110,7 @@ const BADGE_VARIANT = {
                   )}
                 </span>
 
-                <span class="bcn-dds__desc type-body-small">{s.description}</span>
+                <span class="bcn-dds__desc typography-body-sm">{s.description}</span>
               </Tile>
             </li>
           );
@@ -143,8 +143,8 @@ const BADGE_VARIANT = {
     flex: 1;
     min-width: 0;
     padding: var(--spacing-400);
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     color: inherit;
     text-decoration: none;
@@ -153,15 +153,15 @@ const BADGE_VARIANT = {
       background-color 150ms ease;
   }
   a.bcn-dds__tile:hover {
-    border-color: var(--color-border-strong);
-    background: var(--color-surface);
+    border-color: var(--color-border-default-strong);
+    background: var(--color-background-elevation-raised);
   }
   a.bcn-dds__tile:hover .bcn-dds__label,
   a.bcn-dds__tile:hover .bcn-dds__chev {
-    color: var(--color-primary);
+    color: var(--color-background-brand);
   }
   a.bcn-dds__tile:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-background-brand);
     outline-offset: 2px;
   }
 
@@ -175,9 +175,9 @@ const BADGE_VARIANT = {
     height: 28px;
     flex-shrink: 0;
     border-radius: var(--radius-100);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-content-default-secondary);
   }
 
   /* .repel already centers; only the width is ours (it's a flex child of .stack). */
@@ -195,46 +195,46 @@ const BADGE_VARIANT = {
   }
   .bcn-dds__label {
     min-width: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-dds__chev {
     display: inline-flex;
     flex-shrink: 0;
     margin-top: 0.125rem;
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
     transition: color 150ms ease;
   }
 
   /* Secondary, not tertiary: this line shrinks to 14px, so it darkens rather
      than grays out. */
   .bcn-dds__desc {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     min-width: 0;
   }
 
   /* esa-badge has no `neutral` variant — re-point its two public hooks. A white
      fill on the sunken tile gives the quiet mark its edge without a border. */
   .bcn-dds__tile[data-tone='neutral'] {
-    --badge-bg: var(--color-surface);
-    --badge-text-color: var(--color-text-secondary);
+    --badge-bg: var(--color-background-elevation-raised);
+    --badge-text-color: var(--color-content-default-secondary);
   }
 
   /* Locked stage: visibly inert — no hover, no chevron, no link. The reason
      ("Complete Boundary first") is the description the caller passed. */
   .bcn-dds__tile[data-disabled] {
     background: transparent;
-    border-color: var(--color-border-light);
+    border-color: var(--color-border-default-subtle);
     border-style: dashed;
   }
   .bcn-dds__tile[data-disabled] .bcn-dds__mark {
     background: transparent;
-    border-color: var(--color-border-light);
-    color: var(--color-text-muted);
+    border-color: var(--color-border-default-subtle);
+    color: var(--bcn-content-muted);
   }
   .bcn-dds__tile[data-disabled] .bcn-dds__label {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-dds__tile[data-disabled] .bcn-dds__desc {
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
   }
 </style>

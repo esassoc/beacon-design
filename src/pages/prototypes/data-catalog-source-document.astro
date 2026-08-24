@@ -119,7 +119,7 @@ const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02
       <header class="bcn-doc__head">
         <h1 class="bcn-doc__title">{docTitle}</h1>
         <div class="bcn-doc__head-actions">
-          <span id="edit-doc"><EsaButton color="primary" size="sm"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit source document</span></EsaButton></span>
+          <span id="edit-doc"><EsaButton variant="primary" size="sm"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit source document</span></EsaButton></span>
         </div>
       </header>
 
@@ -181,7 +181,7 @@ const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02
 
           <!-- Coversheet download — rail action module (prod: sourcesSourceIDCoverSheetGet). -->
           <div class="bcn-coversheet">
-            <span id="download-coversheet"><EsaButton color="ghost" appearance="outline"><span class="bcn-btn-ico"><EsaIcon name="download" size="xs" paths={DOWNLOAD} />Download Source Coversheet</span></EsaButton></span>
+            <span id="download-coversheet"><EsaButton variant="ghost" appearance="outline"><span class="bcn-btn-ico"><EsaIcon name="download" size="xs" paths={DOWNLOAD} />Download Source Coversheet</span></EsaButton></span>
           </div>
         </aside>
       </div>
@@ -189,13 +189,13 @@ const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02
       <!-- Danger zone — GitHub layout (heading outside the box; row of title+desc and a
            right-aligned secondary-danger button). Opens a simple confirm, matching prod. -->
       <BcnDangerZone title="Delete this source document" description="Deleting this source document also deletes all files attached to it. This action cannot be undone.">
-        <span id="delete-doc"><EsaButton color="danger" appearance="soft">Delete source document</EsaButton></span>
+        <span id="delete-doc"><EsaButton variant="danger" appearance="soft">Delete source document</EsaButton></span>
       </BcnDangerZone>
     </div>
   </PageLayout>
 
   <!-- ═══ Edit Source Document MODAL — single-column form (prod field set). ═══ -->
-  <esa-dialog id="edit-dialog" heading="Edit Source Document" style="--_dialog-width: 640px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
+  <esa-dialog id="edit-dialog" heading="Edit Source Document" style="--_dialog-width: 640px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-background-elevation-raised, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
     <div class="bcn-form bcn-form--dialog">
       <esa-text-field id="d-name" label="Name" required></esa-text-field>
       <esa-select id="d-project" label="Project" required></esa-select>
@@ -211,13 +211,13 @@ const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02
       <esa-textarea id="d-desc" label="Description" rows="5"></esa-textarea>
     </div>
     <div slot="footer" class="bcn-editor__foot">
-      <span id="ed-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-      <span id="ed-save"><EsaButton color="primary">Save</EsaButton></span>
+      <span id="ed-cancel"><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="ed-save"><EsaButton variant="primary">Save</EsaButton></span>
     </div>
   </esa-dialog>
 
   <!-- Document viewer — the source PDF in the family side drawer. -->
-  <esa-side-dialog id="source-drawer" heading={docTitle} size="lg" style="--_width: 66vw; --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);">
+  <esa-side-dialog id="source-drawer" heading={docTitle} size="lg" style="--_width: 66vw; --z-modal: 1300; --z-modal-backdrop: 1250; --side-dialog-backdrop-filter: blur(4px);">
     <div class="bcn-source-pdf">
       <iframe class="bcn-source-pdf__frame" src={`${sourcePdf}#view=FitH&navpanes=0&pagemode=none`} title={`Source document — ${docTitle} (sample)`}></iframe>
     </div>
@@ -338,18 +338,18 @@ const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02
 
   .bcn-doc { display: flex; flex-direction: column; gap: var(--spacing-600); }
 
-  .bcn-doc__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .bcn-doc__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border-default); }
   .bcn-doc__head-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
-  .bcn-doc__title { margin: 0; min-width: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
+  .bcn-doc__title { margin: 0; min-width: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--typography-font-weight-semibold); line-height: 1.2; color: var(--color-content-default); }
 
   .bcn-doc__body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--spacing-600); align-items: start; }
   .bcn-doc__main { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-600); }
   .bcn-doc__rail { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-500); }
-  .bcn-doc__rail :global(.esa-collapsible__title) { font-size: var(--type-size-250); font-weight: var(--font-weight-semibold); }
+  .bcn-doc__rail :global(.esa-collapsible__title) { font-size: var(--font-size-250); font-weight: var(--typography-font-weight-semibold); }
 
   .bcn-doc__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .bcn-section-title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-prose { margin: 0; font-size: var(--form-font-size-md); line-height: 1.6; color: var(--color-text-primary); }
+  .bcn-section-title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--font-size-300); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-prose { margin: 0; font-size: var(--typography-label-md-font-size); line-height: 1.6; color: var(--color-content-default); }
   .bcn-btn-ico { display: inline-flex; align-items: center; gap: var(--spacing-150); }
 
   /* Coversheet download — full-width rail action module. */
@@ -358,7 +358,7 @@ const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02
 
   /* Neutral count badge — re-point esa-badge's public override tokens to the house
      neutral pair (sunken surface + secondary text), instead of the teal secondary. */
-  .bcn-count-neutral { display: inline-flex; align-items: center; --badge-bg: var(--color-surface-sunken); --badge-text-color: var(--color-text-secondary); }
+  .bcn-count-neutral { display: inline-flex; align-items: center; --badge-bg: var(--color-background-elevation-sunken); --badge-text-color: var(--color-content-default-secondary); }
 
   /* Roomier file rows — drive the esa-file-list density knob (inherits into the lego's
      shadow DOM); default there is a tight 2px block padding. */
@@ -366,7 +366,7 @@ const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02
 
   /* Rail lists (Associated Components) */
   .bcn-lists { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-150); margin: 0; padding: 0; list-style: none; }
-  .bcn-list-link { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-primary); text-decoration: none; }
+  .bcn-list-link { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); color: var(--color-background-brand); text-decoration: none; }
   .bcn-list-link:hover { text-decoration: underline; }
 
   /* Child rollup nodes (Commitments / Requirements / Actions) on the lineage spine —
@@ -381,20 +381,20 @@ const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02
   /* Lineage rail (family treatment) */
   .bcn-lineage { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
   .bcn-lineage__node { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-300); padding-bottom: var(--spacing-400); }
-  .bcn-lineage__node::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; background: var(--color-border); }
+  .bcn-lineage__node::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; background: var(--color-border-default); }
   .bcn-lineage__node:last-child { padding-bottom: 0; }
   .bcn-lineage__node:last-child::before { display: none; }
-  .bcn-lineage__icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text-secondary); }
+  .bcn-lineage__icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: var(--color-background-elevation-raised); border: 1px solid var(--color-border-default); color: var(--color-content-default-secondary); }
   .bcn-lineage__icon :global(.esa-icon) { --_icon-size: 14px; }
-  .bcn-lineage__node--current .bcn-lineage__icon { border-color: var(--color-primary); background: var(--color-primary); color: var(--color-text-inverse); }
+  .bcn-lineage__node--current .bcn-lineage__icon { border-color: var(--color-background-brand); background: var(--color-background-brand); color: var(--color-content-default-knockout); }
   .bcn-lineage__body { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding-top: 2px; }
-  .bcn-lineage__kind { font-size: 0.75rem; color: var(--color-primary); text-decoration: none; width: fit-content; }
+  .bcn-lineage__kind { font-size: 0.75rem; color: var(--color-background-brand); text-decoration: none; width: fit-content; }
   a.bcn-lineage__kind:hover { text-decoration: underline; }
-  .bcn-lineage__name { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); line-height: 1.35; color: var(--color-primary); text-decoration: none; }
+  .bcn-lineage__name { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); line-height: 1.35; color: var(--color-background-brand); text-decoration: none; }
   a.bcn-lineage__name:hover { text-decoration: underline; }
-  .bcn-lineage__name--current { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+  .bcn-lineage__name--current { color: var(--color-content-default); font-weight: var(--typography-font-weight-semibold); }
 
-  .bcn-rail-meta { margin: var(--spacing-300) 0 0; padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-light); font-size: 0.75rem; color: var(--color-text-secondary); }
+  .bcn-rail-meta { margin: var(--spacing-300) 0 0; padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-default-subtle); font-size: 0.75rem; color: var(--color-content-default-secondary); }
 
   @media (max-width: 1024px) {
     .bcn-doc__body { grid-template-columns: 1fr; }
@@ -407,7 +407,7 @@ const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02
   .bcn-editor__foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; width: 100%; }
 
   .bcn-source-pdf { height: 100%; min-height: 60vh; }
-  .bcn-source-pdf__frame { width: 100%; height: 100%; min-height: 60vh; border: 0; border-radius: var(--radius-200); background: var(--color-surface-sunken); }
+  .bcn-source-pdf__frame { width: 100%; height: 100%; min-height: 60vh; border: 0; border-radius: var(--radius-200); background: var(--color-background-elevation-sunken); }
 </style>
 
 <!-- Page renders its own identity header; hide PageLayout's default title row. -->

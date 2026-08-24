@@ -132,8 +132,8 @@ function shortDate(raw: string): string {
     margin: 0 0 var(--spacing-200, 0.5rem);
     padding-inline: var(--spacing-300, 0.75rem);
     font-size: 1rem;
-    font-weight: var(--font-weight-semibold, 600);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold, 600);
+    color: var(--color-content-default);
     line-height: 1.3;
   }
 
@@ -152,26 +152,26 @@ function shortDate(raw: string): string {
     gap: 2px;
     padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
     border-radius: var(--radius-200, 0.5rem);
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     text-decoration: none;
     transition: background 0.1s ease, color 0.1s ease;
   }
   /* Hover — a neutral wash at most; the active state is carried by ink, not fill. */
   .bcn-release-nav__link:hover {
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-release-nav__link:hover .bcn-release-nav__version {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-release-nav__link:focus-visible {
-    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--color-text-link, #005862));
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--color-content-link, #005862));
     outline-offset: 2px;
   }
 
   /* Active / in-view — an ink shift, never a colour fill: the version darkens to
      primary and picks up weight; the rest of the row stays quiet. */
   .bcn-release-nav__link.is-active .bcn-release-nav__version {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     font-weight: 600;
   }
 
@@ -184,7 +184,7 @@ function shortDate(raw: string): string {
     font-family: var(--font-decorative);
     font-size: 1rem; /* 16px */
     font-weight: 500;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     line-height: 1.3;
     transition: color 0.1s ease;
   }
@@ -193,11 +193,11 @@ function shortDate(raw: string): string {
      colour chip, so the newest-release marker never competes with the active ink. */
   .bcn-release-nav__latest {
     flex: none;
-    font-family: var(--font-sans, 'DM Sans', sans-serif);
+    font-family: var(--typography-font-family-sans, 'DM Sans', sans-serif);
     font-size: 12px;
-    font-weight: var(--font-weight-medium, 500);
-    color: var(--color-text-tertiary);
-    background: var(--color-surface-sunken);
+    font-weight: var(--typography-font-weight-medium, 500);
+    color: var(--color-content-default-tertiary);
+    background: var(--color-background-elevation-sunken);
     padding: 1px var(--spacing-150, 0.375rem);
     border-radius: var(--radius-100, 0.25rem);
     line-height: 1.5;
@@ -206,7 +206,7 @@ function shortDate(raw: string): string {
   /* Date — a genuine timestamp, so 14px secondary is honest meta (not a body role). */
   .bcn-release-nav__date {
     font-size: 0.875rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     line-height: 1.35;
   }
 

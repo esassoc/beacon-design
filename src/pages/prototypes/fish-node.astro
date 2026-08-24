@@ -70,7 +70,7 @@ const fishNav = [
   >
     <span slot="title-badge" class="bcn-node-page__badge" id="bcn-node-badge" hidden>—</span>
     <div slot="utilities" class="bcn-node-page__utils">
-      <EsaButton href={ganttHref} color="ghost" appearance="outline" size="sm" icon="arrow-left">Back to Study Planning</EsaButton>
+      <EsaButton href={ganttHref} variant="ghost" appearance="outline" size="sm" icon="arrow-left">Back to Study Planning</EsaButton>
     </div>
 
     <!-- bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The body is the unchanged
@@ -83,7 +83,7 @@ const fishNav = [
           title="Pick a node"
           description="Open a node from the Study Planning gantt (View full details in the row drawer), or pass ?id= with a COA / STY / SUB / TSK id."
         >
-          <EsaButton href={ganttHref} color="primary" size="sm" icon="arrow-left">Open Study Planning</EsaButton>
+          <EsaButton href={ganttHref} variant="primary" size="sm" icon="arrow-left">Open Study Planning</EsaButton>
         </EsaEmptyState>
       </section>
       {
@@ -203,7 +203,7 @@ const fishNav = [
   .bcn-node-page [data-node-panel][hidden] { display: none; }
   .bcn-node-page__empty[hidden] { display: none; }
 
-  .bcn-node-page__badge { font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 2px var(--spacing-250); border-radius: var(--radius-100); white-space: nowrap; }
+  .bcn-node-page__badge { font-family: var(--typography-font-family-mono); font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 2px var(--spacing-250); border-radius: var(--radius-100); white-space: nowrap; }
 
   .bcn-node-page__utils :global(a) { text-decoration: none; }
 </style>

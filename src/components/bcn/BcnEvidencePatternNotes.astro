@@ -43,15 +43,15 @@ const EVALUATE = [
 
 <section class="bcn-ev-notes stack" data-gap="md" aria-labelledby="bcn-ev-notes-title">
   <div>
-    <h2 class="type-section-title" id="bcn-ev-notes-title">About this prototype</h2>
-    <p class="type-body bcn-ev-notes__lede">
+    <h2 class="typography-heading-md" id="bcn-ev-notes-title">About this prototype</h2>
+    <p class="typography-body-md bcn-ev-notes__lede">
       Nothing here saves. The drawer is a picture of the feature, built to be argued with.
     </p>
   </div>
 
   <div class="bcn-ev-notes__grid">
     <EsaCard title="Where it sits" variant="outlined">
-      <p class="type-body-small bcn-ev-notes__text">
+      <p class="typography-body-sm bcn-ev-notes__text">
         Beacon’s drawers come in from the right and hold temporary work. This one is app-shell
         furniture, like the nav and the top bar, and it layers above modals so it can cover an open
         dialog.
@@ -64,7 +64,7 @@ const EVALUATE = [
           </li>
         ))}
       </ul>
-      <p class="type-caption bcn-ev-notes__caveat">
+      <p class="typography-meta bcn-ev-notes__caveat">
         The hub’s drawer lego only opens from the left or right and has no height control, so the
         bottom drawer is built here and filed as a request upstream.
       </p>
@@ -92,7 +92,7 @@ const EVALUATE = [
   .bcn-ev-notes__lede {
     margin: var(--spacing-200) 0 0;
     max-width: 78ch;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-ev-notes__grid {
     display: grid;
@@ -102,7 +102,7 @@ const EVALUATE = [
   }
   .bcn-ev-notes__text {
     margin: 0 0 var(--spacing-300);
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* The layer stack, drawn as a list rather than a diagram — the order is the content. */
@@ -112,7 +112,7 @@ const EVALUATE = [
     padding: 0;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-200);
     overflow: hidden;
   }
@@ -121,28 +121,28 @@ const EVALUATE = [
     flex-direction: column;
     gap: 1px;
     padding: var(--spacing-200) var(--spacing-300);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
   }
   .bcn-ev-notes__layer + .bcn-ev-notes__layer {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   /* The one that is this feature — a background tint inline with the content, not a
      colored edge. */
   .bcn-ev-notes__layer[data-here] {
-    background: var(--color-primary-subtle, var(--color-background));
+    background: var(--color-background-brand-subtle, var(--color-background-default));
   }
   .bcn-ev-notes__layername {
-    font-size: var(--type-size-150, 0.875rem);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150, 0.875rem);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-ev-notes__layernote {
-    font-size: var(--type-size-150, 0.875rem);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150, 0.875rem);
+    color: var(--color-content-default-secondary);
   }
   .bcn-ev-notes__caveat {
     margin: var(--spacing-300) 0 0;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
   .bcn-ev-notes__list {
@@ -156,8 +156,8 @@ const EVALUATE = [
     padding-left: 1.35rem;
   }
   .bcn-ev-notes__item {
-    font-size: var(--type-size-150, 0.875rem);
+    font-size: var(--font-size-150, 0.875rem);
     line-height: 1.5;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 </style>

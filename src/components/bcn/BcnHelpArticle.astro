@@ -68,7 +68,7 @@ const GLYPH = {
 <article id={`article-${article.id}`} class:list={['bcn-help-article', compact && 'bcn-help-article--compact']}>
   {!hideTitle && (
     <header class="bcn-help-article__head">
-      <Title class="bcn-help-article__title type-card-title">{article.title}</Title>
+      <Title class="bcn-help-article__title typography-title">{article.title}</Title>
       <EsaBadge value={kindLabel} size="sm" />
     </header>
   )}
@@ -76,14 +76,14 @@ const GLYPH = {
   <div class="bcn-help-article__body">
     {article.blocks.map((block) => {
       if (block.kind === 'p') {
-        return <p class="bcn-help-article__p type-body">{block.text}</p>;
+        return <p class="bcn-help-article__p typography-body-md">{block.text}</p>;
       }
 
       if (block.kind === 'steps') {
         return (
           <ol class="bcn-help-article__steps">
             {block.items.map((item) => (
-              <li class="bcn-help-article__step type-body">{item}</li>
+              <li class="bcn-help-article__step typography-body-md">{item}</li>
             ))}
           </ol>
         );
@@ -98,7 +98,7 @@ const GLYPH = {
             </span>
             <div class="bcn-help-article__callout-body">
               <span class="bcn-help-article__callout-label">{isTip ? 'Tip' : 'Note'}</span>
-              <p class="bcn-help-article__callout-text type-body">{block.text}</p>
+              <p class="bcn-help-article__callout-text typography-body-md">{block.text}</p>
             </div>
           </aside>
         );
@@ -111,7 +111,7 @@ const GLYPH = {
               <span class="bcn-help-article__figure-icon"><EsaIcon name="image" paths={GLYPH.image} size="lg" /></span>
               <span class="bcn-help-article__figure-label">{block.label}</span>
             </div>
-            <figcaption class="bcn-help-article__caption type-caption">{block.caption}</figcaption>
+            <figcaption class="bcn-help-article__caption typography-meta">{block.caption}</figcaption>
           </figure>
         );
       }
@@ -123,7 +123,7 @@ const GLYPH = {
               <span class="bcn-help-article__video-play"><EsaIcon name="play" paths={GLYPH.play} size="md" /></span>
               <span class="bcn-help-article__video-duration"><EsaBadge value={block.duration} size="sm" /></span>
             </div>
-            <figcaption class="bcn-help-article__caption type-caption">{block.label}</figcaption>
+            <figcaption class="bcn-help-article__caption typography-meta">{block.label}</figcaption>
           </figure>
         );
       }
@@ -152,14 +152,14 @@ const GLYPH = {
 
   /* Header: title + quiet kind badge on one line (badge wraps under a long title). */
   .bcn-help-article__head { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
-  .bcn-help-article__title { margin: 0; color: var(--color-text-primary); }
+  .bcn-help-article__title { margin: 0; color: var(--color-content-default); }
 
   /* Body: even rhythm between blocks; compact tightens it for the drawer. */
   .bcn-help-article__body { display: flex; flex-direction: column; gap: var(--spacing-400); }
   .bcn-help-article--compact .bcn-help-article__body { gap: var(--spacing-300); }
 
-  /* Paragraphs — primary text, never grayed; type-body carries the size. */
-  .bcn-help-article__p { margin: 0; color: var(--color-text-primary); }
+  /* Paragraphs — primary text, never grayed; typography-body-md carries the size. */
+  .bcn-help-article__p { margin: 0; color: var(--color-content-default); }
 
   /* Ordered steps — quiet round numbered markers (neutral gray), NO colored left border. */
   .bcn-help-article__steps {
@@ -169,14 +169,14 @@ const GLYPH = {
   .bcn-help-article__step {
     counter-increment: bcn-step;
     display: grid; grid-template-columns: 1.625rem 1fr; align-items: start; gap: var(--spacing-300);
-    margin: 0; color: var(--color-text-primary);
+    margin: 0; color: var(--color-content-default);
   }
   .bcn-help-article__step::before {
     content: counter(bcn-step);
     display: inline-flex; align-items: center; justify-content: center;
     width: 1.625rem; height: 1.625rem; border-radius: var(--radius-full);
-    background: var(--color-surface-sunken); color: var(--color-text-primary);
-    font-size: 0.8125rem; font-weight: var(--font-weight-semibold); line-height: 1;
+    background: var(--color-background-elevation-sunken); color: var(--color-content-default);
+    font-size: 0.8125rem; font-weight: var(--typography-font-weight-semibold); line-height: 1;
   }
 
   /* Callout — quiet neutral sunken box; Tip and Note share one treatment (gray fill,
@@ -185,15 +185,15 @@ const GLYPH = {
   .bcn-help-article__callout {
     display: grid; grid-template-columns: auto 1fr; align-items: start; gap: var(--spacing-300);
     padding: var(--spacing-400); border-radius: var(--radius-200);
-    border: 1px solid var(--color-border-light); background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border-default-subtle); background: var(--color-background-elevation-sunken);
   }
   .bcn-help-article--compact .bcn-help-article__callout { padding: var(--spacing-300); }
-  .bcn-help-article__callout-icon { display: inline-flex; margin-top: 1px; color: var(--color-text-secondary); }
+  .bcn-help-article__callout-icon { display: inline-flex; margin-top: 1px; color: var(--color-content-default-secondary); }
   .bcn-help-article__callout-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .bcn-help-article__callout-label {
-    font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-secondary);
+    font-size: 0.875rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-secondary);
   }
-  .bcn-help-article__callout-text { margin: 0; color: var(--color-text-primary); }
+  .bcn-help-article__callout-text { margin: 0; color: var(--color-content-default); }
 
   /* Figure placeholder — a quiet dashed frame with a centered glyph + label; caption
      below. No fake image. */
@@ -201,11 +201,11 @@ const GLYPH = {
   .bcn-help-article__figure-frame {
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--spacing-200);
     min-height: 8.5rem; padding: var(--spacing-500);
-    border: 1px dashed var(--color-border-strong); border-radius: var(--radius-200);
-    background: var(--color-surface-sunken); text-align: center;
+    border: 1px dashed var(--color-border-default-strong); border-radius: var(--radius-200);
+    background: var(--color-background-elevation-sunken); text-align: center;
   }
-  .bcn-help-article__figure-icon { color: var(--color-text-tertiary); }
-  .bcn-help-article__figure-label { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+  .bcn-help-article__figure-icon { color: var(--color-content-default-tertiary); }
+  .bcn-help-article__figure-label { font-size: 0.875rem; font-weight: var(--typography-font-weight-medium); color: var(--color-content-default-secondary); }
 
   /* Video placeholder — 16:9 frame, subtle dark-on-light panel, centered circular
      play affordance, duration badge in the corner. Static; no real playback. */
@@ -213,29 +213,29 @@ const GLYPH = {
   .bcn-help-article__video-frame {
     position: relative; display: flex; align-items: center; justify-content: center;
     aspect-ratio: 16 / 9; border-radius: var(--radius-200); overflow: hidden;
-    border: 1px solid var(--color-border);
-    background: color-mix(in srgb, var(--color-text-primary) 8%, var(--color-surface-sunken));
+    border: 1px solid var(--color-border-default);
+    background: color-mix(in srgb, var(--color-content-default) 8%, var(--color-background-elevation-sunken));
   }
   .bcn-help-article__video-play {
     display: inline-flex; align-items: center; justify-content: center;
     width: 3rem; height: 3rem; border-radius: var(--radius-full);
-    background: var(--color-surface); color: var(--color-text-primary);
+    background: var(--color-background-elevation-raised); color: var(--color-content-default);
     box-shadow: 0 1px 4px rgb(0 0 0 / 0.18); padding-left: 3px;
   }
   .bcn-help-article__video-duration { position: absolute; right: var(--spacing-200); bottom: var(--spacing-200); }
   .bcn-help-article__video-label,
   .bcn-help-article__caption {
-    /* Genuine meta — floored to 13px so type-caption never dips into micro sizes. */
-    font-size: max(0.8125rem, var(--type-size-100)); color: var(--color-text-secondary); margin: 0;
+    /* Genuine meta — floored to 13px so typography-meta never dips into micro sizes. */
+    font-size: max(0.8125rem, var(--font-size-100)); color: var(--color-content-default-secondary); margin: 0;
   }
 
   /* Related — a quiet label + a row of text links to other articles. */
   .bcn-help-article__related {
     display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--spacing-150) var(--spacing-300);
-    padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-light);
+    padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-default-subtle);
   }
-  .bcn-help-article__related-label { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+  .bcn-help-article__related-label { font-size: 0.875rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-secondary); }
   .bcn-help-article__related-list { display: flex; flex-wrap: wrap; gap: var(--spacing-100) var(--spacing-300); margin: 0; padding: 0; list-style: none; }
-  .bcn-help-article__related-link { font-size: 0.9375rem; color: var(--color-text-link); text-decoration: none; }
-  .bcn-help-article__related-link:hover { color: var(--color-text-link-hover); text-decoration: underline; }
+  .bcn-help-article__related-link { font-size: 0.9375rem; color: var(--color-content-link); text-decoration: none; }
+  .bcn-help-article__related-link:hover { color: var(--color-content-link-hover); text-decoration: underline; }
 </style>

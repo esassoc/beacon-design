@@ -54,10 +54,10 @@ const gaNote = flag.removeAtGa ? `Remove at GA${flag.gaTarget ? ` (${flag.gaTarg
     checked={flag.enabled ? '' : undefined}
   ></esa-switch-toggle>
 
-  <p class="bcn-flag-row__name type-body">{flag.displayName}</p>
+  <p class="bcn-flag-row__name typography-body-md">{flag.displayName}</p>
 
-  <p class="bcn-flag-row__desc type-body-small">{flag.description}</p>
-  {gaNote && <p class="bcn-flag-row__meta type-caption">{gaNote}</p>}
+  <p class="bcn-flag-row__desc typography-body-sm">{flag.description}</p>
+  {gaNote && <p class="bcn-flag-row__meta typography-meta">{gaNote}</p>}
 </div>
 
 <script>
@@ -107,14 +107,14 @@ const gaNote = flag.removeAtGa ? `Remove at GA${flag.gaTarget ? ` (${flag.gaTarg
   }
 
   /* The display name is the whole line, so weight and ink sit on the paragraph itself.
-     type-body's relaxed 1.8 would open a gap between the name and the description under
+     typography-body-md's relaxed 1.8 would open a gap between the name and the description under
      it; both are tightened here (a scoped selector outranks the role class). */
   .bcn-flag-row__name {
     margin: 0;
     line-height: 1.4;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
-  .bcn-flag-row__desc { margin: 0; line-height: 1.4; color: var(--color-text-secondary); }
-  .bcn-flag-row__meta { margin: 0; color: var(--color-text-tertiary); }
+  .bcn-flag-row__desc { margin: 0; line-height: 1.4; color: var(--color-content-default-secondary); }
+  .bcn-flag-row__meta { margin: 0; color: var(--color-content-default-tertiary); }
 </style>

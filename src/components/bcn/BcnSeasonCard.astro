@@ -90,8 +90,8 @@ const CALENDAR =
     display: flex;
     flex-direction: column;
     padding: var(--spacing-150) var(--spacing-250) var(--spacing-250);
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border); /* mid gray (round 7) */
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default); /* mid gray (round 7) */
     border-radius: var(--radius-200);
   }
 
@@ -110,18 +110,18 @@ const CALENDAR =
   }
   .bcn-season-card__icon {
     display: inline-flex;
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
   }
   .bcn-season-card__title {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   /* Prod's teal range read-out (#0a6562) — the same value as --bcn-teal-800. */
   .bcn-season-card__dates {
     font-size: 0.8125rem; /* 13px — the meta floor */
-    font-weight: var(--font-weight-medium);
-    color: var(--bcn-teal-800, var(--color-secondary-hover));
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--bcn-teal-800, var(--color-background-brand-muted-hover));
     white-space: nowrap;
   }
   .bcn-season-card__actions {
@@ -145,18 +145,18 @@ const CALENDAR =
      card (round 7). */
   .bcn-season-card__seg--middle {
     position: relative;
-    background: var(--color-secondary);
+    background: var(--color-background-brand-muted);
   }
   .bcn-season-card__seg--first,
   .bcn-season-card__seg--last {
-    background: var(--color-border-strong);
+    background: var(--color-border-default-strong);
   }
   [data-wraps] .bcn-season-card__seg--middle {
-    background: var(--color-border-strong);
+    background: var(--color-border-default-strong);
   }
   [data-wraps] .bcn-season-card__seg--first,
   [data-wraps] .bcn-season-card__seg--last {
-    background: var(--color-secondary);
+    background: var(--color-background-brand-muted);
   }
   /* Boundary dots ride the middle segment's ends (prod's ::before/::after). */
   .bcn-season-card__seg--middle::before,
@@ -167,7 +167,7 @@ const CALENDAR =
     width: 8px;
     height: 8px;
     border-radius: var(--radius-full);
-    background: var(--color-secondary);
+    background: var(--color-background-brand-muted);
   }
   .bcn-season-card__seg--middle::before { left: -4px; }
   .bcn-season-card__seg--middle::after { right: -4px; }
@@ -190,7 +190,7 @@ const CALENDAR =
     gap: var(--spacing-200);
     margin-top: var(--spacing-200);
     font-size: 0.8125rem; /* 13px — the meta floor */
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
     white-space: nowrap;
   }
 </style>

@@ -129,9 +129,9 @@ const hasActions = Astro.slots.has('actions');
                   aria-hidden="true"
                 />
                 <span class="bcn-finding-row__text">
-                  <span class="bcn-finding-row__category type-body-small">{f.category}</span>
-                  <span class="bcn-finding-row__name type-body">{f.name}</span>
-                  <span class="bcn-finding-row__note type-body-small">{f.note}</span>
+                  <span class="bcn-finding-row__category typography-body-sm">{f.category}</span>
+                  <span class="bcn-finding-row__name typography-body-md">{f.name}</span>
+                  <span class="bcn-finding-row__note typography-body-sm">{f.note}</span>
                 </span>
                 <span class="bcn-finding-row__risk">
                   <BcnStatusChip status={f.risk} label={RISK_LABEL[f.risk]} hex={f.riskHex} />
@@ -189,7 +189,7 @@ const hasActions = Astro.slots.has('actions');
     flex-direction: column;
   }
   .bcn-finding-list__rows > li + li {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 
   /* The card is padding="none" so the row band runs full-bleed; the empty state has no
@@ -230,10 +230,10 @@ const hasActions = Astro.slots.has('actions');
     transition: background 150ms ease;
   }
   .bcn-finding-row:hover {
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-finding-row:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-background-brand);
     outline-offset: -2px;
   }
 
@@ -244,7 +244,7 @@ const hasActions = Astro.slots.has('actions');
     height: 10px;
     margin-top: var(--spacing-150);
     border-radius: var(--radius-full);
-    background: var(--_swatch, var(--color-border-strong));
+    background: var(--_swatch, var(--color-border-default-strong));
     flex-shrink: 0;
   }
 
@@ -259,16 +259,16 @@ const hasActions = Astro.slots.has('actions');
      apart (a short family above the name, a sentence below it), so neither needs an
      ornamental treatment to be legible as its own field. */
   .bcn-finding-row__category {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     line-height: 1.4;
   }
   .bcn-finding-row__name {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: 1.4;
   }
   .bcn-finding-row__note {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     line-height: 1.4;
   }
 

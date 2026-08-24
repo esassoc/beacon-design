@@ -75,19 +75,19 @@ const STATUS_OPTIONS = JSON.stringify(
   data-cdp-root
   data-cdp-confirm={confirmId}
   position="right"
-  style="--_width: min(480px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);"
+  style="--_width: min(480px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250; --side-dialog-backdrop-filter: blur(4px);"
 >
   <!-- Panel FOOTER. Only the editable keys get one; the controller re-slots this
        span to 'void' for sources / layers, which collapses the lego's footer bar.
        Save sits LEFT of Cancel (Windows order — the house rule). -->
   <span slot="footer" data-cdp-foot class="bcn-cdp__foot">
     <span data-cdp-foot-for="component-info" class="bcn-cdp__foot-actions" hidden>
-      <span data-cdp-save><EsaButton color="primary">Save</EsaButton></span>
-      <span data-cdp-cancel><EsaButton color="ghost">Cancel</EsaButton></span>
+      <span data-cdp-save><EsaButton variant="primary">Save</EsaButton></span>
+      <span data-cdp-cancel><EsaButton variant="ghost">Cancel</EsaButton></span>
     </span>
     <span data-cdp-foot-for="milestones" class="bcn-cdp__foot-actions" hidden>
-      <span data-cdp-save><EsaButton color="primary">Save dates</EsaButton></span>
-      <span data-cdp-cancel><EsaButton color="ghost">Cancel</EsaButton></span>
+      <span data-cdp-save><EsaButton variant="primary">Save dates</EsaButton></span>
+      <span data-cdp-cancel><EsaButton variant="ghost">Cancel</EsaButton></span>
     </span>
   </span>
 
@@ -122,7 +122,7 @@ const STATUS_OPTIONS = JSON.stringify(
         title="Delete this component"
         description="Removes the component, its work areas, its milestone dates, and its commitment applicability decisions from Beacon."
       >
-        <span data-cdp-delete><EsaButton color="danger" appearance="soft">Delete component</EsaButton></span>
+        <span data-cdp-delete><EsaButton variant="danger" appearance="soft">Delete component</EsaButton></span>
       </BcnDangerZone>
     </div>
   </section>
@@ -153,7 +153,7 @@ const STATUS_OPTIONS = JSON.stringify(
                   Inherited
                 </span>
                 <span class="bcn-cdp__revert" data-cdp-ms-clear hidden={!m.componentDate}>
-                  <EsaButton color="ghost" size="sm" icon="rotate-ccw" aria-label={`Use the project date for ${m.name}`}>
+                  <EsaButton variant="ghost" size="sm" icon="rotate-ccw" aria-label={`Use the project date for ${m.name}`}>
                     Use project date
                   </EsaButton>
                 </span>
@@ -313,8 +313,8 @@ const STATUS_OPTIONS = JSON.stringify(
     flex-direction: column;
     gap: var(--spacing-200);
     padding: var(--spacing-300);
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
   }
   .bcn-cdp__row--inline {
@@ -337,14 +337,14 @@ const STATUS_OPTIONS = JSON.stringify(
   .bcn-cdp__row-name {
     flex: 1;
     min-width: 0;
-    font-size: var(--form-font-size-md);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: var(--line-height-tight);
   }
   .bcn-cdp__row-sub {
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
     line-height: var(--line-height-tight);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -353,7 +353,7 @@ const STATUS_OPTIONS = JSON.stringify(
   .bcn-cdp__row-icon {
     display: inline-flex;
     flex-shrink: 0;
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
   }
   p.bcn-cdp__row-sub {
     margin: 0;
@@ -363,8 +363,8 @@ const STATUS_OPTIONS = JSON.stringify(
   /* Inheriting rows say so in a quiet word — no colored border, no micro-label. */
   .bcn-cdp__state {
     flex-shrink: 0;
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-cdp__state[hidden],
   .bcn-cdp__revert[hidden] {
@@ -378,12 +378,12 @@ const STATUS_OPTIONS = JSON.stringify(
   .bcn-cdp__code {
     flex-shrink: 0;
     padding: 1px var(--spacing-200);
-    font-family: var(--font-mono);
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border-light);
+    font-family: var(--typography-font-family-mono);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-100);
   }
 
@@ -393,13 +393,13 @@ const STATUS_OPTIONS = JSON.stringify(
     align-items: center;
     gap: var(--spacing-300);
     padding: var(--spacing-300);
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     text-decoration: none;
   }
   .bcn-cdp__link-row:hover {
-    border-color: var(--color-border-strong);
+    border-color: var(--color-border-default-strong);
   }
 
   /* esa-switch-toggle's only accessible name is its own label; the layer name is
@@ -414,37 +414,37 @@ const STATUS_OPTIONS = JSON.stringify(
     white-space: nowrap;
   }
   .bcn-cdp__link-row:hover .bcn-cdp__row-name {
-    color: var(--color-primary);
+    color: var(--color-background-brand);
   }
 
   /* ── Milestone header count + the Spatial Library field ── */
   .bcn-cdp__count {
-    font-size: var(--form-font-size-md);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-cdp__lede,
   .bcn-cdp__zone {
     padding-bottom: var(--spacing-300);
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-cdp__zone {
     padding-bottom: 0;
     padding-top: var(--spacing-300);
     border-bottom: 0;
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-cdp__zone-link {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-100);
-    font-size: var(--form-font-size-md);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
     text-decoration: none;
   }
   .bcn-cdp__zone-link:hover {
-    color: var(--color-primary-hover);
+    color: var(--color-background-brand-hover);
   }
 
   /* ── Forms ── */
@@ -466,13 +466,13 @@ const STATUS_OPTIONS = JSON.stringify(
   }
   .bcn-cdp__group-title {
     margin: 0;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-cdp__danger {
     padding-top: var(--spacing-500);
     margin-top: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 </style>

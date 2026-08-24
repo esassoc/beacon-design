@@ -75,7 +75,7 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
       class={`bcn-settings-nav__block${block.id === 'esa-admin' ? ' bcn-settings-nav__block--esa' : ''}`}
       aria-labelledby={`settings-aud-${block.id}`}
     >
-      <h2 class="type-body bcn-settings-nav__aud" id={`settings-aud-${block.id}`}>
+      <h2 class="typography-body-md bcn-settings-nav__aud" id={`settings-aud-${block.id}`}>
         <span class="bcn-settings-nav__aud-icon" aria-hidden="true">
           <EsaIcon name={block.id} size="sm" paths={AUD_ICON_PATHS[block.id]} />
         </span>
@@ -84,7 +84,7 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
       {block.zones.map(({ zone, pages }) => (
         <div class="bcn-settings-nav__group">
           <h3
-            class="type-label bcn-settings-nav__zone"
+            class="typography-label bcn-settings-nav__zone"
             id={`settings-zone-${block.id}-${zone.id}`}
           >
             {zone.title}
@@ -99,7 +99,7 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
               return (
                 <li class="bcn-settings-nav__item">
                   <a
-                    class="type-body-small bcn-settings-nav__link"
+                    class="typography-body-sm bcn-settings-nav__link"
                     href={withBase(settingsPagePath(page.id))}
                     aria-current={page.id === activePageId ? 'page' : undefined}
                   >
@@ -140,7 +140,7 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
   }
 
   /* The ESA Admin block is a dark-GLASS panel, deliberately the same chrome family as
-     the floating help bar (bcn-help-bar) rather than the flat --color-surface-inverse
+     the floating help bar (bcn-help-bar) rather than the flat --color-background-default-knockout
      it used to be: solid inverse read as a near-black slab dropped into the rail, while
      the translucent recipe lets the page value through and settles into a mid-charcoal.
      Same tokens, same blur, same fallbacks as the action bar. The panel IS the divider
@@ -185,7 +185,7 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
   }
   /* Current page — the same "hover is half of current" logic as the light block, run in
      the other direction: on dark, the most prominent row is the LIGHTEST, so it takes a
-     16% ink wash. (--color-surface-inverse-hover is a solid near-black and would now sink
+     16% ink wash. (--color-background-default-knockout-hover is a solid near-black and would now sink
      the current row BELOW the glass it sits on.) */
   .bcn-settings-nav__block--esa .bcn-settings-nav__link[aria-current='page'] {
     background: color-mix(in srgb, #ffffff 18%, transparent);
@@ -196,8 +196,8 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     outline-color: #ffffff;
   }
 
-  /* Tier 1 — the audience heading, the strongest text in the rail: .type-body (a step
-     ABOVE the links' .type-body-small), semibold, primary ink, underscored by a
+  /* Tier 1 — the audience heading, the strongest text in the rail: .typography-body-md (a step
+     ABOVE the links' .typography-body-sm), semibold, primary ink, underscored by a
      hairline that fences the heading off from its first zone group. */
   .bcn-settings-nav__aud {
     display: flex;
@@ -206,9 +206,9 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     margin: 0;
     padding-inline: var(--spacing-300, 0.75rem);
     padding-block-end: var(--spacing-200, 0.5rem);
-    border-block-end: 1px solid var(--color-border-light, var(--color-border));
-    font-weight: var(--font-weight-semibold, 600);
-    color: var(--color-text-primary);
+    border-block-end: 1px solid var(--color-border-default-subtle, var(--color-border-default));
+    font-weight: var(--typography-font-weight-semibold, 600);
+    color: var(--color-content-default);
   }
   /* The glyph hangs off the heading's own ink; flex kills its baseline slack. */
   .bcn-settings-nav__aud-icon {
@@ -231,10 +231,10 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     padding-inline: var(--spacing-300, 0.75rem);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    /* Bold, not the type-label role's default weight (Andy, 2026-07-30) — at eyebrow
+    /* Bold, not the typography-label role's default weight (Andy, 2026-07-30) — at eyebrow
        size the extra weight is what keeps the label legible against its tracking. */
-    font-weight: var(--font-weight-bold, 700);
-    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-bold, 700);
+    color: var(--color-content-default-tertiary);
   }
 
   .bcn-settings-nav__list {
@@ -251,13 +251,13 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-200, 0.5rem);
-    /* 13px, under the type-body-small role it carries — Andy's explicit call for this
+    /* 13px, under the typography-body-sm role it carries — Andy's explicit call for this
        rail (2026-07-30), same override register as the eyebrow labels above. Do not
        "fix" back to 14 on review. */
     font-size: 0.8125rem;
     padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem);
     border-radius: var(--radius-200, 0.5rem);
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     text-decoration: none;
     transition: background 0.1s ease, color 0.1s ease;
   }
@@ -273,8 +273,8 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     line-height: 1.2;
     padding: 1px 5px;
     border-radius: var(--radius-100, 0.25rem); /* 4px */
-    background: var(--color-surface-sunken);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
   .bcn-settings-nav__block--esa .bcn-settings-nav__count {
@@ -285,7 +285,7 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
      doesn't vanish against the active row's own wash. */
   .bcn-settings-nav__link[aria-current='page'] .bcn-settings-nav__count {
     color: inherit;
-    background: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--color-content-default) 10%, transparent);
   }
   .bcn-settings-nav__block--esa .bcn-settings-nav__link[aria-current='page'] .bcn-settings-nav__count {
     background: color-mix(in srgb, #ffffff 20%, transparent);
@@ -293,12 +293,12 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
   /* Hover — HALF the sunken wash, so the current row stays the darkest thing in the
      rail. Both states are neutral, so value is the only thing separating them. */
   .bcn-settings-nav__link:hover {
-    background: color-mix(in srgb, var(--color-surface-sunken) 50%, transparent);
-    color: var(--color-text-primary);
+    background: color-mix(in srgb, var(--color-background-elevation-sunken) 50%, transparent);
+    color: var(--color-content-default);
   }
   .bcn-settings-nav__link:focus-visible {
     outline: var(--focus-ring-width, 2px) solid
-      var(--focus-ring-color, var(--color-text-link, #005862));
+      var(--focus-ring-color, var(--color-content-link, #005862));
     outline-offset: 2px;
   }
 
@@ -306,7 +306,7 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
      sunken wash, primary ink. Weight stays NORMAL (Andy, 2026-07-30) — the wash alone
      carries the state, and a weight change makes the row jitter as you navigate. */
   .bcn-settings-nav__link[aria-current='page'] {
-    background: var(--color-surface-sunken);
-    color: var(--color-text-primary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default);
   }
 </style>

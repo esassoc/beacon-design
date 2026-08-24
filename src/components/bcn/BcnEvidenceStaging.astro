@@ -45,7 +45,7 @@
 // home; its own CSS is the panel frame plus the card's meta rows.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaPill from '@esa/ecology/esa-pill.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
@@ -129,10 +129,10 @@ const GRIP =
                arrangement the drawer footer uses. -->
           <footer class="bcn-ev-draft__foot">
             <span data-draft-add>
-              <EsaButton color="primary" size="sm">Save</EsaButton>
+              <EsaButton variant="primary" size="sm">Save</EsaButton>
             </span>
             <span data-draft-cancel>
-              <EsaButton color="ghost" appearance="outline" size="sm">Cancel</EsaButton>
+              <EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton>
             </span>
           </footer>
         </div>
@@ -152,7 +152,7 @@ const GRIP =
         <span class="bcn-ev-draft__filename"></span>
         <span class="bcn-ev-draft__filesize"></span>
         <span class="bcn-ev-draft__fileremove">
-          <EsaIconButton icon="x" label="Remove this file from the evidence" size="sm" />
+          <EsaIconButton variant="chrome" iconOnly icon="x" label="Remove this file from the evidence" size="sm" />
         </span>
       </li>
     </template>
@@ -219,7 +219,7 @@ const GRIP =
                       hook="data-staging-attached"
                     />
                   <span class="bcn-ev-card__remove" data-staging-remove={item.id}>
-                    <EsaIconButton icon="x" label={`Remove ${item.title}`} size="sm" />
+                    <EsaIconButton variant="chrome" iconOnly icon="x" label={`Remove ${item.title}`} size="sm" />
                   </span>
                 </div>
                 <span class="bcn-ev-card__toggle">
@@ -268,7 +268,7 @@ const GRIP =
          proposes — and only on this tab, since it has nothing to read from the uploader. -->
     <footer class="bcn-ev-staging__foot">
       <span class="bcn-ev-staging__find" data-targets-find>
-        <EsaButton color="ghost" appearance="outline" size="sm">Find matches</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" size="sm">Find matches</EsaButton>
       </span>
     </footer>
   </div>
@@ -281,7 +281,7 @@ const GRIP =
     flex-direction: column;
     min-height: 0;
     height: 100%;
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
   }
   /* min-height is load-bearing: the Actions header is taller because it carries a button,
      and the two searches below only read as one row if BOTH headers resolve to the same
@@ -302,16 +302,16 @@ const GRIP =
     align-items: center;
     gap: var(--spacing-200);
     margin: 0;
-    font-size: var(--type-size-250);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-250);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.25;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   /* The glyph is subordinate to its heading — quieter tone, and it marks the section, not
      any item inside it. */
   .bcn-ev-staging__title :global(.esa-icon) {
     flex: none;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   /* Mirrors .bcn-ev-targets__search so the two search fields sit on one line — the top
      value must stay identical in both, or the fields drift apart. */
@@ -407,24 +407,24 @@ const GRIP =
     gap: var(--spacing-150);
     color: var(--bcn-unsaved);
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     white-space: nowrap;
   }
   .bcn-ev-draft__title {
     margin: 0;
-    /* --type-size-150 (14px), the same as the staged cards. This card was written before the
+    /* --font-size-150 (14px), the same as the staged cards. This card was written before the
        density pass took those to 14 and was left at 15 — a heavier title next to identical
        body text is what made the rest of this card read lighter than the others. */
-    font-size: var(--type-size-150, 0.875rem);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-150, 0.875rem);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.35;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-ev-draft__notes {
     margin: 0;
     font-size: 0.8125rem;
     line-height: 1.45;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
   /* Same ruled Files section the staged cards use, so a draft and a saved record read as
@@ -439,14 +439,14 @@ const GRIP =
     min-width: 0;
     margin-top: var(--spacing-100);
     padding-top: var(--spacing-200);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-ev-draft__fileslabel {
     flex: none;
     margin: 0;
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
   }
   .bcn-ev-draft__files {
     flex: 1;
@@ -469,7 +469,7 @@ const GRIP =
     gap: var(--spacing-200);
     min-width: 0;
     font-size: 0.8125rem;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-ev-draft__filename {
     flex: 1;
@@ -480,13 +480,14 @@ const GRIP =
   }
   .bcn-ev-draft__filesize {
     flex: none;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     font-variant-numeric: tabular-nums;
   }
   .bcn-ev-draft__fileremove {
     flex: none;
-    color: var(--color-text-tertiary);
-    --form-height-sm: 24px;
+    color: var(--color-content-default-tertiary);
+    /* --form-height-sm: 24px re-point removed — surface deleted upstream; see the
+       matching note in BcnEvidenceTargets. */
   }
   .bcn-ev-draft__foot {
     display: flex;
@@ -494,7 +495,7 @@ const GRIP =
     gap: var(--spacing-250, 0.625rem);
     margin-top: var(--spacing-100);
     padding-top: var(--spacing-200);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 
   /* The tone belongs to the DROP TARGET itself: it is what tells you where to let go.
@@ -513,19 +514,19 @@ const GRIP =
        host. This is a formatting-context trick standing in for a missing property. */
     display: grid;
     flex: 1;
-    --form-bg: var(--color-surface-sunken);
+    --color-background-field: var(--color-background-elevation-sunken);
     /* The zone's HOVER border reads --form-border-color-focus, which the hub wires to the
        grass ramp (#65ba74) — so the uploader turned green on hover, the same leak the
-       search fields had (see BcnEvidenceSearch). Point it at --color-secondary so every
+       search fields had (see BcnEvidenceSearch). Point it at --color-background-brand-muted so every
        drop affordance in this drawer is one colour: the action cards' receiving tint is
-       the same token. The lego's own [dragging] state stays --color-primary, a step
+       the same token. The lego's own [dragging] state stays --color-background-brand, a step
        deeper — hover invites, drag-over confirms, the same escalation the action card
        makes when its dashed edge goes solid. */
-    --form-border-color-focus: var(--color-secondary);
+    --form-border-color-focus: var(--color-background-brand-muted);
   }
   .bcn-ev-staging__dropnote {
     margin: var(--spacing-300) 0 0;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
   /* Footer: the match utility, right-aligned, on the list tab only. */
@@ -534,7 +535,7 @@ const GRIP =
     display: flex;
     justify-content: flex-end;
     padding: var(--spacing-300) var(--spacing-400);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
   }
   .bcn-ev-staging__list {
     list-style: none;
@@ -611,7 +612,7 @@ const GRIP =
     min-width: 0;
     margin-top: var(--spacing-100);
     padding-top: var(--spacing-200);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-ev-card__fileslabel {
     flex: none;
@@ -633,13 +634,13 @@ const GRIP =
     justify-content: center;
     width: 20px;
     height: 20px;
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
     cursor: grab;
     border-radius: var(--radius-100);
   }
   .bcn-ev-card__grip:hover {
-    color: var(--color-text-secondary);
-    background: var(--color-surface-sunken);
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-ev-card__grip:active {
     cursor: grabbing;
@@ -648,7 +649,7 @@ const GRIP =
      the handle withdraws rather than lying about being usable. */
   .bcn-ev-staging__item[data-exhausted] .bcn-ev-card__grip {
     cursor: not-allowed;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     opacity: 0.4;
     background: none;
   }
@@ -669,8 +670,8 @@ const GRIP =
      needed. Nothing here restyles its internals. */
   .bcn-ev-card__count :global(.esa-pill) {
     --pill-bg: transparent;
-    --pill-border-color: var(--color-border);
-    --pill-text-color: var(--color-text-secondary);
+    --pill-border-color: var(--color-border-default);
+    --pill-text-color: var(--color-content-default-secondary);
   }
   /* Description and files indent to the TITLE's left edge — the toggle's 20px plus the row
      gap — so the body reads as belonging to the title above it, the same inset the action
@@ -684,8 +685,8 @@ const GRIP =
   .bcn-ev-card__fileslabel {
     margin: 0;
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
     /* Matched to esa-pill's own sm height so the label sits on the FIRST row of pills.
        align-items:center on the row would instead centre it against the whole wrapped
        block, drifting further off the first line with every extra row of files. */
@@ -695,7 +696,7 @@ const GRIP =
     margin: 0;
     font-size: 0.8125rem;
     line-height: 1.45;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   /* Shut: the description keeps ONE line and ellipses, the file names go away entirely. */
   .bcn-ev-staging__item[data-collapsed] .bcn-ev-card__desc {
@@ -710,12 +711,12 @@ const GRIP =
     min-width: 0;
     margin: 0;
     /* 14px, the dense-surface base — these are scan-and-pick lists, not prose. Stepped down
-       from --type-size-200 (15px) with the card padding, so the row gets tighter as a whole
+       from --font-size-200 (15px) with the card padding, so the row gets tighter as a whole
        rather than just losing its margins. */
-    font-size: var(--type-size-150, 0.875rem);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-150, 0.875rem);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.35;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -747,7 +748,7 @@ const GRIP =
   }
   .bcn-ev-card__remove {
     flex: none;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
   /* The files as pills. A bullet-separated run was tried and read as one long string —

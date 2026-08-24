@@ -52,16 +52,16 @@ const { days } = Astro.props;
 <style>
   .bcn-change-log { list-style: none; margin: 0; padding: 0; }
   /* The left border is the timeline SPINE (a rail), not a status indicator. */
-  .bcn-change-log__day { position: relative; margin-left: 5px; padding: 0 0 var(--spacing-400) var(--spacing-500); border-left: 2px solid var(--color-border); }
+  .bcn-change-log__day { position: relative; margin-left: 5px; padding: 0 0 var(--spacing-400) var(--spacing-500); border-left: 2px solid var(--color-border-default); }
   .bcn-change-log__day:last-child { border-left-color: transparent; padding-bottom: 0; }
-  .bcn-change-log__day::before { content: ''; position: absolute; left: -6px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--color-surface); border: 2px solid var(--color-secondary); }
-  .bcn-change-log__date { margin: 0 0 var(--spacing-200); font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-change-log__day::before { content: ''; position: absolute; left: -6px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--color-background-elevation-raised); border: 2px solid var(--color-background-brand-muted); }
+  .bcn-change-log__date { margin: 0 0 var(--spacing-200); font-size: 0.8125rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
   .bcn-change-log__events { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-change-log__event { display: flex; flex-direction: column; gap: 1px; }
-  .bcn-change-log__text { font-size: 0.875rem; line-height: 1.4; color: var(--color-text-primary); }
+  .bcn-change-log__text { font-size: 0.875rem; line-height: 1.4; color: var(--color-content-default); }
   /* The emphasis is the record the event happened ON — a link when the host has a
      route for it, otherwise plain bold. Same weight either way. */
-  .bcn-change-log__target { color: var(--color-text-link); text-decoration: none; }
+  .bcn-change-log__target { color: var(--color-content-link); text-decoration: none; }
   .bcn-change-log__target:hover { text-decoration: underline; }
-  .bcn-change-log__by { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .bcn-change-log__by { font-size: 0.75rem; color: var(--color-content-default-tertiary); }
 </style>

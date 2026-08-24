@@ -19,7 +19,7 @@
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
@@ -123,7 +123,7 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
           </div>
         </div>
         <div class="bcn-action__head-actions">
-          <span id="edit-action"><EsaButton color="primary"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit action</span></EsaButton></span>
+          <span id="edit-action"><EsaButton variant="primary"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit action</span></EsaButton></span>
         </div>
       </header>
 
@@ -210,7 +210,7 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
   <esa-dialog
     id="edit-dialog"
     size="lg"
-    style="--_dialog-width: 96vw; --_dialog-max-height: 94vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;"
+    style="--_dialog-width: 96vw; --_dialog-max-height: 94vh; --_dialog-bg: var(--color-background-elevation-raised, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;"
   >
     <div slot="header" class="bcn-editor__head">
       <span class="bcn-editor__head-title">{actionName}</span>
@@ -226,7 +226,7 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
               <li class="bcn-req-row bcn-req-row--assigned">
                 <span class="bcn-req-row__badge">{r.commitment}</span>
                 <span class="bcn-req-row__name">{r.name}</span>
-                <span class="bcn-req-row__act"><EsaIconButton icon="x" label={`Remove ${r.commitment}`} size="xs" /></span>
+                <span class="bcn-req-row__act"><EsaIconButton variant="chrome" iconOnly icon="x" label={`Remove ${r.commitment}`} size="xs" /></span>
               </li>
             ))}
           </ul>
@@ -246,7 +246,7 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
               <li class="bcn-req-row">
                 <span class="bcn-req-row__badge">{r.commitment}</span>
                 <span class="bcn-req-row__name">{r.name}</span>
-                <span class="bcn-req-row__act"><EsaIconButton icon="plus" label={`Assign ${r.commitment}`} size="xs" /></span>
+                <span class="bcn-req-row__act"><EsaIconButton variant="chrome" iconOnly icon="plus" label={`Assign ${r.commitment}`} size="xs" /></span>
               </li>
             ))}
           </ul>
@@ -350,7 +350,7 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
               <div id="notif-schedule-rows"></div>
               <p id="notif-schedule-empty" class="bcn-ncard__hint">Enable notification types above to see the schedule.</p>
               <div id="notif-test" class="bcn-nsched__test" hidden>
-                <span id="notif-test-btn"><EsaButton color="ghost" appearance="outline" size="sm">Send Test Emails</EsaButton></span>
+                <span id="notif-test-btn"><EsaButton variant="ghost" appearance="outline" size="sm">Send Test Emails</EsaButton></span>
                 <span class="bcn-ncard__hint">Sends to your email only</span>
               </div>
             </section>
@@ -359,8 +359,8 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
       </section>
     </div>
     <div slot="footer" class="bcn-editor__foot">
-      <span id="ea-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-      <span id="ea-save"><EsaButton color="primary">Save</EsaButton></span>
+      <span id="ea-cancel"><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="ea-save"><EsaButton variant="primary">Save</EsaButton></span>
     </div>
   </esa-dialog>
 
@@ -568,14 +568,14 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
 
   /* Identity header — tracker-modal treatment (commitment badge top, decorative name,
      neutral type badge trailing). */
-  .bcn-action__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .bcn-action__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border-default); }
   .bcn-action__head-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
   .bcn-action__identity { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-100); min-width: 0; }
   .bcn-action__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
-  .bcn-action__title { margin: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
-  .bcn-action__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; }
+  .bcn-action__title { margin: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--typography-font-weight-semibold); line-height: 1.2; color: var(--color-content-default); }
+  .bcn-action__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); line-height: 1.4; white-space: nowrap; }
   .bcn-action__badge--commitment { color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
-  .bcn-action__badge--type { color: var(--color-text-secondary); background: var(--color-surface-sunken); transform: translateY(2px); }
+  .bcn-action__badge--type { color: var(--color-content-default-secondary); background: var(--color-background-elevation-sunken); transform: translateY(2px); }
 
   /* Two-column body */
   .bcn-action__body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--spacing-600); align-items: start; }
@@ -589,24 +589,24 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
   /* Rail module headers (Details / Timing / Lists / Notifications) match the page
      section titles (Requirements / Action Text / Evidence of Compliance). */
   .bcn-action__rail :global(.esa-collapsible__title) {
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
   }
 
   .bcn-action__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); }
   .bcn-section-title {
     display: flex; align-items: center; gap: var(--spacing-200); margin: 0;
-    font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary);
+    font-size: var(--font-size-300); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default);
   }
-  .bcn-prose { margin: 0; font-size: var(--form-font-size-md); line-height: 1.6; color: var(--color-text-primary); }
+  .bcn-prose { margin: 0; font-size: var(--typography-label-md-font-size); line-height: 1.6; color: var(--color-content-default); }
 
   /* Sub-field inside a section (Expected evidence / Reference Files): a quiet label
      over content. The body uses .bcn-prose so Expected evidence reads identically to
      Action Text — consistent body typography across the two sections. */
   .bcn-action__section--evidence { gap: var(--spacing-500); }
   .bcn-subfield { display: flex; flex-direction: column; gap: var(--spacing-250); }
-  .bcn-subfield__label { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+  .bcn-subfield__label { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); color: var(--color-content-default-secondary); }
   .bcn-subfield :global(esa-file-list) { margin-top: var(--spacing-100); }
 
   /* Read requirement rows */
@@ -614,28 +614,28 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
   .bcn-req-read__row {
     display: flex; align-items: center; gap: var(--spacing-250);
     padding: var(--spacing-150) var(--spacing-300);
-    border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+    border: 1px solid var(--color-border-default); border-radius: var(--radius-200); background: var(--color-background-elevation-raised);
   }
   .bcn-req-read__badge {
     flex-shrink: 0; padding: 0.0625rem 0.375rem; border-radius: var(--radius-100);
-    font-size: 0.6875rem; font-weight: var(--font-weight-semibold);
+    font-size: 0.6875rem; font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); white-space: nowrap;
   }
-  .bcn-req-read__name { flex: 1; min-width: 0; font-size: var(--form-font-size-md); color: var(--color-text-primary); text-decoration: none; }
+  .bcn-req-read__name { flex: 1; min-width: 0; font-size: var(--typography-label-md-font-size); color: var(--color-content-default); text-decoration: none; }
   .bcn-req-read__name:hover { text-decoration: underline; }
 
   /* Action Lists */
   .bcn-lists { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-150); margin: 0; padding: 0; list-style: none; }
-  .bcn-list-link { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-primary); text-decoration: none; }
+  .bcn-list-link { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); color: var(--color-background-brand); text-decoration: none; }
   .bcn-list-link:hover { text-decoration: underline; }
 
   /* Rail Notifications — rules-only summary: differentiated icon rows for recipients
      (person/org icons) and triggers (per-trigger icon | name | rule). */
   .bcn-triggers { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-trigger-row { display: flex; align-items: center; gap: var(--spacing-250); font-size: var(--form-font-size-md); }
-  .bcn-trigger-row :global(.esa-icon) { color: var(--color-primary); flex-shrink: 0; }
-  .bcn-trigger-row__name { color: var(--color-text-primary); font-weight: var(--font-weight-medium); }
-  .bcn-trigger-row__rule { margin-left: auto; color: var(--color-text-secondary); text-align: right; }
+  .bcn-trigger-row { display: flex; align-items: center; gap: var(--spacing-250); font-size: var(--typography-label-md-font-size); }
+  .bcn-trigger-row :global(.esa-icon) { color: var(--color-background-brand); flex-shrink: 0; }
+  .bcn-trigger-row__name { color: var(--color-content-default); font-weight: var(--typography-font-weight-medium); }
+  .bcn-trigger-row__rule { margin-left: auto; color: var(--color-content-default-secondary); text-align: right; }
 
   .bcn-btn-ico { display: inline-flex; align-items: center; gap: var(--spacing-150); }
 
@@ -646,7 +646,7 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
   :global(.bcn-grid-chip) {
     display: inline-flex; align-items: center; gap: var(--spacing-150);
     padding: 1px var(--spacing-200); border-radius: var(--radius-100);
-    font-size: 0.75rem; line-height: 1.5; font-weight: var(--font-weight-semibold); white-space: nowrap;
+    font-size: 0.75rem; line-height: 1.5; font-weight: var(--typography-font-weight-semibold); white-space: nowrap;
     background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a);
   }
   :global(.bcn-grid-chip__dot) { width: 7px; height: 7px; border-radius: 50%; background: var(--_chip); flex-shrink: 0; }
@@ -672,21 +672,21 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
   }
   /* Header/footer are padded by the dialog (--_dialog-padding); don't double-pad. */
   .bcn-editor__head { display: flex; align-items: center; gap: var(--spacing-200); }
-  .bcn-editor__head-title { font-family: var(--font-decorative); font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-editor__head-title { font-family: var(--font-decorative); font-size: var(--font-size-300); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
   .bcn-editor__foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; width: 100%; }
 
   /* Left pane: Assigned + Browse All split 50/50, each scrolling internally. */
   /* Left pane: no padding on the wrapper — each region pads its own content, so the
      Browse divider/border spans the full column width and its gray fill bleeds edge to edge. */
-  .bcn-reqs { display: flex; flex-direction: column; min-width: 0; height: 100%; overflow: hidden; border-right: 1px solid var(--color-border); }
+  .bcn-reqs { display: flex; flex-direction: column; min-width: 0; height: 100%; overflow: hidden; border-right: 1px solid var(--color-border-default); }
   .bcn-reqs__region { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-500); }
-  .bcn-reqs__region--browse { border-top: 1px solid var(--color-border); background: var(--color-background); }
+  .bcn-reqs__region--browse { border-top: 1px solid var(--color-border-default); background: var(--color-background-default); }
   .bcn-reqs__assigned, .bcn-reqs__browse { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); overflow-y: auto; flex: 1 1 0; min-height: 0; }
   .bcn-reqs__assigned:empty::after {
     content: 'No requirements assigned yet. Use the + button in Browse All.';
     display: block; padding: var(--spacing-500); text-align: center;
-    font-size: var(--form-font-size-md); color: var(--color-text-tertiary);
-    border: 1px dashed var(--color-border); border-radius: var(--radius-200);
+    font-size: var(--typography-label-md-font-size); color: var(--color-content-default-tertiary);
+    border: 1px dashed var(--color-border-default); border-radius: var(--radius-200);
   }
   .bcn-reqs__filters { display: flex; flex-direction: column; gap: var(--spacing-200); }
   .bcn-reqs__filter-row { display: flex; gap: var(--spacing-200); flex-wrap: wrap; }
@@ -695,18 +695,18 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
   .bcn-req-row {
     display: flex; align-items: center; gap: var(--spacing-200);
     padding: var(--spacing-100) var(--spacing-250);
-    border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+    border: 1px solid var(--color-border-default); border-radius: var(--radius-200); background: var(--color-background-elevation-raised);
   }
-  .bcn-req-row--assigned { background: var(--color-background); }
+  .bcn-req-row--assigned { background: var(--color-background-default); }
   .bcn-req-row__badge {
     flex-shrink: 0; padding: 0.0625rem 0.375rem; border-radius: var(--radius-100);
-    font-size: 0.6875rem; font-weight: var(--font-weight-semibold);
+    font-size: 0.6875rem; font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); white-space: nowrap;
   }
-  .bcn-req-row__name { flex: 1; min-width: 0; font-size: var(--form-font-size-md); color: var(--color-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-req-row__name { flex: 1; min-width: 0; font-size: var(--typography-label-md-font-size); color: var(--color-content-default); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-req-row__act { flex-shrink: 0; }
-  .bcn-req-row__remove { border: 0; background: transparent; cursor: pointer; color: var(--color-text-tertiary); font-size: 0.875rem; line-height: 1; padding: var(--spacing-100); border-radius: var(--radius-100); }
-  .bcn-req-row__remove:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+  .bcn-req-row__remove { border: 0; background: transparent; cursor: pointer; color: var(--color-content-default-tertiary); font-size: 0.875rem; line-height: 1; padding: var(--spacing-100); border-radius: var(--radius-100); }
+  .bcn-req-row__remove:hover { background: var(--color-background-elevation-sunken); color: var(--color-content-default); }
 
   /* Config pane: NO padding here — the tab bar spans the full pane width. The tabs and
      each panel pad themselves separately so the tab-bar border reaches both edges. */
@@ -715,44 +715,44 @@ const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 
   .bcn-form { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-300) var(--spacing-500) var(--spacing-500); }
   .bcn-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-300); }
   .bcn-field { display: flex; flex-direction: column; gap: var(--spacing-150); }
-  .bcn-field__label { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
-  .bcn-field__value { font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-field__hint { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .bcn-field__label { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-medium); color: var(--form-label-color); }
+  .bcn-field__value { font-size: var(--font-size-200); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-field__hint { font-size: 0.75rem; color: var(--color-content-default-tertiary); }
 
   .bcn-note {
     display: flex; align-items: flex-start; gap: var(--spacing-200);
     padding: var(--spacing-300); border-radius: var(--radius-200);
-    background: color-mix(in srgb, var(--color-primary) 8%, white);
-    color: var(--color-text-secondary); font-size: var(--form-font-size-md); line-height: 1.45;
+    background: color-mix(in srgb, var(--color-background-brand) 8%, white);
+    color: var(--color-content-default-secondary); font-size: var(--typography-label-md-font-size); line-height: 1.45;
   }
-  .bcn-note :global(.esa-icon) { color: var(--color-primary); flex-shrink: 0; margin-top: 2px; }
+  .bcn-note :global(.esa-icon) { color: var(--color-background-brand); flex-shrink: 0; margin-top: 2px; }
 
   /* Notifications tab — carded sections matching the prod modal. */
   .bcn-notif { gap: var(--spacing-400); }
   .bcn-ncard {
     display: flex; flex-direction: column; gap: var(--spacing-250);
-    padding: var(--spacing-400); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+    padding: var(--spacing-400); border: 1px solid var(--color-border-default); border-radius: var(--radius-200); background: var(--color-background-elevation-raised);
   }
-  .bcn-ncard__title { margin: 0; font-size: 0.875rem; font-weight: var(--font-weight-bold); letter-spacing: 0.03em; text-transform: uppercase; color: var(--color-text-primary); }
-  .bcn-ncard__date { margin: 0; font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-ncard__hint { margin: 0; font-size: var(--form-font-size-md); color: var(--color-text-secondary); line-height: 1.45; }
+  .bcn-ncard__title { margin: 0; font-size: 0.875rem; font-weight: var(--typography-font-weight-bold); letter-spacing: 0.03em; text-transform: uppercase; color: var(--color-content-default); }
+  .bcn-ncard__date { margin: 0; font-size: var(--font-size-300); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-ncard__hint { margin: 0; font-size: var(--typography-label-md-font-size); color: var(--color-content-default-secondary); line-height: 1.45; }
 
   .bcn-ntoggle {
     display: flex; flex-direction: column; gap: var(--spacing-300);
-    padding: var(--spacing-400); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+    padding: var(--spacing-400); border: 1px solid var(--color-border-default); border-radius: var(--radius-200); background: var(--color-background-elevation-raised);
   }
   .bcn-ntoggle__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); }
-  .bcn-ntoggle__title { display: inline-flex; align-items: center; gap: var(--spacing-250); font-weight: var(--font-weight-semibold); color: var(--color-primary); }
-  .bcn-ntoggle__title :global(.esa-icon) { color: var(--color-text-primary); }
+  .bcn-ntoggle__title { display: inline-flex; align-items: center; gap: var(--spacing-250); font-weight: var(--typography-font-weight-semibold); color: var(--color-background-brand); }
+  .bcn-ntoggle__title :global(.esa-icon) { color: var(--color-content-default); }
   .bcn-ntoggle__body { display: flex; flex-direction: column; gap: var(--spacing-200); align-items: flex-start; }
   .bcn-ntoggle__body[hidden] { display: none; }
   .bcn-ntoggle__body :global(esa-text-field) { max-width: 240px; }
 
-  .bcn-check { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--form-font-size-md); color: var(--color-text-primary); cursor: pointer; }
-  .bcn-check input { width: 1rem; height: 1rem; accent-color: var(--color-primary); }
+  .bcn-check { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--typography-label-md-font-size); color: var(--color-content-default); cursor: pointer; }
+  .bcn-check input { width: 1rem; height: 1rem; accent-color: var(--color-background-brand); }
 
-  .bcn-nsched__row { margin: 0 0 var(--spacing-150); font-size: var(--form-font-size-md); color: var(--color-text-primary); }
-  .bcn-nsched__k { font-weight: var(--font-weight-semibold); }
+  .bcn-nsched__row { margin: 0 0 var(--spacing-150); font-size: var(--typography-label-md-font-size); color: var(--color-content-default); }
+  .bcn-nsched__k { font-weight: var(--typography-font-weight-semibold); }
   .bcn-nsched__test { display: flex; align-items: center; gap: var(--spacing-300); margin-top: var(--spacing-200); }
   .bcn-nsched__test[hidden] { display: none; }
 

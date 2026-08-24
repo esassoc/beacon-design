@@ -92,16 +92,16 @@ import { CONTRAST_WITHOUT, CONTRAST_WITH, CONTRAST_MOCK_ROWS } from '../../data/
   .bcn-contrast__card {
     border-radius: var(--radius-200);
     padding: var(--spacing-600);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     overflow: hidden;
   }
   .bcn-contrast__card--before {
-    background: var(--color-danger-subtle);
-    border-color: var(--color-danger-border);
+    background: var(--color-background-utility-danger-subtle);
+    border-color: var(--color-border-utility-danger);
   }
   .bcn-contrast__card--after {
-    background: var(--color-success-subtle);
-    border-color: var(--color-success-border);
+    background: var(--color-background-utility-success-subtle);
+    border-color: var(--color-border-utility-success);
   }
 
   /* Full-bleed media strip across the card's top. */
@@ -120,14 +120,14 @@ import { CONTRAST_WITHOUT, CONTRAST_WITH, CONTRAST_MOCK_ROWS } from '../../data/
     align-items: center;
     gap: var(--spacing-200);
     margin-block-end: var(--spacing-400);
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
   }
   .bcn-contrast__card--before .bcn-contrast__title {
-    color: var(--color-danger-strong);
+    color: var(--color-content-utility-danger);
   }
   .bcn-contrast__card--after .bcn-contrast__title {
-    color: var(--color-success-strong);
+    color: var(--color-content-utility-success);
   }
 
   .bcn-contrast__list {
@@ -142,7 +142,7 @@ import { CONTRAST_WITHOUT, CONTRAST_WITH, CONTRAST_MOCK_ROWS } from '../../data/
     display: flex;
     align-items: flex-start;
     gap: var(--spacing-300);
-    font-size: var(--type-size-200);
+    font-size: var(--font-size-200);
     line-height: var(--line-height-normal, 1.5);
   }
   .bcn-contrast__glyph {
@@ -151,10 +151,10 @@ import { CONTRAST_WITHOUT, CONTRAST_WITH, CONTRAST_MOCK_ROWS } from '../../data/
     margin-block-start: 2px;
   }
   .bcn-contrast__card--before .bcn-contrast__glyph {
-    color: var(--color-danger);
+    color: var(--color-background-utility-danger);
   }
   .bcn-contrast__card--after .bcn-contrast__glyph {
-    color: var(--color-success);
+    color: var(--color-background-utility-success);
   }
 
   /* ── The illustrative dark product-window mock (artwork literals) ── */
@@ -175,7 +175,7 @@ import { CONTRAST_WITHOUT, CONTRAST_WITH, CONTRAST_MOCK_ROWS } from '../../data/
     background: rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-100);
     margin-block-end: var(--spacing-300);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     font-size: 11px;
     color: #989898;
   }
@@ -183,7 +183,7 @@ import { CONTRAST_WITHOUT, CONTRAST_WITH, CONTRAST_MOCK_ROWS } from '../../data/
     inline-size: 8px;
     block-size: 8px;
     border-radius: 50%;
-    background: var(--color-primary);
+    background: var(--color-background-brand);
   }
   .bcn-contrast__mock-row {
     display: flex;
@@ -214,7 +214,7 @@ import { CONTRAST_WITHOUT, CONTRAST_WITH, CONTRAST_MOCK_ROWS } from '../../data/
   }
   .bcn-contrast__mock-badge {
     font-size: 10px;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     padding: 2px 8px;
     border-radius: var(--radius-full, 9999px);
     white-space: nowrap;

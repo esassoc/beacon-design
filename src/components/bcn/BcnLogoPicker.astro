@@ -80,7 +80,7 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
         <span data-lp-preview-mark><BcnEntityLogo mark={previewMark} size="xl" variant="seal" /></span>
         <img class="bcn-logo-picker__photo" data-lp-preview-photo alt="" hidden />
       </span>
-      <span class="bcn-logo-picker__name type-card-title">{entityName}</span>
+      <span class="bcn-logo-picker__name typography-title">{entityName}</span>
     </div>
 
     <!-- PRIMARY: the photo. -->
@@ -94,7 +94,7 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
       <!-- Shown once a photo is set; Remove is the way back to the symbol. -->
       <div class="bcn-logo-picker__chosen repel" data-lp-chosen hidden>
         <span class="bcn-logo-picker__filename" data-lp-filename></span>
-        <EsaButton color="ghost" appearance="outline" size="sm" icon="trash-2" data-lp="remove-photo">
+        <EsaButton variant="ghost" appearance="outline" size="sm" icon="trash-2" data-lp="remove-photo">
           Remove photo
         </EsaButton>
       </div>
@@ -166,8 +166,8 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
   <!-- Windows order: Save LEFT of Cancel. No tertiary action — the upload it used
        to hold is now the section that leads the dialog. -->
   <div slot="footer" class="bcn-logo-picker__foot cluster" data-gap="xs">
-    <EsaButton color="primary" data-lp="save">Save</EsaButton>
-    <EsaButton color="ghost" appearance="outline" data-lp="cancel">Cancel</EsaButton>
+    <EsaButton variant="primary" data-lp="save">Save</EsaButton>
+    <EsaButton variant="ghost" appearance="outline" data-lp="cancel">Cancel</EsaButton>
   </div>
 </esa-dialog>
 
@@ -191,7 +191,7 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
   esa-dialog:not(:defined) { display: none; }
 
   .bcn-logo-picker__name {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     min-width: 0;
   }
 
@@ -199,13 +199,13 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
      `label` renders at this size/weight), so the three controls read as one form. */
   .bcn-logo-picker__field-label {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     color: var(--form-label-color);
   }
   .bcn-logo-picker__hint {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
   /* The dropzone's own padding is the only height knob the lego exposes — its .zone
@@ -249,12 +249,12 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
     align-items: center;
     gap: var(--spacing-300);
     padding: var(--spacing-250) var(--spacing-300);
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
     border-radius: var(--radius-200);
   }
   .bcn-logo-picker__filename {
     font-size: 0.875rem;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -266,7 +266,7 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
     display: flex;
     align-items: center;
     gap: var(--spacing-300);
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     font-size: 0.875rem;
   }
   .bcn-logo-picker__rule::before,
@@ -274,7 +274,7 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
     content: '';
     flex: 1;
     height: 1px;
-    background: var(--color-border-light);
+    background: var(--color-border-default-subtle);
   }
 
   /* A photo WINS, so the symbol half stops being editable underneath it. Dimmed
@@ -314,16 +314,16 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
   .bcn-logo-picker__glyph {
     width: 44px;
     height: 44px;
-    color: var(--color-text-secondary);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
   }
-  .bcn-logo-picker__glyph:hover { border-color: var(--color-border-strong); color: var(--color-text-primary); }
+  .bcn-logo-picker__glyph:hover { border-color: var(--color-border-default-strong); color: var(--color-content-default); }
   .bcn-logo-picker__glyph[aria-pressed='true'] {
-    color: var(--color-primary);
-    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
-    border-color: var(--color-primary);
+    color: var(--color-background-brand);
+    background: color-mix(in srgb, var(--color-background-brand) 10%, var(--color-background-elevation-raised));
+    border-color: var(--color-background-brand);
   }
 
   /* Swatch: the color IS the control, so selection reads as a ring set OFF the chip
@@ -333,13 +333,13 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
     width: 28px;
     height: 28px;
     background: var(--_c);
-    border: 1px solid color-mix(in srgb, var(--_c) 82%, var(--color-text-primary));
+    border: 1px solid color-mix(in srgb, var(--_c) 82%, var(--color-content-default));
     border-radius: var(--radius-200);
   }
   .bcn-logo-picker__swatch[aria-pressed='true'] {
     box-shadow:
-      0 0 0 2px var(--color-surface),
-      0 0 0 4px var(--color-primary);
+      0 0 0 2px var(--color-background-elevation-raised),
+      0 0 0 4px var(--color-background-brand);
   }
 
   .bcn-logo-picker__foot { justify-content: flex-end; }

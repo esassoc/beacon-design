@@ -36,9 +36,9 @@ export interface PulseMeta {
   hex: string;
 }
 export const PULSE_META: Record<PulseStatus, PulseMeta> = {
-  'on-track': { label: 'On track', hex: 'var(--color-success)' },
-  attention: { label: 'Attention', hex: 'var(--color-warning)' },
-  critical: { label: 'Critical', hex: 'var(--color-danger)' },
+  'on-track': { label: 'On track', hex: 'var(--color-background-utility-success)' },
+  attention: { label: 'Attention', hex: 'var(--color-background-utility-warning)' },
+  critical: { label: 'Critical', hex: 'var(--color-background-utility-danger)' },
   // Light gray, not mid gray (Andy, round 3): quiet rows keep their dot for
   // row-to-row consistency, but the dot recedes.
   quiet: { label: 'Quiet', hex: 'var(--bcn-status-not-started)' },
@@ -77,7 +77,7 @@ export const PROJECT: Project = {
     'The Delta Conveyance Project will modernize water infrastructure in the Sacramento-San Joaquin Delta by making physical improvements to how we capture and move water during wet years for use in dry years with a tunnel system. The Delta Conveyance Project is intended to restore the reliability of the State Water Project and ensure California’s largest supply of clean and affordable water for 27 million people and 750,000 acres of farmland is protected from earthquakes and climate-driven weather extremes.',
   logo: '/images/dcp/dwr-logo.png',
   hero: '/images/dcp/hero.jpeg',
-  phase: { key: 'preconstruction', label: 'Pre-Construction', hex: 'var(--color-primary)' },
+  phase: { key: 'preconstruction', label: 'Pre-Construction', hex: 'var(--color-background-brand)' },
   // Every fact is a Project-record field (round 6: Lead agency, Region,
   // Components, and Tracking-since had no DB source — cut. The org line in the
   // header is Tenant.Name; files render below the facts from Project.Files).

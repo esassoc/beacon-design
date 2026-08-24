@@ -75,7 +75,7 @@ import EsaStat from '@esa/ecology/esa-stat.astro';
 import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
@@ -172,7 +172,7 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
         {/* The bar's lead slot is exactly what it was extracted for: a View pivot. The
             toggle carries its own `label` so the lego wires aria-labelledby onto its
             radiogroup — a leadLabel here would only duplicate it.
-            size="md", not "sm": at sm the lego resolves --form-font-size-sm (12px) for
+            size="md", not "sm": at sm the lego resolves --typography-label-xs-font-size (12px) for
             BOTH its label and its segment text, and these segments are this drawer's
             primary navigation — 12px is under the house floor. md lands at 15px / 36px.
             It sits in the bar's TOP band, so it has no same-row sibling to match. */}
@@ -209,9 +209,9 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
           <esa-checkbox size="sm" data-sw-check-all aria-label="Select every commitment in view"></esa-checkbox>
           <span class="bcn-sw__listcount" data-sw-listcount></span>
           <span class="bcn-sw__listacts" data-sw-bulk hidden>
-            <EsaButton size="sm" color="primary" data-sw-bulk-apply>Apply</EsaButton>
-            <EsaButton size="sm" color="ghost" appearance="outline" data-sw-bulk-dismiss>Dismiss</EsaButton>
-            <EsaButton size="sm" color="ghost" data-sw-bulk-clear>Clear</EsaButton>
+            <EsaButton size="sm" variant="primary" data-sw-bulk-apply>Apply</EsaButton>
+            <EsaButton size="sm" variant="ghost" appearance="outline" data-sw-bulk-dismiss>Dismiss</EsaButton>
+            <EsaButton size="sm" variant="ghost" data-sw-bulk-clear>Clear</EsaButton>
           </span>
         </div>
 
@@ -277,18 +277,18 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
                     <span class="bcn-sw-row__acts">
                       <esa-tooltip text="Apply to this component" position="top">
                         <span data-sw-apply={c.id}>
-                          <EsaIconButton icon="check" label={`Apply ${c.code}`} size="sm" />
+                          <EsaIconButton variant="chrome" iconOnly icon="check" label={`Apply ${c.code}`} size="sm" />
                         </span>
                       </esa-tooltip>
                       <esa-tooltip text="Not applicable" position="top">
                         <span data-sw-dismiss={c.id}>
-                          <EsaIconButton icon="x" label={`Dismiss ${c.code}`} size="sm" />
+                          <EsaIconButton variant="chrome" iconOnly icon="x" label={`Dismiss ${c.code}`} size="sm" />
                         </span>
                       </esa-tooltip>
                       <span class="bcn-sw-row__undo">
                         <esa-tooltip text="Undo this decision" position="top">
                           <span data-sw-undo={c.id}>
-                            <EsaIconButton icon="rotate-ccw" label={`Undo ${c.code}`} size="sm" />
+                            <EsaIconButton variant="chrome" iconOnly icon="rotate-ccw" label={`Undo ${c.code}`} size="sm" />
                           </span>
                         </esa-tooltip>
                       </span>
@@ -388,8 +388,8 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
        with the primary LEFT of Cancel. ── -->
   <div slot="footer" class="bcn-sw__foot">
     <span class="bcn-sw__footacts">
-      <EsaButton color="primary" data-sw-save>Save decisions</EsaButton>
-      <EsaButton color="ghost" appearance="outline" data-sw-cancel>Cancel</EsaButton>
+      <EsaButton variant="primary" data-sw-save>Save decisions</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" data-sw-cancel>Cancel</EsaButton>
     </span>
   </div>
 </esa-side-dialog>
@@ -399,7 +399,7 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
      count of what is about to be lost is never shown. ── -->
 <esa-dialog id={`${id}-rationale`} class="bcn-sw-rationale" heading="Apply commitments" data-sw-dialog>
   <div class="bcn-sw-rationale__body">
-    <p class="bcn-sw-rationale__what type-body" data-sw-dialog-what></p>
+    <p class="bcn-sw-rationale__what typography-body-md" data-sw-dialog-what></p>
 
     <div class="bcn-sw-rationale__warn" data-sw-dialog-warn hidden>
       <EsaAlertBox variant="warning" title="This replaces a rationale already on record">
@@ -416,8 +416,8 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
   </div>
 
   <div slot="footer" class="bcn-sw-rationale__foot">
-    <EsaButton color="primary" data-sw-dialog-confirm>Apply</EsaButton>
-    <EsaButton color="ghost" appearance="outline" data-sw-dialog-cancel>Cancel</EsaButton>
+    <EsaButton variant="primary" data-sw-dialog-confirm>Apply</EsaButton>
+    <EsaButton variant="ghost" appearance="outline" data-sw-dialog-cancel>Cancel</EsaButton>
   </div>
 </esa-dialog>
 
@@ -447,13 +447,13 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     --side-dialog-width-lg: 1180px;
     --z-modal-backdrop: 1300;
     --z-modal: 1301;
-    --backdrop-filter: blur(2px);
-    /* Every small CONTROL in this drawer reads 14px, not 12px. --form-font-size-sm
-       resolves to --type-size-100 (12px), which is the right density for a chip but
+    --side-dialog-backdrop-filter: blur(2px);
+    /* Every small CONTROL in this drawer reads 14px, not 12px. --typography-label-xs-font-size
+       resolves to --font-size-100 (12px), which is the right density for a chip but
        under the house floor for something you click — the inline Apply / Dismiss and
        the bulk bar are actions, not meta. Re-pointed once here so a control never
        disagrees with its neighbour, rather than patched per button. */
-    --form-font-size-sm: var(--type-size-150);
+    --typography-label-xs-font-size: var(--font-size-150);
   }
 
   /* The lego's .body is a definite-height flex child, so height:100% here fills it
@@ -464,7 +464,7 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     gap: var(--spacing-400);
     height: 100%;
     min-height: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* Header slot: workflow glyph, name, and the record it acts on as a badge. */
@@ -476,12 +476,12 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
   }
   .bcn-sw__headtitle {
     margin: 0;
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     white-space: nowrap;
   }
-  .bcn-sw__head :global(.esa-icon) { color: var(--color-text-secondary); }
+  .bcn-sw__head :global(.esa-icon) { color: var(--color-content-default-secondary); }
   /* The record badge is a LABEL, not a status: quiet hairline and text, per the house
      badge standard. esa-badge's variants are all saturated FILLS, which put a block of
      brand colour in the title bar and made the component's name read as an alert.
@@ -489,9 +489,9 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
      class sets those properties directly, so re-pointing the token does nothing. */
   .bcn-sw__head :global(.esa-badge) {
     background: transparent;
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-    font-weight: var(--font-weight-medium);
+    color: var(--color-content-default-secondary);
+    border: 1px solid var(--color-border-default);
+    font-weight: var(--typography-font-weight-medium);
   }
 
   .bcn-sw__search {
@@ -509,7 +509,7 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
   }
   .bcn-sw__scope {
     margin: 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-sw__figures {
     display: flex;
@@ -521,7 +521,7 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     min-width: 0;
     /* One step down from the lego default: three figures on one band, and the drawer is
        a work surface, not a dashboard hero. */
-    --stat-value-size: var(--type-size-600);
+    --stat-value-size: var(--font-size-600);
   }
   .bcn-sw__figure--progress {
     display: flex;
@@ -543,14 +543,14 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
   /* The pill row rides inside the filter container. Every possible chip is pre-rendered
      (esa-filter-pills is compile-time) and the controller reveals the active ones; the
      wrapper itself hides when none are, so an empty bar has no stray gap.
-     Neutral chips: --color-primary-bg is not a Beacon token, so the lego's default pill
+     Neutral chips: --color-background-brand-muted is not a Beacon token, so the lego's default pill
      fill would resolve to its literal green fallback. Re-point to the house neutral pair. */
   .bcn-sw__pills {
     display: inline-flex;
     min-width: 0;
-    --filter-pill-bg: var(--color-surface-sunken);
-    --filter-pill-bg-hover: var(--color-border);
-    --filter-pill-text: var(--color-text-primary);
+    --filter-pill-bg: var(--color-background-elevation-sunken);
+    --filter-pill-bg-hover: var(--color-border-default);
+    --filter-pill-text: var(--color-content-default);
   }
   .bcn-sw__pills[hidden] {
     display: none;
@@ -579,13 +579,13 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     flex-direction: column;
     min-height: 0;
     min-width: 0;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
   }
   .bcn-sw__pane--list {
     position: relative;
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
     overflow: hidden;
   }
   .bcn-sw__scroll {
@@ -624,9 +624,9 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     align-items: start;
     column-gap: var(--spacing-400);
     padding: var(--spacing-250, 0.625rem) var(--spacing-300);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     transition:
       border-color 120ms ease,
       background 120ms ease;
@@ -657,7 +657,7 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     cursor: pointer;
   }
   .bcn-sw-row:hover {
-    border-color: var(--color-border-strong);
+    border-color: var(--color-border-default-strong);
   }
   /* …except the two regions that do something else. */
   .bcn-sw-row__check,
@@ -666,8 +666,8 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
   }
   /* Being previewed. A tint plus a full border — never a coloured left edge. */
   .bcn-sw-row[data-active] {
-    border-color: var(--color-primary);
-    background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
+    border-color: var(--color-background-brand);
+    background: color-mix(in srgb, var(--color-background-brand) 5%, var(--color-background-elevation-raised));
   }
   /* Vertically centred on the title line, not the whole card, so it reads as
      belonging to the row rather than floating in the gutter. */
@@ -708,10 +708,10 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
   .bcn-sw-row__name {
     min-width: 0;
     /* 14px — the dense-surface base. This is a scan-and-pick list, not prose. */
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.35;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -719,10 +719,10 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
   /* The suggestion marker: a quiet 4px badge, tinted away from the entity ramp so it
      cannot be mistaken for one. Same treatment as the evidence drawer's. */
   .bcn-sw-row__mark :global(.esa-badge) {
-    --badge-bg: var(--color-info-subtle);
-    --badge-text-color: var(--color-text-primary);
-    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-    font-weight: var(--font-weight-medium);
+    --badge-bg: var(--color-background-utility-info-subtle);
+    --badge-text-color: var(--color-content-default);
+    border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+    font-weight: var(--typography-font-weight-medium);
   }
   /* Decision chips — shown by the row's own data-decision, no JS toggling needed. */
   .bcn-sw-row__state {
@@ -739,16 +739,16 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
      wears the brand teal as text on the plain surface. */
   .bcn-sw-row__state--applied :global(.esa-badge) {
     --badge-bg: transparent;
-    --badge-text-color: var(--color-primary);
-    --badge-border-color: var(--color-primary-border, var(--color-border));
-    border: 1px solid var(--color-primary-border, var(--color-border));
-    font-weight: var(--font-weight-medium);
+    --badge-text-color: var(--color-background-brand);
+    --badge-border-color: var(--color-border-brand, var(--color-border-default));
+    border: 1px solid var(--color-border-brand, var(--color-border-default));
+    font-weight: var(--typography-font-weight-medium);
   }
   .bcn-sw-row__state--dismissed :global(.esa-badge) {
     --badge-bg: transparent;
-    --badge-text-color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-    font-weight: var(--font-weight-medium);
+    --badge-text-color: var(--color-content-default-secondary);
+    border: 1px solid var(--color-border-default);
+    font-weight: var(--typography-font-weight-medium);
   }
   /* Inline actions: revealed on hover or when anything inside has focus, so keyboard
      users reach them too. Space is reserved by visibility, not display — the row's width
@@ -793,11 +793,11 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     gap: var(--spacing-250, 0.625rem);
     min-height: 40px;
     padding: var(--spacing-200) var(--spacing-300);
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-sw__listcount {
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
@@ -828,10 +828,10 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
   }
   .bcn-sw-prev__title {
     margin: 0;
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.25;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   /* The document voice: Beacon's designated serif (Besley) on the citation surface, the
      same treatment the commitment detail page gives quoted regulatory language. */
@@ -843,7 +843,7 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     font-family: var(--font-decorative);
     font-size: 1.0625rem;
     line-height: 1.65;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-sw-prev__facts {
     display: grid;
@@ -859,13 +859,13 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     flex-direction: column;
     gap: var(--spacing-250, 0.625rem);
     padding-top: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-sw-prev__efftitle {
     margin: 0;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-sw-prev__actions {
     list-style: none;
@@ -880,25 +880,25 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     align-items: center;
     gap: var(--spacing-200);
     padding: var(--spacing-200) var(--spacing-300);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
   }
   .bcn-sw-prev__actname {
     flex: 1;
     min-width: 0;
-    font-size: var(--type-size-150);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default);
   }
   .bcn-sw-prev__acttype :global(.esa-badge) {
-    --badge-bg: var(--color-surface-sunken);
-    --badge-text-color: var(--color-text-secondary);
-    font-weight: var(--font-weight-medium);
+    --badge-bg: var(--color-background-elevation-sunken);
+    --badge-text-color: var(--color-content-default-secondary);
+    font-weight: var(--typography-font-weight-medium);
   }
   .bcn-sw-prev__undo {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-sw-prev__decision {
@@ -906,15 +906,15 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
     flex-wrap: wrap;
     gap: var(--spacing-300) var(--spacing-500);
     padding-top: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-sw-prev__decision[hidden] {
     display: none;
   }
   .bcn-sw-prev__decval,
   .bcn-sw-prev__rationale {
-    font-size: var(--form-font-size-md);
-    color: var(--color-text-primary);
+    font-size: var(--typography-label-md-font-size);
+    color: var(--color-content-default);
   }
 
   /* ── Footer ── */
@@ -944,7 +944,7 @@ const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
   }
   .bcn-sw-rationale__what {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-sw-rationale__warn[hidden] {
     display: none;

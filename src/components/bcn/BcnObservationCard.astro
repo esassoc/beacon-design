@@ -97,9 +97,9 @@ const ALERT = '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a
 
 <style>
   .bcn-obs {
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     overflow: hidden;
   }
   .bcn-obs[hidden] { display: none; }
@@ -114,39 +114,39 @@ const ALERT = '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a
     list-style: none;
   }
   .bcn-obs__summary::-webkit-details-marker { display: none; }
-  .bcn-obs__summary:hover { background: var(--color-surface-sunken); }
+  .bcn-obs__summary:hover { background: var(--color-background-elevation-sunken); }
 
-  .bcn-obs__chev { display: inline-flex; flex-shrink: 0; color: var(--color-text-tertiary); transition: transform 150ms ease; }
+  .bcn-obs__chev { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 150ms ease; }
   .bcn-obs[open] > .bcn-obs__summary .bcn-obs__chev { transform: rotate(90deg); }
 
   /* Compliance concern marker — a warning glyph; the concern is a raised violation. */
-  .bcn-obs__concern-icon { display: inline-flex; flex-shrink: 0; color: var(--color-danger); }
+  .bcn-obs__concern-icon { display: inline-flex; flex-shrink: 0; color: var(--color-background-utility-danger); }
 
   .bcn-obs__badge {
     flex-shrink: 0;
-    font-family: var(--font-mono);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-secondary);
-    background: color-mix(in srgb, var(--color-secondary) 12%, white);
+    font-family: var(--typography-font-family-mono);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand-muted);
+    background: color-mix(in srgb, var(--color-background-brand-muted) 12%, white);
     padding: 1px var(--spacing-200);
     border-radius: var(--radius-100);
   }
   .bcn-obs__name {
     flex-shrink: 0;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-obs__id {
     flex-shrink: 0;
-    font-family: var(--font-mono);
-    font-size: var(--type-size-100);
-    color: var(--color-text-secondary);
+    font-family: var(--typography-font-family-mono);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
   }
   .bcn-obs__meta {
-    font-size: var(--type-size-100);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -154,9 +154,9 @@ const ALERT = '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a
   .bcn-obs__spacer { flex: 1 1 var(--spacing-300); }
   .bcn-obs__fledge {
     flex-shrink: 0;
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-secondary);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand-muted);
     white-space: nowrap;
   }
 
@@ -167,37 +167,37 @@ const ALERT = '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a
     flex-direction: column;
     gap: var(--spacing-400);
     padding: var(--spacing-400);
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-border-light);
+    background: var(--color-background-elevation-raised);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   /* The real field note grounds the observation. */
   .bcn-obs__desc {
     margin: 0;
-    font-size: var(--type-size-200);
+    font-size: var(--font-size-200);
     line-height: 1.5;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   /* Jump to the observation/concern detail page. */
   .bcn-obs__detail-link {
-    color: var(--color-text-link);
+    color: var(--color-content-link);
     text-decoration: underline;
     text-underline-offset: 2px;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     white-space: nowrap;
   }
-  .bcn-obs__detail-link:hover { color: var(--color-primary-hover); }
+  .bcn-obs__detail-link:hover { color: var(--color-background-brand-hover); }
   .bcn-obs__fledge-panel {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     padding: var(--spacing-300) var(--spacing-400);
   }
   .bcn-obs__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-obs__h {
     margin: 0;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-obs__rows { display: flex; flex-direction: column; gap: var(--spacing-100); }
 </style>

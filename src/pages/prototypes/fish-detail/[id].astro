@@ -260,11 +260,11 @@ const detailJson = JSON.stringify({ node });
       <span class="bcn-fdetail__chip" data-chip="id">{node.id}</span>
     </span>
     <div slot="utilities" class="bcn-fdetail__utils">
-      <span data-rec-edit><EsaButton color="ghost" appearance="outline" size="sm" icon="pencil">Edit record</EsaButton></span>
+      <span data-rec-edit><EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil">Edit record</EsaButton></span>
       {isStudy && profile?.sketch && (
-        <EsaButton color="ghost" appearance="outline" size="sm" icon="file-text">Generate sketch (.docx)</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" size="sm" icon="file-text">Generate sketch (.docx)</EsaButton>
       )}
-      {isStudy && <EsaButton color="primary" size="sm" icon="upload">Submit for CDFW review</EsaButton>}
+      {isStudy && <EsaButton variant="primary" size="sm" icon="upload">Submit for CDFW review</EsaButton>}
     </div>
 
     <!-- bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY — the KPI strip wraps esa-stat
@@ -451,8 +451,8 @@ const detailJson = JSON.stringify({ node });
       )}
     </div>
     <span slot="footer" class="bcn-adr-foot">
-      <span data-rd-cancel><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-      <span data-rd-save><EsaButton color="primary">Save record</EsaButton></span>
+      <span data-rd-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span data-rd-save><EsaButton variant="primary">Save record</EsaButton></span>
     </span>
   </esa-side-dialog>
 
@@ -474,8 +474,8 @@ const detailJson = JSON.stringify({ node });
         <BcnRolesRepeater />
       </div>
       <span slot="footer" class="bcn-adr-foot">
-        <span data-adr-cancel><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-        <span data-adr-save><EsaButton color="primary">Save assignments</EsaButton></span>
+        <span data-adr-cancel><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+        <span data-adr-save><EsaButton variant="primary">Save assignments</EsaButton></span>
       </span>
     </esa-side-dialog>
   )}
@@ -768,9 +768,9 @@ const detailJson = JSON.stringify({ node });
     flex-wrap: wrap;
   }
   .bcn-fdetail__chip {
-    font-family: var(--font-mono);
+    font-family: var(--typography-font-family-mono);
     font-size: 0.6875rem; /* adherence-allow: font-too-small — matches the gantt's Andy-sanctioned 11px ID badges */
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
     padding: 2px var(--spacing-200);
@@ -818,8 +818,8 @@ const detailJson = JSON.stringify({ node });
     gap: var(--spacing-150);
   }
   .bcn-fdetail__kv-label {
-    font-size: var(--form-font-size-md);
-    font-weight: var(--font-weight-medium);
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-medium);
     color: var(--form-label-color);
   }
   .bcn-fdetail__chips {
@@ -828,32 +828,32 @@ const detailJson = JSON.stringify({ node });
     gap: var(--spacing-150);
   }
   .bcn-fdetail__empty {
-    font-size: var(--type-size-100);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
     font-style: italic;
   }
   .bcn-fdetail__coa-link,
   .bcn-fdetail__coa-ref {
     display: inline-flex;
     align-items: center;
-    font-family: var(--font-mono);
+    font-family: var(--typography-font-family-mono);
     font-size: 0.75rem;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     padding: 1px var(--spacing-200);
     border-radius: var(--radius-100);
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
   }
   .bcn-fdetail__coa-link {
-    color: var(--color-primary);
+    color: var(--color-background-brand);
     text-decoration: none;
   }
   .bcn-fdetail__coa-link:hover {
-    background: var(--color-primary-subtle);
-    border-color: var(--color-primary-border);
+    background: var(--color-background-brand-subtle);
+    border-color: var(--color-border-brand);
   }
   .bcn-fdetail__coa-ref {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-fdetail__deliv {
     list-style: none;
@@ -870,8 +870,8 @@ const detailJson = JSON.stringify({ node });
     gap: var(--spacing-200);
   }
   .bcn-fdetail__deliv-name {
-    font-size: var(--type-size-100);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default);
   }
 
   @media (max-width: 980px) {
@@ -893,17 +893,17 @@ const detailJson = JSON.stringify({ node });
     display: inline-flex;
     align-items: baseline;
     gap: var(--spacing-150);
-    font-size: var(--type-size-150);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default);
     text-decoration: none;
   }
   .fd-plansec a:hover {
     text-decoration: underline;
   }
   .fd-plansec__num {
-    font-family: var(--font-mono);
-    font-size: var(--type-size-100);
-    color: var(--color-text-tertiary);
+    font-family: var(--typography-font-family-mono);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
   }
 
   /* ── Edit-record drawer fields ── */
@@ -918,8 +918,8 @@ const detailJson = JSON.stringify({ node });
     gap: var(--spacing-200);
   }
   .bcn-rd-funding__label {
-    font-size: var(--form-label-font-size, var(--form-font-size-sm, 12px));
-    font-weight: var(--form-label-font-weight, var(--font-weight-medium));
+    font-size: var(--typography-label-md-font-size, var(--typography-label-xs-font-size, 12px));
+    font-weight: var(--typography-label-md-font-weight, var(--typography-font-weight-medium));
     color: var(--form-label-color);
   }
   .bcn-rd-funding__row {
@@ -929,20 +929,20 @@ const detailJson = JSON.stringify({ node });
     gap: var(--spacing-300);
   }
   .bcn-rd-funding__wy {
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
   /* Drawer field consistency: the status select's md-styled trigger/label sized
      down to the sm scale every other drawer control uses. */
   #record-drawer :global(.bcn-status-select__trigger) {
     height: 32px;
     padding: 0 var(--spacing-200);
-    font-size: var(--form-font-size-sm, 12px);
-    font-weight: var(--font-weight-regular);
+    font-size: var(--typography-label-xs-font-size, 12px);
+    font-weight: var(--typography-font-weight-regular);
   }
   #record-drawer :global(.bcn-status-select__label) {
-    font-size: var(--form-label-font-size, var(--form-font-size-sm, 12px));
-    font-weight: var(--form-label-font-weight, var(--font-weight-medium));
+    font-size: var(--typography-label-md-font-size, var(--typography-label-xs-font-size, 12px));
+    font-weight: var(--typography-label-md-font-weight, var(--typography-font-weight-medium));
     color: var(--form-label-color);
   }
 
@@ -953,18 +953,18 @@ const detailJson = JSON.stringify({ node });
     gap: var(--spacing-250);
   }
   .bcn-adr-head__id {
-    font-family: var(--font-mono);
+    font-family: var(--typography-font-family-mono);
     font-size: 0.6875rem; /* adherence-allow: font-too-small — matches the sanctioned 11px ID badges */
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
     padding: 1px 5px;
     border-radius: var(--radius-100);
   }
   .bcn-adr-head__title {
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-adr-body {
     display: flex;

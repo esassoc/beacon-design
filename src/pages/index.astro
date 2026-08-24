@@ -44,7 +44,7 @@ import BcnPrototypeIndex from '../components/bcn/BcnPrototypeIndex.astro';
   </main>
 
   <style>
-    .home { max-width: 1040px; margin: 0 auto; padding: 0 var(--spacing-500, 24px); background: var(--color-surface, #fff); }
+    .home { max-width: 1040px; margin: 0 auto; padding: 0 var(--spacing-500, 24px); background: var(--color-background-elevation-raised, #fff); }
 
     /* ---- Hero ---- */
     .hero {
@@ -53,63 +53,63 @@ import BcnPrototypeIndex from '../components/bcn/BcnPrototypeIndex.astro';
     }
     .hero__eyebrow {
       margin: 0;
-      font-size: var(--type-size-100, 0.875rem);
-      font-weight: var(--font-weight-medium, 450);
+      font-size: var(--font-size-100, 0.875rem);
+      font-weight: var(--typography-font-weight-medium, 450);
       letter-spacing: 0.04em; text-transform: uppercase;
-      color: var(--color-secondary, #00918b);
+      color: var(--color-background-brand-muted, #00918b);
     }
     .hero__title {
       margin: var(--spacing-200, 8px) 0 0;
-      font-family: var(--font-display, var(--font-sans));
-      font-weight: var(--font-weight-semibold, 550);
+      font-family: var(--typography-font-family-display, var(--typography-font-family-sans));
+      font-weight: var(--typography-font-weight-semibold, 550);
       font-size: clamp(2.5rem, 1.9rem + 3vw, 4rem);
       line-height: 1.04; letter-spacing: -0.02em;
-      color: var(--color-text-primary, #3d3d3d);
+      color: var(--color-content-default, #3d3d3d);
     }
     .hero__tagline {
       margin: var(--spacing-400, 16px) auto 0; max-width: 58ch;
-      font-size: var(--type-size-300, 1.125rem); line-height: 1.6;
-      color: var(--color-text-secondary, #525252);
+      font-size: var(--font-size-300, 1.125rem); line-height: 1.6;
+      color: var(--color-content-default-secondary, #525252);
     }
-    code { font-family: var(--font-mono, monospace); font-size: 0.9em; background: var(--color-surface-sunken, #efefef); padding: 0.1em 0.35em; border-radius: var(--radius-100, 4px); }
+    code { font-family: var(--typography-font-family-mono, monospace); font-size: 0.9em; background: var(--color-background-elevation-sunken, #efefef); padding: 0.1em 0.35em; border-radius: var(--radius-100, 4px); }
 
     /* ---- Layer cards ---- */
     .layers { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-400, 16px); padding-bottom: var(--spacing-800, 64px); }
     .layer {
       position: relative; display: flex; flex-direction: column;
       padding: var(--spacing-600, 32px);
-      border: 1px solid var(--color-border, #dcdcdc); border-radius: var(--radius-400, 12px);
-      background: var(--color-surface, #fff);
+      border: 1px solid var(--color-border-default, #dcdcdc); border-radius: var(--radius-400, 12px);
+      background: var(--color-background-elevation-raised, #fff);
       transition: border-color 0.14s ease, box-shadow 0.14s ease, transform 0.14s ease;
     }
     .layer:hover {
-      border-color: var(--color-primary-border, #99f6e4);
-      box-shadow: 0 12px 32px color-mix(in srgb, var(--color-primary, #005862) 12%, transparent);
+      border-color: var(--color-border-brand, #99f6e4);
+      box-shadow: 0 12px 32px color-mix(in srgb, var(--color-background-brand, #005862) 12%, transparent);
       transform: translateY(-2px);
     }
-    .layer--soon { background: var(--color-surface-sunken, #efefef); }
-    .layer__status { display: inline-flex; align-items: center; gap: var(--spacing-150, 6px); font-size: var(--type-size-100, 0.875rem); font-weight: var(--font-weight-medium, 450); }
+    .layer--soon { background: var(--color-background-elevation-sunken, #efefef); }
+    .layer__status { display: inline-flex; align-items: center; gap: var(--spacing-150, 6px); font-size: var(--font-size-100, 0.875rem); font-weight: var(--typography-font-weight-medium, 450); }
     .layer__status .dot { width: 8px; height: 8px; border-radius: 50%; }
-    .layer__status--live { color: var(--color-success-strong, #15803d); }
-    .layer__status--live .dot { background: var(--color-success, #2e7571); }
-    .layer__status--soon { color: var(--color-text-muted, #7c7c7c); }
-    .layer__status--soon .dot { background: var(--color-secondary, #00918b); }
+    .layer__status--live { color: var(--color-content-utility-success, #15803d); }
+    .layer__status--live .dot { background: var(--color-background-utility-success, #2e7571); }
+    .layer__status--soon { color: var(--bcn-content-muted, #7c7c7c); }
+    .layer__status--soon .dot { background: var(--color-background-brand-muted, #00918b); }
     .layer__title {
       margin: var(--spacing-300, 12px) 0 var(--spacing-200, 8px);
-      font-family: var(--font-display, var(--font-sans));
-      font-size: var(--type-size-600, 2rem); font-weight: var(--font-weight-semibold, 550);
-      letter-spacing: -0.01em; color: var(--color-text-primary, #3d3d3d);
+      font-family: var(--typography-font-family-display, var(--typography-font-family-sans));
+      font-size: var(--font-size-600, 2rem); font-weight: var(--typography-font-weight-semibold, 550);
+      letter-spacing: -0.01em; color: var(--color-content-default, #3d3d3d);
     }
-    .layer__body { margin: 0; font-size: var(--type-size-200, 1rem); line-height: 1.55; color: var(--color-text-secondary, #525252); }
+    .layer__body { margin: 0; font-size: var(--font-size-200, 1rem); line-height: 1.55; color: var(--color-content-default-secondary, #525252); }
     .layer__go {
       display: inline-flex; align-items: center; gap: var(--spacing-150, 6px);
       margin-top: var(--spacing-500, 24px);
-      font-weight: var(--font-weight-semibold, 550); font-size: var(--type-size-200, 1rem);
-      color: var(--color-text-link, #005862);
+      font-weight: var(--typography-font-weight-semibold, 550); font-size: var(--font-size-200, 1rem);
+      color: var(--color-content-link, #005862);
     }
     .layer__go svg { transition: transform 0.14s ease; }
     .layer:hover .layer__go svg { transform: translateX(3px); }
-    .layer--soon .layer__go { color: var(--color-text-muted, #7c7c7c); }
+    .layer--soon .layer__go { color: var(--bcn-content-muted, #7c7c7c); }
 
     /* ---- Prototypes ---- */
     .protos { padding-bottom: var(--spacing-800, 64px); }
@@ -118,8 +118,8 @@ import BcnPrototypeIndex from '../components/bcn/BcnPrototypeIndex.astro';
     .home__foot {
       display: flex; align-items: center; gap: var(--spacing-250, 10px);
       padding: var(--spacing-500, 24px) 0 var(--spacing-800, 64px);
-      border-top: 1px solid var(--color-border, #dcdcdc);
-      color: var(--color-text-muted, #7c7c7c); font-size: var(--type-size-100, 0.875rem);
+      border-top: 1px solid var(--color-border-default, #dcdcdc);
+      color: var(--bcn-content-muted, #7c7c7c); font-size: var(--font-size-100, 0.875rem);
     }
 
     @media (max-width: 720px) {

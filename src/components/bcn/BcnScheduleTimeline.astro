@@ -202,61 +202,61 @@ const bar = (s: Study) => {
   }
 
   /* ── Legend ── */
-  .bcn-timeline__legend { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-300); font-size: var(--type-size-100); color: var(--color-text-secondary); }
-  .bcn-timeline__legend-title { font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); }
+  .bcn-timeline__legend { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-300); font-size: var(--font-size-100); color: var(--color-content-default-secondary); }
+  .bcn-timeline__legend-title { font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-tertiary); }
   .bcn-timeline__legend-item { display: inline-flex; align-items: center; gap: var(--spacing-150); }
   .bcn-timeline__legend-dot { width: 9px; height: 9px; border-radius: var(--radius-full); background: var(--_c); }
-  .bcn-timeline__legend-hint { margin-left: auto; color: var(--color-text-muted); font-style: italic; }
+  .bcn-timeline__legend-hint { margin-left: auto; color: var(--bcn-content-muted); font-style: italic; }
 
   /* ── Scroll + canvas ── */
-  .bcn-timeline__scroll { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
+  .bcn-timeline__scroll { overflow-x: auto; border: 1px solid var(--color-border-default); border-radius: var(--radius-200); background: var(--color-background-elevation-raised); }
   .bcn-timeline__canvas { min-width: calc(var(--_label-w) + var(--_plot-w)); }
 
   /* ── Axis header — 3 stacked sub-rows ── */
-  .bcn-timeline__axis { display: grid; grid-template-columns: var(--_label-w) 1fr; position: sticky; top: 0; z-index: 5; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
-  .bcn-timeline__corner { display: flex; align-items: flex-end; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); border-right: 1px solid var(--color-border); }
+  .bcn-timeline__axis { display: grid; grid-template-columns: var(--_label-w) 1fr; position: sticky; top: 0; z-index: 5; background: var(--color-background-elevation-raised); border-bottom: 1px solid var(--color-border-default); }
+  .bcn-timeline__corner { display: flex; align-items: flex-end; padding: var(--spacing-200) var(--spacing-300); font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-tertiary); border-right: 1px solid var(--color-border-default); }
   .bcn-timeline__head-plot { position: relative; }
   .bcn-timeline__head-bands { position: absolute; inset: 0; z-index: 0; }
   .bcn-timeline__head-phases { position: relative; z-index: 1; height: 18px; }
   .bcn-timeline__head-years { position: relative; z-index: 1; height: 20px; }
   .bcn-timeline__head-ms { position: relative; z-index: 1; height: 22px; }
 
-  .bcn-timeline__phase-tag { position: absolute; top: 0; bottom: 0; display: inline-flex; align-items: center; padding: 0 var(--spacing-150); font-size: 0.625rem; font-weight: var(--font-weight-semibold); text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; }
-  .bcn-timeline__yr { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--color-border-light); display: flex; align-items: center; }
-  .bcn-timeline__yr.is-five { border-left-color: var(--color-border-strong); }
-  .bcn-timeline__yr-label { font-size: 0.6875rem; color: var(--color-text-muted); padding-left: 4px; font-variant-numeric: tabular-nums; }
-  .bcn-timeline__yr.is-five .bcn-timeline__yr-label { color: var(--color-text-secondary); font-weight: var(--font-weight-semibold); }
-  .bcn-timeline__ms-tag { position: absolute; top: 2px; transform: translateX(-50%); font-size: 0.625rem; font-weight: var(--font-weight-semibold); color: var(--color-primary); white-space: nowrap; background: var(--color-surface); padding: 0 3px; border: 1px solid var(--color-primary-border); border-radius: var(--radius-100); }
+  .bcn-timeline__phase-tag { position: absolute; top: 0; bottom: 0; display: inline-flex; align-items: center; padding: 0 var(--spacing-150); font-size: 0.625rem; font-weight: var(--typography-font-weight-semibold); text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-content-default-secondary); white-space: nowrap; overflow: hidden; }
+  .bcn-timeline__yr { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--color-border-default-subtle); display: flex; align-items: center; }
+  .bcn-timeline__yr.is-five { border-left-color: var(--color-border-default-strong); }
+  .bcn-timeline__yr-label { font-size: 0.6875rem; color: var(--bcn-content-muted); padding-left: 4px; font-variant-numeric: tabular-nums; }
+  .bcn-timeline__yr.is-five .bcn-timeline__yr-label { color: var(--color-content-default-secondary); font-weight: var(--typography-font-weight-semibold); }
+  .bcn-timeline__ms-tag { position: absolute; top: 2px; transform: translateX(-50%); font-size: 0.625rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-background-brand); white-space: nowrap; background: var(--color-background-elevation-raised); padding: 0 3px; border: 1px solid var(--color-border-brand); border-radius: var(--radius-100); }
   .bcn-timeline__ms-tag.is-alt { top: 11px; }
 
   /* Neutral phase bands — alternating faint grays (not hues) so phase boundaries
      read without competing with the status-colored bars. */
-  .bcn-timeline__band[data-phase='baseline'] { background: color-mix(in srgb, var(--color-text-primary) 7%, transparent); }
-  .bcn-timeline__band[data-phase='in-water-construction'] { background: color-mix(in srgb, var(--color-text-primary) 3%, transparent); }
-  .bcn-timeline__band[data-phase='phase1-ops'] { background: color-mix(in srgb, var(--color-text-primary) 7%, transparent); }
-  .bcn-timeline__band[data-phase='phase2-ops'] { background: color-mix(in srgb, var(--color-text-primary) 3%, transparent); }
+  .bcn-timeline__band[data-phase='baseline'] { background: color-mix(in srgb, var(--color-content-default) 7%, transparent); }
+  .bcn-timeline__band[data-phase='in-water-construction'] { background: color-mix(in srgb, var(--color-content-default) 3%, transparent); }
+  .bcn-timeline__band[data-phase='phase1-ops'] { background: color-mix(in srgb, var(--color-content-default) 7%, transparent); }
+  .bcn-timeline__band[data-phase='phase2-ops'] { background: color-mix(in srgb, var(--color-content-default) 3%, transparent); }
 
   /* ── Body / rows ── */
-  .bcn-timeline__lane-title { margin: 0; padding: var(--spacing-150) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); background: var(--color-surface-sunken); border-bottom: 1px solid var(--color-border); position: sticky; left: 0; z-index: 3; }
+  .bcn-timeline__lane-title { margin: 0; padding: var(--spacing-150) var(--spacing-300); font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-secondary); background: var(--color-background-elevation-sunken); border-bottom: 1px solid var(--color-border-default); position: sticky; left: 0; z-index: 3; }
   .bcn-timeline__lane-title[hidden] { display: none; }
-  .bcn-timeline__row { display: grid; grid-template-columns: var(--_label-w) 1fr; border-bottom: 1px solid var(--color-border-light); }
+  .bcn-timeline__row { display: grid; grid-template-columns: var(--_label-w) 1fr; border-bottom: 1px solid var(--color-border-default-subtle); }
   .bcn-timeline__row[hidden] { display: none; }
-  .bcn-timeline__row:hover .bcn-timeline__plot { background: color-mix(in srgb, var(--color-secondary) 4%, transparent); }
+  .bcn-timeline__row:hover .bcn-timeline__plot { background: color-mix(in srgb, var(--color-background-brand-muted) 4%, transparent); }
 
   /* clickable study label (opens the manage drawer, like the bar) */
-  .bcn-timeline__row-label { display: flex; align-items: center; gap: var(--spacing-200); padding: 0 var(--spacing-300); min-height: var(--_row-h); width: 100%; border: 0; border-right: 1px solid var(--color-border); overflow: hidden; background: var(--color-surface); position: sticky; left: 0; z-index: 3; cursor: pointer; text-align: left; font: inherit; }
-  .bcn-timeline__row-label:hover .bcn-timeline__name { color: var(--color-primary); text-decoration: underline; }
-  .bcn-timeline__row-label:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
+  .bcn-timeline__row-label { display: flex; align-items: center; gap: var(--spacing-200); padding: 0 var(--spacing-300); min-height: var(--_row-h); width: 100%; border: 0; border-right: 1px solid var(--color-border-default); overflow: hidden; background: var(--color-background-elevation-raised); position: sticky; left: 0; z-index: 3; cursor: pointer; text-align: left; font: inherit; }
+  .bcn-timeline__row-label:hover .bcn-timeline__name { color: var(--color-background-brand); text-decoration: underline; }
+  .bcn-timeline__row-label:focus-visible { outline: 2px solid var(--color-background-brand); outline-offset: -2px; }
   /* COA = purple commitment badge (faithful to the Beacon commitment-id badge). */
-  .bcn-timeline__coa { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.625rem; font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); }
-  .bcn-timeline__name { font-size: var(--type-size-200); font-weight: var(--font-weight-medium); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bcn-timeline__coa { flex-shrink: 0; font-family: var(--typography-font-family-mono); font-size: 0.625rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); }
+  .bcn-timeline__name { font-size: var(--font-size-200); font-weight: var(--typography-font-weight-medium); color: var(--color-content-default); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   .bcn-timeline__plot { position: relative; min-height: var(--_row-h); }
   .bcn-timeline__band { position: absolute; top: 0; bottom: 0; }
-  .bcn-timeline__grid { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px solid var(--color-border-light); }
-  .bcn-timeline__grid.is-five { border-left-color: var(--color-border); }
-  .bcn-timeline__ms-line { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed color-mix(in srgb, var(--color-primary) 35%, transparent); }
-  .bcn-timeline__today { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px solid var(--color-warning); z-index: 2; }
+  .bcn-timeline__grid { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px solid var(--color-border-default-subtle); }
+  .bcn-timeline__grid.is-five { border-left-color: var(--color-border-default); }
+  .bcn-timeline__ms-line { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed color-mix(in srgb, var(--color-background-brand) 35%, transparent); }
+  .bcn-timeline__today { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px solid var(--color-background-utility-warning); z-index: 2; }
 
   /* status bar: 4px radius + left→right gradient (base → a lighter calculated tint) */
   .bcn-timeline__bar {
@@ -269,5 +269,5 @@ const bar = (s: Study) => {
     transition: filter 120ms ease, box-shadow 120ms ease;
   }
   .bcn-timeline__bar:hover { filter: brightness(1.05); box-shadow: 0 0 0 2px color-mix(in srgb, var(--_c) 35%, transparent); }
-  .bcn-timeline__bar:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+  .bcn-timeline__bar:focus-visible { outline: 2px solid var(--color-background-brand); outline-offset: 1px; }
 </style>

@@ -69,9 +69,9 @@ const heroImage = withBase('/images/marketing/hero-aerial.jpg');
 
   .bcn-mkt-hero__headline {
     margin: 0 0 var(--spacing-500);
-    font-family: var(--font-decorative, var(--font-sans));
-    font-size: var(--type-size-800);
-    font-weight: var(--font-weight-bold);
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: var(--font-size-800);
+    font-weight: var(--typography-font-weight-bold);
     line-height: 1.15;
     color: #ffffff;
   }
@@ -79,8 +79,8 @@ const heroImage = withBase('/images/marketing/hero-aerial.jpg');
   .bcn-mkt-hero__sub {
     margin: 0 auto var(--spacing-600);
     max-inline-size: 840px;
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-medium);
     color: rgba(255, 255, 255, 0.85);
     line-height: normal;
     text-wrap: pretty;
@@ -101,8 +101,8 @@ const heroImage = withBase('/images/marketing/hero-aerial.jpg');
     gap: var(--spacing-200);
     padding: var(--spacing-400) var(--spacing-600);
     font-family: inherit;
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
     border-radius: var(--radius-200);
     border: 1px solid transparent;
     text-decoration: none;
@@ -111,18 +111,18 @@ const heroImage = withBase('/images/marketing/hero-aerial.jpg');
   }
   .bcn-mkt-hero__btn--white {
     background: #ffffff;
-    color: var(--color-primary);
+    color: var(--color-background-brand);
     border-color: #ffffff;
   }
   .bcn-mkt-hero__btn--white:hover {
-    background: var(--color-surface-sunken, #fafafa);
+    background: var(--color-background-elevation-sunken, #fafafa);
   }
   .bcn-mkt-hero__badge {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-200);
     margin-block-start: var(--spacing-700);
-    font-size: var(--type-size-150);
+    font-size: var(--font-size-150);
     color: rgba(255, 255, 255, 0.6);
   }
 </style>

@@ -254,13 +254,13 @@ const hasSub = rollup.totalFunding !== rollup.ownFunding;
   .bcn-funding { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
   .bcn-funding__table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-  .bcn-funding__table th, .bcn-funding__table td { padding: var(--spacing-150) var(--spacing-200); font-size: var(--type-size-200); text-align: left; border-bottom: 1px solid var(--color-border-light); }
-  .bcn-funding__table thead th { font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); border-bottom: 1px solid var(--color-border); }
+  .bcn-funding__table th, .bcn-funding__table td { padding: var(--spacing-150) var(--spacing-200); font-size: var(--font-size-200); text-align: left; border-bottom: 1px solid var(--color-border-default-subtle); }
+  .bcn-funding__table thead th { font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-tertiary); border-bottom: 1px solid var(--color-border-default); }
   /* Drawer (slim): one label scale with the esa field labels — same tokens the
      legos' .field__label uses (form-label-*, sm field-size fallback). */
   .bcn-funding--slim .bcn-funding__table thead th {
-    font-size: var(--form-label-font-size, var(--form-font-size-sm, 12px));
-    font-weight: var(--form-label-font-weight, var(--font-weight-medium));
+    font-size: var(--typography-label-md-font-size, var(--typography-label-xs-font-size, 12px));
+    font-weight: var(--typography-label-md-font-weight, var(--typography-font-weight-medium));
     color: var(--form-label-color);
   }
   /* The amount input fills its column (two-column task tables only — parents
@@ -268,11 +268,11 @@ const hasSub = rollup.totalFunding !== rollup.ownFunding;
   .bcn-funding--slim .bcn-funding__table:not(:has([data-cell='sub'])) .bcn-funding__edit { width: 60%; }
   .bcn-funding--slim .bcn-funding__field { width: 100%; }
   .bcn-funding__num { text-align: right; }
-  .bcn-funding__year { font-weight: var(--font-weight-regular); color: var(--color-text-primary); }
-  .bcn-funding__muted { color: var(--color-text-secondary); }
-  .bcn-funding__strong { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-funding__table tfoot th, .bcn-funding__table tfoot td { border-top: 1px solid var(--color-border-strong); border-bottom: 0; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-funding__empty { margin: 0; font-size: var(--type-size-100); color: var(--color-text-tertiary); font-style: italic; }
+  .bcn-funding__year { font-weight: var(--typography-font-weight-regular); color: var(--color-content-default); }
+  .bcn-funding__muted { color: var(--color-content-default-secondary); }
+  .bcn-funding__strong { font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-funding__table tfoot th, .bcn-funding__table tfoot td { border-top: 1px solid var(--color-border-default-strong); border-bottom: 0; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-funding__empty { margin: 0; font-size: var(--font-size-100); color: var(--color-content-default-tertiary); font-style: italic; }
 
   .bcn-funding__edit { padding-top: var(--spacing-100); padding-bottom: var(--spacing-100); }
   .bcn-funding__field { width: 130px; margin-left: auto; }

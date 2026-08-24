@@ -28,7 +28,7 @@ interface OutstandingItem {
   category: string;
   severity: 'needs-attention' | 'non-compliance';
   severityLabel: string;
-  /** SSR color for the severity chip; may be a `var(--color-danger)` string. */
+  /** SSR color for the severity chip; may be a `var(--color-background-utility-danger)` string. */
   severityHex: string;
   daysActive: number;
   area: string;
@@ -72,10 +72,10 @@ const payload = { outstanding, fileBase: exportFileBase };
 
 <EsaCard title="Needs Attention & Non-Compliance">
   <Fragment slot="actions">
-    <EsaButton id="ap-export-csv" color="ghost" appearance="outline" size="sm" icon="arrow-down">
+    <EsaButton id="ap-export-csv" variant="ghost" appearance="outline" size="sm" icon="arrow-down">
       Export spreadsheet
     </EsaButton>
-    <EsaButton id="ap-export-kml" color="ghost" appearance="outline" size="sm" icon="map-pin">
+    <EsaButton id="ap-export-kml" variant="ghost" appearance="outline" size="sm" icon="map-pin">
       Export KMZ
     </EsaButton>
   </Fragment>
@@ -89,7 +89,7 @@ const payload = { outstanding, fileBase: exportFileBase };
        reads as the aside. -->
   <div class="bcn-apanel__body sidebar" data-gap="lg" data-side="end">
     <div class="bcn-apanel__inset stack" data-gap="xs">
-      <h4 class="bcn-apanel__heading type-label">Active issue locations</h4>
+      <h4 class="bcn-apanel__heading typography-label">Active issue locations</h4>
       <BcnObservationMap
         observations={mapPins}
         mapId="attention-panel"
@@ -99,7 +99,7 @@ const payload = { outstanding, fileBase: exportFileBase };
     </div>
 
     <section class="bcn-apanel__outstanding stack" data-gap="sm">
-      <h4 class="bcn-apanel__heading type-label">Outstanding items ({outstanding.length})</h4>
+      <h4 class="bcn-apanel__heading typography-label">Outstanding items ({outstanding.length})</h4>
       {outstanding.length === 0 ? (
         <EsaEmptyState
           size="sm"
@@ -116,8 +116,8 @@ const payload = { outstanding, fileBase: exportFileBase };
                 label={item.severityLabel}
                 hex={item.severityHex}
               />
-              <span class="bcn-apanel__category type-body-small">{item.category}</span>
-              <span class="bcn-apanel__area type-body-small">{item.area}</span>
+              <span class="bcn-apanel__category typography-body-sm">{item.category}</span>
+              <span class="bcn-apanel__area typography-body-sm">{item.area}</span>
               <EsaBadge
                 value={`${item.daysActive}d active`}
                 variant={item.severity === 'non-compliance' ? 'danger' : 'warning'}
@@ -133,7 +133,7 @@ const payload = { outstanding, fileBase: exportFileBase };
   <Fragment slot="footer">
     <div class="cluster" data-gap="sm">
       <EsaButton
-        color="ghost"
+        variant="ghost"
         appearance="outline"
         size="sm"
         href={severityHref('needs-attention')}
@@ -141,7 +141,7 @@ const payload = { outstanding, fileBase: exportFileBase };
         All needs attention ({attentionCount})
       </EsaButton>
       <EsaButton
-        color="ghost"
+        variant="ghost"
         appearance="outline"
         size="sm"
         href={severityHref('non-compliance')}
@@ -262,7 +262,7 @@ ${placemarks}
 
   .bcn-apanel__heading {
     margin: 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* ── Outstanding items ── */
@@ -279,27 +279,27 @@ ${placemarks}
     padding-block: var(--spacing-150);
     padding-inline: var(--spacing-200);
   }
-  .bcn-apanel__list > li + li { border-top: 1px solid var(--color-border-light); }
+  .bcn-apanel__list > li + li { border-top: 1px solid var(--color-border-default-subtle); }
 
   .bcn-apanel__id {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
     text-decoration: underline;
     text-underline-offset: 2px;
     white-space: nowrap;
   }
-  .bcn-apanel__id:hover { color: var(--color-primary-hover); }
+  .bcn-apanel__id:hover { color: var(--color-background-brand-hover); }
 
-  /* Dense data row: .type-body-small (14px), darkened rather than grayed out. */
+  /* Dense data row: .typography-body-sm (14px), darkened rather than grayed out. */
   .bcn-apanel__category,
   .bcn-apanel__area {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .bcn-apanel__category { color: var(--color-text-primary); }
-  .bcn-apanel__area { color: var(--color-text-secondary); }
+  .bcn-apanel__category { color: var(--color-content-default); }
+  .bcn-apanel__area { color: var(--color-content-default-secondary); }
 
   /* Narrow: the row wraps to id + chip on one line, the rest beneath. */
   @media (max-width: 40rem) {

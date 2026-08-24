@@ -91,7 +91,7 @@ import { PROJECT_INFO } from '../../data/project-data';
                 id: 'boundary',
                 ring: PROJECT_BOUNDARY_RING,
                 label: `${PROJECT.name} boundary`,
-                color: 'var(--color-secondary)',
+                color: 'var(--color-background-brand-muted)',
               },
             ]}
             lines={[
@@ -99,17 +99,17 @@ import { PROJECT_INFO } from '../../data/project-data';
                 id: 'alignment',
                 path: PROJECT_ALIGNMENT_PATH,
                 label: 'Tunnel alignment',
-                color: 'var(--color-secondary)',
+                color: 'var(--color-background-brand-muted)',
               },
             ]}
             sourceName="Boundary source"
             sourceLabel={BOUNDARY_SOURCE}
             legend={[
-              { label: 'Project boundary', color: 'var(--color-secondary)', shape: 'area' },
-              { label: 'Tunnel alignment', color: 'var(--color-secondary)', shape: 'line' },
+              { label: 'Project boundary', color: 'var(--color-background-brand-muted)', shape: 'area' },
+              { label: 'Tunnel alignment', color: 'var(--color-background-brand-muted)', shape: 'line' },
             ]}
           >
-            <EsaButton slot="modal-actions" color="ghost" appearance="outline" size="sm">
+            <EsaButton slot="modal-actions" variant="ghost" appearance="outline" size="sm">
               Upload boundary
             </EsaButton>
           </BcnFootprintMap>

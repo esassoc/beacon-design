@@ -164,22 +164,22 @@ const ICON_BOOK =
     --z-modal-backdrop: 1300;
     --z-modal: 1301;
     --side-dialog-width: 460px;
-    --backdrop-filter: blur(2px);
+    --side-dialog-backdrop-filter: blur(2px);
   }
   .bcn-gd-article {
     --z-modal-backdrop: 1302;
     --z-modal: 1303;
     --side-dialog-width: 460px;
-    --backdrop-filter: blur(2px);
+    --side-dialog-backdrop-filter: blur(2px);
   }
 
   /* ── header (projected into the parent lego's header slot) ── */
   .bcn-gd__header { display: flex; align-items: center; gap: var(--spacing-300); min-width: 0; }
   .bcn-gd__title {
     font-family: var(--font-decorative); /* Besley — the guide's own voice */
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: 1.2;
   }
 
@@ -197,11 +197,11 @@ const ICON_BOOK =
     align-items: center;
     gap: var(--spacing-200);
     margin: 0;
-    font-size: var(--type-size-250);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-250);
+    font-weight: var(--typography-font-weight-bold);
+    color: var(--color-content-default);
   }
-  .bcn-gd__label :global(.esa-icon) { color: var(--color-text-tertiary); flex: none; }
+  .bcn-gd__label :global(.esa-icon) { color: var(--color-content-default-tertiary); flex: none; }
 
   /* You are here — a quiet Aldo-tinted card: the guide speaking */
   .bcn-gd__here {
@@ -213,8 +213,8 @@ const ICON_BOOK =
     border: 1px solid var(--bcn-aldo-100);
     border-radius: var(--radius-200);
   }
-  .bcn-gd__here-page { font-size: var(--type-size-250); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-gd__here-purpose { font-size: var(--type-size-150); color: var(--color-text-secondary); line-height: 1.5; }
+  .bcn-gd__here-page { font-size: var(--font-size-250); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-gd__here-purpose { font-size: var(--font-size-150); color: var(--color-content-default-secondary); line-height: 1.5; }
 
   .bcn-gd__rows { display: flex; flex-direction: column; }
 
@@ -226,18 +226,18 @@ const ICON_BOOK =
     width: 100%;
     padding: var(--spacing-300) var(--spacing-100);
     border: 0;
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
     background: transparent;
     font: inherit;
     text-align: left;
     cursor: pointer;
   }
-  .bcn-gd-row:hover { background: var(--color-surface-sunken); }
+  .bcn-gd-row:hover { background: var(--color-background-elevation-sunken); }
   .bcn-gd-row__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
   /* semibold (550) — the medium token resolves to 450 and reads too light for row titles */
-  .bcn-gd-row__title { font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.35; }
-  .bcn-gd-row__sub { font-size: var(--type-size-150); font-weight: var(--font-weight-regular); color: var(--color-text-secondary); line-height: 1.4; }
-  .bcn-gd-row :global(.esa-icon) { color: var(--color-text-tertiary); flex: none; }
+  .bcn-gd-row__title { font-size: var(--font-size-200); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); line-height: 1.35; }
+  .bcn-gd-row__sub { font-size: var(--font-size-150); font-weight: var(--typography-font-weight-regular); color: var(--color-content-default-secondary); line-height: 1.4; }
+  .bcn-gd-row :global(.esa-icon) { color: var(--color-content-default-tertiary); flex: none; }
 
   /* ── pinned footer: browse row + composer ── */
   .bcn-gd__foot { display: flex; flex-direction: column; gap: var(--spacing-250); }
@@ -246,9 +246,9 @@ const ICON_BOOK =
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-150);
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-background-brand);
     text-decoration: none;
   }
   .bcn-gd__browse:hover { text-decoration: underline; }
@@ -258,8 +258,8 @@ const ICON_BOOK =
     align-items: flex-end;
     gap: var(--spacing-200);
     padding: var(--spacing-150) var(--spacing-150) var(--spacing-150) var(--spacing-300);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
     transition: border-color 150ms ease, box-shadow 150ms ease;
   }
@@ -275,13 +275,13 @@ const ICON_BOOK =
     background: transparent;
     resize: none;
     font-family: inherit;
-    font-size: var(--type-size-200);
+    font-size: var(--font-size-200);
     line-height: 1.5;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     padding: 6px 0;
     overflow-y: hidden; /* JS grows height to content, then flips to auto at max rows */
   }
-  .bcn-gd-composer__input::placeholder { color: var(--color-text-tertiary); }
+  .bcn-gd-composer__input::placeholder { color: var(--color-content-default-tertiary); }
   /* circular send: Aldo-green filled with input, muted when empty */
   .bcn-gd-composer__send {
     flex: none;
@@ -293,14 +293,14 @@ const ICON_BOOK =
     border: 0;
     border-radius: var(--radius-full);
     background: var(--bcn-aldo);
-    color: var(--color-text-inverse);
+    color: var(--color-content-default-knockout);
     cursor: pointer;
     transition: background 150ms ease, color 150ms ease;
   }
   .bcn-gd-composer__send:hover:not(:disabled) { background: var(--bcn-aldo-600); }
   .bcn-gd-composer__send:disabled {
-    background: var(--color-surface-sunken);
-    color: var(--color-text-tertiary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-tertiary);
     cursor: default;
   }
 
@@ -315,18 +315,18 @@ const ICON_BOOK =
     border: 0;
     background: transparent;
     font: inherit;
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
     cursor: pointer;
   }
-  .bcn-gd-article__back:hover { color: var(--color-text-primary); }
+  .bcn-gd-article__back:hover { color: var(--color-content-default); }
   .bcn-gd-article__titlerow { display: flex; align-items: center; gap: var(--spacing-200); min-width: 0; }
   .bcn-gd-article__title {
     font-family: var(--font-decorative);
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: 1.25;
   }
   /* quiet 4px kind badge (not a full pill) */
@@ -334,11 +334,11 @@ const ICON_BOOK =
     flex: none;
     padding: 1px 6px;
     border-radius: var(--radius-100);
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border-default);
+    background: var(--color-background-elevation-raised);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
     line-height: 1.5;
     white-space: nowrap;
   }
@@ -365,17 +365,17 @@ const ICON_BOOK =
     gap: var(--spacing-200);
     padding: var(--spacing-250) var(--spacing-300);
     border-radius: var(--radius-300);
-    font-size: var(--type-size-150);
+    font-size: var(--font-size-150);
     line-height: 1.5;
   }
   .bcn-gd-msg--user .bcn-gd-msg__bubble {
-    background: var(--color-surface-sunken);
-    color: var(--color-text-primary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default);
     white-space: pre-wrap; /* preserve newlines from Shift+Enter, still textContent */
   }
   .bcn-gd-msg--aldo .bcn-gd-msg__bubble {
     background: var(--bcn-aldo-50);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-gd-msg__text { margin: 0; }
   .bcn-gd-msg__links { display: flex; flex-direction: column; gap: var(--spacing-100); }
@@ -384,18 +384,18 @@ const ICON_BOOK =
     border: 0;
     background: transparent;
     font: inherit;
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-background-brand);
     text-align: left;
     text-decoration: underline;
     text-underline-offset: 2px;
     cursor: pointer;
   }
   .bcn-gd-msg__browse {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-background-brand);
     text-decoration: underline;
     text-underline-offset: 2px;
   }

@@ -10,7 +10,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaPill from '@esa/ecology/esa-pill.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import EsaIconLink from '@esa/ecology/esa-button.astro';
 import BcnRequirementReference from '../../components/bcn/BcnRequirementReference.astro';
 import { resolveFields, type RequirementReference } from '../../components/bcn/requirement-reference';
 import { withBase } from '../../lib/base';
@@ -110,8 +110,8 @@ const trioCount = (r: RequirementReference) => [r.species, r.season, r.construct
       <iframe class="pdf__frame" src={`${withBase('/source-docs/feir-sample.pdf')}?v=187#view=FitH`} title="Source document — 3600 Alameda FEIR (sample)"></iframe>
     </div>
     <span slot="footer" class="srcfoot">
-      <EsaIconLink href={withBase('/source-docs/feir-sample.pdf')} icon="external-link" size="sm" weight="medium">Open full document</EsaIconLink>
-      <span id="source-close"><EsaButton color="primary" size="sm">Close</EsaButton></span>
+      <EsaIconLink variant="chrome" href={withBase('/source-docs/feir-sample.pdf')} icon="external-link" size="sm">Open full document</EsaIconLink>
+      <span id="source-close"><EsaButton variant="primary" size="sm">Close</EsaButton></span>
     </span>
   </esa-side-dialog>
 </BaseLayout>
@@ -128,31 +128,31 @@ const trioCount = (r: RequirementReference) => [r.species, r.season, r.construct
   /* ═══ Lab scaffolding (not product chrome) ═══ */
   .lab { max-width: 960px; margin: 0 auto; padding: var(--spacing-700, 2.5rem) var(--spacing-500) var(--spacing-800, 4rem); display: flex; flex-direction: column; gap: var(--spacing-700, 2.5rem); }
   .lab__head { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .lab__title { margin: 0; font-family: var(--font-decorative); font-size: 2rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .lab__intro { margin: 0; max-width: 74ch; font-size: var(--type-size-200, 1rem); line-height: 1.6; color: var(--color-text-secondary); }
-  .lab__intro strong { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+  .lab__title { margin: 0; font-family: var(--font-decorative); font-size: 2rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .lab__intro { margin: 0; max-width: 74ch; font-size: var(--font-size-200, 1rem); line-height: 1.6; color: var(--color-content-default-secondary); }
+  .lab__intro strong { color: var(--color-content-default); font-weight: var(--typography-font-weight-semibold); }
   .lab__intro em { font-style: italic; }
 
   .opt { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .opt__bar { display: flex; align-items: baseline; gap: var(--spacing-300); flex-wrap: wrap; }
-  .opt__name { font-size: var(--type-size-300, 1.125rem); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .opt__note { font-size: var(--type-size-100, 0.875rem); color: var(--color-text-tertiary); }
-  .opt__stage { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-600, 2rem); background: var(--color-surface, #fff); border: 1px dashed var(--bcn-gray-200); border-radius: var(--radius-400, 0.75rem); }
+  .opt__name { font-size: var(--font-size-300, 1.125rem); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .opt__note { font-size: var(--font-size-100, 0.875rem); color: var(--color-content-default-tertiary); }
+  .opt__stage { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-600, 2rem); background: var(--color-background-elevation-raised, #fff); border: 1px dashed var(--bcn-gray-200); border-radius: var(--radius-400, 0.75rem); }
 
   /* Muted dialog-header echo (context only — not part of the component). */
   .ctx { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; padding: var(--spacing-200) var(--spacing-300); background: var(--bcn-gray-50); border: 1px dashed var(--bcn-gray-300); border-radius: var(--radius-300, 0.5rem); align-self: flex-start; opacity: 0.9; }
-  .ctx__tag { font-size: var(--type-size-100, 0.875rem); color: var(--color-text-tertiary); }
-  .ctx__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .ctx__tag { font-size: var(--font-size-100, 0.875rem); color: var(--color-content-default-tertiary); }
+  .ctx__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
   /* bcn-lego-checked: this purple Commitment-ID badge echoes the dialog header for
      context only (Beacon identity token --color-commitment; no esa- purple variant) —
      it is NOT part of the component. Lab scaffolding. */
-  .commitment-id { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100, 0.25rem); font-size: var(--type-size-100, 0.875rem); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
+  .commitment-id { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100, 0.25rem); font-size: var(--font-size-100, 0.875rem); font-weight: var(--typography-font-weight-semibold); line-height: 1.4; white-space: nowrap; color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
 
   /* ═══ Shared PDF drawer (esa-side-dialog slotted body) ═══ */
   .srcbar { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding-bottom: var(--spacing-300); margin-bottom: var(--spacing-300); border-bottom: 1px solid var(--bcn-gray-200); flex-wrap: wrap; }
-  .srcbar__doc { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--type-size-100, 0.875rem); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .srcbar__doc :global(.esa-icon) { color: var(--color-text-secondary); }
-  .srcbar__loc { font-size: var(--type-size-100, 0.875rem); color: var(--color-text-tertiary); }
+  .srcbar__doc { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--font-size-100, 0.875rem); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .srcbar__doc :global(.esa-icon) { color: var(--color-content-default-secondary); }
+  .srcbar__loc { font-size: var(--font-size-100, 0.875rem); color: var(--color-content-default-tertiary); }
   .pdf { height: calc(100vh - 11rem); min-height: 360px; border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-300, 0.5rem); overflow: hidden; background: var(--bcn-gray-100); }
   .pdf__frame { width: 100%; height: 100%; border: 0; }
   .srcfoot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); width: 100%; }

@@ -93,9 +93,9 @@ const hasSiblings = Boolean(siblings?.prevHref || siblings?.nextHref);
   }
   .bcn-dchildren__h {
     margin: 0;
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-dchildren__list {
     list-style: none;
@@ -105,7 +105,7 @@ const hasSiblings = Boolean(siblings?.prevHref || siblings?.nextHref);
     flex-direction: column;
   }
   .bcn-dchildren__list li + li .bcn-dchildren__row {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-dchildren__row {
     display: flex;
@@ -116,14 +116,14 @@ const hasSiblings = Boolean(siblings?.prevHref || siblings?.nextHref);
     border-radius: var(--radius-100);
   }
   .bcn-dchildren__row:hover {
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-dchildren__id {
     display: inline-block;
     align-self: flex-start;
-    font-family: var(--font-mono);
+    font-family: var(--typography-font-family-mono);
     font-size: 0.6875rem; /* adherence-allow: font-too-small — matches the gantt's Andy-sanctioned 11px ID badges */
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
     padding: 1px 5px;
@@ -131,9 +131,9 @@ const hasSiblings = Boolean(siblings?.prevHref || siblings?.nextHref);
     white-space: nowrap;
   }
   .bcn-dchildren__name {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
     line-height: 1.35;
   }
   .bcn-dchildren__meta {
@@ -141,11 +141,11 @@ const hasSiblings = Boolean(siblings?.prevHref || siblings?.nextHref);
     align-items: baseline;
     flex-wrap: wrap;
     gap: var(--spacing-100) var(--spacing-300);
-    font-size: var(--type-size-100);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
   }
   .bcn-dchildren__funding {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-dchildren__status {
     display: inline-flex;
@@ -157,14 +157,14 @@ const hasSiblings = Boolean(siblings?.prevHref || siblings?.nextHref);
     width: 8px;
     height: 8px;
     border-radius: var(--radius-full);
-    background: var(--_tone, var(--color-text-muted));
+    background: var(--_tone, var(--bcn-content-muted));
     flex: none;
   }
-  .bcn-dchildren__dot[data-tone='on-track'] { --_tone: var(--color-secondary); }
+  .bcn-dchildren__dot[data-tone='on-track'] { --_tone: var(--color-background-brand-muted); }
   .bcn-dchildren__dot[data-tone='complete'] { --_tone: var(--bcn-status-completed); }
   .bcn-dchildren__dot[data-tone='at-risk'] { --_tone: var(--bcn-status-in-progress); }
   .bcn-dchildren__dot[data-tone='blocked'] { --_tone: var(--bcn-status-overdue); }
-  .bcn-dchildren__dot[data-tone='not-started'] { --_tone: var(--color-text-muted); }
+  .bcn-dchildren__dot[data-tone='not-started'] { --_tone: var(--bcn-content-muted); }
 
   .bcn-dchildren__sibrow {
     display: flex;
@@ -175,9 +175,9 @@ const hasSiblings = Boolean(siblings?.prevHref || siblings?.nextHref);
     border-radius: var(--radius-100);
   }
   .bcn-dchildren__sibrow:hover {
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-dchildren__list li + li .bcn-dchildren__sibrow {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 </style>

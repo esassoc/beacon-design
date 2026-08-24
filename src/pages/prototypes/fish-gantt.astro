@@ -276,7 +276,7 @@ const fishNav = [
     <div slot="utilities" class="bcn-gantt-utils">
       <esa-button-toggle id="gantt-view" value="gantt" size="md"></esa-button-toggle>
       <esa-dropdown-menu id="export-menu" position="below-end">
-        <span id="export-trigger"><EsaButton color="ghost" appearance="outline">Export</EsaButton></span>
+        <span id="export-trigger"><EsaButton variant="ghost" appearance="outline">Export</EsaButton></span>
       </esa-dropdown-menu>
     </div>
 
@@ -347,8 +347,8 @@ const fishNav = [
     </div>
 
     <span slot="footer" class="bcn-node-foot">
-      <span id="node-delete"><EsaButton color="danger" appearance="soft" icon="trash-2">Delete</EsaButton></span>
-      <span id="node-close"><EsaButton color="primary">Close</EsaButton></span>
+      <span id="node-delete"><EsaButton variant="danger" appearance="soft" icon="trash-2">Delete</EsaButton></span>
+      <span id="node-close"><EsaButton variant="primary">Close</EsaButton></span>
     </span>
   </esa-side-dialog>
 
@@ -393,8 +393,8 @@ const fishNav = [
     </div>
 
     <span slot="footer" class="bcn-create-foot">
-      <span id="create-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-      <span id="create-submit"><EsaButton color="primary" disabled>Create</EsaButton></span>
+      <span id="create-cancel"><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="create-submit"><EsaButton variant="primary" disabled>Create</EsaButton></span>
     </span>
   </esa-side-dialog>
 
@@ -410,8 +410,8 @@ const fishNav = [
       <BcnRolesRepeater />
     </div>
     <span slot="footer" class="bcn-roles-edit-foot">
-      <span id="roles-drawer-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-      <span id="roles-drawer-save"><EsaButton color="primary">Save roles</EsaButton></span>
+      <span id="roles-drawer-cancel"><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="roles-drawer-save"><EsaButton variant="primary">Save roles</EsaButton></span>
     </span>
   </esa-side-dialog>
 </AppShell>
@@ -872,13 +872,13 @@ const fishNav = [
      Every section resolves to a component (see manifest). Checked esa-* (no 4-tier
      gantt lego, no node-panel lego) and Beacon. The only bespoke CSS is drawer chrome
      + create-form stacking glue and the two esa-side-dialog stacking knobs (--side-
-     dialog-inset / --color-backdrop). No reinvented primitive; no raw form control. */
+     dialog-inset / --color-background-overlay-backdrop). No reinvented primitive; no raw form control. */
 
 
 
   .bcn-node-head { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; min-width: 0; }
-  .bcn-node-head__id { flex-shrink: 0; font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
-  .bcn-node-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.25; min-width: 0; }
+  .bcn-node-head__id { flex-shrink: 0; font-family: var(--typography-font-family-mono); font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
+  .bcn-node-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); line-height: 1.25; min-width: 0; }
 
   /* The edit form fills the drawer body so the actions row sits at the bottom. */
   .bcn-node-body { display: flex; flex-direction: column; min-height: 100%; }
@@ -890,11 +890,11 @@ const fishNav = [
 
   /* ── Stacked create drawer (a small, tier-aware create form) ── */
   .bcn-create-head { display: flex; align-items: center; gap: var(--spacing-200); min-width: 0; }
-  .bcn-create-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.25; min-width: 0; }
+  .bcn-create-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); line-height: 1.25; min-width: 0; }
 
   .bcn-create { display: flex; flex-direction: column; gap: var(--spacing-400); }
   .bcn-create__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .bcn-create__label { font-size: var(--form-font-size-md, 0.9375rem); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+  .bcn-create__label { font-size: var(--typography-label-md-font-size, 0.9375rem); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-secondary); }
   .bcn-create__sched-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-200) var(--spacing-300); }
 
   .bcn-create-foot { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }
@@ -905,27 +905,27 @@ const fishNav = [
      properties; the slide is the lego's own inset transition. --side-dialog-inset
      MUST carry units (44px) — a unitless value silently kills the width calc. ── */
   #node-drawer.is-under { --side-dialog-inset: 44px; }
-  #create-drawer.is-stacked { --color-backdrop: transparent; --backdrop-filter: none; }
+  #create-drawer.is-stacked { --color-background-overlay-backdrop: transparent; --side-dialog-backdrop-filter: none; }
 
   /* ── Roles-edit drawer body (composition glue: rows of esa-* controls) ── */
   .bcn-roles-edit-head { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; min-width: 0; }
-  .bcn-roles-edit-head__ref { flex-shrink: 0; font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
-  .bcn-roles-edit-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.25; min-width: 0; }
+  .bcn-roles-edit-head__ref { flex-shrink: 0; font-family: var(--typography-font-family-mono); font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
+  .bcn-roles-edit-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); line-height: 1.25; min-width: 0; }
 
   .bcn-roles-edit { display: flex; flex-direction: column; gap: var(--spacing-400); }
-  .bcn-roles-edit__row { display: flex; flex-direction: column; gap: var(--spacing-200); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border-light); }
+  .bcn-roles-edit__row { display: flex; flex-direction: column; gap: var(--spacing-200); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border-default-subtle); }
   .bcn-roles-edit__row:last-child { border-bottom: 0; padding-bottom: 0; }
-  .bcn-roles-edit__ws { font-size: var(--form-font-size-md, 0.9375rem); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+  .bcn-roles-edit__ws { font-size: var(--typography-label-md-font-size, 0.9375rem); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-secondary); }
   .bcn-roles-edit__fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-200) var(--spacing-300); align-items: center; }
-  .bcn-roles-edit__tent { display: inline-flex; align-items: center; gap: var(--spacing-200); grid-column: 1 / -1; font-size: var(--type-size-150); color: var(--color-text-secondary); cursor: pointer; }
+  .bcn-roles-edit__tent { display: inline-flex; align-items: center; gap: var(--spacing-200); grid-column: 1 / -1; font-size: var(--font-size-150); color: var(--color-content-default-secondary); cursor: pointer; }
 
   .bcn-roles-edit-foot { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }
   /* COA 10.18 anchor chip beside the page title — the science-plan commitment
      this whole work-breakdown satisfies (a data reference, not a label). */
   .bcn-gantt-coa {
-    font-family: var(--font-mono);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
+    font-family: var(--typography-font-family-mono);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
     padding: 2px 8px;

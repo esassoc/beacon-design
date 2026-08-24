@@ -31,7 +31,7 @@
 // Release Notes page title. esa-icon-button forwards only a registry `icon` name (no
 // custom `paths` passthrough), so the glyph was registered in the ecology icon-registry.
 import BcnAldoMark from './BcnAldoMark.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import { WHATS_NEW } from '../../data/help-center';
 import { RELEASES } from '../../data/release-notes';
 import { withBase } from '../../lib/base';
@@ -69,13 +69,13 @@ const fmtLong = (iso: string): string =>
        where Beacon's bottom affordances live, which is where the global evidence drawer
        belongs. -->
   <esa-tooltip class="bcn-help-bar__tooltip" text="Attach Evidence of Compliance" position="above" data-evidence-trigger>
-    <EsaIconButton icon="file-text" label="Attach Evidence of Compliance" size="md" />
+    <EsaIconButton variant="chrome" iconOnly icon="file-text" label="Attach Evidence of Compliance" size="md" />
   </esa-tooltip>
 
   <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
   <esa-popover class="bcn-help-bar__popover" position="top" trigger="click" offset={12}>
     <span class="bcn-help-bar__whatsnew" data-whatsnew>
-      <EsaIconButton icon="notepad-text" label="What's new" size="md" />
+      <EsaIconButton variant="chrome" iconOnly icon="notepad-text" label="What's new" size="md" />
       {WHATS_NEW.length > 0 && (
         <span class="bcn-help-bar__dot" data-whatsnew-dot aria-hidden="true"></span>
       )}
@@ -200,8 +200,8 @@ const fmtLong = (iso: string): string =>
     background: transparent;
     color: var(--bcn-helpbar-fg);
     font-family: inherit;
-    font-size: var(--type-size-200, 0.9375rem);
-    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-200, 0.9375rem);
+    font-weight: var(--typography-font-weight-medium);
     line-height: 1;
     cursor: pointer;
     transition: background var(--transition-fast, 150ms ease);
@@ -270,7 +270,7 @@ const fmtLong = (iso: string): string =>
     max-width: 84vw;
     /* The pill zone sets a light foreground; the popover is a white content surface, so
        re-establish the standard dark-on-white text context for everything inside it. */
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   /* Header row: the panel label + a quiet release meta line (mirrors the page's
      "Latest · June 2, 2026" treatment) — one date for the set, not a badge per entry. */
@@ -283,14 +283,14 @@ const fmtLong = (iso: string): string =>
   }
   .bcn-help-bar__panel-title {
     margin: 0;
-    font-size: var(--type-size-200, 0.9375rem);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200, 0.9375rem);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-help-bar__panel-release {
     margin: 0;
-    font-size: var(--type-size-150, 0.875rem);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150, 0.875rem);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   .bcn-help-bar__panel-list {
@@ -315,10 +315,10 @@ const fmtLong = (iso: string): string =>
     transition: background var(--transition-fast, 150ms ease);
   }
   .bcn-help-bar__panel-link:hover {
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-help-bar__panel-link:focus-visible {
-    outline: 2px solid var(--color-text-link);
+    outline: 2px solid var(--color-content-link);
     outline-offset: 2px;
   }
   /* Serif display tier — the entry title takes the house serif, echoing the release
@@ -327,37 +327,37 @@ const fmtLong = (iso: string): string =>
     margin: 0 0 2px;
     font-family: var(--font-decorative);
     font-size: 1.0625rem; /* 17px */
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.3;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-help-bar__panel-item-blurb {
     margin: 0;
-    font-size: var(--type-size-150, 0.875rem);
-    font-weight: var(--font-weight-regular, 400);
+    font-size: var(--font-size-150, 0.875rem);
+    font-weight: var(--typography-font-weight-regular, 400);
     line-height: 1.45;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   /* Footer: hairline-topped quiet link to the full release-notes page. */
   .bcn-help-bar__panel-footer {
     margin-top: var(--spacing-300);
     padding-top: var(--spacing-250, 0.625rem);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
   }
   .bcn-help-bar__panel-all {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-size: var(--type-size-150, 0.875rem);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-link);
+    font-size: var(--font-size-150, 0.875rem);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-link);
     text-decoration: none;
   }
   .bcn-help-bar__panel-all:hover {
     text-decoration: underline;
   }
   .bcn-help-bar__panel-all:focus-visible {
-    outline: 2px solid var(--color-text-link);
+    outline: 2px solid var(--color-content-link);
     outline-offset: 2px;
     border-radius: 2px;
   }

@@ -17,8 +17,8 @@ import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
-import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
+import EsaIconLink from '@esa/ecology/esa-button.astro';
 import FilterContainer from '@esa/ecology/esa-filter-container.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import BcnScheduleTimeline from '../../components/bcn/BcnScheduleTimeline.astro';
@@ -100,7 +100,7 @@ const fishNav = [
     breadcrumbs={[{ label: 'Delta Conveyance', href: '#project' }, { label: 'Studies', href: '#studies' }, { label: 'Science Plan' }]}
   >
     <div slot="utilities" class="bcn-fs-utils">
-      <span id="fs-generate"><EsaButton color="ghost" appearance="outline" size="md" icon="download">Generate outputs</EsaButton></span>
+      <span id="fs-generate"><EsaButton variant="ghost" appearance="outline" size="md" icon="download">Generate outputs</EsaButton></span>
     </div>
 
     <!-- ═══ Filter bar — carded (Tracker parity); every control is a lego ═══
@@ -120,7 +120,7 @@ const fishNav = [
         </div>
         <div class="bcn-filterbar__search">
           <esa-text-field id="fs-search" placeholder="Search studies…" size="md"></esa-text-field>
-          <span id="fs-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+          <span id="fs-search-clear" hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
         </div>
       </div>
       <div class="bcn-filterbar__bottom">
@@ -140,7 +140,7 @@ const fishNav = [
     <div class="bcn-view-pane" id="view-grid" hidden>
       <div id="fs-grid" class="fs-grid"></div>
       <div class="table-footer">
-        <span id="fs-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download crosswalk (CSV)</EsaButton></span>
+        <span id="fs-download"><EsaButton variant="ghost" appearance="outline" size="sm" icon="download">Download crosswalk (CSV)</EsaButton></span>
         <div class="row-count-data">
           Total studies: <span id="fs-total">0</span>
           <span id="fs-filtered" class="filtered-rows-count" hidden></span>
@@ -170,26 +170,26 @@ const fishNav = [
       <li class="bcn-out__item">
         <EsaIcon name="file-text" size="md" paths="<path d='M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z'/><path d='M14 2v5h5'/>" />
         <div><strong>Covered Fish Species Monitoring &amp; Science Plan</strong><span>Word — the 27 study sketches, ready for CDFW review</span></div>
-        <EsaButton color="ghost" appearance="outline" size="sm">.docx</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" size="sm">.docx</EsaButton>
       </li>
       <li class="bcn-out__item">
         <EsaIcon name="table" size="md" paths="<path d='M12 3v18'/><rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/>" />
         <div><strong>ITP Aquatic Study Crosswalk</strong><span>Excel — the wide reference table</span></div>
-        <EsaButton color="ghost" appearance="outline" size="sm">.xlsx</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" size="sm">.xlsx</EsaButton>
       </li>
       <li class="bcn-out__item">
         <EsaIcon name="users" size="md" paths="<path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M22 21v-2a4 4 0 0 0-3-3.87'/>" />
         <div><strong>Roles &amp; Responsibilities Summary</strong><span>the RACI matrix — generated live</span></div>
-        <span id="fs-out-roles"><EsaButton color="ghost" appearance="outline" size="sm" icon="external-link">Open</EsaButton></span>
+        <span id="fs-out-roles"><EsaButton variant="ghost" appearance="outline" size="sm" icon="external-link">Open</EsaButton></span>
       </li>
       <li class="bcn-out__item">
         <EsaIcon name="calendar" size="md" paths="<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" />
         <div><strong>Prior-to-2030 Timeline &amp; Gantt</strong><span>PDF — the water-year schedule</span></div>
-        <EsaButton color="ghost" appearance="outline" size="sm">.pdf</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" size="sm">.pdf</EsaButton>
       </li>
     </ul>
     <div slot="footer" class="bcn-out__foot">
-      <span id="fs-outputs-close"><EsaButton color="ghost" appearance="outline">Close</EsaButton></span>
+      <span id="fs-outputs-close"><EsaButton variant="ghost" appearance="outline">Close</EsaButton></span>
     </div>
   </esa-dialog>
 
@@ -211,10 +211,10 @@ const fishNav = [
       <esa-date-picker id="fs-drawer-due" label="Study plan due"></esa-date-picker>
     </div>
     <span slot="footer" class="bcn-drawer__foot">
-      <span id="fs-drawer-open"><EsaIconLink href="#" trailing="arrow-right" size="sm" weight="medium">Open full study</EsaIconLink></span>
+      <span id="fs-drawer-open"><EsaIconLink variant="chrome" href="#" iconRight="arrow-right" size="sm">Open full study</EsaIconLink></span>
       <span class="bcn-drawer__foot-actions">
-        <span id="fs-drawer-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
-        <span id="fs-drawer-save"><EsaButton color="primary">Save</EsaButton></span>
+        <span id="fs-drawer-cancel"><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></span>
+        <span id="fs-drawer-save"><EsaButton variant="primary">Save</EsaButton></span>
       </span>
     </span>
   </esa-side-dialog>
@@ -568,12 +568,12 @@ const fishNav = [
   .bcn-fs-utils { display: inline-flex; align-items: center; gap: var(--spacing-200); }
 
   /* Filter bar (Tracker parity) */
-  .bcn-filterbar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-200); margin-bottom: var(--spacing-400); }
+  .bcn-filterbar { background: var(--color-background-elevation-raised); border: 1px solid var(--color-border-default); border-radius: var(--radius-200); margin-bottom: var(--spacing-400); }
   .bcn-filterbar__top { display: flex; align-items: center; gap: var(--spacing-400); padding: var(--spacing-300) var(--spacing-400); flex-wrap: wrap; }
-  .bcn-filterbar__bottom { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); border-top: 1px solid var(--color-border); flex-wrap: wrap; }
+  .bcn-filterbar__bottom { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); border-top: 1px solid var(--color-border-default); flex-wrap: wrap; }
   .bcn-filterbar__group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
   .bcn-filterbar__group[hidden] { display: none; } /* Arrange is timeline-only; override inline-flex */
-  .bcn-filterbar__label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
+  .bcn-filterbar__label { font-size: var(--font-size-150); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default-tertiary); white-space: nowrap; }
   .bcn-filterbar__search { margin-left: auto; display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 300px; }
   .bcn-filterbar__search :global(esa-text-field) { flex: 1; }
   .bcn-filterbar__clear { margin-left: auto; }
@@ -581,35 +581,35 @@ const fishNav = [
   /* View panes + grid host */
   .bcn-view-pane[hidden] { display: none; }
   .fs-grid { width: 100%; height: calc(100vh - 300px); min-height: 600px; }
-  .table-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); background: var(--color-background); border: 1px solid var(--color-border); border-top: 0; border-radius: 0 0 var(--radius-100) var(--radius-100); }
-  .row-count-data { display: flex; align-items: center; gap: var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
-  .filtered-rows-count { color: var(--color-text-tertiary); }
+  .table-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); background: var(--color-background-default); border: 1px solid var(--color-border-default); border-top: 0; border-radius: 0 0 var(--radius-100) var(--radius-100); }
+  .row-count-data { display: flex; align-items: center; gap: var(--spacing-400); font-size: var(--font-size-100); color: var(--color-content-default-secondary); font-variant-numeric: tabular-nums; }
+  .filtered-rows-count { color: var(--color-content-default-tertiary); }
   .filtered-rows-count[hidden] { display: none; }
 
   /* AG Grid injected cells (global) */
   :global(.ag-cell.bcn-grid-status-cell) { display: flex; align-items: center; }
-  :global(.bcn-grid-chip) { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.75rem; line-height: 1.5; font-weight: var(--font-weight-semibold); white-space: nowrap; background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a); }
+  :global(.bcn-grid-chip) { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.75rem; line-height: 1.5; font-weight: var(--typography-font-weight-semibold); white-space: nowrap; background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a); }
   :global(.bcn-grid-chip__dot) { width: 7px; height: 7px; border-radius: 50%; background: var(--_chip); flex-shrink: 0; }
-  :global(.bcn-grid-name) { color: var(--color-text-link); font-weight: var(--font-weight-regular); text-decoration: underline; }
-  :global(.bcn-grid-name:hover) { color: var(--color-primary-hover); }
+  :global(.bcn-grid-name) { color: var(--color-content-link); font-weight: var(--typography-font-weight-regular); text-decoration: underline; }
+  :global(.bcn-grid-name:hover) { color: var(--color-background-brand-hover); }
 
   /* Outputs dialog body */
-  .bcn-out__head { font-family: var(--font-decorative); font-size: 1.375rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-out__lede { margin: 0 0 var(--spacing-400); font-size: var(--type-size-200); color: var(--color-text-secondary); line-height: 1.5; }
+  .bcn-out__head { font-family: var(--font-decorative); font-size: 1.375rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-out__lede { margin: 0 0 var(--spacing-400); font-size: var(--font-size-200); color: var(--color-content-default-secondary); line-height: 1.5; }
   .bcn-out__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-out__item { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300); border: 1px solid var(--color-border); border-radius: var(--radius-200); }
-  .bcn-out__item :global(.esa-icon) { color: var(--color-secondary); flex-shrink: 0; }
+  .bcn-out__item { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300); border: 1px solid var(--color-border-default); border-radius: var(--radius-200); }
+  .bcn-out__item :global(.esa-icon) { color: var(--color-background-brand-muted); flex-shrink: 0; }
   .bcn-out__item div { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
-  .bcn-out__item strong { font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-out__item span { font-size: 0.8125rem; color: var(--color-text-tertiary); }
+  .bcn-out__item strong { font-size: var(--typography-label-md-font-size); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-out__item span { font-size: 0.8125rem; color: var(--color-content-default-tertiary); }
   .bcn-out__foot { display: flex; justify-content: flex-end; width: 100%; }
 
   /* Manage-study drawer body */
   .bcn-drawer { display: flex; flex-direction: column; gap: var(--spacing-400); }
   /* Drawer header: COA purple commitment badge prefixing the study title. */
   .bcn-drawer-head { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; min-width: 0; }
-  .bcn-drawer-head__badge { flex-shrink: 0; font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
-  .bcn-drawer-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.25; min-width: 0; }
+  .bcn-drawer-head__badge { flex-shrink: 0; font-family: var(--typography-font-family-mono); font-size: var(--font-size-100); font-weight: var(--typography-font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
+  .bcn-drawer-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); line-height: 1.25; min-width: 0; }
   .bcn-drawer__dates { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-300); }
   .bcn-drawer__foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-300); }
   .bcn-drawer__foot-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); }

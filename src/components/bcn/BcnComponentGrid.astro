@@ -332,7 +332,7 @@ const rows = byNeedsAttention(components).map((c) => {
     block-size: 24px;
     flex-shrink: 0;
     border-radius: var(--radius-100);
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
     color: var(--_mark);
   }
 
@@ -347,10 +347,10 @@ const rows = byNeedsAttention(components).map((c) => {
     border-radius: var(--radius-100);
     font-size: 0.875rem;
     line-height: 1.5;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     white-space: nowrap;
     background: color-mix(in srgb, var(--_tone, #bdbdbd) 16%, transparent);
-    color: color-mix(in srgb, var(--_tone, #bdbdbd) 70%, var(--color-text-primary));
+    color: color-mix(in srgb, var(--_tone, #bdbdbd) 70%, var(--color-content-default));
   }
   .bcn-cg :global(.bcn-cg__chip::before) {
     content: '';
@@ -360,18 +360,18 @@ const rows = byNeedsAttention(components).map((c) => {
     background: var(--_tone, #bdbdbd);
   }
   .bcn-cg :global(.bcn-cg__chip[data-tone='not-started']) { --_tone: var(--bcn-status-not-started, #bdbdbd); }
-  .bcn-cg :global(.bcn-cg__chip[data-tone='in-progress']) { --_tone: var(--color-warning, #f59e0b); }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='in-progress']) { --_tone: var(--color-background-utility-warning, #f59e0b); }
   .bcn-cg :global(.bcn-cg__chip[data-tone='on-hold'])     { --_tone: var(--bcn-status-on-hold, #656565); }
-  .bcn-cg :global(.bcn-cg__chip[data-tone='complete'])    { --_tone: var(--color-success, #2e7571); }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='complete'])    { --_tone: var(--color-background-utility-success, #2e7571); }
 
   .bcn-cg :global(.bcn-cg__name) {
-    color: var(--color-text-link);
+    color: var(--color-content-link);
     text-decoration: underline;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .bcn-cg :global(.bcn-cg__name:hover) {
-    color: var(--color-primary-hover);
+    color: var(--color-background-brand-hover);
   }
 
   .bcn-cg :global(.bcn-cg__num) {
@@ -380,10 +380,10 @@ const rows = byNeedsAttention(components).map((c) => {
   /* Darken as you shrink, never gray out: an em-dash placeholder is the one thing
      here that genuinely is absence, so it alone recedes. */
   .bcn-cg :global(.bcn-cg__quiet) {
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
   }
   .bcn-cg :global(.bcn-cg__danger) {
-    color: var(--color-danger-strong);
-    font-weight: var(--font-weight-semibold);
+    color: var(--color-content-utility-danger);
+    font-weight: var(--typography-font-weight-semibold);
   }
 </style>

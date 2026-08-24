@@ -77,16 +77,16 @@ const LAYERS =
 <esa-side-dialog
   id="pd-panel"
   position="right"
-  style="--_width: min(480px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);"
+  style="--_width: min(480px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250; --side-dialog-backdrop-filter: blur(4px);"
 >
   <!-- Panel FOOTER (round 8): the list screens' Add action — a normal primary
        button, right-aligned. The controller re-slots this span off ('void') for
        keys with no Add (Project Info, Spatial) so the lego's footer bar hides. -->
   <span slot="footer" id="pd-addfoot" class="bcn-pdp__addfoot">
-    <span data-add-for="species" data-cd-open="species-add" hidden><EsaButton color="primary">Add Species</EsaButton></span>
-    <span data-add-for="milestones" data-cd-open="milestone" hidden><EsaButton color="primary">Add Milestone</EsaButton></span>
-    <span data-add-for="construction-activities" data-cd-open="activity" hidden><EsaButton color="primary">Add Activity</EsaButton></span>
-    <span data-add-for="seasons" data-cd-open="season" hidden><EsaButton color="primary">Add Season</EsaButton></span>
+    <span data-add-for="species" data-cd-open="species-add" hidden><EsaButton variant="primary">Add Species</EsaButton></span>
+    <span data-add-for="milestones" data-cd-open="milestone" hidden><EsaButton variant="primary">Add Milestone</EsaButton></span>
+    <span data-add-for="construction-activities" data-cd-open="activity" hidden><EsaButton variant="primary">Add Activity</EsaButton></span>
+    <span data-add-for="seasons" data-cd-open="season" hidden><EsaButton variant="primary">Add Season</EsaButton></span>
   </span>
 
   <!-- Species — slim cards (common · scientific · code) + live search -->
@@ -124,7 +124,7 @@ const LAYERS =
                 <span class="bcn-pdp__card-name">{m.name}</span>
                 <span class="bcn-pdp__card-sub">{m.description}</span>
               </span>
-              <span data-cd-edit="milestone" class="bcn-pdp__card-action"><EsaButton color="ghost" size="sm" icon="pencil" iconOnly aria-label={`Edit ${m.name}`} /></span>
+              <span data-cd-edit="milestone" class="bcn-pdp__card-action"><EsaButton variant="ghost" size="sm" icon="pencil" iconOnly aria-label={`Edit ${m.name}`} /></span>
             </li>
           );
         })
@@ -143,7 +143,7 @@ const LAYERS =
               <span class="bcn-pdp__card-name">{a.name}</span>
               <span class="bcn-pdp__card-sub">{a.description}</span>
             </span>
-            <span data-cd-edit="activity" class="bcn-pdp__card-action"><EsaButton color="ghost" size="sm" icon="pencil" iconOnly aria-label={`Edit ${a.name}`} /></span>
+            <span data-cd-edit="activity" class="bcn-pdp__card-action"><EsaButton variant="ghost" size="sm" icon="pencil" iconOnly aria-label={`Edit ${a.name}`} /></span>
           </li>
         ))
       }
@@ -177,7 +177,7 @@ const LAYERS =
                   <!-- Tracked badge removed (round 7); Tracked stays a stored
                        field, surfaced in the edit form rather than card chrome. -->
                   <Fragment slot="actions">
-                    <span data-cd-edit="season"><EsaButton color="ghost" size="sm" icon="pencil" iconOnly aria-label={`Edit ${s.name}`} /></span>
+                    <span data-cd-edit="season"><EsaButton variant="ghost" size="sm" icon="pencil" iconOnly aria-label={`Edit ${s.name}`} /></span>
                   </Fragment>
                 </BcnSeasonCard>
               </div>
@@ -241,13 +241,13 @@ const LAYERS =
             ))
           }
         </ul>
-        <span><EsaButton color="ghost" appearance="outline" size="sm">Upload files</EsaButton></span>
+        <span><EsaButton variant="ghost" appearance="outline" size="sm">Upload files</EsaButton></span>
       </div>
 
       <!-- Delete-project lives in the danger zone below, not this footer. -->
       <div class="bcn-pdp__formfoot">
-        <span id="pd-info-cancel"><EsaButton color="ghost">Cancel</EsaButton></span>
-        <EsaButton color="primary">Save</EsaButton>
+        <span id="pd-info-cancel"><EsaButton variant="ghost">Cancel</EsaButton></span>
+        <EsaButton variant="primary">Save</EsaButton>
       </div>
     </div>
 
@@ -256,7 +256,7 @@ const LAYERS =
         title="Delete this project"
         description="Removes the project, its components, and all tracked compliance data from Beacon."
       >
-        <span id="pd-delete-project"><EsaButton color="danger" appearance="soft">Delete project</EsaButton></span>
+        <span id="pd-delete-project"><EsaButton variant="danger" appearance="soft">Delete project</EsaButton></span>
       </BcnDangerZone>
     </div>
   </section>
@@ -302,11 +302,11 @@ const LAYERS =
   <!-- THE STANDARD EDIT-FORM FOOTER (round 8): Delete left · Cancel/Save right,
        medium. Delete renders only in edit mode; species-add swaps Save → Add. -->
   <span slot="footer" class="bcn-pdp__cfoot">
-    <span id="cd-delete" data-cd-close hidden><EsaButton color="danger" appearance="soft">Delete</EsaButton></span>
+    <span id="cd-delete" data-cd-close hidden><EsaButton variant="danger" appearance="soft">Delete</EsaButton></span>
     <span class="bcn-pdp__cfoot-right">
-      <span data-cd-close><EsaButton color="ghost">Cancel</EsaButton></span>
-      <span id="cd-save" data-cd-close><EsaButton color="primary">Save</EsaButton></span>
-      <span id="cd-add" data-cd-close hidden><EsaButton color="primary">Add</EsaButton></span>
+      <span data-cd-close><EsaButton variant="ghost">Cancel</EsaButton></span>
+      <span id="cd-save" data-cd-close><EsaButton variant="primary">Save</EsaButton></span>
+      <span id="cd-add" data-cd-close hidden><EsaButton variant="primary">Add</EsaButton></span>
     </span>
   </span>
 </esa-side-dialog>
@@ -526,8 +526,8 @@ const LAYERS =
     align-items: center;
     gap: var(--spacing-300);
     padding: var(--spacing-200) var(--spacing-250);
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border); /* mid gray (round 7) — light read as none */
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default); /* mid gray (round 7) — light read as none */
     border-radius: var(--radius-200);
   }
   .bcn-pdp__card[hidden] {
@@ -541,14 +541,14 @@ const LAYERS =
     flex: 1;
   }
   .bcn-pdp__card-name {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: var(--line-height-tight);
   }
   .bcn-pdp__card-sub {
     font-size: 0.8125rem; /* 13px — the meta floor */
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     line-height: var(--line-height-tight);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -559,7 +559,7 @@ const LAYERS =
   }
   .bcn-pdp__card-icon {
     display: inline-flex;
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
     flex-shrink: 0;
   }
   .bcn-pdp__card-action {
@@ -570,12 +570,12 @@ const LAYERS =
   .bcn-pdp__code {
     flex-shrink: 0;
     padding: 1px var(--spacing-200);
-    font-family: var(--font-mono);
+    font-family: var(--typography-font-family-mono);
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border-light);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-100);
   }
 
@@ -589,20 +589,20 @@ const LAYERS =
     flex-shrink: 0;
     width: 3.875rem;
     padding: var(--spacing-100) 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border-light);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-100);
   }
   .bcn-pdp__date-md {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: var(--line-height-tight);
     white-space: nowrap;
   }
   .bcn-pdp__date-year {
     font-size: 0.8125rem; /* 13px — the meta floor */
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     line-height: var(--line-height-tight);
   }
 
@@ -617,9 +617,9 @@ const LAYERS =
   }
   .bcn-pdp__sgroup-title {
     margin: 0;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-pdp__scards {
     display: flex;
@@ -634,15 +634,15 @@ const LAYERS =
     gap: var(--spacing-100);
     align-self: flex-start;
     padding-top: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
     width: 100%;
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
     text-decoration: none;
   }
   .bcn-pdp__zone-link:hover {
-    color: var(--color-primary-hover);
+    color: var(--color-background-brand-hover);
   }
 
   /* ── Forms (Project Info + the child drawer) ── */
@@ -672,8 +672,8 @@ const LAYERS =
   }
   .bcn-pdp__hint {
     margin: 0;
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
   .bcn-pdp__files {
     display: flex;
@@ -681,9 +681,9 @@ const LAYERS =
     gap: var(--spacing-200);
   }
   .bcn-pdp__files-label {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
   }
   .bcn-pdp__file-list {
     list-style: none;
@@ -697,25 +697,25 @@ const LAYERS =
     align-items: center;
     gap: var(--spacing-200);
     padding: var(--spacing-200) 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-pdp__file + .bcn-pdp__file {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-pdp__file-name {
-    font-size: var(--type-size-200);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    color: var(--color-content-default);
   }
   .bcn-pdp__formfoot {
     display: flex;
     justify-content: flex-end;
     gap: var(--spacing-300);
     padding-top: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-pdp__danger {
     padding-top: var(--spacing-500);
     margin-top: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 </style>

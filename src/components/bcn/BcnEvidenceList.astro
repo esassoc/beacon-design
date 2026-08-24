@@ -17,7 +17,7 @@
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaPill from '@esa/ecology/esa-pill.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 
@@ -53,10 +53,10 @@ const { items } = Astro.props;
               <span class="bcn-evidence-card__name">{e.title}</span>
             </span>
             <span class="bcn-evidence-card__actions">
-              <EsaIconButton icon="star" label="Add to summary page" size="sm" />
-              <EsaIconButton icon="download" label="Download all files as .zip" size="sm" />
-              <EsaIconButton icon="pencil" label="Edit evidence" size="sm" />
-              <EsaIconButton icon="trash-2" label="Delete evidence" size="sm" />
+              <EsaIconButton variant="chrome" iconOnly icon="star" label="Add to summary page" size="sm" />
+              <EsaIconButton variant="chrome" iconOnly icon="download" label="Download all files as .zip" size="sm" />
+              <EsaIconButton variant="chrome" iconOnly icon="pencil" label="Edit evidence" size="sm" />
+              <EsaIconButton variant="chrome" iconOnly icon="trash-2" label="Delete evidence" size="sm" />
             </span>
           </div>
           <div class="bcn-evidence-card__fields" hidden>
@@ -81,8 +81,8 @@ const { items } = Astro.props;
     ))}
   </ul>
   <div class="bcn-evidence-list__row-actions">
-    <EsaButton color="primary" size="sm" icon="plus">Add New Evidence</EsaButton>
-    <EsaButton color="ghost" appearance="outline" size="sm">Add Existing Evidence</EsaButton>
+    <EsaButton variant="primary" size="sm" icon="plus">Add New Evidence</EsaButton>
+    <EsaButton variant="ghost" appearance="outline" size="sm">Add Existing Evidence</EsaButton>
   </div>
 </div>
 
@@ -102,22 +102,22 @@ const { items } = Astro.props;
   .bcn-evidence-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-150); width: 100%; padding-inline: var(--spacing-200); }
   /* Clickable expand lead (chevron + title); actions sit outside it */
   .bcn-evidence-card__lead { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--spacing-150); padding: var(--spacing-150) 0; cursor: pointer; }
-  .bcn-evidence-card__lead :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-tertiary); transition: transform 150ms ease; }
+  .bcn-evidence-card__lead :global(.esa-icon) { flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 150ms ease; }
   .bcn-evidence-card.is-expanded .bcn-evidence-card__lead :global(.esa-icon) { transform: rotate(90deg); }
-  .bcn-evidence-card__name { min-width: 0; font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bcn-evidence-card__name { min-width: 0; font-size: 0.8125rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bcn-evidence-card__actions { display: flex; align-items: center; gap: 1px; flex-shrink: 0; }
   /* Dense action buttons: shrink the esa-icon-button box + glyph */
   .bcn-evidence-card__actions :global(.esa-icon-button) { width: 26px; height: 26px; }
   .bcn-evidence-card__actions :global(.esa-icon) { width: 15px; height: 15px; }
-  .bcn-evidence-card__actions :global(.bcn-evidence-card__star--on) { color: var(--color-accent); }
+  .bcn-evidence-card__actions :global(.bcn-evidence-card__star--on) { color: var(--color-background-accent); }
   .bcn-evidence-card__actions :global(.bcn-evidence-card__star--on svg) { fill: currentColor; }
   /* Collapsible body — [hidden] beats display rules here since it's the default flow */
   .bcn-evidence-card__fields[hidden] { display: none; }
   .bcn-evidence-card__fields { display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400) var(--spacing-400); }
   .bcn-evidence-card__field { display: flex; flex-direction: column; gap: var(--spacing-100); }
-  .bcn-evidence-card__label { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-evidence-card__text { font-size: 0.8125rem; line-height: 1.5; color: var(--color-text-secondary); }
-  .bcn-evidence-card__text--muted { color: var(--color-text-tertiary); font-style: italic; }
+  .bcn-evidence-card__label { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-evidence-card__text { font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default-secondary); }
+  .bcn-evidence-card__text--muted { color: var(--color-content-default-tertiary); font-style: italic; }
   .bcn-evidence-card__pills { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
 
   /* File rows use the esa-file-list lego (own styling). */

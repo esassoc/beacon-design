@@ -124,7 +124,7 @@ export default {
       gotchas: [
         'Do not add a type-to-confirm; Beacon uses a plain confirm and the prototype matches it.',
         'The confirm dialog z-index (1400) must sit above the topbar and the other dialogs.',
-        'BcnDangerZone reads only the semantic token layer; the box border is --color-danger.',
+        'BcnDangerZone reads only the semantic token layer; the box border is --color-background-utility-danger.',
       ],
       acceptance: [
         'A red-bordered danger zone at the page bottom with a soft-danger "Delete source document" button; clicking it opens a simple confirm; confirming routes to the source-documents list.',

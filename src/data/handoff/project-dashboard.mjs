@@ -74,7 +74,7 @@ export default {
       decisions: [
         'The window opens 7 days BEFORE today, so work that is already overdue stays visible instead of falling off the left edge. The today line marks the boundary.',
         'Marks open a CLICK-PINNED popover, not a hover tooltip. An action\'s popover is an action-implementation card: commitment badge, type, component, due date with the overdue callout, status, and a link to the action. A season\'s adds source document and related species.',
-        'Milestones use --color-info (azure) because they mark SCHEDULE, not severity — they must not borrow the red/amber urgency palette or an entity color.',
+        'Milestones use --color-background-utility-info (azure) because they mark SCHEDULE, not severity — they must not borrow the red/amber urgency palette or an entity color.',
         'Seasons scale: a project can carry 10–15. The lane shows the ones whose start or end falls inside the window (the ones changing) and hides the rest behind a show-all toggle. Bars carry their own date range.',
         'A separate month-grid calendar page was built and then CUT — the timeline covers the need. Do not rebuild one without asking.',
       ],

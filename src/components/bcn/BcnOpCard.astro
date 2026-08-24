@@ -55,18 +55,18 @@ const scopeLine = allTenants
 >
   <EsaCard variant="outlined" title={op.name}>
     <div class="stack" data-gap="sm">
-      <p class="bcn-op__desc type-body-small">{op.description}</p>
+      <p class="bcn-op__desc typography-body-sm">{op.description}</p>
       {allTenants && <EsaAlertBox variant="warning">{scopeLine}</EsaAlertBox>}
     </div>
 
     <div class="cluster" data-gap="sm" slot="footer">
       {
         op.guided ? (
-          <EsaButton color="ghost" appearance="outline" size="md" icon="arrow-right" href="#">
+          <EsaButton variant="ghost" appearance="outline" size="md" icon="arrow-right" href="#">
             Open guided run
           </EsaButton>
         ) : (
-          <EsaButton color="primary" size="md" data-op-run={op.id}>
+          <EsaButton variant="primary" size="md" data-op-run={op.id}>
             Run…
           </EsaButton>
         )
@@ -82,11 +82,11 @@ const scopeLine = allTenants
         <div class="stack" data-gap="sm">
           {/* Full size here, unlike the card's 14px: in the confirm the description is
               not a caption under a title, it IS what the operator is reading. */}
-          <p class="bcn-op__dialog-desc type-body">{op.description}</p>
+          <p class="bcn-op__dialog-desc typography-body-md">{op.description}</p>
           {allTenants ? (
             <EsaAlertBox variant="warning">{scopeLine}</EsaAlertBox>
           ) : (
-            <p class="bcn-op__scope-line type-body">{scopeLine}</p>
+            <p class="bcn-op__scope-line typography-body-md">{scopeLine}</p>
           )}
           {allTenants && (
             <esa-text-field
@@ -98,10 +98,10 @@ const scopeLine = allTenants
         </div>
 
         <div class="cluster" data-gap="sm" slot="footer" style="--justify: flex-end">
-          <EsaButton color="ghost" appearance="outline" size="sm" data-op-cancel={op.id}>
+          <EsaButton variant="ghost" appearance="outline" size="sm" data-op-cancel={op.id}>
             Cancel
           </EsaButton>
-          <EsaButton color="primary" size="sm" disabled={allTenants} data-op-confirm={op.id}>
+          <EsaButton variant="primary" size="sm" disabled={allTenants} data-op-confirm={op.id}>
             Run now
           </EsaButton>
         </div>
@@ -113,10 +113,10 @@ const scopeLine = allTenants
 <style>
   .bcn-op {
     display: block;
-    /* esa-card fills its footer with --color-surface-sunken by default, which reads as a
+    /* esa-card fills its footer with --color-background-elevation-sunken by default, which reads as a
        mid-gray band under the description. Re-pointed through the lego's OWN public token
        (inherited down to the card) so the Run action sits on the card surface behind a
-       single hairline — the lego's border-top already resolves to --color-border-light. */
+       single hairline — the lego's border-top already resolves to --color-border-default-subtle. */
     --card-footer-bg: transparent;
   }
 
@@ -141,15 +141,15 @@ const scopeLine = allTenants
   /* Same scale as the settings rows beside them (BcnSettingRow's __desc). */
   .bcn-op__desc {
     line-height: 1.4;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-op__dialog-desc {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-op__scope-line {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 </style>
 

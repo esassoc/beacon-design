@@ -61,9 +61,9 @@ const events = [
 
   <Section id="tokens" title="Tokens">
     <ul class="tokens">
-      <li><code>--color-surface-elevated</code> · <code>--color-border</code> / <code>--color-border-light</code></li>
-      <li><code>--color-text-primary</code> · <code>--color-danger</code> / <code>--color-danger-subtle</code> (danger items)</li>
-      <li><code>--shadow-300</code> · <code>--z-dropdown</code></li>
+      <li><code>--color-background-elevation-floating</code> · <code>--color-border-default</code> / <code>--color-border-default-subtle</code></li>
+      <li><code>--color-content-default</code> · <code>--color-background-utility-danger</code> / <code>--color-background-utility-danger-subtle</code> (danger items)</li>
+      <li><code>--elevation-4</code> · <code>--z-dropdown</code></li>
       <li><code>--radius-200</code> · <code>--spacing-100</code> – <code>--spacing-300</code> · <code>--focus-ring-*</code></li>
     </ul>
   </Section>
@@ -93,12 +93,12 @@ const events = [
   .trigger {
     padding: 0.5rem 1rem;
     border-radius: var(--radius-200, 0.5rem);
-    border: 1px solid var(--color-border-strong, #d4d4d4);
-    background: var(--color-surface, #fff);
-    color: var(--color-text-primary, #171717);
+    border: 1px solid var(--color-border-default-strong, #d4d4d4);
+    background: var(--color-background-elevation-raised, #fff);
+    color: var(--color-content-default, #171717);
     font-family: inherit;
-    font-size: var(--type-size-200, 0.9375rem);
+    font-size: var(--font-size-200, 0.9375rem);
     cursor: pointer;
   }
-  .result { color: var(--color-text-muted, #737373); min-height: 1.5em; width: 100%; }
+  .result { color: var(--bcn-content-muted, #737373); min-height: 1.5em; width: 100%; }
 </style>

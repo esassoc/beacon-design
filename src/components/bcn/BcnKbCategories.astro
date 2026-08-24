@@ -50,13 +50,13 @@ const cards = HELP_CATEGORIES.map((cat) => {
 ---
 
 <section class="bcn-kbc" aria-labelledby="bcn-kbc-title">
-  <h2 id="bcn-kbc-title" class="bcn-kbc__title type-section-title">Browse by category</h2>
+  <h2 id="bcn-kbc-title" class="bcn-kbc__title typography-heading-md">Browse by category</h2>
 
   <div class="bcn-kbc__grid">
     {
       cards.map((cat) => (
         <article class="bcn-kbc__card" id={`category-${cat.id}`}>
-          <h3 class="bcn-kbc__card-title type-card-title">{cat.title}</h3>
+          <h3 class="bcn-kbc__card-title typography-title">{cat.title}</h3>
           <p class="bcn-kbc__card-desc">{cat.description}</p>
 
           <ul class="bcn-kbc__featured" role="list">
@@ -92,7 +92,7 @@ const cards = HELP_CATEGORIES.map((cat) => {
   }
   .bcn-kbc__title {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* ── Symmetric 3-column grid (Andy, 2026-07-22): equal cards, always 3-up on
@@ -118,21 +118,21 @@ const cards = HELP_CATEGORIES.map((cat) => {
     flex-direction: column;
     gap: var(--spacing-300);
     padding: var(--spacing-500);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
     scroll-margin-top: 5rem; /* #category-<id> graceful-fallback anchor clears the topbar */
   }
 
   .bcn-kbc__card-title {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-kbc__card-desc {
     margin: 0;
     font-size: 0.9375rem; /* 15px — supporting one-liner */
     line-height: 1.5;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* Featured links — the curated preview, a quiet scannable list. */
@@ -146,19 +146,19 @@ const cards = HELP_CATEGORIES.map((cat) => {
   }
   .bcn-kbc__featured-link {
     font-size: 0.9375rem; /* 15px */
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     line-height: 1.35;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     text-decoration: none;
     transition: color 120ms ease;
   }
   .bcn-kbc__featured-link:hover {
-    color: var(--color-text-link);
+    color: var(--color-content-link);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
   .bcn-kbc__featured-link:focus-visible {
-    outline: 2px solid var(--color-text-link);
+    outline: 2px solid var(--color-content-link);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }
@@ -171,11 +171,11 @@ const cards = HELP_CATEGORIES.map((cat) => {
     gap: var(--spacing-300);
     margin-top: auto;
     padding-top: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-kbc__count {
     font-size: 0.8125rem; /* 13px meta */
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   .bcn-kbc__viewall {
@@ -183,15 +183,15 @@ const cards = HELP_CATEGORIES.map((cat) => {
     align-items: center;
     gap: var(--spacing-100);
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-link);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-link);
     text-decoration: none;
     white-space: nowrap;
     transition: color 150ms ease;
   }
-  .bcn-kbc__viewall:hover { color: var(--color-text-link-hover); }
+  .bcn-kbc__viewall:hover { color: var(--color-content-link-hover); }
   .bcn-kbc__viewall:focus-visible {
-    outline: 2px solid var(--color-text-link);
+    outline: 2px solid var(--color-content-link);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }

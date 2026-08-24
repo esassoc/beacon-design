@@ -33,7 +33,7 @@ export default {
         'The project title row: an H1 reading the project name ("3600 Alameda") with a green radar (Tracking) glyph, immediately followed by a neutral "Project Tracking" badge that names the workspace. The badge sits directly right of the H1, not in the far-right utilities slot.',
       decisions: [
         'The H1 is the PROJECT, not the page — the workspace name ("Project Tracking") is demoted to a badge beside it, so the user always sees what project they are in first.',
-        'The radar icon is the Tracking section glyph, tinted brand green (--color-secondary / teal-500) to tie the title to the active nav section.',
+        'The radar icon is the Tracking section glyph, tinted brand green (--color-background-brand-muted / teal-500) to tie the title to the active nav section.',
         'The badge is neutral (gray-100 bg, gray-200 border, 4px radius) — it labels, it does not signal status, so it must not read as a colored state chip.',
       ],
       gotchas: [

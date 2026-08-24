@@ -298,15 +298,15 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
     align-items: center;
     gap: var(--spacing-300);
     padding: var(--spacing-300) var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   .bcn-sr__search:focus-within {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px var(--color-primary-subtle);
+    border-color: var(--color-background-brand);
+    box-shadow: 0 0 0 3px var(--color-background-brand-subtle);
   }
-  .bcn-sr__search-icon { display: inline-flex; flex-shrink: 0; color: var(--color-text-tertiary); }
+  .bcn-sr__search-icon { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); }
   .bcn-sr__search-icon svg { width: 20px; height: 20px; }
   .bcn-sr__input {
     flex: 1;
@@ -315,16 +315,16 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
     outline: none;
     background: transparent;
     font-family: inherit;
-    font-size: var(--type-size-300);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-300);
+    color: var(--color-content-default);
   }
-  .bcn-sr__input::placeholder { color: var(--color-text-tertiary); }
+  .bcn-sr__input::placeholder { color: var(--color-content-default-tertiary); }
 
   /* ── Result count line ── */
   .bcn-sr__count {
     margin: 0;
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
 
   /* ── [ scope-facet rail | results ] split ── */
@@ -348,7 +348,7 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
     display: flex;
     flex-direction: column;
     gap: var(--spacing-400);
-    border-left: 1px solid var(--color-border); /* divider between rail and results */
+    border-left: 1px solid var(--color-border-default); /* divider between rail and results */
     padding-left: var(--spacing-500);
   }
 
@@ -362,25 +362,25 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
     border: 0;
     border-radius: var(--radius-200);
     background: transparent;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     font-family: inherit;
-    font-size: var(--type-size-150);
+    font-size: var(--font-size-150);
     text-align: left;
     cursor: pointer;
     transition: background 120ms ease, color 120ms ease;
   }
-  .bcn-sr__scope:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+  .bcn-sr__scope:hover { background: var(--color-background-elevation-sunken); color: var(--color-content-default); }
   .bcn-sr__scope--active {
-    background: var(--color-primary);
-    color: var(--color-text-inverse);
-    font-weight: var(--font-weight-semibold);
+    background: var(--color-background-brand);
+    color: var(--color-content-default-knockout);
+    font-weight: var(--typography-font-weight-semibold);
   }
   .bcn-sr__scope-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-sr__scope-count { flex: none; font-size: 11px; font-variant-numeric: tabular-nums; opacity: 0.8; }
 
   /* Null state (empty query): the rail is present but disabled — muted, no counts. */
-  .bcn-sr--idle .bcn-sr__scope { color: var(--color-text-tertiary); cursor: default; }
-  .bcn-sr--idle .bcn-sr__scope:hover { background: transparent; color: var(--color-text-tertiary); }
+  .bcn-sr--idle .bcn-sr__scope { color: var(--color-content-default-tertiary); cursor: default; }
+  .bcn-sr--idle .bcn-sr__scope:hover { background: transparent; color: var(--color-content-default-tertiary); }
   .bcn-sr--idle .bcn-sr__scope-count { display: none; }
 
   /* Null-state landing prompt (the esa-empty-state lego), with breathing room. */
@@ -397,20 +397,20 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
     align-items: center;
     gap: var(--spacing-200);
     padding: 0 var(--spacing-200) var(--spacing-150);
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-sr__group-label {
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   /* count clustered next to the label as a bordered badge (clear bg, gray-200 border, 4px) */
   .bcn-sr__group-count {
-    font-size: var(--type-size-100);
+    font-size: var(--font-size-100);
     font-variant-numeric: tabular-nums;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     background: transparent;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
     padding: 0 6px;
     line-height: 1.5;
@@ -426,11 +426,11 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
     padding: var(--spacing-200) var(--spacing-300);
     border-radius: var(--radius-200);
     background: transparent;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     text-decoration: none;
     transition: background 120ms ease;
   }
-  .bcn-sr__row:hover { background: var(--color-surface-sunken); }
+  .bcn-sr__row:hover { background: var(--color-background-elevation-sunken); }
   .bcn-sr__row[hidden] { display: none; }
 
   .bcn-sr__row-head { display: flex; align-items: center; min-width: 0; }
@@ -441,8 +441,8 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
     flex: none;
     padding: 1px 6px;
     border-radius: var(--radius-100);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.4;
     white-space: nowrap;
     color: var(--color-commitment);
@@ -451,9 +451,9 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
   .bcn-sr__row-title {
     flex: 0 1 auto;
     min-width: 0;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -464,13 +464,13 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
   .bcn-sr__row-snippet {
     margin-top: var(--spacing-150);
     padding: var(--spacing-300) var(--spacing-350, 1.25rem);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     font-family: var(--font-decorative);
-    font-size: var(--type-size-150);
+    font-size: var(--font-size-150);
     line-height: 1.7;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     text-align: left;
   }
   .bcn-sr__row-snippet :global(p) { margin: 0; }
@@ -479,11 +479,11 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
   .bcn-sr__row-snippet :global(.bcn-sr__row-more) {
     margin-top: 1em;
     padding-top: 0.7em;
-    border-top: 1px solid var(--color-border);
-    font-family: var(--font-sans, system-ui, sans-serif);
-    font-size: var(--type-size-100);
+    border-top: 1px solid var(--color-border-default);
+    font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+    font-size: var(--font-size-100);
     font-style: normal;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-sr__row-snippet[hidden] { display: none; }
 
@@ -491,7 +491,7 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
   .bcn-sr__row-title :global(mark),
   .bcn-sr__row-snippet :global(mark) {
     background: #fde047; /* highlighter yellow */
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     border-radius: 2px;
     padding: 0 1px;
   }

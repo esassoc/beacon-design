@@ -34,7 +34,7 @@ const { prefix, total, downloadLabel = 'Download as CSV' } = Astro.props;
 
 <div class="repel bcn-gfoot" data-gap="md">
   <span {...{ [`data-${prefix}-download`]: true }}>
-    <EsaButton color="ghost" appearance="outline" size="sm" icon="download">{downloadLabel}</EsaButton>
+    <EsaButton variant="ghost" appearance="outline" size="sm" icon="download">{downloadLabel}</EsaButton>
   </span>
   <div class="cluster bcn-gfoot__count" data-gap="md">
     <span>Total Records: <span {...{ [`data-${prefix}-total`]: true }}>{total}</span></span>
@@ -44,14 +44,14 @@ const { prefix, total, downloadLabel = 'Download as CSV' } = Astro.props;
 
 <style>
   .bcn-gfoot__count {
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
   /* The filtered figure is subordinate to the total, and absent when nothing is
      filtered — never a gap holding a place. */
   .bcn-gfoot__filtered {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-gfoot__filtered[hidden] {
     display: none;

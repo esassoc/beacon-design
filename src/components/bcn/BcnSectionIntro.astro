@@ -44,27 +44,27 @@ const { eyebrow, headline, subtext, center = false, onDark = false } = Astro.pro
   .bcn-section-intro__eyebrow {
     display: block;
     font-size: 12px;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     margin-block-end: var(--spacing-300);
   }
 
   .bcn-section-intro__headline {
     margin: 0 0 var(--spacing-400);
-    font-family: var(--font-decorative, var(--font-sans));
-    font-size: var(--type-size-700);
-    font-weight: var(--font-weight-bold);
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: var(--font-size-700);
+    font-weight: var(--typography-font-weight-bold);
     line-height: var(--line-height-tight, 1.25);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     text-wrap: balance;
   }
 
   .bcn-section-intro__accent {
     inline-size: 48px;
     block-size: 4px;
-    background: var(--color-primary);
+    background: var(--color-background-brand);
     border-radius: var(--radius-full, 9999px);
     margin-block-end: var(--spacing-400);
   }
@@ -74,8 +74,8 @@ const { eyebrow, headline, subtext, center = false, onDark = false } = Astro.pro
 
   .bcn-section-intro__subtext {
     margin: 0;
-    font-size: var(--type-size-300);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-300);
+    color: var(--color-content-default-secondary);
     max-inline-size: 820px;
     line-height: var(--line-height-relaxed, 1.75);
     text-wrap: balance;

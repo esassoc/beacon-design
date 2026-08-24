@@ -103,7 +103,7 @@ const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
           )}
 
           <div class="bcn-record-rows__content">
-            <p class="bcn-record-rows__lead type-body">
+            <p class="bcn-record-rows__lead typography-body-md">
               <span data-cell={leadColumn.key}>{record.cells[leadColumn.key]}</span>
               {record.badge && <EsaBadge value={record.badge} size="sm" />}
               {canDeactivate && (
@@ -114,12 +114,12 @@ const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
             </p>
 
             {metaColumns.length > 0 && (
-              <p class="bcn-record-rows__meta type-body-small">
+              <p class="bcn-record-rows__meta typography-body-sm">
                 {metaColumns.map((col) => (
                   <span class="bcn-record-rows__pair">
                     <span class="bcn-record-rows__label">{col.label}</span>
                     {col.code ? (
-                      <code class="bcn-record-rows__code type-code" data-cell={col.key}>
+                      <code class="bcn-record-rows__code typography-code-sm" data-cell={col.key}>
                         {record.cells[col.key]}
                       </code>
                     ) : (
@@ -137,7 +137,7 @@ const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
             {rowActions.map((action) => (
               <EsaButton
                 size="sm"
-                color={action === 'delete' ? 'danger' : 'ghost'}
+                variant={action === 'delete' ? 'danger' : 'ghost'}
                 appearance={action === 'delete' ? 'soft' : 'outline'}
                 icon={ACTIONS[action].icon}
                 class={action === 'deactivate' ? 'bcn-record-rows__quiet' : undefined}
@@ -167,10 +167,10 @@ const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
     </div>
 
     <div class="cluster" data-gap="sm" slot="footer" style="--justify: flex-end">
-      <EsaButton color="ghost" appearance="outline" size="sm" data-record-cancel>
+      <EsaButton variant="ghost" appearance="outline" size="sm" data-record-cancel>
         Cancel
       </EsaButton>
-      <EsaButton color="primary" size="sm" data-record-save>Save</EsaButton>
+      <EsaButton variant="primary" size="sm" data-record-save>Save</EsaButton>
     </div>
   </esa-dialog>
 </div>
@@ -206,14 +206,14 @@ const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
     padding-block: var(--spacing-250);
   }
   .bcn-record-rows__row + .bcn-record-rows__row {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 
   /* Decorative — it says the list is dragged into order; the drag itself is not modeled. */
   .bcn-record-rows__handle {
     display: flex;
     align-items: center;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     cursor: grab;
   }
 
@@ -225,7 +225,7 @@ const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
     gap: var(--spacing-100);
   }
 
-  /* The lead cell carries the row. type-body's relaxed 1.8 would open a gap above the
+  /* The lead cell carries the row. typography-body-md's relaxed 1.8 would open a gap above the
      meta line under it — same tightening BcnFlagRow's name makes. */
   .bcn-record-rows__lead {
     display: flex;
@@ -234,12 +234,12 @@ const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
     gap: var(--spacing-200);
     margin: 0;
     line-height: 1.4;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     /* Quiet record markers — neutral surface + secondary ink through esa-badge's own
        component tokens, the same quieting the grid's badge column carries. */
-    --badge-bg: var(--color-surface-sunken);
-    --badge-text-color: var(--color-text-secondary);
+    --badge-bg: var(--color-background-elevation-sunken);
+    --badge-text-color: var(--color-content-default-secondary);
   }
 
   /* The supporting columns, on one wrapping line. The gap BETWEEN pairs is wider than
@@ -261,19 +261,19 @@ const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
   }
   /* The column's own name, one step quieter than the value it names. */
   .bcn-record-rows__label {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-record-rows__value {
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* An identifier, not prose: mono on the sunken surface, the 4px radius this chrome
-     uses everywhere. type-code supplies the family and size. */
+     uses everywhere. typography-code-sm supplies the family and size. */
   .bcn-record-rows__code {
     padding: 1px var(--spacing-150);
     border-radius: var(--radius-100);
-    background: var(--color-surface-sunken);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-record-rows__actions {
@@ -281,19 +281,19 @@ const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
   }
 
   /* Deactivate is a state change, not a destructive one — it sits in the muted register
-     rather than the danger one. esa-button's ghost color reads --color-text-primary for
-     its label and --color-border for its edge; both are re-pointed one step down for
+     rather than the danger one. esa-button's ghost color reads --color-content-default for
+     its label and --color-border-default for its edge; both are re-pointed one step down for
      this button only, through the SEMANTIC tokens the lego already reads. */
   .bcn-record-rows :global(.bcn-record-rows__quiet) {
-    --color-text-primary: var(--color-text-secondary);
-    --color-border: var(--color-border-light);
+    --color-content-default: var(--color-content-default-secondary);
+    --color-border-default: var(--color-border-default-subtle);
   }
 
   /* A deactivated row keeps its place in the order and stops competing for attention.
      Its handle goes with it: a deactivated kind is out of the dropdown, so it has no
      position left to drag. (hidden, not removed — the rows stay aligned.) */
   .bcn-record-rows__row[data-deactivated] .bcn-record-rows__lead {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-record-rows__row[data-deactivated] .bcn-record-rows__handle {
     visibility: hidden;

@@ -91,7 +91,7 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
 <section class="bcn-wa" aria-label={title} data-work-area-board>
   <EsaCard>
     <div slot="header" class="cluster bcn-wa__ident" data-gap="sm">
-      <h2 class="type-card-title bcn-wa__title">{title}</h2>
+      <h2 class="typography-title bcn-wa__title">{title}</h2>
       <span data-wa-count
         ><BcnCount value={workAreas.length} label={`${workAreas.length} ${workAreas.length === 1 ? singular : plural}`} /></span
       >
@@ -99,8 +99,8 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
     </div>
 
     <div slot="header" class="cluster" data-gap="xs">
-      <EsaButton color="primary" size="sm" icon="plus" data-wa-create>Create</EsaButton>
-      <EsaButton color="ghost" appearance="outline" size="sm" icon="upload" data-wa-import>Bulk import</EsaButton>
+      <EsaButton variant="primary" size="sm" icon="plus" data-wa-create>Create</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" size="sm" icon="upload" data-wa-import>Bulk import</EsaButton>
     </div>
 
     <!-- Toolbar: ONE row. The bulk group joins the chrome on the right rather than
@@ -122,8 +122,8 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
         <div class="cluster bcn-wa__right" data-gap="sm" data-align="center">
           <div class="cluster bcn-wa__bulk" data-wa-bulk data-gap="xs" data-align="center" hidden>
             <span class="bcn-wa__bulk-count" data-wa-bulk-count aria-live="polite"></span>
-            <EsaButton color="danger" appearance="soft" size="sm" icon="trash-2" data-wa-delete>Delete</EsaButton>
-            <EsaButton color="ghost" appearance="outline" size="sm" data-wa-bulk-clear>Clear selection</EsaButton>
+            <EsaButton variant="danger" appearance="soft" size="sm" icon="trash-2" data-wa-delete>Delete</EsaButton>
+            <EsaButton variant="ghost" appearance="outline" size="sm" data-wa-bulk-clear>Clear selection</EsaButton>
           </div>
           <BcnGridChrome prefix="wa" only="clear-filters" />
         </div>
@@ -356,13 +356,13 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
   .bcn-wa__title {
     margin: 0;
     font-family: var(--font-decorative);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   /* The set's total disturbance — a figure, deliberately quieter than the count. */
   .bcn-wa__acres {
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
 
@@ -389,8 +389,8 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
   /* A tint inline with the content marks the selection state — not a colored edge. */
   .bcn-wa__bulk {
     padding: var(--spacing-100) var(--spacing-250);
-    background: var(--color-primary-subtle);
-    border: 1px solid var(--color-primary-border);
+    background: var(--color-background-brand-subtle);
+    border: 1px solid var(--color-border-brand);
     border-radius: var(--radius-200);
   }
   .bcn-wa__bulk[hidden] {
@@ -398,8 +398,8 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
   }
   .bcn-wa__bulk-count {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     font-variant-numeric: tabular-nums;
   }
 
@@ -421,8 +421,8 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
   /* ── Footer: download · record count (the house data-table chrome) ───────── */
   .bcn-wa__footer {
     padding: var(--spacing-200) var(--spacing-300);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-top: 0;
     border-radius: 0 0 var(--radius-100) var(--radius-100);
   }
@@ -431,11 +431,11 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
     align-items: center;
     gap: var(--spacing-400);
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
   .bcn-wa__filtered {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-wa__filtered[hidden] {
     display: none;
@@ -446,12 +446,12 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
     cursor: pointer;
   }
   .bcn-wa :global(.bcn-grid-name) {
-    color: var(--color-text-link);
-    font-weight: var(--font-weight-regular);
+    color: var(--color-content-link);
+    font-weight: var(--typography-font-weight-regular);
     text-decoration: underline;
   }
   .bcn-wa :global(.bcn-grid-name:hover) {
-    color: var(--color-primary-hover);
+    color: var(--color-background-brand-hover);
   }
   /* Numeric columns read as a column of numbers: right-aligned by AG Grid's
      numericColumn type, aligned digit-for-digit by tabular numerals. */
@@ -471,10 +471,10 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
     border-radius: var(--radius-100);
     font-size: 0.875rem;
     line-height: 1.5;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     white-space: nowrap;
     background: color-mix(in srgb, var(--_tone, #bdbdbd) 16%, transparent);
-    color: color-mix(in srgb, var(--_tone, #bdbdbd) 70%, var(--color-text-primary));
+    color: color-mix(in srgb, var(--_tone, #bdbdbd) 70%, var(--color-content-default));
   }
   .bcn-wa :global(.bcn-wa__chip::before) {
     content: '';
@@ -485,13 +485,13 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
     flex-shrink: 0;
   }
   .bcn-wa :global(.bcn-wa__chip[data-tone='cleared']) {
-    --_tone: var(--color-success, #2e7571);
+    --_tone: var(--color-background-utility-success, #2e7571);
   }
   .bcn-wa :global(.bcn-wa__chip[data-tone='scheduled']) {
-    --_tone: var(--color-info, #228be6);
+    --_tone: var(--color-background-utility-info, #228be6);
   }
   .bcn-wa :global(.bcn-wa__chip[data-tone='in-progress']) {
-    --_tone: var(--color-warning, #f59e0b);
+    --_tone: var(--color-background-utility-warning, #f59e0b);
   }
   .bcn-wa :global(.bcn-wa__chip[data-tone='not-started']) {
     --_tone: var(--bcn-status-not-started, #bdbdbd);

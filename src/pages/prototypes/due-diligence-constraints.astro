@@ -83,37 +83,37 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
     ]}
   >
     <div slot="utilities">
-      <span id="cx-rerun"><EsaButton color="ghost" appearance="outline" icon="rotate-ccw">Re-run</EsaButton></span>
-      <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="primary" icon="file-text">View report</EsaButton></a>
+      <span id="cx-rerun"><EsaButton variant="ghost" appearance="outline" icon="rotate-ccw">Re-run</EsaButton></span>
+      <a href={withBase('/prototypes/due-diligence-report')}><EsaButton variant="primary" icon="file-text">View report</EsaButton></a>
     </div>
 
     <div class="stack" data-gap="lg">
       <div class="grid" data-gap="md" style="--grid-min: 13rem;">
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Layers active</span>
-            <span class="type-page-title" id="cx-layers-active">{GIS_LAYERS.filter((l) => l.defaultOn).length} / {GIS_LAYERS.length}</span>
+            <span class="typography-body-sm">Layers active</span>
+            <span class="typography-heading-lg" id="cx-layers-active">{GIS_LAYERS.filter((l) => l.defaultOn).length} / {GIS_LAYERS.length}</span>
           </div>
         </EsaCard>
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Overlaps detected</span>
-            <span class="type-page-title">{overlapCount}</span>
-            <span class="type-body-small">across {GIS_LAYERS.filter((l) => l.features > 0).length} layers</span>
+            <span class="typography-body-sm">Overlaps detected</span>
+            <span class="typography-heading-lg">{overlapCount}</span>
+            <span class="typography-body-sm">across {GIS_LAYERS.filter((l) => l.features > 0).length} layers</span>
           </div>
         </EsaCard>
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">High-risk findings</span>
-            <span class="type-page-title" style="color: var(--color-danger);">{highRiskCount}</span>
-            <span class="type-body-small">Hazardous materials · Biological</span>
+            <span class="typography-body-sm">High-risk findings</span>
+            <span class="typography-heading-lg" style="color: var(--color-background-utility-danger);">{highRiskCount}</span>
+            <span class="typography-body-sm">Hazardous materials · Biological</span>
           </div>
         </EsaCard>
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Permits implicated</span>
-            <span class="type-page-title">11</span>
-            <span class="type-body-small"><a href={withBase('/prototypes/due-diligence-permits')}>See matrix</a></span>
+            <span class="typography-body-sm">Permits implicated</span>
+            <span class="typography-heading-lg">11</span>
+            <span class="typography-body-sm"><a href={withBase('/prototypes/due-diligence-permits')}>See matrix</a></span>
           </div>
         </EsaCard>
       </div>
@@ -121,7 +121,7 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
       <BcnFilterBar filtersLabel="">
         <div class="cluster" data-gap="md" slot="lead">
           <span class="cx-filter">
-            <span class="type-body-small">Basemap</span>
+            <span class="typography-body-sm">Basemap</span>
             <esa-select id="cx-basemap" size="sm"></esa-select>
           </span>
         </div>
@@ -139,19 +139,19 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
           <div class="cx-map-shell">
             <div id="cx-map" class="cx-map"></div>
             <div class="cx-legend" id="cx-legend">
-              <div class="type-body-small cx-legend__title">Boundary</div>
+              <div class="typography-body-sm cx-legend__title">Boundary</div>
               <div class="cluster" data-gap="xs">
-                <span class="cx-legend__swatch" style="--_c: var(--color-primary, #005862);"></span>
-                <span class="type-body-small">Project site · {PROJECT.footprintAcres} ac</span>
+                <span class="cx-legend__swatch" style="--_c: var(--color-background-brand, #005862);"></span>
+                <span class="typography-body-sm">Project site · {PROJECT.footprintAcres} ac</span>
               </div>
-              <div class="type-body-small cx-legend__title">Active overlays</div>
+              <div class="typography-body-sm cx-legend__title">Active overlays</div>
               <div id="cx-legend-overlays" class="stack" data-gap="xs"></div>
             </div>
           </div>
 
           <BcnFindingList findings={findingRows} subtitle={`${findingRows.length} findings · ${highRiskCount} high risk`}>
             <Fragment slot="actions">
-              <span id="cx-export-findings"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Export</EsaButton></span>
+              <span id="cx-export-findings"><EsaButton variant="ghost" appearance="outline" size="sm" icon="download">Export</EsaButton></span>
             </Fragment>
           </BcnFindingList>
         </div>
@@ -164,27 +164,27 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
   <!-- Finding / layer detail drawer — reached from both the layer panel and the finding list -->
   <esa-side-dialog id="cx-drawer" size="md" style="--_width: 560px;">
     <div slot="header" class="stack" data-gap="xs">
-      <span class="type-body-small" id="cx-d-cat">—</span>
-      <span class="type-card-title" id="cx-d-name">—</span>
+      <span class="typography-body-sm" id="cx-d-cat">—</span>
+      <span class="typography-title" id="cx-d-name">—</span>
     </div>
     <div class="stack" data-gap="lg">
       <div class="cluster" data-gap="xs" id="cx-d-chips"></div>
       <div class="stack" data-gap="xs">
-        <span class="type-body-small cx-d-label">Data source</span>
-        <span class="type-body" id="cx-d-source"></span>
+        <span class="typography-body-sm cx-d-label">Data source</span>
+        <span class="typography-body-md" id="cx-d-source"></span>
       </div>
       <div class="stack" data-gap="xs">
-        <span class="type-body-small cx-d-label">Intersection result</span>
+        <span class="typography-body-sm cx-d-label">Intersection result</span>
         <dl class="cx-kv" id="cx-d-kv"></dl>
       </div>
       <div class="stack" data-gap="xs">
-        <span class="type-body-small cx-d-label">Recommended next steps</span>
+        <span class="typography-body-sm cx-d-label">Recommended next steps</span>
         <ul class="cx-d-next" id="cx-d-next"></ul>
       </div>
     </div>
     <div slot="footer" class="repel">
-      <span id="cx-d-flag"><EsaButton color="ghost" appearance="outline">Flag for permit matrix</EsaButton></span>
-      <span id="cx-d-add"><EsaButton color="primary">Add to report</EsaButton></span>
+      <span id="cx-d-flag"><EsaButton variant="ghost" appearance="outline">Flag for permit matrix</EsaButton></span>
+      <span id="cx-d-add"><EsaButton variant="primary">Add to report</EsaButton></span>
     </div>
   </esa-side-dialog>
 </AppShell>
@@ -324,10 +324,10 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
       ? rows
           .map(
             (l) =>
-              `<div class="cluster" data-gap="xs"><span class="cx-legend__swatch" style="--_c: ${l.color};"></span><span class="type-body-small">${l.name}</span></div>`,
+              `<div class="cluster" data-gap="xs"><span class="cx-legend__swatch" style="--_c: ${l.color};"></span><span class="typography-body-sm">${l.name}</span></div>`,
           )
           .join('')
-      : '<span class="type-body-small" style="color: var(--color-text-tertiary);">No overlays on</span>';
+      : '<span class="typography-body-sm" style="color: var(--color-content-default-tertiary);">No overlays on</span>';
   }
 
   function updateActiveCount() {
@@ -393,7 +393,7 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
     position: relative;
     height: min(64vh, 560px);
     border-radius: var(--radius-200);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     overflow: hidden;
   }
   .cx-map {
@@ -405,14 +405,14 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
     bottom: var(--spacing-300);
     left: var(--spacing-300);
     z-index: 10;
-    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-background-elevation-raised) 92%, transparent);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     padding: var(--spacing-300);
     max-width: 220px;
   }
   .cx-legend__title {
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     margin-top: var(--spacing-200);
   }
   .cx-legend__title:first-child {
@@ -433,7 +433,7 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
   }
   .cx-d-label {
     text-transform: none;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .cx-kv {
     display: grid;
@@ -442,11 +442,11 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
     margin: 0;
   }
   .cx-kv dt {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .cx-kv dd {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .cx-d-next {
     margin: 0;
@@ -459,12 +459,12 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
     gap: var(--spacing-150);
     padding: 2px var(--spacing-250);
     border-radius: var(--radius-full);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
     white-space: nowrap;
   }
-  :global(.dd-static-chip[data-risk='high'])   { background: color-mix(in srgb, var(--color-danger) 16%, transparent); color: color-mix(in srgb, var(--color-danger) 72%, #1a1a1a); }
-  :global(.dd-static-chip[data-risk='medium']) { background: color-mix(in srgb, var(--color-warning) 16%, transparent); color: color-mix(in srgb, var(--color-warning) 72%, #1a1a1a); }
-  :global(.dd-static-chip[data-risk='low'])    { background: color-mix(in srgb, var(--color-info) 16%, transparent); color: color-mix(in srgb, var(--color-info) 72%, #1a1a1a); }
-  :global(.dd-static-chip[data-risk='none'])   { background: var(--color-surface-sunken); color: var(--color-text-secondary); }
+  :global(.dd-static-chip[data-risk='high'])   { background: color-mix(in srgb, var(--color-background-utility-danger) 16%, transparent); color: color-mix(in srgb, var(--color-background-utility-danger) 72%, #1a1a1a); }
+  :global(.dd-static-chip[data-risk='medium']) { background: color-mix(in srgb, var(--color-background-utility-warning) 16%, transparent); color: color-mix(in srgb, var(--color-background-utility-warning) 72%, #1a1a1a); }
+  :global(.dd-static-chip[data-risk='low'])    { background: color-mix(in srgb, var(--color-background-utility-info) 16%, transparent); color: color-mix(in srgb, var(--color-background-utility-info) 72%, #1a1a1a); }
+  :global(.dd-static-chip[data-risk='none'])   { background: var(--color-background-elevation-sunken); color: var(--color-content-default-secondary); }
 </style>

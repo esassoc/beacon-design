@@ -111,8 +111,8 @@ const steps: DueDiligenceStep[] = [
       <EsaBadge variant="info">Due Diligence</EsaBadge>
     </div>
     <div slot="utilities">
-      <span id="ov-export"><EsaButton color="ghost" appearance="outline" icon="download">Export</EsaButton></span>
-      <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="primary" icon="file-text">Open report</EsaButton></a>
+      <span id="ov-export"><EsaButton variant="ghost" appearance="outline" icon="download">Export</EsaButton></span>
+      <a href={withBase('/prototypes/due-diligence-report')}><EsaButton variant="primary" icon="file-text">Open report</EsaButton></a>
     </div>
 
     <div class="stack" data-gap="xl">
@@ -140,8 +140,8 @@ const steps: DueDiligenceStep[] = [
                 <div class="cluster" data-gap="sm">
                   <EsaAvatar name={member.name} size="sm" />
                   <div class="stack" data-gap="none">
-                    <span class="type-body" style="font-weight: var(--font-weight-semibold);">{member.name}</span>
-                    <span class="type-body-small" style="color: var(--color-text-tertiary);">{member.role}</span>
+                    <span class="typography-body-md" style="font-weight: var(--typography-font-weight-semibold);">{member.name}</span>
+                    <span class="typography-body-sm" style="color: var(--color-content-default-tertiary);">{member.role}</span>
                   </div>
                 </div>
               ))}
@@ -152,7 +152,7 @@ const steps: DueDiligenceStep[] = [
         <div class="stack" data-gap="md">
           <EsaCard title="Critical issues" subtitle="Headline issues that may impact feasibility, schedule, or cost">
             <Fragment slot="actions">
-              <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="ghost" size="sm">Open report</EsaButton></a>
+              <a href={withBase('/prototypes/due-diligence-report')}><EsaButton variant="ghost" size="sm">Open report</EsaButton></a>
             </Fragment>
             <ul class="ov-issue-list">
               {CRITICAL_ISSUES.map((issue) => <li>{issue}</li>)}
@@ -161,7 +161,7 @@ const steps: DueDiligenceStep[] = [
 
           <EsaCard title="Findings by severity" subtitle="Auto-derived from the current GIS data sync">
             <Fragment slot="actions">
-              <a href={withBase('/prototypes/due-diligence-constraints')}><EsaButton color="ghost" size="sm">Open constraints</EsaButton></a>
+              <a href={withBase('/prototypes/due-diligence-constraints')}><EsaButton variant="ghost" size="sm">Open constraints</EsaButton></a>
             </Fragment>
             <div class="grid" data-gap="md" style="--grid-min: 12rem;">
               {findingsBySeverity.map((f) => (
@@ -175,7 +175,7 @@ const steps: DueDiligenceStep[] = [
                     showValue={false}
                     variant={f.risk === 'high' ? 'danger' : f.risk === 'medium' ? 'warning' : f.risk === 'low' ? 'primary' : 'primary'}
                   />
-                  <span class="type-body-small" style="color: var(--color-text-tertiary);">{f.names.join(' · ') || 'None'}</span>
+                  <span class="typography-body-sm" style="color: var(--color-content-default-tertiary);">{f.names.join(' · ') || 'None'}</span>
                 </div>
               ))}
             </div>
@@ -221,8 +221,8 @@ const steps: DueDiligenceStep[] = [
     align-items: flex-start;
     gap: var(--spacing-300);
     padding: var(--spacing-300) 0;
-    border-bottom: 1px solid var(--color-border-light);
-    font-size: var(--type-size-300);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+    font-size: var(--font-size-300);
   }
   .ov-activity li:last-child {
     border-bottom: none;
@@ -231,7 +231,7 @@ const steps: DueDiligenceStep[] = [
     width: 8px;
     height: 8px;
     border-radius: var(--radius-full);
-    background: var(--color-primary);
+    background: var(--color-background-brand);
     margin-top: 8px;
     flex-shrink: 0;
   }
@@ -239,8 +239,8 @@ const steps: DueDiligenceStep[] = [
     flex: 1;
   }
   .ov-activity__time {
-    color: var(--color-text-tertiary);
-    font-size: var(--type-size-200);
+    color: var(--color-content-default-tertiary);
+    font-size: var(--font-size-200);
     white-space: nowrap;
   }
 </style>

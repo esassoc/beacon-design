@@ -9,7 +9,7 @@
 // esa-text-field (person), esa-switch-toggle (tentative), esa-icon-button
 // (remove), esa-button (Add). The row grid is layout glue only. Semantic tokens.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 ---
 
 <div class="bcn-rrep" data-roles-repeater>
@@ -28,14 +28,14 @@ import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
           <span>Tentative</span>
         </label>
         <span class="bcn-rrep__del" data-rr-del>
-          <EsaIconButton icon="trash-2" label="Remove assignment" size="sm" />
+          <EsaIconButton variant="chrome" iconOnly icon="trash-2" label="Remove assignment" size="sm" />
         </span>
       </div>
     </div>
   </template>
 
   <span data-rr-add class="bcn-rrep__add">
-    <EsaButton color="ghost" appearance="outline" size="sm" icon="plus">Add assignment</EsaButton>
+    <EsaButton variant="ghost" appearance="outline" size="sm" icon="plus">Add assignment</EsaButton>
   </span>
 </div>
 
@@ -54,7 +54,7 @@ import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
     flex-direction: column;
     gap: var(--spacing-200);
     padding: var(--spacing-300) 0;
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-rrep__selects {
     display: grid;
@@ -72,8 +72,8 @@ import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
     align-items: center;
     gap: var(--spacing-150);
     padding-bottom: 6px;
-    font-size: var(--type-size-100);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   .bcn-rrep__del {

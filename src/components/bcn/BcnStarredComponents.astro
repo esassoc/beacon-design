@@ -31,7 +31,7 @@
 // component list is a bare AG Grid). bcn-starred-components is the reusable home;
 // the glyphs are esa-icon and pulse color follows the theme via --_c.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import { withBase } from '../../lib/base';
 import { PULSE_META, PROJECT, type StarredComponent, type MacroArea, type PulseStatus } from '../../data/project-dashboard';
 import { projectScopedByType, daysOut } from '../../data/project-actions';
@@ -72,7 +72,7 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
     <!-- No lede — the starred cards and their pulses are self-describing
          (data-grounded review, 2026-08-03). -->
     <div class="bcn-stc__headings">
-      <h2 class="bcn-stc__title type-section-title">Components</h2>
+      <h2 class="bcn-stc__title typography-heading-md">Components</h2>
     </div>
     <a class="bcn-stc__all" href={ALL_COMPONENTS_HREF}>All 24 components <EsaIcon name="chevron-right" size="sm" /></a>
   </header>
@@ -110,7 +110,7 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
         <div class="bcn-stc__card">
           <a class="bcn-stc__portal" href={linkHref(c.href)} aria-label={`Open the ${c.name} component dashboard`}></a>
           <span class="bcn-stc__star" data-star-toggle>
-            <EsaIconButton icon="star" label={`Unstar ${c.name}`} size="sm" />
+            <EsaIconButton variant="chrome" iconOnly icon="star" label={`Unstar ${c.name}`} size="sm" />
           </span>
           <div class="bcn-stc__main">
             <div class="bcn-stc__card-head">
@@ -165,18 +165,18 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
     flex-wrap: wrap;
   }
   .bcn-stc__headings { display: flex; flex-direction: column; gap: var(--spacing-100); min-width: 0; }
-  .bcn-stc__title { margin: 0; color: var(--color-text-primary); }
-  .bcn-stc__lede { margin: 0; color: var(--color-text-secondary); max-width: 68ch; }
+  .bcn-stc__title { margin: 0; color: var(--color-content-default); }
+  .bcn-stc__lede { margin: 0; color: var(--color-content-default-secondary); max-width: 68ch; }
   .bcn-stc__all {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-100);
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
     white-space: nowrap;
   }
-  .bcn-stc__all:hover { color: var(--color-primary-hover); }
+  .bcn-stc__all:hover { color: var(--color-background-brand-hover); }
 
   /* 1-col stacked (Andy, round 2). */
   .bcn-stc__list { display: flex; flex-direction: column; gap: var(--spacing-300); }
@@ -191,8 +191,8 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
     align-items: center;
     gap: var(--spacing-500);
     padding: var(--spacing-400) var(--spacing-500);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
     transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
   }
@@ -202,7 +202,7 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
     border-radius: var(--radius-300);
   }
   .bcn-stc__portal:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-background-brand);
     outline-offset: -2px;
   }
   /* Star toggle — rides above the portal link; pressed = the user's star. */
@@ -213,14 +213,14 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
     z-index: 1;
   }
   .bcn-stc__star :global(button[aria-pressed='true']) {
-    color: var(--color-warning);
+    color: var(--color-background-utility-warning);
   }
   .bcn-stc__star :global(button[aria-pressed='true'] svg) {
     fill: currentColor;
   }
   .bcn-stc__card:hover {
-    border-color: var(--color-border-strong);
-    box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.06));
+    border-color: var(--color-border-default-strong);
+    box-shadow: var(--elevation-2, 0 2px 12px 0 rgba(0, 0, 0, 0.06));
     transform: translateY(-1px);
   }
   @media (max-width: 720px) {
@@ -233,15 +233,15 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
     gap: var(--spacing-300);
     min-width: 0;
     padding-right: var(--spacing-500);
-    border-right: 1px solid var(--color-border-light);
+    border-right: 1px solid var(--color-border-default-subtle);
   }
 
   .bcn-stc__card-head { display: flex; align-items: flex-start; gap: var(--spacing-300); }
   /* The project-scope row reads as the project itself, not a component: neutral
      glyph tile, no star. */
   .bcn-stc__glyph--scope {
-    background: var(--color-surface-sunken) !important;
-    color: var(--color-text-secondary) !important;
+    background: var(--color-background-elevation-sunken) !important;
+    color: var(--color-content-default-secondary) !important;
   }
   .bcn-stc__glyph {
     display: inline-flex;
@@ -253,17 +253,17 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
     border-radius: var(--radius-200);
     /* The brand accent at low strength — 10% primary into the surface (Andy,
        round 4), matching the Tracking zone's wash family. */
-    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
-    color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-background-brand) 10%, var(--color-background-elevation-raised));
+    color: var(--color-background-brand);
   }
   .bcn-stc__ident { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
   .bcn-stc__name {
-    font-size: var(--type-size-250, 1.0625rem);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-250, 1.0625rem);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: var(--line-height-tight);
   }
-  .bcn-stc__type { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
+  .bcn-stc__type { font-size: var(--font-size-150); color: var(--color-content-default-tertiary); }
 
   .bcn-stc__dot {
     width: 9px;
@@ -290,7 +290,7 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
     }
     .bcn-stc__pulse {
       padding: var(--spacing-300) 0 0;
-      border-top: 1px solid var(--color-border-light);
+      border-top: 1px solid var(--color-border-default-subtle);
     }
   }
   .bcn-stc__pulse-row {
@@ -301,13 +301,13 @@ const projectScopePulse = MACRO_AREAS.map((area) => {
     min-width: 0;
   }
   .bcn-stc__pulse-area {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .bcn-stc__pulse-note {
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;

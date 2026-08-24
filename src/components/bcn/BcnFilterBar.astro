@@ -84,8 +84,8 @@ const hasActions = Astro.slots.has('actions');
 <style>
   /* Carded two-band shell — the faithful port. Semantic tokens only. */
   .bcn-filterbar {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
   }
 
@@ -106,7 +106,7 @@ const hasActions = Astro.slots.has('actions');
   }
   /* The divider exists only when there is a band above it to divide from. */
   .bcn-filterbar__top + .bcn-filterbar__bottom {
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
   }
 
   .bcn-filterbar__group {
@@ -117,9 +117,9 @@ const hasActions = Astro.slots.has('actions');
 
   /* A readable word, not an ornamental micro-label. */
   .bcn-filterbar__label {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
 

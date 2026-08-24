@@ -38,7 +38,7 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     <span class="bcn-swc__mark"><EsaIcon name="compass" size="md" paths={COMPASS} /></span>
     <span class="bcn-swc__title">Setup Wizard</span>
     <span class="bcn-swc__cta">
-      <EsaButton color="primary" href={linkHref(WIZARD_HREF)}>Continue setup</EsaButton>
+      <EsaButton variant="primary" href={linkHref(WIZARD_HREF)}>Continue setup</EsaButton>
     </span>
   </div>
 
@@ -75,8 +75,8 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     flex-direction: column;
     gap: var(--spacing-400);
     padding: var(--spacing-500);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
 
@@ -94,14 +94,14 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     height: 32px;
     flex-shrink: 0;
     border-radius: var(--radius-full);
-    background: var(--bcn-teal-600, var(--color-secondary));
-    color: var(--color-text-inverse);
+    background: var(--bcn-teal-600, var(--color-background-brand-muted));
+    color: var(--color-content-default-knockout);
   }
   .bcn-swc__title {
-    font-family: var(--font-decorative, var(--font-sans));
-    font-weight: var(--font-weight-bold);
-    font-size: var(--type-size-300);
-    color: var(--color-text-primary);
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-weight: var(--typography-font-weight-bold);
+    font-size: var(--font-size-300);
+    color: var(--color-content-default);
   }
   .bcn-swc__cta { margin-left: auto; flex-shrink: 0; }
 
@@ -110,7 +110,7 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     list-style: none;
     margin: 0;
     padding: var(--spacing-400) 0 0;
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--spacing-400);
@@ -131,14 +131,14 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     min-width: 0;
     height: 100%;
     padding: var(--spacing-400);
-    background: var(--color-surface-sunken);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     text-decoration: none;
     color: inherit;
     transition: border-color 150ms ease;
   }
-  .bcn-swc__link:hover { border-color: var(--color-border-strong); }
+  .bcn-swc__link:hover { border-color: var(--color-border-default-strong); }
   .bcn-swc__link:hover .bcn-swc__label { color: var(--_step); }
 
   /* Two-line min-height so a wrapping label ("Source Documents") doesn't push
@@ -159,14 +159,14 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     flex-shrink: 0;
     border-radius: var(--radius-full);
     background: var(--_step);
-    color: var(--color-text-inverse);
+    color: var(--color-content-default-knockout);
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
   }
   .bcn-swc__label {
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: var(--line-height-tight);
   }
 
@@ -188,14 +188,14 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     align-items: center;
     gap: var(--spacing-100);
     font-size: 0.8125rem; /* 13px — meta floor */
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     min-width: 0;
   }
   .bcn-swc__stat dd {
     margin: 0;
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     font-variant-numeric: tabular-nums;
     flex-shrink: 0;
   }
@@ -204,7 +204,7 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     width: 7px;
     height: 7px;
     border-radius: var(--radius-full);
-    background: var(--color-warning);
+    background: var(--color-background-utility-warning);
     flex-shrink: 0;
   }
 </style>

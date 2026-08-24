@@ -629,7 +629,7 @@ export function initEvidenceDrawer(): void {
   // ── Dragging ─────────────────────────────────────────────────────────────
   // HTML5 drag API rather than Angular CDK, but the VISUAL contract is the wizard's: grip
   // handle, source card dimmed while it travels, a compact chip as the drag image, and the
-  // receiving card tinted with --color-secondary.
+  // receiving card tinted with --color-background-brand-muted.
 
   let draggingId: string | null = null;
 

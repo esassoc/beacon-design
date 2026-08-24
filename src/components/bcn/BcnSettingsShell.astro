@@ -86,7 +86,7 @@ const { activePageId, esaSurface = false } = Astro.props;
   .bcn-settings-shell__content {
     min-inline-size: 0; /* let long tables/code scroll inside the column, not widen it */
     /* Settings cards sit on pure white (Andy's call, 2026-07-29) — esa-card's default
-       --color-surface is the theme's near-white gray, which read as tinted against the
+       --color-background-elevation-raised is the theme's near-white gray, which read as tinted against the
        page. Re-pointed once here through the lego's own public token so every card in
        the slotted content inherits it. */
     --card-bg: #ffffff;
@@ -121,8 +121,8 @@ const { activePageId, esaSurface = false } = Astro.props;
      band itself is stated through esa-card's public tokens. Nothing else in the header
      reads them. */
   .bcn-settings-shell__content[data-esa-surface] :global(.esa-card__header .esa-card__actions) {
-    --color-text-primary: #ffffff;
-    --color-border: color-mix(in srgb, #ffffff 42%, transparent);
-    --color-surface-sunken: color-mix(in srgb, #ffffff 16%, transparent);
+    --color-content-default: #ffffff;
+    --color-border-default: color-mix(in srgb, #ffffff 42%, transparent);
+    --color-background-elevation-sunken: color-mix(in srgb, #ffffff 16%, transparent);
   }
 </style>

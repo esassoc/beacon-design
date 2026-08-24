@@ -6,9 +6,9 @@
 // must not push the index below the fold.
 //
 // Search PRIMACY (2026-07-22): the field is the esa-text-field lego at size="lg",
-// scaled up via a SCOPED re-point of its public size tokens (--form-height-lg /
-// --form-font-size-lg / --form-padding-x-lg / --form-radius-lg) — the sanctioned
-// component-token override, localized to this one field so nothing leaks globally.
+// scaled up on the host — font-size cascades into the shadow input (font: inherit),
+// and padding/radius ride the lego's private --_field-* hooks since the hub deleted
+// the public --form-* size surface (2026-08). Localized to this one field.
 // A leading esa-icon search glyph sits in the enlarged left gutter (decorative
 // overlay; the field owns its own box).
 //
@@ -66,8 +66,8 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
   <div class="center bcn-kb-hero__col">
     <div class="stack bcn-kb-hero__intro">
       <BcnAldoMark size="md" animated />
-      <h1 class="type-page-title bcn-kb-hero__title">{title}</h1>
-      <p class="type-body bcn-kb-hero__lede">{lede}</p>
+      <h1 class="typography-heading-lg bcn-kb-hero__title">{title}</h1>
+      <p class="typography-body-md bcn-kb-hero__lede">{lede}</p>
     </div>
 
     <div class="bcn-kb-hero__search-wrap">
@@ -154,12 +154,12 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
   }
 
   .bcn-kb-hero__title {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   .bcn-kb-hero__lede {
     max-inline-size: 34rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* ── Search: the primary action + its live-results dropdown ── */
@@ -174,17 +174,21 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     inline-size: 100%;
   }
 
-  /* The lego at size="lg", scaled up via a SCOPED re-point of its public size tokens.
-     Enlarged padding-x opens a left gutter for the search glyph. The lego's focus
-     tokens default to Radix grass (an off-brand green ring) — re-point its public
-     focus border + ring color to the house link color, scoped to this one field. */
+  /* The lego at size="lg", scaled up on the host. The public --form-height/font-size/
+     padding/radius hooks were deleted upstream (no successor): the input inherits font
+     from the host, the control sizes from padding + text, and padding/radius ride the
+     lego's PRIVATE --_field-* hooks (same reach-in as BcnEvidenceSearch; leading-icon
+     slot is the pending hub request). The lego's focus tokens default to Radix grass
+     (an off-brand green ring) — re-point focus border + ring color to the house link
+     color, scoped to this one field. */
   .bcn-kb-hero__search {
-    --form-height-lg: 3.5rem; /* 56px — taller than default lg (48px): primary */
-    --form-font-size-lg: 1.1875rem; /* ~19px */
-    --form-padding-x-lg: 3.25rem; /* opens the leading gutter for the glyph */
-    --form-radius-lg: var(--radius-300);
-    --form-border-color-focus: var(--color-text-link);
-    --focus-ring-color: var(--color-text-link);
+    font-size: 1.1875rem; /* ~19px; the shadow input opts in via font: inherit */
+    /* 0.875rem py ≈ the old 56px: 2×14px + ~26px line + 2px border */
+    --_field-padding-y: 0.875rem;
+    --_field-padding-x: 3.25rem; /* opens the leading gutter for the glyph */
+    --_field-radius: var(--radius-300);
+    --form-border-color-focus: var(--color-content-link);
+    --focus-ring-color: var(--color-content-link);
     inline-size: 100%;
     text-align: start; /* reset the hero's centered text for the input's own value */
   }
@@ -196,7 +200,7 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     inset-block-start: 50%;
     transform: translateY(-50%);
     display: inline-flex;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     pointer-events: none;
     z-index: 1;
     --icon-size-md: 22px;
@@ -211,10 +215,10 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     max-block-size: min(60vh, 30rem);
     overflow-y: auto;
     padding: var(--spacing-100);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
-    box-shadow: var(--shadow-200, 0 8px 28px rgb(0 0 0 / 0.12));
+    box-shadow: var(--elevation-3, 0 8px 28px rgb(0 0 0 / 0.12));
     text-align: start;
   }
   .bcn-kb-hero__results[hidden] { display: none; }
@@ -234,7 +238,7 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
   .bcn-kb-hero__result[hidden] { display: none; }
   .bcn-kb-hero__result:hover,
   .bcn-kb-hero__result.is-active {
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
 
   .bcn-kb-hero__result-top {
@@ -245,18 +249,18 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
   }
   .bcn-kb-hero__result-title {
     font-size: 0.9375rem; /* 15px — dense-index list size (deliberate, no role fits) */
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
     line-height: 1.35;
   }
   .bcn-kb-hero__result.is-active .bcn-kb-hero__result-title,
   .bcn-kb-hero__result:hover .bcn-kb-hero__result-title {
-    color: var(--color-text-link);
+    color: var(--color-content-link);
   }
   /* Matched substring — a neutral translucent highlight (reads on white and on the
      sunken active row); never a tint. */
   .bcn-kb-hero__result-title :global(mark) {
-    background: color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+    background: color-mix(in srgb, var(--color-content-default) 12%, transparent);
     color: inherit;
     border-radius: 2px;
     padding: 0 1px;
@@ -265,12 +269,12 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
   .bcn-kb-hero__result-cat {
     flex: none;
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   .bcn-kb-hero__result-summary {
     font-size: 0.8125rem; /* 13px terse one-liner */
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     line-height: 1.4;
   }
 
@@ -278,7 +282,7 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     margin: 0;
     padding: var(--spacing-300);
     font-size: 0.9375rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* Quiet "What's new" doorway — house link color only on hover, resting state neutral. */
@@ -287,14 +291,14 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     align-items: center;
     gap: var(--spacing-100);
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
     text-decoration: none;
     transition: color 150ms ease;
   }
-  .bcn-kb-hero__whatsnew:hover { color: var(--color-text-link-hover); }
+  .bcn-kb-hero__whatsnew:hover { color: var(--color-content-link-hover); }
   .bcn-kb-hero__whatsnew:focus-visible {
-    outline: 2px solid var(--color-text-link);
+    outline: 2px solid var(--color-content-link);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }

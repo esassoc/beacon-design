@@ -46,7 +46,7 @@ const count = articles.length;
   /* A quiet count sits alone above the list — no lede. */
   .bcn-kbl__count {
     font-size: 0.8125rem; /* 13px meta */
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
   /* Article list — one title link over a terse summary per row, divided by hairlines. */
@@ -65,25 +65,25 @@ const count = articles.length;
   }
   /* Hairlines divide rows only — the list has no outer top/bottom border. */
   .bcn-kbl__row + .bcn-kbl__row {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 
   .bcn-kbl__link {
     font-size: 1rem; /* 16px */
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
     line-height: 1.4;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     text-decoration: none;
     transition: color 120ms ease;
     width: fit-content;
   }
   .bcn-kbl__link:hover {
-    color: var(--color-text-link);
+    color: var(--color-content-link);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
   .bcn-kbl__link:focus-visible {
-    outline: 2px solid var(--color-text-link);
+    outline: 2px solid var(--color-content-link);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }
@@ -91,6 +91,6 @@ const count = articles.length;
   .bcn-kbl__summary {
     font-size: 0.875rem; /* 14px — dense floor */
     line-height: 1.45;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 </style>

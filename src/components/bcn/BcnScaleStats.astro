@@ -71,22 +71,22 @@ const { eyebrow, headline, subtext } = Astro.props;
   }
   .bcn-scale__icon {
     display: inline-flex;
-    color: var(--color-primary);
+    color: var(--color-background-brand);
     margin-block-start: 2px;
     flex-shrink: 0;
   }
 
   .bcn-scale__value {
-    font-family: var(--font-decorative, var(--font-sans));
-    font-size: var(--type-size-500);
-    font-weight: var(--font-weight-bold);
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: var(--font-size-500);
+    font-weight: var(--typography-font-weight-bold);
     line-height: 1;
     margin-block-end: var(--spacing-100);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-scale__label {
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
     line-height: var(--line-height-normal, 1.5);
   }
 

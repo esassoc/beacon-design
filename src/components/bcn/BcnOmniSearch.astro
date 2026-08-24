@@ -88,7 +88,7 @@
   .bcn-omni__scrim {
     position: absolute;
     inset: 0;
-    background: var(--color-backdrop, rgba(20, 30, 40, 0.45));
+    background: var(--color-background-overlay-backdrop, rgba(20, 30, 40, 0.45));
     backdrop-filter: blur(2px);
   }
 
@@ -100,8 +100,8 @@
     height: min(680px, 84vh); /* fixed-tall — does not jump as results change */
     display: flex;
     flex-direction: column;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-400, 12px);
     overflow: hidden;
     box-shadow: 0 24px 64px rgba(20, 30, 40, 0.32);
@@ -118,9 +118,9 @@
     gap: var(--spacing-300);
     flex: none;
     padding: var(--spacing-300) var(--spacing-500);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
   }
-  .bcn-omni__searchicon { display: inline-flex; flex: none; color: var(--color-text-tertiary); }
+  .bcn-omni__searchicon { display: inline-flex; flex: none; color: var(--color-content-default-tertiary); }
   .bcn-omni__searchicon svg { width: 22px; height: 22px; }
   .bcn-omni__inputwrap { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; }
   .bcn-omni__input {
@@ -134,11 +134,11 @@
     outline: 0;
     background: transparent;
     font-family: inherit;
-    font-size: var(--type-size-400, 1.25rem);
+    font-size: var(--font-size-400, 1.25rem);
     line-height: 1.4;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
-  .bcn-omni__input::placeholder { color: var(--color-text-tertiary); }
+  .bcn-omni__input::placeholder { color: var(--color-content-default-tertiary); }
   /* ghost = inline-autocomplete preview sitting behind the input */
   .bcn-omni__ghost {
     position: absolute;
@@ -147,9 +147,9 @@
     display: flex;
     align-items: center;
     font-family: inherit;
-    font-size: var(--type-size-400, 1.25rem);
+    font-size: var(--font-size-400, 1.25rem);
     line-height: 1.4;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     white-space: pre;
     overflow: hidden;
     pointer-events: none;
@@ -164,12 +164,12 @@
     flex: none;
     border: 0;
     border-radius: var(--radius-full);
-    background: var(--color-surface-sunken);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
     cursor: pointer;
   }
   .bcn-omni__clear[hidden] { display: none; }
-  .bcn-omni__clear:hover { background: var(--color-border); }
+  .bcn-omni__clear:hover { background: var(--color-border-default); }
 
   .bcn-omni kbd {
     display: inline-flex;
@@ -180,10 +180,10 @@
     padding: 0 5px;
     font-family: inherit;
     font-size: 11px;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-bottom-width: 2px;
     border-radius: 4px;
   }
@@ -203,7 +203,7 @@
     flex-direction: column;
     gap: 1px;
     padding: var(--spacing-200);
-    border-right: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border-default);
     overflow-y: auto;
     scrollbar-width: none;
   }
@@ -232,15 +232,15 @@
     width: 100%;
     padding: var(--spacing-300);
     border: 0;
-    background: var(--color-primary);
-    color: var(--color-text-inverse);
+    background: var(--color-background-brand);
+    color: var(--color-content-default-knockout);
     font-family: inherit;
-    font-size: var(--type-size-200);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
     cursor: pointer;
   }
   .bcn-omni__showall[hidden] { display: none; }
-  .bcn-omni__showall:hover { background: var(--color-primary-hover, var(--color-primary)); filter: brightness(0.96); }
+  .bcn-omni__showall:hover { background: var(--color-background-brand-hover, var(--color-background-brand)); filter: brightness(0.96); }
 
   .bcn-omni__footer {
     display: flex;
@@ -248,9 +248,9 @@
     gap: var(--spacing-400);
     flex: none;
     padding: var(--spacing-250) var(--spacing-500);
-    border-top: 1px solid var(--color-border);
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
+    border-top: 1px solid var(--color-border-default);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-omni__footer span { display: inline-flex; align-items: center; gap: 6px; }
 </style>
@@ -266,16 +266,16 @@
     border: 0;
     border-radius: var(--radius-200);
     background: transparent;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     font-family: inherit;
-    font-size: var(--type-size-150);
+    font-size: var(--font-size-150);
     text-align: left;
     cursor: pointer;
     transition: background 0.1s, color 0.1s;
   }
-  .bcn-omni-rail__item:not(:disabled):hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
-  .bcn-omni-rail__item.is-active { background: var(--color-primary); color: var(--color-text-inverse); font-weight: var(--font-weight-semibold); }
-  .bcn-omni-rail__item:disabled { color: var(--color-text-tertiary); cursor: default; } /* null-state: present but inert */
+  .bcn-omni-rail__item:not(:disabled):hover { background: var(--color-background-elevation-sunken); color: var(--color-content-default); }
+  .bcn-omni-rail__item.is-active { background: var(--color-background-brand); color: var(--color-content-default-knockout); font-weight: var(--typography-font-weight-semibold); }
+  .bcn-omni-rail__item:disabled { color: var(--color-content-default-tertiary); cursor: default; } /* null-state: present but inert */
   .bcn-omni-rail__label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-omni-rail__c { flex: none; font-size: 11px; font-variant-numeric: tabular-nums; opacity: 0.8; }
 
@@ -285,14 +285,14 @@
     gap: var(--spacing-200);
     padding: var(--spacing-200) var(--spacing-400) var(--spacing-100);
   }
-  .bcn-omni-group__label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-omni-group__label { font-size: var(--font-size-150); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
   /* count clustered next to the label as a bordered badge (clear bg, gray-200 border, 4px) */
   .bcn-omni-group__count {
-    font-size: var(--type-size-100);
+    font-size: var(--font-size-100);
     font-variant-numeric: tabular-nums;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     background: transparent;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
     padding: 0 6px;
     line-height: 1.5;
@@ -305,12 +305,12 @@
     padding: var(--spacing-250) var(--spacing-400);
     border: 0;
     background: transparent;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     font-family: inherit;
     text-align: left;
     cursor: pointer;
   }
-  .bcn-omni-row.is-active { background: var(--color-surface-sunken); }
+  .bcn-omni-row.is-active { background: var(--color-background-elevation-sunken); }
   .bcn-omni-row__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
   .bcn-omni-row__titlerow { display: flex; align-items: center; gap: var(--spacing-150); min-width: 0; }
   /* purple commitment-ID badge (faithful to Beacon's --color-commitment identity token) */
@@ -318,30 +318,30 @@
     flex: none;
     padding: 1px 6px;
     border-radius: var(--radius-100);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.4;
     white-space: nowrap;
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
   }
-  .bcn-omni-row__title { flex: 0 1 auto; min-width: 0; font-size: var(--type-size-150); font-weight: var(--font-weight-medium); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bcn-omni-row__title { flex: 0 1 auto; min-width: 0; font-size: var(--font-size-150); font-weight: var(--typography-font-weight-medium); color: var(--color-content-default); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   /* document text from a commitment/requirement → serif */
-  .bcn-omni-row__snippet { margin-top: 2px; font-family: var(--font-decorative); font-size: var(--type-size-150); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bcn-omni-row__snippet { margin-top: 2px; font-family: var(--font-decorative); font-size: var(--font-size-150); color: var(--color-content-default); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   /* highlighter-yellow hits (dark text for contrast on the yellow) */
   .bcn-omni-row mark,
   .bcn-omni-empty mark {
     background: #fde047;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     border-radius: 2px;
     padding: 0 1px;
   }
   .bcn-omni-empty {
     padding: var(--spacing-600) var(--spacing-500);
     text-align: center;
-    color: var(--color-text-tertiary);
-    font-size: var(--type-size-200);
+    color: var(--color-content-default-tertiary);
+    font-size: var(--font-size-200);
   }
 
   /* null-state landing (the whole body before any query is typed) */
@@ -353,7 +353,7 @@
     gap: var(--spacing-150);
     padding: var(--spacing-500);
   }
-  .bcn-omni-landing__icon { width: 26px; height: 26px; color: var(--color-text-tertiary); }
-  .bcn-omni-landing__title { margin: 0; font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-omni-landing__hint { margin: 0; max-width: 46ch; font-size: var(--type-size-150); color: var(--color-text-tertiary); line-height: 1.55; }
+  .bcn-omni-landing__icon { width: 26px; height: 26px; color: var(--color-content-default-tertiary); }
+  .bcn-omni-landing__title { margin: 0; font-size: var(--font-size-200); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-omni-landing__hint { margin: 0; max-width: 46ch; font-size: var(--font-size-150); color: var(--color-content-default-tertiary); line-height: 1.55; }
 </style>

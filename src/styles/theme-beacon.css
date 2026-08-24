@@ -10,7 +10,7 @@
  * system (component-tokens.css says so — "Faithful port of the Angular lib…
  * aligned with Beacon's UiSize"). So Beacon barely diverges from the hub:
  *   - Color ramps (green/blue/orange/yellow/red) are IDENTICAL to Beacon's.
- *   - --color-primary (teal-900 #005862) is EXACTLY Beacon's $primary.
+ *   - --color-background-brand (teal-900 #005862) is EXACTLY Beacon's $primary.
  * This file only re-points the handful of real deltas + adds Beacon's own
  * spoke tokens. Verbatim Beacon look, expressed through ecology's vocabulary.
  *
@@ -32,13 +32,13 @@
      component shows (primary-subtle, primary-border, secondary) must come from
      Beacon's own ramp (raw --bcn-teal-* below), or it renders off-brand.
      Source: ../Beacon/Beacon.Web/src/scss/variables/_colors.scss $palette + semantics. */
-  --color-primary:         var(--bcn-teal-900);   /* $primary  = teal-900 #005862 */
-  --color-primary-hover:   #00474f;               /* color.adjust($primary, -10% L) */
-  --color-primary-active:  #003940;
-  --color-primary-subtle:  var(--bcn-teal-50);    /* was hub teal-50 #f0fdfa */
-  --color-primary-border:  var(--bcn-teal-200);   /* was hub teal-200 #99f6e4 */
-  --color-secondary:       var(--bcn-teal-500);   /* $secondary = teal-500 #00918b */
-  --color-secondary-hover: var(--bcn-teal-800);   /* teal-800 #0a6562 */
+  --color-background-brand:         var(--bcn-teal-900);   /* $primary  = teal-900 #005862 */
+  --color-background-brand-hover:   #00474f;               /* color.adjust($primary, -10% L) */
+  --color-background-brand-active:  #003940;
+  --color-background-brand-subtle:  var(--bcn-teal-50);    /* was hub teal-50 #f0fdfa */
+  --color-border-brand:  var(--bcn-teal-200);   /* was hub teal-200 #99f6e4 */
+  --color-background-brand-muted:       var(--bcn-teal-500);   /* $secondary = teal-500 #00918b */
+  --color-background-brand-muted-hover: var(--bcn-teal-800);   /* teal-800 #0a6562 */
 
   /* ===== FEEDBACK + AI — match Beacon's ui-button palette =====
      Re-point the hub's semantic feedback tokens to the exact colors Beacon's
@@ -52,59 +52,62 @@
      pulses, critical cards, grid chips, flags). Set here because red vs orange
      had drifted too close to read apart at dot size (Andy):
 
-       CRITICAL / OVERDUE    red    --color-danger   (#e5484d, red-9)
+       CRITICAL / OVERDUE    red    --color-background-utility-danger   (#e5484d, red-9)
        ATTENTION / URGENT /
-       IN PROGRESS           amber  --color-warning  (#f59e0b — moved off
+       IN PROGRESS           amber  --color-background-utility-warning  (#f59e0b — moved off
                                     orange #f2770e; ESA orange stays a BRAND
                                     accent, never a severity)
-       ON TRACK / COMPLETE   green  --color-success  (#2e7571, $green-700)
+       ON TRACK / COMPLETE   green  --color-background-utility-success  (#2e7571, $green-700)
        QUIET / NOT STARTED   gray   --bcn-status-not-started (gray-300)
-       INFORMATIONAL         azure  --color-info     (#228be6)
+       INFORMATIONAL         azure  --color-background-utility-info     (#228be6)
 
      Every status dot, chip, and tint derives from these five — no parallel
      literals. The --bcn-status-* layer below re-points here. */
-  --color-success: #2e7571;                 /* Beacon success = $green-700 (was #22c55e) */
-  --color-warning: #f59e0b;                 /* amber-500 — severity amber, distinct from red (was orange #f2770e) */
-  --color-info:    #228be6;                 /* Beacon $info (standalone azure, not on the blue ramp) */
-  --color-ai:       #699cc6;                /* Beacon ai = $blue-500 (hub default is copper) */
-  --color-ai-hover: #4c75a9;                /* Beacon ai hover = $blue-700 */
+  --color-background-utility-success: #2e7571;                 /* Beacon success = $green-700 (was #22c55e) */
+  --color-background-utility-warning: #f59e0b;                 /* amber-500 — severity amber, distinct from red (was orange #f2770e) */
+  --color-background-utility-info:    #228be6;                 /* Beacon $info (standalone azure, not on the blue ramp) */
+  --color-background-ai:       #699cc6;                /* Beacon ai = $blue-500 (hub default is copper) */
+  --color-background-ai-hover: #4c75a9;                /* Beacon ai hover = $blue-700 */
 
   /* ===== NEUTRAL CHAIN — Beacon's warmer grays =====
      Re-point the whole neutral chain to Beacon's --bcn-gray-* ramp (raw material
      below; primitives never move). Warms body text vs the hub's cool grays:
      text-primary #171717 → #3d3d3d. Symmetric with cb-fish. */
-  --color-text-primary:   var(--bcn-gray-900);
-  --color-text-secondary: var(--bcn-gray-700);
-  --color-text-tertiary:  var(--bcn-gray-600);
-  --color-text-muted:     var(--bcn-gray-500);
-  --color-border:         var(--bcn-gray-200);
-  --color-border-light:   var(--bcn-gray-100);
-  --color-border-strong:  var(--bcn-gray-300);
-  --color-background:     var(--bcn-gray-50);
-  --color-surface-sunken: var(--bcn-gray-100);
+  --color-content-default:   var(--bcn-gray-900);
+  --color-content-default-secondary: var(--bcn-gray-700);
+  --color-content-default-tertiary:  var(--bcn-gray-600);
+  /* Spoke-owned: the hub merged text-secondary and text-muted into one
+     --color-content-default-secondary. Beacon keeps the distinction (gray-700
+     vs gray-500), so muted lives on as a bcn- token, not a hub name. */
+  --bcn-content-muted:    var(--bcn-gray-500);
+  --color-border-default:         var(--bcn-gray-200);
+  --color-border-default-subtle:   var(--bcn-gray-100);
+  --color-border-default-strong:  var(--bcn-gray-300);
+  --color-background-default:     var(--bcn-gray-50);
+  --color-background-elevation-sunken: var(--bcn-gray-100);
 
   /* ===== MONO / DECORATIVE FACES ===== */
   /* Beacon ships Roboto Mono (not the hub default DM Mono) for code/id displays. */
-  --font-mono: 'Roboto Mono', ui-monospace, monospace;
+  --typography-font-family-mono: 'Roboto Mono', ui-monospace, monospace;
   /* Opt-in serif voice (setup wizard). Beacon-only — the hub has no equivalent;
-     --font-display stays sans. Components reach for this token explicitly. */
+     --typography-font-family-display stays sans. Components reach for this token explicitly. */
   --font-decorative: 'Besley', serif;
 
   /* ===== FORM SIZING — Beacon's compact heights =====
-     Beacon's UiSize runs smaller than the hub's defaults (xs 28 / sm 32 / md 40 /
-     lg 48). Re-point to Beacon's _form-inputs.scss: 24 / 28 / 36 / 44. */
-  --form-height-xs: 24px;
-  --form-height-sm: 28px;
-  --form-height-md: 36px;
-  --form-height-lg: 44px;
+     GONE 2026-08-24: the hub removed --form-height-* with no successor (controls
+     size from --spacing-* padding + text; migrations.json form-height row). The
+     declarations that sat here (Beacon's _form-inputs.scss scale: xs 24 / sm 28 /
+     md 36 / lg 44) were inert after the merge, so they are deleted rather than
+     left looking load-bearing. Restoring Beacon's compact density is a hub
+     request (/request-lego), not a theme override. */
 
   /* Beacon rounds every control to a flat 4px ($input-border-radius = $radius-md
      = 4px). The hub defaults md/lg to 8px (--radius-200), so buttons + inputs
      read more rounded than Beacon. Re-point all four to 4px (--radius-100). */
-  --form-radius-xs: var(--radius-100);
-  --form-radius-sm: var(--radius-100);
-  --form-radius-md: var(--radius-100);
-  --form-radius-lg: var(--radius-100);
+  --radius-sm: var(--radius-100);
+  --radius-sm: var(--radius-100);
+  --radius-md: var(--radius-100);
+  --radius-md: var(--radius-100);
 
   /* Beacon's warning fill (#f2770e) is dark enough for white text — its ui-button
      uses white fg on warning. The hub default is dark text (for its lighter amber);
@@ -132,7 +135,7 @@
 
   /* Beacon's true teal ramp (_colors.scss $palette). The hub ships a generic
      teal that only matches Beacon at 900 — these are Beacon's actual brand teal.
-     Raw material: feeds the --color-primary* / --color-secondary* re-points above. */
+     Raw material: feeds the --color-background-brand* / --color-background-brand-muted* re-points above. */
   --bcn-teal-50:  #effefb;
   --bcn-teal-100: #eef5f4;
   --bcn-teal-200: #b9d6d2;
@@ -165,9 +168,9 @@
      status-color standard above (was a parallel set of near-miss literals:
      #ef4444 beside danger #e5484d, #22c55e beside success #2e7571). */
   --bcn-status-not-started: var(--bcn-gray-300);
-  --bcn-status-in-progress: var(--color-warning);
-  --bcn-status-completed:   var(--color-success);
-  --bcn-status-overdue:     var(--color-danger);
+  --bcn-status-in-progress: var(--color-background-utility-warning);
+  --bcn-status-completed:   var(--color-background-utility-success);
+  --bcn-status-overdue:     var(--color-background-utility-danger);
   /* On Hold is DARKER than not-started, not lighter: a component someone
      deliberately paused is a decision, where not-started is an absence. Added
      with the component index, which is the first surface to render all four
@@ -186,7 +189,7 @@
   --bcn-citation-bg: #f6f3ed;
 
   /* Aldo — the help & guidance mark (compass in a circle, named for Aldo Leopold).
-     Aldo green is deliberately its own accent, NOT --color-primary (#005862): the
+     Aldo green is deliberately its own accent, NOT --color-background-brand (#005862): the
      guide reads as a distinct presence, never another primary action. Copper era
      retired 2026-04; green is the settled color. */
   --bcn-aldo:     #08908b;
@@ -212,7 +215,7 @@
      mark; the picker frames a photo the same way), and a ring that only half the
      surfaces follow is worse than no ring. Raw values live here per token discipline. */
   --bcn-seal-ring-width: 3px;
-  --bcn-seal-ring-color: var(--color-surface);
+  --bcn-seal-ring-color: var(--color-background-elevation-raised);
   --bcn-seal-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.08);
 
   /* ===== Entity mark palette — the 20 identity swatches =====

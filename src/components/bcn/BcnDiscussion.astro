@@ -22,7 +22,7 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaAvatar from '@esa/ecology/esa-avatar.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 
 export interface DiscussionComment {
   author: string;
@@ -76,8 +76,8 @@ const stepColor = (name: string): string => authorColors.get(name) ?? STEPPER[0]
             {c.edited && <span class="bcn-disc__edited">(edited)</span>}
             {c.own && (
               <span class="bcn-disc__actions">
-                <EsaIconButton icon="pencil" label="Edit" size="sm" />
-                <EsaIconButton icon="trash-2" label="Delete" size="sm" />
+                <EsaIconButton variant="chrome" iconOnly icon="pencil" label="Edit" size="sm" />
+                <EsaIconButton variant="chrome" iconOnly icon="trash-2" label="Delete" size="sm" />
               </span>
             )}
           </div>
@@ -92,7 +92,7 @@ const stepColor = (name: string): string => authorColors.get(name) ?? STEPPER[0]
       <div class="bcn-disc__compose">
         <span class="bcn-disc__as">Posting as {currentUser}</span>
         <esa-textarea rows="2" placeholder="Write your comment..."></esa-textarea>
-        <div class="bcn-disc__compose-actions"><EsaButton color="primary" size="sm">Post Comment</EsaButton></div>
+        <div class="bcn-disc__compose-actions"><EsaButton variant="primary" size="sm">Post Comment</EsaButton></div>
       </div>
     </li>
   </ul>
@@ -104,26 +104,26 @@ const stepColor = (name: string): string => authorColors.get(name) ?? STEPPER[0]
 
 <style>
   .bcn-disc { display: flex; flex-direction: column; gap: var(--spacing-400); }
-  .bcn-disc__head { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-disc__head :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-secondary); }
-  .bcn-disc__none { margin: 0; font-size: 0.875rem; color: var(--color-text-tertiary); }
+  .bcn-disc__head { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--font-size-200); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-disc__head :global(.esa-icon) { flex-shrink: 0; color: var(--color-content-default-secondary); }
+  .bcn-disc__none { margin: 0; font-size: 0.875rem; color: var(--color-content-default-tertiary); }
 
   /* Timeline — avatars as connected nodes (same vocabulary as the Change Log). */
   .bcn-disc__tl { list-style: none; margin: 0; padding: 0; }
   .bcn-disc__item { position: relative; display: grid; grid-template-columns: auto 1fr; gap: var(--spacing-300); padding-bottom: var(--spacing-400); }
-  .bcn-disc__item:not(:last-child)::before { content: ''; position: absolute; left: 13px; top: 32px; bottom: 0; width: 2px; background: var(--color-border); }
+  .bcn-disc__item:not(:last-child)::before { content: ''; position: absolute; left: 13px; top: 32px; bottom: 0; width: 2px; background: var(--color-border-default); }
   .bcn-disc__item--compose { padding-bottom: 0; }
   .bcn-disc__node { position: relative; z-index: 1; }
   /* Avatar color = the wrapper's --_node-color (stepper token), overriding the
      lego's name-hash default. */
-  .bcn-disc__node :global(.esa-avatar) { --_avatar-bg: var(--_node-color, var(--color-secondary)); }
+  .bcn-disc__node :global(.esa-avatar) { --_avatar-bg: var(--_node-color, var(--color-background-brand-muted)); }
 
   .bcn-disc__body { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
   .bcn-disc__meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--spacing-200); }
-  .bcn-disc__author { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .bcn-disc__time { font-size: 0.75rem; color: var(--color-text-tertiary); }
-  .bcn-disc__edited { font-size: 0.75rem; font-style: italic; color: var(--color-text-tertiary); }
-  .bcn-disc__text { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--color-text-primary); white-space: pre-wrap; }
+  .bcn-disc__author { font-size: 0.875rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .bcn-disc__time { font-size: 0.75rem; color: var(--color-content-default-tertiary); }
+  .bcn-disc__edited { font-size: 0.75rem; font-style: italic; color: var(--color-content-default-tertiary); }
+  .bcn-disc__text { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--color-content-default); white-space: pre-wrap; }
 
   /* Author-only Edit/Delete — revealed on hover/focus (prod behavior). */
   .bcn-disc__actions { display: inline-flex; align-items: center; gap: 1px; margin-left: auto; opacity: 0; transition: opacity 120ms ease; }
@@ -134,7 +134,7 @@ const stepColor = (name: string): string => authorColors.get(name) ?? STEPPER[0]
 
   /* Compose. */
   .bcn-disc__compose { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-disc__as { font-size: 0.8125rem; color: var(--color-text-secondary); }
+  .bcn-disc__as { font-size: 0.8125rem; color: var(--color-content-default-secondary); }
   .bcn-disc__compose esa-textarea { width: 100%; }
   .bcn-disc__compose-actions { display: flex; justify-content: flex-end; }
 </style>

@@ -56,7 +56,7 @@
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
@@ -115,14 +115,14 @@ import { scopeIcon } from '../../data/global-search';
     <!-- Working state for Find matches — replaced by rows the moment it resolves. -->
     <div class="bcn-ev-targets__working" data-targets-working hidden>
       <EsaLoadingSpinner size="sm" />
-      <span class="type-body-small">Reading the evidence and checking actions in this component…</span>
+      <span class="typography-body-sm">Reading the evidence and checking actions in this component…</span>
     </div>
 
     <!-- Find matches must never finish silently. A utility that runs and then does nothing
          visible reads as broken, and the two ways it legitimately finds nothing — no
          evidence staged, and nothing new in scope — are different answers that deserve
          different sentences. -->
-    <p class="bcn-ev-targets__notice type-body-small" data-targets-notice hidden></p>
+    <p class="bcn-ev-targets__notice typography-body-sm" data-targets-notice hidden></p>
 
     <!-- The one list: searched rows and suggested rows together. -->
     <ul class="bcn-ev-targets__list" data-targets-list>
@@ -158,7 +158,7 @@ import { scopeIcon } from '../../data/global-search';
                           />
                         </span>
                         <div slot="content" class="bcn-ev-row__poplist">
-                          <p class="bcn-ev-row__poptitle type-caption">Commitments</p>
+                          <p class="bcn-ev-row__poptitle typography-meta">Commitments</p>
                           <ul>
                             {[a.code, ...(a.otherCodes ?? [])].map((c) => (
                               <li><BcnCommitmentBadge code={c} size="sm" /></li>
@@ -187,7 +187,7 @@ import { scopeIcon } from '../../data/global-search';
                 </div>
                 <div class="bcn-ev-row__side">
                   <span class="bcn-ev-row__dismiss" data-target-dismiss={a.id}>
-                    <EsaIconButton icon="x" label={`Remove ${a.name}`} size="sm" />
+                    <EsaIconButton variant="chrome" iconOnly icon="x" label={`Remove ${a.name}`} size="sm" />
                   </span>
                 </div>
               </div>
@@ -198,7 +198,7 @@ import { scopeIcon } from '../../data/global-search';
                    chevron does. -->
               <div class="bcn-ev-row__body" data-card-body>
                 <ul class="bcn-ev-attached" data-attached-list={a.id}></ul>
-                <p class="bcn-ev-row__hint type-body-small" data-attached-hint>
+                <p class="bcn-ev-row__hint typography-body-sm" data-attached-hint>
                   Drag evidence here to attach it.
                 </p>
               </div>
@@ -219,7 +219,7 @@ import { scopeIcon } from '../../data/global-search';
           <EsaBadge value="Suggested" size="sm" />
         </span>
         <span class="bcn-ev-attached__remove">
-          <EsaIconButton icon="x" label="Remove this evidence from the action" size="sm" />
+          <EsaIconButton variant="chrome" iconOnly icon="x" label="Remove this evidence from the action" size="sm" />
         </span>
       </li>
     </template>
@@ -257,7 +257,7 @@ import { scopeIcon } from '../../data/global-search';
     flex-direction: column;
     min-height: 0;
     height: 100%;
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
   /* Title only now — the filters moved into the bar below, so this matches the Evidence
      column's header box exactly. Keep min-height in sync with .bcn-ev-staging__head. */
@@ -269,7 +269,7 @@ import { scopeIcon } from '../../data/global-search';
     min-height: 60px;
     padding: var(--spacing-350, 0.875rem) var(--spacing-400);
   }
-  /* The ruled filter row. --color-border is the same token esa-tab-layout draws its
+  /* The ruled filter row. --color-border-default is the same token esa-tab-layout draws its
      underline with, and the padding matches the tab strip's, so the two hairlines are one
      continuous line across the seam. */
   .bcn-ev-targets__filters {
@@ -291,7 +291,7 @@ import { scopeIcon } from '../../data/global-search';
        not a measured pixel — if the tab size changes, this line follows it. */
     min-height: calc(var(--tab-layout-height-sm, 36px) + 1px + var(--_lift));
     box-sizing: border-box;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
   }
   /* The search sits BELOW the filter card, between it and the list it searches. */
   .bcn-ev-targets__search {
@@ -312,15 +312,15 @@ import { scopeIcon } from '../../data/global-search';
   .bcn-ev-targets__flabel {
     flex: none;
     /* 13px is a DELIBERATE hard-code, not a missing token: the scale steps 14px
-       (--type-size-150) straight to 12px (--type-size-100), and 12px is under the floor
+       (--font-size-150) straight to 12px (--font-size-100), and 12px is under the floor
        design-principles sets for the smallest legible meta text. 13px is that floor exactly
        — the smallest these can go and still be inside the system.
        Colour steps UP as the size steps down (tertiary → secondary), per the same rule:
        "never fainter: darken as you shrink". A 13px tertiary label is the combination the
        house style specifically warns against. */
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
     white-space: nowrap;
   }
   /* Each box is sized by FLEX BASIS, not min-width: esa-select's intrinsic width is wider
@@ -345,9 +345,9 @@ import { scopeIcon } from '../../data/global-search';
   }
   /* Count of actions in view — the same signal the wizard's column header carries. */
   .bcn-ev-targets__count {
-    font-size: var(--type-size-150, 0.875rem);
-    font-weight: var(--font-weight-regular);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150, 0.875rem);
+    font-weight: var(--typography-font-weight-regular);
+    color: var(--color-content-default-tertiary);
   }
   /* Matches BcnEvidenceStaging's header exactly — the two panels are peers, so their
      headings must resolve to the same rendered size, not just the same intent. */
@@ -356,14 +356,14 @@ import { scopeIcon } from '../../data/global-search';
     align-items: center;
     gap: var(--spacing-200);
     margin: 0;
-    font-size: var(--type-size-250);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-250);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.25;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-ev-targets__title :global(.esa-icon) {
     flex: none;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
 
 
@@ -379,9 +379,9 @@ import { scopeIcon } from '../../data/global-search';
      same whether it is one attachment or the summary of all of them. */
   .bcn-ev-targets__pending {
     --bcn-unsaved: var(--color-action);
-    --color-warning-subtle: color-mix(in srgb, var(--bcn-unsaved) 6%, transparent);
-    --color-warning-border: color-mix(in srgb, var(--bcn-unsaved) 45%, transparent);
-    --color-warning-strong: var(--bcn-unsaved);
+    --color-background-utility-warning-subtle: color-mix(in srgb, var(--bcn-unsaved) 6%, transparent);
+    --color-border-utility-warning: color-mix(in srgb, var(--bcn-unsaved) 45%, transparent);
+    --color-content-utility-warning: var(--bcn-unsaved);
     flex: none;
     padding: 0 var(--spacing-400) var(--spacing-400);
     /* Tighter than the lego default (12/16). --alert-box-padding is a real hook and, unlike
@@ -406,10 +406,10 @@ import { scopeIcon } from '../../data/global-search';
     align-items: center;
     gap: var(--spacing-250, 0.625rem);
     padding: var(--spacing-300);
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-200);
-    background: var(--color-background);
-    color: var(--color-text-secondary);
+    background: var(--color-background-default);
+    color: var(--color-content-default-secondary);
   }
   .bcn-ev-targets__working[hidden] {
     display: none;
@@ -418,10 +418,10 @@ import { scopeIcon } from '../../data/global-search';
   .bcn-ev-targets__notice {
     margin: 0;
     padding: var(--spacing-250, 0.625rem) var(--spacing-300);
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-200);
-    background: var(--color-background);
-    color: var(--color-text-secondary);
+    background: var(--color-background-default);
+    color: var(--color-content-default-secondary);
   }
   .bcn-ev-targets__notice[hidden] {
     display: none;
@@ -476,12 +476,12 @@ import { scopeIcon } from '../../data/global-search';
      the action is only the destination, so the entity colour would be naming the wrong half
      of the interaction — it read as a stray pink with nothing else on the surface to
      justify it.
-     --color-secondary (#00918b), not --color-primary (#005862): design-principles reserves
+     --color-background-brand-muted (#00918b), not --color-background-brand (#005862): design-principles reserves
      saturated brand for the single primary action, which on this surface is the Attach
      button in the footer. A transient drop state should not compete with it. */
   .bcn-ev-targets__item[data-receiving] :global(.esa-card) {
-    border-color: var(--color-secondary);
-    background: color-mix(in srgb, var(--color-secondary) 5%, transparent);
+    border-color: var(--color-background-brand-muted);
+    background: color-mix(in srgb, var(--color-background-brand-muted) 5%, transparent);
   }
   /* Already holds the evidence being dragged — a valid target for something else, but not
      for this. Dimmed and inert rather than hidden, so the list does not reflow mid-drag. */
@@ -509,11 +509,11 @@ import { scopeIcon } from '../../data/global-search';
     align-items: center;
     gap: var(--spacing-200);
     padding: var(--spacing-050) var(--spacing-200);
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-200);
-    background: var(--color-background);
+    background: var(--color-background-default);
     font-size: 0.8125rem;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   /* UNSAVED — the Setup Wizard's pink (--color-action #d45087) as a border plus a light
      color-mix fill, the same pairing actions-step.component.scss uses for its own live
@@ -537,28 +537,26 @@ import { scopeIcon } from '../../data/global-search';
   /* The suggestion marker now lives HERE, on the individual attachment the utility made,
      not on the action card. The action was not suggested — this particular pairing was. */
   .bcn-ev-attached__mark :global(.esa-badge) {
-    --badge-bg: var(--color-info-subtle);
-    --badge-text-color: var(--color-text-primary);
-    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-    font-weight: var(--font-weight-medium);
+    --badge-bg: var(--color-background-utility-info-subtle);
+    --badge-text-color: var(--color-content-default);
+    border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+    font-weight: var(--typography-font-weight-medium);
   }
-  /* The detach button is what SETS this row's height — at size="sm" it is 28px, more than
-     the text and padding together, so trimming the padding alone barely moved the row. The
-     button reads the shared form-size token, so re-pointing --form-height-sm here brings it
-     down with the rest instead of leaving one control at the old scale.
-     24px is still a comfortable pointer target on a dense desktop data surface; it is below
-     the 44px touch guideline, which this list is not designed for. */
+  /* The detach button used a --form-height-sm: 24px re-point to tighten this row; the
+     hub deleted that surface (buttons size from --spacing padding now), so the row sits
+     at the lego's natural sm height. Reclaiming the extra ~4px would mean reaching into
+     esa-button's private pad vars through its internal class — not worth the coupling
+     for dense-list polish. */
   .bcn-ev-attached__remove {
     flex: none;
-    color: var(--color-text-tertiary);
-    --form-height-sm: 24px;
+    color: var(--color-content-default-tertiary);
   }
 
   /* The invitation, shown only while the card holds nothing — and drawn as a real drop
      zone rather than a line of prose. Ported from the wizard's .actions-panel__create-zone:
      dashed edge at rest over a 3% tint, centred. It reads as somewhere you can put
      something, which is exactly what it is. The wizard's tint is the action entity colour;
-     this uses --color-secondary for the reason given at the drop states above. */
+     this uses --color-background-brand-muted for the reason given at the drop states above. */
   /* Always dashed while the list is empty — the zone reads as somewhere you can put
      something whether or not a drag is in flight. (A drag-only variant was tried; it made
      the empty card look inert until you were already committed to a drag.) */
@@ -568,13 +566,13 @@ import { scopeIcon } from '../../data/global-search';
     justify-content: center;
     margin: var(--spacing-200) 0 0;
     padding: var(--spacing-200);
-    border: 1px dashed var(--color-border);
+    border: 1px dashed var(--color-border-default);
     border-radius: var(--radius-200);
     /* No fill. The dashed edge alone says "put something here"; a tint on top of it was
        doing the same job twice, and on the column's sunken gray it read as a stray wash
        rather than as an affordance. */
     background: none;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     /* Italic — it is an instruction about what to do with the empty space, not a label for
        something that is there. */
     font-style: italic;
@@ -590,8 +588,8 @@ import { scopeIcon } from '../../data/global-search';
      so dropping it at the moment you are actually dragging over the zone removes the cue
      exactly when it is being used. Colour alone carries the state change. */
   .bcn-ev-targets__item[data-receiving] .bcn-ev-row__hint {
-    border-color: var(--color-secondary);
-    background: color-mix(in srgb, var(--color-secondary) 8%, transparent);
+    border-color: var(--color-background-brand-muted);
+    background: color-mix(in srgb, var(--color-background-brand-muted) 8%, transparent);
   }
   .bcn-ev-row__main {
     flex: 1;
@@ -671,7 +669,7 @@ import { scopeIcon } from '../../data/global-search';
   }
   .bcn-ev-row__poptitle {
     margin: 0 0 var(--spacing-200);
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-ev-row__poplist ul {
     list-style: none;
@@ -686,10 +684,10 @@ import { scopeIcon } from '../../data/global-search';
      check it". Quiet 4px badge, tinted away from the entity colours so it cannot be
      mistaken for one. */
   .bcn-ev-row__mark :global(.esa-badge) {
-    --badge-bg: var(--color-info-subtle);
-    --badge-text-color: var(--color-text-primary);
-    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-    font-weight: var(--font-weight-medium);
+    --badge-bg: var(--color-background-utility-info-subtle);
+    --badge-text-color: var(--color-content-default);
+    border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+    font-weight: var(--typography-font-weight-medium);
   }
   /* Shrink-to-content, not flex:1 — the codes sit immediately after the name rather than
      being pushed to the far edge. The name still truncates first when a row runs long. */
@@ -700,12 +698,12 @@ import { scopeIcon } from '../../data/global-search';
     flex: 0 1 auto;
     min-width: 22ch;
     /* 14px, the dense-surface base — these are scan-and-pick lists, not prose. Stepped down
-       from --type-size-200 (15px) with the card padding, so the row gets tighter as a whole
+       from --font-size-200 (15px) with the card padding, so the row gets tighter as a whole
        rather than just losing its margins. */
-    font-size: var(--type-size-150, 0.875rem);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-150, 0.875rem);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.35;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
 
   /* ── Tags, styled from the wizard's .action-card__tag: a quiet 4px tag on gray-100 with
@@ -722,12 +720,12 @@ import { scopeIcon } from '../../data/global-search';
   .bcn-ev-row__tags :global(.esa-badge) {
     --badge-bg: var(--bcn-gray-100);
     --badge-text-color: var(--bcn-gray-700);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
   }
   /* The reason a suggested row is here — the reviewable half of "suggests / approves". */
   .bcn-ev-row__why {
     margin: 2px 0 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     font-style: italic;
   }
   .bcn-ev-row__why[hidden] {
@@ -738,7 +736,7 @@ import { scopeIcon } from '../../data/global-search';
     display: flex;
     align-items: center;
     gap: var(--spacing-150);
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-ev-row__mark[hidden] {
     display: none;

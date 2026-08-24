@@ -39,34 +39,34 @@ import { CHALLENGES, MARKETING_ICON_PATHS } from '../../data/homepage';
     align-items: flex-start;
     gap: var(--spacing-400);
     padding: var(--spacing-500);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     transition: box-shadow 200ms ease;
   }
   .bcn-challenges__card:hover {
-    box-shadow: var(--shadow-200, 0 0 0.75rem rgba(0, 0, 0, 0.1));
+    box-shadow: var(--elevation-3, 0 0 0.75rem rgba(0, 0, 0, 0.1));
   }
 
   .bcn-challenges__icon {
     display: inline-flex;
-    color: var(--color-primary);
+    color: var(--color-background-brand);
     flex-shrink: 0;
     margin-block-start: 2px;
   }
 
   .bcn-challenges__q {
     margin: 0 0 var(--spacing-200);
-    font-family: var(--font-decorative, var(--font-sans));
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: var(--line-height-tight, 1.25);
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-challenges__desc {
     margin: 0;
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
     line-height: var(--line-height-relaxed, 1.75);
   }
 

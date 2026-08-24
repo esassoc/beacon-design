@@ -299,8 +299,8 @@ export const COMPONENT_MAP_POINTS = WORK_AREAS.map((w) => ({
 }));
 
 export const COMPONENT_MAP_LEGEND = [
-  { label: 'Cleared', color: 'var(--color-success)' },
-  { label: 'Scheduled', color: 'var(--color-info)' },
+  { label: 'Cleared', color: 'var(--color-background-utility-success)' },
+  { label: 'Scheduled', color: 'var(--color-background-utility-info)' },
   { label: 'In progress', color: 'var(--bcn-status-in-progress)' },
   { label: 'Not started', color: 'var(--bcn-status-not-started)' },
 ];

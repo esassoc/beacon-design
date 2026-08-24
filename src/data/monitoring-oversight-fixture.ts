@@ -30,9 +30,9 @@ export const SEVERITY_ORDER: SeverityLevel[] = ['in-compliance', 'needs-attentio
 // three-level scheme requested for this prototype. Colors read the semantic
 // tokens (never a raw hex) — same idiom as project-dashboard.ts's `critical`.
 export const SEVERITY_META: Record<SeverityLevel, { label: string; hex: string }> = {
-  'in-compliance': { label: 'In Compliance', hex: 'var(--color-success)' },
-  'needs-attention': { label: 'Needs Attention', hex: 'var(--color-warning)' },
-  'non-compliance': { label: 'Non-Compliance', hex: 'var(--color-danger)' },
+  'in-compliance': { label: 'In Compliance', hex: 'var(--color-background-utility-success)' },
+  'needs-attention': { label: 'Needs Attention', hex: 'var(--color-background-utility-warning)' },
+  'non-compliance': { label: 'Non-Compliance', hex: 'var(--color-background-utility-danger)' },
 };
 
 export type ObservationStatus = 'active' | 'resolved';
@@ -314,10 +314,10 @@ export const SITE_VISITS: SiteVisit[] = [
 // done) rather than copying the reference screenshot's chip colors literally.
 export type ReportStatus = 'draft' | 'in-review' | 'in-progress' | 'final';
 export const REPORT_STATUS_META: Record<ReportStatus, { label: string; hex: string }> = {
-  draft: { label: 'Draft', hex: 'var(--color-text-tertiary)' },
-  'in-review': { label: 'In Review', hex: 'var(--color-info)' },
-  'in-progress': { label: 'In Progress', hex: 'var(--color-warning)' },
-  final: { label: 'Final', hex: 'var(--color-success)' },
+  draft: { label: 'Draft', hex: 'var(--color-content-default-tertiary)' },
+  'in-review': { label: 'In Review', hex: 'var(--color-background-utility-info)' },
+  'in-progress': { label: 'In Progress', hex: 'var(--color-background-utility-warning)' },
+  final: { label: 'Final', hex: 'var(--color-background-utility-success)' },
 };
 
 /** Deterministic pipeline: newer reports haven't finished processing yet; a

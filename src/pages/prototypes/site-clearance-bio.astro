@@ -49,7 +49,7 @@ import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import '../../styles/beacon-map.css'; // shared Leaflet chrome (.leaflet-tooltip restyle for all map pages)
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
@@ -244,7 +244,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
             <span id="map-clear-filters"><FilterClearButton /></span>
             <div class="map-filterbar__buffer">
               <esa-switch-toggle id="buffer-toggle" label="Work Area Buffer" size="sm"></esa-switch-toggle>
-              <span id="buffer-edit"><EsaIconButton icon="pencil" label="Edit work area buffer" size="sm" /></span>
+              <span id="buffer-edit"><EsaIconButton variant="chrome" iconOnly icon="pencil" label="Edit work area buffer" size="sm" /></span>
             </div>
           </div>
         </div>
@@ -273,7 +273,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
                     class="map-legend__dot"
                     style={
                       status === 'provisional-block'
-                        ? `background:var(--color-surface); border: 2px solid var(${STATUS_META[status].colorVar}); box-sizing: border-box;`
+                        ? `background:var(--color-background-elevation-raised); border: 2px solid var(${STATUS_META[status].colorVar}); box-sizing: border-box;`
                         : `background:var(${STATUS_META[status].colorVar});`
                     }
                   />
@@ -309,7 +309,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
                 <div
                   style={`height:100%; flex: 0 0 ${(countFor(s) / totalWas) * 100}%; background:${
                     s === 'provisional-block'
-                      ? `repeating-linear-gradient(135deg, var(--st-provisional-block) 0 4px, var(--color-surface) 4px 7px)`
+                      ? `repeating-linear-gradient(135deg, var(--st-provisional-block) 0 4px, var(--color-background-elevation-raised) 4px 7px)`
                       : `var(${STATUS_META[s].colorVar})`
                   };`}
                   title={`${STATUS_META[s].label}: ${countFor(s)}`}
@@ -325,7 +325,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
                     class="readiness__swatch"
                     style={
                       status === 'provisional-block'
-                        ? `background:var(--color-surface); border: 2px solid var(${STATUS_META[status].colorVar}); box-sizing: border-box;`
+                        ? `background:var(--color-background-elevation-raised); border: 2px solid var(${STATUS_META[status].colorVar}); box-sizing: border-box;`
                         : `background:var(${STATUS_META[status].colorVar});`
                     }
                   />
@@ -348,7 +348,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
             </div>
             <div class="bcn-filterbar__search">
               <esa-text-field id="gc-search" placeholder="Search work areas…" size="md"></esa-text-field>
-              <span id="gc-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+              <span id="gc-search-clear" hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
             </div>
           </div>
           <div class="bcn-filterbar__bottom">
@@ -368,7 +368,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
         </div>
 
         <div class="table-footer">
-          <span id="gc-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
+          <span id="gc-download"><EsaButton variant="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
           <div class="row-count-data">
             Total Records: <span id="gc-total">0</span>
             <span id="gc-filtered" class="filtered-rows-count" hidden></span>
@@ -441,7 +441,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
           Biological clearance
           <span class="bioclear__add">
             <span class="dd__count" id="dd-count">0 reviews</span>
-            <span id="dd-add"><EsaButton color="ghost" appearance="outline" size="sm">Add review</EsaButton></span>
+            <span id="dd-add"><EsaButton variant="ghost" appearance="outline" size="sm">Add review</EsaButton></span>
           </span>
         </h3>
 
@@ -458,8 +458,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
           <esa-text-field id="dd-reviewer" label="Reviewer" placeholder="Name (org)" size="sm"></esa-text-field>
           <esa-textarea id="dd-note" label="Note" rows="2" auto-resize size="sm"></esa-textarea>
           <div class="dd__formactions">
-            <span id="dd-cancel"><EsaButton color="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
-            <span id="dd-save"><EsaButton color="primary" size="sm">Save review</EsaButton></span>
+            <span id="dd-cancel"><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+            <span id="dd-save"><EsaButton variant="primary" size="sm">Save review</EsaButton></span>
           </div>
         </div>
 
@@ -483,7 +483,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
           </div>
           <div class="wa__compose-foot">
             <span class="wa__compose-hint">Posting as Andy Lovseth</span>
-            <span id="wa-comment-post"><EsaButton color="primary" size="sm">Post comment</EsaButton></span>
+            <span id="wa-comment-post"><EsaButton variant="primary" size="sm">Post comment</EsaButton></span>
           </div>
         </div>
       </section>
@@ -551,7 +551,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
            tab, pans/zooms + pulses the marker (the ch2 go-to machinery). Hidden
            while editing — a mid-edit jump would discard the form. -->
       <span id="wa-showmap" class="wa__footer-start">
-        <EsaButton color="ghost" appearance="outline" size="md">
+        <EsaButton variant="ghost" appearance="outline" size="md">
           <EsaIcon
             name="map-pin"
             size="sm"
@@ -560,9 +560,9 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
           Show on map
         </EsaButton>
       </span>
-      <span id="wa-edit-btn"><EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton></span>
-      <span id="wa-cancel" hidden><EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
-      <span id="wa-save" hidden><EsaButton color="primary" size="md">Save</EsaButton></span>
+      <span id="wa-edit-btn"><EsaButton variant="ghost" appearance="outline" size="md">Edit site details</EsaButton></span>
+      <span id="wa-cancel" hidden><EsaButton variant="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
+      <span id="wa-save" hidden><EsaButton variant="primary" size="md">Save</EsaButton></span>
     </div>
   </esa-side-dialog>
 
@@ -611,7 +611,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     <div slot="footer" class="wa__footer">
       <!-- "Show on map" (round-5 ch5) — same jump as the work-area drawer's. -->
       <span id="obs-showmap" class="wa__footer-start">
-        <EsaButton color="ghost" appearance="outline" size="md">
+        <EsaButton variant="ghost" appearance="outline" size="md">
           <EsaIcon
             name="map-pin"
             size="sm"
@@ -638,8 +638,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
       </div>
     </div>
     <div slot="footer" class="wa__footer">
-      <span id="buf-cancel"><EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
-      <span id="buf-save"><EsaButton color="primary" size="md">Save</EsaButton></span>
+      <span id="buf-cancel"><EsaButton variant="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
+      <span id="buf-save"><EsaButton variant="primary" size="md">Save</EsaButton></span>
     </div>
   </esa-dialog>
 
@@ -649,10 +649,10 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     <span class="gate__chipwrap"><BcnStatusChip status="cleared" label="—" hex={STATUS_META.cleared.hex} /></span>
   </template>
   <template id="dd-edit-tpl">
-    <span class="rev__edit"><EsaIconButton icon="pencil" label="Edit review" size="sm" /></span>
+    <span class="rev__edit"><EsaIconButton variant="chrome" iconOnly icon="pencil" label="Edit review" size="sm" /></span>
   </template>
   <template id="note-del-tpl">
-    <span class="wnote__del"><EsaIconButton icon="trash-2" label="Delete note" size="sm" /></span>
+    <span class="wnote__del"><EsaIconButton variant="chrome" iconOnly icon="trash-2" label="Delete note" size="sm" /></span>
   </template>
 </AppShell>
 
@@ -1211,7 +1211,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
       // hollow markers (a solid segment would read as Blocked).
       const fill =
         status === 'provisional-block'
-          ? 'repeating-linear-gradient(135deg, var(--st-provisional-block) 0 4px, var(--color-surface) 4px 7px)'
+          ? 'repeating-linear-gradient(135deg, var(--st-provisional-block) 0 4px, var(--color-background-elevation-raised) 4px 7px)'
           : `var(--st-${status})`;
       div.style.cssText = `height:100%; flex: 0 0 ${(n / total) * 100}%; background:${fill};`;
       div.title = `${stLabel(status)}: ${n}`;
@@ -2449,7 +2449,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     width: 100%;
     height: 70vh;
     min-height: 480px;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
     overflow: hidden;
   }
@@ -2511,8 +2511,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     display: flex;
     flex-direction: column;
     margin-bottom: var(--spacing-300);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
   }
   .map-filterbar__row {
@@ -2523,12 +2523,12 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     padding: var(--spacing-250) var(--spacing-400);
   }
   .map-filterbar__row + .map-filterbar__row {
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
   }
   .map-filterbar__label {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   /* Go-to jumps (ch2) — right-aligned in the View row, beside the presets.
@@ -2543,10 +2543,11 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     gap: var(--spacing-200);
   }
   .map-filterbar__goto :global(esa-combobox) {
-    /* esa-combobox sm reads the Beacon form tokens (28px / 12px) — re-point
-       them to the filter legos' 32px / --type-size-150 line, scoped here. */
-    --form-height-sm: 32px;
-    --form-font-size-sm: var(--type-size-150);
+    /* The old 28-to-32px height re-point died with the hub's --form-height
+       surface; sm now sizes from --spacing padding like the filter legos beside
+       it, so the row shares a line without an override. Font alignment stays —
+       the shadow input inherits it from the host. */
+    font-size: var(--font-size-150);
   }
   #goto-wa {
     width: 200px;
@@ -2578,7 +2579,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     display: flex;
     align-items: center;
     justify-content: center;
-    background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+    background: color-mix(in srgb, var(--color-background-elevation-raised) 78%, transparent);
     backdrop-filter: blur(2px);
   }
   .map-empty[hidden] {
@@ -2597,9 +2598,9 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   .comp-picker esa-dropdown-menu {
     display: inline-flex;
     align-items: center;
-    /* The panel items read --type-size-200 — step it down one notch here so
+    /* The panel items read --font-size-200 — step it down one notch here so
        the open list matches the trigger's quieter scale. */
-    --type-size-200: 0.875rem;
+    --font-size-200: 0.875rem;
   }
   .comp-picker__trigger {
     display: inline-flex;
@@ -2613,17 +2614,17 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     font: inherit;
     font-size: 0.875rem;
     line-height: 1.3;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
     cursor: pointer;
     white-space: nowrap;
   }
   .comp-picker__trigger:hover {
-    background: var(--color-surface-sunken, var(--color-background));
-    color: var(--color-text-primary);
+    background: var(--color-background-elevation-sunken, var(--color-background-default));
+    color: var(--color-content-default);
   }
   .comp-picker__trigger :global(.esa-icon) {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     flex-shrink: 0;
   }
 
@@ -2637,7 +2638,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     margin: 0;
     font-size: 0.875rem;
     line-height: 1.5;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* Legend overlay — statuses + the two observation symbols (the violet is a
@@ -2651,18 +2652,18 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     flex-direction: column;
     gap: var(--spacing-150);
     padding: var(--spacing-300) var(--spacing-400);
-    background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+    background: color-mix(in srgb, var(--color-background-elevation-raised) 94%, transparent);
     backdrop-filter: blur(4px);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
-    box-shadow: var(--shadow-400);
+    box-shadow: var(--elevation-5);
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .map-legend__title {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .map-legend__row {
     display: flex;
@@ -2673,7 +2674,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    box-shadow: 0 0 0 2px var(--color-surface);
+    box-shadow: 0 0 0 2px var(--color-background-elevation-raised);
     flex-shrink: 0;
   }
   .map-legend__ring {
@@ -2692,7 +2693,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     height: 8px;
     border-radius: 50%;
     border: 1.5px solid var(--obs-color);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     box-sizing: border-box;
     flex-shrink: 0;
     margin-inline: 2px;
@@ -2705,8 +2706,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     gap: var(--spacing-200);
     margin-top: var(--spacing-400);
     padding: var(--spacing-300) var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   .readiness__head {
@@ -2718,26 +2719,26 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   }
   .readiness__title {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .readiness__summary {
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .readiness__summary strong {
     color: var(--st-cleared);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--typography-font-weight-bold);
   }
   .readiness__bar {
     display: flex;
     height: 10px;
     border-radius: var(--radius-full);
     overflow: hidden;
-    background: var(--color-background);
+    background: var(--color-background-default);
   }
   .readiness__bar > :global(div + div) {
-    border-left: 1px solid var(--color-surface);
+    border-left: 1px solid var(--color-background-elevation-raised);
   }
   .readiness__legend {
     list-style: none;
@@ -2752,7 +2753,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     align-items: center;
     gap: var(--spacing-150);
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .readiness__legend-item[data-empty='true'] {
     opacity: 0.4;
@@ -2764,11 +2765,11 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     flex-shrink: 0;
   }
   .readiness__legend-label {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .readiness__legend-count {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     font-variant-numeric: tabular-nums;
   }
 
@@ -2796,8 +2797,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   :global(.feed-heading) {
     margin: 0 0 var(--spacing-200);
     font-size: 1rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   :global(.feed-day__list) {
     list-style: none;
@@ -2827,9 +2828,9 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     margin-top: 1px;
     padding: 0.125rem 0.375rem;
     border-radius: var(--radius-100);
-    font-family: var(--font-mono, monospace);
-    font-size: var(--type-size-100); /* ID token — meta-scale, like the catalog badges */
-    font-weight: var(--font-weight-semibold);
+    font-family: var(--typography-font-family-mono, monospace);
+    font-size: var(--font-size-100); /* ID token — meta-scale, like the catalog badges */
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.4;
     letter-spacing: 0;
     text-transform: uppercase;
@@ -2840,8 +2841,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     background: color-mix(in srgb, var(--obs-color) 12%, white);
   }
   :global(.entry__badge--wa) {
-    color: var(--color-primary);
-    background: color-mix(in srgb, var(--color-primary) 10%, white);
+    color: var(--color-background-brand);
+    background: color-mix(in srgb, var(--color-background-brand) 10%, white);
   }
   :global(.entry__body) {
     flex: 1;
@@ -2858,14 +2859,14 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     line-height: 1.45;
   }
   :global(.entry__type) {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   :global(.entry__sep) {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   :global(.entry__primary) {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   :global(.entry__line .gate__chipwrap) {
     vertical-align: text-bottom;
@@ -2875,24 +2876,24 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     margin: 0;
     font-size: 0.875rem;
     line-height: 1.45;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   :global(.entry__meta) {
     flex-shrink: 0;
     font-size: 0.8125rem; /* one step below the 0.875rem base — the ch1 floor */
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
     text-align: right;
   }
   :global(.entry--empty) {
     padding: var(--spacing-200) 0;
     font-size: 0.875rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   /* Card dress (feed rows + drawer conflict/impact rows) — clickable jump-offs */
   :global(.entry--card) {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
     cursor: pointer;
     transition:
@@ -2901,7 +2902,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   }
   :global(.entry--card:hover) {
     background: var(--grid-row-bg-hover);
-    border-color: var(--color-border-strong);
+    border-color: var(--color-border-default-strong);
   }
   /* ═══ Print — clean landscape snapshot of the map tab ═══ */
   /* The Activity tab needs no print rules for the same reason the Data tab has
@@ -2936,12 +2937,12 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     }
     .print-header__title {
       font-size: 16pt;
-      font-weight: var(--font-weight-bold);
-      color: var(--color-text-primary);
+      font-weight: var(--typography-font-weight-bold);
+      color: var(--color-content-default);
     }
     .print-header__meta {
       font-size: 9pt;
-      color: var(--color-text-secondary);
+      color: var(--color-content-default-secondary);
     }
     .map-wrap {
       height: 380pt;
@@ -2950,15 +2951,15 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     }
     .readiness {
       break-inside: avoid;
-      border-color: var(--color-border, #ccc);
+      border-color: var(--color-border-default, #ccc);
     }
   }
 
   /* ═══ Filter bar — carded two-band, faithful copy of requirement-tracker's
      page glue. Every control inside is a lego. ═══ */
   .bcn-filterbar {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     margin-bottom: var(--spacing-400);
   }
@@ -2974,7 +2975,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     align-items: center;
     gap: var(--spacing-300);
     padding: var(--spacing-300) var(--spacing-400);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
     flex-wrap: wrap;
   }
   .bcn-filterbar__group {
@@ -2983,9 +2984,9 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     gap: var(--spacing-300);
   }
   .bcn-filterbar__label {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
   .bcn-filterbar__search {
@@ -3021,8 +3022,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     justify-content: space-between;
     gap: var(--spacing-400);
     padding: var(--spacing-200) var(--spacing-400);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-top: 0;
     border-radius: 0 0 var(--radius-100) var(--radius-100);
   }
@@ -3030,12 +3031,12 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     display: flex;
     align-items: center;
     gap: var(--spacing-400);
-    font-size: var(--type-size-100);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }
   .filtered-rows-count {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .filtered-rows-count[hidden] {
     display: none;
@@ -3055,7 +3056,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     border-radius: var(--radius-100);
     font-size: 0.75rem;
     line-height: 1.5;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     white-space: nowrap;
     background: color-mix(in srgb, var(--_chip) 16%, transparent);
     color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a);
@@ -3075,12 +3076,12 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
      not border, so the chip metrics don't shift against its solid siblings. */
   :global(.bcn-status-chip[data-status='provisional-block']),
   :global(.bcn-grid-chip[data-status='provisional-block']) {
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
   }
   :global(.bcn-status-chip[data-status='provisional-block'] .bcn-status-chip__dot),
   :global(.bcn-grid-chip[data-status='provisional-block'] .bcn-grid-chip__dot) {
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
   }
 
@@ -3111,14 +3112,14 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   }
   .wa__title {
     margin: 0;
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .wa__subtitle {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   /* ═══ Dates band (v2) — always-visible decision inputs directly under the
      header. Full-bleed: negative margins eat the lego body's --spacing-500
@@ -3129,8 +3130,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     gap: var(--spacing-200) var(--spacing-300);
     margin: calc(-1 * var(--spacing-500, 1.5rem)) calc(-1 * var(--spacing-500, 1.5rem)) 0;
     padding: var(--spacing-250) var(--spacing-500, 1.5rem);
-    background: var(--color-background);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-border-default);
   }
 
   /* ═══ Read-mode section rhythm — balanced breaks between the dates band, the
@@ -3148,7 +3149,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   #wa-read > .wa__more {
     margin-top: var(--spacing-500);
     padding-top: var(--spacing-500);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border-default);
   }
 
   /* ═══ Comments thread (per work area) — ported from permit tracking
@@ -3174,7 +3175,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   :global(.wc-comment--empty) {
     display: block;
     font-size: 0.875rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   :global(.wc-comment__avatar) {
     display: inline-flex;
@@ -3183,10 +3184,10 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: var(--_c, var(--color-secondary));
+    background: var(--_c, var(--color-background-brand-muted));
     color: #fff;
     font-size: 0.6875rem;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--typography-font-weight-bold);
     flex-shrink: 0;
     letter-spacing: 0.02em;
   }
@@ -3209,25 +3210,25 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   }
   :global(.wc-comment__author) {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   :global(.wc-comment__time) {
     font-size: 0.75rem;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   :global(.wc-comment__text) {
     margin: 0;
     font-size: 0.875rem;
     line-height: 1.5;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     white-space: pre-wrap;
     word-break: break-word;
   }
   :global(.wc-mention) {
-    color: var(--color-primary);
-    font-weight: var(--font-weight-semibold);
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-background-brand);
+    font-weight: var(--typography-font-weight-semibold);
+    background: color-mix(in srgb, var(--color-background-brand) 10%, transparent);
     border-radius: var(--radius-050);
     padding: 0 2px;
   }
@@ -3243,10 +3244,10 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     height: 18px;
     padding: 0 5px;
     border-radius: var(--radius-full);
-    background: var(--color-surface-sunken);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
     font-size: 0.6875rem;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--typography-font-weight-bold);
     vertical-align: middle;
     margin-left: var(--spacing-100);
   }
@@ -3270,10 +3271,10 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     list-style: none;
     margin: 0;
     padding: var(--spacing-100);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    box-shadow: var(--shadow-400);
+    box-shadow: var(--elevation-5);
     max-height: 208px;
     overflow-y: auto;
   }
@@ -3287,7 +3288,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     padding: var(--spacing-200);
     border-radius: var(--radius-100);
     font-size: 0.875rem;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     cursor: pointer;
   }
   :global(.wc-mention-opt:hover) {
@@ -3301,7 +3302,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   }
   .wa__compose-hint {
     font-size: 0.8125rem;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   /* ═══ Inline biological-clearance section — the gate's review history lives
@@ -3326,7 +3327,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     display: none;
   }
   .wa__more-item + .wa__more-item {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .wa__more-item[hidden] + .wa__more-item {
     border-top: none;
@@ -3337,12 +3338,12 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     gap: var(--spacing-200);
     margin: 0 0 var(--spacing-300);
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .wa__section :global(.esa-icon) {
     flex-shrink: 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .wa__section :global(.esa-badge) {
     vertical-align: middle;
@@ -3380,16 +3381,16 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   }
   .dd__count {
     font-size: 0.9375rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   .dd__form {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-300);
     padding: var(--spacing-300) var(--spacing-400);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   .dd__form[hidden] {
@@ -3427,7 +3428,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     top: 20px;
     bottom: 2px;
     width: 2px;
-    background: var(--color-border);
+    background: var(--color-border-default);
   }
   :global(.rev__dot) {
     width: 16px;
@@ -3435,8 +3436,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     border-radius: var(--radius-full);
     margin-top: 2px;
     z-index: 1;
-    background: var(--color-surface);
-    border: 2px solid var(--color-border-strong);
+    background: var(--color-background-elevation-raised);
+    border: 2px solid var(--color-border-default-strong);
     box-sizing: border-box;
   }
   :global(.rev__main) {
@@ -3452,13 +3453,13 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     gap: var(--spacing-200);
     margin: 0;
     font-size: 1rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   :global(.rev__when) {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
   }
   :global(.rev__edit) {
     margin-left: auto;
@@ -3471,26 +3472,26 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   }
   :global(.rev__until) {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
   }
   :global(.rev__current) {
     display: inline-flex;
     align-items: center;
     padding: 1px var(--spacing-200);
     border-radius: var(--radius-full);
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+    background: color-mix(in srgb, var(--color-background-brand) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-background-brand) 30%, transparent);
     font-size: 0.75rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-background-brand);
     white-space: nowrap;
   }
   :global(.rev__note) {
     margin: 0;
     font-size: 0.9375rem;
     line-height: 1.55;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   /* A node being edited becomes the form (the pencil swap) — drop the rail
      grid so the form spans the full width. */
@@ -3518,14 +3519,14 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     gap: var(--spacing-300);
     margin-top: var(--spacing-300);
     padding: var(--spacing-300) var(--spacing-400);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   .we__addnote-title {
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
 
   /* Observation impact list — entry-row cards (set by the renderer caller). */
@@ -3548,12 +3549,12 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   .wa__note {
     margin: 0;
     padding: var(--spacing-300) var(--spacing-400);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     white-space: pre-line;
   }
   .wa__note--log {
@@ -3579,8 +3580,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     flex-direction: column;
     gap: var(--spacing-100);
     padding: var(--spacing-300) var(--spacing-400);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   :global(.wnote__head) {
@@ -3591,8 +3592,8 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   }
   :global(.wnote__meta) {
     font-size: 0.8125rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
   }
   :global(.wnote__del) {
     flex-shrink: 0;
@@ -3601,7 +3602,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     margin: 0;
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
     white-space: pre-line;
   }
 
@@ -3617,7 +3618,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     padding: var(--spacing-200) 0;
   }
   .wa__activity :global(.entry + .entry) {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
 
   /* Observation meta grid */
@@ -3627,13 +3628,13 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     gap: var(--spacing-300) var(--spacing-400);
     margin: 0;
     padding: var(--spacing-400);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-300);
   }
   .wa__kv-val {
-    font-size: var(--form-font-size-md);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--typography-label-md-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
 </style>

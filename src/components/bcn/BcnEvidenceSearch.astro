@@ -16,9 +16,10 @@
 // keyboard nav, match highlight — all its job). The only thing it does not provide is a
 // LEADING icon: it renders a search glyph inside the select-mode dropdown's own filter box,
 // but the autocomplete trigger has no icon, no ::part, and no slot. So this component
-// overlays one and pushes the field's text across by re-pointing --form-padding-x-md,
-// which is a real semantic token the lego already reads — no shadow-DOM reach-in, no
-// restyled internals. Checked Ecology for a search-field lego (esa-text-field has the same
+// overlays one and pushes the field's text across by re-pointing the lego's --_field-padding
+// hooks on the host (the public --form-padding-* hooks were deleted upstream,
+// form-padding-to-spacing, with no successor — a leading-icon slot is the real fix and is
+// a pending hub request). Checked Ecology for a search-field lego (esa-text-field has the same
 // gap; esa-search-panel and esa-entity-search are full overlay surfaces, not fields) and
 // checked Beacon prod, whose search inputs are the same pattern (an overlaid glyph on a
 // padded field). bcn-evidence-search is the reusable home.
@@ -62,16 +63,15 @@ const { placeholder, hook, label } = Astro.props;
   }
   .bcn-ev-search esa-combobox {
     display: block;
-    /* Re-point the field's horizontal padding so the text clears the overlaid glyph. This
-       is the lego's own semantic form token, scoped to this wrapper. */
-    --form-padding-x-md: 2.25rem;
-    /* A slightly tighter field. --form-padding-y-md alone would NOT have done it: the lego
-       also sets an explicit height from --form-height-md (36px), which wins over the
-       padding, so the padding change would have been invisible. Both move together here.
-       Scoped to this component, so both columns' fields stay identical and nothing else
-       in the drawer changes size. */
-    --form-height-md: 32px;
-    --form-padding-y-md: var(--spacing-150);
+    /* The lego's padding hooks are PRIVATE (--_field-*) since the hub deleted the public
+       --form-padding-*/--form-height-* surface with no successor. Document rules on the
+       host beat the :host defaults, so these scoped re-points still work — but they ride
+       an internal name that can move without a deprecation path. Pending hub request for
+       a leading-icon slot (which removes the need for the x re-point entirely).
+       x: clears the overlaid glyph. y: the tighter field the old height:32px produced —
+       the control now sizes from padding + text, so padding alone does it. */
+    --_field-padding-x: 2.25rem;
+    --_field-padding-y: var(--spacing-150);
     /* NO focus-colour override here on purpose. The hub focuses fields GREEN (see the note
        on #bcn-evidence-drawer in BcnEvidenceDrawer.astro); the correction is declared once
        on the drawer shell and inherited, so this field and the filter selects beside it
@@ -87,7 +87,7 @@ const { placeholder, hook, label } = Astro.props;
     left: 0.75rem;
     display: flex;
     align-items: center;
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
     pointer-events: none;
     z-index: 1;
   }

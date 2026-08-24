@@ -76,7 +76,7 @@
 // this is the reusable home for a component footprint. The CSS below is the map
 // container's own geometry plus the legend key, which no lego models.
 import EsaCard from '@esa/ecology/esa-card.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 import '../../styles/beacon-map.css';
 
 export interface MapPoint {
@@ -87,7 +87,7 @@ export interface MapPoint {
   status?: string;
   /** Tooltip text on the interactive map. Falls back to the id. */
   label?: string;
-  /** Explicit override. A TOKEN REFERENCE (`var(--color-success)`), never a hex —
+  /** Explicit override. A TOKEN REFERENCE (`var(--color-background-utility-success)`), never a hex —
    *  the controller resolves var() to a literal because Leaflet paths can't take one. */
   markColor?: string;
 }
@@ -161,17 +161,17 @@ const {
 // 'IN PROGRESS' all land. Zero literals: every value is a token reference, and
 // the --bcn-status-* layer already re-points to the status-color standard.
 const STATUS_COLOR: Record<string, string> = {
-  cleared: 'var(--color-success)',
+  cleared: 'var(--color-background-utility-success)',
   complete: 'var(--bcn-status-completed)',
   completed: 'var(--bcn-status-completed)',
-  scheduled: 'var(--color-info)',
-  active: 'var(--color-info)',
+  scheduled: 'var(--color-background-utility-info)',
+  active: 'var(--color-background-utility-info)',
   'in progress': 'var(--bcn-status-in-progress)',
   'not started': 'var(--bcn-status-not-started)',
   'on hold': 'var(--bcn-status-not-started)',
   overdue: 'var(--bcn-status-overdue)',
 };
-const FALLBACK_COLOR = 'var(--color-text-tertiary)';
+const FALLBACK_COLOR = 'var(--color-content-default-tertiary)';
 
 const payload = {
   points: points.map((p) => ({
@@ -219,7 +219,7 @@ const expandId = `${idPrefix}-expand`;
       <EsaCard title={title}>
         {/* esa-icon-button doesn't forward `id`, so the host span carries it — repo idiom. */}
         <span slot="actions" id={expandId}>
-          <EsaIconButton icon="expand" label={`Expand ${title.toLowerCase()} map`} size="sm" />
+          <EsaIconButton variant="chrome" iconOnly icon="expand" label={`Expand ${title.toLowerCase()} map`} size="sm" />
         </span>
 
         <div class="stack" data-gap="sm">
@@ -314,7 +314,7 @@ const expandId = `${idPrefix}-expand`;
     lat: number;
     lon: number;
     label: string;
-    /** Token reference (`var(--color-success)`) or a literal. */
+    /** Token reference (`var(--color-background-utility-success)`) or a literal. */
     color: string;
   }
 
@@ -350,7 +350,7 @@ const expandId = `${idPrefix}-expand`;
   const rootStyle = () => getComputedStyle(document.documentElement);
 
   /**
-   * Leaflet paths take LITERAL colors, so a `var(--color-success)` prop has to be
+   * Leaflet paths take LITERAL colors, so a `var(--color-background-utility-success)` prop has to be
    * resolved first. Recurses because a semantic token may alias another var(),
    * and honors an inline var() fallback.
    */
@@ -412,7 +412,7 @@ const expandId = `${idPrefix}-expand`;
 
   /** Draw the geometry into `map` and fit the view to it. */
   function plot(map: L.Map, data: MapData, interactive: boolean, pad: number) {
-    const stroke = rootStyle().getPropertyValue('--color-surface').trim() || '#ffffff';
+    const stroke = rootStyle().getPropertyValue('--color-background-elevation-raised').trim() || '#ffffff';
     const group = L.layerGroup().addTo(map);
 
     // Areas first, so points sit ON them. Translucent fill with a solid edge:
@@ -566,9 +566,9 @@ const expandId = `${idPrefix}-expand`;
   .bcn-fmap__surface {
     width: 100%;
     border-radius: var(--radius-200);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     overflow: hidden;
-    background: var(--color-surface-sunken);
+    background: var(--color-background-elevation-sunken);
   }
 
   /* Rail inset — a fixed band that reads as a picture. */
@@ -587,8 +587,8 @@ const expandId = `${idPrefix}-expand`;
 
   /* Leaflet injects .leaflet-container itself, so it is outside Astro's scope. */
   .bcn-fmap__surface :global(.leaflet-container) {
-    font-family: var(--font-sans, inherit);
-    background: var(--color-surface-sunken);
+    font-family: var(--typography-font-family-sans, inherit);
+    background: var(--color-background-elevation-sunken);
   }
   /* A picture must not offer a grab cursor it won't honor. */
   .bcn-fmap__surface--inset :global(.leaflet-container) {
@@ -608,11 +608,11 @@ const expandId = `${idPrefix}-expand`;
     font-size: 0.8125rem; /* 13px — the meta floor */
   }
   .bcn-fmap__source-label {
-    color: var(--color-text-tertiary);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-fmap__source-value {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-fmap__foot {
@@ -639,8 +639,8 @@ const expandId = `${idPrefix}-expand`;
     margin: 0;
     padding: 0;
     width: 100%;
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
   }
   /* In BOTH footers the legend sits beside something else, so it must not claim the
      full width — otherwise it pushes the sibling action onto its own row. */
@@ -658,13 +658,13 @@ const expandId = `${idPrefix}-expand`;
      a dashed rule for a line. --_cmap-key is set inline from the legend prop. */
   .bcn-fmap__key {
     flex-shrink: 0;
-    background: var(--_cmap-key, var(--color-border, #dcdcdc));
+    background: var(--_cmap-key, var(--color-border-default, #dcdcdc));
   }
   .bcn-fmap__key[data-shape='dot'] {
     width: 10px;
     height: 10px;
     border-radius: var(--radius-full, 999px);
-    box-shadow: 0 0 0 1px var(--color-surface, #ffffff);
+    box-shadow: 0 0 0 1px var(--color-background-elevation-raised, #ffffff);
   }
   /* Matches the polygon's own treatment — 18% fill inside a solid edge. */
   .bcn-fmap__key[data-shape='area'] {

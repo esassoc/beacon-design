@@ -21,7 +21,7 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaAvatar from '@esa/ecology/esa-avatar.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 
 // Lucide message-square-dot.
 const MSG_DOT = "<path d='M11.7 3H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2v-2.7'/><circle cx='18' cy='5' r='3'/>";
@@ -88,8 +88,8 @@ const stepColor = (name: string) => STEP[name] ?? '--color-action';
                     {c.edited && <span class="disc-c__edited">(edited)</span>}
                     {c.own && (
                       <span class="disc-c__actions">
-                        <EsaIconButton icon="pencil" label="Edit" size="sm" />
-                        <EsaIconButton icon="trash-2" label="Delete" size="sm" />
+                        <EsaIconButton variant="chrome" iconOnly icon="pencil" label="Edit" size="sm" />
+                        <EsaIconButton variant="chrome" iconOnly icon="trash-2" label="Delete" size="sm" />
                       </span>
                     )}
                   </div>
@@ -102,7 +102,7 @@ const stepColor = (name: string) => STEP[name] ?? '--color-action';
               <div class="disc-compose__field">
                 <span class="disc-compose__as">Posting as {currentUser}</span>
                 <esa-textarea rows="2" placeholder="Write your comment..."></esa-textarea>
-                <div class="disc-compose__actions"><EsaButton color="primary" size="sm">Post Comment</EsaButton></div>
+                <div class="disc-compose__actions"><EsaButton variant="primary" size="sm">Post Comment</EsaButton></div>
               </div>
             </li>
           </ul>
@@ -135,8 +135,8 @@ const stepColor = (name: string) => STEP[name] ?? '--color-action';
                     {c.edited && <span class="disc-c__edited">(edited)</span>}
                     {c.own && (
                       <span class="disc-c__actions">
-                        <EsaIconButton icon="pencil" label="Edit" size="sm" />
-                        <EsaIconButton icon="trash-2" label="Delete" size="sm" />
+                        <EsaIconButton variant="chrome" iconOnly icon="pencil" label="Edit" size="sm" />
+                        <EsaIconButton variant="chrome" iconOnly icon="trash-2" label="Delete" size="sm" />
                       </span>
                     )}
                   </div>
@@ -149,7 +149,7 @@ const stepColor = (name: string) => STEP[name] ?? '--color-action';
               <div class="disc-compose__field">
                 <span class="disc-compose__as">Posting as {currentUser}</span>
                 <esa-textarea rows="2" placeholder="Write your comment..."></esa-textarea>
-                <div class="disc-compose__actions"><EsaButton color="primary" size="sm">Post Comment</EsaButton></div>
+                <div class="disc-compose__actions"><EsaButton variant="primary" size="sm">Post Comment</EsaButton></div>
               </div>
             </li>
           </ul>
@@ -167,29 +167,29 @@ const stepColor = (name: string) => STEP[name] ?? '--color-action';
   /* ═══ Lab scaffolding (not product chrome) ═══ */
   .lab { max-width: 880px; margin: 0 auto; padding: var(--spacing-700, 2.5rem) var(--spacing-500) var(--spacing-800, 4rem); display: flex; flex-direction: column; gap: var(--spacing-700, 2.5rem); }
   .lab__head { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .lab__title { margin: 0; font-family: var(--font-decorative); font-size: 2rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .lab__intro { margin: 0; max-width: 74ch; font-size: var(--type-size-200, 1rem); line-height: 1.6; color: var(--color-text-secondary); }
-  .lab__intro strong { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+  .lab__title { margin: 0; font-family: var(--font-decorative); font-size: 2rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .lab__intro { margin: 0; max-width: 74ch; font-size: var(--font-size-200, 1rem); line-height: 1.6; color: var(--color-content-default-secondary); }
+  .lab__intro strong { color: var(--color-content-default); font-weight: var(--typography-font-weight-semibold); }
   .lab__intro em { font-style: italic; }
 
   .opt { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .opt__bar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
-  .opt__num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--color-primary); color: #fff; font-size: 0.875rem; font-weight: var(--font-weight-semibold); flex-shrink: 0; }
-  .opt__name { font-size: var(--type-size-300, 1.125rem); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .opt__note { font-size: var(--type-size-100, 0.875rem); color: var(--color-text-tertiary); }
-  .opt__stage { padding: var(--spacing-600, 2rem); background: var(--color-surface, #fff); border: 1px dashed var(--bcn-gray-200); border-radius: var(--radius-400, 0.75rem); }
+  .opt__num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--color-background-brand); color: #fff; font-size: 0.875rem; font-weight: var(--typography-font-weight-semibold); flex-shrink: 0; }
+  .opt__name { font-size: var(--font-size-300, 1.125rem); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .opt__note { font-size: var(--font-size-100, 0.875rem); color: var(--color-content-default-tertiary); }
+  .opt__stage { padding: var(--spacing-600, 2rem); background: var(--color-background-elevation-raised, #fff); border: 1px dashed var(--bcn-gray-200); border-radius: var(--radius-400, 0.75rem); }
 
   /* ═══ Discussion (shared) ═══ */
   .disc { display: flex; flex-direction: column; gap: var(--spacing-400); }
-  .disc__head { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-200, 1rem); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .disc__head :global(.esa-icon) { color: var(--color-text-secondary); }
+  .disc__head { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--font-size-200, 1rem); font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .disc__head :global(.esa-icon) { color: var(--color-content-default-secondary); }
 
   .disc-c__body { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
   .disc-c__meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--spacing-200); }
-  .disc-c__author { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .disc-c__time { font-size: 0.75rem; color: var(--color-text-tertiary); }
-  .disc-c__edited { font-size: 0.75rem; font-style: italic; color: var(--color-text-tertiary); }
-  .disc-c__text { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--color-text-primary); white-space: pre-wrap; }
+  .disc-c__author { font-size: 0.875rem; font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default); }
+  .disc-c__time { font-size: 0.75rem; color: var(--color-content-default-tertiary); }
+  .disc-c__edited { font-size: 0.75rem; font-style: italic; color: var(--color-content-default-tertiary); }
+  .disc-c__text { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--color-content-default); white-space: pre-wrap; }
 
   /* Author-only Edit/Delete — revealed on hover/focus (prod behavior). */
   .disc-c__actions { display: inline-flex; align-items: center; gap: 1px; margin-left: auto; opacity: 0; transition: opacity 120ms ease; }
@@ -199,7 +199,7 @@ const stepColor = (name: string) => STEP[name] ?? '--color-action';
   .disc-c__actions :global(.esa-icon) { width: 15px; height: 15px; }
 
   /* Compose. */
-  .disc-compose__as { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; color: var(--color-text-secondary); }
+  .disc-compose__as { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; color: var(--color-content-default-secondary); }
   .disc-compose__field { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
   .disc-compose__field esa-textarea { width: 100%; }
   .disc-compose__actions { display: flex; justify-content: flex-end; }
@@ -213,6 +213,6 @@ const stepColor = (name: string) => STEP[name] ?? '--color-action';
 
   /* Avatar color = the wrapper's --_node-color (stepper token), overriding the
      lego's name-hash default. Section 2 forces a uniform teal. */
-  .disc-tl__node :global(.esa-avatar) { --_avatar-bg: var(--_node-color, var(--color-secondary)); }
-  .disc--teal .disc-tl__node :global(.esa-avatar) { --_avatar-bg: var(--color-secondary); }
+  .disc-tl__node :global(.esa-avatar) { --_avatar-bg: var(--_node-color, var(--color-background-brand-muted)); }
+  .disc--teal .disc-tl__node :global(.esa-avatar) { --_avatar-bg: var(--color-background-brand-muted); }
 </style>

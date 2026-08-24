@@ -68,7 +68,7 @@ const sourceGroups = [
   >
     <BcnStatusChip slot="title-badge" status="cleared" label="Connected" hex="#2e7571" />
     <div slot="utilities">
-      <EsaButton color="ghost" appearance="outline" size="sm">Edit Connection</EsaButton>
+      <EsaButton variant="ghost" appearance="outline" size="sm">Edit Connection</EsaButton>
     </div>
 
     <!-- ═══ 1 · Observation stat cards ═══ -->
@@ -139,7 +139,7 @@ const sourceGroups = [
     <article class="cmt-body" id="cmt-body"></article>
     <span slot="footer" class="cmt-foot">
       <span class="cmt-foot__src" id="cmt-source"></span>
-      <span id="cmt-close"><EsaButton color="ghost" appearance="outline">Close</EsaButton></span>
+      <span id="cmt-close"><EsaButton variant="ghost" appearance="outline">Close</EsaButton></span>
     </span>
   </esa-side-dialog>
   <script type="application/json" id="cmt-data" set:html={JSON.stringify(commitmentDrawerData)}></script>
@@ -240,21 +240,21 @@ const sourceGroups = [
     gap: var(--spacing-400);
     flex-wrap: wrap;
     padding-bottom: var(--spacing-200);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
   }
   .cc__title {
     margin: 0;
     font-family: var(--font-decorative);
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-bold);
+    color: var(--color-content-default);
   }
   .cc__controls { display: flex; align-items: center; gap: var(--spacing-400); flex-wrap: wrap; }
   .cc__ctx { display: inline-flex; align-items: center; gap: var(--spacing-200); }
   .cc__ctx-label {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
 
@@ -266,9 +266,9 @@ const sourceGroups = [
   .cc-group + .cc-group { margin-top: var(--spacing-500); }
   .cc-group__head { display: flex; align-items: center; gap: var(--spacing-250); margin-bottom: var(--spacing-300); }
   .cc-group__name {
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
   }
   /* Quiet count badge — 4px radius, light-gray border (design-principles standard). */
   .cc-badge {
@@ -278,11 +278,11 @@ const sourceGroups = [
     min-width: 20px;
     height: 20px;
     padding: 0 var(--spacing-150);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-100);
     font-variant-numeric: tabular-nums;
   }
@@ -292,9 +292,9 @@ const sourceGroups = [
   .cmt-head { display: flex; flex-direction: column; gap: var(--spacing-200); min-width: 0; }
   .cmt-head__code {
     width: max-content;
-    font-family: var(--font-mono);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
+    font-family: var(--typography-font-family-mono);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
     padding: 1px var(--spacing-200);
@@ -302,9 +302,9 @@ const sourceGroups = [
   }
   .cmt-head__title {
     font-family: var(--font-decorative);
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-bold);
+    color: var(--color-content-default);
     line-height: 1.25;
   }
   /* The CoA text — Besley, preserving the register's own line breaks. */
@@ -312,14 +312,14 @@ const sourceGroups = [
     display: block;
     white-space: pre-wrap;
     font-family: var(--font-decorative);
-    font-size: var(--type-size-200);
+    font-size: var(--font-size-200);
     line-height: 1.6;
-    color: var(--color-text-primary);
-    border: 1px solid var(--color-border);
+    color: var(--color-content-default);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
     padding: var(--spacing-400);
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
   }
   .cmt-foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-300); }
-  .cmt-foot__src { font-size: var(--type-size-100); color: var(--color-text-tertiary); }
+  .cmt-foot__src { font-size: var(--font-size-100); color: var(--color-content-default-tertiary); }
 </style>

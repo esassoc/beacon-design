@@ -52,10 +52,10 @@ const events = [
   <Section id="states" title="States">
     <p>The required asterisk, hint text, and disabled state are attribute-driven. Disabled fields keep their chips but drop the remove buttons.</p>
     <Preview code={`<esa-input-tag label="Required" required placeholder="At least one tag"></esa-input-tag>
-<esa-input-tag label="With hint" hint="Press Enter to add each tag."></esa-input-tag>
+<esa-input-tag label="With hint" help-text="Press Enter to add each tag."></esa-input-tag>
 <esa-input-tag label="Disabled" disabled></esa-input-tag>`}>
       <esa-input-tag label="Required" required placeholder="At least one tag"></esa-input-tag>
-      <esa-input-tag label="With hint" hint="Press Enter to add each tag." placeholder="Add a tag"></esa-input-tag>
+      <esa-input-tag label="With hint" help-text="Press Enter to add each tag." placeholder="Add a tag"></esa-input-tag>
       <esa-input-tag id="it-disabled" label="Disabled" disabled></esa-input-tag>
     </Preview>
   </Section>
@@ -91,11 +91,11 @@ const events = [
   <Section id="tokens" title="Tokens">
     <p>Override the form token layer to re-skin without touching the component:</p>
     <ul class="tokens">
-      <li><code>--form-bg</code> · <code>--form-text-color</code> · <code>--form-border-color</code> / <code>--form-border-color-hover</code> / <code>--form-border-color-focus</code></li>
+      <li><code>--color-background-field</code> · <code>--form-text-color</code> · <code>--form-border-color</code> / <code>--form-border-color-hover</code> / <code>--form-border-color-focus</code></li>
       <li><code>{'--form-{height,padding-x,padding-y,font-size,radius}-{xs,sm,md,lg}'}</code> (size scale)</li>
-      <li><code>--form-label-color</code> · <code>--form-help-color</code> · <code>--form-placeholder-color</code> · <code>--form-bg-disabled</code></li>
-      <li><code>--color-active-overlay</code> · <code>--color-primary</code> (chips) · <code>--color-surface</code> · <code>--color-surface-sunken</code> (dropdown)</li>
-      <li><code>--focus-ring-width</code> / <code>--focus-ring-color</code> · <code>--z-dropdown</code> · <code>--shadow-200</code> · <code>--radius-full</code></li>
+      <li><code>--form-label-color</code> · <code>--form-help-color</code> · <code>--form-placeholder-color</code> · <code>--color-background-disabled</code></li>
+      <li><code>--color-background-overlay-active</code> · <code>--color-background-brand</code> (chips) · <code>--color-background-elevation-raised</code> · <code>--color-background-elevation-sunken</code> (dropdown)</li>
+      <li><code>--focus-ring-width</code> / <code>--focus-ring-color</code> · <code>--z-dropdown</code> · <code>--elevation-3</code> · <code>--radius-full</code></li>
     </ul>
   </Section>
 </ComponentDoc>
@@ -108,11 +108,11 @@ const events = [
     padding: var(--spacing-200, 0.5rem) var(--spacing-400, 1rem);
     border: 0;
     border-radius: var(--radius-200, 0.5rem);
-    background: var(--color-primary, #005862);
-    color: var(--color-text-inverse, #fff);
+    background: var(--color-background-brand, #005862);
+    color: var(--color-content-default-knockout, #fff);
     cursor: pointer;
   }
-  .demo-out { font-family: var(--font-mono, monospace); font-size: 14px; color: var(--color-text-secondary, #525252); }
+  .demo-out { font-family: var(--typography-font-family-mono, monospace); font-size: 14px; color: var(--color-content-default-secondary, #525252); }
 </style>
 
 <script>

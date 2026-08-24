@@ -55,7 +55,7 @@ export default {
         'The global-search command palette — a fixed overlay centered both vertically and horizontally. It searches all 8 scopes FULL-TEXT (titles + commitment/requirement body), with a left scope-facet rail, results grouped by scope with per-scope counts, highlighted hits, and an inline ghost-text typeahead in the input. ⌘/Ctrl+Enter forks to the full results page carrying the query + active scope.',
       decisions: [
         'NULL STATE shows a centered "Search Beacon" landing only (no recents); the scope rail is PRESENT but DISABLED with no counts until a query is typed, at which point its facets enable, show counts, and the active scope highlights.',
-        'Scope facets are a left VERTICAL RAIL (not tabs); the active facet is solid --color-primary with white text.',
+        'Scope facets are a left VERTICAL RAIL (not tabs); the active facet is solid --color-background-brand with white text.',
         'Inline ghost-text typeahead: a grey predicted completion sits after the caret (a transparent pad span occupies the typed text so the grey suffix lands exactly at the caret); Tab or → accepts it.',
         'Hit highlighting is highlighter-yellow (#fde047), dark text — louder than a tinted-primary mark.',
         'Result rows carry NO leading scope icon and NO subtitle. Commitments + requirements show a purple commitment-ID badge (--color-commitment) before the title; the body match renders as a one-line serif (--font-decorative) snippet of the matched document text.',

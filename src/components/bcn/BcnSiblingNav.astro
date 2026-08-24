@@ -112,18 +112,18 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     min-width: 0;
     padding: var(--spacing-100) var(--spacing-150);
     border-radius: var(--radius-100);
-    font-size: var(--type-size-150, 0.875rem);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-150, 0.875rem);
+    color: var(--color-content-default-secondary);
     text-decoration: none;
   }
   a.bcn-sibnav__link:hover {
-    background: var(--color-surface-sunken);
-    color: var(--color-primary);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-background-brand);
   }
   /* Ends stay in place rather than disappearing, so the row does not resize as you
      walk the set. */
   .bcn-sibnav__link--off {
-    color: var(--color-text-muted);
+    color: var(--bcn-content-muted);
     cursor: default;
   }
   .bcn-sibnav__label {
@@ -132,8 +132,8 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     white-space: nowrap;
   }
   .bcn-sibnav__pos {
-    font-size: var(--type-size-150, 0.875rem);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-150, 0.875rem);
+    color: var(--color-content-default-tertiary);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }

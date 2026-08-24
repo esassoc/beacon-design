@@ -324,7 +324,7 @@ function healthSummary(h: MemoHealth): string {
   .bcn-memo {
     max-width: 76ch;
     margin-inline: auto;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
     font-size: 1rem;
     line-height: 1.6;
   }
@@ -341,13 +341,13 @@ function healthSummary(h: MemoHealth): string {
     flex-direction: column;
     gap: var(--spacing-400);
     padding-bottom: var(--spacing-500);
-    border-bottom: 2px solid var(--color-border-strong);
+    border-bottom: 2px solid var(--color-border-default-strong);
   }
   .bcn-memo__kicker {
     margin: 0;
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-memo__meta {
     display: grid;
@@ -359,17 +359,17 @@ function healthSummary(h: MemoHealth): string {
     display: contents;
   }
   .bcn-memo__meta-label {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-memo__meta-value {
     margin: 0;
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   /* The Re line is the document's title — let it read as one. */
   .bcn-memo__meta-row:last-child .bcn-memo__meta-value {
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
     line-height: 1.35;
   }
 
@@ -396,10 +396,10 @@ function healthSummary(h: MemoHealth): string {
     flex-direction: column;
     gap: 2px;
     padding: var(--spacing-250) 0;
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-memo__milestone:first-child {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-memo__milestone-line {
     display: flex;
@@ -408,11 +408,11 @@ function healthSummary(h: MemoHealth): string {
     gap: var(--spacing-300);
   }
   .bcn-memo__milestone-name {
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--typography-font-weight-medium);
   }
   .bcn-memo__citation {
-    font-size: var(--type-size-300);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-300);
+    color: var(--color-content-default-tertiary);
   }
 
   /* ── Assumptions & open questions ── */
@@ -430,9 +430,9 @@ function healthSummary(h: MemoHealth): string {
     gap: 2px;
   }
   .bcn-memo__assumption-kind {
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-memo__assumption-kind[data-kind='question'] {
     color: var(--color-commitment);
@@ -451,15 +451,15 @@ function healthSummary(h: MemoHealth): string {
     gap: var(--spacing-300);
     margin: 0;
     padding-bottom: var(--spacing-250);
-    border-bottom: 1px solid var(--color-border);
-    font-size: var(--type-size-500);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border-default);
+    font-size: var(--font-size-500);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: 1.3;
   }
   .bcn-memo__lede {
     margin: calc(-1 * var(--spacing-200)) 0 0;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-memo__study {
@@ -473,18 +473,18 @@ function healthSummary(h: MemoHealth): string {
     flex-wrap: wrap;
     gap: var(--spacing-250);
     margin: var(--spacing-300) 0 0;
-    font-size: var(--type-size-400);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
+    font-size: var(--font-size-400);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
     line-height: 1.35;
   }
 
   /* ── COA reference tag (mono, commitment hue) — mirrors BcnRolesMatrix's tag ── */
   .bcn-memo__coa {
     display: inline-block;
-    font-family: var(--font-mono);
+    font-family: var(--typography-font-family-mono);
     font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--typography-font-weight-semibold);
     color: var(--color-commitment);
     background: color-mix(in srgb, var(--color-commitment) 12%, white);
     padding: 0 6px;
@@ -502,20 +502,20 @@ function healthSummary(h: MemoHealth): string {
     flex-wrap: wrap;
     gap: var(--spacing-200);
     margin: 0;
-    font-size: var(--type-size-300);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-300);
+    color: var(--color-content-default-secondary);
   }
   .bcn-memo__ml {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-tertiary);
   }
   .bcn-memo__sep {
-    color: var(--color-border-strong);
+    color: var(--color-border-default-strong);
   }
   .bcn-memo__rollup {
     margin: 0;
-    font-size: var(--type-size-300);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-300);
+    color: var(--color-content-default-tertiary);
   }
 
   /* ── Status dot + word ── */
@@ -529,14 +529,14 @@ function healthSummary(h: MemoHealth): string {
     width: 9px;
     height: 9px;
     border-radius: var(--radius-full);
-    background: var(--_tone, var(--color-text-muted));
+    background: var(--_tone, var(--bcn-content-muted));
     flex: none;
   }
-  .bcn-memo__dot[data-tone='on-track'] { --_tone: var(--color-secondary); }
+  .bcn-memo__dot[data-tone='on-track'] { --_tone: var(--color-background-brand-muted); }
   .bcn-memo__dot[data-tone='complete'] { --_tone: var(--bcn-status-completed); }
   .bcn-memo__dot[data-tone='at-risk'] { --_tone: var(--bcn-status-in-progress); }
   .bcn-memo__dot[data-tone='blocked'] { --_tone: var(--bcn-status-overdue); }
-  .bcn-memo__dot[data-tone='not-started'] { --_tone: var(--color-text-muted); }
+  .bcn-memo__dot[data-tone='not-started'] { --_tone: var(--bcn-content-muted); }
 
   /* ── Task list — chronological, span-anchored ── */
   .bcn-memo__tasks {
@@ -551,14 +551,14 @@ function healthSummary(h: MemoHealth): string {
     grid-template-columns: max-content 1fr;
     gap: var(--spacing-100) var(--spacing-400);
     padding: var(--spacing-250) 0;
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
   }
   .bcn-memo__task:first-child {
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid var(--color-border-default-subtle);
   }
   .bcn-memo__task-span {
-    font-size: var(--type-size-300);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-300);
+    color: var(--color-content-default-secondary);
     white-space: nowrap;
   }
   .bcn-memo__task-body {
@@ -567,61 +567,61 @@ function healthSummary(h: MemoHealth): string {
     gap: 2px;
   }
   .bcn-memo__task-name {
-    color: var(--color-text-primary);
+    color: var(--color-content-default);
   }
   .bcn-memo__task-sub {
     display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
     gap: var(--spacing-150);
-    font-size: var(--type-size-300);
-    color: var(--color-text-tertiary);
+    font-size: var(--font-size-300);
+    color: var(--color-content-default-tertiary);
   }
 
   /* ── Glance table ── */
   .bcn-memo__tablewrap {
     overflow-x: auto;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
   }
   .bcn-memo__table {
     border-collapse: collapse;
     width: 100%;
     min-width: 44rem;
-    font-size: var(--type-size-300);
+    font-size: var(--font-size-300);
   }
   .bcn-memo__table thead th {
     position: sticky;
     top: 0;
     text-align: left;
     padding: var(--spacing-250) var(--spacing-300);
-    background: var(--color-surface-sunken);
-    border-bottom: 1px solid var(--color-border);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
+    background: var(--color-background-elevation-sunken);
+    border-bottom: 1px solid var(--color-border-default);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
     white-space: nowrap;
   }
   .bcn-memo__table td,
   .bcn-memo__table tbody th {
     text-align: left;
     padding: var(--spacing-250) var(--spacing-300);
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-default-subtle);
     vertical-align: top;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
   .bcn-memo__table tbody tr:last-child td,
   .bcn-memo__table tbody tr:last-child th {
     border-bottom: 0;
   }
   .bcn-memo__cell-name {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
   }
   .bcn-memo__num {
     text-align: right;
   }
   .bcn-memo__mono {
-    font-family: var(--font-mono);
+    font-family: var(--typography-font-family-mono);
     font-variant-numeric: tabular-nums;
   }
   /* Month spans and budgets never wrap — the tablewrap scrolls instead. */

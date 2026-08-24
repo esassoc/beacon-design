@@ -26,7 +26,7 @@
 // <esa-side-dialog position="bottom">. Until then bcn-bottom-drawer is the reusable home,
 // and it mirrors the lego's committed mechanics and token contract verbatim so the swap is
 // a rename. The close control IS esa-icon-button; the shell chrome is the only owned CSS.
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconButton from '@esa/ecology/esa-button.astro';
 
 interface Props {
   /** Accessible name for the dialog. Rendered as the fallback heading when no header slot. */
@@ -53,11 +53,11 @@ const hasFooter = Astro.slots.has('footer');
   >
     <header class="bcn-bottom-drawer__head">
       <div class="bcn-bottom-drawer__headslot">
-        {hasHeader ? <slot name="header" /> : <h2 class="type-card-title">{heading}</h2>}
+        {hasHeader ? <slot name="header" /> : <h2 class="typography-title">{heading}</h2>}
       </div>
       {showCloseButton && (
         <span class="bcn-bottom-drawer__close" data-drawer-close>
-          <EsaIconButton icon="x" label="Close" size="md" />
+          <EsaIconButton variant="chrome" iconOnly icon="x" label="Close" size="md" />
         </span>
       )}
     </header>
@@ -93,7 +93,7 @@ const hasFooter = Astro.slots.has('footer');
   .bcn-bottom-drawer__backdrop {
     position: fixed;
     inset: 0;
-    background: var(--color-backdrop, rgba(0, 0, 0, 0.5));
+    background: var(--color-background-overlay-backdrop, rgba(0, 0, 0, 0.5));
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
     z-index: var(--_z);
@@ -109,7 +109,7 @@ const hasFooter = Astro.slots.has('footer');
     height: var(--_height);
     display: flex;
     flex-direction: column;
-    background: var(--color-surface);
+    background: var(--color-background-elevation-raised);
     /* Rises from the bottom edge — only the top corners round. */
     border-radius: var(--radius-300) var(--radius-300) 0 0;
     box-shadow: 0 -12px 48px -12px rgba(0, 0, 0, 0.32);
@@ -143,7 +143,7 @@ const hasFooter = Astro.slots.has('footer');
     justify-content: space-between;
     gap: var(--spacing-400);
     padding: var(--spacing-400) var(--spacing-500);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-default);
   }
   .bcn-bottom-drawer__headslot {
     flex: 1;
@@ -151,7 +151,7 @@ const hasFooter = Astro.slots.has('footer');
   }
   .bcn-bottom-drawer__close {
     flex: none;
-    color: var(--color-text-secondary);
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-bottom-drawer__body {
@@ -164,8 +164,8 @@ const hasFooter = Astro.slots.has('footer');
   .bcn-bottom-drawer__foot {
     flex: none;
     padding: var(--spacing-300) var(--spacing-500);
-    border-top: 1px solid var(--color-border);
-    background: var(--color-surface);
+    border-top: 1px solid var(--color-border-default);
+    background: var(--color-background-elevation-raised);
   }
 
   @keyframes bcn-bd-fade {
