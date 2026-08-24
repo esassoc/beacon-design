@@ -266,13 +266,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   padding: var(--spacing-100) var(--spacing-300);
   border-radius: var(--radius-full, 9999px);
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   display: inline-flex;
@@ -339,6 +332,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .esa-button__label {
   white-space: nowrap;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
 ```
 
