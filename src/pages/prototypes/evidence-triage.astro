@@ -41,7 +41,9 @@ const componentOptions = [...componentCounts.entries()].map(([id, n]) => ({
 }));
 
 const facets = [
-  { key: 'source', label: 'Source', options: sourceOptions },
+  // "Upload Source" rather than "Source": this spoke already has Source Documents as a first
+  // class entity, and a bare "Source" filter beside them reads as the wrong noun.
+  { key: 'source', label: 'Upload Source', options: sourceOptions },
   { key: 'component', label: 'Component', options: componentOptions },
 ];
 
@@ -69,7 +71,7 @@ const scopeOptions = [
   activeNavId="action-lists"
   expandedSections={['project']}
 >
-  <PageLayout title="Evidence Inbox" icon="inbox">
+  <PageLayout title="Evidence Inbox" icon="inbox" iconColor="var(--bcn-aldo-600)">
     {/* The count rides the page title, so the area is named once. It counts what is IN the
         inbox — a filter changes the view, not the backlog — and the controller reveals
         "Showing n" beside it whenever a filter narrows the list, so the two numbers can never

@@ -35,6 +35,13 @@ interface Props {
    * the normal (still-padded) content. Additive + backward-compatible.
    */
   bleedHeader?: boolean;
+  /**
+   * Optional colour for the H1's leading glyph, as a CSS value (usually a token).
+   * Omitted, the icon keeps the default ink every other page uses — so this is additive and
+   * changes nothing for existing callers. Exists because a page cannot carry its own CSS in
+   * this spoke, and the title row belongs to the layout.
+   */
+  iconColor?: string;
 }
 
 // Lucide glyphs not in esa-icon's registry (inner SVG markup only).
@@ -51,7 +58,14 @@ const LUCIDE: Record<string, string> = {
     '<path d="M8 2v4"/><path d="M12 2v4"/><path d="M16 2v4"/><rect width="16" height="18" x="4" y="4" rx="2"/><path d="M8 10h6"/><path d="M8 14h8"/><path d="M8 18h5"/>',
 };
 
-const { breadcrumbs = [], title, icon, hideTitleRow = false, bleedHeader = false } = Astro.props as Props;
+const {
+  breadcrumbs = [],
+  title,
+  icon,
+  iconColor,
+  hideTitleRow = false,
+  bleedHeader = false,
+} = Astro.props as Props;
 const iconPaths = icon ? LUCIDE[icon] : undefined;
 const hasUtilities = Astro.slots.has('utilities');
 const hasBleed = bleedHeader && Astro.slots.has('bleed');
@@ -118,7 +132,10 @@ const hasCrumbEnd = Astro.slots.has('breadcrumb-end');
 
     {
       !hideTitleRow && (
-        <section class="page-layout__title">
+        <section
+          class="page-layout__title"
+          style={iconColor ? `--page-title-icon-color: ${iconColor}` : undefined}
+        >
           <div class="page-layout__title-main">
             <h1>
               {icon && <EsaIcon name={icon} paths={iconPaths} />}
@@ -237,7 +254,7 @@ const hasCrumbEnd = Astro.slots.has('breadcrumb-end');
     color: var(--bcn-gray-1000);
   }
   .page-layout__title h1 :global(.esa-icon) {
-    color: var(--bcn-gray-1000);
+    color: var(--page-title-icon-color, var(--bcn-gray-1000));
     flex-shrink: 0;
   }
   .page-layout__utilities {
