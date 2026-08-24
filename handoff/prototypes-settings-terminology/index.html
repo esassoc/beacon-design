@@ -218,71 +218,222 @@
         padding: var(--_card-padding);
       }
       :host {
-        --_field-padding-y: var(--spacing-300, 0.75rem);
-        --_field-padding-x: var(--spacing-300, 0.75rem);
-        --_field-radius: var(--radius-md, 0.5rem);
-        --_field-border-color: var(--form-border-color, #cecece);
+        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+        --_popover-border: var(--color-border-default, #cecece);
+        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+        --_popover-radius: var(--radius-md, 0.5rem);
+        --_popover-padding: var(--spacing-300, 0.75rem);
+        --_popover-arrow-size: 8px;
+        --_popover-color: var(--color-content-default, #202020);
+        display: inline-block;
+      }
+      .esa-popover-anchor {
+        position: relative;
+        display: inline-block;
+      }
+      html,
+      .modern-layout__content {
+        scroll-behavior: smooth;
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+      }
+      .typography-microcopy-md-subtle {
+        font-family: var(--typography-microcopy-md-subtle-font-family);
+        font-size: var(--typography-microcopy-md-subtle-font-size);
+        font-weight: var(--typography-microcopy-md-subtle-font-weight);
+        line-height: var(--typography-microcopy-md-subtle-line-height);
+        letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+      }
+      .typography-body-sm {
+        font-family: var(--typography-body-sm-font-family);
+        font-size: var(--typography-body-sm-font-size);
+        font-weight: var(--typography-body-sm-font-weight);
+        line-height: var(--typography-body-sm-line-height);
+        letter-spacing: var(--typography-body-sm-letter-spacing);
+      }
+      .typography-label-md {
+        font-family: var(--typography-label-md-font-family);
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-label-md-font-weight);
+        line-height: var(--typography-label-md-line-height);
+        letter-spacing: var(--typography-label-md-letter-spacing);
+      }
+      :host {
+        display: inline-block;
+      }
+      .esa-tooltip-anchor {
+        position: relative;
+        display: inline-flex;
+      }
+      .bcn-settings-shell__rail {
+        align-self: start;
+      }
+      .bcn-settings-search,
+      .bcn-settings-search__fieldwrap {
+        position: relative;
+      }
+      .bcn-settings-search__icon {
+        position: absolute;
+        inset-inline-start: var(--spacing-250);
+        inset-block-start: 50%;
+        transform: translateY(-50%);
+        display: inline-flex;
+        z-index: 1;
+        color: var(--color-text-tertiary);
+        pointer-events: none;
+      }
+      .bcn-settings-search__field {
+        --form-padding-x-md: 2rem;
+        --form-border-color-focus: var(--color-text-link);
+        --focus-ring-color: var(--color-text-link);
         display: block;
       }
-      .field {
+      .bcn-settings-search__panel {
+        position: absolute;
+        inset-block-start: calc(100% + var(--spacing-100));
+        inset-inline: 0;
+        z-index: 30;
         display: flex;
         flex-direction: column;
+        max-block-size: min(24rem, 60vh);
+        overflow-y: auto;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-100);
+        box-shadow: var(--shadow-300);
       }
-      .control {
+      .bcn-settings-search__panel[hidden] {
+        display: none;
+      }
+      .bcn-settings-nav {
         display: flex;
-        align-items: stretch;
-        /* NO HEIGHT. The box is as tall as the input inside it, which is its line
-         box plus its padding. A px height could not grow with rem text, so it
-         clipped — and this rule used to pair one with overflow:hidden, which is
-         what made the clipping silent. See semantic/size.json.
-
-         line-height 1 is what leaves padding as the only variable: at 1.6 there
-         is a third term (0.6 x font-size of leading) that nobody chose and that
-         grows faster than either input. Everything else — face, size, weight,
-         tracking — still comes from .typography-body-* on this element and
-         inherits to the input and the affixes below. */
-        background: var(--color-background-field, transparent);
-        border: var(--form-border-width, 1px) solid var(--_field-border-color);
-        border-radius: var(--_field-radius);
-        box-sizing: border-box;
-        transition:
-          border-color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
+        flex-direction: column;
+        gap: var(--spacing-500, 1.5rem);
       }
-      .input {
-        flex: 1 1 auto;
-        min-width: 0;
-        width: 100%;
-        /* No height: 100%. It used to resolve against .control's fixed height, which
-         meant this padding was ABSORBED into that height rather than adding to it.
-         With no fixed parent it would compute to auto anyway; removing it makes the
-         padding load-bearing, which is the point. .control is align-items:stretch,
-         so the affixes still match this element's height. */
-        padding: var(--_field-padding-y) var(--_field-padding-x);
-        /* A native control does not inherit type by default — this is what opts it
-         into the composite already resolved on .control. */
-        font: inherit;
-        color: var(--form-text-color, #202020);
-        background: transparent;
-        border: none;
-        outline: none;
-        box-sizing: border-box;
+      .bcn-settings-nav__block {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-400, 1rem);
       }
-      .input::placeholder {
-        color: var(--form-placeholder-color, #838383);
+      .bcn-settings-nav__block--esa {
+        background: var(--bcn-helpbar-bg);
+        -webkit-backdrop-filter: blur(14px) saturate(1.4);
+        backdrop-filter: blur(14px) saturate(1.4);
+        border: 1px solid var(--bcn-helpbar-border);
+        border-radius: var(--radius-300, 0.5rem);
+        padding: var(--spacing-300, 0.75rem);
       }
-      .help,
-      .error {
-        margin: 0;
-      }
-      .error {
+      .bcn-settings-nav__aud {
         display: flex;
         align-items: center;
-        gap: var(--spacing-100, 4px);
-        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+        gap: var(--spacing-200, 0.5rem);
+        margin: 0;
+        padding-inline: var(--spacing-300, 0.75rem);
+        padding-block-end: var(--spacing-200, 0.5rem);
+        border-block-end: 1px solid var(--color-border-light, var(--color-border));
+        font-weight: var(--font-weight-semibold, 600);
+        color: var(--color-text-primary);
       }
-      .help {
-        color: var(--form-help-color, #838383);
+      .bcn-settings-nav__block--esa .bcn-settings-nav__aud {
+        color: #fff;
+      }
+      .bcn-settings-nav__block--esa .bcn-settings-nav__aud {
+        border-block-end-color: color-mix(in srgb, #ffffff 18%, transparent);
+      }
+      .bcn-settings-nav__aud-icon {
+        display: inline-flex;
+        flex: none;
+      }
+      .bcn-settings-nav__zone {
+        margin: 0 0 var(--spacing-100, 0.25rem);
+        padding-inline: var(--spacing-300, 0.75rem);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: var(--font-weight-bold, 700);
+        color: var(--color-text-tertiary);
+      }
+      .bcn-settings-nav__block--esa .bcn-settings-nav__zone {
+        color: color-mix(in srgb, #ffffff 78%, transparent);
+      }
+      .bcn-settings-nav__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+      }
+      .bcn-settings-nav__link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--spacing-200, 0.5rem);
+        font-size: 0.8125rem;
+        padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem);
+        border-radius: var(--radius-200, 0.5rem);
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        transition:
+          background 0.1s ease,
+          color 0.1s ease;
+      }
+      .bcn-settings-nav__block--esa .bcn-settings-nav__link {
+        color: color-mix(in srgb, #ffffff 88%, transparent);
+      }
+      .bcn-settings-nav__page {
+        min-width: 0;
+      }
+      .bcn-settings-nav__count {
+        flex: none;
+        font-size: 0.6875rem;
+        line-height: 1.2;
+        padding: 1px 5px;
+        border-radius: var(--radius-100, 0.25rem);
+        background: var(--color-surface-sunken);
+        color: var(--color-text-secondary);
+        font-variant-numeric: tabular-nums;
+      }
+      .bcn-settings-nav__block--esa .bcn-settings-nav__count {
+        background: color-mix(in srgb, #ffffff 14%, transparent);
+        color: color-mix(in srgb, #ffffff 78%, transparent);
+      }
+      .bcn-settings-nav__link[aria-current="page"] {
+        background: var(--color-surface-sunken);
+        color: var(--color-text-primary);
+      }
+      .bcn-settings-nav__block--esa .bcn-settings-nav__link[aria-current="page"] {
+        background: color-mix(in srgb, #ffffff 18%, transparent);
+        color: #fff;
+      }
+      .bcn-settings-nav__block + .bcn-settings-nav__block {
+        margin-block-start: var(--spacing-300, 0.75rem);
+      }
+      .bcn-settings-shell__content {
+        min-inline-size: 0;
+        --card-bg: #ffffff;
+      }
+      .bcn-settings-shell__content[data-esa-surface] .esa-card {
+        --card-header-bg: var(--bcn-helpbar-bg);
+        --card-header-color: #ffffff;
+        --card-header-border-color: transparent;
+      }
+      .bcn-settings-shell__content[data-esa-surface] .esa-card__header .esa-card__subtitle {
+        color: color-mix(in srgb, #ffffff 82%, transparent);
+      }
+      .bcn-settings-shell__content[data-esa-surface] .esa-card__header .esa-card__actions {
+        --color-text-primary: #ffffff;
+        --color-border: color-mix(in srgb, #ffffff 42%, transparent);
+        --color-surface-sunken: color-mix(in srgb, #ffffff 16%, transparent);
       }
       .esa-button {
         --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -328,79 +479,93 @@
         padding-inline: var(--_btn-pad-y);
         aspect-ratio: 1;
       }
-      .bcn-set {
-        display: block;
-        scroll-margin-block-start: var(--spacing-600);
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
       }
-      .bcn-set .esa-card__subtitle {
-        line-height: 1.4;
+      .type-body {
+        font-family: var(--typography-body-md-font-family);
+        font-size: var(--typography-body-md-font-size);
+        font-weight: var(--typography-body-md-font-weight);
+        line-height: var(--typography-body-md-line-height);
+        letter-spacing: var(--typography-body-md-letter-spacing);
       }
-      .bcn-set__scroll {
-        overflow-x: auto;
+      .type-label {
+        font-family: var(--typography-label-font-family);
+        font-size: var(--typography-label-font-size);
+        font-weight: var(--typography-label-font-weight);
+        line-height: var(--typography-label-line-height);
+        letter-spacing: var(--typography-label-letter-spacing);
       }
-      .bcn-set__table {
-        width: 100%;
-        border-collapse: collapse;
-        text-align: left;
+      .type-body-small {
+        font-family: var(--typography-body-sm-font-family);
+        font-size: var(--typography-body-sm-font-size);
+        font-weight: var(--typography-body-sm-font-weight);
+        line-height: var(--typography-body-sm-line-height);
+        letter-spacing: var(--typography-body-sm-letter-spacing);
       }
-      .bcn-set__th {
-        padding: 0 var(--spacing-400) var(--spacing-250);
-        font-size: var(--type-size-150);
-        font-weight: var(--font-weight-semibold);
-        color: var(--color-text-secondary);
-        text-align: left;
-        white-space: nowrap;
-        border-bottom: 1px solid var(--color-border);
+      .typography-title-sm-strong {
+        font-family: var(--typography-title-sm-strong-font-family);
+        font-size: var(--typography-title-sm-strong-font-size);
+        font-weight: var(--typography-title-sm-strong-font-weight);
+        line-height: var(--typography-title-sm-strong-line-height);
+        letter-spacing: var(--typography-title-sm-strong-letter-spacing);
       }
-      .bcn-set__th:first-child,
-      .bcn-set__td:first-child {
-        padding-inline-start: 0;
+      .typography-body-sm {
+        font-family: var(--typography-body-sm-font-family);
+        font-size: var(--typography-body-sm-font-size);
+        font-weight: var(--typography-body-sm-font-weight);
+        line-height: var(--typography-body-sm-line-height);
+        letter-spacing: var(--typography-body-sm-letter-spacing);
       }
-      .bcn-set__th:last-child,
-      .bcn-set__td:last-child {
-        padding-inline-end: 0;
+      .typography-label-md {
+        font-family: var(--typography-label-md-font-family);
+        font-size: var(--typography-label-md-font-size);
+        font-weight: var(--typography-label-md-font-weight);
+        line-height: var(--typography-label-md-line-height);
+        letter-spacing: var(--typography-label-md-letter-spacing);
       }
-      .bcn-set__td {
-        padding: var(--spacing-250) var(--spacing-400);
-        font-size: var(--type-size-200);
-        line-height: 1.4;
-        color: var(--color-text-primary);
-        text-align: left;
-        vertical-align: middle;
-      }
-      .bcn-set__td--lead {
-        font-weight: var(--font-weight-medium);
-        color: var(--color-text-primary);
-        white-space: nowrap;
-      }
-      .bcn-set__td--field {
-        min-width: 200px;
-        padding-block: var(--spacing-250);
-      }
-      .bcn-set__td--field esa-text-field {
-        display: block;
-        width: 100%;
-      }
-      .bcn-set__tr + .bcn-set__tr .bcn-set__td {
-        border-top: 1px solid var(--color-border-light);
-      }
-      html,
-      .modern-layout__content {
-        scroll-behavior: smooth;
+      .typography-body-md {
+        font-family: var(--typography-body-md-font-family);
+        font-size: var(--typography-body-md-font-size);
+        font-weight: var(--typography-body-md-font-weight);
+        line-height: var(--typography-body-md-line-height);
+        letter-spacing: var(--typography-body-md-letter-spacing);
       }
       :host {
-        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-        --_popover-border: var(--color-border-default, #cecece);
-        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-        --_popover-radius: var(--radius-md, 0.5rem);
-        --_popover-padding: var(--spacing-300, 0.75rem);
-        --_popover-arrow-size: 8px;
-        --_popover-color: var(--color-content-default, #202020);
-        display: inline-block;
+        --_width: var(--side-dialog-width, 400px);
       }
-      .esa-popover-anchor {
-        position: relative;
-        display: inline-block;
+      dialog.panel {
+        --_inset: var(--side-dialog-inset, 16px);
+        position: fixed;
+        top: var(--_inset);
+        bottom: var(--_inset);
+        margin: 0;
+        border: none;
+        padding: 0;
+        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+        max-width: none;
+        max-height: none;
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--radius-md, 0.5rem);
+        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+        outline: none;
+        overflow: hidden;
+        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+        transition:
+          top 220ms ease,
+          right 220ms ease,
+          bottom 220ms ease,
+          left 220ms ease;
+      }
+      :host([position="right"]) dialog.panel {
+        right: var(--_inset);
+        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
       }
       .modern-layout {
         display: flex;
@@ -1217,293 +1382,128 @@
         overflow: hidden;
         animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       }
-      :host {
-        --_width: var(--side-dialog-width, 400px);
+      .bcn-set {
+        display: block;
+        scroll-margin-block-start: var(--spacing-600);
       }
-      dialog.panel {
-        --_inset: var(--side-dialog-inset, 16px);
-        position: fixed;
-        top: var(--_inset);
-        bottom: var(--_inset);
-        margin: 0;
-        border: none;
-        padding: 0;
-        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-        max-width: none;
-        max-height: none;
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--radius-md, 0.5rem);
-        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-        outline: none;
-        overflow: hidden;
-        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-        transition:
-          top 220ms ease,
-          right 220ms ease,
-          bottom 220ms ease,
-          left 220ms ease;
+      .bcn-set .esa-card__subtitle {
+        line-height: 1.4;
       }
-      :host([position="right"]) dialog.panel {
-        right: var(--_inset);
-        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+      .bcn-set__scroll {
+        overflow-x: auto;
       }
-      .visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        margin: -1px;
-        padding: 0;
-        border: 0;
-        overflow: hidden;
+      .bcn-set__table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+      .bcn-set__th {
+        padding: 0 var(--spacing-400) var(--spacing-250);
+        font-size: var(--type-size-150);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-secondary);
+        text-align: left;
         white-space: nowrap;
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
+        border-bottom: 1px solid var(--color-border);
       }
-      .bcn-settings-shell__rail {
-        align-self: start;
+      .bcn-set__th:first-child,
+      .bcn-set__td:first-child {
+        padding-inline-start: 0;
       }
-      .bcn-settings-search,
-      .bcn-settings-search__fieldwrap {
-        position: relative;
+      .bcn-set__th:last-child,
+      .bcn-set__td:last-child {
+        padding-inline-end: 0;
       }
-      .bcn-settings-search__icon {
-        position: absolute;
-        inset-inline-start: var(--spacing-250);
-        inset-block-start: 50%;
-        transform: translateY(-50%);
-        display: inline-flex;
-        z-index: 1;
-        color: var(--color-text-tertiary);
-        pointer-events: none;
+      .bcn-set__td {
+        padding: var(--spacing-250) var(--spacing-400);
+        font-size: var(--type-size-200);
+        line-height: 1.4;
+        color: var(--color-text-primary);
+        text-align: left;
+        vertical-align: middle;
       }
-      .bcn-settings-search__field {
-        --form-padding-x-md: 2rem;
-        --form-border-color-focus: var(--color-text-link);
-        --focus-ring-color: var(--color-text-link);
+      .bcn-set__td--lead {
+        font-weight: var(--font-weight-medium);
+        color: var(--color-text-primary);
+        white-space: nowrap;
+      }
+      .bcn-set__td--field {
+        min-width: 200px;
+        padding-block: var(--spacing-250);
+      }
+      .bcn-set__td--field esa-text-field {
+        display: block;
+        width: 100%;
+      }
+      .bcn-set__tr + .bcn-set__tr .bcn-set__td {
+        border-top: 1px solid var(--color-border-light);
+      }
+      :host {
+        --_field-padding-y: var(--spacing-300, 0.75rem);
+        --_field-padding-x: var(--spacing-300, 0.75rem);
+        --_field-radius: var(--radius-md, 0.5rem);
+        --_field-border-color: var(--form-border-color, #cecece);
         display: block;
       }
-      .bcn-settings-search__panel {
-        position: absolute;
-        inset-block-start: calc(100% + var(--spacing-100));
-        inset-inline: 0;
-        z-index: 30;
+      .field {
         display: flex;
         flex-direction: column;
-        max-block-size: min(24rem, 60vh);
-        overflow-y: auto;
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-100);
-        box-shadow: var(--shadow-300);
       }
-      .bcn-settings-search__panel[hidden] {
-        display: none;
-      }
-      .bcn-settings-nav {
+      .control {
         display: flex;
-        flex-direction: column;
-        gap: var(--spacing-500, 1.5rem);
-      }
-      .bcn-settings-nav__block {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-400, 1rem);
-      }
-      .bcn-settings-nav__block--esa {
-        background: var(--bcn-helpbar-bg);
-        -webkit-backdrop-filter: blur(14px) saturate(1.4);
-        backdrop-filter: blur(14px) saturate(1.4);
-        border: 1px solid var(--bcn-helpbar-border);
-        border-radius: var(--radius-300, 0.5rem);
-        padding: var(--spacing-300, 0.75rem);
-      }
-      .bcn-settings-nav__aud {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-200, 0.5rem);
-        margin: 0;
-        padding-inline: var(--spacing-300, 0.75rem);
-        padding-block-end: var(--spacing-200, 0.5rem);
-        border-block-end: 1px solid var(--color-border-light, var(--color-border));
-        font-weight: var(--font-weight-semibold, 600);
-        color: var(--color-text-primary);
-      }
-      .bcn-settings-nav__block--esa .bcn-settings-nav__aud {
-        color: #fff;
-      }
-      .bcn-settings-nav__block--esa .bcn-settings-nav__aud {
-        border-block-end-color: color-mix(in srgb, #ffffff 18%, transparent);
-      }
-      .bcn-settings-nav__aud-icon {
-        display: inline-flex;
-        flex: none;
-      }
-      .bcn-settings-nav__zone {
-        margin: 0 0 var(--spacing-100, 0.25rem);
-        padding-inline: var(--spacing-300, 0.75rem);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        font-weight: var(--font-weight-bold, 700);
-        color: var(--color-text-tertiary);
-      }
-      .bcn-settings-nav__block--esa .bcn-settings-nav__zone {
-        color: color-mix(in srgb, #ffffff 78%, transparent);
-      }
-      .bcn-settings-nav__list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 1px;
-      }
-      .bcn-settings-nav__link {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--spacing-200, 0.5rem);
-        font-size: 0.8125rem;
-        padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem);
-        border-radius: var(--radius-200, 0.5rem);
-        color: var(--color-text-secondary);
-        text-decoration: none;
+        align-items: stretch;
+        /* NO HEIGHT. The box is as tall as the input inside it, which is its line
+         box plus its padding. A px height could not grow with rem text, so it
+         clipped — and this rule used to pair one with overflow:hidden, which is
+         what made the clipping silent. See semantic/size.json.
+
+         line-height 1 is what leaves padding as the only variable: at 1.6 there
+         is a third term (0.6 x font-size of leading) that nobody chose and that
+         grows faster than either input. Everything else — face, size, weight,
+         tracking — still comes from .typography-body-* on this element and
+         inherits to the input and the affixes below. */
+        background: var(--color-background-field, transparent);
+        border: var(--form-border-width, 1px) solid var(--_field-border-color);
+        border-radius: var(--_field-radius);
+        box-sizing: border-box;
         transition:
-          background 0.1s ease,
-          color 0.1s ease;
+          border-color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
       }
-      .bcn-settings-nav__block--esa .bcn-settings-nav__link {
-        color: color-mix(in srgb, #ffffff 88%, transparent);
-      }
-      .bcn-settings-nav__page {
+      .input {
+        flex: 1 1 auto;
         min-width: 0;
+        width: 100%;
+        /* No height: 100%. It used to resolve against .control's fixed height, which
+         meant this padding was ABSORBED into that height rather than adding to it.
+         With no fixed parent it would compute to auto anyway; removing it makes the
+         padding load-bearing, which is the point. .control is align-items:stretch,
+         so the affixes still match this element's height. */
+        padding: var(--_field-padding-y) var(--_field-padding-x);
+        /* A native control does not inherit type by default — this is what opts it
+         into the composite already resolved on .control. */
+        font: inherit;
+        color: var(--form-text-color, #202020);
+        background: transparent;
+        border: none;
+        outline: none;
+        box-sizing: border-box;
       }
-      .bcn-settings-nav__count {
-        flex: none;
-        font-size: 0.6875rem;
-        line-height: 1.2;
-        padding: 1px 5px;
-        border-radius: var(--radius-100, 0.25rem);
-        background: var(--color-surface-sunken);
-        color: var(--color-text-secondary);
-        font-variant-numeric: tabular-nums;
+      .input::placeholder {
+        color: var(--form-placeholder-color, #838383);
       }
-      .bcn-settings-nav__block--esa .bcn-settings-nav__count {
-        background: color-mix(in srgb, #ffffff 14%, transparent);
-        color: color-mix(in srgb, #ffffff 78%, transparent);
+      .help,
+      .error {
+        margin: 0;
       }
-      .bcn-settings-nav__link[aria-current="page"] {
-        background: var(--color-surface-sunken);
-        color: var(--color-text-primary);
+      .error {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-100, 4px);
+        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
       }
-      .bcn-settings-nav__block--esa .bcn-settings-nav__link[aria-current="page"] {
-        background: color-mix(in srgb, #ffffff 18%, transparent);
-        color: #fff;
-      }
-      .bcn-settings-nav__block + .bcn-settings-nav__block {
-        margin-block-start: var(--spacing-300, 0.75rem);
-      }
-      .bcn-settings-shell__content {
-        min-inline-size: 0;
-        --card-bg: #ffffff;
-      }
-      .bcn-settings-shell__content[data-esa-surface] .esa-card {
-        --card-header-bg: var(--bcn-helpbar-bg);
-        --card-header-color: #ffffff;
-        --card-header-border-color: transparent;
-      }
-      .bcn-settings-shell__content[data-esa-surface] .esa-card__header .esa-card__subtitle {
-        color: color-mix(in srgb, #ffffff 82%, transparent);
-      }
-      .bcn-settings-shell__content[data-esa-surface] .esa-card__header .esa-card__actions {
-        --color-text-primary: #ffffff;
-        --color-border: color-mix(in srgb, #ffffff 42%, transparent);
-        --color-surface-sunken: color-mix(in srgb, #ffffff 16%, transparent);
-      }
-      :host {
-        display: inline-block;
-      }
-      .esa-tooltip-anchor {
-        position: relative;
-        display: inline-flex;
-      }
-      .typography-microcopy-md {
-        font-family: var(--typography-microcopy-md-font-family);
-        font-size: var(--typography-microcopy-md-font-size);
-        font-weight: var(--typography-microcopy-md-font-weight);
-        line-height: var(--typography-microcopy-md-line-height);
-        letter-spacing: var(--typography-microcopy-md-letter-spacing);
-      }
-      .type-body {
-        font-family: var(--typography-body-md-font-family);
-        font-size: var(--typography-body-md-font-size);
-        font-weight: var(--typography-body-md-font-weight);
-        line-height: var(--typography-body-md-line-height);
-        letter-spacing: var(--typography-body-md-letter-spacing);
-      }
-      .type-label {
-        font-family: var(--typography-label-font-family);
-        font-size: var(--typography-label-font-size);
-        font-weight: var(--typography-label-font-weight);
-        line-height: var(--typography-label-line-height);
-        letter-spacing: var(--typography-label-letter-spacing);
-      }
-      .type-body-small {
-        font-family: var(--typography-body-sm-font-family);
-        font-size: var(--typography-body-sm-font-size);
-        font-weight: var(--typography-body-sm-font-weight);
-        line-height: var(--typography-body-sm-line-height);
-        letter-spacing: var(--typography-body-sm-letter-spacing);
-      }
-      .typography-title-sm-strong {
-        font-family: var(--typography-title-sm-strong-font-family);
-        font-size: var(--typography-title-sm-strong-font-size);
-        font-weight: var(--typography-title-sm-strong-font-weight);
-        line-height: var(--typography-title-sm-strong-line-height);
-        letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-      }
-      .typography-body-sm {
-        font-family: var(--typography-body-sm-font-family);
-        font-size: var(--typography-body-sm-font-size);
-        font-weight: var(--typography-body-sm-font-weight);
-        line-height: var(--typography-body-sm-line-height);
-        letter-spacing: var(--typography-body-sm-letter-spacing);
-      }
-      .typography-label-md {
-        font-family: var(--typography-label-md-font-family);
-        font-size: var(--typography-label-md-font-size);
-        font-weight: var(--typography-label-md-font-weight);
-        line-height: var(--typography-label-md-line-height);
-        letter-spacing: var(--typography-label-md-letter-spacing);
-      }
-      .typography-body-md {
-        font-family: var(--typography-body-md-font-family);
-        font-size: var(--typography-body-md-font-size);
-        font-weight: var(--typography-body-md-font-weight);
-        line-height: var(--typography-body-md-line-height);
-        letter-spacing: var(--typography-body-md-letter-spacing);
-      }
-      .typography-microcopy-md-subtle {
-        font-family: var(--typography-microcopy-md-subtle-font-family);
-        font-size: var(--typography-microcopy-md-subtle-font-size);
-        font-weight: var(--typography-microcopy-md-subtle-font-weight);
-        line-height: var(--typography-microcopy-md-subtle-line-height);
-        letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-      }
-      .typography-body-sm {
-        font-family: var(--typography-body-sm-font-family);
-        font-size: var(--typography-body-sm-font-size);
-        font-weight: var(--typography-body-sm-font-weight);
-        line-height: var(--typography-body-sm-line-height);
-        letter-spacing: var(--typography-body-sm-letter-spacing);
-      }
-      .typography-label-md {
-        font-family: var(--typography-label-md-font-family);
-        font-size: var(--typography-label-md-font-size);
-        font-weight: var(--typography-label-md-font-weight);
-        line-height: var(--typography-label-md-line-height);
-        letter-spacing: var(--typography-label-md-letter-spacing);
+      .help {
+        color: var(--form-help-color, #838383);
       }
       *,
       *:before,
