@@ -205,9 +205,9 @@ const rowFor = (item: TriageItem) => {
     z-index: 1;
     margin: 0;
     padding: var(--spacing-100) var(--spacing-300);
-    /* The page's own canvas colour, so the separators read as the surface showing THROUGH
-       the list rather than as bands laid on top of it. */
-    background: var(--color-background);
+    /* The sunken step, not the page canvas: at --color-background the bands sat too close to
+       the white rows to divide them. */
+    background: var(--color-surface-sunken);
     border-block: 1px solid var(--color-border-light);
     font-size: 0.875rem;
     font-weight: var(--font-weight-medium);
@@ -262,7 +262,10 @@ const rowFor = (item: TriageItem) => {
      Still a surface alone, never a colored left border (a banned pattern). */
   .bcn-triage-row[data-active],
   .bcn-triage-row[data-active]:hover {
-    background: var(--color-surface-sunken);
+    /* One step BELOW the day bands. At --color-surface-sunken the selected row was the exact
+       fill of a date separator, so a selection read as a divider. --color-border is the next
+       neutral down, which keeps the ladder legible: row -> hover -> band -> selected. */
+    background: var(--color-border);
   }
 
   .bcn-triage-row__body {
