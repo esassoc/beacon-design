@@ -125,7 +125,6 @@ export function setupTriage(): void {
       group.hidden = qsa<HTMLLIElement>('[data-triage-row]', group).every((r) => r.hidden);
     }
 
-    // Marking a row read changes the unread count, so recount after every render.
     // "You finished" and "your filters hide everything" are different news.
     if (emptyCleared) emptyCleared.hidden = remaining !== 0;
     if (emptyFiltered) emptyFiltered.hidden = visible !== 0 || remaining === 0;
@@ -144,15 +143,6 @@ export function setupTriage(): void {
     const badge = document.querySelector('[data-triage-count] .esa-badge__text');
     if (badge) badge.textContent = `${remaining} suggestions`;
 
-    // Unread counts only what is still IN the queue: a record you filed is no longer
-    // something you have failed to read.
-    const unread = rows.filter(
-      (r) => !isResolved(r.dataset.triageRow ?? '') && r.hasAttribute('data-unread')
-    ).length;
-    const unreadEl = document.querySelector<HTMLElement>('[data-triage-unread]');
-    const unreadText = unreadEl?.querySelector('.esa-badge__text');
-    if (unreadEl) unreadEl.hidden = unread === 0;
-    if (unreadText) unreadText.textContent = `${unread} unread`;
 
     const showing = document.querySelector<HTMLElement>('[data-triage-showing]');
     if (!showing) return;
@@ -166,26 +156,12 @@ export function setupTriage(): void {
   const showPanel = (id: string): void => {
     activeId = id;
 
-    // Opening a record IS reading it. Clearing the flag here rather than on a timer keeps the
-    // dot honest: it means "you have not opened this", nothing subtler.
-    if (id) {
-      const row = document.querySelector<HTMLElement>(`[data-triage-row="${id}"]`);
-      row?.removeAttribute('data-unread');
-      const body = row?.querySelector('[data-triage-open]');
-      const label = body?.getAttribute('aria-label') ?? '';
-      if (label.startsWith('Unread. ')) body?.setAttribute('aria-label', label.slice(8));
-    }
-
     for (const panel of panels) panel.hidden = panel.dataset.triagePanel !== id;
     if (prompt) prompt.hidden = Boolean(id);
     for (const row of rows) {
       if (row.dataset.triageRow === id) row.setAttribute('data-active', '');
       else row.removeAttribute('data-active');
     }
-
-    // The unread count just changed. render() never calls back into showPanel, so this
-    // cannot loop.
-    render();
   };
 
   /** After a record leaves, land on the next one still waiting rather than on nothing. */

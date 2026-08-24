@@ -1,18 +1,10 @@
 ---
 // <BcnTriageCounts> — the pair of counts that ride the page title.
 //
-// TWO CHIPS, NOT A CHIP AND A SENTENCE. They answer different questions — "how much is
-// waiting" and "how much have I not looked at" — but they are the same KIND of fact, so they
-// get the same treatment and each carries its own noun. The version this replaces was a bare
-// "16" next to the words "11 unread", which read as two adjacent numbers with no idea which
-// one owned the label.
-//
-// Tone does the separating: the suggestions chip is neutral, the unread chip carries the same
-// info blue as the unread dots on the rows — so the header and the marks in the list read as
-// one signal.
-//
-// The unread chip DISAPPEARS at zero. A chip reading "0 unread" is a chip reporting the
-// absence of news, and it would leave the header permanently two-thirds full of nothing.
+// ONE CHIP, WITH ITS NOUN. A bare "16" beside a page title reads as a number with no idea
+// what it counts; the noun is what makes it a fact. It sat beside an unread chip until the
+// unread treatment was pulled — see BcnTriageQueue for why — and the pair's shared metrics
+// are kept here so a second count can rejoin it without redesign.
 //
 // bcn-lego-checked: esa-badge IS both chips (composed, not reimplemented) and its --badge-bg /
 // --badge-text-color hooks carry the two tones; bcn-count is number-ONLY and these need their
@@ -31,23 +23,13 @@ interface Props {
    * actions). If the two ever need to reconcile, the row badge is the one to rename.
    */
   total: number;
-  /** Of those, how many this user has not opened. */
-  unread: number;
 }
-const { total, unread } = Astro.props;
+const { total } = Astro.props;
 ---
 
 <span class="bcn-triage-counts cluster" data-gap="sm">
   <span class="bcn-triage-counts__chip" data-triage-count>
     <EsaBadge value={`${total} suggestions`} />
-  </span>
-
-  <span
-    class="bcn-triage-counts__chip bcn-triage-counts__chip--unread"
-    data-triage-unread
-    hidden={unread === 0}
-  >
-    <EsaBadge value={`${unread} unread`} />
   </span>
 
   <!-- Only when a filter is narrowing the list: the chips count the INBOX, not the view, and
@@ -84,14 +66,6 @@ const { total, unread } = Astro.props;
   .bcn-triage-counts__chip :global(.esa-badge) {
     --badge-bg: var(--color-surface-sunken);
     --badge-text-color: var(--color-text-secondary);
-  }
-
-  /* Unread: the info tone carries the tie to the row dots on its own — the chip does not need
-     to repeat the dot to say "same signal". */
-  .bcn-triage-counts__chip--unread :global(.esa-badge) {
-    --badge-bg: var(--color-info-subtle);
-    --badge-text-color: var(--color-text-primary);
-    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
   }
 
   .bcn-triage-counts__showing {

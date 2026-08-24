@@ -40,7 +40,7 @@ import {
   suggestionsForItem,
   suggestionTarget,
   SOURCE_META,
-  formatDate,
+  formatDateLong,
 } from '../../data/evidence-triage';
 import { phaseName } from '../../data/evidence-drawer';
 import {
@@ -95,7 +95,7 @@ const pickerOptions = (componentId: string) =>
               <h2 class="bcn-triage-review__title">{item.title}</h2>
               {/* No label: a date at the end of a record title reads as the record's date
                   without being told, the same way the queue rows carry theirs. */}
-              <span class="bcn-triage-review__date">{formatDate(item.receivedOn)}</span>
+              <span class="bcn-triage-review__date">{formatDateLong(item.receivedOn)}</span>
             </div>
             <p class="bcn-triage-review__notes">{item.notes}</p>
 
@@ -466,14 +466,26 @@ const pickerOptions = (componentId: string) =>
     margin-left: var(--spacing-150);
   }
 
+  /* The drawer's count-bubble SHAPE (bcn-count-chip): full radius, solid fill, no outline,
+     sized to the type rather than the type shrunk to the bubble. The drawer fills its bubble
+     grey because an attachment count is neutral; this one is blue because it counts the
+     thing the section exists for.
+     --color-info-strong rather than --color-info: the brighter step puts white text at
+     4.8:1, where --color-info (#228be6) would land near 3.6 and fail AA at this size. */
   .bcn-triage-review__legendcount :global(.esa-badge) {
-    /* 22px, a step under the count chips elsewhere: this one sits ON a heading line, so it
-       should not out-measure the text it belongs to.
-       SANCTIONED HARD-CODE: --badge-height-md is a real hook but no token defines it. */
-    --badge-height-md: 22px;
-    --badge-bg: var(--color-info-subtle);
-    --badge-text-color: var(--color-text-primary);
-    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+    --badge-radius: var(--radius-full);
+    --badge-bg: var(--color-info-strong);
+    --badge-text-color: var(--color-text-inverse, #fff);
+    min-width: 19px;
+    height: 19px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
     font-weight: var(--font-weight-semibold);
   }
 
@@ -502,11 +514,7 @@ const pickerOptions = (componentId: string) =>
     background: var(--color-info-subtle);
   }
 
-  /* On the tinted band the count chip inverts: a chip the same colour as its background is
-     not a chip. Surface fill, blue edge, so it still reads as part of the same family. */
-  .bcn-triage-review__legendcount :global(.esa-badge) {
-    --badge-bg: var(--color-surface);
-  }
+
 
   .bcn-triage-review__picker {
     display: flex;

@@ -13,6 +13,10 @@
 // Jamie raised in the sync now lives (you can review the suggestions the utility makes, but
 // never the ones it fails to make).
 //
+// NO UNREAD STATE. It was built and pulled: a per-user read flag is a real thing, but on a
+// queue whose whole job is "decide this and it leaves" the dot duplicated what the list
+// already says — everything still here is still undecided.
+//
 // NO BULK SELECTION. There are no row checkboxes and no select-all: one record at a time,
 // each on its own merits. Approving a screenful at once is a real need for the repetitive
 // daily-report traffic, but it is the same question standing rules ask and it deserves to be
@@ -42,7 +46,6 @@ import {
   inlineSuggestionFor,
   suggestionsForItem,
   SOURCE_META,
-  isUnread,
   type TriageItem,
 } from '../../data/evidence-triage';
 import { componentById } from '../../data/evidence-drawer';
@@ -98,18 +101,12 @@ const rowFor = (item: TriageItem) => {
                   data-component={item.componentId || 'none'}
                   data-match={row.match}
                   data-search={row.search}
-                  data-unread={isUnread(item.id) ? 'true' : undefined}
                 >
-                  {/* A status DOT, never a colored left border (banned) — and it marks the
-                      row's read state, which is a property of the row itself, so this is the
-                      one place an item-level mark is right. aria-hidden because the row's
-                      accessible name carries "Unread" instead. */}
-                  <span class="bcn-triage-row__unread" aria-hidden="true" />
                   <button
                     type="button"
                     class="bcn-triage-row__body"
                     data-triage-open={item.id}
-                    aria-label={`${isUnread(item.id) ? 'Unread. ' : ''}Review ${item.title}`}
+                    aria-label={`Review ${item.title}`}
                   >
                     <span class="bcn-triage-row__line">
                       <span class="bcn-triage-row__title">{item.title}</span>
@@ -208,7 +205,9 @@ const rowFor = (item: TriageItem) => {
     z-index: 1;
     margin: 0;
     padding: var(--spacing-100) var(--spacing-300);
-    background: var(--color-surface-sunken);
+    /* The page's own canvas colour, so the separators read as the surface showing THROUGH
+       the list rather than as bands laid on top of it. */
+    background: var(--color-background);
     border-block: 1px solid var(--color-border-light);
     font-size: 0.875rem;
     font-weight: var(--font-weight-medium);
@@ -233,10 +232,9 @@ const rowFor = (item: TriageItem) => {
      from the next. Sixteen bordered cards stacked in a narrow column read as sixteen
      objects to consider; a plain list reads as one thing to work through. */
   .bcn-triage-row {
-    display: grid;
-    grid-template-columns: 0.5rem minmax(0, 1fr);
-    align-items: start;
-    gap: var(--spacing-150) var(--spacing-250);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
     padding: var(--spacing-300);
     border-bottom: 1px solid var(--color-border-light);
     background: var(--color-surface);
@@ -251,37 +249,20 @@ const rowFor = (item: TriageItem) => {
     display: none;
   }
 
+  /* Half a step toward the selected fill, so hover and selection are the same gesture at
+     two strengths rather than two different colours. */
   .bcn-triage-row:hover {
-    background: var(--color-surface-sunken);
+    background: color-mix(in srgb, var(--color-surface-sunken) 50%, var(--color-surface));
   }
 
-  /* The reviewed row reads as selected through a tinted SURFACE alone — never a colored left
-     border (a banned pattern), and no ring now that the row has no box of its own to ring. */
+  /* NEUTRAL, not the brand tint. --color-primary-subtle is a mint wash, and beside the blue
+     the suggestions area now carries it read as a third accent belonging to nothing — two
+     pale colours in one view, neither of them meaning the same thing. Selection is a state of
+     the LIST, not a category, so it takes a plain surface step: white -> hover -> sunken.
+     Still a surface alone, never a colored left border (a banned pattern). */
   .bcn-triage-row[data-active],
   .bcn-triage-row[data-active]:hover {
-    background: var(--color-primary-subtle);
-  }
-
-  /* The unread dot: 6px, brand-independent info blue, in its own gutter so nothing shifts
-     when a row is marked read — the dot just stops being painted. */
-  .bcn-triage-row__unread {
-    grid-row: 1 / span 2;
-    align-self: start;
-    width: 6px;
-    height: 6px;
-    margin-top: 0.4rem;
-    border-radius: var(--radius-full);
-    background: transparent;
-  }
-
-  .bcn-triage-row[data-unread] .bcn-triage-row__unread {
-    background: var(--color-info);
-  }
-
-  /* Read rows recede, the way a read message does — the title drops from semibold to regular
-     rather than going gray, so it stays legible at 14px. */
-  .bcn-triage-row:not([data-unread]) .bcn-triage-row__title {
-    font-weight: var(--font-weight-regular, 400);
+    background: var(--color-surface-sunken);
   }
 
   .bcn-triage-row__body {

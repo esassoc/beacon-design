@@ -315,24 +315,6 @@ export const TRIAGE_ITEMS: TriageItem[] = [
   },
 ];
 
-// ── Read state (per USER, not per record) ───────────────────────────────────
-// Whether a record has been looked at is a fact about a PERSON, not about the evidence — two
-// reviewers open the same inbox and see different dots. It is modelled as a set of ids this
-// user has already opened rather than a flag on the item, because a flag on the item would
-// quietly claim it was read by everyone.
-//
-// Seeded with a handful already opened so the unread treatment means something on first
-// load: an inbox where every single row is bold is an inbox with no signal in it.
-
-export const SEEN_BY_USER: string[] = [
-  'tri-swppp-inspection-0721',
-  'tri-noise-readings-wk29',
-  'tri-monthly-report-june',
-  'tri-fish-screen-inspection',
-];
-
-export const isUnread = (itemId: string): boolean => !SEEN_BY_USER.includes(itemId);
-
 // ── What the matching utility proposed ───────────────────────────────────────
 // Same shape and same two tiers as the drawer, because it is the same utility reading the
 // same corpus — only the trigger differs (arrival, not a button).
@@ -544,6 +526,21 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 export const formatDate = (iso: string): string => {
   const [, m, d] = iso.split('-').map(Number);
   return `${MONTHS[m - 1]} ${Number(d)}`;
+};
+
+const MONTHS_LONG = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+/**
+ * "2026-07-19" -> "July 19, 2026". The review panel has room for the full date and is the
+ * place a reader stops to take a record in, so it spells it out; the queue rows stay short
+ * because they are scanned, not read.
+ */
+export const formatDateLong = (iso: string): string => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${MONTHS_LONG[m - 1]} ${Number(d)}, ${y}`;
 };
 
 /** Days between two ISO dates, via a UTC epoch so no local timezone can shift the answer. */

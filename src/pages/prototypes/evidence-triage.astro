@@ -16,7 +16,7 @@ import BcnFilterBar from '../../components/bcn/BcnFilterBar.astro';
 import BcnTriageWorkspace from '../../components/bcn/BcnTriageWorkspace.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import BcnTriageCounts from '../../components/bcn/BcnTriageCounts.astro';
-import { TRIAGE_ITEMS, SEEN_BY_USER, SOURCE_META, SOURCES } from '../../data/evidence-triage';
+import { TRIAGE_ITEMS, SOURCE_META, SOURCES } from '../../data/evidence-triage';
 import { componentById } from '../../data/evidence-drawer';
 
 // Facet options are DERIVED from the records actually queued, so a filter can never offer a
@@ -63,7 +63,7 @@ const facets = [
     - triage workspace -> bcn-triage-workspace            # fixed two-pane frame
         - queue        -> bcn-triage-queue                #   left: relative date buckets
         - review       -> bcn-triage-review               #   right: proposals + rationale + verbs
-  title-badge: bcn-triage-counts                          # live suggestion + unread counts
+  title-badge: bcn-triage-counts                          # live suggestion count
 -->
 
 <AppShell
@@ -76,11 +76,7 @@ const facets = [
         inbox — a filter changes the view, not the backlog — and the controller reveals
         "Showing n" beside it whenever a filter narrows the list, so the two numbers can never
         look like they disagree. */}
-    <BcnTriageCounts
-      slot="title-badge"
-      total={TRIAGE_ITEMS.length}
-      unread={TRIAGE_ITEMS.length - SEEN_BY_USER.length}
-    />
+    <BcnTriageCounts slot="title-badge" total={TRIAGE_ITEMS.length} />
 
     <div class="stack" data-gap="md">
       <BcnFilterBar>
