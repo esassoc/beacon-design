@@ -1,0 +1,138 @@
+---
+// Components — the component INDEX, level two of the tree (project → components
+// → component detail). Formerly at /prototypes/component-dashboard; that route
+// now belongs to the per-component dashboard this page routes into.
+//
+// Its job is deliberately small. From the 2026-08-13 call: "this page itself is
+// only useful in getting to a particular component… it doesn't need to do
+// anything besides routing people. Beyond that it's very low utility beyond
+// setup. Once we get into cross-component comparison, maybe there'll be
+// interesting stuff to do here, but not at the moment." So no new utility was
+// added — the investment went into making 16 rows SCANNABLE:
+//
+//   · Each component carries its identity MARK, so you find yours by color and
+//     glyph instead of reading sixteen names.
+//   · Status is a real colored taxonomy rather than the word "Active".
+//   · A MAP view, which the call asked for explicitly. Components overlap on it,
+//     and that is correct — they are areas over areas over time in the same
+//     place. Color separates them, the way habitat layers do.
+//
+// The map draws FOOTPRINTS, not dots (review, 2026-08-13: "the map should be of
+// the component boundaries, I'm not sure what these points are supposed to
+// represent"). A component has no stored boundary in the product yet, so each
+// shape is the hull of the work areas that component owns — see
+// src/data/component-index-map.ts for the derivation and why a dot was worse
+// than nothing.
+//
+// Only one dataset now. A Populated/Empty toggle used to sit beside the view
+// toggle, previewing the first-run empty state; it was cut at the same review.
+// A control that swaps the page's DATA is a prototype's stage direction wearing
+// the same clothes as a real view control, and putting the two side by side
+// made neither legible.
+//
+// TWO views, not three (review, 2026-08-13). A card board briefly sat beside
+// these, reading each component as a tracking unit. It was cut: Grid already
+// answers "which one do I want" now that the mark and the colored status do the
+// scanning, and Map answers "where", which Grid cannot. The board was a second
+// answer to the question Grid already answers, and a toggle whose options overlap
+// makes someone choose before they know what they are choosing between. Its
+// components (bcn-component-board / bcn-component-card) were deleted with it —
+// recoverable from git if a cross-component comparison surface ever wants them.
+//
+// The 16-component set is the default rather than the 7, because sixteen is
+// where scanning actually gets hard and therefore where the mark has to earn
+// itself. Nav note: this page has MOVED out of Tracking and into the Project
+// section, and the Data Catalog's duplicate Components entry is retired — see
+// src/data/component-nav.ts.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnComponentSummary from '../../components/bcn/BcnComponentSummary.astro';
+import BcnComponentGrid from '../../components/bcn/BcnComponentGrid.astro';
+import BcnFootprintMap from '../../components/bcn/BcnFootprintMap.astro';
+import { DENSE, summarize } from '../../data/component-dashboard';
+import { INDEX_MAP_LEGEND, componentFootprints } from '../../data/component-index-map';
+import { componentNav, COMPONENT_DASHBOARD_HREF } from '../../data/component-nav';
+
+const summary = summarize(DENSE);
+const footprints = componentFootprints(DENSE);
+const mapAreas = footprints.map((f) => ({ id: f.id, ring: f.ring, label: f.label, color: f.color }));
+const mappedSites = footprints.reduce((n, f) => n + f.siteCount, 0);
+---
+
+<!-- manifest:
+  layout: stack(lg)                                    # the page SPINE
+  sections:
+    - view toggle     -> esa-button-toggle             # Grid · Map
+    - new component   -> esa-button
+    - status summary  -> bcn-component-summary         # project-wide component health
+    - grid view       -> bcn-component-grid            # mark + colored status; routes to the dashboard
+    - map view        -> bcn-footprint-map             # footprints along the alignment, colored by status
+-->
+
+<AppShell
+  title="Components — Delta Conveyance"
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  navSections={componentNav('components')}
+>
+  <PageLayout
+    title="Components"
+    breadcrumbs={[{ label: 'Delta Conveyance', href: '/prototypes/project-dashboard' }, { label: 'Components' }]}
+  >
+    <div slot="utilities" class="cluster" data-gap="sm" data-align="center">
+      <esa-button-toggle id="view-toggle" value="grid" size="sm"></esa-button-toggle>
+      <EsaButton color="primary" icon="plus">New component</EsaButton>
+    </div>
+
+    <div class="stack" data-gap="lg">
+      <BcnComponentSummary summary={summary} />
+
+      <div data-view-panel="grid">
+        <BcnComponentGrid components={DENSE} />
+      </div>
+
+      <div data-view-panel="map" hidden>
+        <BcnFootprintMap
+          areas={mapAreas}
+          variant="full"
+          idPrefix="cmp-index-map"
+          title="Component footprints"
+          sourceLabel={`Work areas (${mappedSites} across ${DENSE.length} components)`}
+          legend={INDEX_MAP_LEGEND}
+        />
+      </div>
+    </div>
+  </PageLayout>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+
+  interface ToggleEl extends HTMLElement {
+    options: { label: string; value: string }[];
+    value: string;
+  }
+
+  const viewToggle = document.getElementById('view-toggle') as ToggleEl | null;
+  const viewPanels = Array.from(document.querySelectorAll<HTMLElement>('[data-view-panel]'));
+
+  const showView = (view: string) => {
+    viewPanels.forEach((p) => {
+      p.hidden = p.dataset.viewPanel !== view;
+    });
+    // The map and the grid both measure themselves on layout; reveal them before
+    // anything asks for a size. Each component re-measures on its own signal.
+    window.dispatchEvent(new Event('resize'));
+  };
+
+  if (viewToggle) {
+    viewToggle.options = [
+      { label: 'Grid', value: 'grid' },
+      { label: 'Map', value: 'map' },
+    ];
+    viewToggle.value = 'grid';
+    viewToggle.addEventListener('change', (e) => showView((e as CustomEvent).detail.value as string));
+    showView('grid');
+  }
+</script>

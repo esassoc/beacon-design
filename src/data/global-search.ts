@@ -70,8 +70,13 @@ export const SCOPES: SearchScope[] = [
   },
   {
     id: 'actions',
+    // RADAR. Beacon's own entity map is the authority here —
+    // beacon-entity-icon.component.ts has `Action: "radar"`, and prod uses it consistently
+    // for the entity: the side nav, the global-search palette, the setup wizard's Actions
+    // step, the component-details and project-tracking page headers. This was
+    // square-check-big, which is a checklist glyph and belongs to no entity.
     label: 'Actions',
-    icon: '<path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"/><path d="m9 11 3 3L22 4"/>',
+    icon: '<path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/>',
   },
   {
     id: 'components',
@@ -94,6 +99,16 @@ export const SCOPES: SearchScope[] = [
     icon: '<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',
   },
 ];
+
+/**
+ * The committed glyph for an entity type, by scope id — e.g. scopeIcon('evidence') is the
+ * paperclip the palette and the search page already show for Evidence of Compliance.
+ *
+ * SCOPES is the spoke's one place where each Beacon entity has a settled icon, so any
+ * other surface that needs to mark an entity reads it from here rather than choosing its
+ * own. Returns inner Lucide markup for esa-icon's `paths`, or '' for an unknown id.
+ */
+export const scopeIcon = (id: string): string => SCOPES.find((s) => s.id === id)?.icon ?? '';
 
 // Route constants — every result lands on a real prototype surface.
 const R = {

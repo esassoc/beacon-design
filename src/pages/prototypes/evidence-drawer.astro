@@ -1,0 +1,35 @@
+---
+// Attach Evidence of Compliance — the global, bottom-anchored evidence workspace (DCP sync,
+// 2026-08-04). Named for the verb: the surface exists to make a connection, not to be
+// another place evidence is listed.
+//
+// The drawer itself is NOT on this page: it is mounted app-wide in AppShell, next to the
+// guidance drawer, and reachable from the Evidence button in the floating bottom bar on
+// EVERY prototype page. That is the point of the pattern — it is app-shell furniture, not
+// a screen. Open any other prototype and the button is there.
+//
+// So this page is the demo harness: it explains the pattern and gives you the four entry
+// points that open the drawer in the four states they produce.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnEvidenceEntryPoints from '../../components/bcn/BcnEvidenceEntryPoints.astro';
+import BcnEvidencePatternNotes from '../../components/bcn/BcnEvidencePatternNotes.astro';
+---
+
+<!-- manifest:
+  layout: stack(xl)                                       # SPINE
+  sections:
+    - entry points  -> bcn-evidence-entry-points          # the four ways the drawer opens
+    - pattern notes -> bcn-evidence-pattern-notes         # layering, what's deferred, what to react to
+  app-shell:
+    - the drawer    -> bcn-evidence-drawer                # mounted in AppShell, not here
+-->
+
+<AppShell title="Attach Evidence of Compliance — Beacon" activeNavId="action-lists" expandedSections={['project']}>
+  <PageLayout title="Attach Evidence of Compliance" icon="file-text">
+    <div class="stack" data-gap="xl">
+      <BcnEvidenceEntryPoints />
+      <BcnEvidencePatternNotes />
+    </div>
+  </PageLayout>
+</AppShell>

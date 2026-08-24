@@ -1,0 +1,94 @@
+---
+// <BcnEvidenceSearch> — the search field both halves of the evidence drawer open with:
+// evidence on the left, actions on the right.
+//
+// It exists as ONE component because the two fields must be identical, not merely similar.
+// They sit on the same line across a visible seam, so any drift in height, padding or icon
+// placement reads immediately as a mistake. Two copies of the same CSS in two scoped
+// components would drift the first time either was touched.
+//
+// BEHAVIOR CONTRACT (both sides): single-select autocomplete. You pick one row, it moves
+// into the list below, the field clears back to its placeholder, and the picked row leaves
+// the options so it cannot be picked twice. The field is a way IN to the list — it never
+// holds state itself, so it never shows chips.
+//
+// bcn-lego-checked: esa-combobox IS the field (autocomplete mode, client-side filtering,
+// keyboard nav, match highlight — all its job). The only thing it does not provide is a
+// LEADING icon: it renders a search glyph inside the select-mode dropdown's own filter box,
+// but the autocomplete trigger has no icon, no ::part, and no slot. So this component
+// overlays one and pushes the field's text across by re-pointing --form-padding-x-md,
+// which is a real semantic token the lego already reads — no shadow-DOM reach-in, no
+// restyled internals. Checked Ecology for a search-field lego (esa-text-field has the same
+// gap; esa-search-panel and esa-entity-search are full overlay surfaces, not fields) and
+// checked Beacon prod, whose search inputs are the same pattern (an overlaid glyph on a
+// padded field). bcn-evidence-search is the reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Props {
+  /** Shown at rest AND after every pick — the field never displays a selection. */
+  placeholder: string;
+  /** Which data-* hook the drawer's controller listens on. */
+  hook: 'existing' | 'targets';
+  /** Accessible name; the field carries no visible label. */
+  label: string;
+}
+const { placeholder, hook, label } = Astro.props;
+---
+
+<div class="bcn-ev-search">
+  <span class="bcn-ev-search__icon" aria-hidden="true">
+    <EsaIcon name="search" size="sm" />
+  </span>
+  {hook === 'existing' ? (
+    <esa-combobox
+      data-staging-existing
+      mode="autocomplete"
+      size="md"
+      aria-label={label}
+      placeholder={placeholder}></esa-combobox>
+  ) : (
+    <esa-combobox
+      data-targets-search
+      mode="autocomplete"
+      size="md"
+      aria-label={label}
+      placeholder={placeholder}></esa-combobox>
+  )}
+</div>
+
+<style>
+  .bcn-ev-search {
+    position: relative;
+  }
+  .bcn-ev-search esa-combobox {
+    display: block;
+    /* Re-point the field's horizontal padding so the text clears the overlaid glyph. This
+       is the lego's own semantic form token, scoped to this wrapper. */
+    --form-padding-x-md: 2.25rem;
+    /* A slightly tighter field. --form-padding-y-md alone would NOT have done it: the lego
+       also sets an explicit height from --form-height-md (36px), which wins over the
+       padding, so the padding change would have been invisible. Both move together here.
+       Scoped to this component, so both columns' fields stay identical and nothing else
+       in the drawer changes size. */
+    --form-height-md: 32px;
+    --form-padding-y-md: var(--spacing-150);
+    /* NO focus-colour override here on purpose. The hub focuses fields GREEN (see the note
+       on #bcn-evidence-drawer in BcnEvidenceDrawer.astro); the correction is declared once
+       on the drawer shell and inherited, so this field and the filter selects beside it
+       cannot drift apart. Mounted outside that shell this component would inherit whatever
+       the surrounding surface sets — which is the correct behaviour for a shared field. */
+  }
+  /* The glyph is decoration on a field, so it takes no pointer events — clicks fall
+     through to the input behind it. */
+  .bcn-ev-search__icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0.75rem;
+    display: flex;
+    align-items: center;
+    color: var(--color-text-tertiary);
+    pointer-events: none;
+    z-index: 1;
+  }
+</style>

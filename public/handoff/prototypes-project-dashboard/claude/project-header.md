@@ -119,6 +119,20 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   color: var(--color-text-tertiary);
   flex: none;
 }
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s ease;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-targets__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
 }
@@ -154,6 +168,9 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 }
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
+}
+.bcn-mod__link .esa-icon {
+  color: var(--color-text-muted);
 }
 .bcn-phome {
   background: var(--color-surface);
@@ -257,9 +274,6 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   font-weight: var(--font-weight-medium);
   color: var(--color-text-tertiary);
 }
-.bcn-mod__link .esa-icon {
-  color: var(--color-text-muted);
-}
 .bcn-status-chip {
   display: inline-flex;
   align-items: center;
@@ -278,6 +292,36 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   border-radius: var(--radius-full);
   background: var(--_chip);
   flex-shrink: 0;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -315,36 +359,6 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 .esa-icon-button:focus-visible {
   outline: var(--focus-ring-width) solid currentColor;
   outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

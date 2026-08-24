@@ -1,0 +1,163 @@
+---
+// <BcnEvidencePatternNotes> — the prototype page's closing section: what to look at, what
+// was decided, and what is deliberately missing.
+//
+// A design prototype is a question, and this section is where the question is asked out
+// loud. Three groups: the PATTERN (what makes a bottom drawer different from Beacon's
+// right-hand drawers, and where it sits in the layer stack), what is DEFERRED (so nobody
+// reviews it expecting the triage flow), and what to EVALUATE (the specific things worth
+// a reaction in a critique).
+//
+// bcn-lego-checked: esa-card is each group's chrome; esa-badge is the layer-stack marker.
+// Checked Ecology for a notes/annotation lego (esa-alert-box is a single inline notice, not
+// a multi-group notes section; esa-collapsible hides content that should be read) and
+// Beacon prod (nothing — prod has no annotation surface). bcn-evidence-pattern-notes is
+// the reusable home for prototype-page annotation; its own CSS is the group grid and the
+// layer stack diagram.
+import EsaCard from '@esa/ecology/esa-card.astro';
+
+// The layer stack, bottom to top — the ordering Andrew described, made checkable.
+const LAYERS = [
+  { name: 'App chrome', note: 'Top bar and side nav' },
+  { name: 'Dialogs', note: 'The drawer covers these — that is the point' },
+  { name: 'Guidance drawer', note: 'Beacon’s other bottom-bar affordance' },
+  { name: 'Evidence drawer', note: 'This one — above everything but toasts', here: true },
+  { name: 'Toasts', note: 'The only surface that outranks it' },
+];
+
+const DEFERRED = [
+  'Triage for surveys and daily monitoring reports, which land as evidence today with nothing connecting them to an action. A backlog in the tens is plausibly its own page rather than a tab in here, so it gets designed on its own terms.',
+  'Beacon-generated reports becoming evidence once they are finalized.',
+  'Public drop links, so people without a Beacon login can submit files.',
+  'A view of what has NO evidence yet — the inverse of what this drawer does, and complicated by conditional actions that need none.',
+];
+
+const EVALUATE = [
+  'Does rising from the bottom read as "this is the whole task now", or just as a differently-shaped dialog?',
+  'Is it obvious that the left and right sides are being joined — that you are stamping actions with evidence?',
+  'Does a file ever feel like a container? It should not: three files dropped together are one item, and nothing names the wrapper.',
+  'Are the suggested rows reviewable — can you tell why each one is there and disagree with it?',
+  'Is 90 by 80 the right footprint, or does it want to be bigger?',
+];
+---
+
+<section class="bcn-ev-notes stack" data-gap="md" aria-labelledby="bcn-ev-notes-title">
+  <div>
+    <h2 class="type-section-title" id="bcn-ev-notes-title">About this prototype</h2>
+    <p class="type-body bcn-ev-notes__lede">
+      Nothing here saves. The drawer is a picture of the feature, built to be argued with.
+    </p>
+  </div>
+
+  <div class="bcn-ev-notes__grid">
+    <EsaCard title="Where it sits" variant="outlined">
+      <p class="type-body-small bcn-ev-notes__text">
+        Beacon’s drawers come in from the right and hold temporary work. This one is app-shell
+        furniture, like the nav and the top bar, and it layers above modals so it can cover an open
+        dialog.
+      </p>
+      <ul class="bcn-ev-notes__layers">
+        {LAYERS.map((l) => (
+          <li class="bcn-ev-notes__layer" data-here={l.here ? 'true' : undefined}>
+            <span class="bcn-ev-notes__layername">{l.name}</span>
+            <span class="bcn-ev-notes__layernote">{l.note}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="type-caption bcn-ev-notes__caveat">
+        The hub’s drawer lego only opens from the left or right and has no height control, so the
+        bottom drawer is built here and filed as a request upstream.
+      </p>
+    </EsaCard>
+
+    <EsaCard title="Not in this round" variant="outlined">
+      <ul class="bcn-ev-notes__list">
+        {DEFERRED.map((d) => (
+          <li class="bcn-ev-notes__item">{d}</li>
+        ))}
+      </ul>
+    </EsaCard>
+
+    <EsaCard title="What to react to" variant="outlined">
+      <ol class="bcn-ev-notes__list bcn-ev-notes__list--numbered">
+        {EVALUATE.map((e) => (
+          <li class="bcn-ev-notes__item">{e}</li>
+        ))}
+      </ol>
+    </EsaCard>
+  </div>
+</section>
+
+<style>
+  .bcn-ev-notes__lede {
+    margin: var(--spacing-200) 0 0;
+    max-width: 78ch;
+    color: var(--color-text-secondary);
+  }
+  .bcn-ev-notes__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-400);
+    align-items: start;
+  }
+  .bcn-ev-notes__text {
+    margin: 0 0 var(--spacing-300);
+    color: var(--color-text-secondary);
+  }
+
+  /* The layer stack, drawn as a list rather than a diagram — the order is the content. */
+  .bcn-ev-notes__layers {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+  }
+  .bcn-ev-notes__layer {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: var(--spacing-200) var(--spacing-300);
+    background: var(--color-surface);
+  }
+  .bcn-ev-notes__layer + .bcn-ev-notes__layer {
+    border-top: 1px solid var(--color-border-light);
+  }
+  /* The one that is this feature — a background tint inline with the content, not a
+     colored edge. */
+  .bcn-ev-notes__layer[data-here] {
+    background: var(--color-primary-subtle, var(--color-background));
+  }
+  .bcn-ev-notes__layername {
+    font-size: var(--type-size-150, 0.875rem);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-ev-notes__layernote {
+    font-size: var(--type-size-150, 0.875rem);
+    color: var(--color-text-secondary);
+  }
+  .bcn-ev-notes__caveat {
+    margin: var(--spacing-300) 0 0;
+    color: var(--color-text-tertiary);
+  }
+
+  .bcn-ev-notes__list {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250, 0.625rem);
+  }
+  .bcn-ev-notes__list--numbered {
+    padding-left: 1.35rem;
+  }
+  .bcn-ev-notes__item {
+    font-size: var(--type-size-150, 0.875rem);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+</style>

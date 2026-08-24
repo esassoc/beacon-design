@@ -1,0 +1,79 @@
+---
+// <BcnTriageCounts> — the pair of counts that ride the page title.
+//
+// ONE CHIP, WITH ITS NOUN. A bare "16" beside a page title reads as a number with no idea
+// what it counts; the noun is what makes it a fact. It sat beside an unread chip until the
+// unread treatment was pulled — see BcnTriageQueue for why — and the pair's shared metrics
+// are kept here so a second count can rejoin it without redesign.
+//
+// bcn-lego-checked: esa-badge IS both chips (composed, not reimplemented) and its --badge-bg /
+// --badge-text-color hooks carry the two tones; bcn-count is number-ONLY and these need their
+// nouns. What this component adds is the pair: the tones, the dot, and the hide-at-zero rule,
+// which have to live somewhere that is not the page (pages carry no CSS in this spoke).
+// bcn-triage-counts is the reusable home.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+
+interface Props {
+  /**
+   * Records awaiting a decision.
+   *
+   * NOTE ON THE NOUN: the chip reads "n suggestions", counting RECORDS in the queue — each
+   * row being one suggested association to review. It is deliberately NOT the sum of the row
+   * badges, which count suggested ACTIONS and total more (one record can be proposed for two
+   * actions). If the two ever need to reconcile, the row badge is the one to rename.
+   */
+  total: number;
+}
+const { total } = Astro.props;
+---
+
+<span class="bcn-triage-counts cluster" data-gap="sm">
+  <span class="bcn-triage-counts__chip" data-triage-count>
+    <EsaBadge value={`${total} suggestions`} />
+  </span>
+
+  <!-- Only when a filter is narrowing the list: the chips count the INBOX, not the view, and
+       two numbers that look like they disagree are worse than one. -->
+  <span class="bcn-triage-counts__showing" data-triage-showing hidden></span>
+</span>
+
+<style>
+  .bcn-triage-counts {
+    --gap: var(--spacing-250);
+  }
+
+  .bcn-triage-counts__chip {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .bcn-triage-counts__chip[hidden] {
+    display: none;
+  }
+
+  /* Both chips share one height and radius; only the tone differs. 24px matches the
+     suggestion chip in the queue rows so every count in this prototype is the same object.
+     The DEFAULT (md) size step is used deliberately: its 13px is the house meta floor, where
+     size="sm" would be 11px. md also carries a symmetric padding-inline, so the chip is even
+     on both sides with no room reserved for anything.
+     SANCTIONED HARD-CODE: --badge-height-md is a real hook but no token defines it. */
+  .bcn-triage-counts__chip :global(.esa-badge) {
+    --badge-height-md: 24px;
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* Waiting: the neutral tag treatment the drawer uses for its facets. */
+  .bcn-triage-counts__chip :global(.esa-badge) {
+    --badge-bg: var(--color-surface-sunken);
+    --badge-text-color: var(--color-text-secondary);
+  }
+
+  .bcn-triage-counts__showing {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-triage-counts__showing[hidden] {
+    display: none;
+  }
+</style>

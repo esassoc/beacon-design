@@ -9,8 +9,8 @@
 // page's implementations grid share ONE theme instead of triple-duplicating it.
 // Import from a page's client <script>:
 //   import { beaconTheme, makeStatusRenderer, linkRenderer } from '../../lib/beacon-grid';
-import { themeQuartz, iconOverrides } from 'ag-grid-community';
-import type { ICellRendererParams } from 'ag-grid-community';
+import { themeQuartz, iconOverrides, createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+import type { GridApi, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
 const lucideFunnelSvg =
   '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>';
@@ -133,12 +133,138 @@ export function makeQuietChipRenderer(options: QuietChipOptions = {}) {
   };
 }
 
-/** Underlined teal link cell (the Name / Commitment / Source Document columns). */
+// ── The grid-card mount ─────────────────────────────────────────────────────────
+//
+// Every carded grid in this spoke wires the SAME five things to AG Grid: the quick
+// filter (plus its clear-x), clear-all-filters, CSV export, and a "Total Records / N
+// filtered" pair. BcnComponentGrid and BcnWorkAreaBoard each had their own verbatim
+// copy of that wiring, differing only in a data-attribute prefix — flagged by the
+// decomposition review 2026-08-17. It lives here now, beside the themes and renderers
+// the same two callers already share.
+//
+// What is deliberately NOT here: the card SHELL. The two grids place their chrome
+// differently on purpose — the component index puts search in esa-card's `actions`
+// slot, the work-area board puts it in an in-body toolbar so the bulk-selection bar
+// can sit beside it rather than cover it (a reviewed decision, 2026-08-13). A single
+// shell component would have to undo one of those layouts or grow a position prop
+// that explains nothing. The markup stays in BcnGridChrome / BcnGridFooter, which each
+// caller places where its own layout wants.
+
+/** Modules register once per page, however many grids mount on it. */
+let modulesRegistered = false;
+
+export interface MountBeaconGridOptions<T> {
+  /** The section root. Every handle is queried WITHIN it, so N grids per page never collide. */
+  mount: HTMLElement;
+  /** Data-attribute prefix — must match the `prefix` given to BcnGridChrome / BcnGridFooter. */
+  prefix: string;
+  /** Everything grid-specific: theme, rowData, columnDefs, selection, row-click. */
+  gridOptions: GridOptions<T>;
+  /** Download filename. */
+  csvName: string;
+  /**
+   * The CURRENT total, called on every count update rather than captured — a bulk
+   * delete changes it, and a stale closure is how the footer and the grid drift apart.
+   */
+  totalRows: () => number;
+  /** Extra work per count update, e.g. retitling a header badge. */
+  onCountsChanged?: (counts: { total: number; displayed: number }) => void;
+}
+
+export interface BeaconGridHandle<T> {
+  api: GridApi<T>;
+  /** Re-read the counts — call after any mutation the grid didn't originate. */
+  updateCounts: () => void;
+}
+
+/**
+ * Create a carded grid and wire its standard chrome. Returns the api plus the
+ * count refresher, so a caller that mutates rowData (bulk delete) can resync.
+ *
+ * The caller's own `onFirstDataRendered` / `onFilterChanged` are preserved and run
+ * AFTER the count update — passing either one no longer silently replaces it.
+ */
+export function mountBeaconGrid<T>(options: MountBeaconGridOptions<T>): BeaconGridHandle<T> | null {
+  const { mount, prefix, gridOptions, csvName, totalRows, onCountsChanged } = options;
+
+  if (!modulesRegistered) {
+    ModuleRegistry.registerModules([AllCommunityModule]);
+    modulesRegistered = true;
+  }
+
+  const host = mount.querySelector<HTMLElement>(`[data-${prefix}-host]`);
+  if (!host) return null;
+
+  const totalEl = mount.querySelector<HTMLElement>(`[data-${prefix}-total]`);
+  const filteredEl = mount.querySelector<HTMLElement>(`[data-${prefix}-filtered]`);
+
+  // Takes the api off the event where one is available — `api` below is still in its
+  // temporal dead zone if AG Grid fires first-render synchronously.
+  const readCounts = (gridApi: GridApi<T>) => {
+    const total = totalRows();
+    const displayed = gridApi.getDisplayedRowCount();
+    if (totalEl) totalEl.textContent = String(total);
+    if (filteredEl) {
+      if (displayed < total) {
+        filteredEl.hidden = false;
+        filteredEl.textContent = `Filtered Records: ${displayed}`;
+      } else {
+        filteredEl.hidden = true;
+      }
+    }
+    onCountsChanged?.({ total, displayed });
+  };
+
+  const callerFirstRender = gridOptions.onFirstDataRendered;
+  const callerFilterChanged = gridOptions.onFilterChanged;
+
+  const api: GridApi<T> = createGrid(host, {
+    ...gridOptions,
+    onFirstDataRendered: (e) => {
+      readCounts(e.api);
+      callerFirstRender?.(e);
+    },
+    onFilterChanged: (e) => {
+      readCounts(e.api);
+      callerFilterChanged?.(e);
+    },
+  });
+
+  // Search → quick filter, with its clear-x appearing only when there is something
+  // to clear. esa-text-field emits `change` with the value on the event detail; the
+  // `.value` read is the fallback for a plain input.
+  const search = mount.querySelector<HTMLElement & { value: string }>(`[data-${prefix}-search]`);
+  const searchClear = mount.querySelector<HTMLElement>(`[data-${prefix}-search-clear]`);
+  search?.addEventListener('change', (e) => {
+    const value = (e as CustomEvent).detail?.value ?? search.value ?? '';
+    api.setGridOption('quickFilterText', value);
+    if (searchClear) searchClear.hidden = !value;
+  });
+  searchClear?.addEventListener('click', () => {
+    if (search) search.value = '';
+    api.setGridOption('quickFilterText', '');
+    searchClear.hidden = true;
+  });
+
+  mount
+    .querySelector(`[data-${prefix}-clear-filters]`)
+    ?.addEventListener('click', () => api.setFilterModel(null));
+  mount
+    .querySelector(`[data-${prefix}-download]`)
+    ?.addEventListener('click', () => api.exportDataAsCsv({ fileName: csvName }));
+
+  return { api, updateCounts: () => readCounts(api) };
+}
+
+/** Underlined teal link cell (the Name / Commitment / Source Document columns).
+ * Prefers the column's formatted value (e.g. a compact date) when a
+ * `valueFormatter` is set on the colDef; falls back to the raw value
+ * otherwise, so existing callers with no formatter are unaffected. */
 export function linkRenderer(p: ICellRendererParams) {
   const el = document.createElement('a');
   el.className = 'bcn-grid-name';
   el.href = '#';
-  el.textContent = String(p.value ?? '');
+  el.textContent = String(p.valueFormatted ?? p.value ?? '');
   el.addEventListener('click', (e) => e.preventDefault());
   return el;
 }

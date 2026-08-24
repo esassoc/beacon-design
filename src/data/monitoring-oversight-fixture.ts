@@ -178,33 +178,208 @@ export const SEVERITY_BREAKDOWN: SeveritySlice[] = SEVERITY_ORDER.map((severity)
   value: ACTIVE_OBSERVATIONS.filter((o) => o.severity === severity).length,
 }));
 
-// ── 90-day weekly trend: needs-attention/non-compliance items (same scope as
-// OUTSTANDING and the category breakdowns — in-compliance isn't a tracked
-// "issue"), each counted ONCE under the week it was first reported, split by
-// its CURRENT status. This is a cohort/aging view, not an opened-vs-closed
-// event flow: a resolved item still appears under its original report week,
-// not its resolve week, so no observation is ever counted in two different
-// weeks or two different bars.
-export interface TrendWeek { weekStart: string; active: number; resolved: number; }
-
+// ── 90-day weekly category trend: needs-attention/non-compliance items (same
+// scope as OUTSTANDING and the category breakdowns — in-compliance isn't a
+// tracked "issue"). For each category, how many of its items were OPEN as of
+// each week — reported by then and not yet resolved before that week began.
+// This is a cohort/aging view, not an opened-vs-closed event flow: a resolved
+// item stays counted under every week it was actually open, through its own
+// report week — not double-counted as a separate "resolved this week" event.
+// Feeds the Timeline Explorer's per-category sparkline tiles.
 const TREND_ITEMS = OBSERVATIONS.filter((o) => o.severity !== 'in-compliance');
 
-export const TREND_90D: TrendWeek[] = (() => {
-  const weeks: TrendWeek[] = [];
+/** ISO week-start dates, oldest first — the shared x-axis for the trend tiles. */
+export const TREND_WEEK_STARTS: string[] = (() => {
   const start = toUTC(TODAY) - 89 * 86_400_000;
-  for (let w = 0; w < 13; w++) {
-    const weekStartMs = start + w * 7 * 86_400_000;
-    const weekEndMs = weekStartMs + 7 * 86_400_000;
-    const weekStart = new Date(weekStartMs).toISOString().slice(0, 10);
-    const reportedInWeek = TREND_ITEMS.filter((o) => {
-      const t = toUTC(o.reportedDate);
-      return t >= weekStartMs && t < weekEndMs;
-    });
-    weeks.push({
-      weekStart,
-      active: reportedInWeek.filter((o) => o.status === 'active').length,
-      resolved: reportedInWeek.filter((o) => o.status === 'resolved').length,
-    });
-  }
-  return weeks;
+  return Array.from({ length: 13 }, (_, w) => new Date(start + w * 7 * 86_400_000).toISOString().slice(0, 10));
 })();
+
+// A fixed categorical color per concern category (no design-system token for
+// chart-series color exists yet — logged in docs/system-improvement-ledger.md
+// — so these are deliberate literal hex, not raw values standing in for a
+// missing token). Order/hues follow the validated 8-slot categorical palette;
+// "red" is deliberately skipped so no category tile is mistaken for the
+// severity donut's non-compliance red elsewhere on this same dashboard.
+export const CATEGORY_COLOR: Record<ObservationCategory, string> = {
+  'Access & Traffic Control': '#2a78d6',
+  'Cultural Resources Protection': '#eb6834',
+  'Erosion & Sediment Control': '#1baf7a',
+  'Noise Management': '#eda100',
+  'Spill Prevention & Response': '#e87ba4',
+  'Stormwater / BMP Maintenance': '#008300',
+  'Vegetation & Habitat Protection': '#4a3aa7',
+  'Waste Management': '#8a5a44',
+};
+
+export interface CategoryTrend { category: ObservationCategory; color: string; weeklyOpen: number[]; }
+
+export const CATEGORY_TREND: CategoryTrend[] = (() => {
+  const weekBounds = TREND_WEEK_STARTS.map((iso) => {
+    const weekStartMs = toUTC(iso);
+    return { weekStartMs, weekEndMs: weekStartMs + 7 * 86_400_000 };
+  });
+  const categories = [...new Set(TREND_ITEMS.map((o) => o.category))].sort();
+  return categories.map((category) => {
+    const items = TREND_ITEMS.filter((o) => o.category === category);
+    const weeklyOpen = weekBounds.map(({ weekStartMs, weekEndMs }) =>
+      items.filter((o) => {
+        const reported = toUTC(o.reportedDate);
+        if (reported >= weekEndMs) return false; // not yet reported as of this week
+        if (o.status === 'active') return true;
+        return toUTC(o.resolvedDate!) >= weekStartMs; // not resolved before this week began
+      }).length,
+    );
+    return { category, color: CATEGORY_COLOR[category], weeklyOpen };
+  });
+})();
+
+// ── Site visits / daily reports — Fieldstone's field-inspector patrol log.
+// The tracked-issue OBSERVATIONS above only cover the days something was
+// actually flagged; a real monitoring program also files a report on ROUTINE
+// days with nothing to report. This is that fuller log: every visit either
+// cross-references the observation(s) actually logged that day (via
+// observationIds) or is a routine patrol with none. Distinct from
+// OBSERVATIONS — feeds the Daily Reports page only.
+export interface SiteVisit {
+  inspector: string;
+  /** ISO date. */
+  date: string;
+  areas: (keyof typeof AREAS)[];
+  /** Cross-references OBSERVATIONS ids logged during this visit, if any. */
+  observationIds: string[];
+}
+
+export const SITE_VISITS: SiteVisit[] = [
+  // ── R. Delgado — North/South Array, Access Road, Wash Crossing ──
+  { inspector: 'R. Delgado', date: '2026-04-14', areas: ['northArray', 'southArray'], observationIds: [] },
+  { inspector: 'R. Delgado', date: '2026-05-08', areas: ['southArray'], observationIds: ['obs-0088'] },
+  { inspector: 'R. Delgado', date: '2026-05-22', areas: ['washCrossing'], observationIds: [] },
+  { inspector: 'R. Delgado', date: '2026-06-05', areas: ['washCrossing'], observationIds: ['obs-0101'] },
+  { inspector: 'R. Delgado', date: '2026-06-11', areas: ['southArray', 'northArray'], observationIds: [] },
+  { inspector: 'R. Delgado', date: '2026-07-02', areas: ['accessRoad', 'washCrossing'], observationIds: [] },
+  { inspector: 'R. Delgado', date: '2026-07-08', areas: ['washCrossing'], observationIds: ['obs-0118'] },
+  { inspector: 'R. Delgado', date: '2026-07-23', areas: ['northArray'], observationIds: [] },
+  { inspector: 'R. Delgado', date: '2026-07-27', areas: ['accessRoad'], observationIds: ['obs-0140'] },
+  { inspector: 'R. Delgado', date: '2026-07-29', areas: ['southArray'], observationIds: ['obs-0142'] },
+  { inspector: 'R. Delgado', date: '2026-07-30', areas: ['northArray'], observationIds: ['obs-0143'] },
+
+  // ── K. Osei — Laydown/Staging Yard, O&M Building, Access Road ──
+  { inspector: 'K. Osei', date: '2026-04-09', areas: ['laydownYard'], observationIds: [] },
+  { inspector: 'K. Osei', date: '2026-04-21', areas: ['omBuilding'], observationIds: ['obs-0079'] },
+  { inspector: 'K. Osei', date: '2026-05-04', areas: ['laydownYard'], observationIds: ['obs-0084'] },
+  { inspector: 'K. Osei', date: '2026-05-19', areas: ['omBuilding', 'accessRoad'], observationIds: [] },
+  { inspector: 'K. Osei', date: '2026-06-10', areas: ['laydownYard'], observationIds: [] },
+  { inspector: 'K. Osei', date: '2026-06-18', areas: ['omBuilding'], observationIds: ['obs-0108'] },
+  { inspector: 'K. Osei', date: '2026-07-01', areas: ['omBuilding'], observationIds: [] },
+  { inspector: 'K. Osei', date: '2026-07-03', areas: ['accessRoad'], observationIds: ['obs-0113'] },
+  { inspector: 'K. Osei', date: '2026-07-15', areas: ['accessRoad', 'laydownYard'], observationIds: [] },
+  { inspector: 'K. Osei', date: '2026-07-20', areas: ['omBuilding'], observationIds: ['obs-0136'] },
+  { inspector: 'K. Osei', date: '2026-07-21', areas: ['laydownYard'], observationIds: ['obs-0137'] },
+  { inspector: 'K. Osei', date: '2026-07-24', areas: ['laydownYard'], observationIds: ['obs-0139'] },
+
+  // ── T. Whitfield — Perimeter Fence West, Substation, BESS Pad ──
+  { inspector: 'T. Whitfield', date: '2026-04-17', areas: ['perimeterWest'], observationIds: [] },
+  { inspector: 'T. Whitfield', date: '2026-05-08', areas: ['substation', 'bess'], observationIds: [] },
+  { inspector: 'T. Whitfield', date: '2026-05-19', areas: ['perimeterWest'], observationIds: ['obs-0092'] },
+  { inspector: 'T. Whitfield', date: '2026-06-01', areas: ['perimeterWest'], observationIds: [] },
+  { inspector: 'T. Whitfield', date: '2026-06-09', areas: ['substation'], observationIds: ['obs-0103'] },
+  { inspector: 'T. Whitfield', date: '2026-06-15', areas: ['perimeterWest'], observationIds: ['obs-0106'] },
+  { inspector: 'T. Whitfield', date: '2026-07-11', areas: ['perimeterWest'], observationIds: ['obs-0121'] },
+  { inspector: 'T. Whitfield', date: '2026-07-13', areas: ['perimeterWest'], observationIds: ['obs-0125'] },
+  { inspector: 'T. Whitfield', date: '2026-07-16', areas: ['substation'], observationIds: ['obs-0130'] },
+  { inspector: 'T. Whitfield', date: '2026-07-17', areas: ['bess'], observationIds: ['obs-0132'] },
+  { inspector: 'T. Whitfield', date: '2026-07-27', areas: ['substation'], observationIds: [] },
+  { inspector: 'T. Whitfield', date: '2026-08-04', areas: ['perimeterWest', 'bess'], observationIds: [] },
+
+  // ── J. Park — North Array, BESS Pad, Substation, Access Road ──
+  { inspector: 'J. Park', date: '2026-04-30', areas: ['bess'], observationIds: [] },
+  { inspector: 'J. Park', date: '2026-05-14', areas: ['substation'], observationIds: ['obs-0090'] },
+  { inspector: 'J. Park', date: '2026-05-21', areas: ['substation', 'northArray'], observationIds: [] },
+  { inspector: 'J. Park', date: '2026-05-27', areas: ['bess'], observationIds: ['obs-0096'] },
+  { inspector: 'J. Park', date: '2026-06-18', areas: ['accessRoad'], observationIds: [] },
+  { inspector: 'J. Park', date: '2026-06-22', areas: ['accessRoad'], observationIds: ['obs-0110'] },
+  { inspector: 'J. Park', date: '2026-07-07', areas: ['substation'], observationIds: ['obs-0117'] },
+  { inspector: 'J. Park', date: '2026-07-14', areas: ['bess'], observationIds: ['obs-0126'] },
+  { inspector: 'J. Park', date: '2026-07-21', areas: ['northArray', 'bess'], observationIds: [] },
+  { inspector: 'J. Park', date: '2026-08-01', areas: ['northArray'], observationIds: ['obs-0144'] },
+  { inspector: 'J. Park', date: '2026-08-03', areas: ['northArray'], observationIds: ['obs-0145'] },
+  { inspector: 'J. Park', date: '2026-08-04', areas: ['substation'], observationIds: [] },
+];
+
+// Report-workflow status — separate from compliance severity: this tracks the
+// REPORT DOCUMENT's own paperwork lifecycle (has Fieldstone's office finished
+// writing it up, has ESA reviewed it, is it finalized), matching the real
+// Monitoring Portal's Daily Reports tab. Colors read this app's own existing
+// semantic language (info = in-flight, warning = needs attention, success =
+// done) rather than copying the reference screenshot's chip colors literally.
+export type ReportStatus = 'draft' | 'in-review' | 'in-progress' | 'final';
+export const REPORT_STATUS_META: Record<ReportStatus, { label: string; hex: string }> = {
+  draft: { label: 'Draft', hex: 'var(--color-text-tertiary)' },
+  'in-review': { label: 'In Review', hex: 'var(--color-info)' },
+  'in-progress': { label: 'In Progress', hex: 'var(--color-warning)' },
+  final: { label: 'Final', hex: 'var(--color-success)' },
+};
+
+/** Deterministic pipeline: newer reports haven't finished processing yet; a
+ * report that flagged an issue stays "in progress" a little longer than a
+ * routine one before it's finalized. */
+function reportStatus(date: string, hasFindings: boolean): ReportStatus {
+  const age = daysBetween(date, TODAY);
+  if (age <= 2) return 'draft';
+  if (age <= 6) return 'in-review';
+  if (hasFindings && age <= 12) return 'in-progress';
+  return 'final';
+}
+
+export interface DailyReport {
+  id: string;
+  inspector: string;
+  date: string;
+  status: ReportStatus;
+  areaLabels: string[];
+  summary: string;
+  counts: { inCompliance: number; needsAttention: number; nonCompliance: number };
+  reportFileName: string;
+  observations: { id: string; category: ObservationCategory; severityLabel: string; description: string }[];
+}
+
+function summarize(counts: DailyReport['counts'], total: number): string {
+  if (total === 0) return 'Routine patrol — no issues observed.';
+  const parts = [
+    counts.nonCompliance ? `${counts.nonCompliance} non-compliance` : '',
+    counts.needsAttention ? `${counts.needsAttention} needs attention` : '',
+    counts.inCompliance ? `${counts.inCompliance} in compliance` : '',
+  ].filter(Boolean);
+  return `${total} observation${total === 1 ? '' : 's'} logged: ${parts.join(', ')}.`;
+}
+
+/** One row per site visit, newest first — the Daily Reports grid's data. */
+export const DAILY_REPORTS: DailyReport[] = SITE_VISITS.map((visit) => {
+  const observations = visit.observationIds
+    .map((id) => OBSERVATIONS.find((o) => o.id === id))
+    .filter((o): o is Observation => Boolean(o));
+  const counts = { inCompliance: 0, needsAttention: 0, nonCompliance: 0 };
+  for (const o of observations) {
+    if (o.severity === 'in-compliance') counts.inCompliance++;
+    else if (o.severity === 'needs-attention') counts.needsAttention++;
+    else counts.nonCompliance++;
+  }
+  const hasFindings = counts.needsAttention > 0 || counts.nonCompliance > 0;
+  const inspectorSlug = visit.inspector.replace(/[^a-zA-Z]/g, '').toLowerCase();
+  return {
+    id: `${inspectorSlug}-${visit.date}`,
+    inspector: visit.inspector,
+    date: visit.date,
+    status: reportStatus(visit.date, hasFindings),
+    areaLabels: visit.areas.map((a) => AREAS[a].label),
+    summary: summarize(counts, observations.length),
+    counts,
+    reportFileName: `cottonwood-dmr-${visit.date}-${inspectorSlug}.txt`,
+    observations: observations.map((o) => ({
+      id: o.id,
+      category: o.category,
+      severityLabel: SEVERITY_META[o.severity].label,
+      description: o.description,
+    })),
+  };
+}).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : a.inspector.localeCompare(b.inspector)));

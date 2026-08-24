@@ -1,0 +1,470 @@
+---
+// Due Diligence — Constraints Cross-Reference. Project Almond's boundary against
+// ten GIS layers (fire hazard, hazardous waste sites, biological critical habitat,
+// cultural sensitivity, hydrology, transmission, zoning/parcels/jurisdiction,
+// Williamson Act). Toggling a layer redraws the map; clicking a layer or a finding
+// opens the same detail drawer.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnFilterBar from '../../components/bcn/BcnFilterBar.astro';
+import BcnGisLayerPanel from '../../components/bcn/BcnGisLayerPanel.astro';
+import BcnFindingList from '../../components/bcn/BcnFindingList.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import '../../styles/beacon-map.css';
+import { PROJECT, GIS_LAYERS, RISK_HEX } from '../../data/due-diligence-fixture';
+import { withBase } from '../../lib/base';
+import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+
+const gisLayerRows = GIS_LAYERS.map((l) => ({
+  id: l.id,
+  name: l.name,
+  category: l.category,
+  features: l.features,
+  risk: l.risk,
+  riskHex: RISK_HEX[l.risk],
+  color: l.color,
+  defaultOn: l.defaultOn,
+}));
+
+const findingRows = GIS_LAYERS.filter((l) => l.risk !== 'none')
+  .sort((a, b) => ({ high: 3, medium: 2, low: 1, none: 0 }[b.risk] - { high: 3, medium: 2, low: 1, none: 0 }[a.risk]))
+  .map((l) => ({
+    id: l.id,
+    category: l.category,
+    name: l.name,
+    note: `${l.intersects[0].label}: ${l.intersects[0].value}`,
+    risk: l.risk,
+    riskHex: RISK_HEX[l.risk],
+    swatchColor: l.color,
+  }));
+
+const overlapCount = GIS_LAYERS.reduce((sum, l) => sum + l.features, 0);
+const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
+---
+
+<!-- manifest:
+  layout: sidebar
+  sections:
+    - summary stats  -> esa-card               # layers active · overlaps detected · high-risk findings · permits implicated
+    - filter bar      -> bcn-filter-bar
+    - GIS layers      -> bcn-gis-layer-panel
+    - constraints map -> esa-card              # bespoke Leaflet build (see bcn-lego-checked) inside an esa-card frame
+    - findings        -> bcn-finding-list
+    - finding drawer   -> esa-side-dialog
+-->
+
+<!-- bcn-lego-checked: composed from bcn-gis-layer-panel, bcn-finding-list, bcn-filter-bar,
+     esa-card, esa-select, esa-button, esa-side-dialog, BcnKeyValue. The MAP is a page-owned
+     Leaflet build, not a new component: BcnFootprintMap and BcnObservationMap (this spoke's
+     two existing map legos, both read in full) are DISPLAY-ONLY — they plot a fixed payload
+     once and expose no API to add/remove a named overlay after mount, which per-layer
+     toggling requires. permit-tracking.astro already establishes the precedent of a page
+     owning its own Leaflet build for exactly this reason (its status map repaints per-path/
+     per-status filters); this page follows that same precedent rather than forcing a
+     toggleable-overlay contract onto either sibling map component. The CSS below is the map
+     container geometry (matching styles/beacon-map.css) plus the legend overlay card, which
+     no lego models. -->
+<AppShell
+  title="Constraints Cross-Reference — Almond — Beale"
+  tenantName="Beale"
+  projectName={PROJECT.name}
+  activeNavId="dd-constraints"
+  navSections={dueDiligenceNavSections({ showProject: true })}
+>
+  <PageLayout
+    title="Constraints Cross-Reference"
+    icon="database"
+    breadcrumbs={[
+      { label: 'Due Diligence', href: withBase('/prototypes/due-diligence-siting') },
+      { label: 'Almond', href: withBase('/prototypes/due-diligence-overview') },
+      { label: 'Constraints' },
+    ]}
+  >
+    <div slot="utilities">
+      <span id="cx-rerun"><EsaButton color="ghost" appearance="outline" icon="rotate-ccw">Re-run</EsaButton></span>
+      <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="primary" icon="file-text">View report</EsaButton></a>
+    </div>
+
+    <div class="stack" data-gap="lg">
+      <div class="grid" data-gap="md" style="--grid-min: 13rem;">
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">Layers active</span>
+            <span class="type-page-title" id="cx-layers-active">{GIS_LAYERS.filter((l) => l.defaultOn).length} / {GIS_LAYERS.length}</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">Overlaps detected</span>
+            <span class="type-page-title">{overlapCount}</span>
+            <span class="type-body-small">across {GIS_LAYERS.filter((l) => l.features > 0).length} layers</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">High-risk findings</span>
+            <span class="type-page-title" style="color: var(--color-danger);">{highRiskCount}</span>
+            <span class="type-body-small">Hazardous materials · Biological</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">Permits implicated</span>
+            <span class="type-page-title">11</span>
+            <span class="type-body-small"><a href={withBase('/prototypes/due-diligence-permits')}>See matrix</a></span>
+          </div>
+        </EsaCard>
+      </div>
+
+      <BcnFilterBar filtersLabel="">
+        <div class="cluster" data-gap="md" slot="lead">
+          <span class="cx-filter">
+            <span class="type-body-small">Basemap</span>
+            <esa-select id="cx-basemap" size="sm"></esa-select>
+          </span>
+        </div>
+      </BcnFilterBar>
+
+      <div class="sidebar" style="--sidebar-width: 20rem;">
+        <BcnGisLayerPanel
+          layers={gisLayerRows}
+          idPrefix="cx"
+          manageHref={withBase('/prototypes/due-diligence-constraints')}
+          showRiskBadge={false}
+        />
+
+        <div class="stack" data-gap="md">
+          <div class="cx-map-shell">
+            <div id="cx-map" class="cx-map"></div>
+            <div class="cx-legend" id="cx-legend">
+              <div class="type-body-small cx-legend__title">Boundary</div>
+              <div class="cluster" data-gap="xs">
+                <span class="cx-legend__swatch" style="--_c: var(--color-primary, #005862);"></span>
+                <span class="type-body-small">Project site · {PROJECT.footprintAcres} ac</span>
+              </div>
+              <div class="type-body-small cx-legend__title">Active overlays</div>
+              <div id="cx-legend-overlays" class="stack" data-gap="xs"></div>
+            </div>
+          </div>
+
+          <BcnFindingList findings={findingRows} subtitle={`${findingRows.length} findings · ${highRiskCount} high risk`}>
+            <Fragment slot="actions">
+              <span id="cx-export-findings"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Export</EsaButton></span>
+            </Fragment>
+          </BcnFindingList>
+        </div>
+      </div>
+    </div>
+
+    <script type="application/json" id="cx-layers-data" set:html={JSON.stringify(GIS_LAYERS)}></script>
+  </PageLayout>
+
+  <!-- Finding / layer detail drawer — reached from both the layer panel and the finding list -->
+  <esa-side-dialog id="cx-drawer" size="md" style="--_width: 560px;">
+    <div slot="header" class="stack" data-gap="xs">
+      <span class="type-body-small" id="cx-d-cat">—</span>
+      <span class="type-card-title" id="cx-d-name">—</span>
+    </div>
+    <div class="stack" data-gap="lg">
+      <div class="cluster" data-gap="xs" id="cx-d-chips"></div>
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small cx-d-label">Data source</span>
+        <span class="type-body" id="cx-d-source"></span>
+      </div>
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small cx-d-label">Intersection result</span>
+        <dl class="cx-kv" id="cx-d-kv"></dl>
+      </div>
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small cx-d-label">Recommended next steps</span>
+        <ul class="cx-d-next" id="cx-d-next"></ul>
+      </div>
+    </div>
+    <div slot="footer" class="repel">
+      <span id="cx-d-flag"><EsaButton color="ghost" appearance="outline">Flag for permit matrix</EsaButton></span>
+      <span id="cx-d-add"><EsaButton color="primary">Add to report</EsaButton></span>
+    </div>
+  </esa-side-dialog>
+</AppShell>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+
+  // Page-level workaround for a hub bug: esa-side-dialog's default position="right"
+  // renders flush-LEFT instead (the native <dialog> UA left:0 is never cleared). See
+  // due-diligence-siting.astro for the full explanation.
+  function forceSideDialogRight(id: string) {
+    const el = document.getElementById(id) as (HTMLElement & { shadowRoot: ShadowRoot | null }) | null;
+    if (!el) return;
+    const apply = () => {
+      const panel = el.shadowRoot?.querySelector('dialog.panel') as HTMLElement | null;
+      if (panel) panel.style.left = 'auto';
+    };
+    apply();
+    requestAnimationFrame(apply);
+  }
+  forceSideDialogRight('cx-drawer');
+
+  interface GisLayerFixture {
+    id: string;
+    name: string;
+    category: string;
+    features: number;
+    risk: 'high' | 'medium' | 'low' | 'none';
+    color: string;
+    defaultOn: boolean;
+    source: string;
+    intersects: { label: string; value: string }[];
+    nextSteps: string[];
+  }
+
+  const layersData = document.getElementById('cx-layers-data');
+  const LAYERS: GisLayerFixture[] = layersData ? JSON.parse(layersData.textContent || '[]') : [];
+  const byId = new Map(LAYERS.map((l) => [l.id, l]));
+
+  const RISK_LABEL: Record<string, string> = { high: 'High', medium: 'Medium', low: 'Low', none: 'None' };
+
+  // ── Map (Kern County / Mojave — same geometry the original site-level review used) ──
+  const CENTER: [number, number] = [35.0516, -118.176];
+  const map = L.map('cx-map', { zoomControl: true }).setView(CENTER, 15);
+  const basemaps = {
+    streets: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19 }),
+    satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; Esri World Imagery', maxZoom: 19 }),
+  };
+  basemaps.satellite.addTo(map);
+
+  const basemapSelect = document.getElementById('cx-basemap') as (HTMLElement & { options: any[]; value: string }) | null;
+  if (basemapSelect) {
+    basemapSelect.options = [
+      { value: 'satellite', label: 'Satellite' },
+      { value: 'streets', label: 'Streets' },
+    ];
+    basemapSelect.value = 'satellite';
+    basemapSelect.addEventListener('change', (e) => {
+      const value = (e as CustomEvent).detail?.value ?? (basemapSelect as any).value;
+      Object.values(basemaps).forEach((b) => map.removeLayer(b));
+      (basemaps as Record<string, L.TileLayer>)[value]?.addTo(map);
+    });
+  }
+
+  // Project boundary — always visible.
+  const boundary = L.polygon(
+    [
+      [35.049, -118.181],
+      [35.049, -118.171],
+      [35.054, -118.171],
+      [35.054, -118.181],
+    ],
+    { color: '#005862', weight: 2.5, fillOpacity: 0.1 },
+  ).addTo(map);
+  boundary.bindTooltip('Project boundary · 340 ac', { permanent: false });
+
+  // Synthetic overlay geometries per layer, offset around the boundary center —
+  // illustrative shapes for a desktop-review prototype, not survey-grade data.
+  const c = CENTER;
+  const offsetPoly = (dLat: number, dLng: number, w: number, h: number): [number, number][] => {
+    const cc: [number, number] = [c[0] + dLat, c[1] + dLng];
+    return [
+      [cc[0] - h / 2, cc[1] - w / 2],
+      [cc[0] - h / 2, cc[1] + w / 2],
+      [cc[0] + h / 2, cc[1] + w / 2],
+      [cc[0] + h / 2, cc[1] - w / 2],
+    ];
+  };
+
+  const geometries: Record<string, L.Layer | null> = {
+    jurisdictions: L.polygon(offsetPoly(0, 0, 0.024, 0.02), { color: '#003f5c', weight: 1.5, fillOpacity: 0.04, dashArray: '6 4' }),
+    zoning: L.polygon(offsetPoly(0, 0, 0.016, 0.012), { color: '#7a5195', weight: 1.5, fillOpacity: 0.08 }),
+    parcels: L.polygon(offsetPoly(0, 0, 0.01, 0.008), { color: '#955196', weight: 1.5, fillOpacity: 0.04, dashArray: '4 4' }),
+    'fire-hazard': L.polygon([[35.054, -118.176], [35.058, -118.172], [35.054, -118.17], [35.052, -118.173]], { color: '#d45087', weight: 2, fillOpacity: 0.2 }),
+    'haz-waste': L.layerGroup([
+      L.circleMarker([35.057, -118.183], { radius: 8, color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.7, weight: 2 }).bindTooltip('LUST · Closed'),
+      L.circleMarker([35.046, -118.169], { radius: 8, color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.7, weight: 2 }).bindTooltip('VCP · Open case'),
+      L.circleMarker([35.049, -118.185], { radius: 7, color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.5, weight: 2 }).bindTooltip('LUST · Closed'),
+    ]),
+    biological: L.layerGroup([
+      L.circle([35.048, -118.176], { radius: 260, color: '#2e7571', fillColor: '#2e7571', fillOpacity: 0.18, weight: 2 }).bindTooltip('Critical Habitat — Mohave ground squirrel'),
+      L.circleMarker([35.051, -118.178], { radius: 6, color: '#2e7571', fillColor: '#2e7571', fillOpacity: 0.7, weight: 2 }).bindTooltip('CNDDB · Burrowing owl'),
+      L.circleMarker([35.0535, -118.1745], { radius: 6, color: '#2e7571', fillColor: '#2e7571', fillOpacity: 0.7, weight: 2 }).bindTooltip('CNDDB · Western Joshua tree'),
+    ]),
+    cultural: L.circle([35.053, -118.18], { radius: 190, color: '#d68910', fillColor: '#d68910', fillOpacity: 0.18, weight: 1.5, dashArray: '4 4' }),
+    water: L.polyline([[35.054, -118.18], [35.0525, -118.177], [35.051, -118.174], [35.0498, -118.171]], { color: '#228be6', weight: 3 }).bindTooltip('Ephemeral wash'),
+    'ag-williamson': null,
+    transmission: L.layerGroup([
+      L.polyline([[35.058, -118.183], [35.063, -118.181]], { color: '#0a6562', weight: 3 }),
+      L.circleMarker([35.063, -118.181], { radius: 10, color: '#0a6562', fillColor: '#0a6562', fillOpacity: 0.7, weight: 2 }).bindTooltip(`${byId.get('transmission')?.intersects[0]?.value ?? ''}`),
+    ]),
+  };
+
+  const onMap = new Set<string>();
+  function setLayer(id: string, on: boolean) {
+    const geo = geometries[id];
+    if (!geo) return;
+    if (on) {
+      geo.addTo(map);
+      onMap.add(id);
+    } else {
+      map.removeLayer(geo);
+      onMap.delete(id);
+    }
+    renderLegend();
+    updateActiveCount();
+  }
+
+  function renderLegend() {
+    const el = document.getElementById('cx-legend-overlays');
+    if (!el) return;
+    const rows = LAYERS.filter((l) => onMap.has(l.id));
+    el.innerHTML = rows.length
+      ? rows
+          .map(
+            (l) =>
+              `<div class="cluster" data-gap="xs"><span class="cx-legend__swatch" style="--_c: ${l.color};"></span><span class="type-body-small">${l.name}</span></div>`,
+          )
+          .join('')
+      : '<span class="type-body-small" style="color: var(--color-text-tertiary);">No overlays on</span>';
+  }
+
+  function updateActiveCount() {
+    const el = document.getElementById('cx-layers-active');
+    if (el) el.textContent = `${onMap.size} / ${LAYERS.length}`;
+  }
+
+  // Seed from each layer's defaultOn.
+  for (const l of LAYERS) setLayer(l.id, l.defaultOn);
+
+  // ── Layer panel wiring ──────────────────────────────────────────────────────
+  const gisPanel = document.getElementById('cx-gis-panel');
+  gisPanel?.addEventListener('bcn-gis-layer-toggle', (e) => {
+    const { id, on } = (e as CustomEvent).detail;
+    setLayer(id, on);
+  });
+  gisPanel?.addEventListener('bcn-gis-layer-click', (e) => {
+    const { id } = (e as CustomEvent).detail;
+    openDrawer(id);
+  });
+
+  // ── Finding list wiring ────────────────────────────────────────────────────
+  document.querySelector('.bcn-finding-list')?.addEventListener('bcn-finding-select', (e) => {
+    openDrawer((e as CustomEvent).detail.id);
+  });
+
+  // ── Drawer ──────────────────────────────────────────────────────────────────
+  function riskChipHtml(risk: string) {
+    return `<span class="dd-static-chip" data-risk="${risk}">${RISK_LABEL[risk] ?? risk}</span>`;
+  }
+
+  function openDrawer(id: string) {
+    const l = byId.get(id);
+    if (!l) return;
+    const setText = (elId: string, text: string) => {
+      const el = document.getElementById(elId);
+      if (el) el.textContent = text;
+    };
+    setText('cx-d-cat', l.category);
+    setText('cx-d-name', l.name);
+    setText('cx-d-source', l.source);
+    const chips = document.getElementById('cx-d-chips');
+    if (chips) chips.innerHTML = `${riskChipHtml(l.risk)}<span class="dd-static-chip" data-risk="none">${l.features} feature${l.features === 1 ? '' : 's'} on/near site</span>`;
+    const kv = document.getElementById('cx-d-kv');
+    if (kv) kv.innerHTML = l.intersects.map((i) => `<dt>${i.label}</dt><dd>${i.value}</dd>`).join('');
+    const next = document.getElementById('cx-d-next');
+    if (next) next.innerHTML = l.nextSteps.map((s) => `<li>${s}</li>`).join('');
+
+    const dialog = document.getElementById('cx-drawer') as (HTMLElement & { open?: boolean; show?: () => void }) | null;
+    if (dialog?.show) dialog.show();
+    else if (dialog) dialog.open = true;
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked (page CSS): map container geometry mirroring the shared
+     styles/beacon-map.css treatment, the legend overlay card (no lego models a map
+     legend), and the drawer's key-value + next-steps list — a static read-only
+     rendering of what BcnKeyValue would otherwise produce one row at a time, kept
+     as lightweight page markup since the drawer content is fully JS-driven per
+     selection rather than templated per row. */
+  .cx-map-shell {
+    position: relative;
+    height: min(64vh, 560px);
+    border-radius: var(--radius-200);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+  .cx-map {
+    position: absolute;
+    inset: 0;
+  }
+  .cx-legend {
+    position: absolute;
+    bottom: var(--spacing-300);
+    left: var(--spacing-300);
+    z-index: 10;
+    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-300);
+    max-width: 220px;
+  }
+  .cx-legend__title {
+    font-weight: var(--font-weight-semibold);
+    margin-top: var(--spacing-200);
+  }
+  .cx-legend__title:first-child {
+    margin-top: 0;
+  }
+  .cx-legend__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    background: var(--_c);
+    flex-shrink: 0;
+    display: inline-block;
+  }
+  .cx-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .cx-d-label {
+    text-transform: none;
+    color: var(--color-text-tertiary);
+  }
+  .cx-kv {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-150) var(--spacing-300);
+    margin: 0;
+  }
+  .cx-kv dt {
+    color: var(--color-text-tertiary);
+  }
+  .cx-kv dd {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+  .cx-d-next {
+    margin: 0;
+    padding-left: 1.1rem;
+    line-height: 1.6;
+  }
+  :global(.dd-static-chip) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 2px var(--spacing-250);
+    border-radius: var(--radius-full);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+  }
+  :global(.dd-static-chip[data-risk='high'])   { background: color-mix(in srgb, var(--color-danger) 16%, transparent); color: color-mix(in srgb, var(--color-danger) 72%, #1a1a1a); }
+  :global(.dd-static-chip[data-risk='medium']) { background: color-mix(in srgb, var(--color-warning) 16%, transparent); color: color-mix(in srgb, var(--color-warning) 72%, #1a1a1a); }
+  :global(.dd-static-chip[data-risk='low'])    { background: color-mix(in srgb, var(--color-info) 16%, transparent); color: color-mix(in srgb, var(--color-info) 72%, #1a1a1a); }
+  :global(.dd-static-chip[data-risk='none'])   { background: var(--color-surface-sunken); color: var(--color-text-secondary); }
+</style>

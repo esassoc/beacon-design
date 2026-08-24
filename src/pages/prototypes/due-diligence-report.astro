@@ -1,0 +1,143 @@
+---
+// Due Diligence — CIA Report. The formatted Critical Issues Assessment deliverable
+// for Project Almond, auto-assembled from the boundary, constraint findings, and
+// permit matrix reviewed on the prior three steps of the flow.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCiaReport from '../../components/bcn/BcnCiaReport.astro';
+import type { CiaPermitRow } from '../../components/bcn/BcnCiaReport.astro';
+import {
+  PROJECT,
+  CRITICAL_ISSUES,
+  REPORT_RESOURCES,
+  RESOURCE_SUMMARY_ROWS,
+  PERMITS,
+  LIMITATIONS,
+  REFERENCES,
+  FIGURES,
+} from '../../data/due-diligence-fixture';
+import { withBase } from '../../lib/base';
+import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+
+const APPLICABILITY_META: Record<string, { label: string; tone: 'warning' | 'medium' | 'low' | 'none' }> = {
+  applicable: { label: 'Applicable', tone: 'warning' },
+  potentially: { label: 'Potentially Applicable', tone: 'medium' },
+  'not-likely': { label: 'Not Likely Applicable', tone: 'low' },
+  'not-applicable': { label: 'Not Applicable', tone: 'none' },
+};
+const REVIEW_STATUS_LABEL: Record<string, string> = { preliminary: 'Preliminary', confirmed: 'Confirmed' };
+
+const permitRows: CiaPermitRow[] = PERMITS.map((p) => ({
+  agency: p.agency,
+  level: p.level,
+  name: p.name,
+  requirement: p.requirement,
+  applicabilityLabel: APPLICABILITY_META[p.applicability].label,
+  applicabilityTone: APPLICABILITY_META[p.applicability].tone,
+  notes: p.notes,
+  reviewStatusLabel: REVIEW_STATUS_LABEL[p.reviewStatus],
+}));
+---
+
+<!-- manifest:
+  layout: stack(xl)
+  sections:
+    - intro alert -> esa-alert-box
+    - CIA document -> bcn-cia-report
+-->
+
+<!-- bcn-lego-checked: composed entirely from esa-alert-box (intro) and bcn-cia-report
+     (the document itself, already justified in its own header — no esa-* lego renders
+     a sectioned document with a TOC). This page owns zero CSS: it is a data-assembly +
+     composition shim over the component. -->
+<AppShell
+  title="CIA Report — Almond — Beale"
+  tenantName="Beale"
+  projectName={PROJECT.name}
+  activeNavId="dd-report"
+  navSections={dueDiligenceNavSections({ showProject: true })}
+>
+  <PageLayout
+    title="Critical Issues Assessment"
+    icon="notepad-text"
+    breadcrumbs={[
+      { label: 'Due Diligence', href: withBase('/prototypes/due-diligence-siting') },
+      { label: 'Almond', href: withBase('/prototypes/due-diligence-overview') },
+      { label: 'CIA Report' },
+    ]}
+  >
+    <div class="stack" data-gap="lg">
+      <EsaAlertBox variant="info" title="Auto-assembled from your project data">
+        This CIA is composed from the boundary, constraint findings, and permit matrix
+        reviewed on the prior steps. Each section is editable — click any heading to
+        override.
+      </EsaAlertBox>
+
+      <BcnCiaReport
+        title="Critical Issues Assessment"
+        subtitle={`${PROJECT.formalName} · ${PROJECT.county}`}
+        statusBadgeLabel="Draft v0.3"
+        meta={[
+          { label: 'Prepared for', value: PROJECT.developer },
+          { label: 'Prepared by', value: 'Environmental Science Associates — Beacon Due Diligence module' },
+          { label: 'Project Manager', value: PROJECT.team[0].name },
+          { label: 'Project Director', value: PROJECT.team[1].name },
+          { label: 'Capacity', value: PROJECT.capacityLabel },
+          { label: 'Site footprint', value: `${PROJECT.footprintAcres} acres (${PROJECT.apns.join(', ')})` },
+          { label: 'Report status', value: `Draft v0.3 · ${PROJECT.lastGisSync}` },
+        ]}
+        execSummaryParagraphs={[
+          `Environmental Science Associates (ESA) is pleased to present Beale with this Critical Issues Assessment (CIA) for the proposed ${PROJECT.formalName}. The Project would occupy a 340-acre site (${PROJECT.apns.join(', ')}) within unincorporated ${PROJECT.county}, California.`,
+          `The purpose of this CIA is to identify environmental resources, federal, State, and local planning decisions, and potential development constraints that may impact Project feasibility, cost, or schedule. The CIA includes a desktop-level environmental characteristics discussion utilizing publicly available data from federal, State, and local sources. <strong>No field work was performed as part of this effort.</strong>`,
+          'Following the environmental characteristics discussion in Section 3, critical issues and recommendations are summarized in Section 4. A summary of the permits and approvals that may be necessary for construction of the Project is presented in Section 5, and limitations to the CIA are presented in Section 6.',
+        ]}
+        summaryBullets={CRITICAL_ISSUES}
+        projectDescriptionParagraphs={[
+          `The Project site is located at ${PROJECT.address}, approximately 0.6 mile southeast of the existing ${PROJECT.substationName}. The site consists of four parcels (${PROJECT.apns.join(', ')}) totaling ${PROJECT.footprintAcres} acres of vacant land currently designated ${PROJECT.zoning}. The site is bounded on the north and east by existing industrial uses, with a Class I rail spur to the south.`,
+          `The proposed Project would include ${PROJECT.capacityDetail} — four hyperscale data halls, mechanical/electrical yards, emergency standby generators with on-site fuel storage, perimeter security fencing, and an access drive off Stockyard Road. The facility will be remotely monitored with periodic on-site staffing. The Project would interconnect to the existing ${PROJECT.substationName} (${PROJECT.substationKv}) via a short underground service connection to ${PROJECT.utility}.`,
+        ]}
+        methodologyParagraphs={[
+          "ESA performed a desktop evaluation through Beacon's Due Diligence module by reviewing publicly available datasets, agency records, and aerial photographs to identify potential constraints on or proximal to the Project. Agency consultation or correspondence was not conducted as part of this scope, except for the database research and records reviews described below. Geographic information system (GIS) spatial data from federal, state, and local sources were analyzed against the Project boundary.",
+          'Because this CIA relies on desktop information, additional surveys and reviews will be necessary to confirm this preliminary assessment as the Project design progresses.',
+        ]}
+        datasetsReviewed={[
+          'CAL FIRE Fire Hazard Severity Zone (FHSZ) — LRA + SRA, 2025 update',
+          'California Natural Diversity Database (CNDDB) — Q2 2026 release',
+          'USFWS designated Critical Habitat and Information for Planning and Consultation (IPaC)',
+          'DTSC EnviroStor + SWRCB GeoTracker (refreshed nightly)',
+          'FEMA National Flood Hazard Layer (NFHL)',
+          'National Hydrography Dataset (NHD) + National Wetlands Inventory (NWI)',
+          'Kern County General Plan, zoning, and parcel boundaries',
+          'NAHC Sacred Lands File (record search initiated; results pending)',
+          'Kern County Air Pollution Control District permitting guidance',
+          'California Farmland Mapping and Monitoring Program (FMMP) + Williamson Act',
+        ]}
+        resources={REPORT_RESOURCES}
+        criticalIssuesNarrative={[
+          'If the Project warrants take authorization from USFWS, it could substantially affect schedule and cost — a Section 10 permit can take 12 to 24 months to obtain. Cultural resource evaluation, if determined necessary in consultation with the County and tribal representatives, can also have a substantial impact on schedule and cost. Addressing these issues early can minimize, mitigate, or avoid impacts to Project schedule and cost.',
+        ]}
+        resourceSummaryRows={RESOURCE_SUMMARY_ROWS}
+        permits={permitRows}
+        limitations={LIMITATIONS}
+        references={REFERENCES}
+        figures={FIGURES}
+        liveMatrixHref={withBase('/prototypes/due-diligence-permits')}
+      >
+        <Fragment slot="actions">
+          <span id="cia-advance"><EsaButton color="primary" icon="arrow-right">Advance to Planning &amp; Permitting</EsaButton></span>
+        </Fragment>
+      </BcnCiaReport>
+    </div>
+  </PageLayout>
+</AppShell>
+
+<script>
+  document.getElementById('cia-advance')?.addEventListener('click', () => {
+    // Prototype only — the next module isn't built yet, so this just returns to Due Diligence.
+    window.location.href = document.body.dataset.baseUrl
+      ? `${document.body.dataset.baseUrl}/prototypes/due-diligence-siting`
+      : '/prototypes/due-diligence-siting';
+  });
+</script>

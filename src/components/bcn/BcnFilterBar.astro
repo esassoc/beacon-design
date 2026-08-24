@@ -65,7 +65,9 @@ const hasActions = Astro.slots.has('actions');
   }
 
   <div class="bcn-filterbar__bottom">
-    <span class="bcn-filterbar__label">{filtersLabel}</span>
+    {/* Passing filtersLabel="" drops the label entirely — a bar whose facets are each
+        labelled already has nothing for a leading "Filters" to add. */}
+    {filtersLabel && <span class="bcn-filterbar__label">{filtersLabel}</span>}
     <FilterContainer>
       <slot />
     </FilterContainer>

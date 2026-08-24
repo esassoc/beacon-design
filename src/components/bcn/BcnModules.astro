@@ -19,6 +19,17 @@
 // soon — which is also the "red and yellow circles that navigate" the meeting
 // asked for: every row is a link to the action.
 //
+// SCOPABLE (BCN-1039 follow-on): the module list and — crucially — the ACTION
+// SET the rollups are computed over now arrive as props, defaulting to MODULES
+// and PROJECT_ACTIONS. Previously `rollupFor(type)` filtered the whole project
+// with no scope argument, so this row could only ever speak for the project; the
+// component dashboard needs the same three modules counting ONE component's
+// actions. The derivation itself did not fork — `rollupOver(actions, type)` in
+// data/project-actions.ts is the same math taking the set as an argument, and
+// `rollupFor` is now that call bound to PROJECT_ACTIONS. `links` stays driven by
+// the `modules` prop so a caller can pass component-scoped sub-surfaces.
+// Passing no props reproduces the project dashboard exactly.
+//
 // bcn-lego-checked: no esa-* lego is an "area module with rollup + entity rows +
 // sub-links" — esa-card is a static shell (used INSIDE nothing here because the
 // card needs a stretched portal link). Checked Beacon (prod exposes these as nav
@@ -28,8 +39,33 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaStat from '@esa/ecology/esa-stat.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 import { withBase } from '../../lib/base';
-import { MODULES } from '../../data/project-dashboard';
-import { rollupFor, daysOut, shortDate, type ProjectAction } from '../../data/project-actions';
+import { MODULES, type Module } from '../../data/project-dashboard';
+import {
+  PROJECT_ACTIONS,
+  rollupOver,
+  daysOut,
+  shortDate,
+  type ProjectAction,
+} from '../../data/project-actions';
+
+interface Props {
+  /** The area cards to render, in order. Default: the project's three modules. */
+  modules?: Module[];
+  /** The action set the rollups are computed over. Default: every project action. */
+  actions?: ProjectAction[];
+  /**
+   * Section / card id namespace so a page can anchor to a module. OMITTED (the
+   * default) emits no ids at all — the project dashboard's markup as shipped.
+   * Pass `''` for bare ids (`#tracking`), or a namespace for `#cmp-tracking`.
+   */
+  idPrefix?: string;
+}
+
+const { modules = MODULES, actions = PROJECT_ACTIONS, idPrefix } = Astro.props;
+
+// `undefined` means "no ids" (today); `''` means unprefixed.
+const idFor = (suffix: string) =>
+  idPrefix === undefined ? undefined : idPrefix ? `${idPrefix}-${suffix}` : suffix;
 
 const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
 
@@ -50,17 +86,19 @@ const timingOf = (a: ProjectAction) => {
   return d < 0 ? `${Math.abs(d)}d overdue` : `Due ${shortDate(a.dueDate)}`;
 };
 
-const cards = MODULES.map((m) => {
-  const r = rollupFor(m.id);
+// Rollups compute over the ACTIONS PROP — the same derivation the project-wide
+// `rollupFor` uses, just bound to whatever set this instance was given.
+const cards = modules.map((m) => {
+  const r = rollupOver(actions, m.id);
   return { module: m, rollup: r, shown: r.critical.slice(0, CAP), overflow: r.critical.length - CAP };
 });
 ---
 
-<section class="bcn-mod" aria-label="Tracking, Monitoring, and Reporting">
+<section class="bcn-mod" id={idFor('modules')} aria-label="Tracking, Monitoring, and Reporting">
   <div class="bcn-mod__grid">
     {
       cards.map(({ module: m, rollup, shown, overflow }) => (
-        <div class="bcn-mod__card">
+        <div class="bcn-mod__card" id={idFor(m.id)}>
           <a class="bcn-mod__portal" href={linkHref(m.href)} aria-label={m.cta}></a>
 
           <div class="bcn-mod__head">

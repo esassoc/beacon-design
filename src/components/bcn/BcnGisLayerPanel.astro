@@ -1,0 +1,338 @@
+---
+// <BcnGisLayerPanel> — the "GIS Layers" card on the Constraints Cross-Reference page:
+// a carded, toggleable list of the map data layers cross-referenced against a site
+// (jurisdictions, zoning, fire hazard, hazardous-waste sites, biological resources,
+// cultural sensitivity, hydrology, transmission infrastructure). Each row carries the
+// four things a reviewer needs to read a constraints map: the SWATCH that keys the row
+// to what's drawn on the map, the layer NAME + a meta line (category · features on/near
+// site), a RISK badge, and the on/off SWITCH.
+//
+// It sits BESIDE the map but does not own it. The component is deliberately DUMB: a
+// switch flip or a row click ANNOUNCES itself as a bubbling CustomEvent on the panel
+// root and stops there — the HOST page decides that "layer 7 is on" means "add that
+// overlay". Same contract as BcnObservationMap's `bcn-observation-pin-click`, and the
+// same reason: it keeps the panel safe to mount twice on one page and keeps the map
+// implementation entirely out of this file.
+//
+//   bcn-gis-layer-toggle  detail: { id: string; on: boolean }
+//   bcn-gis-layer-click   detail: { id: string }
+//
+// MULTI-INSTANCE CONTRACT (the detail that bites, per BcnObservationMap): an Astro
+// <script> is hoisted and bundled ONCE per page, not re-run per instance, so props are
+// NOT visible to it as a closure. Every value the script needs is threaded through the
+// DOM as data-* attributes and the module sweeps every [data-bcn-gis-panel] — hence
+// `idPrefix`, which namespaces the DOM ids so two panels never collide and gives the
+// host a stable handle (`#<idPrefix>-layer-<id>`) to scroll or highlight a row when the
+// user clicks the corresponding feature on the map.
+//
+// A11Y — the switch is a SIBLING of the clickable region, never a descendant of it.
+// The old prototype made the whole row a <label> and then sniffed the click target
+// (`if (e.target.closest('.switch')) return`); nesting a control inside a control is
+// both an a11y violation and a target-sniff waiting to break. Splitting the row into
+// [ activatable main | switch ] enforces "click the row, but not the switch"
+// STRUCTURALLY and gives keyboard users a real tab stop for each.
+//
+// bcn-lego-checked: the shell IS esa-card (outlined, title + subtitle), the risk badge
+// IS BcnStatusChip, the control IS esa-switch-toggle, the header/footer actions ARE
+// esa-button / esa-icon-link — the only thing without a lego is the divided-list body.
+// Checked Ecology (`ls node_modules/@esa/ecology/src/components/`) for a layer/toggle
+// list: esa-filter-container is a flat row of dropdowns, esa-collapsible is a single
+// disclosure, esa-link-column is a card of bare anchors with no slotted rows, and
+// esa-card has no divided-body mode. Checked Beacon prod — its map layer control is an
+// Angular page blob, nothing reusable to port. BcnFlagList is the closest SIBLING and
+// the divider glue below is lifted from it verbatim, but its row (BcnFlagRow) is a
+// switch + name + description and carries neither a color swatch nor a risk badge, so
+// this needs its own row shape rather than a prop bolted onto a settings row. The only
+// CSS below is that divider glue plus the row's own grid.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+
+export interface GisLayer {
+  id: string;
+  /** What the layer IS, as it reads on the map legend. */
+  name: string;
+  /** e.g. "Hazards", "Biological", "Land Use". */
+  category: string;
+  /** Feature count on or near the site. */
+  features: number;
+  risk: 'high' | 'medium' | 'low' | 'none';
+  /** SSR/default color for the risk chip, used when --st-<risk> is undefined. */
+  riskHex: string;
+  /** Swatch / map-overlay color. May differ from riskHex — reference layers like
+   *  Parcels carry a neutral swatch and no risk at all. */
+  color: string;
+  defaultOn: boolean;
+}
+
+interface Props {
+  layers: GisLayer[];
+  /** DOM id namespace, so two panels on one page never collide. */
+  idPrefix: string;
+  title?: string;
+  /** "Manage data feeds" target. Omit to drop the footer link entirely. */
+  manageHref?: string;
+  /**
+   * Show the per-row risk badge. Default true. A host that ALSO renders a
+   * severity-sorted findings list (e.g. bcn-finding-list) beside this panel may
+   * turn it off here — this panel's job is layer on/off control, and repeating
+   * the same severity chip in both places reads as redundant when the findings
+   * list already exists to carry it.
+   */
+  showRiskBadge?: boolean;
+}
+
+const { layers, idPrefix, title = 'GIS Layers', manageHref, showRiskBadge = true } = Astro.props;
+
+// 'none' renders NO chip: a "None" badge on a reference layer like Parcels carries no
+// information, and polish is subtractive. The visible label stays one word so the chip
+// column stays narrow beside a map; the row's aria-label spells out "high risk" in full.
+const RISK_LABEL: Record<GisLayer['risk'], string> = {
+  high: 'High',
+  medium: 'Medium',
+  low: 'Low',
+  none: '',
+};
+
+const featureNote = (n: number) =>
+  n === 0 ? 'No features on/near site' : `${n} feature${n === 1 ? '' : 's'} on/near site`;
+
+const onCount = layers.filter((l) => l.defaultOn).length;
+---
+
+<div class="bcn-gis-panel" id={`${idPrefix}-gis-panel`} data-bcn-gis-panel={idPrefix}>
+  <EsaCard variant="outlined" title={title} subtitle={`${onCount} of ${layers.length} on the map`}>
+    <div class="cluster" data-gap="xs" slot="actions">
+      <EsaButton variant="ghost" size="sm" data-bcn-gis-all="on">All on</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-bcn-gis-all="off">All off</EsaButton>
+    </div>
+
+    <ul class="bcn-gis-panel__list">
+      {
+        layers.map((layer) => (
+          <li>
+            <div
+              class="bcn-gis-row"
+              id={`${idPrefix}-layer-${layer.id}`}
+              data-bcn-gis-row
+              data-layer-id={layer.id}
+              data-on={String(layer.defaultOn)}
+            >
+              <div
+                class="bcn-gis-row__main"
+                data-bcn-gis-open
+                role="button"
+                tabindex="0"
+                aria-label={`${layer.name} — ${layer.category}, ${featureNote(layer.features)}${
+                  layer.risk === 'none' ? '' : `, ${layer.risk} risk`
+                }`}
+              >
+                <span class="bcn-gis-row__swatch" style={`--_swatch: ${layer.color};`} />
+
+                <span class="bcn-gis-row__text">
+                  <span class="bcn-gis-row__name type-body">{layer.name}</span>
+                  <span class="bcn-gis-row__meta type-body-small">
+                    {layer.category} · {featureNote(layer.features)}
+                  </span>
+                </span>
+
+                {showRiskBadge && layer.risk !== 'none' && (
+                  <BcnStatusChip status={layer.risk} label={RISK_LABEL[layer.risk]} hex={layer.riskHex} />
+                )}
+              </div>
+
+              <esa-switch-toggle
+                class="bcn-gis-row__switch"
+                data-bcn-gis-toggle
+                label={`Show ${layer.name} on the map`}
+                size="sm"
+                checked={layer.defaultOn ? '' : undefined}
+              />
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      manageHref && (
+        <div class="repel" slot="footer">
+          <span class="bcn-gis-panel__note type-body-small">Sources refresh nightly</span>
+          <EsaIconLink href={manageHref} iconRight="arrow-right" size="sm">
+            Manage data feeds
+          </EsaIconLink>
+        </div>
+      )
+    }
+  </EsaCard>
+</div>
+
+<script>
+  import '@esa/ecology/esa-switch-toggle';
+
+  type SwitchEl = HTMLElement & { checked: boolean };
+
+  /** Every interaction leaves through here: announce on the panel root, decide nothing. */
+  function emit(root: HTMLElement, name: string, detail: Record<string, unknown>): void {
+    root.dispatchEvent(new CustomEvent(name, { detail, bubbles: true }));
+  }
+
+  const rowOf = (el: Element | null): HTMLElement | null =>
+    el?.closest<HTMLElement>('[data-bcn-gis-row]') ?? null;
+
+  /** Mirror the new state onto the row (the swatch dims when a layer is off) and tell
+   *  the host, which is what actually adds or removes the map overlay. */
+  function announceToggle(root: HTMLElement, row: HTMLElement, on: boolean): void {
+    row.dataset.on = String(on);
+    emit(root, 'bcn-gis-layer-toggle', { id: row.dataset.layerId, on });
+  }
+
+  function setupGisLayerPanels(): void {
+    for (const root of document.querySelectorAll<HTMLElement>('[data-bcn-gis-panel]')) {
+      if (root.dataset.bcnGisReady === 'true') continue;
+      root.dataset.bcnGisReady = 'true';
+
+      // esa-switch-toggle's `change` is bubbling + composed, so one delegated listener
+      // on the root covers every row.
+      root.addEventListener('change', (event) => {
+        const sw = (event.target as Element | null)?.closest<SwitchEl>('[data-bcn-gis-toggle]');
+        const row = rowOf(sw);
+        if (!sw || !row) return;
+        const detail = (event as CustomEvent<{ checked?: boolean }>).detail;
+        announceToggle(root, row, detail?.checked ?? sw.checked);
+      });
+
+      // Row activation. The switch is a SIBLING of [data-bcn-gis-open], not a child, so
+      // "clicked the row but not the switch" needs no target-sniffing at all.
+      for (const main of root.querySelectorAll<HTMLElement>('[data-bcn-gis-open]')) {
+        const row = rowOf(main);
+        if (!row) continue;
+        const open = () => emit(root, 'bcn-gis-layer-click', { id: row.dataset.layerId });
+        main.addEventListener('click', open);
+        main.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          open();
+        });
+      }
+
+      // All on / All off. Setting .checked as a PROPERTY reflects through Lit but fires
+      // no `change`, so the delegated listener above never sees these — each moved
+      // switch is announced here instead. Switches already in the target state are
+      // skipped, so the host isn't asked to redraw overlays that never moved.
+      for (const btn of root.querySelectorAll<HTMLElement>('[data-bcn-gis-all]')) {
+        btn.addEventListener('click', () => {
+          const on = btn.dataset.bcnGisAll === 'on';
+          for (const sw of root.querySelectorAll<SwitchEl>('[data-bcn-gis-toggle]')) {
+            if (sw.checked === on) continue;
+            sw.checked = on;
+            const row = rowOf(sw);
+            if (row) announceToggle(root, row, on);
+          }
+        });
+      }
+    }
+  }
+
+  setupGisLayerPanels();
+</script>
+
+<style>
+  /* Divider glue, lifted from BcnFlagList: each row owns its block padding and the
+     <li> carries only the hairline between siblings. */
+  .bcn-gis-panel__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-gis-panel__list > li + li {
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  /* [ activatable main | switch ] — the split that keeps the control out of the
+     clickable region. */
+  .bcn-gis-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--spacing-200);
+  }
+
+  /* Padding is block-only so the hairlines above still align to the card's own edges;
+     the small inline padding + matching negative margin let the hover tint breathe
+     without pushing the content in. */
+  .bcn-gis-row__main {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--spacing-250);
+    padding-block: var(--spacing-250);
+    padding-inline: var(--spacing-200);
+    margin-inline: calc(var(--spacing-200) * -1);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+  .bcn-gis-row__main:hover {
+    background: var(--color-surface-hover);
+  }
+
+  /* The swatch is the row's key to the map, so it is the one thing that dims when the
+     layer is off — the text stays at full ink (small type never gets grayed out). */
+  .bcn-gis-row__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-xs);
+    background: var(--_swatch);
+    /* A ring in the swatch's own darkened color, so pale layers don't vanish on white. */
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--_swatch) 65%, var(--color-text-primary));
+    flex-shrink: 0;
+    transition: opacity 120ms ease;
+  }
+  .bcn-gis-row[data-on='false'] .bcn-gis-row__swatch {
+    opacity: 0.3;
+  }
+
+  .bcn-gis-row__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  /* type-body's relaxed line-height would open a gap between the name and the meta
+     line under it; a scoped selector outranks the role class. */
+  .bcn-gis-row__name {
+    line-height: 1.4;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-gis-row__meta {
+    line-height: 1.4;
+    color: var(--color-text-secondary);
+  }
+
+  /* display:flex on the HOST is the vertical-centering fix documented in BcnFlagRow:
+     the lego ships :host{display:inline-block}, so its track sits on a text baseline
+     and the switch rides visibly high beside the row. */
+  .bcn-gis-row__switch {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Accessible name only — it renders inside the switch's shadow button, so it must
+     stay in the a11y tree rather than be display:none'd. */
+  .bcn-gis-row :global(esa-switch-toggle)::part(label) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .bcn-gis-panel__note {
+    color: var(--color-text-tertiary);
+  }
+</style>

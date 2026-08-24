@@ -1,0 +1,545 @@
+---
+// Due Diligence — Permit Matrix. Three tabs: the permit-and-approval matrix
+// (auto-derived from constraint findings), a preliminary CEQA Appendix G pass,
+// and AHJ outreach notes. Project Almond only (the single site that advanced
+// out of Site Screening).
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnGridChrome from '../../components/bcn/BcnGridChrome.astro';
+import BcnGridFooter from '../../components/bcn/BcnGridFooter.astro';
+import { PROJECT, PERMITS, CEQA_RESOURCES, AHJ_NOTES } from '../../data/due-diligence-fixture';
+import { withBase } from '../../lib/base';
+import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+---
+
+<!-- manifest:
+  layout: stack(lg)
+  sections:
+    - stats strip     -> esa-card               # permits identified · local · state/regional · federal (esa-stat inline)
+    - tabs             -> esa-tab-layout
+    - permit matrix     -> esa-card              # BcnGridChrome/BcnGridFooter + beacon-grid AG Grid
+    - CEQA Appendix G   -> esa-card              # same grid kit
+    - AHJ outreach      -> esa-card              # grid of note cards
+    - permit editor      -> esa-side-dialog      # applicability/review-status edit, activity log, comments
+-->
+
+<!-- bcn-lego-checked: composed from esa-tab-layout, esa-card ×N, esa-side-dialog, esa-select,
+     esa-textarea, esa-button, and the shared beacon-grid AG Grid kit (bcn-grid-chrome /
+     bcn-grid-footer / mountBeaconGrid, already the reusable home for every carded grid in this
+     spoke — see BcnComponentGrid). The editor drawer's read-only details + activity/comments
+     lists are plain page markup (JS-rendered per selection, like the constraints page's finding
+     drawer), not a new component — no esa- lego models a two-log (system activity vs. free-text
+     comments) editor body, and this is the only page that needs one. No page CSS beyond the
+     grid-host geometry, the AG Grid cell looks the kit's own convention already documents, and
+     the drawer's key-value/log-list rows (same indentation idiom as the siting/constraints
+     drawers). -->
+<!-- bcn-lego-checked: esa-side-dialog's default position="right" renders flush-LEFT (a hub bug —
+     see due-diligence-siting.astro's forceSideDialogRight for the full explanation); worked
+     around at the page level per user direction rather than editing the hub. -->
+<AppShell
+  title="Permit Matrix — Almond — Beale"
+  tenantName="Beale"
+  projectName={PROJECT.name}
+  activeNavId="dd-permits"
+  navSections={dueDiligenceNavSections({ showProject: true })}
+>
+  <PageLayout
+    title="Permit Matrix"
+    icon="file-text"
+    breadcrumbs={[
+      { label: 'Due Diligence', href: withBase('/prototypes/due-diligence-siting') },
+      { label: 'Almond', href: withBase('/prototypes/due-diligence-overview') },
+      { label: 'Permit Matrix' },
+    ]}
+  >
+    <div slot="utilities">
+      <span id="pm-excel"><EsaButton color="ghost" appearance="outline" icon="download">Export to Excel</EsaButton></span>
+      <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="primary" icon="arrow-right">View report</EsaButton></a>
+    </div>
+
+    <div class="stack" data-gap="lg">
+      <div class="grid" data-gap="md" style="--grid-min: 14rem;">
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">Permits identified</span>
+            <span class="type-page-title">{PERMITS.length}</span>
+            <span class="type-body-small">{PERMITS.filter((p) => p.applicability === 'applicable').length} applicable · {PERMITS.filter((p) => p.applicability === 'potentially').length} potentially</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">Local</span>
+            <span class="type-page-title">{PERMITS.filter((p) => p.level === 'Local').length}</span>
+            <span class="type-body-small">Kern County departments</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">State / Regional</span>
+            <span class="type-page-title">{PERMITS.filter((p) => p.level === 'State' || p.level === 'Regional').length}</span>
+            <span class="type-body-small">CDFW · SWRCB · KCAPCD</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">Federal &amp; Utility</span>
+            <span class="type-page-title">{PERMITS.filter((p) => p.level === 'Federal' || p.level === 'Utility').length}</span>
+            <span class="type-body-small">USACE · USFWS · SCE</span>
+          </div>
+        </EsaCard>
+      </div>
+
+      <esa-tab-layout id="dd-permit-tabs" appearance="underline">
+        <section slot="panel-0" class="stack" data-gap="md" aria-label="Permit matrix">
+          <EsaCard title="Permit & Approval Matrix" padding="compact">
+            <Fragment slot="actions">
+              <BcnGridChrome prefix="pm" searchPlaceholder="Search permits…" />
+            </Fragment>
+            <div class="dd-grid-host" data-pm-host></div>
+            <Fragment slot="footer">
+              <BcnGridFooter prefix="pm" total={PERMITS.length} downloadLabel="Download as CSV" />
+            </Fragment>
+          </EsaCard>
+        </section>
+
+        <section slot="panel-1" class="stack" data-gap="md" aria-label="CEQA Appendix G">
+          <EsaCard title="CEQA Appendix G Considerations" padding="compact">
+            <Fragment slot="actions">
+              <BcnGridChrome prefix="ceqa" searchPlaceholder="Search resources…" />
+            </Fragment>
+            <div class="dd-grid-host" data-ceqa-host></div>
+            <Fragment slot="footer">
+              <BcnGridFooter prefix="ceqa" total={CEQA_RESOURCES.length} downloadLabel="Download as CSV" />
+            </Fragment>
+          </EsaCard>
+        </section>
+
+        <section slot="panel-2" class="stack" data-gap="md" aria-label="AHJ outreach">
+          <div class="grid" data-gap="md" style="--grid-min: 20rem;">
+            {AHJ_NOTES.map((n) => (
+              <EsaCard title={n.topic}>
+                <Fragment slot="actions"><span class="type-body-small">Assistant draft</span></Fragment>
+                <p class="type-body-small">{n.summary}</p>
+              </EsaCard>
+            ))}
+          </div>
+        </section>
+      </esa-tab-layout>
+    </div>
+
+    <script type="application/json" id="dd-permits-data" set:html={JSON.stringify(PERMITS)}></script>
+    <script type="application/json" id="dd-ceqa-data" set:html={JSON.stringify(CEQA_RESOURCES)}></script>
+  </PageLayout>
+
+  <!-- Permit editor drawer — edit applicability/review status, a system activity log
+       of who changed what and when, and a free-text comments thread. -->
+  <esa-side-dialog id="pm-drawer" size="md" style="--_width: 560px;">
+    <div slot="header" class="stack" data-gap="xs">
+      <span class="type-body-small" id="pm-d-level">—</span>
+      <span class="type-card-title" id="pm-d-name">—</span>
+    </div>
+    <div class="stack" data-gap="lg">
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small pm-d-label">Details</span>
+        <dl class="pm-kv">
+          <dt>Agency</dt><dd id="pm-d-agency">—</dd>
+          <dt>Requirement</dt><dd id="pm-d-requirement">—</dd>
+          <dt>Notes</dt><dd id="pm-d-notes">—</dd>
+        </dl>
+      </div>
+
+      <div class="stack" data-gap="md">
+        <span class="type-body-small pm-d-label">Status</span>
+        <esa-select id="pm-d-applicability" label="Applicable?" size="md"></esa-select>
+        <esa-select id="pm-d-review" label="Review status" size="md"></esa-select>
+      </div>
+
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small pm-d-label">Activity</span>
+        <ul class="pm-activity" id="pm-d-activity"></ul>
+      </div>
+
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small pm-d-label">Comments</span>
+        <ul class="pm-comments" id="pm-d-comments"></ul>
+        <div class="stack" data-gap="xs">
+          <esa-textarea id="pm-d-comment-input" rows="2" placeholder="Add a note…"></esa-textarea>
+          <div class="repel">
+            <span class="type-body-small" style="color: var(--color-text-tertiary);">Posting as {PROJECT.team[0].name}</span>
+            <span id="pm-d-post"><EsaButton color="primary" size="sm">Post</EsaButton></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div slot="footer" class="cluster" data-justify="end">
+      <span id="pm-d-save"><EsaButton color="primary">Save</EsaButton></span>
+      <span id="pm-d-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+    </div>
+  </esa-side-dialog>
+</AppShell>
+
+<script>
+  import type { ColDef, GridOptions, GridApi } from 'ag-grid-community';
+  import { beaconTheme, makeQuietChipRenderer, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { PROJECT } from '../../data/due-diligence-fixture';
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+
+  // Page-level workaround for a hub bug: esa-side-dialog's default position="right"
+  // renders flush-LEFT instead (the native <dialog> UA left:0 is never cleared). See
+  // due-diligence-siting.astro for the full explanation.
+  function forceSideDialogRight(id: string) {
+    const el = document.getElementById(id) as (HTMLElement & { shadowRoot: ShadowRoot | null }) | null;
+    if (!el) return;
+    const apply = () => {
+      const panel = el.shadowRoot?.querySelector('dialog.panel') as HTMLElement | null;
+      if (panel) panel.style.left = 'auto';
+    };
+    apply();
+    requestAnimationFrame(apply);
+  }
+  forceSideDialogRight('pm-drawer');
+
+  interface PermitRow {
+    id: string;
+    agency: string;
+    level: string;
+    name: string;
+    requirement: string;
+    applicability: 'applicable' | 'potentially' | 'not-likely' | 'not-applicable';
+    notes: string;
+    reviewStatus: 'preliminary' | 'confirmed';
+  }
+  interface CeqaRow {
+    name: string;
+    construction: string;
+    operations: string;
+    notes: string;
+  }
+
+  const APPLICABILITY_LABEL: Record<string, string> = {
+    applicable: 'Applicable',
+    potentially: 'Potentially Applicable',
+    'not-likely': 'Not Likely Applicable',
+    'not-applicable': 'Not Applicable',
+  };
+  const INTENSITY_LABEL: Record<string, string> = { High: 'High', Med: 'Med', Low: 'Low', '—': '—' };
+  const REVIEW_STATUS_LABEL: Record<string, string> = { preliminary: 'Preliminary', confirmed: 'Confirmed' };
+
+  const $id = (id: string) => document.getElementById(id);
+
+  // ── Tabs ────────────────────────────────────────────────────────────────────
+  const tabsEl = $id('dd-permit-tabs') as (HTMLElement & { tabs: { label: string; icon?: string }[] }) | null;
+  const ICON = (paths: string) =>
+    `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+  if (tabsEl) {
+    tabsEl.tabs = [
+      { label: 'Permit Matrix', icon: ICON('<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>') },
+      { label: 'CEQA Appendix G', icon: ICON('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/>') },
+      { label: 'AHJ Outreach', icon: ICON('<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>') },
+    ];
+  }
+
+  // ── Permit editor drawer state (in-session — same idiom permit-tracking.astro
+  //    uses for its change log: seeded from the fixture's own review status, then
+  //    grows as the demo user edits or comments). ──────────────────────────────
+  type DisplayRow = PermitRow & { applicabilityLabel: string; reviewStatusLabel: string };
+  interface LogEntry { text: string; by: string; when: string }
+
+  const REVIEWER = PROJECT.team[1].name; // Project Director — the technical-review persona
+  const CURRENT_USER = PROJECT.team[0].name; // Project Manager — posts edits/comments in this demo
+
+  let gridApi: GridApi<DisplayRow> | null = null;
+  let activePermitId: string | null = null;
+  const activityById = new Map<string, LogEntry[]>();
+  const commentsById = new Map<string, LogEntry[]>();
+
+  function toDisplayRow(r: PermitRow): DisplayRow {
+    return { ...r, applicabilityLabel: APPLICABILITY_LABEL[r.applicability], reviewStatusLabel: REVIEW_STATUS_LABEL[r.reviewStatus] };
+  }
+
+  function renderLog(listId: string, entries: LogEntry[], emptyText: string) {
+    const list = document.getElementById(listId);
+    if (!list) return;
+    list.innerHTML = entries.length
+      ? entries.map((e) => `<li><p class="pm-log__text">${e.text}</p><span class="pm-log__meta">${e.by} · ${e.when}</span></li>`).join('')
+      : `<li class="pm-log__empty">${emptyText}</li>`;
+  }
+
+  function openDrawer(id: string, byId: Map<string, PermitRow>) {
+    const r = byId.get(id);
+    if (!r) return;
+    activePermitId = id;
+
+    const setText = (elId: string, text: string) => {
+      const el = document.getElementById(elId);
+      if (el) el.textContent = text;
+    };
+    setText('pm-d-level', r.level);
+    setText('pm-d-name', r.name);
+    setText('pm-d-agency', r.agency);
+    setText('pm-d-requirement', r.requirement);
+    setText('pm-d-notes', r.notes || '—');
+
+    const appSelect = document.getElementById('pm-d-applicability') as (HTMLElement & { options: unknown[]; value: string }) | null;
+    if (appSelect) {
+      appSelect.options = Object.entries(APPLICABILITY_LABEL).map(([value, label]) => ({ value, label }));
+      appSelect.value = r.applicability;
+    }
+    const reviewSelect = document.getElementById('pm-d-review') as (HTMLElement & { options: unknown[]; value: string }) | null;
+    if (reviewSelect) {
+      reviewSelect.options = Object.entries(REVIEW_STATUS_LABEL).map(([value, label]) => ({ value, label }));
+      reviewSelect.value = r.reviewStatus;
+    }
+
+    renderLog('pm-d-activity', activityById.get(id) ?? [], 'No activity yet.');
+    renderLog('pm-d-comments', commentsById.get(id) ?? [], 'No comments yet.');
+
+    const dialog = document.getElementById('pm-drawer') as (HTMLElement & { open?: boolean; show?: () => void }) | null;
+    if (dialog?.show) dialog.show();
+    else if (dialog) dialog.open = true;
+  }
+
+  // ── Permit matrix grid ────────────────────────────────────────────────────────
+  const pmData = $id('dd-permits-data');
+  if (pmData) {
+    const rows: PermitRow[] = JSON.parse(pmData.textContent || '[]');
+    const byId = new Map(rows.map((r) => [r.id, r]));
+    for (const r of rows) {
+      activityById.set(
+        r.id,
+        r.reviewStatus === 'confirmed' ? [{ text: 'Reviewed and confirmed', by: REVIEWER, when: '2026-08-15' }] : [],
+      );
+      commentsById.set(r.id, []);
+    }
+    const displayRows = rows.map(toDisplayRow);
+
+    const columnDefs: ColDef<DisplayRow>[] = [
+      { field: 'agency', headerName: 'Agency', flex: 1.6, minWidth: 220 },
+      { field: 'level', headerName: 'Level', width: 110 },
+      { field: 'name', headerName: 'Permit / Approval', flex: 1.4, minWidth: 200 },
+      { field: 'requirement', headerName: 'Requirement', flex: 1.6, minWidth: 220 },
+      {
+        field: 'applicabilityLabel',
+        headerName: 'Applicable?',
+        width: 190,
+        cellRenderer: makeQuietChipRenderer({ toneField: 'applicability', className: 'dd-chip' }),
+      },
+      {
+        field: 'reviewStatusLabel',
+        headerName: 'Review Status',
+        width: 150,
+        cellRenderer: makeQuietChipRenderer({ toneField: 'reviewStatus', className: 'dd-chip' }),
+      },
+      { field: 'notes', headerName: 'Comments / Notes', flex: 1.6, minWidth: 220 },
+    ];
+
+    const gridOptions: GridOptions<DisplayRow> = {
+      theme: beaconTheme,
+      rowData: displayRows,
+      columnDefs,
+      getRowId: (p) => p.data.id,
+      defaultColDef: { sortable: true, resizable: true, filter: true, suppressHeaderMenuButton: true, wrapText: true, autoHeight: true },
+      onRowClicked: (e) => {
+        if (e.data) openDrawer(e.data.id, byId);
+      },
+    };
+
+    const host = document.querySelector<HTMLElement>('[data-pm-host]');
+    if (host) {
+      const handle = mountBeaconGrid({
+        mount: host.closest('section')!,
+        prefix: 'pm',
+        gridOptions,
+        csvName: 'permit-matrix.csv',
+        totalRows: () => rows.length,
+      });
+      gridApi = handle?.api ?? null;
+    }
+
+    // ── Save: commit the two selects back to the row, log what changed, repaint the grid ──
+    document.getElementById('pm-d-save')?.addEventListener('click', () => {
+      if (!activePermitId) return;
+      const r = byId.get(activePermitId);
+      if (!r) return;
+
+      const appSelect = document.getElementById('pm-d-applicability') as (HTMLElement & { value: string }) | null;
+      const reviewSelect = document.getElementById('pm-d-review') as (HTMLElement & { value: string }) | null;
+      const newApplicability = (appSelect?.value ?? r.applicability) as PermitRow['applicability'];
+      const newReview = (reviewSelect?.value ?? r.reviewStatus) as PermitRow['reviewStatus'];
+
+      const changes: string[] = [];
+      if (newApplicability !== r.applicability) changes.push(`Applicability → ${APPLICABILITY_LABEL[newApplicability]}`);
+      if (newReview !== r.reviewStatus) changes.push(`Review status → ${REVIEW_STATUS_LABEL[newReview]}`);
+
+      r.applicability = newApplicability;
+      r.reviewStatus = newReview;
+
+      if (changes.length) {
+        const entries = activityById.get(r.id) ?? [];
+        entries.unshift({ text: changes.join(' · '), by: CURRENT_USER, when: 'Just now' });
+        activityById.set(r.id, entries);
+        renderLog('pm-d-activity', entries, 'No activity yet.');
+      }
+
+      gridApi?.applyTransaction({ update: [toDisplayRow(r)] });
+
+      const dialog = document.getElementById('pm-drawer') as (HTMLElement & { open?: boolean }) | null;
+      if (dialog) dialog.open = false;
+    });
+
+    document.getElementById('pm-d-cancel')?.addEventListener('click', () => {
+      const dialog = document.getElementById('pm-drawer') as (HTMLElement & { open?: boolean }) | null;
+      if (dialog) dialog.open = false;
+    });
+
+    // ── Comments — free-text notes, separate from the system activity log ──
+    document.getElementById('pm-d-post')?.addEventListener('click', () => {
+      if (!activePermitId) return;
+      const textarea = document.getElementById('pm-d-comment-input') as (HTMLElement & { value: string }) | null;
+      const text = textarea?.value?.trim();
+      if (!text) return;
+      const entries = commentsById.get(activePermitId) ?? [];
+      entries.unshift({ text, by: CURRENT_USER, when: 'Just now' });
+      commentsById.set(activePermitId, entries);
+      renderLog('pm-d-comments', entries, 'No comments yet.');
+      if (textarea) textarea.value = '';
+    });
+  }
+
+  // ── CEQA grid ──────────────────────────────────────────────────────────────────
+  const ceqaData = $id('dd-ceqa-data');
+  if (ceqaData) {
+    const rows: CeqaRow[] = JSON.parse(ceqaData.textContent || '[]');
+    const displayRows = rows.map((r) => ({
+      ...r,
+      constructionLabel: INTENSITY_LABEL[r.construction] ?? r.construction,
+      operationsLabel: INTENSITY_LABEL[r.operations] ?? r.operations,
+    }));
+
+    const columnDefs: ColDef<any>[] = [
+      { field: 'name', headerName: 'Resource', flex: 1.6, minWidth: 220 },
+      { field: 'constructionLabel', headerName: 'Construction', width: 150, cellRenderer: makeQuietChipRenderer({ toneField: 'construction', className: 'dd-chip' }) },
+      { field: 'operationsLabel', headerName: 'Operations', width: 150, cellRenderer: makeQuietChipRenderer({ toneField: 'operations', className: 'dd-chip' }) },
+      { field: 'notes', headerName: 'Rationale / data needed', flex: 2, minWidth: 260 },
+    ];
+
+    const gridOptions: GridOptions<any> = {
+      theme: beaconTheme,
+      rowData: displayRows,
+      columnDefs,
+      defaultColDef: { sortable: true, resizable: true, filter: true, suppressHeaderMenuButton: true, wrapText: true, autoHeight: true },
+    };
+
+    const host = document.querySelector<HTMLElement>('[data-ceqa-host]');
+    if (host) {
+      mountBeaconGrid({
+        mount: host.closest('section')!,
+        prefix: 'ceqa',
+        gridOptions,
+        csvName: 'ceqa-appendix-g.csv',
+        totalRows: () => rows.length,
+      });
+    }
+  }
+
+  document.getElementById('pm-excel')?.addEventListener('click', () => {
+    // Prototype-only export affordance — the grid's own CSV download is the real one.
+  });
+</script>
+
+<style>
+  /* bcn-lego-checked: grid-host geometry + the quiet-chip tone rules AG Grid injects
+     outside Astro's scope (mountBeaconGrid's own convention, see BcnComponentGrid). */
+  .dd-grid-host {
+    inline-size: 100%;
+    block-size: 26rem;
+  }
+  /* beaconTheme's line-height is derived from its fixed 44px single-line rowHeight —
+     correct for centering one line, but autoHeight + wrapText stacks that SAME 41px
+     line-height per wrapped line, so a 3-line cell reads triple-spaced. Wrapped cells
+     get their own tighter, font-relative line-height instead. */
+  :global(.ag-cell-wrap-text) {
+    line-height: 1.35 !important;
+    padding-block: var(--spacing-200) !important;
+  }
+  :global(.dd-chip) {
+    --_tone: var(--color-text-muted, #8a9099);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_tone) 16%, transparent);
+    color: color-mix(in srgb, var(--_tone) 70%, var(--color-text-primary));
+  }
+  :global(.dd-chip::before) {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    background: var(--_tone);
+    flex-shrink: 0;
+  }
+  :global(.dd-chip[data-tone='applicable'])     { --_tone: var(--color-warning, #f59e0b); }
+  :global(.dd-chip[data-tone='potentially'])    { --_tone: var(--color-info, #228be6); }
+  :global(.dd-chip[data-tone='not-likely'])     { --_tone: var(--color-success, #2e7571); }
+  :global(.dd-chip[data-tone='not-applicable']) { --_tone: var(--color-text-muted, #8a9099); }
+  :global(.dd-chip[data-tone='High'])           { --_tone: var(--color-danger, #e5484d); }
+  :global(.dd-chip[data-tone='Med'])            { --_tone: var(--color-warning, #f59e0b); }
+  :global(.dd-chip[data-tone='Low'])            { --_tone: var(--color-info, #228be6); }
+  :global(.dd-chip[data-tone='—'])              { --_tone: var(--color-text-muted, #8a9099); }
+  :global(.dd-chip[data-tone='preliminary'])    { --_tone: var(--color-text-muted, #8a9099); }
+  :global(.dd-chip[data-tone='confirmed'])      { --_tone: var(--color-success, #2e7571); }
+
+  /* Permit editor drawer — read-only details, and the two log lists (activity +
+     comments) that share one row shape (text line + a by/when meta line). */
+  .pm-d-label {
+    color: var(--color-text-tertiary);
+  }
+  .pm-kv {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-150) var(--spacing-300);
+    margin: 0;
+    padding-left: var(--spacing-300);
+  }
+  .pm-kv dt {
+    color: var(--color-text-tertiary);
+  }
+  .pm-kv dd {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+  .pm-activity,
+  .pm-comments {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: var(--spacing-300);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+  :global(.pm-log__text) {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+  :global(.pm-log__meta) {
+    color: var(--color-text-tertiary);
+    font-size: var(--type-size-150);
+  }
+  :global(.pm-log__empty) {
+    color: var(--color-text-tertiary);
+    font-size: var(--type-size-200);
+  }
+</style>

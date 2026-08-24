@@ -9,13 +9,14 @@
 export type PrototypeStatus = 'live' | 'in-progress' | 'planned' | 'archived';
 
 /** The tenant an effort was built for. 'platform' = ships to every tenant. */
-export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'platform';
+export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'beale' | 'platform';
 
 /** Display labels for the tenant facet. 'platform' borrows the product's own phrase. */
 export const TENANT_LABEL: Record<PrototypeTenant, string> = {
   dcp: 'Delta Conveyance',
   prologis: 'Prologis',
   aws: 'AWS',
+  beale: 'Beale',
   platform: 'All tenants',
 };
 
@@ -166,13 +167,33 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-07-14',
         status: 'in-progress',
       },
+    ],
+  },
+  {
+    slug: 'component-dashboard',
+    tenant: 'dcp',
+    title: 'Component Dashboard',
+    description:
+      'The follow-up to the Project Dashboard, one level down the tree: a component index that exists to route, and a per-component homepage that scopes tracking, monitoring, reporting, work areas, and setup to the one part of the project a person is actually working on.',
+    pages: [
       {
         slug: 'component-dashboard',
         title: 'Component Dashboard',
         description:
-          'The reimagined "All Components" surface: each component read as a compliance-tracking unit with a Tracking · Monitoring · Reporting pulse per card, and project-wide component health rolled up into a summary band. Companion to the Project Dashboard.',
+          'The per-component homepage — the project dashboard slimmed to one component. A white identity bar carrying a glyph-and-color mark instead of a cover photo, a timeline and Tracking · Monitoring · Reporting modules scoped to this component, the work-areas grid lifted off its retired tab complete with bulk import and delete, a footprint map drawn from the work areas\' real coordinates, and a deliberately thin data rail — because a component owns almost nothing of its own but its milestone overrides.',
         route: '/prototypes/component-dashboard',
+        createdAt: '2026-08-13',
+        ticket: 'BCN-1412',
+        status: 'in-progress',
+      },
+      {
+        slug: 'components',
+        title: 'Components (index)',
+        description:
+          'The middle of the tree, whose whole job is getting you to one component: a grid carrying each component\'s identity mark and a colored status so two dozen rows stay scannable, and a map of their footprints along the project alignment — with project-wide component health rolled up into a summary band above.',
+        route: '/prototypes/components',
         createdAt: '2026-07-16',
+        ticket: 'BCN-1412',
         status: 'in-progress',
       },
     ],
@@ -392,6 +413,16 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
         tenant: 'platform',
       },
+      {
+        slug: 'monitoring-daily-reports',
+        title: 'Daily Reports',
+        description:
+          'Fieldstone Environmental Monitoring’s field-inspector activity, one row per site visit, with a real downloadable report document per row — matching the Monitoring Portal’s existing Daily Reports grid.',
+        route: '/prototypes/monitoring/daily-reports',
+        createdAt: '2026-08-05',
+        status: 'in-progress',
+        tenant: 'platform',
+      },
     ],
   },
   {
@@ -467,6 +498,33 @@ export const prototypeGroups: PrototypeGroup[] = [
     ],
   },
   {
+    slug: 'evidence',
+    tenant: 'dcp',
+    title: 'Evidence',
+    description:
+      'Connecting evidence of compliance to the actions it proves — a global workspace instead of a filing cabinet you have to navigate into.',
+    pages: [
+      {
+        slug: 'evidence-drawer',
+        title: 'Attach Evidence of Compliance',
+        description:
+          'A new drawer pattern: a global workspace that rises from the BOTTOM of the viewport at 96 × 92 and layers above dialogs, joining evidence on the left to actions on the right. Files dropped together stay one piece of evidence (the container is never named); the action list is hard-scoped to one component with no null state, remembered across sessions; and a Find-matches utility drops suggested actions into the same list you search, each with the reason it was picked and a dismiss. Four entry points: cold from the bottom bar, from one action, from a bulk selection, and from evidence already in Beacon.',
+        route: '/prototypes/evidence-drawer',
+        createdAt: '2026-08-06',
+        status: 'in-progress',
+      },
+      {
+        slug: 'evidence-triage',
+        title: 'Evidence Inbox',
+        description:
+          'The inbox for evidence that arrives without anyone attaching it — synced surveys, daily monitoring reports, finalized Beacon reports and drop-box submissions, which land in the evidence table today with nothing connecting them to an action. A two-pane surface: a queue grouped into relative buckets (Today, Yesterday, Earlier this week, Last week) whose rows report source, file count, component and a suggestion count but carry no verbs, and a review panel where the record is decided — its facts, a collapsed file list, the suggested actions with their commitment code and facets, and a collapsed section for attaching it to an action you pick yourself. Filter by source, component and match strength; unread is tracked per user and shown as a dot plus a header count; clear the queue and it says so.',
+        route: '/prototypes/evidence-triage',
+        createdAt: '2026-08-14',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'help-guidance',
     tenant: 'platform',
     title: 'Help & Guidance',
@@ -498,6 +556,69 @@ export const prototypeGroups: PrototypeGroup[] = [
           'Every Beacon release in one reverse-chronological stream — the changelog pattern in Beacon’s chrome, fed by the real 1.31–1.33 notes. Three tiers per release (headline stories, area-grouped entries with feature-flag notes, a collapsed fixes list), a sticky scroll-spy version rail, and monochrome serif typesetting. The help bar’s What’s-new popover deep-links into each release anchor.',
         route: '/prototypes/release-notes',
         createdAt: '2026-07-22',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
+    slug: 'due-diligence',
+    tenant: 'beale',
+    title: 'Due Diligence',
+    description:
+      'A two-step acquisition workflow for a prospective client: broad site screening against five fixed property criteria across California\'s Central Valley and SoCal, then a single-site desktop Critical Issues Assessment for the one candidate that clears screening.',
+    pages: [
+      {
+        slug: 'due-diligence-siting',
+        title: 'Site Screening',
+        description:
+          'Five candidate properties, code-named after California-grown produce, screened against region, ownership, size, zoning, and substation-proximity criteria. A map of pins colored pass/fail, an AG Grid with a checkmark per criterion, and a candidate drawer with the full checklist and an Advance action — enabled only for the one candidate that clears all five.',
+        route: '/prototypes/due-diligence-siting',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-boundary',
+        title: 'Project Boundary',
+        description:
+          'Draw or simulate an upload of the advancing candidate\'s boundary on an editable Leaflet map (bcn-boundary-draw-map), with a live vertices/perimeter/area/centroid summary and a provenance callout back to the screening result.',
+        route: '/prototypes/due-diligence-boundary',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-overview',
+        title: 'Project Overview',
+        description:
+          'The single-site dashboard: a four-step workflow card (Boundary → Constraints → Permits → Report), project facts, team, critical issues, findings by severity, and recent activity.',
+        route: '/prototypes/due-diligence-overview',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-constraints',
+        title: 'Constraints Cross-Reference',
+        description:
+          'Ten toggleable GIS layers (fire hazard, hazardous waste sites, biological critical habitat, cultural sensitivity, hydrology, transmission) cross-referenced against the boundary, with a findings list sorted by severity and a shared detail drawer reached from either the map or the list.',
+        route: '/prototypes/due-diligence-constraints',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-permits',
+        title: 'Permit Matrix',
+        description:
+          'The permit-and-approval matrix auto-derived from constraint findings (local CUP, generator air permit, USACE/CDFW, SCE large-load interconnection), a preliminary CEQA Appendix G pass, and AHJ outreach notes.',
+        route: '/prototypes/due-diligence-permits',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-report',
+        title: 'CIA Report',
+        description:
+          'The formatted Critical Issues Assessment deliverable, auto-assembled from the boundary, constraint findings, and permit matrix: a sticky-TOC document with resource-by-resource findings and recommendations, a permit matrix appendix, and explicit limitations.',
+        route: '/prototypes/due-diligence-report',
+        createdAt: '2026-08-20',
         status: 'in-progress',
       },
     ],

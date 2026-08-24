@@ -1,0 +1,86 @@
+---
+// <BcnTriageWorkspace> — the two-pane frame the queue and the review panel live in.
+//
+// This exists for one reason the panes cannot own themselves: the FRAME. A triage surface is
+// a major work surface, so it holds a generous FIXED footprint that never resizes on
+// interaction — approving a record must not make the page jump, and opening the
+// low-confidence disclosure must not grow the viewport. Each pane scrolls inside its own half
+// instead, so the queue keeps its place while you read a long rationale.
+//
+// It carries no heading of its own: the PAGE title is "Evidence Inbox" and the count badge
+// sits beside it, so the area is named once instead of twice.
+//
+// The geometry is the .sidebar layout primitive (a hub primitive, not hand-rolled flex): the
+// queue takes a fixed basis, the review pane takes the rest, and below the breakpoint they
+// stack rather than crushing the rationale into a column of two-word lines.
+//
+// bcn-lego-checked: no esa-* lego is a list-plus-detail work frame — esa-app-shell is the
+// whole page chrome (nav + bar + main, already supplied by AppShell), esa-container is a
+// max-width wrapper with no panes, and esa-tab-layout swaps panels rather than showing two.
+// The .sidebar PRIMITIVE is composed here rather than reimplemented; what this component adds
+// is the fixed frame and the two independent scroll regions. Checked Beacon (its list/detail
+// surfaces inline this same glue per page). bcn-triage-workspace is the reusable home.
+import BcnTriageQueue from './BcnTriageQueue.astro';
+import BcnTriageReview from './BcnTriageReview.astro';
+---
+
+<div class="bcn-triage-workspace">
+  <div class="bcn-triage-workspace__panes sidebar" data-gap="md">
+    <div class="bcn-triage-workspace__queue">
+      <BcnTriageQueue />
+    </div>
+    <div class="bcn-triage-workspace__review">
+      <BcnTriageReview />
+    </div>
+  </div>
+</div>
+
+<script>
+  import './triage';
+</script>
+
+<style>
+  .bcn-triage-workspace__panes {
+    /* Wide enough to hold a record title on one or two lines and the proposed action beside
+       its Approve without truncating the action name at the first clause. */
+    --sidebar-width: 31rem;
+    --sidebar-content-min: 42%;
+
+    /* Fixed, and deliberately not a percentage of content: the frame is the same height
+       whether sixteen records are waiting or one is. */
+    height: clamp(32rem, 70vh, 58rem);
+    align-items: stretch;
+  }
+
+  /* .sidebar wraps, and a WRAPPED flex line sizes its cross axis to content — so
+     align-items: stretch alone lets a tall pane push straight past the frame. Both panes
+     take the frame's height explicitly instead, and scroll inside it. */
+  .bcn-triage-workspace__queue {
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* The review pane stops at its content instead of filling the frame: a bordered box of
+     white below the last section reads as something missing. It still cannot outgrow the
+     frame — max-height keeps a long record scrolling inside it rather than stretching the
+     page. The QUEUE keeps its full height, because a list that shrank to its rows would
+     make the frame jump every time a filter ran. */
+  .bcn-triage-workspace__review {
+    align-self: start;
+    max-height: 100%;
+    min-height: 0;
+  }
+
+  /* Below the wrap point the panes stack, and a fixed frame would trap both in half a
+     screen — so the frame releases and the page scrolls normally instead. */
+  @media (max-width: 60rem) {
+    .bcn-triage-workspace__panes {
+      height: auto;
+    }
+
+    .bcn-triage-workspace__queue,
+    .bcn-triage-workspace__review {
+      height: clamp(24rem, 60vh, 40rem);
+    }
+  }
+</style>

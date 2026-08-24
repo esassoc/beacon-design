@@ -7,12 +7,16 @@
 // "What's new" icon-button with an unread dot that opens a popover of recent release notes.
 //
 // Wiring is by data-* hook, composed BLIND against siblings — this component adds NO open
-// behavior for search or the guidance drawer; it only advertises the hooks the siblings
+// behavior for the evidence or guidance drawers; it only advertises the hooks the siblings
 // already listen on, plus its own local what's-new state:
-//   • [data-help-trigger] — the route-aware guidance drawer (sibling) opens on clicks here.
-//   • [data-omni-trigger] — the existing global omni-search palette opens on clicks here.
-//   • [data-whatsnew]     — LOCAL only: the first click marks WHATS_NEW seen (localStorage
-//                           'bcn-whats-new-seen' = newest entry date) and hides the dot.
+//   • [data-help-trigger]     — the route-aware guidance drawer (sibling) opens on clicks here.
+//   • [data-evidence-trigger] — the global evidence drawer (sibling) opens on clicks here.
+//   • [data-whatsnew]         — LOCAL only: the first click marks WHATS_NEW seen (localStorage
+//                               'bcn-whats-new-seen' = newest entry date) and hides the dot.
+//
+// The middle slot held a SECOND search button until the 2026-08-04 product meeting; it was
+// redundant with the top bar's search field and ⌘K, and this bar is where Beacon's bottom
+// affordances live, so the global evidence drawer took the slot.
 //
 // bcn-lego-checked: the floating bottom-center utility BAR has no esa-* equivalent — esa-app-bar
 // is the fixed TOP chrome strip, not a detached toolbar (checked Beacon — none), so the pill
@@ -54,9 +58,18 @@ const fmtLong = (iso: string): string =>
 
   <span class="bcn-help-bar__divider" aria-hidden="true"></span>
 
-  <!-- Search — icon-only; the tooltip host also carries the omni-search open hook. -->
-  <esa-tooltip class="bcn-help-bar__tooltip" text="Search" position="above" data-omni-trigger>
-    <EsaIconButton icon="search" label="Search" size="md" />
+  <!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
+       GLYPH NOTE: the spoke's committed evidence glyph is the paperclip in global-search's
+       SCOPES (what the ⌘K palette shows for Evidence of Compliance), but esa-icon-button
+       forwards only a registry `name` — no custom `paths` — and the hub registry has no
+       paperclip. Using 'file-text' until paperclip is registered in the hub, the same
+       constraint and the same fix as 'notepad-text' below.
+       This slot used to hold a duplicate Search button. It was replaced (product meeting
+       2026-08-04): search already has the top bar's own field and ⌘K, and this bar is
+       where Beacon's bottom affordances live, which is where the global evidence drawer
+       belongs. -->
+  <esa-tooltip class="bcn-help-bar__tooltip" text="Attach Evidence of Compliance" position="above" data-evidence-trigger>
+    <EsaIconButton icon="file-text" label="Attach Evidence of Compliance" size="md" />
   </esa-tooltip>
 
   <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->

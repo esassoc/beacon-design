@@ -1,0 +1,79 @@
+---
+// <BcnDisclosureToggle> — the chevron that opens and shuts a card, shared by the evidence
+// drawer's two card types: the action cards on the right and the evidence cards on the left.
+//
+// It is ONE component because the two must be identical, not merely similar. They sit in
+// opposite halves of the same drawer and are read against each other, so any drift in size,
+// hit area or rotation reads immediately as a mistake — and this drawer has already had two
+// values drift apart (the search gap, the focus colour) for exactly that reason.
+//
+// The rotation is driven by the button's OWN aria-expanded, not by a [data-collapsed]
+// attribute on some ancestor. That keeps the component self-contained — each host names its
+// collapsed state differently — and means the visual state can never disagree with the state
+// screen readers are told, because they are the same attribute.
+//
+// bcn-lego-checked: esa-icon-button is the nearest lego and does not fit — it has no
+// aria-expanded, no rotation, and its own padded 32px hit box, which would sit a chevron
+// larger than the 20px the card titles are set against. esa-collapsible owns the whole
+// disclosure INCLUDING the panel; here the panel is the card body, which the host lays out
+// and the controller re-renders, so only the trigger is wanted. Checked Beacon: prod's
+// expandable rows use a bare button + chevron, which is what this is. bcn-disclosure-toggle
+// is the reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Props {
+  /** The data-* hook the host's controller listens on, e.g. `data-card-toggle`. */
+  hook: string;
+  /** The record id this toggle carries, handed back on the hook. */
+  value: string;
+  /** Accessible name, e.g. "Collapse Nesting bird survey". */
+  label: string;
+  /** Open by default — both card types load expanded. */
+  expanded?: boolean;
+}
+const { hook, value, label, expanded = true } = Astro.props;
+const hookAttr = { [hook]: value };
+---
+
+<button
+  type="button"
+  class="bcn-disclosure"
+  aria-expanded={String(expanded)}
+  aria-label={label}
+  {...hookAttr}
+>
+  <EsaIcon name="chevron-down" size="sm" />
+</button>
+
+<style>
+  .bcn-disclosure {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-100);
+    background: transparent;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+  }
+  .bcn-disclosure:hover {
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+  }
+  .bcn-disclosure :global(.esa-icon) {
+    transition: transform 150ms ease;
+  }
+  /* Shut: the chevron points at the title instead of down at a body that is not there. */
+  .bcn-disclosure[aria-expanded='false'] :global(.esa-icon) {
+    transform: rotate(-90deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-disclosure :global(.esa-icon) {
+      transition: none;
+    }
+  }
+</style>

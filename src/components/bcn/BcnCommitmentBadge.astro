@@ -13,11 +13,18 @@ interface Props {
   code: string;
   /** `sm` for dense rows (timeline popovers, module lists). */
   size?: 'sm' | 'md';
+  /**
+   * `neutral` renders the same CHIP in gray — for companions that must match this badge's
+   * height and radius exactly but are not themselves a commitment (e.g. a "+ 2 more"
+   * overflow tag sitting beside one). Extending this component keeps a single definition
+   * of the chip's metrics; a hand-matched copy would drift the first time either moved.
+   */
+  tone?: 'commitment' | 'neutral';
 }
-const { code, size = 'md' } = Astro.props;
+const { code, size = 'md', tone = 'commitment' } = Astro.props;
 ---
 
-<span class:list={['bcn-cbadge', `bcn-cbadge--${size}`]}>{code}</span>
+<span class:list={['bcn-cbadge', `bcn-cbadge--${size}`, tone === 'neutral' && 'bcn-cbadge--neutral']}>{code}</span>
 
 <style>
   .bcn-cbadge {
@@ -37,5 +44,11 @@ const { code, size = 'md' } = Astro.props;
   .bcn-cbadge--sm {
     font-size: 0.75rem;
     padding: 1px var(--spacing-150);
+  }
+  /* Same chip, no entity colour — the gray companion. */
+  .bcn-cbadge--neutral {
+    font-family: var(--font-sans);
+    color: var(--bcn-gray-700);
+    background: var(--bcn-gray-100);
   }
 </style>

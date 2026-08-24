@@ -21,6 +21,12 @@ import { fileURLToPath } from 'node:url';
 import baseline from './handoff-guidance-baseline.mjs';
 
 const root = (p) => fileURLToPath(new URL('../' + p, import.meta.url));
+// Dynamic import() needs a file:// URL, NOT a filesystem path. On macOS/Linux a posix path
+// happens to work, so this only ever failed on Windows — with
+// ERR_UNSUPPORTED_ESM_URL_SCHEME "Received protocol 'c:'" — and only at deploy time, since
+// predeploy is the one place this script runs. Same family as the spawn() calls fixed in
+// gen-handoff.mjs. Keep root() for readFileSync and use this for import().
+const rootUrl = (p) => new URL('../' + p, import.meta.url).href;
 
 if (process.env.HANDOFF_SKIP_GUIDANCE) {
   console.warn('handoff:check — SKIPPED via HANDOFF_SKIP_GUIDANCE. Guidance gaps are shipping.');
@@ -64,7 +70,7 @@ for (const t of ungated)
 // 2. A section inside a spec that carries none of the four guidance keys produces a
 //    bundle entry with markup and styles but nothing telling a dev what it is for.
 for (const slug of [...specs].sort()) {
-  const spec = (await import(root(`src/data/handoff/${slug}.mjs`))).default;
+  const spec = (await import(rootUrl(`src/data/handoff/${slug}.mjs`))).default;
   for (const s of spec.sections ?? [])
     if (!s.intent && !s.decisions && !s.gotchas && !s.acceptance)
       errors.push(`${slug} — section "${s.label}" has no guidance (needs at least an intent).`);

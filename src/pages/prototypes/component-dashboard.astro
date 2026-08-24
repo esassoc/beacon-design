@@ -1,116 +1,189 @@
 ---
-// Component Dashboard — the reimagined "All Components" surface for a Beacon
-// project. Today that screen is a bare AG Grid (name · status word · description);
-// this reads each component as a compliance-tracking unit and rolls the whole
-// project's component health up into a summary band. Companion to the project
-// dashboard prototype.
+// Component Dashboard — the per-component homepage, one level below the project
+// dashboard. The follow-up epic to BCN-1039, shaped on the 2026-08-13 design call.
 //
-// The approved HTML specimen (margot/specimens/component-dashboard) is the visual
-// truth; this is its component-composed translation into the spoke.
+// THE JOB, in the user's words: someone is working the geotech component and
+// nothing else. They arrive from a starred box on the project dashboard and
+// everything narrows to that component — its tracking, its monitoring, its
+// reporting, its work areas, its dates, its footprint. "I don't need to worry
+// about anything else, any project setup sort of stuff. Let me focus my efforts
+// on this one segment."
+//
+// So this page is the project dashboard with the SAME SPINE and a smaller set.
+// Actions are still the spine; urgency is still derived from due date and never
+// stored; the modules still sit above everything else. What changes:
+//
+//   · NO COVER PHOTO. The project gets a hero band; a component gets a white bar
+//     with its MARK — a glyph and a color from closed sets — beside its name.
+//     The argument (see src/data/entity-marks.ts) is the parking-garage floor:
+//     a landmark that tells two dozen components apart at a glance, and a
+//     question a user can always answer, unlike "what's a good photo for a
+//     launch shaft?"
+//   · COMPONENTS → WORK AREAS. Where the project lists its starred components,
+//     the component lists its work areas — the grid lifted off the tab that this
+//     effort retires, bulk import and delete included. Prod's version showed one
+//     column, Identifier, while discarding the geometry, measure and custom
+//     fields it already fetched; the columns here are the fields that were
+//     always there.
+//   · SETUP WIZARD → APPLICABLE COMMITMENTS. The project's four-step pipeline
+//     card is replaced by the applicable-commitments card, which opens a WIDE
+//     drawer. Two models of that drawer were mounted here and chosen between on
+//     2026-08-14: the decision workspace won, the triage queue was deleted, and
+//     the comparison lives in docs/component-setup-model-comparison.md.
+//   · A THIN RAIL. The project has six data panels. A component has four, and
+//     really only one it edits — milestones. Species, seasons and construction
+//     activities are project-level; a component copy would imply an override the
+//     data model does not have.
+//   · NO EVIDENCE SURFACE (decided 2026-08-13). The retired Summary tab ended in
+//     a "Highlighted Evidence of Compliance" grid, so its absence here could read
+//     as something lost in the move. It is not: that grid is fed by an opt-in
+//     join nothing in the app writes, and it renders nothing when empty — which
+//     is why nobody has seen it in QA. Evidence already has homes (the app-wide
+//     drawer attaches it, the Data Catalog lists it). A component-scoped evidence
+//     view may earn its place later; it would be a new surface, not that grid.
+//
+// The map draws WORK AREAS, not a boundary, because Component has no geometry
+// column and the boundary epic (BCN-1582) is Ready-for-Dev with zero commits.
+// Work-area coordinates are real, already returned by the endpoint, and thrown
+// away by every surface today — which is exactly what BCN-1583 slice 1 proposes
+// to fix. Honest now, and forward-compatible.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
-import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
-import BcnComponentSummary from '../../components/bcn/BcnComponentSummary.astro';
-import BcnComponentBoard from '../../components/bcn/BcnComponentBoard.astro';
-import { POPULATED, DENSE, summarize } from '../../data/component-dashboard';
-
-const populatedSummary = summarize(POPULATED);
-const denseSummary = summarize(DENSE);
+import BcnComponentHeader from '../../components/bcn/BcnComponentHeader.astro';
+import BcnProjectTimeline from '../../components/bcn/BcnProjectTimeline.astro';
+import BcnModules from '../../components/bcn/BcnModules.astro';
+import BcnWorkAreaBoard from '../../components/bcn/BcnWorkAreaBoard.astro';
+import BcnComponentSetupCard from '../../components/bcn/BcnComponentSetupCard.astro';
+import BcnLinkRowCard from '../../components/bcn/BcnLinkRowCard.astro';
+import BcnFootprintMap from '../../components/bcn/BcnFootprintMap.astro';
+import BcnProjectFacts from '../../components/bcn/BcnProjectFacts.astro';
+import BcnComponentDataPanel from '../../components/bcn/BcnComponentDataPanel.astro';
+import BcnLogoPicker from '../../components/bcn/BcnLogoPicker.astro';
+import BcnSetupWorkspace from '../../components/bcn/BcnSetupWorkspace.astro';
+import { componentNav } from '../../data/component-nav';
+import {
+  COMPONENT,
+  COMPONENT_ACTIONS,
+  COMPONENT_FACTS,
+  COMPONENT_MAP_LEGEND,
+  COMPONENT_MAP_POINTS,
+  COMPONENT_MODULES,
+  COMPONENT_TIMELINE_MILESTONES,
+  COMPONENT_UTILITIES,
+  SIBLINGS,
+  WORK_AREAS,
+  WORK_AREA_ACRES,
+  WORK_AREA_COUNT,
+} from '../../data/component-detail';
+import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmtDate } from '../../data/component-commitments';
 ---
 
 <!-- manifest:
-  layout: stack
+  layout: full-bleed header (PageLayout bleed slot), then stack(xl) > timeline + sidebar   # SPINE
   sections:
-    - utilities: state preview -> esa-button-toggle
-    - utilities: new component  -> esa-button
-    - status summary            -> bcn-component-summary
-    - components board          -> bcn-component-board
-    - empty state                -> esa-empty-state
+    - component header      -> bcn-component-header       # white identity bar; mark, not a cover photo
+    - timeline              -> bcn-project-timeline       # 30/60/90d, scoped to this component's actions
+    - modules               -> bcn-modules                # Tracking / Monitoring / Reporting, scoped
+    - work areas            -> bcn-work-area-board        # the retired tab's grid + its bulk actions
+    - component setup       -> bcn-component-setup-card   # applicable-commitment progress; opens the wide drawer
+    - component data rail   -> bcn-link-row-card          # four rows, not six; opens panels via ?data=<key>
+    - component map         -> bcn-footprint-map          # work-area footprint, inset -> modal
+    - component details     -> bcn-project-facts          # Component-record fields + files
+    - component data panel  -> bcn-component-data-panel   # the ?data= side panels
+    - logo picker           -> bcn-logo-picker            # glyph x color mark editor
+    - commitments drawer    -> bcn-setup-workspace        # faceted decision workspace (overlay)
 -->
 
 <AppShell
-  title="Components — Delta Conveyance"
+  title={`${COMPONENT.name} — Beacon`}
   tenantName="DWR"
   projectName="Delta Conveyance"
-  activeNavId="all-components"
-  expandedSections={['tracking']}
+  navSections={componentNav('components')}
 >
   <PageLayout
-    title="Components"
+    title={COMPONENT.name}
+    hideTitleRow
+    bleedHeader
     breadcrumbs={[
-      { label: 'Delta Conveyance', href: '#project' },
-      { label: 'Tracking', href: '#tracking' },
-      { label: 'Components' },
+      { label: 'Delta Conveyance', href: '/prototypes/project-dashboard' },
+      { label: 'All Components', href: SIBLINGS.indexHref },
+      { label: COMPONENT.name },
     ]}
   >
-    <div slot="utilities" class="cluster" data-gap="sm">
-      <span class="type-label">Preview</span>
-      <esa-button-toggle id="state-toggle" value="populated" size="sm"></esa-button-toggle>
-      <span id="new-cmp-wrap">
-        <EsaButton color="primary" icon="plus">New component</EsaButton>
-      </span>
-    </div>
+    {/* The prev/next stepper that sat at the end of the breadcrumb bar was cut at
+        review (2026-08-13). It was kept an earlier round on the strength of being a
+        nice addition, and on a second look it is not one the page needs: the trail
+        already goes back to All Components, walking a 16-component project one
+        arrow at a time is not how anyone finds a component, and it put a second
+        navigation model on a page whose job is to be scoped to ONE component.
+        bcn-sibling-nav survives in the repo for a surface that wants it. */}
+    <BcnComponentHeader slot="bleed" component={COMPONENT} starred />
 
-    <!-- STATE A — populated project -->
-    <div class="stack" data-gap="lg" data-state-panel="populated">
-      <BcnComponentSummary summary={populatedSummary} />
-      <BcnComponentBoard components={POPULATED} />
-    </div>
+    <div class="stack" data-gap="xl">
+      <BcnProjectTimeline
+        actions={COMPONENT_ACTIONS}
+        milestones={COMPONENT_TIMELINE_MILESTONES}
+        idPrefix="cmp-tl"
+        title="Timeline"
+      />
 
-    <!-- STATE B — empty (first run) -->
-    <div data-state-panel="empty" hidden>
-      <EsaEmptyState
-        title="No components yet"
-        description="Components are the pieces of Delta Conveyance you track compliance against — intakes, shafts, forebays, staging areas. Add the first one to start rolling up its requirements, actions, and monitoring activity here."
-        size="lg"
-      >
-        <svg slot="icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/>
-          <path d="M3.29 7 12 12l8.71-5"/>
-          <path d="M12 22V12"/>
-        </svg>
-        <EsaButton color="primary" icon="plus">Add first component</EsaButton>
-        <EsaButton color="ghost" appearance="outline">Import from source documents</EsaButton>
-      </EsaEmptyState>
-    </div>
+      {/* 21.5rem, not the project dashboard's declared 16rem, so the two pages LOOK
+          alike. Both declare 16rem; the project's rail renders ~343px anyway because
+          its content (long data labels, the project description) pushes past the
+          basis, while this page's shorter labels sit at it — 257px, and a main column
+          86px wider. Matching the rendered width is what actually matches the pages;
+          matching the declared one is what let them drift. */}
+      <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 21.5rem; --sidebar-content-min: 64%;">
+        <div class="stack" data-gap="lg">
+          <BcnLinkRowCard title="Component data" rows={COMPONENT_UTILITIES} chevrons />
+          <BcnFootprintMap
+            points={COMPONENT_MAP_POINTS}
+            variant="inset"
+            idPrefix="cmp-footprint"
+            title="Component footprint"
+            sourceLabel={`Work area locations (${WORK_AREA_COUNT})`}
+            legend={COMPONENT_MAP_LEGEND}
+          />
+          {/* No `files`: ComponentDto has no Files field. Component files in prod are
+              EvidenceOfComplianceFile rows reached through evidence records, which is
+              a different entity and a different surface. */}
+          <BcnProjectFacts title="Component details" facts={COMPONENT_FACTS} description={COMPONENT.description} />
+        </div>
 
-    <!-- STATE C — dense (stress test) -->
-    <div class="stack" data-gap="lg" data-state-panel="dense" hidden>
-      <BcnComponentSummary summary={denseSummary} />
-      <BcnComponentBoard components={DENSE} />
+        <div class="stack" data-gap="xl">
+          <BcnModules modules={COMPONENT_MODULES} actions={COMPONENT_ACTIONS} idPrefix="" />
+          <BcnWorkAreaBoard workAreas={WORK_AREAS} acres={WORK_AREA_ACRES} />
+          <BcnComponentSetupCard
+            undecided={SETUP_TOTALS.undecided}
+            newSince={SETUP_TOTALS.newSince}
+            decided={SETUP_TOTALS.decided}
+            total={SETUP_TOTALS.total}
+            percent={DECIDED_PERCENT}
+            lastReviewed={fmtDate(LAST_REVIEWED)}
+            pendingActions={PENDING_ACTION_COUNT}
+            opensPrimary="bcn-setup-workspace"
+          />
+        </div>
+      </div>
     </div>
   </PageLayout>
+
+  <BcnComponentDataPanel />
+  <BcnLogoPicker mark={COMPONENT.mark} entityName={COMPONENT.name} heading="Component logo" />
+  <BcnSetupWorkspace id="bcn-setup-workspace" componentName={COMPONENT.name} />
 </AppShell>
 
 <script>
-  import '@esa/ecology/esa-button-toggle';
-
-  interface ToggleEl extends HTMLElement {
-    options: { label: string; value: string }[];
-    value: string;
-  }
-
-  const toggle = document.getElementById('state-toggle') as ToggleEl | null;
-  const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-state-panel]'));
-  const newBtnWrap = document.getElementById('new-cmp-wrap');
-
-  if (toggle) {
-    toggle.options = [
-      { label: 'Populated', value: 'populated' },
-      { label: 'Empty', value: 'empty' },
-      { label: 'Dense', value: 'dense' },
-    ];
-    toggle.value = 'populated';
-
-    const show = (state: string) => {
-      panels.forEach((p) => {
-        p.hidden = p.dataset.statePanel !== state;
-      });
-      if (newBtnWrap) newBtnWrap.hidden = state === 'empty';
-    };
-
-    toggle.addEventListener('change', (e) => show((e as CustomEvent).detail.value as string));
-    show('populated');
-  }
+  // The setup card's two buttons are the only doors into the drawers on this
+  // page. Same handshake the comparison page uses: the launcher carries the
+  // target's id, opening is show()/open on the dialog host.
+  document.querySelectorAll<HTMLElement>('[data-opens]').forEach((launcher) => {
+    launcher.addEventListener('click', () => {
+      const target = document.getElementById(launcher.dataset.opens ?? '');
+      if (!target) return;
+      const host = target as HTMLElement & { open?: boolean; show?: () => void };
+      if (typeof host.show === 'function') host.show();
+      else host.open = true;
+    });
+  });
 </script>

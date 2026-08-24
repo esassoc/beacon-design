@@ -1,0 +1,153 @@
+---
+// <BcnSiblingNav> — previous / next between sibling records, for the end of the
+// breadcrumb bar.
+//
+// This is a port of a pattern prod already has: `<commitment-navigation>`, which
+// `breadcrumbs.component.ts` imports and renders inside the breadcrumb row. That
+// component takes the parent's ORDERED list of child ids plus the current id,
+// computes prev/next as index ± 1, and disables at the ends. Same contract here,
+// generalized off commitments.
+//
+// WHY THE ORDERED LIST IS A PROP, and not something this component derives:
+//
+//   1. ACCESS. Component is `IAmComponentScoped`, and BeaconDbContext applies a
+//      global filter — `!_componentScopeActive || _inScopeComponentIDs.Contains(...)`
+//      — stamped per request by ComponentScopeMiddleware from the user's
+//      organization grants (BCN-1367/1368). So the list a caller can obtain is
+//      ALREADY the in-scope set. Prev/next therefore cannot walk into a component
+//      the user may not see, and needs no permission logic of its own: skipping
+//      inaccessible siblings is not a feature to build, it is what filtering the
+//      source list already does. Note the house rule is see-all-unless-scoped —
+//      no grants means unrestricted, never fail-closed.
+//   2. ORDER. "Next" only means something relative to a list the user has seen.
+//      The caller owns that ordering so the arrows agree with the index page
+//      rather than inventing a second sequence.
+//
+// Ends are DISABLED, not hidden, so the control keeps its width and the position
+// readout does not jump as you move through the set — prod's `hasPreviousCommitment`
+// / `hasNextCommitment` do the same.
+//
+// bcn-lego-checked: esa-icon supplies the chevrons and esa-tooltip the full name on
+// a truncated label. Checked Ecology for a prev/next lego — esa-pagination is
+// page-number navigation over a collection, not sibling traversal of one record, and
+// esa-breadcrumbs is the trail itself; neither fits. Checked Beacon, which has
+// exactly this as `<commitment-navigation>` (commitment-only, Angular). bcn-sibling-nav
+// is the reusable home; its own CSS is the row and the label truncation.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { withBase } from '../../lib/base';
+
+export interface SiblingItem {
+  name: string;
+  href: string;
+}
+
+interface Props {
+  /**
+   * The ordered sibling set the arrows walk — ALREADY narrowed to what this user
+   * may see (see the note above). Include the current record.
+   */
+  items: SiblingItem[];
+  /** Index of the current record within `items`. */
+  currentIndex: number;
+  /** Singular entity noun for accessible names, e.g. "component". Tenants alias it. */
+  entityLabel?: string;
+  /** Longest label rendered before truncation kicks in. */
+  maxChars?: number;
+}
+
+const { items, currentIndex, entityLabel = 'component', maxChars = 24 } = Astro.props;
+
+const prev = currentIndex > 0 ? items[currentIndex - 1] : null;
+const next = currentIndex < items.length - 1 ? items[currentIndex + 1] : null;
+
+const truncate = (s: string) => (s.length > maxChars ? `${s.slice(0, maxChars - 1).trimEnd()}…` : s);
+const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
+---
+
+<div class="bcn-sibnav" role="group" aria-label={`Previous and next ${entityLabel}`}>
+  {
+    prev ? (
+      <a class="bcn-sibnav__link" href={linkHref(prev.href)} title={prev.name} aria-label={`Previous ${entityLabel}: ${prev.name}`}>
+        <EsaIcon name="chevron-left" size="sm" />
+        <span class="bcn-sibnav__label">{truncate(prev.name)}</span>
+      </a>
+    ) : (
+      <span class="bcn-sibnav__link bcn-sibnav__link--off" aria-disabled="true">
+        <EsaIcon name="chevron-left" size="sm" />
+        <span class="bcn-sibnav__label">First</span>
+      </span>
+    )
+  }
+
+  <span class="bcn-sibnav__pos">
+    {currentIndex + 1} of {items.length}
+  </span>
+
+  {
+    next ? (
+      <a class="bcn-sibnav__link" href={linkHref(next.href)} title={next.name} aria-label={`Next ${entityLabel}: ${next.name}`}>
+        <span class="bcn-sibnav__label">{truncate(next.name)}</span>
+        <EsaIcon name="chevron-right" size="sm" />
+      </a>
+    ) : (
+      <span class="bcn-sibnav__link bcn-sibnav__link--off" aria-disabled="true">
+        <span class="bcn-sibnav__label">Last</span>
+        <EsaIcon name="chevron-right" size="sm" />
+      </span>
+    )
+  }
+</div>
+
+<style>
+  .bcn-sibnav {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-sibnav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    min-width: 0;
+    padding: var(--spacing-100) var(--spacing-150);
+    border-radius: var(--radius-100);
+    font-size: var(--type-size-150, 0.875rem);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+  a.bcn-sibnav__link:hover {
+    background: var(--color-surface-sunken);
+    color: var(--color-primary);
+  }
+  /* Ends stay in place rather than disappearing, so the row does not resize as you
+     walk the set. */
+  .bcn-sibnav__link--off {
+    color: var(--color-text-muted);
+    cursor: default;
+  }
+  .bcn-sibnav__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-sibnav__pos {
+    font-size: var(--type-size-150, 0.875rem);
+    color: var(--color-text-tertiary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Narrow viewports keep the arrows and the position, drop the names — the
+     accessible name and the title carry them. */
+  @media (max-width: 64rem) {
+    .bcn-sibnav__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+</style>

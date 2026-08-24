@@ -277,9 +277,18 @@ export interface ModuleRollup {
 export const projectScopedByType = (type: ActionType): ProjectAction[] =>
   PROJECT_ACTIONS.filter((a) => a.type === type && a.projectScoped);
 
-export const rollupFor = (type: ActionType): ModuleRollup => {
-  const all = PROJECT_ACTIONS.filter((a) => a.type === type);
+/**
+ * The rollup derivation over an ARBITRARY action set. The math is identical to
+ * the project-wide rollup — it just takes the set as an argument, so a
+ * COMPONENT-scoped surface can roll up its own slice of the spine without a
+ * second copy of the overdue / due-soon ordering rules.
+ */
+export const rollupOver = (actions: ProjectAction[], type: ActionType): ModuleRollup => {
+  const all = actions.filter((a) => a.type === type);
   const overdue = all.filter((a) => urgencyOf(a) === 'overdue').sort((x, y) => daysOut(x.dueDate) - daysOut(y.dueDate));
   const dueSoon = all.filter((a) => urgencyOf(a) === 'due-soon').sort((x, y) => daysOut(x.dueDate) - daysOut(y.dueDate));
   return { type, overdue, dueSoon, critical: [...overdue, ...dueSoon], all };
 };
+
+/** The PROJECT-wide rollup — same signature and same result as before. */
+export const rollupFor = (type: ActionType): ModuleRollup => rollupOver(PROJECT_ACTIONS, type);

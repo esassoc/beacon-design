@@ -1,0 +1,240 @@
+---
+// <BcnDueDiligenceSteps> — the four stages of a single-site due-diligence review
+// (Boundary → Constraints Cross-Reference → Permit Matrix → CIA Report) as a slim,
+// full-width horizontal pipeline card on the per-project Project Overview.
+//
+// This is the GENERALIZED sibling of <BcnSetupWizardCard>: same horizontal
+// four-step idiom, but the steps arrive as a `steps` PROP rather than a hardcoded
+// import, and each step carries a semantically-specific ICON + a real STATUS
+// BADGE instead of a numeral + rollup count — due-diligence stages have states
+// ("Defined", "2 high findings", "Draft"), not just counts.
+//
+// A step whose prerequisite isn't met renders `disabled`: visibly inert, not a
+// link, no chevron. Its hint rides in `description` (caller writes "Complete
+// Boundary first"), so no extra prop is needed.
+//
+// bcn-lego-checked: no esa-* lego is a horizontal step pipeline — the precedent
+// lookup is already recorded on bcn-setup-wizard-card (esa-progress-bar is a
+// single ratio, esa-breadcrumbs is path navigation, no stepper in the catalog);
+// re-verified against `ls node_modules/@esa/ecology/src/components/` 2026-08-20
+// and the catalog still ships no stepper/pipeline. Beacon prod has due diligence
+// as separate pages, not a pipeline card. Everything inside IS a lego: the shell
+// is esa-card, the step status is esa-badge, every glyph is esa-icon, and the
+// step row is the shared `.grid` layout primitive — the only CSS below is the
+// step TILE itself, which is what bcn-due-diligence-steps exists to own. It is
+// an esa-stepper promotion candidate alongside bcn-setup-wizard-card.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import '@esa/tokens/type-roles.css';
+
+export type DueDiligenceTone = 'success' | 'warning' | 'info' | 'neutral';
+
+export interface DueDiligenceStep {
+  key: string;
+  /** The stage's name, e.g. "Project Boundary". */
+  label: string;
+  /** esa-icon (Lucide) name, e.g. "map-pinned". */
+  icon: string;
+  /** Inline Lucide path markup, for glyphs the esa-icon registry doesn't ship. */
+  iconPaths?: string;
+  /** The stage's state, e.g. "Defined", "2 high findings", "9 likely", "Draft". */
+  statusLabel: string;
+  statusTone: DueDiligenceTone;
+  /** One quiet line, e.g. "Drawn on map · 18.2 ac · 2 parcels" — or, when
+   *  `disabled`, the unlock hint ("Complete Boundary first"). */
+  description: string;
+  /** Already base-prefixed by the caller. */
+  href: string;
+  /** A prior stage isn't complete — render inert, not a link. */
+  disabled?: boolean;
+}
+
+interface Props {
+  steps: DueDiligenceStep[];
+  title?: string;
+}
+
+const { steps, title = 'Due Diligence Workflow' } = Astro.props;
+
+// esa-badge ships variants primary | secondary | success | warning | danger | info.
+// Three of our four tones map straight across. There is no `neutral` variant, so
+// `neutral` rides the BASE variant (`primary`) — the only one that still reads the
+// public --badge-bg / --badge-text-color component-token hooks (every other variant
+// hard-sets --_badge-bg internally) — and the tile re-points those two hooks to the
+// neutral chain below. Re-pointing a component token is the sanctioned theming path;
+// esa-badge's internals are untouched.
+const BADGE_VARIANT = {
+  success: 'success',
+  warning: 'warning',
+  info: 'info',
+  neutral: 'primary',
+} as const;
+---
+
+<EsaCard title={title}>
+  {
+    steps.length === 0 ? (
+      <EsaEmptyState
+        title="No due-diligence stages"
+        description="Add a site boundary to start the review."
+        size="sm"
+      />
+    ) : (
+      <ol class="bcn-dds grid" data-gap="md">
+        {steps.map((s) => {
+          const Tile = s.disabled ? 'div' : 'a';
+          return (
+            <li class="bcn-dds__step">
+              <Tile
+                class="bcn-dds__tile stack"
+                data-gap="sm"
+                data-tone={s.statusTone}
+                data-disabled={s.disabled ? 'true' : undefined}
+                href={s.disabled ? undefined : s.href}
+              >
+                <span class="bcn-dds__top repel" data-gap="xs">
+                  <span class="bcn-dds__mark">
+                    <EsaIcon name={s.icon} paths={s.iconPaths} size="sm" />
+                  </span>
+                  <EsaBadge value={s.statusLabel} variant={BADGE_VARIANT[s.statusTone]} size="sm" />
+                </span>
+
+                <span class="bcn-dds__title-row repel" data-gap="xs">
+                  <span class="bcn-dds__label type-card-title">{s.label}</span>
+                  {!s.disabled && (
+                    <span class="bcn-dds__chev" aria-hidden="true">
+                      <EsaIcon name="chevron-right" size="sm" />
+                    </span>
+                  )}
+                </span>
+
+                <span class="bcn-dds__desc type-body-small">{s.description}</span>
+              </Tile>
+            </li>
+          );
+        })}
+      </ol>
+    )
+  }
+</EsaCard>
+
+<style>
+  /* The step ROW is the shared `.grid` primitive (auto-fit, never overflows a
+     narrow viewport) — --grid-min is the only knob it needs: four stages fit
+     across a full-width card, then fold to 2-up and 1-up on their own. */
+  .bcn-dds {
+    --grid-min: 13rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-dds__step {
+    min-width: 0;
+    display: flex;
+  }
+
+  /* NEUTRAL tiles. Definition comes from the surface + border; state comes from
+     the badge. (A colored edge as a status indicator is banned house-wide.) */
+  .bcn-dds__tile {
+    /* vertical rhythm comes from data-gap="sm" on the .stack — not redeclared
+       here, where it would tie with [data-gap] on specificity. */
+    flex: 1;
+    min-width: 0;
+    padding: var(--spacing-400);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease;
+  }
+  a.bcn-dds__tile:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface);
+  }
+  a.bcn-dds__tile:hover .bcn-dds__label,
+  a.bcn-dds__tile:hover .bcn-dds__chev {
+    color: var(--color-primary);
+  }
+  a.bcn-dds__tile:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* The stage glyph — a quiet square mark, sized one step below the title it
+     labels. It marks the STAGE (structure), the way the wizard card's numeral does. */
+  .bcn-dds__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: var(--radius-100);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  /* .repel already centers; only the width is ours (it's a flex child of .stack). */
+  .bcn-dds__top {
+    width: 100%;
+  }
+
+  /* Title ↔ chevron: `.repel` with wrapping switched off, so a long stage name
+     ("Constraints Cross-Reference") wraps its TEXT rather than dropping the
+     chevron onto its own line in a 13rem tile. */
+  .bcn-dds__title-row {
+    --align: flex-start;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  .bcn-dds__label {
+    min-width: 0;
+    color: var(--color-text-primary);
+  }
+  .bcn-dds__chev {
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+    color: var(--color-text-muted);
+    transition: color 150ms ease;
+  }
+
+  /* Secondary, not tertiary: this line shrinks to 14px, so it darkens rather
+     than grays out. */
+  .bcn-dds__desc {
+    color: var(--color-text-secondary);
+    min-width: 0;
+  }
+
+  /* esa-badge has no `neutral` variant — re-point its two public hooks. A white
+     fill on the sunken tile gives the quiet mark its edge without a border. */
+  .bcn-dds__tile[data-tone='neutral'] {
+    --badge-bg: var(--color-surface);
+    --badge-text-color: var(--color-text-secondary);
+  }
+
+  /* Locked stage: visibly inert — no hover, no chevron, no link. The reason
+     ("Complete Boundary first") is the description the caller passed. */
+  .bcn-dds__tile[data-disabled] {
+    background: transparent;
+    border-color: var(--color-border-light);
+    border-style: dashed;
+  }
+  .bcn-dds__tile[data-disabled] .bcn-dds__mark {
+    background: transparent;
+    border-color: var(--color-border-light);
+    color: var(--color-text-muted);
+  }
+  .bcn-dds__tile[data-disabled] .bcn-dds__label {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-dds__tile[data-disabled] .bcn-dds__desc {
+    color: var(--color-text-muted);
+  }
+</style>

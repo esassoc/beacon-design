@@ -1,0 +1,612 @@
+---
+// <BcnBoundaryDrawMap> — an EDITABLE Leaflet map for capturing a project boundary.
+// The user either DRAWS the site outline (polygon or rectangle, then edits or deletes
+// it) or UPLOADS a GIS file; either way the component measures the resulting shape and
+// ANNOUNCES it. It is the input half of the "Define project boundary" due-diligence
+// step; it renders no summary card, no project form, and no Continue button.
+//
+// DUMB ON PURPOSE, the same contract BcnObservationMap keeps: this component owns the
+// basemap, the draw toolbar, the basemap picker, the upload zone and the measurement,
+// and nothing else. Every create / edit / delete dispatches ONE bubbling event on the
+// root —
+//
+//   bcn-boundary-change
+//     detail = {
+//       vertices:    number,           // ring vertices, excluding the closing point
+//       perimeterKm: number,           // 2dp
+//       perimeterFt: number,           // 0dp
+//       acres:       number,           // 1dp
+//       areaSqm:     number,           // 0dp
+//       centroid:    { lat, lon },     // 5dp — bounds centre, see MEASUREMENT below
+//       source:      'draw' | 'upload' // additive: lets a host caption "from file"
+//       fileName?:   string            // additive: present when source === 'upload'
+//     }
+//     detail = null  ⟵  the boundary was DELETED. The host hides its summary.
+//
+// — so the HOST decides whether that fills a summary card, unlocks Continue, or writes
+// a jurisdiction field. That is what makes the component safe to mount twice on a page.
+//
+// MEASUREMENT is deliberately approximate and says so. Perimeter is a real haversine
+// walk of the ring (Leaflet's distanceTo). Area prefers L.GeometryUtil.geodesicArea,
+// which Leaflet.draw ships, and falls back to a cos(lat)-scaled shoelace. The centroid
+// is the BOUNDS centre, not the polygon's true centroid — for a site outline the two
+// are within metres of each other and the bounds centre is what the surface it replaces
+// showed. None of this is survey-grade; a real boundary arrives from the uploaded file
+// once the spatial-data epic lands, and this is the prototype standing in for it.
+//
+// THE UPLOAD IS SIMULATED, exactly as the pre-design-system prototype at
+// public/due-diligence/due-diligence/new-project.html simulated it: picking any file
+// re-seeds the demo boundary and fires the same event with `source: 'upload'`. Nothing
+// is parsed. When no `seedRing` was supplied there is no demo shape to re-seed, so the
+// ring is derived from the CURRENT map view (inset 25%) — deterministic, credible, and
+// it invents no coordinates the caller did not already choose by framing the map.
+//
+// MULTI-INSTANCE CONTRACT — an Astro `<script>` is hoisted and bundled ONCE per page,
+// not re-run per instance, so props are NOT visible to it as a closure. Every DOM id is
+// namespaced by the REQUIRED `idPrefix`, and props are threaded through the DOM instead:
+// `data-*` on the root plus a sibling `<script type="application/json"
+// data-bcn-bmap-data={idPrefix}>` payload. The module walks every `[data-bcn-bmap]` and
+// builds an independent map per root. Same idiom as BcnFootprintMap / BcnObservationMap.
+//
+// Leaflet gotchas, inherited from the siblings and one of this component's own:
+//   1. `setView()` must run BEFORE any layer is added, or Leaflet throws on the first
+//      tile. fitBounds to the seed ring then takes over.
+//   3. a map built in a 0×0 container fits against nothing and opens over the ocean.
+//      This one may mount in a two-column step layout that is still settling, so it
+//      DEFERS construction until its box has real size and then re-fits once more via
+//      ResizeObserver — the caller never has to poke it on reveal.
+//   4. (new) Leaflet.draw 1.0.4 predates Leaflet 1.7's touch refactor and its UMD
+//      bundle reads the GLOBAL `L` rather than requiring 'leaflet'. Both are handled at
+//      the top of boot() — see the comments there.
+//
+// bcn-lego-checked: Ecology has no map, geo, spatial or draw lego at all — `ls
+// node_modules/@esa/ecology/src/components/` (verified against the live symlinked hub
+// source) has nothing of the kind, and the hub's /components esa-map entry is a doc
+// page with no source behind it. Checked Beacon prod: its map is an Angular/Leaflet
+// page, not a reusable ui-* control, and it has no boundary-drawing surface. Both
+// sibling maps were read in full and NEITHER can be reused: BcnFootprintMap and
+// BcnObservationMap are DISPLAY-ONLY — they take finished geometry as a prop and plot
+// it, have no editable layer, no draw/edit/delete handlers and no way to emit a shape
+// back out, so extending either into an editor would fork their display contract for
+// every existing caller. This is the reusable home for an EDITABLE boundary. Every
+// control AROUND the map is a lego and is used as one: the method switch IS
+// esa-button-toggle, the basemap picker IS esa-select, the upload zone IS
+// esa-file-upload (no hand-rolled dropzone). The drawing itself is the standard,
+// widely-used MIT-licensed Leaflet.draw plugin, not a bespoke reinvention. The CSS
+// below is the map container's own geometry plus a restyle of the toolbar Leaflet
+// injects into its own panes — DOM no lego can reach, the same reason
+// styles/beacon-map.css exists.
+import '../../styles/beacon-map.css';
+
+interface Props {
+  /** Namespaces every DOM id so two instances can coexist. REQUIRED — no singletons. */
+  idPrefix: string;
+  /** Optional closed ring of [lat, lon] pairs, drawn as the initial EDITABLE shape so
+   *  the component demonstrates a wired-up state out of the box. Also the shape the
+   *  simulated upload re-seeds. */
+  seedRing?: [number, number][];
+  /** CSS height of the map surface. A fixed frame that never resizes on interaction. */
+  height?: string;
+  /** Names the map for assistive tech. NOT rendered as a heading — the host owns the
+   *  step's heading hierarchy (same call BcnFootprintMap's full variant makes). */
+  title?: string;
+}
+
+const {
+  idPrefix,
+  seedRing = [],
+  height = '560px',
+  title = 'Project boundary',
+} = Astro.props;
+
+const payload = { seedRing };
+
+const mapId = `${idPrefix}-map`;
+const methodId = `${idPrefix}-method`;
+const basemapId = `${idPrefix}-basemap`;
+const uploadId = `${idPrefix}-upload`;
+const hintId = `${idPrefix}-hint`;
+
+const mapLabel = `${title} — draw or edit the site outline`;
+---
+
+<div class="bcn-bmap" id={`${idPrefix}-root`} data-bcn-bmap data-prefix={idPrefix}>
+  <div class="stack" data-gap="md">
+    {/* Method switch left, basemap picker right — both legos, no bespoke buttons. */}
+    <div class="repel bcn-bmap__bar" data-gap="md">
+      <esa-button-toggle id={methodId} size="sm" label="Boundary method"></esa-button-toggle>
+      <esa-select id={basemapId} size="sm" label="Basemap"></esa-select>
+    </div>
+
+    <div
+      class="bcn-bmap__surface"
+      id={mapId}
+      style={`height: ${height};`}
+      role="region"
+      aria-label={mapLabel}
+    >
+    </div>
+
+    {/* Draw mode: one line naming the tools, because a toolbar of Leaflet glyphs does
+        not say "closed shapes only" on its own. */}
+    <p class="bcn-bmap__hint" id={hintId}>
+      Use the polygon or rectangle tool on the map to trace the site outline, then the
+      edit tool to move a vertex. A boundary is a closed shape — points and lines are off.
+    </p>
+
+    {/* Upload mode. A caller may replace the whole zone via the slot; the fallback is
+        the real esa-file-upload lego. Either way the panel listens for the bubbling
+        `change` a file control emits, so a slotted esa-file-upload wires itself. */}
+    <div class="bcn-bmap__upload" id={uploadId} hidden>
+      <slot name="upload">
+        <esa-file-upload
+          label="Upload a GIS file"
+          accept=".zip,.geojson,.json,.kml,.kmz"
+          name="boundary-file"></esa-file-upload>
+      </slot>
+      <p class="bcn-bmap__hint">
+        Shapefile (.zip), GeoJSON, or KML/KMZ. Prototype: the file is not parsed — selecting
+        one loads the demo boundary so the rest of the step can be reviewed.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script
+  type="application/json"
+  data-bcn-bmap-data={idPrefix}
+  set:html={JSON.stringify(payload)}
+></script>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+  import 'leaflet-draw/dist/leaflet.draw.css';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-file-upload';
+
+  type BmapRoot = HTMLElement & {
+    _bcnBmapReady?: boolean;
+    /** Host handle: the live Leaflet map, for a caller that needs to fly somewhere. */
+    _bcnMap?: L.Map;
+    /** Host handle: re-seed the demo boundary programmatically (what a slotted upload
+     *  control would call if it wanted to trigger the simulation itself). */
+    _bcnSeedBoundary?: (fileName?: string) => void;
+  };
+
+  type ToggleEl = HTMLElement & { options: unknown[]; value: string };
+  type SelectEl = HTMLElement & { options: unknown[]; value: string };
+
+  /** Statewide California — the neutral view when there is no seed to fit. */
+  const EMPTY_VIEW: [number, number] = [37.6, -120.4];
+  const EMPTY_ZOOM = 5;
+  const DRAW_FALLBACK = '#005862';
+  const SQM_PER_ACRE = 4046.86;
+  const M_PER_FT = 3.28084;
+
+  const rootStyle = () => getComputedStyle(document.documentElement);
+
+  /**
+   * Leaflet paths take LITERAL colors, so a `var(--color-primary)` has to be resolved
+   * first. Recurses because a semantic token may alias another var(), and honors an
+   * inline var() fallback. Lifted verbatim from BcnFootprintMap / BcnObservationMap —
+   * the third map to need it, and the reason it reads the same in all three.
+   */
+  function resolveColor(value: string, depth = 0): string {
+    const raw = (value || '').trim();
+    if (!raw || depth > 4) return DRAW_FALLBACK;
+    const m = raw.match(/^var\(\s*(--[\w-]+)\s*(?:,\s*([\s\S]+))?\)$/);
+    if (!m) return raw;
+    const resolved = rootStyle().getPropertyValue(m[1]).trim();
+    if (resolved) return resolveColor(resolved, depth + 1);
+    return m[2] ? resolveColor(m[2], depth + 1) : DRAW_FALLBACK;
+  }
+
+  /**
+   * Streets is the CARTO grayscale sheet the sibling maps use, not the full-color OSM
+   * one: house rule is that the container stays neutral so the drawn boundary carries
+   * the only color. Satellite and Terrain are the two cases where the imagery IS the
+   * information — you cannot trace a site outline against a gray rectangle.
+   */
+  const BASEMAPS: Record<string, () => L.TileLayer> = {
+    streets: () =>
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        subdomains: 'abcd',
+        maxZoom: 19,
+      }),
+    satellite: () =>
+      L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        { attribution: '&copy; Esri World Imagery', maxZoom: 19 },
+      ),
+    terrain: () =>
+      L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenTopoMap',
+        maxZoom: 17,
+      }),
+  };
+
+  const BASEMAP_OPTIONS = [
+    { label: 'Streets', value: 'streets' },
+    { label: 'Satellite', value: 'satellite' },
+    { label: 'Terrain', value: 'terrain' },
+  ];
+
+  const METHOD_OPTIONS = [
+    { label: 'Draw on map', value: 'draw' },
+    { label: 'Upload file', value: 'upload' },
+  ];
+
+  function readSeed(prefix: string): [number, number][] {
+    const el = document.querySelector(`[data-bcn-bmap-data="${prefix}"]`);
+    if (!el) return [];
+    try {
+      const parsed = JSON.parse(el.textContent || 'null');
+      const ring = parsed?.seedRing;
+      return Array.isArray(ring) ? (ring as [number, number][]) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  /** The ring a polygon or a rectangle carries — both nest one level. */
+  function ringOf(layer: L.Polygon): L.LatLng[] {
+    const raw = layer.getLatLngs() as L.LatLng[] | L.LatLng[][];
+    return Array.isArray(raw[0]) ? (raw[0] as L.LatLng[]) : (raw as L.LatLng[]);
+  }
+
+  /**
+   * cos(lat)-scaled shoelace — the fallback when Leaflet.draw's GeometryUtil is absent.
+   * Good to a percent or two at site scale, which is all a prototype summary needs.
+   */
+  function shoelaceSqm(ring: L.LatLng[]): number {
+    let s = 0;
+    for (let i = 0; i < ring.length; i++) {
+      const a = ring[i];
+      const b = ring[(i + 1) % ring.length];
+      s += (b.lng - a.lng) * (b.lat + a.lat);
+    }
+    const mPerDeg = 111319.9;
+    return Math.abs(s) * 0.5 * mPerDeg * mPerDeg * Math.cos((ring[0].lat * Math.PI) / 180);
+  }
+
+  interface BoundaryDetail {
+    vertices: number;
+    perimeterKm: number;
+    perimeterFt: number;
+    acres: number;
+    areaSqm: number;
+    centroid: { lat: number; lon: number };
+    source: 'draw' | 'upload';
+    fileName?: string;
+  }
+
+  const round = (n: number, places: number) => Number(n.toFixed(places));
+
+  /** Measure a drawn shape into the event's detail shape. */
+  function measure(
+    layer: L.Polygon,
+    source: 'draw' | 'upload',
+    fileName?: string,
+  ): BoundaryDetail | null {
+    const ring = ringOf(layer);
+    if (ring.length < 3) return null;
+
+    let perimeterM = 0;
+    for (let i = 0; i < ring.length; i++) {
+      perimeterM += ring[i].distanceTo(ring[(i + 1) % ring.length]);
+    }
+
+    // Leaflet.draw ships L.GeometryUtil.geodesicArea; prefer it, fall back to shoelace.
+    const geodesic = (L as unknown as { GeometryUtil?: { geodesicArea?: (r: L.LatLng[]) => number } })
+      .GeometryUtil?.geodesicArea;
+    const areaSqm =
+      typeof geodesic === 'function' ? Math.abs(geodesic(ring)) : shoelaceSqm(ring);
+
+    const centre = layer.getBounds().getCenter();
+
+    return {
+      vertices: ring.length,
+      perimeterKm: round(perimeterM / 1000, 2),
+      perimeterFt: round(perimeterM * M_PER_FT, 0),
+      acres: round(areaSqm / SQM_PER_ACRE, 1),
+      areaSqm: round(areaSqm, 0),
+      centroid: { lat: round(centre.lat, 5), lon: round(centre.lng, 5) },
+      source,
+      ...(fileName ? { fileName } : {}),
+    };
+  }
+
+  function build(root: BmapRoot) {
+    if (root._bcnBmapReady) return;
+    root._bcnBmapReady = true;
+
+    const prefix = root.dataset.prefix || '';
+    const mapEl = document.getElementById(`${prefix}-map`);
+    if (!mapEl) return;
+
+    const seedRing = readSeed(prefix);
+    const drawColor = resolveColor('var(--color-primary)');
+    const shapeOptions: L.PolylineOptions = {
+      color: drawColor,
+      weight: 2,
+      fillColor: drawColor,
+      fillOpacity: 0.15,
+    };
+
+    // Gotcha 1: a view must exist BEFORE any layer is added.
+    const map = L.map(mapEl, { zoomControl: true, attributionControl: true }).setView(
+      EMPTY_VIEW,
+      EMPTY_ZOOM,
+    );
+
+    let base = BASEMAPS.streets().addTo(map);
+
+    // ── Boundary layer: exactly ONE shape lives here, ever ──
+    const drawn = new L.FeatureGroup();
+    map.addLayer(drawn);
+
+    const announce = (detail: BoundaryDetail | null) => {
+      root.dispatchEvent(
+        new CustomEvent('bcn-boundary-change', { detail, bubbles: true }),
+      );
+    };
+
+    /** Replace whatever is drawn with `layer`, measure it, announce it, frame it. */
+    function adopt(layer: L.Polygon, source: 'draw' | 'upload', fileName?: string) {
+      drawn.clearLayers();
+      layer.setStyle(shapeOptions);
+      drawn.addLayer(layer);
+      const bounds = layer.getBounds();
+      if (bounds.isValid()) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 17 });
+      announce(measure(layer, source, fileName));
+    }
+
+    /**
+     * The shape the simulated upload produces: the seed ring when the caller gave one,
+     * otherwise the current view inset 25% — deterministic, and it invents no
+     * coordinates the caller did not already pick by framing the map.
+     */
+    function demoRing(): [number, number][] {
+      if (seedRing.length >= 3) return seedRing;
+      const b = map.getBounds();
+      const dLat = (b.getNorth() - b.getSouth()) * 0.25;
+      const dLng = (b.getEast() - b.getWest()) * 0.25;
+      const s = b.getSouth() + dLat;
+      const n = b.getNorth() - dLat;
+      const w = b.getWest() + dLng;
+      const e = b.getEast() - dLng;
+      return [
+        [s, w],
+        [s, e],
+        [n, e],
+        [n, w],
+      ];
+    }
+
+    const seedBoundary = (fileName?: string) => {
+      adopt(
+        L.polygon(demoRing() as L.LatLngExpression[], shapeOptions),
+        fileName ? 'upload' : 'draw',
+        fileName,
+      );
+    };
+
+    // ── Draw toolbar: closed shapes only. No markers, circles, or polylines — a
+    //    boundary that is not closed is not a boundary. `showArea` stays off because
+    //    Leaflet.draw 1.0.4's readableArea throws on non-metric units. ──
+    const drawControl = new L.Control.Draw({
+      position: 'topleft',
+      edit: { featureGroup: drawn, remove: true },
+      draw: {
+        polyline: false,
+        marker: false,
+        circle: false,
+        circlemarker: false,
+        polygon: { shapeOptions, showArea: false, allowIntersection: false },
+        rectangle: { shapeOptions, showArea: false },
+      },
+    } as L.Control.DrawConstructorOptions);
+    map.addControl(drawControl);
+
+    map.on(L.Draw.Event.CREATED, (e) => {
+      adopt((e as L.DrawEvents.Created).layer as L.Polygon, 'draw');
+    });
+    map.on(L.Draw.Event.EDITED, (e) => {
+      (e as L.DrawEvents.Edited).layers.eachLayer((layer) => {
+        announce(measure(layer as L.Polygon, 'draw'));
+      });
+    });
+    map.on(L.Draw.Event.DELETED, () => {
+      // One shape at a time, so a delete empties the group and the host hides its card.
+      const left = drawn.getLayers();
+      if (left.length === 0) announce(null);
+      else announce(measure(left[0] as L.Polygon, 'draw'));
+    });
+
+    // ── Method switch (esa-button-toggle) ──
+    const method = document.getElementById(`${prefix}-method`) as ToggleEl | null;
+    const uploadPanel = document.getElementById(`${prefix}-upload`);
+    const hint = document.getElementById(`${prefix}-hint`);
+    if (method) {
+      method.options = METHOD_OPTIONS;
+      method.value = 'draw';
+      method.addEventListener('change', (ev) => {
+        const value = (ev as CustomEvent<{ value: string }>).detail?.value;
+        const drawing = value !== 'upload';
+        if (uploadPanel) uploadPanel.hidden = drawing;
+        if (hint) hint.hidden = !drawing;
+        // The toolbar is removed in upload mode rather than left as dead chrome:
+        // two live ways to set one boundary is a question the step never asks.
+        if (drawing) map.addControl(drawControl);
+        else map.removeControl(drawControl);
+      });
+    }
+
+    // ── Basemap picker (esa-select) ──
+    const basemap = document.getElementById(`${prefix}-basemap`) as SelectEl | null;
+    if (basemap) {
+      basemap.options = BASEMAP_OPTIONS;
+      basemap.value = 'streets';
+      basemap.addEventListener('change', (ev) => {
+        const value = (ev as CustomEvent<{ value: string }>).detail?.value || 'streets';
+        const next = (BASEMAPS[value] || BASEMAPS.streets)();
+        map.removeLayer(base);
+        base = next.addTo(map);
+        base.bringToBack();
+      });
+    }
+
+    // ── Upload path (esa-file-upload, or whatever the caller slotted in its place).
+    //    The lego's `change` bubbles and is composed, so one listener on the panel
+    //    catches the fallback AND a slotted replacement. ──
+    if (uploadPanel) {
+      uploadPanel.addEventListener('change', (ev) => {
+        const files = (ev as CustomEvent<{ files?: File[] }>).detail?.files;
+        if (!Array.isArray(files) || files.length === 0) return;
+        seedBoundary(files[0].name);
+      });
+    }
+
+    // Seed LAST, so the initial shape is framed after the basemap and toolbar exist.
+    if (seedRing.length >= 3) {
+      adopt(L.polygon(seedRing as L.LatLngExpression[], shapeOptions), 'draw');
+    }
+
+    // Gotcha 3, second half: a container that gains size after boot (two-column step
+    // layout still settling, a revealed panel) re-measures and re-frames once.
+    requestAnimationFrame(() => map.invalidateSize());
+    if (typeof ResizeObserver !== 'undefined') {
+      let settled = mapEl.clientWidth > 0 && mapEl.clientHeight > 0;
+      const ro = new ResizeObserver(() => {
+        if (settled || mapEl.clientWidth === 0 || mapEl.clientHeight === 0) return;
+        settled = true;
+        map.invalidateSize();
+        const b = drawn.getBounds();
+        if (b.isValid()) map.fitBounds(b, { padding: [40, 40], maxZoom: 17 });
+        ro.disconnect();
+      });
+      ro.observe(mapEl);
+    }
+
+    root._bcnMap = map;
+    root._bcnSeedBoundary = seedBoundary;
+  }
+
+  async function boot() {
+    // Gotcha 4a: leaflet-draw 1.0.4's UMD bundle is `!function(w,d){ L.Draw = … }`
+    // — it reads the GLOBAL `L` and never requires 'leaflet'. So the global has to
+    // exist BEFORE the module evaluates, which a static import cannot guarantee
+    // (imports hoist above assignments). Hence assign, then dynamic-import.
+    (window as unknown as { L: typeof L }).L = L;
+    await import('leaflet-draw');
+
+    // Gotcha 4b: the same 1.0.4 predates Leaflet 1.7's touch refactor and its
+    // _onTouch reaches for an event shape that no longer exists, throwing mid-draw
+    // on pen/touch input. Upstream Leaflet.draw#1026 — neutralise the handler.
+    (L as unknown as { Draw: { Polyline: { prototype: Record<string, unknown> } } }).Draw
+      .Polyline.prototype._onTouch = L.Util.falseFn;
+
+    // Gotcha 3, first half: build LAZILY once the box has real size. A map created in
+    // a 0×0 container fits against nothing and opens over the middle of the ocean.
+    document.querySelectorAll<BmapRoot>('[data-bcn-bmap]').forEach((root) => {
+      const el = document.getElementById(`${root.dataset.prefix || ''}-map`);
+      if (!el) return;
+      if (el.clientWidth > 0 && el.clientHeight > 0) {
+        build(root);
+        return;
+      }
+      if (typeof ResizeObserver === 'undefined') {
+        build(root);
+        return;
+      }
+      const ro = new ResizeObserver(() => {
+        if (el.clientWidth === 0 || el.clientHeight === 0) return;
+        ro.disconnect();
+        build(root);
+      });
+      ro.observe(el);
+    });
+  }
+
+  void boot();
+</script>
+
+<style>
+  /* Controls row: the two legos carry their own labels, so they align on their
+     CONTROL baselines, not their box tops. Wraps before it squeezes either one.
+     position+z-index is load-bearing, not decoration: Leaflet's own panes
+     (.leaflet-top/.leaflet-control-container etc.) sit at z-index 1000, and
+     .bcn-bmap__surface's UA-positioned .leaflet-container never establishes its
+     OWN stacking context (position:relative with no z-index), so those pane
+     z-indices escape upward and paint over any later sibling with a lower
+     z-index — which is every popover a lego opens from this bar. Without this,
+     the basemap esa-select's dropdown genuinely opens (confirmed in devtools)
+     but renders invisible behind the map. */
+  .bcn-bmap__bar {
+    align-items: flex-end;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1200;
+  }
+
+  /* Map-container geometry only — rounded, clipped, sunken while tiles load. The exact
+     treatment BcnFootprintMap's .bcn-fmap__surface and BcnObservationMap give theirs,
+     so every map in the spoke reads as the same object. Height is the `height` prop. */
+  .bcn-bmap__surface {
+    width: 100%;
+    border-radius: var(--radius-200);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    background: var(--color-surface-sunken);
+  }
+
+  /* Leaflet injects .leaflet-container itself, so it is outside Astro's scope. */
+  .bcn-bmap__surface :global(.leaflet-container) {
+    font-family: var(--font-sans, inherit);
+    background: var(--color-surface-sunken);
+  }
+  /* An editable map offers a crosshair while a draw handler is armed — Leaflet.draw
+     sets this class on the container, and its own default is a dotted cursor URL. */
+  .bcn-bmap__surface :global(.leaflet-container.leaflet-crosshair) {
+    cursor: crosshair;
+  }
+
+  /* Leaflet.draw's toolbar is injected into Leaflet's own control pane, so no lego and
+     no component scope can reach it. Bring it to the house control language: the 4px
+     control radius, semantic surface and border. Glyphs stay the plugin's sprite. */
+  .bcn-bmap__surface :global(.leaflet-draw-toolbar a) {
+    background-color: var(--color-surface);
+    border-bottom-color: var(--color-border);
+  }
+  .bcn-bmap__surface :global(.leaflet-draw-toolbar a:hover) {
+    background-color: var(--color-surface-sunken);
+  }
+  .bcn-bmap__surface :global(.leaflet-bar) {
+    border-radius: var(--radius-100);
+    border-color: var(--color-border);
+  }
+  .bcn-bmap__surface :global(.leaflet-draw-actions a) {
+    background-color: var(--color-text-primary);
+  }
+
+  /* Guidance under the control it explains — meta rung, the 13px floor the sibling
+     maps' provenance line already sets. */
+  .bcn-bmap__hint {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    max-width: 68ch;
+  }
+
+  .bcn-bmap__upload {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-bmap__upload[hidden] {
+    display: none;
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+// <BcnGridChrome> — the search + clear-filters controls every carded grid in this
+// spoke carries, as one component instead of one copy per grid.
+//
+// Extracted 2026-08-17 after the decomposition review found BcnComponentGrid and
+// BcnWorkAreaBoard had built the identical control row twice, differing only in a
+// data-attribute prefix. Its behavioral half lives in `mountBeaconGrid()`
+// (src/lib/beacon-grid.ts), which finds these controls by that same prefix.
+//
+// It renders ONLY the controls, not a container — so each caller places it where its
+// own layout wants: the component index drops it in esa-card's `actions` slot, the
+// work-area board puts it in an in-body toolbar so the bulk-selection bar can sit
+// beside it rather than cover it (reviewed 2026-08-13). Forcing both into one card
+// shell would have meant undoing one of those placements.
+//
+// bcn-lego-checked: every control here IS a lego — esa-text-field for the search,
+// esa-icon-button for its clear-x, esa-button for Clear Filters. Checked Ecology for a
+// grid-toolbar lego: esa-filter-container / esa-filter-pills / esa-filter-clear-button
+// are the FACETED filter idiom (dropdown facets + removable pills), not a quick-filter
+// field wired to a grid's quickFilterText, and esa-search-panel is a full search
+// surface with its own results contract. Checked Beacon: its grids carry this same
+// search + clear pair as page markup, not a shared control. bcn-grid-chrome is the
+// reusable home; its own CSS is the search field's minimum width, which no lego owns.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+
+interface Props {
+  /**
+   * Data-attribute namespace, e.g. 'cg' or 'wa'. MUST match the prefix passed to
+   * mountBeaconGrid(). Required rather than defaulted: two grids on one page sharing
+   * a prefix would drive each other's filters, and a silent default is how that
+   * happens.
+   */
+  prefix: string;
+  /** Placeholder for the quick filter. */
+  searchPlaceholder?: string;
+  /**
+   * Render one control instead of both. The two do NOT always sit together: the
+   * component index puts them side by side in the card's actions slot, while the
+   * work-area board needs search hard left and Clear Filters grouped right with its
+   * bulk bar. Rendering both as one unit would strand Clear Filters mid-row in that
+   * layout, so a caller can place each piece itself — same prefix, same wiring.
+   */
+  only?: 'search' | 'clear-filters';
+}
+
+const { prefix, searchPlaceholder = 'Search grid…', only } = Astro.props;
+const showSearch = only !== 'clear-filters';
+const showClear = only !== 'search';
+---
+
+{
+  showSearch && (
+    <span class="bcn-gchrome__search">
+      <esa-text-field placeholder={searchPlaceholder} size="sm" {...{ [`data-${prefix}-search`]: true }} />
+      <span {...{ [`data-${prefix}-search-clear`]: true }} hidden>
+        <EsaIconButton icon="x" label="Clear search" size="sm" />
+      </span>
+    </span>
+  )
+}
+
+{
+  showClear && (
+    <span {...{ [`data-${prefix}-clear-filters`]: true }}>
+      <EsaButton color="ghost" appearance="outline" size="sm">
+        Clear Filters
+      </EsaButton>
+    </span>
+  )
+}
+
+<style>
+  /* The search field needs a usable minimum width; esa-text-field is content-sized
+     and would otherwise collapse in a cluster. The clear-x rides inside the same
+     inline-flex so it sits against the field rather than a gap away from it. */
+  .bcn-gchrome__search {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    min-inline-size: 15rem;
+  }
+  .bcn-gchrome__search :global(esa-text-field) {
+    inline-size: 100%;
+  }
+</style>

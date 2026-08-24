@@ -1,0 +1,59 @@
+---
+// <BcnGridFooter> — the strip welded under every carded grid in this spoke: CSV
+// download on the left, record count on the right.
+//
+// Extracted 2026-08-17 with BcnGridChrome, for the same reason: BcnComponentGrid and
+// BcnWorkAreaBoard had built it twice. `mountBeaconGrid()` (src/lib/beacon-grid.ts)
+// fills the counts and wires the download by the same `prefix`.
+//
+// The filtered count is a SECOND figure, shown only when a filter is actually hiding
+// rows — not a replacement for the total. "Total Records: 35 · Filtered Records: 4"
+// says both things a person needs; overwriting the total with 4 would leave them
+// unable to tell a filtered set from a small one. That is the count rule this spoke
+// follows everywhere: a bare number means the whole set, anything narrower says so.
+//
+// bcn-lego-checked: esa-button is the download control, and the row is the `repel`
+// layout primitive. Checked Ecology for a grid/table footer lego — esa-pagination is
+// the page-navigation control (this grid scrolls rather than paginates, so it has no
+// pages to move between) and nothing else models a record-count strip. Checked
+// Beacon: its grids carry this strip as page markup. bcn-grid-footer is the reusable
+// home; its own CSS is the count's type and tabular figures.
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+interface Props {
+  /** Data-attribute namespace — MUST match the prefix passed to mountBeaconGrid(). */
+  prefix: string;
+  /** SSR'd starting total, so the strip is correct before the grid mounts. */
+  total: number;
+  /** Label on the export button. */
+  downloadLabel?: string;
+}
+
+const { prefix, total, downloadLabel = 'Download as CSV' } = Astro.props;
+---
+
+<div class="repel bcn-gfoot" data-gap="md">
+  <span {...{ [`data-${prefix}-download`]: true }}>
+    <EsaButton color="ghost" appearance="outline" size="sm" icon="download">{downloadLabel}</EsaButton>
+  </span>
+  <div class="cluster bcn-gfoot__count" data-gap="md">
+    <span>Total Records: <span {...{ [`data-${prefix}-total`]: true }}>{total}</span></span>
+    <span class="bcn-gfoot__filtered" {...{ [`data-${prefix}-filtered`]: true }} hidden></span>
+  </div>
+</div>
+
+<style>
+  .bcn-gfoot__count {
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  /* The filtered figure is subordinate to the total, and absent when nothing is
+     filtered — never a gap holding a place. */
+  .bcn-gfoot__filtered {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-gfoot__filtered[hidden] {
+    display: none;
+  }
+</style>

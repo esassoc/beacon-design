@@ -1,0 +1,282 @@
+---
+// <BcnFindingList> — the "Findings" card on the Constraints Cross-Reference page: one
+// row per GIS layer that intersects the site, worst severity first, each row a button
+// that ANNOUNCES a selection and stops there.
+//
+// It is deliberately DUMB about the drawer. A row click dispatches
+// `bcn-finding-select` on the component root with `{ id }` and does nothing else — no
+// drawer markup, no open/close state, no dialog lego lives here. The HOST page listens
+// (the event bubbles) and decides whether that opens an esa-side-dialog, selects the
+// matching layer on the map, or both. Same contract as <BcnObservationMap>'s
+// `bcn-observation-pin-click`, and it is what lets the map and this list stay siblings
+// that never reach into each other.
+//
+// SORTING is the caller's job — `findings` renders in the order given, so the page owns
+// "worst first" (and can re-sort or re-filter without this component reasoning about
+// severity rank).
+//
+// ANATOMY — BcnFlagList's card-holding-a-divided-list idiom exactly: esa-card (outlined,
+// title + subtitle) whose body is a <ul> carrying the hairline on `li + li`, each row
+// owning its own block padding. The card is `padding="none"` so the hover/focus band
+// runs full-bleed to the card edge; rows re-state the header's inline padding so the
+// name column lines up under the card title.
+//
+// ROW = [swatch dot] category / name / note [risk chip]. Two deliberate departures
+// from the bespoke prototype it replaces (public/due-diligence/.../constraints.html):
+//   • the 8px full-height color BAR on the left edge is now a small round dot. A colored
+//     left border as an indicator is a banned pattern; a status dot is the sanctioned
+//     substitute, and a dot reads correctly here anyway — it is the MAP LEGEND KEY tying
+//     the row to its layer's color on the map beside it, not a severity cue.
+//   • the category was uppercase / 11px / letter-spaced / light-gray — an ornamental
+//     micro-label. It is content (Hazards, Biological, Cultural), so it renders normal
+//     case at the 14px dense floor in secondary ink.
+//
+// SUBTITLE defaults to a COUNT, not the prototype's sentence ("Each finding will be
+// carried into the preliminary report…"). esa-card's own prop contract says a subtitle
+// is "a short datum qualifying the title… never a sentence, and never a gloss
+// explaining the card's contents". A host that wants different chrome passes its own.
+//
+// bcn-lego-checked: no esa-* lego is a divided list of clickable rows — checked the full
+// catalog (`ls node_modules/@esa/ecology/src/components/`): esa-link-column is a card of
+// bare anchors that NAVIGATE (these open a drawer and must not be links), esa-card is a
+// generic box and would give every finding a card of its own, esa-collapsible is a single
+// disclosure, esa-chip-group/esa-pillbox are selection controls, and esa-button is a
+// discrete action control, not a full-bleed row holding four fields. Checked Beacon: the
+// prod constraints screen has no equivalent list to port. The closest SIBLING in this
+// spoke is BcnFlagList/BcnFlagRow, and it is not reusable here — its rows carry a
+// switch-that-saves plus flag-registry metadata, where these carry category/name/note +
+// a severity chip and exist to raise a select event. Only the shell shape is shared, and
+// that shape IS esa-card. Everything that is a lego is one: esa-card (shell),
+// esa-empty-state (nothing-to-show), BcnStatusChip (the risk badge, reused as-is because
+// it is the spoke's approved value-driven chip). The bespoke CSS below is the divider
+// glue plus the button reset a full-bleed clickable row needs.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+
+export interface Finding {
+  /** Matches the GIS layer id it came from — what the host resolves to open a drawer. */
+  id: string;
+  /** Constraint family, e.g. "Hazards", "Biological", "Cultural". */
+  category: string;
+  /** The dataset/layer, e.g. "CAL FIRE Fire Hazard Severity Zone". */
+  name: string;
+  /** One-line intersection summary, e.g. "NE corner overlaps Moderate FHSZ". */
+  note: string;
+  risk: 'high' | 'medium' | 'low' | 'none';
+  /** SSR/default risk color, used when --st-<risk> is undefined. */
+  riskHex: string;
+  /** Legend key beside the row — the layer's color on the map. */
+  swatchColor: string;
+}
+
+interface Props {
+  /** Rendered in the order given; the caller pre-sorts worst-first. */
+  findings: Finding[];
+  title?: string;
+  /** Overrides the derived count. Keep it a datum, not a sentence. */
+  subtitle?: string;
+}
+
+const { findings, title = 'Findings', subtitle } = Astro.props;
+
+const RISK_LABEL: Record<Finding['risk'], string> = {
+  high: 'High',
+  medium: 'Medium',
+  low: 'Low',
+  none: 'None',
+};
+
+const total = findings.length;
+const highCount = findings.filter((f) => f.risk === 'high').length;
+const countLine = [
+  `${total} finding${total === 1 ? '' : 's'}`,
+  highCount > 0 ? `${highCount} high risk` : null,
+]
+  .filter(Boolean)
+  .join(' · ');
+
+const hasActions = Astro.slots.has('actions');
+---
+
+<div class="bcn-finding-list" data-bcn-finding-list>
+  <EsaCard variant="outlined" title={title} subtitle={subtitle ?? countLine} padding="none">
+    {hasActions && <slot name="actions" slot="actions" />}
+
+    {
+      total === 0 ? (
+        <div class="bcn-finding-list__empty">
+          <EsaEmptyState
+            title="No findings"
+            description="Turn on more GIS layers, or re-run the cross-reference."
+            size="sm"
+          />
+        </div>
+      ) : (
+        <ul class="bcn-finding-list__rows">
+          {findings.map((f) => (
+            <li>
+              <button
+                type="button"
+                class="bcn-finding-row"
+                data-bcn-finding-row
+                data-finding-id={f.id}
+                aria-label={`Open finding: ${f.name} — ${RISK_LABEL[f.risk]} risk`}
+              >
+                <span
+                  class="bcn-finding-row__swatch"
+                  style={`--_swatch: ${f.swatchColor};`}
+                  aria-hidden="true"
+                />
+                <span class="bcn-finding-row__text">
+                  <span class="bcn-finding-row__category type-body-small">{f.category}</span>
+                  <span class="bcn-finding-row__name type-body">{f.name}</span>
+                  <span class="bcn-finding-row__note type-body-small">{f.note}</span>
+                </span>
+                <span class="bcn-finding-row__risk">
+                  <BcnStatusChip status={f.risk} label={RISK_LABEL[f.risk]} hex={f.riskHex} />
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </EsaCard>
+</div>
+
+<script>
+  // An Astro <script> is hoisted and bundled ONCE per page, not re-run per instance, so
+  // every root on the page is wired here rather than through a per-instance closure
+  // (same multi-instance contract as BcnObservationMap).
+  function setupFindingLists() {
+    document.querySelectorAll<HTMLElement>('[data-bcn-finding-list]').forEach((root) => {
+      if (root.dataset.bcnFindingListReady === 'true') return;
+      root.dataset.bcnFindingListReady = 'true';
+
+      root.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement | null;
+        const row = target?.closest<HTMLElement>('[data-bcn-finding-row]');
+        if (!row || !root.contains(row)) return;
+
+        // A click that landed on an interactive descendant belongs to that control,
+        // not to the row. (The row itself is the button, so it is never the match.)
+        const inner = target?.closest('a, button, input, select, textarea, [role="button"]');
+        if (inner && inner !== row) return;
+
+        const id = row.dataset.findingId;
+        if (!id) return;
+
+        // ANNOUNCE only. The host owns the drawer.
+        root.dispatchEvent(
+          new CustomEvent('bcn-finding-select', { detail: { id }, bubbles: true }),
+        );
+      });
+    });
+  }
+
+  setupFindingLists();
+</script>
+
+<style>
+  /* Divider glue — each row owns its block padding, the <li> carries only the hairline
+     between siblings. Same anatomy BcnFlagList/BcnSettingsSection document. */
+  .bcn-finding-list__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-finding-list__rows > li + li {
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  /* The card is padding="none" so the row band runs full-bleed; the empty state has no
+     band to fill and needs the card's padding back. */
+  .bcn-finding-list__empty {
+    padding: var(--spacing-500);
+  }
+
+  /* padding="none" zeroes --_card-padding, which esa-card's OWN header rule also reads
+     (padding: var(--spacing-400) var(--_card-padding)) — so the title, subtitle, and
+     actions-slot button inherited the same flush-edge treatment meant only for the row
+     band. Restore just the header's inline inset, scoped to this component so it can't
+     bleed onto any other esa-card on the page. */
+  :global(.bcn-finding-list > .esa-card > .esa-card__header) {
+    padding-inline: var(--spacing-500);
+  }
+
+  /* Button reset + row geometry. This is a <button> rather than BcnCommitmentRow's
+     role="button" + tabindex so Enter/Space, the a11y name and the disabled/focus
+     semantics come from the platform; the reset below is the cost of that choice.
+     Inline padding matches esa-card's own header padding so the name column lines up
+     under the card title. */
+  .bcn-finding-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: var(--spacing-300);
+    width: 100%;
+    margin: 0;
+    padding: var(--spacing-300) var(--spacing-500);
+    background: none;
+    border: 0;
+    border-radius: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background 150ms ease;
+  }
+  .bcn-finding-row:hover {
+    background: var(--color-surface-sunken);
+  }
+  .bcn-finding-row:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  /* A DOT, not a left-edge bar: the map legend key for this layer's color. Nudged down
+     to sit on the category line's optical center. */
+  .bcn-finding-row__swatch {
+    width: 10px;
+    height: 10px;
+    margin-top: var(--spacing-150);
+    border-radius: var(--radius-full);
+    background: var(--_swatch, var(--color-border-strong));
+    flex-shrink: 0;
+  }
+
+  .bcn-finding-row__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  /* Category and note share the 14px dense floor in secondary ink — position tells them
+     apart (a short family above the name, a sentence below it), so neither needs an
+     ornamental treatment to be legible as its own field. */
+  .bcn-finding-row__category {
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+  }
+  .bcn-finding-row__name {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: 1.4;
+  }
+  .bcn-finding-row__note {
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+  }
+
+  /* Vertically centered against the name line, the row's anchor. */
+  .bcn-finding-row__risk {
+    display: flex;
+    align-items: center;
+    margin-top: var(--spacing-050);
+    flex-shrink: 0;
+  }
+</style>

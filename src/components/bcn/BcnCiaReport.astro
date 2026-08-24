@@ -1,0 +1,835 @@
+---
+// <BcnCiaReport> — a full Critical Issues Assessment (CIA) rendered as a
+// document: sticky table of contents on the left, the formatted deliverable on
+// the right. The CIA is the due-diligence output the client actually receives,
+// so it reads as a REPORT (serif headings, numbered sections, Findings +
+// Recommendations pairs, permit matrix, limitations, references) rather than as
+// an app screen — and it prints cleanly.
+//
+// Like the other projection components in this spoke, it takes fully-projected
+// plain data. The PAGE assembles the narrative, resource findings, permit rows
+// and limitation groups; this component renders them and owns exactly one piece
+// of behavior: TOC scroll-spy. It deliberately owns NO navigation logic — the
+// Print control is wired here (printing the document IS this component's job),
+// everything else arrives through the `actions` slot from the host.
+//
+// bcn-lego-checked: composed legos — esa-badge (every severity / applicability
+// chip and the report's own draft-status mark), esa-button (document utilities),
+// esa-alert-box (the assistant-flagged per-section note; variant="info", which
+// also avoids the banned colored-left-border callout the source HTML used).
+// Layout is the composition layer: .sidebar (TOC + document), .stack, .cluster,
+// .repel, .grid (the limitation groups) + .type-* roles, no raw --type-size-*.
+// Bespoke: the sectioned-document shell itself. No esa-* lego renders a
+// long-form numbered document with a scroll-spy outline (esa-tab-layout,
+// esa-card, esa-sidebar-nav and esa-container all checked; Beacon has no
+// document-reader surface). BcnPlanReader has the same finding and the same
+// two-column idiom, but it is the WRONG SHAPE to reuse here: it is built around
+// per-section comment threads and a comment filter bar, and has no equivalent of
+// this component's meta block, resource-summary table, permit matrix or
+// limitation grid. Sharing the outline CSS would mean bending a review surface
+// into a deliverable. Tokens: semantic layer only.
+//
+// Prose props are rendered with `set:html` on purpose — a report's sentences
+// carry inline emphasis (statute names in <em>, findings in <strong>) and the
+// authored copy in src/data is the source of that markup.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+
+export interface ReportMetaRow {
+  label: string;
+  value: string;
+}
+
+export interface ReportResourceSection {
+  id: string;
+  /** Display number, e.g. "3.4". Falls back to position within `resources`. */
+  number: string;
+  title: string;
+  risk: 'high' | 'medium' | 'low' | 'none';
+  /** Palette hex for the scanning dot in the outline and the section header. */
+  riskHex: string;
+  leadAgency?: string;
+  /** One or more paragraphs. */
+  findings: string[];
+  /** One or more paragraphs. */
+  recommendations: string[];
+  /** Optional assistant-flagged callout (e.g. a dataset-sync warning). */
+  aiNote?: string;
+}
+
+export interface ResourceSummaryRow {
+  name: string;
+  risk: string;
+  riskHex: string;
+  note: string;
+}
+
+export interface CiaPermitRow {
+  agency: string;
+  level: string;
+  name: string;
+  requirement: string;
+  applicabilityLabel: string;
+  applicabilityTone: 'warning' | 'medium' | 'low' | 'none';
+  notes: string;
+  /** Whether a technical expert has reviewed and confirmed this row. Optional —
+   *  a caller with no review-status concept simply omits the column. */
+  reviewStatusLabel?: string;
+}
+
+export interface LimitationGroup {
+  covered: string;
+  items: string[];
+}
+
+interface Props {
+  title: string;
+  /** Project name + location, under the document title. */
+  subtitle: string;
+  /** e.g. "Draft v0.3". */
+  statusBadgeLabel: string;
+  meta: ReportMetaRow[];
+  execSummaryParagraphs: string[];
+  summaryBullets: string[];
+  projectDescriptionParagraphs: string[];
+  methodologyParagraphs: string[];
+  datasetsReviewed: string[];
+  resources: ReportResourceSection[];
+  criticalIssuesNarrative: string[];
+  resourceSummaryRows: ResourceSummaryRow[];
+  permits: CiaPermitRow[];
+  limitations: LimitationGroup[];
+  references: string[];
+  figures: string[];
+  /** "See live permit matrix" link target. */
+  liveMatrixHref?: string;
+}
+
+const {
+  title,
+  subtitle,
+  statusBadgeLabel,
+  meta,
+  execSummaryParagraphs,
+  summaryBullets,
+  projectDescriptionParagraphs,
+  methodologyParagraphs,
+  datasetsReviewed,
+  resources,
+  criticalIssuesNarrative,
+  resourceSummaryRows,
+  permits,
+  limitations,
+  references,
+  figures,
+  liveMatrixHref,
+} = Astro.props;
+
+const hasReviewStatus = permits.some((p) => p.reviewStatusLabel);
+
+type BadgeVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info';
+
+// Severity → esa-badge variant. The badge's muted fill + matching border is
+// already the quiet 4px chip the design direction asks for, so the risk palette
+// is used only for the scanning DOT (outline + summary table), never to restyle
+// the lego.
+const RISK_VARIANT: Record<string, BadgeVariant> = {
+  high: 'danger',
+  medium: 'warning',
+  low: 'info',
+  none: 'secondary',
+};
+const RISK_LABEL: Record<string, string> = {
+  high: 'High',
+  medium: 'Medium',
+  low: 'Low',
+  none: 'None',
+};
+const riskVariant = (risk: string): BadgeVariant => RISK_VARIANT[risk?.toLowerCase()] ?? 'secondary';
+const riskLabel = (risk: string): string => RISK_LABEL[risk?.toLowerCase()] ?? risk;
+
+// Permit applicability tone → esa-badge variant. Four steps from "Applicable"
+// down to "Not Applicable"; `success` reads as the all-clear step.
+const TONE_VARIANT: Record<CiaPermitRow['applicabilityTone'], BadgeVariant> = {
+  warning: 'warning',
+  medium: 'info',
+  low: 'success',
+  none: 'secondary',
+};
+
+// The outline: fixed anchors for the narrative sections, with the resource
+// subsections generated from `resources` so the caller controls how many there
+// are (the source template shipped eight; nothing here assumes that).
+interface TocEntry {
+  id: string;
+  label: string;
+  level: 1 | 2;
+  riskHex?: string;
+}
+const tocEntries: TocEntry[] = [
+  { id: 'cia-summary', label: 'Executive Summary', level: 1 },
+  { id: 'cia-project', label: '1. Project Description', level: 1 },
+  { id: 'cia-methodology', label: '2. Methodology', level: 1 },
+  { id: 'cia-findings', label: '3. Environmental Characteristics', level: 1 },
+  ...resources.map((r, i) => ({
+    id: r.id,
+    label: `${r.number || `3.${i + 1}`} ${r.title}`,
+    level: 2 as const,
+    riskHex: r.riskHex,
+  })),
+  { id: 'cia-critical', label: '4. Critical Issues & Recommendations', level: 1 },
+  { id: 'cia-permits', label: '5. Permit & Approval Matrix', level: 1 },
+  { id: 'cia-limitations', label: '6. Limitations', level: 1 },
+  { id: 'cia-references', label: '7. References', level: 1 },
+  { id: 'cia-figures', label: 'Figures & Appendices', level: 1 },
+];
+---
+
+<section class="bcn-cia">
+  <!-- Document utilities. Print is wired locally (it acts on this document);
+       anything that navigates is the host's, via the `actions` slot. -->
+  <div class="bcn-cia__utilities repel" data-gap="sm">
+    <p class="bcn-cia__utilities-note type-body-small">
+      Section structure follows ESA's standard CIA template — Findings and Recommendations per
+      resource, permit matrix, explicit limitations.
+    </p>
+    <div class="cluster" data-gap="xs" data-justify="end">
+      <slot name="actions">
+        <EsaButton variant="ghost" size="sm" icon="printer" id="bcn-cia-print" data-cia-print>
+          Print / PDF
+        </EsaButton>
+        <EsaButton variant="ghost" size="sm" icon="download" id="bcn-cia-docx">Export DOCX</EsaButton>
+      </slot>
+    </div>
+  </div>
+
+  <slot name="intro" />
+
+  <div class="bcn-cia__shell sidebar" data-gap="lg">
+    <!-- ── Table of contents (scroll-spy) ── -->
+    <aside class="bcn-cia__aside">
+      <nav class="bcn-cia__toc" aria-label="Report contents">
+        <p class="bcn-cia__toc-heading type-body">Contents</p>
+        <ul class="bcn-cia__toc-list">
+          {tocEntries.map((t) => (
+            <li class="bcn-cia__toc-item" data-level={t.level}>
+              <a class="bcn-cia__toc-link type-body-small" href={`#${t.id}`} data-toc-for={t.id}>
+                {t.riskHex && (
+                  <span class="bcn-cia__dot" style={`--_risk-dot:${t.riskHex}`} aria-hidden="true"></span>
+                )}
+                <span class="bcn-cia__toc-text">{t.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ── The document ── -->
+    <article class="bcn-cia__doc stack" data-gap="xl">
+      <header class="bcn-cia__masthead stack" data-gap="sm">
+        <div class="repel" data-gap="sm" data-align="start">
+          <h1 class="bcn-cia__h1 type-page-title">{title}</h1>
+          <EsaBadge variant="warning" size="sm" value={statusBadgeLabel} />
+        </div>
+        <p class="bcn-cia__subtitle type-body-large">{subtitle}</p>
+        <dl class="bcn-cia__meta">
+          {meta.map((m) => (
+            <>
+              <dt class="bcn-cia__meta-term type-body-small">{m.label}</dt>
+              <dd class="bcn-cia__meta-def type-body-small" set:html={m.value} />
+            </>
+          ))}
+        </dl>
+      </header>
+
+      <!-- ── Executive summary ── -->
+      <section class="bcn-cia__sec stack" data-gap="sm" id="cia-summary">
+        <h2 class="bcn-cia__h2 type-section-title">Executive Summary</h2>
+        {execSummaryParagraphs.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+        {summaryBullets.length > 0 && (
+          <>
+            <h3 class="bcn-cia__h4 type-body">Summary of findings</h3>
+            <ul class="bcn-cia__list type-body">
+              {summaryBullets.map((b) => <li set:html={b} />)}
+            </ul>
+          </>
+        )}
+      </section>
+
+      <!-- ── 1. Project description ── -->
+      <section class="bcn-cia__sec stack" data-gap="sm" id="cia-project">
+        <h2 class="bcn-cia__h2 type-section-title">1. Project Description</h2>
+        {projectDescriptionParagraphs.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+      </section>
+
+      <!-- ── 2. Methodology ── -->
+      <section class="bcn-cia__sec stack" data-gap="sm" id="cia-methodology">
+        <h2 class="bcn-cia__h2 type-section-title">2. Methodology</h2>
+        {methodologyParagraphs.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+        {datasetsReviewed.length > 0 && (
+          <>
+            <h3 class="bcn-cia__h4 type-body">Datasets reviewed</h3>
+            <ul class="bcn-cia__list type-body">
+              {datasetsReviewed.map((d) => <li set:html={d} />)}
+            </ul>
+          </>
+        )}
+      </section>
+
+      <!-- ── 3. Environmental characteristics ── -->
+      <section class="bcn-cia__sec stack" data-gap="sm" id="cia-findings">
+        <h2 class="bcn-cia__h2 type-section-title">3. Environmental Characteristics</h2>
+        <p class="bcn-cia__p type-body">
+          The following sections summarize findings for each resource area considered in this
+          assessment. Each subsection presents <em>Findings</em> from the desktop review, followed by
+          <em>Recommendations</em> for the additional study or actions to weigh in subsequent design
+          and permitting-strategy conversations.
+        </p>
+      </section>
+
+      {resources.map((r, i) => (
+        <section class="bcn-cia__sec bcn-cia__resource stack" data-gap="sm" id={r.id}>
+          <h3 class="bcn-cia__h3 type-card-title">
+            <span class="bcn-cia__num">{r.number || `3.${i + 1}`}</span>
+            {r.title}
+          </h3>
+
+          <div class="bcn-cia__resource-summary cluster" data-gap="sm">
+            <span class="bcn-cia__field-label type-body-small">Severity</span>
+            <span class="bcn-cia__risk cluster">
+              <span class="bcn-cia__dot" style={`--_risk-dot:${r.riskHex}`} aria-hidden="true"></span>
+              <EsaBadge variant={riskVariant(r.risk)} size="sm" value={riskLabel(r.risk)} />
+            </span>
+            {r.leadAgency && (
+              <>
+                <span class="bcn-cia__field-label type-body-small">Lead agency</span>
+                <span class="type-body-small">{r.leadAgency}</span>
+              </>
+            )}
+          </div>
+
+          <h4 class="bcn-cia__h4 type-body">Findings</h4>
+          {r.findings.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+
+          {r.aiNote && (
+            <div class="bcn-cia__note">
+              <EsaAlertBox variant="info" title="Assistant note">
+                <span set:html={r.aiNote} />
+              </EsaAlertBox>
+            </div>
+          )}
+
+          <h4 class="bcn-cia__h4 type-body">Recommendations</h4>
+          {r.recommendations.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+        </section>
+      ))}
+
+      <!-- ── 4. Critical issues ── -->
+      <section class="bcn-cia__sec stack" data-gap="sm" id="cia-critical">
+        <h2 class="bcn-cia__h2 type-section-title">4. Critical Issues &amp; Recommendations</h2>
+        {summaryBullets.length > 0 && (
+          <>
+            <p class="bcn-cia__p type-body">
+              The results of the desktop resource evaluation are summarized below. Based on this
+              review, the following critical issues have been identified for the Project:
+            </p>
+            <ul class="bcn-cia__list type-body">
+              {summaryBullets.map((b) => <li set:html={b} />)}
+            </ul>
+          </>
+        )}
+
+        {resourceSummaryRows.length > 0 && (
+          <>
+            <h3 class="bcn-cia__h4 type-body">Resource summary</h3>
+            <div class="bcn-cia__table-scroll">
+              <table class="bcn-cia__table">
+                <thead>
+                  <tr>
+                    <th class="type-body-small" scope="col" style="width: 26%;">Resource</th>
+                    <th class="type-body-small" scope="col" style="width: 14%;">Severity</th>
+                    <th class="type-body-small" scope="col">Findings &amp; recommendations</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {resourceSummaryRows.map((row) => (
+                    <tr>
+                      <th class="bcn-cia__row-head type-body-small" scope="row" set:html={row.name} />
+                      <td class="type-body-small">
+                        <span class="bcn-cia__risk cluster">
+                          <span
+                            class="bcn-cia__dot"
+                            style={`--_risk-dot:${row.riskHex}`}
+                            aria-hidden="true"
+                          ></span>
+                          <EsaBadge variant={riskVariant(row.risk)} size="sm" value={riskLabel(row.risk)} />
+                        </span>
+                      </td>
+                      <td class="type-body-small" set:html={row.note} />
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+
+        {criticalIssuesNarrative.map((p) => <p class="bcn-cia__p type-body" set:html={p} />)}
+      </section>
+
+      <!-- ── 5. Permit & approval matrix ── -->
+      <section class="bcn-cia__sec stack" data-gap="sm" id="cia-permits">
+        <h2 class="bcn-cia__h2 type-section-title">5. Permit &amp; Approval Matrix</h2>
+        <p class="bcn-cia__p type-body">
+          The table below summarizes the environmental permits and approvals that may be required by
+          local, State, and Federal agencies based on this desktop review. Not all permits listed
+          will be required; conversely, other permits not listed may become necessary as the Project
+          is developed. Determinations reflect data available as of the report date and are subject
+          to change pending regulatory updates, additional project information, or design revisions.
+        </p>
+        <div class="bcn-cia__table-scroll">
+          <table class="bcn-cia__table">
+            <thead>
+              <tr>
+                <th class="type-body-small" scope="col" style="width: 20%;">Agency</th>
+                <th class="type-body-small" scope="col" style="width: 20%;">Permit / approval</th>
+                <th class="type-body-small" scope="col">Requirement</th>
+                <th class="type-body-small" scope="col" style="width: 11rem;">Applicable?</th>
+                {hasReviewStatus && <th class="type-body-small" scope="col" style="width: 9rem;">Review status</th>}
+                <th class="type-body-small" scope="col" style="width: 20%;">Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {permits.map((p) => (
+                <tr>
+                  <th class="bcn-cia__row-head type-body-small" scope="row">
+                    <span class="bcn-cia__agency">{p.agency}</span>
+                    <span class="bcn-cia__agency-level type-body-small">{p.level}</span>
+                  </th>
+                  <td class="type-body-small">{p.name}</td>
+                  <td class="type-body-small" set:html={p.requirement} />
+                  <td class="type-body-small">
+                    <EsaBadge
+                      variant={TONE_VARIANT[p.applicabilityTone] ?? 'secondary'}
+                      size="sm"
+                      value={p.applicabilityLabel}
+                    />
+                  </td>
+                  {hasReviewStatus && (
+                    <td class="type-body-small">
+                      {p.reviewStatusLabel && (
+                        <EsaBadge
+                          variant={p.reviewStatusLabel === 'Confirmed' ? 'success' : 'secondary'}
+                          size="sm"
+                          value={p.reviewStatusLabel}
+                        />
+                      )}
+                    </td>
+                  )}
+                  <td class="bcn-cia__muted type-body-small" set:html={p.notes} />
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {liveMatrixHref && (
+          <p class="bcn-cia__muted type-body-small">
+            See the <a class="bcn-cia__link" href={liveMatrixHref}>live permit matrix</a> for filters
+            and Excel export.
+          </p>
+        )}
+      </section>
+
+      <!-- ── 6. Limitations ── -->
+      <section class="bcn-cia__sec stack" data-gap="sm" id="cia-limitations">
+        <h2 class="bcn-cia__h2 type-section-title">6. Limitations</h2>
+        <p class="bcn-cia__p type-body">
+          As noted throughout this report, the assessment of potential issues was limited to publicly
+          available desktop information. No onsite surveys or other fieldwork were conducted, and no
+          formal coordination or consultation with agencies was undertaken. The conclusions rely on
+          the accuracy of the public data currently available.
+        </p>
+        <p class="bcn-cia__p type-body">
+          Not all CEQA resources were covered. This assessment evaluates the resource areas most
+          likely to drive critical permits or affect scope, schedule, or cost — not the full Appendix
+          G inventory. Coverage is summarized below.
+        </p>
+        <div class="bcn-cia__limitations grid" data-gap="md">
+          {limitations.map((g) => (
+            <div class="bcn-cia__limitation stack" data-gap="xs">
+              <p class="bcn-cia__h4 type-body">{g.covered}</p>
+              <ul class="bcn-cia__list type-body">
+                {g.items.map((i) => <li set:html={i} />)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p class="bcn-cia__p type-body">
+          Resources deferred to the CEQA stage will be addressed in the Initial Study or
+          Environmental Impact Report prepared during the Planning &amp; Permitting phase.
+        </p>
+      </section>
+
+      <!-- ── 7. References ── -->
+      <section class="bcn-cia__sec stack" data-gap="sm" id="cia-references">
+        <h2 class="bcn-cia__h2 type-section-title">7. References</h2>
+        <ul class="bcn-cia__list type-body">
+          {references.map((r) => <li set:html={r} />)}
+        </ul>
+      </section>
+
+      <!-- ── Figures & appendices ── -->
+      <section class="bcn-cia__sec stack" data-gap="sm" id="cia-figures">
+        <h2 class="bcn-cia__h2 type-section-title">Figures &amp; Appendices</h2>
+        <ul class="bcn-cia__list type-body">
+          {figures.map((f) => <li set:html={f} />)}
+        </ul>
+      </section>
+    </article>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.bcn-cia').forEach((root) => {
+    // ── Print: the only behavior this component owns. Anything that navigates
+    // is the host's, wired to its own slotted buttons.
+    root.querySelectorAll<HTMLElement>('[data-cia-print]').forEach((btn) => {
+      btn.addEventListener('click', () => window.print());
+    });
+
+    // ── TOC scroll-spy. The document may scroll in the window OR inside the app
+    // shell's scrolling <main>, so listen in the CAPTURE phase on document —
+    // scroll doesn't bubble, but it does capture, which catches either case
+    // without having to guess which ancestor is the scroller.
+    const links = [...root.querySelectorAll<HTMLAnchorElement>('.bcn-cia__toc-link')];
+    const targets = links
+      .map((a) => ({ link: a, el: root.querySelector<HTMLElement>(`#${CSS.escape(a.dataset.tocFor ?? '')}`) }))
+      .filter((t): t is { link: HTMLAnchorElement; el: HTMLElement } => Boolean(t.el));
+    if (!targets.length) return;
+
+    // Anything whose top has passed this line counts as "read"; the last one
+    // that has is the active section.
+    const ACTIVATION_LINE = 140;
+    let queued = false;
+
+    function spy() {
+      queued = false;
+      let active = targets[0];
+      for (const t of targets) {
+        if (t.el.getBoundingClientRect().top - ACTIVATION_LINE <= 0) active = t;
+        else break;
+      }
+      for (const t of targets) {
+        t.link.classList.toggle('is-active', t === active);
+        if (t === active) t.link.setAttribute('aria-current', 'location');
+        else t.link.removeAttribute('aria-current');
+      }
+    }
+
+    function request() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(spy);
+    }
+
+    document.addEventListener('scroll', request, { capture: true, passive: true });
+    window.addEventListener('resize', request, { passive: true });
+    spy();
+  });
+</script>
+
+<style>
+  /* bcn-lego-checked: sectioned-document shell only — see the frontmatter note.
+     Everything inside the shell is an esa-* lego, a layouts.css primitive, or a
+     .type-* role; this file styles the document surface, the outline, the two
+     report tables and the print sheet. */
+
+  .bcn-cia {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    color: var(--color-text-primary);
+  }
+
+  /* ── Document utilities ── */
+  .bcn-cia__utilities {
+    --align: center;
+  }
+  .bcn-cia__utilities-note {
+    color: var(--color-text-tertiary);
+    max-width: 56ch;
+  }
+
+  /* ── Shell: outline + document ── */
+  .bcn-cia__shell {
+    --sidebar-width: 15rem;
+    --sidebar-content-min: 62%;
+    align-items: flex-start;
+  }
+
+  /* The sticky element has to be an inner box: the aside is a flex item and
+     stretches to the full shell height, so sticking IT would never move. */
+  .bcn-cia__toc {
+    position: sticky;
+    top: var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-300);
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+  }
+  .bcn-cia__toc-heading {
+    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-semibold);
+    padding: 0 var(--spacing-200) var(--spacing-200);
+  }
+  .bcn-cia__toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-cia__toc-link {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-200);
+    border-radius: var(--radius-100);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+  .bcn-cia__toc-link:hover {
+    background: var(--color-surface-sunken);
+    color: var(--color-text-primary);
+  }
+  .bcn-cia__toc-link.is-active {
+    background: var(--color-primary-subtle);
+    color: var(--color-primary);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-cia__toc-item[data-level='2'] .bcn-cia__toc-link {
+    padding-left: var(--spacing-400);
+  }
+  .bcn-cia__toc-text {
+    min-width: 0;
+  }
+
+  /* Risk dot — the one place the caller's risk palette is used directly. It is a
+     scanning aid beside the label, never a border or a container fill. */
+  .bcn-cia__dot {
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--_risk-dot, var(--color-text-muted));
+    align-self: center;
+  }
+
+  /* ── Document surface ── */
+  .bcn-cia__doc {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-650) var(--spacing-700);
+    min-width: 0;
+  }
+
+  .bcn-cia__masthead {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-400);
+  }
+  /* The report voice: Beacon's designated document/serif face, used for the
+     document title and the numbered section headings only. */
+  .bcn-cia__h1,
+  .bcn-cia__h2 {
+    font-family: var(--font-decorative);
+    color: var(--color-text-primary);
+  }
+  .bcn-cia__subtitle {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-cia__meta {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: var(--spacing-150) var(--spacing-300);
+    margin-top: var(--spacing-200);
+  }
+  .bcn-cia__meta-term {
+    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-cia__meta-def {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+
+  .bcn-cia__sec {
+    scroll-margin-top: var(--spacing-700);
+    max-width: 82ch;
+  }
+  .bcn-cia__h2 {
+    padding-bottom: var(--spacing-200);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .bcn-cia__h3 {
+    color: var(--color-text-primary);
+    margin-top: var(--spacing-200);
+  }
+  .bcn-cia__num {
+    color: var(--color-text-tertiary);
+    margin-right: var(--spacing-250);
+  }
+  /* Findings / Recommendations / Summary-of-findings. A label is content, not
+     decoration — normal case, body size, weight does the work. */
+  .bcn-cia__h4 {
+    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-semibold);
+    margin-top: var(--spacing-200);
+  }
+  .bcn-cia__p {
+    line-height: 1.65;
+    color: var(--color-text-primary);
+  }
+  .bcn-cia__list {
+    margin: 0;
+    padding-left: var(--spacing-500);
+    line-height: 1.65;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-cia__muted {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-cia__link {
+    color: var(--color-primary);
+  }
+
+  /* ── Per-resource severity strip ── */
+  .bcn-cia__resource-summary {
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-100);
+    padding: var(--spacing-250) var(--spacing-300);
+  }
+  .bcn-cia__field-label {
+    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-medium);
+  }
+  .bcn-cia__risk {
+    --gap: var(--spacing-150);
+    display: inline-flex;
+    flex-wrap: nowrap;
+  }
+  .bcn-cia__note {
+    max-width: 72ch;
+  }
+
+  /* ── Report tables ── */
+  .bcn-cia__table-scroll {
+    overflow-x: auto;
+  }
+  .bcn-cia__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .bcn-cia__table th,
+  .bcn-cia__table td {
+    text-align: left;
+    vertical-align: top;
+    padding: var(--spacing-250) var(--spacing-300);
+    border-bottom: 1px solid var(--color-border-light);
+    line-height: 1.55;
+  }
+  .bcn-cia__table thead th {
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+    font-weight: var(--typography-font-weight-semibold);
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+  .bcn-cia__row-head {
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-cia__agency {
+    display: block;
+  }
+  .bcn-cia__agency-level {
+    display: block;
+    color: var(--color-text-tertiary);
+    font-weight: var(--typography-font-weight-regular);
+  }
+
+  /* ── Limitations ── */
+  .bcn-cia__limitations {
+    --grid-min: 18rem;
+  }
+
+  @media (max-width: 1100px) {
+    .bcn-cia__toc {
+      position: static;
+      max-height: none;
+    }
+    .bcn-cia__doc {
+      padding: var(--spacing-500);
+    }
+  }
+
+  /* ── Print sheet ──
+     The deliverable is meant to leave the app as a PDF, so printing drops all
+     surrounding chrome (app bar, side nav, breadcrumbs, page title, the outline
+     and the document utilities) and lets the article flow as plain pages. */
+  @media print {
+    @page {
+      margin: 14mm;
+    }
+    :global(.topbar),
+    :global(.side-nav),
+    :global(.page-layout__breadcrumbs),
+    :global(.page-layout__title) {
+      display: none !important;
+    }
+    /* The shell scrolls its own <main> on screen; on paper it must simply flow. */
+    :global(.modern-layout__body),
+    :global(.modern-layout__content) {
+      display: block !important;
+      overflow: visible !important;
+      padding: 0 !important;
+      height: auto !important;
+    }
+    .bcn-cia__utilities,
+    .bcn-cia__aside {
+      display: none !important;
+    }
+    .bcn-cia__shell {
+      display: block;
+    }
+    .bcn-cia__doc {
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      background: none;
+    }
+    .bcn-cia__sec,
+    .bcn-cia__resource,
+    .bcn-cia__limitation {
+      max-width: none;
+      break-inside: avoid;
+    }
+    .bcn-cia__h2 {
+      break-after: avoid;
+    }
+    .bcn-cia__table {
+      break-inside: auto;
+    }
+    .bcn-cia__table tr {
+      break-inside: avoid;
+    }
+    .bcn-cia__table thead {
+      display: table-header-group;
+    }
+  }
+</style>

@@ -20,6 +20,7 @@ import BcnSearchTrigger from '../components/bcn/BcnSearchTrigger.astro';
 import BcnOmniSearch from '../components/bcn/BcnOmniSearch.astro';
 import BcnHelpBar from '../components/bcn/BcnHelpBar.astro';
 import BcnGuidanceDrawer from '../components/bcn/BcnGuidanceDrawer.astro';
+import BcnEvidenceDrawer from '../components/bcn/BcnEvidenceDrawer.astro';
 import { withBase } from '../lib/base';
 
 interface NavItem {
@@ -40,6 +41,8 @@ interface NavSection {
   items?: NavItem[];
   /** Single-link section (no sublist), e.g. a dashboard entry. */
   link?: boolean;
+  /** Real route for a `link` section. Defaults to the `#id` stub when absent. */
+  href?: string;
   expanded?: boolean;
   active?: boolean;
   dividerAfter?: boolean;
@@ -335,7 +338,7 @@ if (activeNavId) {
               <>
                 {section.link ? (
                   <div class:list={['nav-section', { 'nav-section--active': section.active }]}>
-                    <a href={`#${section.id}`} class="nav-section__header nav-section__header--link">
+                    <a href={section.href ?? `#${section.id}`} class="nav-section__header nav-section__header--link">
                       <EsaIcon name={section.icon} size="sm" paths={section.iconPaths ?? LUCIDE[section.icon as keyof typeof LUCIDE]} />
                       <span class="nav-section__title">{section.title}</span>
                     </a>
@@ -388,6 +391,12 @@ if (activeNavId) {
          Same root placement so the drawer's overlay clears the z-1100 topbar. -->
     <BcnHelpBar />
     <BcnGuidanceDrawer />
+
+    <!-- The global evidence workspace — the bar's third affordance. App-shell
+         furniture by design: it opens from ANY page, rises from the bottom, and
+         layers above dialogs (see BcnBottomDrawer for the stack). Same root
+         placement as the drawers above, for the same reason. -->
+    <BcnEvidenceDrawer />
   </div>
 </BaseLayout>
 
@@ -468,7 +477,7 @@ if (activeNavId) {
     align-items: center;
     gap: var(--spacing-100);
     padding: var(--spacing-050) var(--spacing-200);
-    font-size: 0.75rem;
+    font-size: 0.8125rem; /* 13px — the meta/dense floor; was 12px */
     font-weight: 600;
     background: var(--color-accent);
     color: var(--color-surface);

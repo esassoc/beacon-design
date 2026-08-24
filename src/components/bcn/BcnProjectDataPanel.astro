@@ -219,7 +219,14 @@ const LAYERS =
         <esa-text-field label="Start Date" value={PROJECT_INFO.startDate} required></esa-text-field>
         <esa-text-field label="End Date" value={PROJECT_INFO.endDate} required></esa-text-field>
       </div>
-      <esa-switch-toggle label="Has Components" checked={PROJECT_INFO.hasComponents}></esa-switch-toggle>
+      {/* `|| undefined`, not the bare boolean: Astro cannot know a CUSTOM element's
+          attribute is boolean, so `checked={false}` renders as checked="false" and
+          Lit reads any present attribute as true. Latent here while the fixture is
+          true; corrected so it stays right if it ever isn't. */}
+      <esa-switch-toggle
+        label="Has Components"
+        checked={PROJECT_INFO.hasComponents || undefined}
+      ></esa-switch-toggle>
       <esa-textarea label="Description" value={PROJECT_INFO.description} rows={6}></esa-textarea>
 
       <div class="bcn-pdp__files">

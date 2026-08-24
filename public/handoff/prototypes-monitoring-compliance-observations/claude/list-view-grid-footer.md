@@ -2696,7 +2696,7 @@ The default view: the observation set in the shared AG Grid kit already used by 
               </div>
               <!--AG-FAKE-VERTICAL-SCROLL-->
               <div
-                class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+                class="ag-body-vertical-scroll ag-scrollbar-invisible"
                 aria-hidden="true"
                 style="width: 16px; max-width: 16px; min-width: 16px"
               >
@@ -2841,7 +2841,7 @@ The default view: the observation set in the shared AG Grid kit already used by 
             </div>
             <!--AG-FAKE-HORIZONTAL-SCROLL-->
             <div
-              class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+              class="ag-body-horizontal-scroll ag-scrollbar-invisible"
               aria-hidden="true"
               style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
             >
@@ -4072,6 +4072,10 @@ The default view: the observation set in the shared AG Grid kit already used by 
 .bcn-help-bar .esa-icon-button:hover,.bcn-help-bar .esa-icon-button:focus-visible{color:var(--bcn-helpbar-fg)}
 .bcn-gd__label .esa-icon{color:var(--color-text-tertiary);flex:none}
 .bcn-gd-row .esa-icon{color:var(--color-text-tertiary);flex:none}
+.bcn-disclosure .esa-icon{transition:transform .15s ease}
+.bcn-disclosure[aria-expanded=false] .esa-icon{transform:rotate(-90deg)}
+.bcn-ev-staging__title .esa-icon{flex:none;color:var(--color-text-tertiary)}
+.bcn-ev-targets__title .esa-icon{flex:none;color:var(--color-text-tertiary)}
 .topbar__right .esa-icon-button{color:var(--color-text-secondary)}
 .user-panel__item .esa-icon{color:var(--bcn-gray-500)}
 .user-panel__item--danger .esa-icon{color:var(--color-danger)}
@@ -4081,12 +4085,6 @@ The default view: the observation set in the shared AG Grid kit already used by 
 .nav-section__header>.esa-icon:last-child{color:var(--bcn-gray-400);transition:transform .15s ease,opacity .2s ease-in-out;flex-shrink:0}
 .nav-section--collapsed .nav-section__header>.esa-icon:last-child{transform:rotate(-90deg)}
 .side-nav.collapsed .nav-section__header>.esa-icon:last-child{display:none}
-.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.esa-icon-button--xs{--_ib-size: var(--form-height-xs, 28px)}
-.esa-icon-button--sm{--_ib-size: var(--form-height-sm, 32px)}
-.esa-icon-button--lg{--_ib-size: var(--form-height-lg, 48px)}
-.esa-icon-button:hover{background:var(--_ib-bg-hover)}
-.esa-icon-button:focus-visible{outline:var(--focus-ring-width) solid currentColor;outline-offset:var(--focus-ring-offset, 2px)}
 .ov-grid{width:100%;height:calc(100vh - 460px);min-height:480px}
 .table-footer{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background);border:1px solid var(--color-border);border-top:0;border-radius:0 0 var(--radius-100) var(--radius-100)}
 .row-count-data{display:flex;align-items:center;gap:var(--spacing-400);font-size:var(--type-size-100);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
@@ -4104,6 +4102,12 @@ The default view: the observation set in the shared AG Grid kit already used by 
 .esa-icon--lg{--_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px))}
 .esa-icon--xl{--_icon-size: var(--icon-size-xl, 28px)}
 .esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
+.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.esa-icon-button--xs{--_ib-size: var(--form-height-xs, 28px)}
+.esa-icon-button--sm{--_ib-size: var(--form-height-sm, 32px)}
+.esa-icon-button--lg{--_ib-size: var(--form-height-lg, 48px)}
+.esa-icon-button:hover{background:var(--_ib-bg-hover)}
+.esa-icon-button:focus-visible{outline:var(--focus-ring-width) solid currentColor;outline-offset:var(--focus-ring-offset, 2px)}
 .breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
 .page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
 ```

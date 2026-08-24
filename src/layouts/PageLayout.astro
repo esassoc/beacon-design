@@ -35,6 +35,13 @@ interface Props {
    * the normal (still-padded) content. Additive + backward-compatible.
    */
   bleedHeader?: boolean;
+  /**
+   * Optional colour for the H1's leading glyph, as a CSS value (usually a token).
+   * Omitted, the icon keeps the default ink every other page uses — so this is additive and
+   * changes nothing for existing callers. Exists because a page cannot carry its own CSS in
+   * this spoke, and the title row belongs to the layout.
+   */
+  iconColor?: string;
 }
 
 // Lucide glyphs not in esa-icon's registry (inner SVG markup only).
@@ -51,52 +58,84 @@ const LUCIDE: Record<string, string> = {
     '<path d="M8 2v4"/><path d="M12 2v4"/><path d="M16 2v4"/><rect width="16" height="18" x="4" y="4" rx="2"/><path d="M8 10h6"/><path d="M8 14h8"/><path d="M8 18h5"/>',
 };
 
-const { breadcrumbs = [], title, icon, hideTitleRow = false, bleedHeader = false } = Astro.props as Props;
+const {
+  breadcrumbs = [],
+  title,
+  icon,
+  iconColor,
+  hideTitleRow = false,
+  bleedHeader = false,
+} = Astro.props as Props;
 const iconPaths = icon ? LUCIDE[icon] : undefined;
 const hasUtilities = Astro.slots.has('utilities');
 const hasBleed = bleedHeader && Astro.slots.has('bleed');
+// Record-level sibling navigation (prev / next). Prod hosts this INSIDE the
+// breadcrumb bar — `breadcrumbs.component.ts` imports `<commitment-navigation>` —
+// so a page that needs it slots it here instead of growing a second bar.
+const hasCrumbEnd = Astro.slots.has('breadcrumb-end');
 ---
 
+<!-- bcn-lego-checked: esa-breadcrumbs exists, but this whole layout is a deliberate
+     VERBATIM port of prod's page-layout + breadcrumbs (see the file header) so that
+     ported Angular views match the live app; the lego has a different anatomy (no
+     home glyph, its own spacing) and swapping it would restyle the breadcrumb row on
+     all 39 pages at once. That migration is its own decision, not a side effect of
+     moving where the row sits. Only the POSITION and an end slot changed here. -->
 <div class:list={['page-layout', { 'page-layout--bleed': hasBleed }]}>
+  {
+    /* Breadcrumbs are the first thing on the page, ABOVE a bleed band. The trail
+       says where you are in the hierarchy; the band is the record itself. Being
+       shown the record's identity before being told where it sits inverts the
+       sentence — and prod puts the trail at the top of every page. Rendered here as
+       a sibling of the container rather than inside it, so there is exactly ONE copy
+       of this markup: for non-bleed pages `.page-layout`'s own padding applies and
+       the result is visually identical to where it used to sit. */
+    breadcrumbs.length > 0 && (
+      <section class:list={['page-layout__breadcrumbs', { 'page-layout__breadcrumbs--bleed': hasBleed }]}>
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <div class="breadcrumbs__items">
+            {breadcrumbs.map((crumb, i) => {
+              const isFirst = i === 0;
+              const isLast = i === breadcrumbs.length - 1;
+              return (
+                <>
+                  {isFirst && <EsaIcon name="house" size="sm" paths={LUCIDE['house']} />}
+                  {isLast || !crumb.href ? (
+                    <span class="breadcrumb-item" aria-current={isLast ? 'page' : undefined}>
+                      {crumb.label}
+                    </span>
+                  ) : (
+                    <a class="breadcrumb-item" href={crumb.href}>
+                      {crumb.label}
+                    </a>
+                  )}
+                  {!isLast && <EsaIcon name="chevron-right" size="sm" />}
+                </>
+              );
+            })}
+          </div>
+          {hasCrumbEnd && (
+            <div class="breadcrumbs__end">
+              <slot name="breadcrumb-end" />
+            </div>
+          )}
+        </nav>
+      </section>
+    )
+  }
   {hasBleed && (
     <div class="page-layout__bleed">
       <slot name="bleed" />
     </div>
   )}
   <div class="page-layout__container">
-    {
-      breadcrumbs.length > 0 && (
-        <section class="page-layout__breadcrumbs">
-          <nav class="breadcrumbs" aria-label="Breadcrumb">
-            <div class="breadcrumbs__items">
-              {breadcrumbs.map((crumb, i) => {
-                const isFirst = i === 0;
-                const isLast = i === breadcrumbs.length - 1;
-                return (
-                  <>
-                    {isFirst && <EsaIcon name="house" size="sm" paths={LUCIDE['house']} />}
-                    {isLast || !crumb.href ? (
-                      <span class="breadcrumb-item" aria-current={isLast ? 'page' : undefined}>
-                        {crumb.label}
-                      </span>
-                    ) : (
-                      <a class="breadcrumb-item" href={crumb.href}>
-                        {crumb.label}
-                      </a>
-                    )}
-                    {!isLast && <EsaIcon name="chevron-right" size="sm" />}
-                  </>
-                );
-              })}
-            </div>
-          </nav>
-        </section>
-      )
-    }
 
     {
       !hideTitleRow && (
-        <section class="page-layout__title">
+        <section
+          class="page-layout__title"
+          style={iconColor ? `--page-title-icon-color: ${iconColor}` : undefined}
+        >
           <div class="page-layout__title-main">
             <h1>
               {icon && <EsaIcon name={icon} paths={iconPaths} />}
@@ -146,9 +185,26 @@ const hasBleed = bleedHeader && Astro.slots.has('bleed');
     width: 100%;
   }
 
+  /* Bleed pages drop the wrapper padding, so the breadcrumb bar carries its own
+     horizontal gutter to line up with the container below the band. */
+  .page-layout__breadcrumbs--bleed {
+    padding: 0 var(--spacing-600);
+  }
+
   /* breadcrumbs.component.scss */
   .breadcrumbs {
     padding: var(--spacing-400) 0;
+    /* Trail left, record navigation right — prod's arrangement, where
+       <commitment-navigation> sits at the end of the same bar. */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+  }
+  .breadcrumbs__end {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
   }
   .breadcrumbs__items {
     display: flex;
@@ -198,7 +254,7 @@ const hasBleed = bleedHeader && Astro.slots.has('bleed');
     color: var(--bcn-gray-1000);
   }
   .page-layout__title h1 :global(.esa-icon) {
-    color: var(--bcn-gray-1000);
+    color: var(--page-title-icon-color, var(--bcn-gray-1000));
     flex-shrink: 0;
   }
   .page-layout__utilities {
