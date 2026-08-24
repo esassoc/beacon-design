@@ -495,6 +495,19 @@ const pickerOptions = (componentId: string) =>
     gap: var(--spacing-250);
   }
 
+  /* The whole area is tinted, with white cards on it — the drawer's "surface things are filed
+     INTO" idea, in the info colour instead of the neutral one. The tint says "these are
+     proposals" once, for the region, rather than per card. */
+  .bcn-triage-review__section[aria-label='Suggested actions'] {
+    background: var(--color-info-subtle);
+  }
+
+  /* On the tinted band the count chip inverts: a chip the same colour as its background is
+     not a chip. Surface fill, blue edge, so it still reads as part of the same family. */
+  .bcn-triage-review__legendcount :global(.esa-badge) {
+    --badge-bg: var(--color-surface);
+  }
+
   .bcn-triage-review__picker {
     display: flex;
     align-items: center;
