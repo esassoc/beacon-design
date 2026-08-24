@@ -38,7 +38,6 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
-import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
@@ -73,11 +72,7 @@ const FILE_PLUS =
        by hand. Nothing on this surface can say "this is not evidence", so a record that is
        genuinely junk has no exit; if that becomes a real case, this is where it would go. -->
   <div class="bcn-triage-review__prompt" data-triage-prompt>
-    <EsaEmptyState
-      title="Select a record to review"
-      description="Each one shows the actions proposed for it. Approve a suggestion, or attach the record to an action you pick yourself."
-      size="sm"
-    />
+    <p class="bcn-triage-review__invite">Select a record to review</p>
   </div>
 
   {
@@ -326,10 +321,30 @@ const FILE_PLUS =
   .bcn-triage-review__prompt {
     display: flex;
     flex: 1;
+    align-items: stretch;
+    min-height: 22rem;
+    padding: var(--spacing-400);
+  }
+
+  /* The platform's waiting-for-something pattern, as bcn-ev-row__hint draws it in the drawer:
+     a dashed edge, NO fill, centred, muted and italic — an instruction about what to do with
+     the empty space rather than a label for something that is there.
+     Not esa-empty-state: that lego is for "this collection is empty", with a title and a
+     description. This is "you have not picked one yet", which the drawer already models as a
+     dashed zone, and it wants one quiet line rather than a headline. */
+  .bcn-triage-review__invite {
+    display: flex;
+    flex: 1;
     align-items: center;
     justify-content: center;
-    min-height: 22rem;
-    padding: var(--spacing-700) var(--spacing-500);
+    margin: 0;
+    padding: var(--spacing-500);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-200);
+    background: none;
+    font-size: 0.8125rem;
+    font-style: italic;
+    color: var(--color-text-muted);
   }
 
   .bcn-triage-review__prompt[hidden] {
