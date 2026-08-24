@@ -10697,219 +10697,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.bcn-model-diagram {
-  display: flex;
-  flex-direction: column;
-  color: var(--color-text-primary);
-  font-size: var(--type-size-200);
-  line-height: 1.5;
-}
-.bcn-model-diagram__band {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-  padding: var(--spacing-500);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  background: var(--color-surface, #fff);
-}
-.bcn-model-diagram__band-title {
-  margin: 0;
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.3;
-}
-.bcn-model-diagram__row {
-  display: grid;
-  gap: var(--spacing-400);
-}
-.bcn-model-diagram__row--pair {
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-}
-.bcn-model-diagram__card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-250);
-  padding: var(--spacing-400);
-  background: var(--color-surface, #fff);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-200);
-}
-.bcn-model-diagram__card[data-tone="external"] {
-  border-style: dashed;
-  border-color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 5%, white);
-}
-.bcn-model-diagram__card-head {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-}
-.bcn-model-diagram__card-name {
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.3;
-}
-.bcn-model-diagram__chip {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  padding: 0 6px;
-  line-height: 1.5;
-  white-space: nowrap;
-}
-.bcn-model-diagram__chip[data-tone="external"] {
-  color: var(--color-commitment);
-  border-color: var(--color-commitment);
-  background: transparent;
-}
-.bcn-model-diagram__purpose {
-  margin: 0;
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
-}
-.bcn-model-diagram__fields {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-model-diagram__fields li {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  padding: var(--spacing-150) 0;
-  border-top: 1px solid var(--color-border-light);
-  font-size: var(--type-size-150);
-}
-.bcn-model-diagram__fname {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-text-primary);
-}
-.bcn-model-diagram__fnote {
-  color: var(--color-text-tertiary);
-}
-.bcn-model-diagram__flow {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-200) 0;
-  margin-inline: var(--spacing-600);
-}
-.bcn-model-diagram__flow-label {
-  position: relative;
-  padding-left: var(--spacing-500);
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-}
-.bcn-model-diagram__flow-label:before {
-  content: "";
-  position: absolute;
-  left: var(--spacing-200);
-  top: -14px;
-  bottom: -14px;
-  width: 2px;
-  background: var(--color-border-strong);
-}
-.bcn-model-diagram__flow-label:after {
-  content: "";
-  position: absolute;
-  left: calc(var(--spacing-200) - 4px);
-  bottom: -16px;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 7px solid var(--color-border-strong);
-}
-.bcn-model-diagram__band[data-tone="model"] {
-  background: var(--color-surface-sunken);
-  border-color: var(--color-border-strong);
-}
-.bcn-model-diagram__band-note {
-  margin: calc(-1 * var(--spacing-300)) 0 0;
-  max-width: 72ch;
-  color: var(--color-text-secondary);
-}
-.bcn-model-diagram__spine {
-  display: flex;
-  align-items: stretch;
-  gap: var(--spacing-200);
-  overflow-x: auto;
-  padding-bottom: var(--spacing-200);
-}
-.bcn-model-diagram__spine .bcn-model-diagram__card--tier {
-  flex: 1 1 0;
-  min-width: 240px;
-}
-.bcn-model-diagram__chip[data-tone="id"] {
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-color: transparent;
-}
-.bcn-model-diagram__fname[data-ref="commitment"],
-.bcn-model-diagram__fname[data-ref="milestone"] {
-  color: var(--color-commitment);
-}
-.bcn-model-diagram__link {
-  display: flex;
-  align-items: center;
-  flex: none;
-  position: relative;
-  width: 34px;
-}
-.bcn-model-diagram__link:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 6px;
-  top: 50%;
-  height: 2px;
-  background: var(--color-border-strong);
-}
-.bcn-model-diagram__link-label {
-  position: absolute;
-  top: calc(50% - 26px);
-  left: 50%;
-  transform: translate(-50%);
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.bcn-model-diagram__link:after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 7px solid var(--color-border-strong);
-}
-.bcn-model-diagram__row--satellites {
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
-.bcn-model-diagram__card--satellite {
-  border-color: var(--color-border);
-}
-.bcn-model-diagram__card--computed {
-  border-style: dashed;
-}
-.bcn-model-diagram__chip[data-tone="computed"] {
-  border-style: dashed;
-}
-.bcn-model-diagram__row--projections {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-.bcn-model-diagram__card--projection {
-  gap: var(--spacing-150);
-  background: var(--color-surface-sunken);
-}
 .modern-layout {
   display: flex;
   flex-direction: column;
@@ -11724,12 +11511,49 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, 20px);
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
+  color: inherit;
+  border-color: transparent;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
 }
 .page-layout {
   display: flex;
@@ -11803,53 +11627,229 @@ a.breadcrumb-item {
   min-height: 70vh;
   position: relative;
 }
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
 }
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
+.bcn-model-diagram {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-text-primary);
+  font-size: var(--type-size-200);
+  line-height: 1.5;
 }
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
+.bcn-model-diagram__band {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  padding: var(--spacing-500);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  background: var(--color-surface, #fff);
 }
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
+.bcn-model-diagram__band-title {
+  margin: 0;
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
 }
-.esa-button--variant-chrome .esa-button__native {
+.bcn-model-diagram__row {
+  display: grid;
+  gap: var(--spacing-400);
+}
+.bcn-model-diagram__row--pair {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+.bcn-model-diagram__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+  padding: var(--spacing-400);
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-200);
+}
+.bcn-model-diagram__card[data-tone="external"] {
+  border-style: dashed;
+  border-color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 5%, white);
+}
+.bcn-model-diagram__card-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+}
+.bcn-model-diagram__card-name {
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+}
+.bcn-model-diagram__chip {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  padding: 0 6px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.bcn-model-diagram__chip[data-tone="external"] {
+  color: var(--color-commitment);
+  border-color: var(--color-commitment);
   background: transparent;
-  color: inherit;
+}
+.bcn-model-diagram__purpose {
+  margin: 0;
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
+}
+.bcn-model-diagram__fields {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-model-diagram__fields li {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  padding: var(--spacing-150) 0;
+  border-top: 1px solid var(--color-border-light);
+  font-size: var(--type-size-150);
+}
+.bcn-model-diagram__fname {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-primary);
+}
+.bcn-model-diagram__fnote {
+  color: var(--color-text-tertiary);
+}
+.bcn-model-diagram__flow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-200) 0;
+  margin-inline: var(--spacing-600);
+}
+.bcn-model-diagram__flow-label {
+  position: relative;
+  padding-left: var(--spacing-500);
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-model-diagram__flow-label:before {
+  content: "";
+  position: absolute;
+  left: var(--spacing-200);
+  top: -14px;
+  bottom: -14px;
+  width: 2px;
+  background: var(--color-border-strong);
+}
+.bcn-model-diagram__flow-label:after {
+  content: "";
+  position: absolute;
+  left: calc(var(--spacing-200) - 4px);
+  bottom: -16px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid var(--color-border-strong);
+}
+.bcn-model-diagram__band[data-tone="model"] {
+  background: var(--color-surface-sunken);
+  border-color: var(--color-border-strong);
+}
+.bcn-model-diagram__band-note {
+  margin: calc(-1 * var(--spacing-300)) 0 0;
+  max-width: 72ch;
+  color: var(--color-text-secondary);
+}
+.bcn-model-diagram__spine {
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-200);
+  overflow-x: auto;
+  padding-bottom: var(--spacing-200);
+}
+.bcn-model-diagram__spine .bcn-model-diagram__card--tier {
+  flex: 1 1 0;
+  min-width: 240px;
+}
+.bcn-model-diagram__chip[data-tone="id"] {
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
   border-color: transparent;
 }
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
+.bcn-model-diagram__fname[data-ref="commitment"],
+.bcn-model-diagram__fname[data-ref="milestone"] {
+  color: var(--color-commitment);
+}
+.bcn-model-diagram__link {
+  display: flex;
+  align-items: center;
+  flex: none;
+  position: relative;
+  width: 34px;
+}
+.bcn-model-diagram__link:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 6px;
+  top: 50%;
+  height: 2px;
+  background: var(--color-border-strong);
+}
+.bcn-model-diagram__link-label {
+  position: absolute;
+  top: calc(50% - 26px);
+  left: 50%;
+  transform: translate(-50%);
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-model-diagram__link:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid var(--color-border-strong);
+}
+.bcn-model-diagram__row--satellites {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.bcn-model-diagram__card--satellite {
+  border-color: var(--color-border);
+}
+.bcn-model-diagram__card--computed {
+  border-style: dashed;
+}
+.bcn-model-diagram__chip[data-tone="computed"] {
+  border-style: dashed;
+}
+.bcn-model-diagram__row--projections {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.bcn-model-diagram__card--projection {
+  gap: var(--spacing-150);
+  background: var(--color-surface-sunken);
 }
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
