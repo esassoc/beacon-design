@@ -818,7 +818,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Monitoring portal · 4 files · Intake B — North Delta
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -853,7 +853,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Plant
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -887,7 +887,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Drop-box link · 2 files · Component not set
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -926,7 +926,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Monitoring portal · 1 file · Southern Forebay &amp; Pumping Plant
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -961,7 +961,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Plant
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -995,7 +995,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Monitoring portal · 2 files · Twin Cities Complex
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -1034,7 +1034,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Monitoring portal · 2 files · Intake B — North Delta
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -1068,7 +1068,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Monitoring portal · 1 file · Southern Forebay &amp; Pumping Plant
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -1102,6 +1102,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Drop-box link · 1 file · Component not set
                                 </span>
                               </button>
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="" hidden="">
+                                <span class="bcn-triage-row__match bcn-triage-row__sug">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                  >
+                                    <span class="esa-badge__text">0 suggested actions</span>
+                                  </span>
+                                </span>
+                              </div>
                             </li>
                             <li
                               class="bcn-triage-row"
@@ -1127,7 +1136,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Beacon report · 1 file · Southern Forebay &amp; Pumping Plant
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -1162,7 +1171,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Plant
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -1197,7 +1206,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Plant
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -1236,7 +1245,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Monitoring portal · 1 file · Intake B — North Delta
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -1270,7 +1279,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Monitoring portal · 1 file · Twin Cities Complex
                                 </span>
                               </button>
-                              <div class="bcn-triage-row__foot">
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="">
                                 <span class="bcn-triage-row__match bcn-triage-row__sug">
                                   <span
                                     class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
@@ -1304,6 +1313,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Beacon report · 1 file · Component not set
                                 </span>
                               </button>
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="" hidden="">
+                                <span class="bcn-triage-row__match bcn-triage-row__sug">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                  >
+                                    <span class="esa-badge__text">0 suggested actions</span>
+                                  </span>
+                                </span>
+                              </div>
                             </li>
                             <li
                               class="bcn-triage-row"
@@ -1329,6 +1347,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   Drop-box link · 1 file · Component not set
                                 </span>
                               </button>
+                              <div class="bcn-triage-row__foot" data-triage-rowfoot="" hidden="">
+                                <span class="bcn-triage-row__match bcn-triage-row__sug">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
+                                  >
+                                    <span class="esa-badge__text">0 suggested actions</span>
+                                  </span>
+                                </span>
+                              </div>
                             </li>
                           </ul>
                         </section>
@@ -1441,6 +1468,33 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span class="bcn-triage-review__add" data-triage-add="tri-ib-turbidity">
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -1472,7 +1526,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-ib-turbidity|act-ib-turbidity-monitoring"
@@ -1551,57 +1605,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-ib-turbidity"
-                                  data-options='[{"value":"act-ib-fish-screen-inspection","label":"FSH-2.1 — Fish screen criteria compliance inspection"},{"value":"act-ib-inwater-work-window","label":"FSH-1.3 — In-water work window conformance record"},{"value":"act-ib-turbidity-monitoring","label":"WQ-2.4 — Turbidity monitoring during in-water construction"},{"value":"act-ib-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-ib-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-ib-pile-driving-hydroacoustic","label":"FSH-4.2 — Hydroacoustic monitoring during pile driving"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-ib-turbidity"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -1668,6 +1671,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-daily-forebay-0722"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -1699,7 +1732,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-daily-forebay-0722|act-daily-biological-monitoring"
@@ -1778,57 +1811,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-daily-forebay-0722"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-daily-forebay-0722"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -1895,6 +1877,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-dropbox-fish-screen"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -1926,7 +1938,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-dropbox-fish-screen|act-ib-fish-screen-inspection"
@@ -2005,57 +2017,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-dropbox-fish-screen"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-ib-fish-screen-inspection","label":"FSH-2.1 — Fish screen criteria compliance inspection"},{"value":"act-ib-inwater-work-window","label":"FSH-1.3 — In-water work window conformance record"},{"value":"act-ib-turbidity-monitoring","label":"WQ-2.4 — Turbidity monitoring during in-water construction"},{"value":"act-ib-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-ib-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-ib-pile-driving-hydroacoustic","label":"FSH-4.2 — Hydroacoustic monitoring during pile driving"},{"value":"act-tc-rtm-stockpile-inspection","label":"WQ-7.1 — Reusable tunnel material stockpile inspection"},{"value":"act-tc-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-tc-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-tc-nesting-bird-survey","label":"BIO-5.2 — Nesting bird survey before vegetation removal"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-dropbox-fish-screen"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -2122,6 +2083,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-swppp-inspection-0721"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -2153,7 +2144,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-swppp-inspection-0721|act-swppp-inspection"
@@ -2232,57 +2223,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-swppp-inspection-0721"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-swppp-inspection-0721"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -2349,6 +2289,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-daily-forebay-0721"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -2380,7 +2350,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-daily-forebay-0721|act-daily-biological-monitoring"
@@ -2459,57 +2429,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-daily-forebay-0721"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-daily-forebay-0721"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -2574,6 +2493,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-tc-rtm-stockpile"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -2605,7 +2554,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-tc-rtm-stockpile|act-tc-rtm-stockpile-inspection"
@@ -2684,57 +2633,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-tc-rtm-stockpile"
-                                  data-options='[{"value":"act-tc-rtm-stockpile-inspection","label":"WQ-7.1 — Reusable tunnel material stockpile inspection"},{"value":"act-tc-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-tc-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-tc-nesting-bird-survey","label":"BIO-5.2 — Nesting bird survey before vegetation removal"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-tc-rtm-stockpile"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -2799,6 +2697,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-hydroacoustic"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -2830,7 +2758,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-hydroacoustic|act-ib-pile-driving-hydroacoustic"
@@ -2909,57 +2837,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-hydroacoustic"
-                                  data-options='[{"value":"act-ib-fish-screen-inspection","label":"FSH-2.1 — Fish screen criteria compliance inspection"},{"value":"act-ib-inwater-work-window","label":"FSH-1.3 — In-water work window conformance record"},{"value":"act-ib-turbidity-monitoring","label":"WQ-2.4 — Turbidity monitoring during in-water construction"},{"value":"act-ib-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-ib-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-ib-pile-driving-hydroacoustic","label":"FSH-4.2 — Hydroacoustic monitoring during pile driving"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-hydroacoustic"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -3026,6 +2903,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-noise-readings-wk29"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -3057,7 +2964,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-noise-readings-wk29|act-noise-monitoring"
@@ -3137,57 +3044,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-noise-readings-wk29"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-noise-readings-wk29"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -3252,6 +3108,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-dropbox-tribal-letter"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -3276,58 +3162,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </span>
                             Suggested actions
                           </h3>
-                          <p class="bcn-triage-review__nonetext">No matches found</p>
-                        </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush" open="">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-dropbox-tribal-letter"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-ib-fish-screen-inspection","label":"FSH-2.1 — Fish screen criteria compliance inspection"},{"value":"act-ib-inwater-work-window","label":"FSH-1.3 — In-water work window conformance record"},{"value":"act-ib-turbidity-monitoring","label":"WQ-2.4 — Turbidity monitoring during in-water construction"},{"value":"act-ib-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-ib-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-ib-pile-driving-hydroacoustic","label":"FSH-4.2 — Hydroacoustic monitoring during pile driving"},{"value":"act-tc-rtm-stockpile-inspection","label":"WQ-7.1 — Reusable tunnel material stockpile inspection"},{"value":"act-tc-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-tc-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-tc-nesting-bird-survey","label":"BIO-5.2 — Nesting bird survey before vegetation removal"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-dropbox-tribal-letter"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
+                          <div class="bcn-triage-review__sugs" data-triage-suglist=""></div>
+                          <p class="bcn-triage-review__nonetext" data-triage-nomatch="">
+                            No matches found
+                          </p>
                         </section>
                       </article>
                       <article
@@ -3395,6 +3233,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-monthly-report-june"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -3426,7 +3294,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-monthly-report-june|act-monthly-compliance-report"
@@ -3505,57 +3373,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-monthly-report-june"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-monthly-report-june"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -3622,6 +3439,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-daily-forebay-0719"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -3653,7 +3500,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-daily-forebay-0719|act-daily-biological-monitoring"
@@ -3808,57 +3655,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-daily-forebay-0719"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-daily-forebay-0719"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -3925,6 +3721,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-dust-log-wk29"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -3956,7 +3782,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-dust-log-wk29|act-dust-control-inspection"
@@ -4035,57 +3861,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-dust-log-wk29"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-dust-log-wk29"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -4150,6 +3925,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-fish-screen-inspection"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -4181,7 +3986,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-fish-screen-inspection|act-ib-fish-screen-inspection"
@@ -4260,57 +4065,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-fish-screen-inspection"
-                                  data-options='[{"value":"act-ib-fish-screen-inspection","label":"FSH-2.1 — Fish screen criteria compliance inspection"},{"value":"act-ib-inwater-work-window","label":"FSH-1.3 — In-water work window conformance record"},{"value":"act-ib-turbidity-monitoring","label":"WQ-2.4 — Turbidity monitoring during in-water construction"},{"value":"act-ib-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-ib-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-ib-pile-driving-hydroacoustic","label":"FSH-4.2 — Hydroacoustic monitoring during pile driving"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-fish-screen-inspection"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -4375,6 +4129,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-tc-nesting-sweep"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -4406,7 +4190,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </span>
                             </span>
                           </h3>
-                          <div class="bcn-triage-review__sugs">
+                          <div class="bcn-triage-review__sugs" data-triage-suglist="">
                             <div
                               class="bcn-triage-sug"
                               data-triage-sug="tri-tc-nesting-sweep|act-tc-nesting-bird-survey"
@@ -4485,57 +4269,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-tc-nesting-sweep"
-                                  data-options='[{"value":"act-tc-rtm-stockpile-inspection","label":"WQ-7.1 — Reusable tunnel material stockpile inspection"},{"value":"act-tc-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-tc-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-tc-nesting-bird-survey","label":"BIO-5.2 — Nesting bird survey before vegetation removal"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-tc-nesting-sweep"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
-                        </section>
                       </article>
                       <article
                         class="bcn-triage-review__panel"
@@ -4600,6 +4333,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-quarterly-summary"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -4624,58 +4387,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </span>
                             Suggested actions
                           </h3>
-                          <p class="bcn-triage-review__nonetext">No matches found</p>
-                        </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush" open="">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-quarterly-summary"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-ib-fish-screen-inspection","label":"FSH-2.1 — Fish screen criteria compliance inspection"},{"value":"act-ib-inwater-work-window","label":"FSH-1.3 — In-water work window conformance record"},{"value":"act-ib-turbidity-monitoring","label":"WQ-2.4 — Turbidity monitoring during in-water construction"},{"value":"act-ib-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-ib-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-ib-pile-driving-hydroacoustic","label":"FSH-4.2 — Hydroacoustic monitoring during pile driving"},{"value":"act-tc-rtm-stockpile-inspection","label":"WQ-7.1 — Reusable tunnel material stockpile inspection"},{"value":"act-tc-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-tc-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-tc-nesting-bird-survey","label":"BIO-5.2 — Nesting bird survey before vegetation removal"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-quarterly-summary"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
+                          <div class="bcn-triage-review__sugs" data-triage-suglist=""></div>
+                          <p class="bcn-triage-review__nonetext" data-triage-nomatch="">
+                            No matches found
+                          </p>
                         </section>
                       </article>
                       <article
@@ -4743,6 +4458,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-dropbox-equipment-certs"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
+                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -4767,71 +4512,738 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </span>
                             Suggested actions
                           </h3>
-                          <p class="bcn-triage-review__nonetext">No matches found</p>
-                        </section>
-                        <section
-                          class="bcn-triage-review__section bcn-triage-review__attach"
-                          aria-label="Attach to another action"
-                        >
-                          <details class="esa-collapsible esa-collapsible--flush" open="">
-                            <summary class="esa-collapsible__summary typography-label-sm-strong">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M9 15h6"></path>
-                                  <path d="M12 12v6"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-collapsible__title">Attach to another action</span>
-                            </summary>
-                            <div class="esa-collapsible__body typography-body-md">
-                              <div class="bcn-triage-review__picker">
-                                <esa-select
-                                  data-triage-picker="tri-dropbox-equipment-certs"
-                                  data-options='[{"value":"act-swha-preconstruction-survey","label":"BIO-4.2 — Preconstruction Swainson’s hawk nest survey"},{"value":"act-swha-buffer-monitoring","label":"BIO-4.5 — Swainson’s hawk active-nest buffer monitoring"},{"value":"act-ggs-preconstruction-survey","label":"BIO-6.1 — Giant garter snake preconstruction survey"},{"value":"act-qualified-biologist","label":"BIO-1.1 — Retain qualified biologist for covered species"},{"value":"act-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-daily-biological-monitoring","label":"BIO-8.4 — Daily biological monitoring during ground disturbance"},{"value":"act-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-noise-monitoring","label":"NOI-2.2 — Construction noise level monitoring at sensitive receptors"},{"value":"act-dust-control-inspection","label":"AIR-1.4 — Fugitive dust control inspection"},{"value":"act-swppp-inspection","label":"WQ-5.2 — SWPPP qualified-personnel site inspection"},{"value":"act-cultural-monitoring","label":"CUL-3.3 — Archaeological monitoring during excavation"},{"value":"act-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-ib-fish-screen-inspection","label":"FSH-2.1 — Fish screen criteria compliance inspection"},{"value":"act-ib-inwater-work-window","label":"FSH-1.3 — In-water work window conformance record"},{"value":"act-ib-turbidity-monitoring","label":"WQ-2.4 — Turbidity monitoring during in-water construction"},{"value":"act-ib-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-ib-monthly-compliance-report","label":"REP-3.1 — Monthly compliance monitoring report"},{"value":"act-ib-pile-driving-hydroacoustic","label":"FSH-4.2 — Hydroacoustic monitoring during pile driving"},{"value":"act-tc-rtm-stockpile-inspection","label":"WQ-7.1 — Reusable tunnel material stockpile inspection"},{"value":"act-tc-haul-route-agreement","label":"TRA-2.1 — Execute haul route maintenance agreement"},{"value":"act-tc-worker-training","label":"BIO-2.3 — Worker environmental awareness training"},{"value":"act-tc-nesting-bird-survey","label":"BIO-5.2 — Nesting bird survey before vegetation removal"}]'
-                                  placeholder="Search actions…"
-                                  size="sm"
-                                  searchable="true"
-                                ></esa-select>
-                                <span
-                                  class="esa-button esa-button--variant-primary esa-button--appearance-outline esa-button--sm"
-                                  ><button
-                                    class="esa-button__native typography-microcopy-xs"
-                                    type="button"
-                                    data-triage-picker-file="tri-dropbox-equipment-certs"
-                                  >
-                                    <span class="esa-button__label"> Attach evidence </span>
-                                  </button></span
-                                >
-                              </div>
-                            </div>
-                          </details>
+                          <div class="bcn-triage-review__sugs" data-triage-suglist=""></div>
+                          <p class="bcn-triage-review__nonetext" data-triage-nomatch="">
+                            No matches found
+                          </p>
                         </section>
                       </article>
+                      <esa-dialog
+                        heading="Add a suggested action"
+                        size="lg"
+                        data-triage-adddialog="true"
+                      >
+                        <div class="bcn-triage-add">
+                          <esa-text-field
+                            data-triage-add-search="true"
+                            placeholder="Search actions by name or commitment code…"
+                            aria-label="Search actions"
+                            size="md"
+                          ></esa-text-field>
+                          <p class="bcn-triage-add__scope" data-triage-add-scope=""></p>
+                          <ul class="bcn-triage-add__list" data-triage-add-list="">
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-swha-preconstruction-survey"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="bio-4.2 preconstruction swainson’s hawk nest survey"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Preconstruction Swainson’s hawk nest survey</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-4.2</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-swha-buffer-monitoring"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="bio-4.5 swainson’s hawk active-nest buffer monitoring"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Swainson’s hawk active-nest buffer monitoring</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-4.5</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-ggs-preconstruction-survey"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="bio-6.1 giant garter snake preconstruction survey"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Giant garter snake preconstruction survey</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-6.1</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-qualified-biologist"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="bio-1.1 retain qualified biologist for covered species"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Retain qualified biologist for covered species</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-1.1</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Implementation Planning</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-worker-training"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="bio-2.3 worker environmental awareness training"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Worker environmental awareness training</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-2.3</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-daily-biological-monitoring"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="bio-8.4 daily biological monitoring during ground disturbance"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Daily biological monitoring during ground disturbance</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-8.4</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-monthly-compliance-report"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="rep-3.1 monthly compliance monitoring report"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Monthly compliance monitoring report</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">REP-3.1</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Reporting</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-noise-monitoring"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="noi-2.2 construction noise level monitoring at sensitive receptors"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Construction noise level monitoring at sensitive receptors</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">NOI-2.2</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-dust-control-inspection"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="air-1.4 fugitive dust control inspection"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Fugitive dust control inspection</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">AIR-1.4</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-swppp-inspection"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="wq-5.2 swppp qualified-personnel site inspection"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >SWPPP qualified-personnel site inspection</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-5.2</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-cultural-monitoring"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="cul-3.3 archaeological monitoring during excavation"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Archaeological monitoring during excavation</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">CUL-3.3</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-haul-route-agreement"
+                                data-component="southern-forebay-pumping-plant"
+                                data-search="tra-2.1 execute haul route maintenance agreement"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Execute haul route maintenance agreement</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">TRA-2.1</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Implementation Planning</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-ib-fish-screen-inspection"
+                                data-component="intake-b-north-delta"
+                                data-search="fsh-2.1 fish screen criteria compliance inspection"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Fish screen criteria compliance inspection</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">FSH-2.1</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-ib-inwater-work-window"
+                                data-component="intake-b-north-delta"
+                                data-search="fsh-1.3 in-water work window conformance record"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >In-water work window conformance record</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">FSH-1.3</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-ib-turbidity-monitoring"
+                                data-component="intake-b-north-delta"
+                                data-search="wq-2.4 turbidity monitoring during in-water construction"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Turbidity monitoring during in-water construction</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-2.4</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-ib-worker-training"
+                                data-component="intake-b-north-delta"
+                                data-search="bio-2.3 worker environmental awareness training"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Worker environmental awareness training</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-2.3</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-ib-monthly-compliance-report"
+                                data-component="intake-b-north-delta"
+                                data-search="rep-3.1 monthly compliance monitoring report"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Monthly compliance monitoring report</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">REP-3.1</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Reporting</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-ib-pile-driving-hydroacoustic"
+                                data-component="intake-b-north-delta"
+                                data-search="fsh-4.2 hydroacoustic monitoring during pile driving"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Hydroacoustic monitoring during pile driving</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">FSH-4.2</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-tc-rtm-stockpile-inspection"
+                                data-component="twin-cities-complex"
+                                data-search="wq-7.1 reusable tunnel material stockpile inspection"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Reusable tunnel material stockpile inspection</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-7.1</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-tc-haul-route-agreement"
+                                data-component="twin-cities-complex"
+                                data-search="tra-2.1 execute haul route maintenance agreement"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Execute haul route maintenance agreement</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">TRA-2.1</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Implementation Planning</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-tc-worker-training"
+                                data-component="twin-cities-complex"
+                                data-search="bio-2.3 worker environmental awareness training"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Worker environmental awareness training</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-2.3</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                class="bcn-triage-add__option"
+                                data-triage-add-pick="act-tc-nesting-bird-survey"
+                                data-component="twin-cities-complex"
+                                data-search="bio-5.2 nesting bird survey before vegetation removal"
+                              >
+                                <span class="bcn-triage-add__name"
+                                  >Nesting bird survey before vegetation removal</span
+                                >
+                                <span class="bcn-triage-add__meta">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-5.2</span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </button>
+                            </li>
+                          </ul>
+                          <p class="bcn-triage-add__empty" data-triage-add-empty="" hidden="">
+                            No actions match that search
+                          </p>
+                        </div>
+                      </esa-dialog>
+                      <template data-triage-manual-template="">
+                        <div class="bcn-triage-sug" data-tier="manual" data-astro-cid-uqyrcodq="">
+                          <div class="esa-card" data-astro-cid-mk2gipkm="">
+                            <div
+                              class="esa-card__body typography-body-md"
+                              data-astro-cid-mk2gipkm=""
+                            >
+                              <div class="bcn-ev-row" data-astro-cid-uqyrcodq="">
+                                <div class="bcn-ev-row__titlerow" data-astro-cid-uqyrcodq="">
+                                  <span
+                                    class="bcn-ev-row__name"
+                                    data-tpl-name=""
+                                    data-astro-cid-uqyrcodq=""
+                                  ></span>
+                                  <span data-tpl-code="" data-astro-cid-uqyrcodq=""
+                                    ><span
+                                      class="bcn-cbadge bcn-cbadge--sm"
+                                      data-astro-cid-aegprl2w=""
+                                    ></span>
+                                  </span>
+                                  <span
+                                    class="bcn-ev-row__spacer"
+                                    aria-hidden="true"
+                                    data-astro-cid-uqyrcodq=""
+                                  ></span>
+                                  <span
+                                    class="bcn-ev-row__tags"
+                                    data-tpl-tags=""
+                                    data-astro-cid-uqyrcodq=""
+                                  >
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                      data-astro-cid-gz52qnjf=""
+                                    >
+                                      <span
+                                        class="esa-badge__text"
+                                        data-astro-cid-gz52qnjf=""
+                                      ></span>
+                                    </span>
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                      data-astro-cid-gz52qnjf=""
+                                    >
+                                      <span
+                                        class="esa-badge__text"
+                                        data-astro-cid-gz52qnjf=""
+                                      ></span>
+                                    </span>
+                                  </span>
+                                </div>
+                                <div
+                                  class="bcn-triage-sug__act"
+                                  data-triage-sug-act=""
+                                  data-astro-cid-uqyrcodq=""
+                                >
+                                  <span
+                                    class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+                                    data-astro-cid-ojgm2tjl=""
+                                    ><button
+                                      class="esa-button__native typography-microcopy-xs"
+                                      type="button"
+                                      data-triage-sug-approve="true"
+                                      data-astro-cid-uqyrcodq="true"
+                                      data-astro-cid-ojgm2tjl=""
+                                    >
+                                      <span class="esa-button__label" data-astro-cid-ojgm2tjl=""
+                                        >Approve</span
+                                      >
+                                    </button></span
+                                  >
+                                  <span
+                                    class="esa-button esa-button--variant-danger esa-button--appearance-outline esa-button--sm"
+                                    data-astro-cid-ojgm2tjl=""
+                                    ><button
+                                      class="esa-button__native typography-microcopy-xs"
+                                      type="button"
+                                      data-triage-sug-dismiss="true"
+                                      data-astro-cid-uqyrcodq="true"
+                                      data-astro-cid-ojgm2tjl=""
+                                    >
+                                      <span class="esa-button__label" data-astro-cid-ojgm2tjl="">
+                                        Dismiss
+                                      </span>
+                                    </button></span
+                                  >
+                                </div>
+                                <div
+                                  class="bcn-triage-sug__done"
+                                  data-triage-sug-done=""
+                                  hidden=""
+                                  data-astro-cid-uqyrcodq=""
+                                >
+                                  <span data-triage-sug-verdict="" data-astro-cid-uqyrcodq=""
+                                    ><span
+                                      class="esa-badge esa-badge--success esa-badge--sm typography-microcopy-xs-strong"
+                                      data-astro-cid-gz52qnjf=""
+                                    >
+                                      <span class="esa-badge__text" data-astro-cid-gz52qnjf=""
+                                        >Attached</span
+                                      >
+                                    </span>
+                                  </span>
+                                  <span
+                                    class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
+                                    data-astro-cid-ojgm2tjl=""
+                                    ><button
+                                      class="esa-button__native typography-microcopy-xs"
+                                      type="button"
+                                      data-triage-sug-undo="true"
+                                      data-astro-cid-uqyrcodq="true"
+                                      data-astro-cid-ojgm2tjl=""
+                                    >
+                                      <span class="esa-button__label" data-astro-cid-ojgm2tjl=""
+                                        >Undo</span
+                                      >
+                                    </button></span
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </template>
                     </div>
                     <script
                       type="module"
-                      src="/beacon-design/_astro/BcnTriageReview.astro_astro_type_script_index_0_lang.oKUr71Ol.js"
+                      src="/beacon-design/_astro/BcnTriageReview.astro_astro_type_script_index_0_lang.C1R6fSSb.js"
                     ></script>
                   </div>
                 </div>
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnTriageWorkspace.astro_astro_type_script_index_0_lang.CneXfzlX.js"
+                src="/beacon-design/_astro/BcnTriageWorkspace.astro_astro_type_script_index_0_lang.DBqY6CCn.js"
               ></script>
             </div>
           </section>
@@ -14606,11 +15018,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-background-brand: #46a758;
   --color-background-brand-hover: #3e9b4f;
   --color-background-brand-subtle: #fbfefb;
+  --color-background-elevation-floating: #fcfcfc;
   --color-background-elevation-raised: #fcfcfc;
   --color-background-field: rgba(0, 0, 0, 0);
   --color-border: #dcdcdc;
   --color-border-default: #cecece;
+  --color-border-default-subtle: #d9d9d9;
   --color-border-light: #efefef;
+  --color-commitment: #58508d;
   --color-content-brand: #2a7e3b;
   --color-content-default: #202020;
   --color-content-default-knockout: #fcfcfc;
@@ -14624,15 +15039,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-surface-sunken: #efefef;
   --color-text-inverse: #fcfcfc;
   --color-text-link: #46a758;
+  --color-text-muted: #7c7c7c;
   --color-text-primary: #3d3d3d;
   --color-text-secondary: #525252;
   --color-text-tertiary: #656565;
+  --dialog-width: 480px;
+  --dialog-width-lg: 640px;
   --elevation-4: 0 6px 24px -6px rgba(0, 0, 0, 0.07);
   --elevation-5: 0 8px 32px -8px rgba(0, 0, 0, 0.08);
   --empty-state-icon-size-md: 48px;
   --empty-state-icon-size-sm: 32px;
   --filter-container-padding: 0;
   --font-decorative: "Besley", serif;
+  --font-mono: "Roboto Mono", ui-monospace, monospace;
   --font-sans: "DM Sans", sans-serif;
   --font-weight-bold: 650;
   --font-weight-medium: 500;
@@ -14653,6 +15072,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --radius-400: 0.75rem;
   --radius-chip: 0.25rem;
   --radius-full: 9999px;
+  --radius-lg: 0.75rem;
   --radius-md: 0.5rem;
   --radius-sm: 0.25rem;
   --side-dialog-inset: 16px;
@@ -14685,6 +15105,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-body-xs-font-weight: 350;
   --typography-body-xs-letter-spacing: 0.01em;
   --typography-body-xs-line-height: 1.6;
+  --typography-font-family-sans: "DM Sans", sans-serif;
   --typography-label-md-font-family: "DM Sans", sans-serif;
   --typography-label-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
   --typography-label-md-font-weight: 500;
@@ -14715,6 +15136,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-microcopy-sm-strong-font-weight: 550;
   --typography-microcopy-sm-strong-letter-spacing: 0.01em;
   --typography-microcopy-sm-strong-line-height: 1;
+  --typography-microcopy-xs-strong-font-family: "DM Sans", sans-serif;
+  --typography-microcopy-xs-strong-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --typography-microcopy-xs-strong-font-weight: 550;
+  --typography-microcopy-xs-strong-letter-spacing: 0.01em;
+  --typography-microcopy-xs-strong-line-height: 1;
 }
 
 .esa-filter-container {
@@ -14750,519 +15176,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .esa-filter-clear-button__label {
   white-space: nowrap;
-}
-:host {
-  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-  --_popover-border: var(--color-border-default, #cecece);
-  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--radius-md, 0.5rem);
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--color-content-default, #202020);
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
-}
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout section {
-  width: 100%;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-}
-[data-gap="sm"] {
-  --gap: var(--spacing-300, 0.75rem);
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-[data-gap="md"] {
-  --gap: var(--spacing-400, 1rem);
-}
-.bcn-filterbar {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-}
-.bcn-filterbar__top {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__search {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  min-width: 300px;
-}
-.bcn-filterbar__search--alone {
-  margin-left: 0;
-  flex: 1;
-}
-.bcn-filterbar__search esa-text-field {
-  flex: 1;
-}
-.bcn-filterbar__bottom {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__top + .bcn-filterbar__bottom {
-  border-top: 1px solid var(--color-border);
-}
-.bcn-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.bcn-filterbar__clear {
-  margin-left: auto;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  gap: var(--_empty-gap);
-}
-.esa-empty-state--sm {
-  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
-}
-.esa-empty-state__title {
-  margin: 0;
-  color: var(--color-content-default, #202020);
-}
-.esa-empty-state__description {
-  margin: 0;
-  color: var(--color-content-default-secondary, #646464);
-  max-width: 360px;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-body-xs {
-  font-family: var(--typography-body-xs-font-family);
-  font-size: var(--typography-body-xs-font-size);
-  font-weight: var(--typography-body-xs-font-weight);
-  line-height: var(--typography-body-xs-line-height);
-  letter-spacing: var(--typography-body-xs-letter-spacing);
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  background: transparent;
-  color: inherit;
-  border-color: transparent;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.bcn-triage-counts {
-  --gap: var(--spacing-250);
-}
-.bcn-triage-counts__chip {
-  display: inline-flex;
-  align-items: center;
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-height-md: 24px;
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-triage-counts__showing {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-counts__showing[hidden] {
-  display: none;
-}
-.bcn-triage-workspace__panes {
-  --sidebar-width: 31rem;
-  --sidebar-content-min: 42%;
-  height: clamp(32rem, 70vh, 58rem);
-  align-items: stretch;
-}
-.bcn-triage-workspace__queue,
-.bcn-triage-workspace__review {
-  height: 100%;
-  min-height: 0;
-}
-.bcn-triage-queue {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  overflow: hidden;
-}
-.bcn-triage-queue__scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding-bottom: var(--spacing-500);
-}
-.bcn-triage-queue__day {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  margin: 0;
-  padding: var(--spacing-100) var(--spacing-300);
-  background: var(--color-surface-sunken);
-  border-block: 1px solid var(--color-border-light);
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-medium);
-  line-height: 1.4;
-  color: var(--color-text-primary);
-}
-.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
-  border-top: 0;
-}
-.bcn-triage-queue__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-triage-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  padding: var(--spacing-300);
-  border-bottom: 1px solid var(--color-border-light);
-  background: var(--color-surface);
-}
-.bcn-triage-row__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.bcn-triage-row__line {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-250);
-  min-width: 0;
-}
-.bcn-triage-row__title {
-  min-width: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-triage-row__date {
-  flex: none;
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__meta {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__foot {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-}
-.bcn-triage-row__match {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-triage-row__sug .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  --badge-height-md: 24px;
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-row:last-child {
-  border-bottom: 0;
-}
-.bcn-triage-queue__group + .bcn-triage-queue__group {
-  margin-top: 0;
-}
-.bcn-triage-queue__empty {
-  padding: var(--spacing-700) var(--spacing-400);
-}
-.bcn-triage-queue__empty[hidden] {
-  display: none;
-}
-.bcn-triage-review {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-  overflow-y: auto;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-}
-.bcn-triage-review,
-.bcn-triage-sug {
-  --color-primary-strong: var(--color-primary);
-}
-.bcn-triage-review__prompt {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-700) var(--spacing-500);
-}
-.bcn-triage-review__panel {
-  display: flex;
-  flex-direction: column;
-}
-.bcn-triage-review__panel[hidden] {
-  display: none;
 }
 .modern-layout {
   display: flex;
@@ -16084,28 +15997,167 @@ img {
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout section {
+  width: 100%;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+}
+[data-gap="sm"] {
+  --gap: var(--spacing-300, 0.75rem);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+[data-gap="md"] {
+  --gap: var(--spacing-400, 1rem);
+}
+.bcn-filterbar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+}
+.bcn-filterbar__top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__search {
+  margin-left: auto;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
+  gap: var(--spacing-150);
+  min-width: 300px;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
+.bcn-filterbar__search--alone {
+  margin-left: 0;
+  flex: 1;
 }
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+.bcn-filterbar__search esa-text-field {
+  flex: 1;
 }
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
+.bcn-filterbar__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
+.bcn-filterbar__top + .bcn-filterbar__bottom {
+  border-top: 1px solid var(--color-border);
+}
+.bcn-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-filterbar__clear {
+  margin-left: auto;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
 }
 .visually-hidden {
   position: absolute;
@@ -16120,36 +16172,137 @@ img {
   clip-path: inset(50%);
 }
 :host {
-  --_width: var(--side-dialog-width, 400px);
+  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
+  --_dialog-border-radius: var(--radius-lg, 0.75rem);
+  --_dialog-padding: var(--spacing-500, 1.5rem);
+  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
+  /* Header/footer surface tints. These were --dialog-header-bg /
+         --dialog-footer-bg, declared in no token file — a hook offered on the
+         strength of a fallback nobody had asked to override. Folded to their
+         literal default 2026-08-16; --dialog-* is a live namespace, so they come
+         back as declarations the day a spoke actually wants to frame the body. */
+  --_dialog-header-bg: transparent;
+  --_dialog-footer-bg: transparent;
+  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+  --_dialog-width: var(--dialog-width, 480px);
+  --_dialog-max-height: 85vh;
 }
-dialog.panel {
-  --_inset: var(--side-dialog-inset, 16px);
-  position: fixed;
-  top: var(--_inset);
-  bottom: var(--_inset);
-  margin: 0;
+:host([size="lg"]) {
+  --_dialog-width: var(--dialog-width-lg, 640px);
+}
+dialog.esa-dialog {
+  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
+         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
+         panel renders inside a second, smaller box. */
   border: none;
   padding: 0;
-  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-  max-width: none;
-  max-height: none;
-  background: var(--color-background-elevation-raised, #fcfcfc);
+  margin: auto;
+  background: var(--_dialog-bg);
   color: var(--color-content-default, #202020);
-  border-radius: var(--radius-md, 0.5rem);
-  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-  outline: none;
+  border-radius: var(--_dialog-border-radius);
+  box-shadow: var(--_dialog-shadow);
+  width: var(--_dialog-width);
+  max-width: 100vw;
+  max-height: var(--_dialog-max-height);
   overflow: hidden;
-  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-  transition:
-    top 220ms ease,
-    right 220ms ease,
-    bottom 220ms ease,
-    left 220ms ease;
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
 }
-:host([position="right"]) dialog.panel {
-  right: var(--_inset);
-  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  gap: var(--_empty-gap);
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state__title {
+  margin: 0;
+  color: var(--color-content-default, #202020);
+}
+.esa-empty-state__description {
+  margin: 0;
+  color: var(--color-content-default-secondary, #646464);
+  max-width: 360px;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.bcn-cbadge {
+  display: inline-block;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  white-space: nowrap;
+}
+.bcn-cbadge--sm {
+  font-size: 0.75rem;
+  padding: 1px var(--spacing-150);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
 }
 :host {
   --_field-padding-y: var(--spacing-300, 0.75rem);
@@ -16222,6 +16375,390 @@ html,
 .modern-layout__content {
   scroll-behavior: smooth;
 }
+.bcn-triage-counts {
+  --gap: var(--spacing-250);
+}
+.bcn-triage-counts__chip {
+  display: inline-flex;
+  align-items: center;
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-height-md: 24px;
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing[hidden] {
+  display: none;
+}
+.bcn-triage-workspace__panes {
+  --sidebar-width: 31rem;
+  --sidebar-content-min: 42%;
+  height: clamp(32rem, 70vh, 58rem);
+  align-items: stretch;
+}
+.bcn-triage-workspace__queue,
+.bcn-triage-workspace__review {
+  height: 100%;
+  min-height: 0;
+}
+.bcn-triage-queue {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  overflow: hidden;
+}
+.bcn-triage-queue__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: var(--spacing-500);
+}
+.bcn-triage-queue__day {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--spacing-100) var(--spacing-300);
+  background: var(--color-surface-sunken);
+  border-block: 1px solid var(--color-border-light);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
+  border-top: 0;
+}
+.bcn-triage-queue__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-triage-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: var(--spacing-300);
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-surface);
+}
+.bcn-triage-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bcn-triage-row__line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-250);
+  min-width: 0;
+}
+.bcn-triage-row__title {
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+.bcn-triage-row__date {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__meta {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__foot {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.bcn-triage-row__match {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-triage-row__sug .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  --badge-height-md: 24px;
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-row:last-child {
+  border-bottom: 0;
+}
+.bcn-triage-queue__group + .bcn-triage-queue__group {
+  margin-top: 0;
+}
+.bcn-triage-row__foot[hidden] {
+  display: none;
+}
+.bcn-triage-queue__empty {
+  padding: var(--spacing-700) var(--spacing-400);
+}
+.bcn-triage-queue__empty[hidden] {
+  display: none;
+}
+.bcn-triage-review {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+}
+.bcn-triage-review,
+.bcn-triage-sug {
+  --color-primary-strong: var(--color-primary);
+}
+.bcn-triage-review__prompt {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-700) var(--spacing-500);
+}
+.bcn-triage-review__panel {
+  display: flex;
+  flex-direction: column;
+}
+.bcn-triage-review__panel[hidden] {
+  display: none;
+}
+.bcn-triage-add {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-triage-add__scope {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-add__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  height: 22rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+.bcn-triage-add__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  width: 100%;
+  padding: var(--spacing-250) var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bcn-triage-add__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+.bcn-triage-add__meta {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: var(--spacing-150);
+}
+.bcn-triage-add__meta .esa-badge {
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-add__empty {
+  margin: 0;
+  padding: var(--spacing-300) 0;
+  font-size: 0.8125rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
+  color: inherit;
+  border-color: transparent;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-sm-strong {
+  font-family: var(--typography-microcopy-sm-strong-font-family);
+  font-size: var(--typography-microcopy-sm-strong-font-size);
+  font-weight: var(--typography-microcopy-sm-strong-font-weight);
+  line-height: var(--typography-microcopy-sm-strong-line-height);
+  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+dialog.panel {
+  --_inset: var(--side-dialog-inset, 16px);
+  position: fixed;
+  top: var(--_inset);
+  bottom: var(--_inset);
+  margin: 0;
+  border: none;
+  padding: 0;
+  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+  max-width: none;
+  max-height: none;
+  background: var(--color-background-elevation-raised, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-md, 0.5rem);
+  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+  outline: none;
+  overflow: hidden;
+  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+  transition:
+    top 220ms ease,
+    right 220ms ease,
+    bottom 220ms ease,
+    left 220ms ease;
+}
+:host([position="right"]) dialog.panel {
+  right: var(--_inset);
+  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+}
 :host {
   display: inline-block;
 
@@ -16284,6 +16821,20 @@ html,
   width: 20px;
   height: 20px;
 }
+:host {
+  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+  --_popover-border: var(--color-border-default, #cecece);
+  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--radius-md, 0.5rem);
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--color-content-default, #202020);
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
+}
 ```
 
 ## Tokens
@@ -16317,11 +16868,14 @@ html,
 | `--color-background-brand` | `#46a758` | semantic |
 | `--color-background-brand-hover` | `#3e9b4f` | semantic |
 | `--color-background-brand-subtle` | `#fbfefb` | semantic |
+| `--color-background-elevation-floating` | `#fcfcfc` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-field` | `rgba(0, 0, 0, 0)` | semantic |
 | `--color-border` | `#dcdcdc` | component |
 | `--color-border-default` | `#cecece` | semantic |
+| `--color-border-default-subtle` | `#d9d9d9` | semantic |
 | `--color-border-light` | `#efefef` | component |
+| `--color-commitment` | `#58508d` | component |
 | `--color-content-brand` | `#2a7e3b` | semantic |
 | `--color-content-default` | `#202020` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
@@ -16335,15 +16889,19 @@ html,
 | `--color-surface-sunken` | `#efefef` | component |
 | `--color-text-inverse` | `#fcfcfc` | component |
 | `--color-text-link` | `#46a758` | component |
+| `--color-text-muted` | `#7c7c7c` | component |
 | `--color-text-primary` | `#3d3d3d` | component |
 | `--color-text-secondary` | `#525252` | component |
 | `--color-text-tertiary` | `#656565` | component |
+| `--dialog-width` | `480px` | component |
+| `--dialog-width-lg` | `640px` | component |
 | `--elevation-4` | `0 6px 24px -6px rgba(0, 0, 0, .07)` | semantic |
 | `--elevation-5` | `0 8px 32px -8px rgba(0, 0, 0, .08)` | semantic |
 | `--empty-state-icon-size-md` | `48px` | component |
 | `--empty-state-icon-size-sm` | `32px` | component |
 | `--filter-container-padding` | `0` | component |
 | `--font-decorative` | `"Besley", serif` | component |
+| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | component |
 | `--font-sans` | `"DM Sans", sans-serif` | component |
 | `--font-weight-bold` | `650` | component |
 | `--font-weight-medium` | `500` | component |
@@ -16364,6 +16922,7 @@ html,
 | `--radius-400` | `.75rem` | primitive |
 | `--radius-chip` | `.25rem` | semantic |
 | `--radius-full` | `9999px` | primitive |
+| `--radius-lg` | `.75rem` | semantic |
 | `--radius-md` | `.5rem` | semantic |
 | `--radius-sm` | `.25rem` | semantic |
 | `--side-dialog-inset` | `16px` | component |
@@ -16396,6 +16955,7 @@ html,
 | `--typography-body-xs-font-weight` | `350` | semantic |
 | `--typography-body-xs-letter-spacing` | `.01em` | semantic |
 | `--typography-body-xs-line-height` | `1.6` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
 | `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
 | `--typography-label-md-font-weight` | `500` | semantic |
@@ -16426,6 +16986,11 @@ html,
 | `--typography-microcopy-sm-strong-font-weight` | `550` | semantic |
 | `--typography-microcopy-sm-strong-letter-spacing` | `.01em` | semantic |
 | `--typography-microcopy-sm-strong-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-strong-line-height` | `1` | semantic |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

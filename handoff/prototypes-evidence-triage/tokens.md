@@ -1,6 +1,6 @@
 # Token contract — prototypes-evidence-triage
 
-The 137 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 151 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -11,9 +11,11 @@ The 137 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-brand` | `#46a758` |
 | `--color-background-brand-hover` | `#3e9b4f` |
 | `--color-background-brand-subtle` | `#fbfefb` |
+| `--color-background-elevation-floating` | `#fcfcfc` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-field` | `rgba(0, 0, 0, 0)` |
 | `--color-border-default` | `#cecece` |
+| `--color-border-default-subtle` | `#d9d9d9` |
 | `--color-content-brand` | `#2a7e3b` |
 | `--color-content-default` | `#202020` |
 | `--color-content-default-knockout` | `#fcfcfc` |
@@ -22,6 +24,7 @@ The 137 design tokens this page actually uses, resolved to their final values fo
 | `--elevation-4` | `0 6px 24px -6px rgba(0, 0, 0, .07)` |
 | `--elevation-5` | `0 8px 32px -8px rgba(0, 0, 0, .08)` |
 | `--radius-chip` | `.25rem` |
+| `--radius-lg` | `.75rem` |
 | `--radius-md` | `.5rem` |
 | `--radius-sm` | `.25rem` |
 | `--transition-fast` | `.15s ease` |
@@ -35,6 +38,7 @@ The 137 design tokens this page actually uses, resolved to their final values fo
 | `--typography-body-xs-font-weight` | `350` |
 | `--typography-body-xs-letter-spacing` | `.01em` |
 | `--typography-body-xs-line-height` | `1.6` |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` |
 | `--typography-label-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--typography-label-md-font-weight` | `500` |
@@ -65,6 +69,11 @@ The 137 design tokens this page actually uses, resolved to their final values fo
 | `--typography-microcopy-sm-strong-font-weight` | `550` |
 | `--typography-microcopy-sm-strong-letter-spacing` | `.01em` |
 | `--typography-microcopy-sm-strong-line-height` | `1` |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-microcopy-xs-strong-font-weight` | `550` |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` |
+| `--typography-microcopy-xs-strong-line-height` | `1` |
 
 ## Component
 
@@ -95,6 +104,7 @@ The 137 design tokens this page actually uses, resolved to their final values fo
 | `--color-backdrop` | `rgba(0, 0, 0, .5)` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
+| `--color-commitment` | `#58508d` |
 | `--color-info` | `#228be6` |
 | `--color-info-subtle` | `#fbfdff` |
 | `--color-primary` | `#005862` |
@@ -103,13 +113,17 @@ The 137 design tokens this page actually uses, resolved to their final values fo
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#46a758` |
+| `--color-text-muted` | `#7c7c7c` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |
+| `--dialog-width` | `480px` |
+| `--dialog-width-lg` | `640px` |
 | `--empty-state-icon-size-md` | `48px` |
 | `--empty-state-icon-size-sm` | `32px` |
 | `--filter-container-padding` | `0` |
 | `--font-decorative` | `"Besley", serif` |
+| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
 | `--font-weight-medium` | `500` |
