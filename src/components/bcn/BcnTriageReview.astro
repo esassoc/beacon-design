@@ -501,6 +501,23 @@ const pickerOptions = (componentId: string) =>
     color: var(--color-text-muted);
   }
 
+  /* The whole block steps in from the panel edge — header and contents together — while the
+     tint keeps the section's full width, so the band still reads as the region and the
+     content sits inside it.
+     Within the block the cards indent again to the heading's TEXT rather than its box: the
+     icon is 16px and the gap after it is --spacing-200, so the cards start where "Suggested
+     actions" starts and the glyph hangs in the margin. Both are written as sums of the values
+     they depend on, so the alignment survives either one moving. */
+  .bcn-triage-review__section[aria-label='Suggested actions'] {
+    --triage-indent: calc(1rem + var(--spacing-200));
+    padding-left: calc(var(--spacing-400) + var(--triage-indent));
+  }
+
+  .bcn-triage-review__sugs,
+  .bcn-triage-review__nonetext {
+    margin-left: var(--triage-indent);
+  }
+
   .bcn-triage-review__sugs {
     display: flex;
     flex-direction: column;
