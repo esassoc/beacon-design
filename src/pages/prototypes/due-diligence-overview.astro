@@ -1,0 +1,246 @@
+---
+// Due Diligence — Project Overview. Project Almond's dashboard: the four-step
+// workflow (Boundary → Constraints → Permits → Report), project facts, team,
+// critical issues, findings by severity, and recent activity.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import BcnDueDiligenceSteps from '../../components/bcn/BcnDueDiligenceSteps.astro';
+import type { DueDiligenceStep } from '../../components/bcn/BcnDueDiligenceSteps.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import { PROJECT, CRITICAL_ISSUES, GIS_LAYERS, ACTIVITY, RISK_HEX, type Risk } from '../../data/due-diligence-fixture';
+import { withBase } from '../../lib/base';
+import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+
+const RISK_ORDER: Risk[] = ['high', 'medium', 'low', 'none'];
+const RISK_LABEL: Record<Risk, string> = { high: 'High', medium: 'Medium', low: 'Low', none: 'None' };
+const findingsBySeverity = RISK_ORDER.map((risk) => {
+  const layers = GIS_LAYERS.filter((l) => l.risk === risk);
+  return { risk, label: RISK_LABEL[risk], count: layers.length, names: layers.map((l) => l.name.split(' ').slice(0, 2).join(' ')) };
+});
+const maxCount = Math.max(...findingsBySeverity.map((f) => f.count), 1);
+
+const steps: DueDiligenceStep[] = [
+  {
+    key: 'boundary',
+    label: 'Project Boundary',
+    icon: 'map-pinned',
+    // Not in esa-icon's built-in registry — inline Lucide path markup (same glyph AppShell already uses for this nav item).
+    iconPaths:
+      '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
+    statusLabel: 'Defined',
+    statusTone: 'success',
+    description: `Drawn on map · ${PROJECT.footprintAcres} ac · ${PROJECT.apns.length} parcels · last edited ${PROJECT.boundaryDrawnOn}`,
+    href: withBase('/prototypes/due-diligence-boundary'),
+  },
+  {
+    key: 'constraints',
+    label: 'Constraints Cross-Reference',
+    icon: 'layers',
+    // Not in esa-icon's built-in registry — inline Lucide "layers" path markup.
+    iconPaths:
+      '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.66 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.66 0l8.58-3.9A1 1 0 0 0 22 17"/>',
+    statusLabel: `${GIS_LAYERS.filter((l) => l.risk === 'high').length} high findings`,
+    statusTone: 'warning',
+    description: `${GIS_LAYERS.length} GIS layers active · ${GIS_LAYERS.filter((l) => l.features > 0).length} with overlap · hazardous waste + biological flagged`,
+    href: withBase('/prototypes/due-diligence-constraints'),
+  },
+  {
+    key: 'permits',
+    label: 'Permit Matrix',
+    icon: 'clipboard-list',
+    // Not in esa-icon's built-in registry — inline Lucide path markup (same glyph AppShell already uses for this nav item).
+    iconPaths:
+      '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+    statusLabel: '11 identified',
+    statusTone: 'info',
+    description: 'Local CUP, KCAPCD generator permit, USACE/CDFW, SCE large-load interconnection',
+    href: withBase('/prototypes/due-diligence-permits'),
+  },
+  {
+    key: 'report',
+    label: 'Preliminary CIA Report',
+    icon: 'notepad-text',
+    statusLabel: 'Draft',
+    statusTone: 'neutral',
+    description: 'Auto-assembled from findings + permit matrix. Ready to review & export.',
+    href: withBase('/prototypes/due-diligence-report'),
+  },
+];
+---
+
+<!-- manifest:
+  layout: stack(xl)
+  sections:
+    - workflow steps  -> bcn-due-diligence-steps
+    - project facts    -> esa-card             # BcnKeyValue rows
+    - team              -> esa-card            # esa-avatar rows
+    - critical issues     -> esa-card          # bullet list
+    - findings by severity -> esa-card         # esa-progress-bar gauges
+    - activity              -> esa-card        # date/time-stamped event list
+-->
+
+<!-- bcn-lego-checked: composed from bcn-due-diligence-steps, esa-card, BcnKeyValue,
+     esa-avatar, esa-progress-bar, esa-badge. The activity feed mixes relative ("2 hr
+     ago") and absolute timestamps the way the source desktop-review log did, which
+     does not fit BcnChangeLog's DATE-GROUPED shape (checked — its days/events
+     contract assumes every entry resolves to a calendar day, not a live relative
+     clock); it renders as plain list content inside the card, not a section of its
+     own, so no new component is warranted for five rows. The only CSS below is that
+     list's dot marker and the findings gauge, which no lego models. -->
+<AppShell
+  title="Almond — Beale"
+  tenantName="Beale"
+  projectName={PROJECT.name}
+  activeNavId="dd-overview"
+  navSections={dueDiligenceNavSections({ showProject: true })}
+>
+  <PageLayout
+    title={PROJECT.name}
+    icon="layout-dashboard"
+    breadcrumbs={[
+      { label: 'Due Diligence', href: withBase('/prototypes/due-diligence-siting') },
+      { label: 'Almond' },
+    ]}
+  >
+    <div slot="title-badge">
+      <EsaBadge variant="info">Due Diligence</EsaBadge>
+    </div>
+    <div slot="utilities">
+      <span id="ov-export"><EsaButton color="ghost" appearance="outline" icon="download">Export</EsaButton></span>
+      <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="primary" icon="file-text">Open report</EsaButton></a>
+    </div>
+
+    <div class="stack" data-gap="xl">
+      <BcnDueDiligenceSteps steps={steps} />
+
+      <div class="sidebar" style="--sidebar-width: 20rem;">
+        <div class="stack" data-gap="md">
+          <EsaCard title="Project facts">
+            <div class="stack" data-gap="xs">
+              <BcnKeyValue label="Developer" value={PROJECT.developer} />
+              <BcnKeyValue label="Location" value={`${PROJECT.county}, CA`} />
+              <BcnKeyValue label="Site address" value={PROJECT.address} />
+              <BcnKeyValue label="Capacity" value={PROJECT.capacityLabel} />
+              <BcnKeyValue label="Footprint" value={`${PROJECT.footprintAcres} ac`} />
+              <BcnKeyValue label="APNs" value={PROJECT.apns.join(', ')} />
+              <BcnKeyValue label="Lead agency" value={PROJECT.leadAgency} />
+              <BcnKeyValue label="Created" value={`${PROJECT.screenedOn} by ${PROJECT.createdBy}`} />
+              <BcnKeyValue label="Last GIS sync" value={PROJECT.lastGisSync} />
+            </div>
+          </EsaCard>
+
+          <EsaCard title="Team">
+            <div class="stack" data-gap="md">
+              {PROJECT.team.map((member) => (
+                <div class="cluster" data-gap="sm">
+                  <EsaAvatar name={member.name} size="sm" />
+                  <div class="stack" data-gap="none">
+                    <span class="type-body" style="font-weight: var(--font-weight-semibold);">{member.name}</span>
+                    <span class="type-body-small" style="color: var(--color-text-tertiary);">{member.role}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </EsaCard>
+        </div>
+
+        <div class="stack" data-gap="md">
+          <EsaCard title="Critical issues" subtitle="Headline issues that may impact feasibility, schedule, or cost">
+            <Fragment slot="actions">
+              <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="ghost" size="sm">Open report</EsaButton></a>
+            </Fragment>
+            <ul class="ov-issue-list">
+              {CRITICAL_ISSUES.map((issue) => <li>{issue}</li>)}
+            </ul>
+          </EsaCard>
+
+          <EsaCard title="Findings by severity" subtitle="Auto-derived from the current GIS data sync">
+            <Fragment slot="actions">
+              <a href={withBase('/prototypes/due-diligence-constraints')}><EsaButton color="ghost" size="sm">Open constraints</EsaButton></a>
+            </Fragment>
+            <div class="grid" data-gap="md" style="--grid-min: 12rem;">
+              {findingsBySeverity.map((f) => (
+                <div class="stack" data-gap="xs">
+                  <div class="cluster" data-gap="xs">
+                    <EsaBadge variant={f.risk === 'high' ? 'danger' : f.risk === 'medium' ? 'warning' : f.risk === 'low' ? 'info' : 'secondary'}>{f.label}</EsaBadge>
+                    <strong>{f.count}</strong>
+                  </div>
+                  <EsaProgressBar
+                    value={(f.count / maxCount) * 100}
+                    showValue={false}
+                    variant={f.risk === 'high' ? 'danger' : f.risk === 'medium' ? 'warning' : f.risk === 'low' ? 'primary' : 'primary'}
+                  />
+                  <span class="type-body-small" style="color: var(--color-text-tertiary);">{f.names.join(' · ') || 'None'}</span>
+                </div>
+              ))}
+            </div>
+          </EsaCard>
+
+          <EsaCard title="Activity">
+            <ul class="ov-activity">
+              {ACTIVITY.map((event) => (
+                <li>
+                  <span class="ov-activity__dot"></span>
+                  <span class="ov-activity__text">
+                    <strong>{event.text}</strong>{event.emphasis ? <> · {event.emphasis}</> : null}
+                  </span>
+                  <span class="ov-activity__time">{event.when}</span>
+                </li>
+              ))}
+            </ul>
+          </EsaCard>
+        </div>
+      </div>
+    </div>
+  </PageLayout>
+</AppShell>
+
+<style>
+  /* bcn-lego-checked (page CSS): the critical-issues bullet list, the activity feed's
+     dot marker + time column, and the findings gauge caption — none of which any esa-
+     lego models; the severity badges, progress bars, and card shells are all legos. */
+  .ov-issue-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    line-height: 1.65;
+  }
+  .ov-activity {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .ov-activity li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) 0;
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: var(--type-size-300);
+  }
+  .ov-activity li:last-child {
+    border-bottom: none;
+  }
+  .ov-activity__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+  .ov-activity__text {
+    flex: 1;
+  }
+  .ov-activity__time {
+    color: var(--color-text-tertiary);
+    font-size: var(--type-size-200);
+    white-space: nowrap;
+  }
+</style>

@@ -1,0 +1,157 @@
+---
+// Due Diligence — Define Project Boundary. Project Almond passed all five
+// siting criteria in Site Screening; this step captures its boundary (draw or
+// simulated upload) before running the constraints cross-reference.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import BcnBoundaryDrawMap from '../../components/bcn/BcnBoundaryDrawMap.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import { PROJECT, advancedCandidate } from '../../data/due-diligence-fixture';
+import { withBase } from '../../lib/base';
+import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+
+const candidate = advancedCandidate();
+
+// A 340-acre rectangle roughly centered on the candidate's coordinates — the
+// component's seed shape, editable from the moment the page loads. half=0.00644°
+// longitude (× 0.82 for latitude) resolves to ~340 acres at this latitude (~35°N,
+// where 1° lon ≈ 91.2 km and 1° lat ≈ 111.0 km).
+const half = 0.00644;
+const seedRing: [number, number][] = [
+  [candidate.lat - half * 0.82, candidate.lon - half],
+  [candidate.lat - half * 0.82, candidate.lon + half],
+  [candidate.lat + half * 0.82, candidate.lon + half],
+  [candidate.lat + half * 0.82, candidate.lon - half],
+];
+---
+
+<!-- manifest:
+  layout: sidebar
+  sections:
+    - screening result -> esa-alert-box        # provenance callout: passed Site Screening on this date
+    - project details   -> esa-card            # form fields (esa-text-field/esa-select)
+    - boundary map       -> bcn-boundary-draw-map
+    - boundary summary    -> esa-card          # BcnKeyValue rows, populated from the map's change event
+-->
+
+<!-- bcn-lego-checked: composed from esa-alert-box, esa-card, esa-text-field, esa-select,
+     esa-button, BcnKeyValue, and bcn-boundary-draw-map (the editable Leaflet map — already
+     justified in its own header, no esa-* or sibling map lego supports drawing). This page
+     owns no CSS: the summary card's fields are BcnKeyValue rows, and the two-column
+     layout is the .sidebar primitive. -->
+<AppShell
+  title="Project Boundary — Almond — Beale"
+  tenantName="Beale"
+  projectName={PROJECT.name}
+  activeNavId="dd-boundary"
+  navSections={dueDiligenceNavSections({ showProject: true })}
+>
+  <PageLayout
+    title="Project Boundary"
+    icon="map-pin"
+    breadcrumbs={[
+      { label: 'Due Diligence', href: withBase('/prototypes/due-diligence-siting') },
+      { label: 'Almond' },
+      { label: 'Project Boundary' },
+    ]}
+  >
+    <div slot="utilities">
+      <a href={withBase('/prototypes/due-diligence-siting')}><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></a>
+      <span id="bd-continue"><EsaButton color="primary" icon="arrow-right">Run constraints check</EsaButton></span>
+    </div>
+
+    <div class="stack" data-gap="lg">
+      <EsaAlertBox variant="success" title="Passed Site Screening">
+        {PROJECT.name} (screened as {candidate.codeName}) passed all five acquisition criteria on{' '}
+        {candidate.screenedOn} and advanced to Due Diligence.{' '}
+        <a href={withBase('/prototypes/due-diligence-siting')}>Review the screening result →</a>
+      </EsaAlertBox>
+
+      <div class="sidebar" style="--sidebar-width: 22rem;">
+        <div class="stack" data-gap="md">
+          <EsaCard title="Project details">
+            <div class="stack" data-gap="md">
+              <esa-text-field label="Project name" value={PROJECT.name} size="md"></esa-text-field>
+              <esa-text-field label="Project type" value="Data Center Campus" size="md" readonly></esa-text-field>
+              <div class="cluster" data-gap="md">
+                <esa-text-field label="Critical IT load" value="180 MW (Phase 1)" size="md"></esa-text-field>
+                <esa-text-field label="Estimated acres" value={String(PROJECT.footprintAcres)} size="md"></esa-text-field>
+              </div>
+              <esa-text-field label="APN(s)" value={PROJECT.apns.join(', ')} size="md" readonly></esa-text-field>
+              <esa-text-field
+                label="Jurisdiction (auto-detected from boundary)"
+                id="bd-juris"
+                value={PROJECT.jurisdiction}
+                size="md"
+                readonly
+              ></esa-text-field>
+            </div>
+          </EsaCard>
+
+          <div id="bd-summary-card" style="display:none;">
+            <EsaCard title="Boundary captured">
+              <div class="stack" data-gap="xs">
+                <BcnKeyValue label="Vertices" value="—" />
+                <BcnKeyValue label="Perimeter" value="—" />
+                <BcnKeyValue label="Area" value="—" />
+                <BcnKeyValue label="Centroid" value="—" />
+                <BcnKeyValue label="Detected parcels" value={PROJECT.apns.join(', ')} />
+                <BcnKeyValue label="Jurisdiction" value={PROJECT.jurisdiction} />
+              </div>
+            </EsaCard>
+          </div>
+        </div>
+
+        <BcnBoundaryDrawMap idPrefix="bd" seedRing={seedRing} height="560px" title="Almond boundary" />
+      </div>
+    </div>
+  </PageLayout>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+
+  interface BoundaryDetail {
+    vertices: number;
+    perimeterKm: number;
+    perimeterFt: number;
+    acres: number;
+    areaSqm: number;
+    centroid: { lat: number; lon: number };
+    source: 'draw' | 'upload';
+    fileName?: string;
+  }
+
+  const summaryCard = document.getElementById('bd-summary-card');
+  const jurisField = document.getElementById('bd-juris') as (HTMLElement & { value: string }) | null;
+
+  document.querySelector('[data-bcn-bmap]')?.addEventListener('bcn-boundary-change', (e) => {
+    const detail = (e as CustomEvent).detail as BoundaryDetail | null;
+    if (!summaryCard) return;
+    if (!detail) {
+      summaryCard.style.display = 'none';
+      if (jurisField) jurisField.value = '—';
+      return;
+    }
+    summaryCard.style.display = 'block';
+    const rows = summaryCard.querySelectorAll('.bcn-key-value__val');
+    const values = [
+      `${detail.vertices}`,
+      `${detail.perimeterKm.toFixed(2)} km · ${detail.perimeterFt.toFixed(0)} ft`,
+      `${detail.acres.toFixed(1)} ac · ${detail.areaSqm.toFixed(0)} m²`,
+      `${detail.centroid.lat.toFixed(5)}, ${detail.centroid.lon.toFixed(5)}`,
+    ];
+    values.forEach((v, i) => {
+      if (rows[i]) rows[i].textContent = v;
+    });
+    if (jurisField) jurisField.value = 'Kern County (unincorporated)';
+  });
+
+  document.getElementById('bd-continue')?.addEventListener('click', () => {
+    const base = document.body.dataset.baseUrl ?? '';
+    window.location.href = `${base}/prototypes/due-diligence-constraints`;
+  });
+</script>

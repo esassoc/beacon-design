@@ -9,13 +9,14 @@
 export type PrototypeStatus = 'live' | 'in-progress' | 'planned' | 'archived';
 
 /** The tenant an effort was built for. 'platform' = ships to every tenant. */
-export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'platform';
+export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'beale' | 'platform';
 
 /** Display labels for the tenant facet. 'platform' borrows the product's own phrase. */
 export const TENANT_LABEL: Record<PrototypeTenant, string> = {
   dcp: 'Delta Conveyance',
   prologis: 'Prologis',
   aws: 'AWS',
+  beale: 'Beale',
   platform: 'All tenants',
 };
 
@@ -555,6 +556,69 @@ export const prototypeGroups: PrototypeGroup[] = [
           'Every Beacon release in one reverse-chronological stream — the changelog pattern in Beacon’s chrome, fed by the real 1.31–1.33 notes. Three tiers per release (headline stories, area-grouped entries with feature-flag notes, a collapsed fixes list), a sticky scroll-spy version rail, and monochrome serif typesetting. The help bar’s What’s-new popover deep-links into each release anchor.',
         route: '/prototypes/release-notes',
         createdAt: '2026-07-22',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
+    slug: 'due-diligence',
+    tenant: 'beale',
+    title: 'Due Diligence',
+    description:
+      'A two-step acquisition workflow for a prospective client: broad site screening against five fixed property criteria across California\'s Central Valley and SoCal, then a single-site desktop Critical Issues Assessment for the one candidate that clears screening.',
+    pages: [
+      {
+        slug: 'due-diligence-siting',
+        title: 'Site Screening',
+        description:
+          'Five candidate properties, code-named after California-grown produce, screened against region, ownership, size, zoning, and substation-proximity criteria. A map of pins colored pass/fail, an AG Grid with a checkmark per criterion, and a candidate drawer with the full checklist and an Advance action — enabled only for the one candidate that clears all five.',
+        route: '/prototypes/due-diligence-siting',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-boundary',
+        title: 'Project Boundary',
+        description:
+          'Draw or simulate an upload of the advancing candidate\'s boundary on an editable Leaflet map (bcn-boundary-draw-map), with a live vertices/perimeter/area/centroid summary and a provenance callout back to the screening result.',
+        route: '/prototypes/due-diligence-boundary',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-overview',
+        title: 'Project Overview',
+        description:
+          'The single-site dashboard: a four-step workflow card (Boundary → Constraints → Permits → Report), project facts, team, critical issues, findings by severity, and recent activity.',
+        route: '/prototypes/due-diligence-overview',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-constraints',
+        title: 'Constraints Cross-Reference',
+        description:
+          'Ten toggleable GIS layers (fire hazard, hazardous waste sites, biological critical habitat, cultural sensitivity, hydrology, transmission) cross-referenced against the boundary, with a findings list sorted by severity and a shared detail drawer reached from either the map or the list.',
+        route: '/prototypes/due-diligence-constraints',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-permits',
+        title: 'Permit Matrix',
+        description:
+          'The permit-and-approval matrix auto-derived from constraint findings (local CUP, generator air permit, USACE/CDFW, SCE large-load interconnection), a preliminary CEQA Appendix G pass, and AHJ outreach notes.',
+        route: '/prototypes/due-diligence-permits',
+        createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'due-diligence-report',
+        title: 'CIA Report',
+        description:
+          'The formatted Critical Issues Assessment deliverable, auto-assembled from the boundary, constraint findings, and permit matrix: a sticky-TOC document with resource-by-resource findings and recommendations, a permit matrix appendix, and explicit limitations.',
+        route: '/prototypes/due-diligence-report',
+        createdAt: '2026-08-20',
         status: 'in-progress',
       },
     ],

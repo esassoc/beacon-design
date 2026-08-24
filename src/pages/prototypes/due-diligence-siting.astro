@@ -1,0 +1,403 @@
+---
+// Due Diligence — Site Screening (step 1 of 2). Five candidate properties,
+// code-named after California-grown produce, screened against five fixed
+// acquisition criteria. Only Project Almond passes all five and advances to
+// the single-site Critical Issues Assessment; the other four are shown
+// screened out, each failing exactly one criterion.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnGridChrome from '../../components/bcn/BcnGridChrome.astro';
+import BcnGridFooter from '../../components/bcn/BcnGridFooter.astro';
+import BcnObservationMap from '../../components/bcn/BcnObservationMap.astro';
+import { CANDIDATES, ADVANCED_CANDIDATE_ID, passCount, allPass } from '../../data/due-diligence-fixture';
+import { withBase } from '../../lib/base';
+import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+
+const rows = CANDIDATES.map((c) => ({
+  id: c.id,
+  codeName: c.codeName,
+  county: c.county,
+  city: c.city,
+  regionLabel: c.regionLabel,
+  acres: c.acres,
+  ownership: c.ownership === 'private' ? 'Private' : 'Public',
+  zoning: c.zoning,
+  substation: `${c.substationMiles} mi`,
+  apns: c.apns.join(', '),
+  passCount: passCount(c),
+  allPass: allPass(c),
+  criteria: c.criteria,
+  failReason: c.failReason ?? '',
+  lat: c.lat,
+  lon: c.lon,
+}));
+
+const passedCount = rows.filter((r) => r.allPass).length;
+const advanced = rows.find((r) => r.id === ADVANCED_CANDIDATE_ID)!;
+
+const observations = rows.map((r) => ({
+  id: r.id,
+  lat: r.lat,
+  lng: r.lon,
+  label: `${r.codeName} — ${r.allPass ? 'passes all criteria' : `${r.passCount}/5 criteria`}`,
+  hex: r.allPass ? '#2e7571' : '#8a9099',
+}));
+---
+
+<!-- manifest:
+  layout: stack(xl)
+  sections:
+    - summary stats  -> esa-card               # candidates screened · passed all criteria · advancing site
+    - candidate map   -> bcn-observation-map    # one pin per candidate, colored pass/fail, click selects the grid row
+    - candidate table -> esa-card               # BcnGridChrome/BcnGridFooter + beacon-grid AG Grid, 5 criteria columns
+    - candidate drawer -> esa-side-dialog       # criteria checklist + facts + Advance action
+-->
+
+<!-- bcn-lego-checked: composed from esa-card, esa-button, esa-side-dialog, and
+     bcn-observation-map (reused as-is — severity-style pins with a host-decided click,
+     exactly the "pass/fail" coloring this map needs). The candidate table is the shared
+     beacon-grid AG Grid kit (bcn-grid-chrome / bcn-grid-footer / mountBeaconGrid), the
+     same reusable home every carded grid in this spoke already uses. No new component:
+     nothing here needed a shape neither of those already provides. Remaining CSS is the
+     criteria-checklist glyph (✓/✗) that AG Grid and the drawer both render outside
+     Astro's scope, plus the map legend the map's own contract leaves to the host. -->
+<AppShell
+  title="Site Screening — Beale"
+  tenantName="Beale"
+  projectName="No project selected"
+  activeNavId="due-diligence-siting"
+  navSections={dueDiligenceNavSections({ showProject: false })}
+>
+  <PageLayout
+    title="Site Screening"
+    icon="search"
+    breadcrumbs={[{ label: 'Due Diligence', href: withBase('/prototypes/due-diligence-siting') }, { label: 'Site Screening' }]}
+  >
+    <div class="stack" data-gap="lg">
+      <div class="grid" data-gap="md" style="--grid-min: 14rem;">
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">Candidates screened</span>
+            <span class="type-page-title">{rows.length}</span>
+            <span class="type-body-small">Five acquisition criteria each</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">Passed all criteria</span>
+            <span class="type-page-title" style="color: var(--color-success);">{passedCount}</span>
+            <span class="type-body-small">Eligible to advance</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="type-body-small">Advancing to due diligence</span>
+            <span class="type-page-title">{advanced.codeName}</span>
+            <span class="type-body-small">{advanced.county} · {advanced.acres} ac</span>
+          </div>
+        </EsaCard>
+      </div>
+
+      <BcnObservationMap observations={observations} mapId="stg" height="380px" />
+
+      <EsaCard title="Candidate Properties" padding="compact">
+        <Fragment slot="actions">
+          <BcnGridChrome prefix="stg" searchPlaceholder="Search candidates…" />
+        </Fragment>
+        <div class="stg-grid-host" data-stg-host></div>
+        <Fragment slot="footer">
+          <BcnGridFooter prefix="stg" total={rows.length} downloadLabel="Download as CSV" />
+        </Fragment>
+      </EsaCard>
+    </div>
+
+    <script type="application/json" id="stg-data" set:html={JSON.stringify(rows)}></script>
+  </PageLayout>
+
+  <!-- Candidate profile drawer — the criteria checklist + facts + the Advance CTA -->
+  <esa-side-dialog id="stg-drawer" size="md" style="--_width: 520px;">
+    <div slot="header" class="stack" data-gap="xs">
+      <span class="type-body-small" id="stg-d-region">—</span>
+      <span class="type-card-title" id="stg-d-name">—</span>
+    </div>
+    <div class="stack" data-gap="lg">
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small stg-d-label">Acquisition criteria</span>
+        <ul class="stg-checklist" id="stg-d-checklist"></ul>
+      </div>
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small stg-d-label">Property facts</span>
+        <dl class="stg-kv" id="stg-d-facts"></dl>
+      </div>
+      <p class="type-body-small" id="stg-d-reason" hidden></p>
+    </div>
+    <div slot="footer">
+      <span id="stg-d-advance"><EsaButton color="primary" icon="arrow-right">Advance to Due Diligence</EsaButton></span>
+    </div>
+  </esa-side-dialog>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import { beaconTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+
+  // Page-level workaround for a hub bug: esa-side-dialog's default position="right"
+  // renders flush-LEFT instead. The native <dialog> UA stylesheet sets left:0, and the
+  // component's own CSS only ever sets `right` for position="right" — it never clears
+  // that UA left:0, so the box is over-constrained and (per CSS2.1 §10.3.7, LTR) the
+  // browser drops `right`, not the UA's `left`. Reaching into the shadow root to null
+  // out `left` directly is the only lever available from outside — there's no `::part()`
+  // on the panel and `left`/`right` aren't exposed as CSS custom properties.
+  function forceSideDialogRight(id: string) {
+    const el = document.getElementById(id) as (HTMLElement & { shadowRoot: ShadowRoot | null }) | null;
+    if (!el) return;
+    const apply = () => {
+      const panel = el.shadowRoot?.querySelector('dialog.panel') as HTMLElement | null;
+      if (panel) panel.style.left = 'auto';
+    };
+    apply();
+    requestAnimationFrame(apply);
+  }
+  forceSideDialogRight('stg-drawer');
+
+  interface CriteriaMap {
+    region: boolean;
+    ownership: boolean;
+    size: boolean;
+    zoning: boolean;
+    substation: boolean;
+  }
+  interface Row {
+    id: string;
+    codeName: string;
+    county: string;
+    city: string;
+    regionLabel: string;
+    acres: number;
+    ownership: string;
+    zoning: string;
+    substation: string;
+    apns: string;
+    passCount: number;
+    allPass: boolean;
+    criteria: CriteriaMap;
+    failReason: string;
+    lat: number;
+    lon: number;
+  }
+
+  const CRITERIA_ORDER = ['region', 'ownership', 'size', 'zoning', 'substation'] as const;
+  const CRITERIA_LABELS: Record<string, string> = {
+    region: 'Located in CA Central Valley or SoCal',
+    ownership: 'Privately owned',
+    size: '≥ 300 acres',
+    zoning: 'Zoned light industrial or agriculture',
+    substation: 'Within 1 mile of a substation',
+  };
+
+  const dataEl = document.getElementById('stg-data');
+  const ROWS: Row[] = dataEl ? JSON.parse(dataEl.textContent || '[]') : [];
+  const byId = new Map(ROWS.map((r) => [r.id, r]));
+
+  function checkGlyph(pass: boolean): string {
+    return `<span class="stg-check" data-pass="${pass}">${pass ? '✓' : '✗'}</span>`;
+  }
+
+  // ── Map — bcn-observation-map plots the pins; it only ANNOUNCES a click ──
+  document.getElementById('bcn-obsmap-stg')?.addEventListener('bcn-observation-pin-click', (e) => {
+    openDrawer((e as CustomEvent).detail.id);
+  });
+
+  // ── Grid ────────────────────────────────────────────────────────────────────
+  function criterionRenderer(key: keyof CriteriaMap) {
+    return (p: ICellRendererParams<Row>) => {
+      const el = document.createElement('span');
+      el.innerHTML = checkGlyph(Boolean(p.data?.criteria[key]));
+      return el;
+    };
+  }
+
+  const columnDefs: ColDef<Row>[] = [
+    { field: 'codeName', headerName: 'Candidate', flex: 1.3, minWidth: 150 },
+    { field: 'county', headerName: 'County', flex: 1.2, minWidth: 150 },
+    { field: 'acres', headerName: 'Acres', width: 100, filter: 'agNumberColumnFilter' },
+    { field: 'ownership', headerName: 'Owner', width: 100 },
+    { field: 'zoning', headerName: 'Zoning', flex: 1.3, minWidth: 190 },
+    { field: 'substation', headerName: 'Substation', width: 120 },
+    { headerName: 'Region', width: 90, cellRenderer: criterionRenderer('region') },
+    { headerName: 'Owner', width: 90, cellRenderer: criterionRenderer('ownership') },
+    { headerName: 'Size', width: 90, cellRenderer: criterionRenderer('size') },
+    { headerName: 'Zoning', width: 90, cellRenderer: criterionRenderer('zoning') },
+    { headerName: 'Substation', width: 100, cellRenderer: criterionRenderer('substation') },
+    {
+      headerName: 'Result',
+      width: 150,
+      cellRenderer: (p: ICellRendererParams<Row>) => {
+        const el = document.createElement('span');
+        el.className = 'stg-result';
+        el.dataset.pass = String(p.data?.allPass);
+        el.textContent = p.data?.allPass ? 'Advances' : `${p.data?.passCount}/5 criteria`;
+        return el;
+      },
+    },
+  ];
+
+  const gridOptions: GridOptions<Row> = {
+    theme: beaconTheme,
+    rowData: ROWS,
+    columnDefs,
+    defaultColDef: { sortable: true, resizable: true, filter: true, suppressHeaderMenuButton: true },
+    onRowClicked: (e) => {
+      if (e.data) openDrawer(e.data.id);
+    },
+  };
+
+  const host = document.querySelector<HTMLElement>('[data-stg-host]');
+  if (host) {
+    mountBeaconGrid({
+      mount: host.closest('.esa-card') as HTMLElement ?? host.parentElement!,
+      prefix: 'stg',
+      gridOptions,
+      csvName: 'site-screening.csv',
+      totalRows: () => ROWS.length,
+    });
+  }
+
+  // ── Drawer ──────────────────────────────────────────────────────────────────
+  function openDrawer(id: string) {
+    const r = byId.get(id);
+    if (!r) return;
+
+    const setText = (elId: string, text: string) => {
+      const el = document.getElementById(elId);
+      if (el) el.textContent = text;
+    };
+    setText('stg-d-region', r.regionLabel);
+    setText('stg-d-name', r.codeName);
+
+    const checklist = document.getElementById('stg-d-checklist');
+    if (checklist) {
+      checklist.innerHTML = CRITERIA_ORDER.map(
+        (k) => `<li>${checkGlyph(r.criteria[k])}<span>${CRITERIA_LABELS[k]}</span></li>`,
+      ).join('');
+    }
+
+    const facts = document.getElementById('stg-d-facts');
+    if (facts) {
+      facts.innerHTML = [
+        ['County', r.county],
+        ['City', r.city],
+        ['Acres', String(r.acres)],
+        ['Ownership', r.ownership],
+        ['Zoning', r.zoning],
+        ['APN(s)', r.apns],
+        ['Nearest substation', r.substation],
+      ]
+        .map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`)
+        .join('');
+    }
+
+    const reason = document.getElementById('stg-d-reason');
+    if (reason) {
+      if (r.failReason) {
+        reason.textContent = r.failReason;
+        reason.hidden = false;
+      } else {
+        reason.hidden = true;
+      }
+    }
+
+    const advanceBtn = document.getElementById('stg-d-advance');
+    if (advanceBtn) {
+      const btn = advanceBtn.querySelector('button');
+      if (btn) {
+        btn.disabled = !r.allPass;
+        btn.textContent = r.allPass ? 'Advance to Due Diligence' : 'Does not meet criteria';
+      }
+      advanceBtn.onclick = r.allPass
+        ? () => {
+            window.location.href = document.body.dataset.baseUrl
+              ? `${document.body.dataset.baseUrl}/prototypes/due-diligence-boundary`
+              : '/prototypes/due-diligence-boundary';
+          }
+        : null;
+    }
+
+    const dialog = document.getElementById('stg-drawer') as (HTMLElement & { open?: boolean; show?: () => void }) | null;
+    if (dialog?.show) dialog.show();
+    else if (dialog) dialog.open = true;
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked (page CSS): the checklist glyph and Result chip AG Grid and the
+     drawer both render outside Astro's scope — none of which any esa- lego models.
+     The map itself is bcn-observation-map (a component, not page CSS). */
+  .stg-grid-host {
+    inline-size: 100%;
+    block-size: 22rem;
+  }
+  :global(.stg-check) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-bold);
+  }
+  :global(.stg-check[data-pass='true']) {
+    color: var(--color-success);
+  }
+  :global(.stg-check[data-pass='false']) {
+    color: var(--color-text-tertiary);
+  }
+  :global(.stg-result) {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--spacing-250);
+    border-radius: var(--radius-100);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+  }
+  :global(.stg-result[data-pass='true']) {
+    background: color-mix(in srgb, var(--color-success) 16%, transparent);
+    color: color-mix(in srgb, var(--color-success) 72%, #1a1a1a);
+  }
+  :global(.stg-result[data-pass='false']) {
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+  }
+  .stg-d-label {
+    color: var(--color-text-tertiary);
+  }
+  .stg-checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: var(--spacing-300);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+  .stg-checklist li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .stg-kv {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-150) var(--spacing-300);
+    margin: 0;
+    padding-left: var(--spacing-300);
+  }
+  .stg-kv dt {
+    color: var(--color-text-tertiary);
+  }
+  .stg-kv dd {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+</style>
