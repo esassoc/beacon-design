@@ -9292,10 +9292,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   display: inline-flex;
@@ -9386,6 +9382,10 @@ a {
 img {
   display: block;
   max-width: 100%;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 ```
 
