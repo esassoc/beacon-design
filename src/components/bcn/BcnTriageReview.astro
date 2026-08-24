@@ -620,15 +620,27 @@ const FILE_PLUS =
     margin-left: auto;
   }
 
+  /* Border and glyph are locked together by construction: the button sets ONE colour and the
+     border takes currentColor, so they cannot drift apart again. They had — the section-header
+     rule above paints every .esa-icon inside the legend muted, and the + now lives in the
+     legend, so a blue border was sitting around a grey glyph.
+     Change the one --triage-add-ink value to recolour both. */
   .bcn-triage-review__add :global(.esa-icon-button) {
-    border: 1px solid var(--color-info-strong);
+    --triage-add-ink: var(--color-text-muted);
+    border: 1px solid currentColor;
     border-radius: var(--radius-100);
     background: transparent;
-    color: var(--color-info-strong);
+    color: var(--triage-add-ink);
+  }
+
+  /* Beats the legend rule on order, so the glyph follows the button rather than the header. */
+  .bcn-triage-review__add :global(.esa-icon) {
+    color: inherit;
   }
 
   .bcn-triage-review__add :global(.esa-icon-button:hover) {
-    background: var(--color-info-subtle);
+    color: var(--color-text-primary);
+    background: var(--color-surface-sunken);
   }
 
   /* ── The add-a-suggestion modal ──────────────────────────────────────── */
