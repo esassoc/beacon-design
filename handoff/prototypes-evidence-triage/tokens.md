@@ -1,6 +1,6 @@
 # Token contract — prototypes-evidence-triage
 
-The 137 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 138 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -93,6 +93,7 @@ The 137 design tokens this page actually uses, resolved to their final values fo
 | `--button-radius-md` | `.5rem` |
 | `--color-accent` | `#f76b15` |
 | `--color-backdrop` | `rgba(0, 0, 0, .5)` |
+| `--color-background` | `#fafafa` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
 | `--color-info` | `#228be6` |

@@ -698,16 +698,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="esa-badge__text">16 suggestions</span>
                   </span>
                 </span>
-                <span
-                  class="bcn-triage-counts__chip bcn-triage-counts__chip--unread"
-                  data-triage-unread=""
-                >
-                  <span
-                    class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
-                  >
-                    <span class="esa-badge__text">12 unread</span>
-                  </span>
-                </span>
                 <!-- Only when a filter is narrowing the list: the chips count the INBOX, not the view, and
        two numbers that look like they disagree are worse than one. -->
                 <span class="bcn-triage-counts__showing" data-triage-showing="" hidden=""></span>
@@ -811,14 +801,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="intake-b-north-delta"
                               data-match="confident"
                               data-search="intake b turbidity monitoring — jul 22 continuous readings at the cofferdam, 06:00–18:00. two exceedances of the 15 ntu trigger, both cleared within the hour. r. delgado intake b — north delta monitoring portal"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-ib-turbidity"
-                                aria-label="Unread. Review Intake B turbidity monitoring — Jul 22"
+                                aria-label="Review Intake B turbidity monitoring — Jul 22"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -847,14 +835,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="southern-forebay-pumping-plant"
                               data-match="confident"
                               data-search="daily biological monitoring — southern forebay, jul 22 ground disturbance at the north levee toe. one swainson’s hawk observed foraging; no nest located within the work area. c. anderson southern forebay &amp; pumping plant daily monitoring report"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-daily-forebay-0722"
-                                aria-label="Unread. Review Daily biological monitoring — Southern Forebay, Jul 22"
+                                aria-label="Review Daily biological monitoring — Southern Forebay, Jul 22"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -884,14 +870,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="none"
                               data-match="confident"
                               data-search="fish screen approach-velocity readings — jul 21 velocity measurements at eight screen panels, submitted by the screen fabricator. all panels below the 0.33 ft/s criterion. t. yamada, cascade screen works  drop-box link"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-dropbox-fish-screen"
-                                aria-label="Unread. Review Fish screen approach-velocity readings — Jul 21"
+                                aria-label="Review Fish screen approach-velocity readings — Jul 21"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -926,7 +910,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-match="confident"
                               data-search="swppp inspection — southern forebay, jul 21 qualified-personnel walk of all four stockpiles. two corrective actions logged at the southern stockpile perimeter. m. okafor southern forebay &amp; pumping plant monitoring portal"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
@@ -960,14 +943,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="southern-forebay-pumping-plant"
                               data-match="confident"
                               data-search="daily biological monitoring — southern forebay, jul 21 excavation along the utility trench. no listed species observed; buffers intact. c. anderson southern forebay &amp; pumping plant daily monitoring report"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-daily-forebay-0721"
-                                aria-label="Unread. Review Daily biological monitoring — Southern Forebay, Jul 21"
+                                aria-label="Review Daily biological monitoring — Southern Forebay, Jul 21"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -997,14 +978,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="twin-cities-complex"
                               data-match="confident"
                               data-search="rtm stockpile inspection — twin cities, jul 21 reusable tunnel material stockpile cover and perimeter controls checked after the jul 20 wind event. no erosion observed. j. whitfield twin cities complex monitoring portal"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-tc-rtm-stockpile"
-                                aria-label="Unread. Review RTM stockpile inspection — Twin Cities, Jul 21"
+                                aria-label="Review RTM stockpile inspection — Twin Cities, Jul 21"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -1038,14 +1017,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="intake-b-north-delta"
                               data-match="confident"
                               data-search="hydroacoustic monitoring — intake b pile driving, jul 20 underwater sound pressure levels recorded at 10 m and 150 m during 6.5 hours of impact driving. peak 204 db at 10 m. delta acoustics llc intake b — north delta monitoring portal"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-hydroacoustic"
-                                aria-label="Unread. Review Hydroacoustic monitoring — Intake B pile driving, Jul 20"
+                                aria-label="Review Hydroacoustic monitoring — Intake B pile driving, Jul 20"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -1075,7 +1052,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-match="confident"
                               data-search="construction noise readings — week of jul 13 five sensitive receptors along the eastern boundary, all below the 75 dba threshold. highest reading 71 dba at receptor r-3. m. okafor southern forebay &amp; pumping plant monitoring portal"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
@@ -1109,14 +1085,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="none"
                               data-match="unmatched"
                               data-search="tribal monitor availability confirmation letter confirming monitor coverage for the august excavation window. no monitoring observations included. cultural resources liaison  drop-box link"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-dropbox-tribal-letter"
-                                aria-label="Unread. Review Tribal monitor availability confirmation"
+                                aria-label="Review Tribal monitor availability confirmation"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -1137,7 +1111,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-match="confident"
                               data-search="monthly compliance monitoring report — june 2026 finalized in beacon. covers all southern forebay actions for the june reporting period, including the four open corrective actions. beacon southern forebay &amp; pumping plant beacon report"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
@@ -1171,14 +1144,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="southern-forebay-pumping-plant"
                               data-match="multiple"
                               data-search="daily biological monitoring — southern forebay, jul 19 two mourning dove nests flagged with 50-ft buffers ahead of vegetation clearing. giant garter snake upland refugia re-checked. c. anderson southern forebay &amp; pumping plant daily monitoring report"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-daily-forebay-0719"
-                                aria-label="Unread. Review Daily biological monitoring — Southern Forebay, Jul 19"
+                                aria-label="Review Daily biological monitoring — Southern Forebay, Jul 19"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -1208,14 +1179,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="southern-forebay-pumping-plant"
                               data-match="confident"
                               data-search="dust control log — week of jul 13 daily watering passes and two wind-speed shutdowns. logged by the site superintendent. site superintendent southern forebay &amp; pumping plant daily monitoring report"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-dust-log-wk29"
-                                aria-label="Unread. Review Dust control log — week of Jul 13"
+                                aria-label="Review Dust control log — week of Jul 13"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -1251,7 +1220,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-match="confident"
                               data-search="fish screen criteria compliance inspection — jul 17 quarterly inspection of screen cleaning cycle, sweeping velocity and debris accumulation. one panel scheduled for servicing. r. delgado intake b — north delta monitoring portal"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
@@ -1285,14 +1253,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="twin-cities-complex"
                               data-match="confident"
                               data-search="nesting bird sweep — twin cities, jul 17 pre-clearing sweep of the staging area. one red-winged blackbird nest flagged; buffer released jul 21 after fledging. j. whitfield twin cities complex monitoring portal"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-tc-nesting-sweep"
-                                aria-label="Unread. Review Nesting bird sweep — Twin Cities, Jul 17"
+                                aria-label="Review Nesting bird sweep — Twin Cities, Jul 17"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -1321,14 +1287,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="none"
                               data-match="unmatched"
                               data-search="quarterly commitment status summary — q2 2026 finalized in beacon. project-wide roll-up across all components; not scoped to any single one. beacon  beacon report"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-quarterly-summary"
-                                aria-label="Unread. Review Quarterly commitment status summary — Q2 2026"
+                                aria-label="Review Quarterly commitment status summary — Q2 2026"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -1348,14 +1312,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-component="none"
                               data-match="unmatched"
                               data-search="contractor equipment emissions certificates tier 4 final certificates for eleven pieces of equipment, submitted by the earthwork subcontractor. k. boyle, meridian earthworks  drop-box link"
-                              data-unread="true"
                             >
-                              <span class="bcn-triage-row__unread" aria-hidden="true"></span>
                               <button
                                 type="button"
                                 class="bcn-triage-row__body"
                                 data-triage-open="tri-dropbox-equipment-certs"
-                                aria-label="Unread. Review Contractor equipment emissions certificates"
+                                aria-label="Review Contractor equipment emissions certificates"
                               >
                                 <span class="bcn-triage-row__line">
                                   <span class="bcn-triage-row__title"
@@ -1421,7 +1383,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Intake B turbidity monitoring — Jul 22
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 22</span>
+                            <span class="bcn-triage-review__date">July 22, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Continuous readings at the cofferdam, 06:00–18:00. Two exceedances of
@@ -1658,7 +1620,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Daily biological monitoring — Southern Forebay, Jul 22
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 22</span>
+                            <span class="bcn-triage-review__date">July 22, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Ground disturbance at the north levee toe. One Swainson’s hawk observed
@@ -1897,7 +1859,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Fish screen approach-velocity readings — Jul 21
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 22</span>
+                            <span class="bcn-triage-review__date">July 22, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Velocity measurements at eight screen panels, submitted by the screen
@@ -2136,7 +2098,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               SWPPP inspection — Southern Forebay, Jul 21
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 21</span>
+                            <span class="bcn-triage-review__date">July 21, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Qualified-personnel walk of all four stockpiles. Two corrective actions
@@ -2375,7 +2337,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Daily biological monitoring — Southern Forebay, Jul 21
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 21</span>
+                            <span class="bcn-triage-review__date">July 21, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Excavation along the utility trench. No listed species observed; buffers
@@ -2614,7 +2576,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               RTM stockpile inspection — Twin Cities, Jul 21
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 21</span>
+                            <span class="bcn-triage-review__date">July 21, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Reusable tunnel material stockpile cover and perimeter controls checked
@@ -2851,7 +2813,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Hydroacoustic monitoring — Intake B pile driving, Jul 20
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 20</span>
+                            <span class="bcn-triage-review__date">July 20, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Underwater sound pressure levels recorded at 10 m and 150 m during 6.5
@@ -3088,7 +3050,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Construction noise readings — week of Jul 13
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 20</span>
+                            <span class="bcn-triage-review__date">July 20, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Five sensitive receptors along the eastern boundary, all below the 75
@@ -3328,7 +3290,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Tribal monitor availability confirmation
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 20</span>
+                            <span class="bcn-triage-review__date">July 20, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Letter confirming monitor coverage for the August excavation window. No
@@ -3481,7 +3443,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Monthly compliance monitoring report — June 2026
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 19</span>
+                            <span class="bcn-triage-review__date">July 19, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Finalized in Beacon. Covers all Southern Forebay actions for the June
@@ -3720,7 +3682,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Daily biological monitoring — Southern Forebay, Jul 19
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 19</span>
+                            <span class="bcn-triage-review__date">July 19, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Two mourning dove nests flagged with 50-ft buffers ahead of vegetation
@@ -4035,7 +3997,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Dust control log — week of Jul 13
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 19</span>
+                            <span class="bcn-triage-review__date">July 19, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Daily watering passes and two wind-speed shutdowns. Logged by the site
@@ -4274,7 +4236,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Fish screen criteria compliance inspection — Jul 17
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 17</span>
+                            <span class="bcn-triage-review__date">July 17, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Quarterly inspection of screen cleaning cycle, sweeping velocity and
@@ -4511,7 +4473,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Nesting bird sweep — Twin Cities, Jul 17
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 17</span>
+                            <span class="bcn-triage-review__date">July 17, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Pre-clearing sweep of the staging area. One red-winged blackbird nest
@@ -4748,7 +4710,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Quarterly commitment status summary — Q2 2026
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 15</span>
+                            <span class="bcn-triage-review__date">July 15, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Finalized in Beacon. Project-wide roll-up across all components; not
@@ -4901,7 +4863,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <h2 class="bcn-triage-review__title">
                               Contractor equipment emissions certificates
                             </h2>
-                            <span class="bcn-triage-review__date">Jul 15</span>
+                            <span class="bcn-triage-review__date">July 15, 2026</span>
                           </div>
                           <p class="bcn-triage-review__notes">
                             Tier 4 Final certificates for eleven pieces of equipment, submitted by
@@ -5056,7 +5018,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnTriageWorkspace.astro_astro_type_script_index_0_lang.BS7Zvj0b.js"
+                src="/beacon-design/_astro/BcnTriageWorkspace.astro_astro_type_script_index_0_lang.BWJckHHm.js"
               ></script>
             </div>
           </section>
@@ -14801,143 +14763,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  background: transparent;
-  color: inherit;
-  border-color: transparent;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-body-xs {
-  font-family: var(--typography-body-xs-font-family);
-  font-size: var(--typography-body-xs-font-size);
-  font-weight: var(--typography-body-xs-font-weight);
-  line-height: var(--typography-body-xs-line-height);
-  letter-spacing: var(--typography-body-xs-letter-spacing);
-}
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -15063,281 +14888,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   flex-basis: 0;
   flex-grow: 999;
   min-inline-size: var(--sidebar-content-min);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.bcn-triage-counts {
-  --gap: var(--spacing-250);
-}
-.bcn-triage-counts__chip {
-  display: inline-flex;
-  align-items: center;
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-height-md: 24px;
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-triage-counts__chip--unread .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-}
-.bcn-triage-counts__showing {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-counts__showing[hidden] {
-  display: none;
-}
-.bcn-triage-workspace__panes {
-  --sidebar-width: 31rem;
-  --sidebar-content-min: 42%;
-  height: clamp(32rem, 70vh, 58rem);
-  align-items: stretch;
-}
-.bcn-triage-workspace__queue,
-.bcn-triage-workspace__review {
-  height: 100%;
-  min-height: 0;
-}
-.bcn-triage-queue {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  overflow: hidden;
-}
-.bcn-triage-queue__scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding-bottom: var(--spacing-500);
-}
-.bcn-triage-queue__day {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  margin: 0;
-  padding: var(--spacing-100) var(--spacing-300);
-  background: var(--color-surface-sunken);
-  border-block: 1px solid var(--color-border-light);
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-medium);
-  line-height: 1.4;
-  color: var(--color-text-primary);
-}
-.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
-  border-top: 0;
-}
-.bcn-triage-queue__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-triage-row {
-  display: grid;
-  grid-template-columns: 0.5rem minmax(0, 1fr);
-  align-items: start;
-  gap: var(--spacing-150) var(--spacing-250);
-  padding: var(--spacing-300);
-  border-bottom: 1px solid var(--color-border-light);
-  background: var(--color-surface);
-}
-.bcn-triage-row__unread {
-  grid-row: 1 / span 2;
-  align-self: start;
-  width: 6px;
-  height: 6px;
-  margin-top: 0.4rem;
-  border-radius: var(--radius-full);
-  background: transparent;
-}
-.bcn-triage-row[data-unread] .bcn-triage-row__unread {
-  background: var(--color-info);
-}
-.bcn-triage-row__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.bcn-triage-row__line {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-250);
-  min-width: 0;
-}
-.bcn-triage-row__title {
-  min-width: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-triage-row__date {
-  flex: none;
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__meta {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__foot {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-}
-.bcn-triage-row__match {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-triage-row__sug .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  --badge-height-md: 24px;
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-row:last-child {
-  border-bottom: 0;
-}
-.bcn-triage-queue__group + .bcn-triage-queue__group {
-  margin-top: 0;
-}
-.bcn-triage-row:not([data-unread]) .bcn-triage-row__title {
-  font-weight: var(--font-weight-regular, 400);
-}
-.bcn-triage-queue__empty {
-  padding: var(--spacing-700) var(--spacing-400);
-}
-.bcn-triage-queue__empty[hidden] {
-  display: none;
-}
-.bcn-triage-review {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-  overflow-y: auto;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-}
-.bcn-triage-review,
-.bcn-triage-sug {
-  --color-primary-strong: var(--color-primary);
-}
-.bcn-triage-review__prompt {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-700) var(--spacing-500);
-}
-.bcn-triage-review__panel {
-  display: flex;
-  flex-direction: column;
-}
-.bcn-triage-review__panel[hidden] {
-  display: none;
-}
-.esa-filter-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
-  padding: var(--filter-container-padding, 0);
-}
-.esa-filter-clear-button {
-  --_clear-text: var(--color-content-default-secondary, #646464);
-  --_clear-text-hover: var(--color-content-utility-danger, var(--color-content-brand, #2a7e3b));
-  --_clear-icon-size: 18px;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
-  border: none;
-  border-radius: var(--radius-sm, 0.25rem);
-  background: transparent;
-  color: var(--_clear-text);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-}
-.esa-filter-clear-button__icon {
-  width: var(--_clear-icon-size);
-  height: var(--_clear-icon-size);
-  flex: none;
-}
-.esa-filter-clear-button__label {
-  white-space: nowrap;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  gap: var(--_empty-gap);
-}
-.esa-empty-state--sm {
-  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
-}
-.esa-empty-state__title {
-  margin: 0;
-  color: var(--color-content-default, #202020);
-}
-.esa-empty-state__description {
-  margin: 0;
-  color: var(--color-content-default-secondary, #646464);
-  max-width: 360px;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
 }
 .modern-layout {
   display: flex;
@@ -16140,6 +15690,397 @@ html,
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.esa-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
+  padding: var(--filter-container-padding, 0);
+}
+.esa-filter-clear-button {
+  --_clear-text: var(--color-content-default-secondary, #646464);
+  --_clear-text-hover: var(--color-content-utility-danger, var(--color-content-brand, #2a7e3b));
+  --_clear-icon-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.25rem);
+  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
+  border: none;
+  border-radius: var(--radius-sm, 0.25rem);
+  background: transparent;
+  color: var(--_clear-text);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition:
+    color var(--transition-fast, 0.15s ease),
+    background var(--transition-fast, 0.15s ease);
+}
+.esa-filter-clear-button__icon {
+  width: var(--_clear-icon-size);
+  height: var(--_clear-icon-size);
+  flex: none;
+}
+.esa-filter-clear-button__label {
+  white-space: nowrap;
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  gap: var(--_empty-gap);
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state__title {
+  margin: 0;
+  color: var(--color-content-default, #202020);
+}
+.esa-empty-state__description {
+  margin: 0;
+  color: var(--color-content-default-secondary, #646464);
+  max-width: 360px;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.bcn-triage-counts {
+  --gap: var(--spacing-250);
+}
+.bcn-triage-counts__chip {
+  display: inline-flex;
+  align-items: center;
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-height-md: 24px;
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing[hidden] {
+  display: none;
+}
+.bcn-triage-workspace__panes {
+  --sidebar-width: 31rem;
+  --sidebar-content-min: 42%;
+  height: clamp(32rem, 70vh, 58rem);
+  align-items: stretch;
+}
+.bcn-triage-workspace__queue,
+.bcn-triage-workspace__review {
+  height: 100%;
+  min-height: 0;
+}
+.bcn-triage-queue {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  overflow: hidden;
+}
+.bcn-triage-queue__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: var(--spacing-500);
+}
+.bcn-triage-queue__day {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--spacing-100) var(--spacing-300);
+  background: var(--color-background);
+  border-block: 1px solid var(--color-border-light);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
+  border-top: 0;
+}
+.bcn-triage-queue__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-triage-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: var(--spacing-300);
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-surface);
+}
+.bcn-triage-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bcn-triage-row__line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-250);
+  min-width: 0;
+}
+.bcn-triage-row__title {
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+.bcn-triage-row__date {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__meta {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__foot {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.bcn-triage-row__match {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-triage-row__sug .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  --badge-height-md: 24px;
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-row:last-child {
+  border-bottom: 0;
+}
+.bcn-triage-queue__group + .bcn-triage-queue__group {
+  margin-top: 0;
+}
+.bcn-triage-queue__empty {
+  padding: var(--spacing-700) var(--spacing-400);
+}
+.bcn-triage-queue__empty[hidden] {
+  display: none;
+}
+.bcn-triage-review {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+}
+.bcn-triage-review,
+.bcn-triage-sug {
+  --color-primary-strong: var(--color-primary);
+}
+.bcn-triage-review__prompt {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-700) var(--spacing-500);
+}
+.bcn-triage-review__panel {
+  display: flex;
+  flex-direction: column;
+}
+.bcn-triage-review__panel[hidden] {
+  display: none;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-sm-strong {
+  font-family: var(--typography-microcopy-sm-strong-font-family);
+  font-size: var(--typography-microcopy-sm-strong-font-size);
+  font-weight: var(--typography-microcopy-sm-strong-font-weight);
+  line-height: var(--typography-microcopy-sm-strong-line-height);
+  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
+  color: inherit;
+  border-color: transparent;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
 ```
 
 ## Tokens
@@ -16169,6 +16110,7 @@ html,
 | `--button-radius-md` | `.5rem` | component |
 | `--color-accent` | `#f76b15` | component |
 | `--color-backdrop` | `rgba(0, 0, 0, .5)` | component |
+| `--color-background` | `#fafafa` | component |
 | `--color-background-brand` | `#46a758` | semantic |
 | `--color-background-brand-hover` | `#3e9b4f` | semantic |
 | `--color-border` | `#dcdcdc` | component |
