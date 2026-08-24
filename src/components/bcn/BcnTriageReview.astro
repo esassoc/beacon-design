@@ -235,7 +235,15 @@ const FILE_PLUS =
 
       <p class="bcn-triage-add__scope" data-triage-add-scope></p>
 
-      <ul class="bcn-triage-add__list" data-triage-add-list>
+      {/* Nothing is listed until you search. Twenty-two actions shown by default is a wall to
+          scroll rather than a thing to pick from, and it invites picking whatever is near the
+          top. The staged selections stay visible below, so the list can empty between
+          searches without losing what you have chosen. */}
+      <p class="bcn-triage-add__hint" data-triage-add-hint>
+        Search to find an action, then add it to the record.
+      </p>
+
+      <ul class="bcn-triage-add__list" data-triage-add-list hidden>
         {ACTIONS.map((a) => (
           <li>
             <button
@@ -257,8 +265,28 @@ const FILE_PLUS =
       </ul>
 
       <p class="bcn-triage-add__empty" data-triage-add-empty hidden>No actions match that search</p>
+
+      <div class="bcn-triage-add__staged" data-triage-add-staged hidden>
+        <p class="bcn-triage-add__stagedlabel" data-triage-add-stagedlabel></p>
+        <ul class="bcn-triage-add__stagedlist" data-triage-add-stagedlist></ul>
+      </div>
+    </div>
+
+    <div slot="footer" class="bcn-triage-add__actions">
+      <EsaButton size="md" color="primary" data-triage-add-commit disabled>Add</EsaButton>
+      <EsaButton size="md" color="ghost" data-triage-add-cancel>Cancel</EsaButton>
     </div>
   </esa-dialog>
+
+  {/* A staged row, cloned per selection — legos again rather than strings. */}
+  <template data-triage-staged-template>
+    <li class="bcn-triage-add__stagedrow">
+      <span class="bcn-triage-add__stagedname" data-tpl-name></span>
+      <span data-tpl-remove>
+        <EsaIconButton icon="x" label="Remove from selection" size="sm" />
+      </span>
+    </li>
+  </template>
 
   {/* The card the controller clones for a manual addition. Astro's legos are compile-time, so
       a template is how a runtime-built card still gets real esa-card / esa-badge markup
@@ -306,18 +334,21 @@ const FILE_PLUS =
     display: flex;
     flex-direction: column;
     min-height: 0;
-    height: 100%;
+    max-height: 100%;
     overflow-y: auto;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-100);
   }
 
+  /* With nothing selected the pane has no content to size to, so the prompt supplies the
+     height itself rather than centring inside a collapsed box. */
   .bcn-triage-review__prompt {
     display: flex;
     flex: 1;
     align-items: center;
     justify-content: center;
+    min-height: 22rem;
     padding: var(--spacing-700) var(--spacing-500);
   }
 
@@ -525,7 +556,10 @@ const FILE_PLUS =
      4.8:1, where --color-info (#228be6) would land near 3.6 and fail AA at this size. */
   .bcn-triage-review__legendcount :global(.esa-badge) {
     --badge-radius: var(--radius-full);
-    --badge-bg: var(--color-info-strong);
+    /* A step toward --color-info without landing on it. The full step measures ~3.6:1 against
+       white text and an 18% mix measures 4.4 — both fail AA at 13px — so this sits at 8%,
+       which is as light as the contrast allows while staying above 4.5. */
+    --badge-bg: color-mix(in srgb, var(--color-info) 8%, var(--color-info-strong));
     --badge-text-color: var(--color-text-inverse, #fff);
     min-width: 19px;
     height: 19px;
@@ -587,14 +621,14 @@ const FILE_PLUS =
   }
 
   .bcn-triage-review__add :global(.esa-icon-button) {
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-info-strong);
     border-radius: var(--radius-100);
-    background: var(--color-surface);
+    background: transparent;
+    color: var(--color-info-strong);
   }
 
   .bcn-triage-review__add :global(.esa-icon-button:hover) {
-    border-color: var(--color-border-strong);
-    background: var(--color-surface-sunken);
+    background: var(--color-info-subtle);
   }
 
   /* ── The add-a-suggestion modal ──────────────────────────────────────── */
@@ -680,6 +714,77 @@ const FILE_PLUS =
   .bcn-triage-add__option[data-already] {
     opacity: 0.45;
     pointer-events: none;
+  }
+
+  .bcn-triage-add__hint {
+    margin: 0;
+    padding: var(--spacing-500) 0;
+    font-size: 0.8125rem;
+    font-style: italic;
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+
+  .bcn-triage-add__hint[hidden],
+  .bcn-triage-add__list[hidden],
+  .bcn-triage-add__staged[hidden] {
+    display: none;
+  }
+
+  /* An option already staged reads as chosen rather than disappearing: the list is how you
+     confirm you picked the right one. */
+  .bcn-triage-add__option[data-staged] {
+    border-color: var(--color-info-strong);
+    background: var(--color-info-subtle);
+  }
+
+  /* ── Staged selections ───────────────────────────────────────────────── */
+
+  .bcn-triage-add__staged {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .bcn-triage-add__stagedlabel {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .bcn-triage-add__stagedlist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bcn-triage-add__stagedrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-250);
+    padding: var(--spacing-150) var(--spacing-250);
+    background: var(--color-info-subtle);
+    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+    border-radius: var(--radius-100);
+  }
+
+  .bcn-triage-add__stagedname {
+    font-size: 0.8125rem;
+    color: var(--color-text-primary);
+  }
+
+  /* Windows order: the primary sits LEFT of the secondary within a right-aligned group. */
+  .bcn-triage-add__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-250);
   }
 
   .bcn-triage-add__empty {

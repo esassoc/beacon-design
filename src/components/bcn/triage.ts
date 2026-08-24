@@ -293,7 +293,18 @@ export function setupTriage(): void {
   const addScope = document.querySelector<HTMLElement>('[data-triage-add-scope]');
   const addEmpty = document.querySelector<HTMLElement>('[data-triage-add-empty]');
   const addOptions = qsa<HTMLButtonElement>('[data-triage-add-pick]');
+  const addHint = document.querySelector<HTMLElement>('[data-triage-add-hint]');
+  const addList = document.querySelector<HTMLElement>('[data-triage-add-list]');
+  const stagedBox = document.querySelector<HTMLElement>('[data-triage-add-staged]');
+  const stagedLabel = document.querySelector<HTMLElement>('[data-triage-add-stagedlabel]');
+  const stagedList = document.querySelector<HTMLElement>('[data-triage-add-stagedlist]');
+  const stagedTemplate = document.querySelector<HTMLTemplateElement>('[data-triage-staged-template]');
+  const commitBtn = document.querySelector<HTMLButtonElement>('[data-triage-add-commit]');
+  const cancelBtn = document.querySelector<HTMLElement>('[data-triage-add-cancel]');
+
   let addingFor = '';
+  /** Chosen in the modal but not yet pushed to the record. Cleared on close. */
+  const staged = new Set<string>();
 
   /** Build a manual card from the template and put it at the end of the record's list. */
   const addManualCard = (itemId: string, actionId: string): boolean => {
@@ -361,24 +372,69 @@ export function setupTriage(): void {
     writeManual(all);
   };
 
-  /** Filter the modal's list, and grey out what this record already carries. */
+  /**
+   * The list only exists once there is a query — an unsearched modal shows the hint instead.
+   * Options already on the record are inert; options already staged read as chosen.
+   */
   const refreshAddList = (): void => {
     const q = ((addSearch as unknown as { value?: string })?.value ?? '').trim().toLowerCase();
     const panel = document.querySelector<HTMLElement>(`[data-triage-panel="${addingFor}"]`);
+    const searching = q.length > 0;
     let shown = 0;
 
     for (const option of addOptions) {
-      const already = !!panel?.querySelector(
-        `[data-triage-sug="${addingFor}|${option.dataset.triageAddPick}"]`
-      );
-      const matches = !q || (option.dataset.search ?? '').includes(q);
+      const id = option.dataset.triageAddPick ?? '';
+      const already = !!panel?.querySelector(`[data-triage-sug="${addingFor}|${id}"]`);
+      const matches = searching && (option.dataset.search ?? '').includes(q);
       option.hidden = !matches;
+
       if (already) option.setAttribute('data-already', '');
       else option.removeAttribute('data-already');
+      if (staged.has(id)) option.setAttribute('data-staged', '');
+      else option.removeAttribute('data-staged');
+
       if (matches) shown++;
     }
 
-    if (addEmpty) addEmpty.hidden = shown !== 0;
+    if (addHint) addHint.hidden = searching;
+    if (addList) addList.hidden = !searching || shown === 0;
+    if (addEmpty) addEmpty.hidden = !searching || shown !== 0;
+  };
+
+  /** Redraw the staged strip and the Add button's label/state from `staged`. */
+  const refreshStaged = (): void => {
+    if (stagedBox) stagedBox.hidden = staged.size === 0;
+    if (stagedLabel) {
+      stagedLabel.textContent =
+        staged.size === 1 ? '1 action selected' : `${staged.size} actions selected`;
+    }
+
+    if (stagedList && stagedTemplate) {
+      stagedList.replaceChildren();
+      for (const id of staged) {
+        const option = addOptions.find((o) => o.dataset.triageAddPick === id);
+        const row = stagedTemplate.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        row.querySelector('[data-tpl-name]')!.textContent =
+          option?.querySelector('.bcn-triage-add__name')?.textContent ?? '';
+        row.querySelector('[data-tpl-remove]')?.addEventListener('click', () => {
+          staged.delete(id);
+          refreshStaged();
+          refreshAddList();
+        });
+        stagedList.appendChild(row);
+      }
+    }
+
+    if (commitBtn) {
+      commitBtn.disabled = staged.size === 0;
+      const label = commitBtn.querySelector('.esa-button__label') ?? commitBtn;
+      label.textContent = staged.size > 1 ? `Add ${staged.size}` : 'Add';
+    }
+  };
+
+  const closeAddDialog = (): void => {
+    staged.clear();
+    if (dialog) dialog.open = false;
   };
 
   for (const btn of qsa<HTMLElement>('[data-triage-add]')) {
@@ -387,22 +443,41 @@ export function setupTriage(): void {
       const row = document.querySelector<HTMLElement>(`[data-triage-row="${addingFor}"]`);
       const title = row?.querySelector('.bcn-triage-row__title')?.textContent ?? '';
       if (addScope) addScope.textContent = title ? `Adding to: ${title}` : '';
+      staged.clear();
       setFieldValue(addSearch, '');
       refreshAddList();
+      refreshStaged();
       if (dialog) dialog.open = true;
     });
   }
 
   addSearch?.addEventListener('input', refreshAddList);
 
+  // Picking STAGES rather than commits: the record is not touched until Add.
   for (const option of addOptions) {
     option.addEventListener('click', () => {
-      const actionId = option.dataset.triageAddPick ?? '';
-      if (addManualCard(addingFor, actionId)) rememberManual(addingFor, actionId);
-      if (dialog) dialog.open = false;
-      render();
+      const id = option.dataset.triageAddPick ?? '';
+      if (staged.has(id)) staged.delete(id);
+      else staged.add(id);
+      refreshStaged();
+      refreshAddList();
     });
   }
+
+  commitBtn?.addEventListener('click', () => {
+    for (const id of staged) {
+      if (addManualCard(addingFor, id)) rememberManual(addingFor, id);
+    }
+    closeAddDialog();
+    render();
+  });
+
+  cancelBtn?.addEventListener('click', closeAddDialog);
+
+  // Esc and the lego's own close button both fire `close`; drop anything staged with them.
+  dialog?.addEventListener('close', () => {
+    staged.clear();
+  });
 
   // Filter dropdowns + search, supplied by the page.
   for (const el of qsa<HTMLElement>('[data-triage-filter]')) {

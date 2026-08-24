@@ -55,9 +55,19 @@ import BcnTriageReview from './BcnTriageReview.astro';
   /* .sidebar wraps, and a WRAPPED flex line sizes its cross axis to content — so
      align-items: stretch alone lets a tall pane push straight past the frame. Both panes
      take the frame's height explicitly instead, and scroll inside it. */
-  .bcn-triage-workspace__queue,
-  .bcn-triage-workspace__review {
+  .bcn-triage-workspace__queue {
     height: 100%;
+    min-height: 0;
+  }
+
+  /* The review pane stops at its content instead of filling the frame: a bordered box of
+     white below the last section reads as something missing. It still cannot outgrow the
+     frame — max-height keeps a long record scrolling inside it rather than stretching the
+     page. The QUEUE keeps its full height, because a list that shrank to its rows would
+     make the frame jump every time a filter ran. */
+  .bcn-triage-workspace__review {
+    align-self: start;
+    max-height: 100%;
     min-height: 0;
   }
 
