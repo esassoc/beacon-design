@@ -618,7 +618,7 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```

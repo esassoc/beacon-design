@@ -184,5 +184,6 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--gap`
 - `--grid-min`
 - `--justify`
+- `--page-title-icon-color`
 - `--sidebar-content-min`
 - `--sidebar-width`

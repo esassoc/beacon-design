@@ -12242,62 +12242,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-card__body {
   padding: var(--_card-padding);
 }
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  background: transparent;
-  color: inherit;
-  border-color: transparent;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
@@ -12354,6 +12298,87 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
 }
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.bcn-set {
+  display: block;
+  scroll-margin-block-start: var(--spacing-600);
+}
+.bcn-set .esa-card__subtitle {
+  line-height: 1.4;
+}
+.bcn-set__scroll {
+  overflow-x: auto;
+}
+.bcn-set__table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.bcn-set__th {
+  padding: 0 var(--spacing-400) var(--spacing-250);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-border);
+}
+.bcn-set__th:first-child,
+.bcn-set__td:first-child {
+  padding-inline-start: 0;
+}
+.bcn-set__th:last-child,
+.bcn-set__td:last-child {
+  padding-inline-end: 0;
+}
+.bcn-set__td {
+  padding: var(--spacing-250) var(--spacing-400);
+  font-size: var(--type-size-200);
+  line-height: 1.4;
+  color: var(--color-text-primary);
+  text-align: left;
+  vertical-align: middle;
+}
+.bcn-set__td--lead {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+.bcn-set__td--field {
+  min-width: 200px;
+  padding-block: var(--spacing-250);
+}
+.bcn-set__td--field esa-text-field {
+  display: block;
+  width: 100%;
+}
+.bcn-set__tr + .bcn-set__tr .bcn-set__td {
+  border-top: 1px solid var(--color-border-light);
+}
 :host {
   --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
   --_popover-border: var(--color-border-default, #cecece);
@@ -12367,105 +12392,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-popover-anchor {
   position: relative;
   display: inline-block;
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-dialog.panel {
-  --_inset: var(--side-dialog-inset, 16px);
-  position: fixed;
-  top: var(--_inset);
-  bottom: var(--_inset);
-  margin: 0;
-  border: none;
-  padding: 0;
-  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-  max-width: none;
-  max-height: none;
-  background: var(--color-background-elevation-raised, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-md, 0.5rem);
-  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-  outline: none;
-  overflow: hidden;
-  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-  transition:
-    top 220ms ease,
-    right 220ms ease,
-    bottom 220ms ease,
-    left 220ms ease;
-}
-:host([position="right"]) dialog.panel {
-  right: var(--_inset);
-  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
-}
-:host {
-  --_field-padding-y: var(--spacing-300, 0.75rem);
-  --_field-padding-x: var(--spacing-300, 0.75rem);
-  --_field-radius: var(--radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #cecece);
-  display: block;
-}
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
-         box plus its padding. A px height could not grow with rem text, so it
-         clipped — and this rule used to pair one with overflow:hidden, which is
-         what made the clipping silent. See semantic/size.json.
-
-         line-height 1 is what leaves padding as the only variable: at 1.6 there
-         is a third term (0.6 x font-size of leading) that nobody chose and that
-         grows faster than either input. Everything else — face, size, weight,
-         tracking — still comes from .typography-body-* on this element and
-         inherits to the input and the affixes below. */
-  background: var(--color-background-field, transparent);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  /* No height: 100%. It used to resolve against .control's fixed height, which
-         meant this padding was ABSORBED into that height rather than adding to it.
-         With no fixed parent it would compute to auto anyway; removing it makes the
-         padding load-bearing, which is the point. .control is align-items:stretch,
-         so the affixes still match this element's height. */
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  /* A native control does not inherit type by default — this is what opts it
-         into the composite already resolved on .control. */
-  font: inherit;
-  color: var(--form-text-color, #202020);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #838383);
-}
-.help,
-.error {
-  margin: 0;
-}
-.error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-}
-.help {
-  color: var(--form-help-color, #838383);
 }
 .bcn-settings-shell__rail {
   align-self: start;
@@ -12627,61 +12553,160 @@ dialog.panel {
   --color-border: color-mix(in srgb, #ffffff 42%, transparent);
   --color-surface-sunken: color-mix(in srgb, #ffffff 16%, transparent);
 }
-.bcn-set {
-  display: block;
-  scroll-margin-block-start: var(--spacing-600);
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
 }
-.bcn-set .esa-card__subtitle {
-  line-height: 1.4;
-}
-.bcn-set__scroll {
-  overflow-x: auto;
-}
-.bcn-set__table {
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
   width: 100%;
-  border-collapse: collapse;
-  text-align: left;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
-.bcn-set__th {
-  padding: 0 var(--spacing-400) var(--spacing-250);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-  text-align: left;
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
+  color: inherit;
+  border-color: transparent;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
   white-space: nowrap;
-  border-bottom: 1px solid var(--color-border);
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
 }
-.bcn-set__th:first-child,
-.bcn-set__td:first-child {
-  padding-inline-start: 0;
-}
-.bcn-set__th:last-child,
-.bcn-set__td:last-child {
-  padding-inline-end: 0;
-}
-.bcn-set__td {
-  padding: var(--spacing-250) var(--spacing-400);
-  font-size: var(--type-size-200);
-  line-height: 1.4;
-  color: var(--color-text-primary);
-  text-align: left;
-  vertical-align: middle;
-}
-.bcn-set__td--lead {
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  white-space: nowrap;
-}
-.bcn-set__td--field {
-  min-width: 200px;
-  padding-block: var(--spacing-250);
-}
-.bcn-set__td--field esa-text-field {
+:host {
+  --_field-padding-y: var(--spacing-300, 0.75rem);
+  --_field-padding-x: var(--spacing-300, 0.75rem);
+  --_field-radius: var(--radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #cecece);
   display: block;
-  width: 100%;
 }
-.bcn-set__tr + .bcn-set__tr .bcn-set__td {
-  border-top: 1px solid var(--color-border-light);
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
+         box plus its padding. A px height could not grow with rem text, so it
+         clipped — and this rule used to pair one with overflow:hidden, which is
+         what made the clipping silent. See semantic/size.json.
+
+         line-height 1 is what leaves padding as the only variable: at 1.6 there
+         is a third term (0.6 x font-size of leading) that nobody chose and that
+         grows faster than either input. Everything else — face, size, weight,
+         tracking — still comes from .typography-body-* on this element and
+         inherits to the input and the affixes below. */
+  background: var(--color-background-field, transparent);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  /* No height: 100%. It used to resolve against .control's fixed height, which
+         meant this padding was ABSORBED into that height rather than adding to it.
+         With no fixed parent it would compute to auto anyway; removing it makes the
+         padding load-bearing, which is the point. .control is align-items:stretch,
+         so the affixes still match this element's height. */
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  /* A native control does not inherit type by default — this is what opts it
+         into the composite already resolved on .control. */
+  font: inherit;
+  color: var(--form-text-color, #202020);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #838383);
+}
+.help,
+.error {
+  margin: 0;
+}
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+}
+.help {
+  color: var(--form-help-color, #838383);
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+dialog.panel {
+  --_inset: var(--side-dialog-inset, 16px);
+  position: fixed;
+  top: var(--_inset);
+  bottom: var(--_inset);
+  margin: 0;
+  border: none;
+  padding: 0;
+  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+  max-width: none;
+  max-height: none;
+  background: var(--color-background-elevation-raised, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-md, 0.5rem);
+  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+  outline: none;
+  overflow: hidden;
+  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+  transition:
+    top 220ms ease,
+    right 220ms ease,
+    bottom 220ms ease,
+    left 220ms ease;
+}
+:host([position="right"]) dialog.panel {
+  right: var(--_inset);
+  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
 }
 :host {
   display: inline-block;
@@ -12689,10 +12714,6 @@ dialog.panel {
 .esa-tooltip-anchor {
   position: relative;
   display: inline-flex;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
 }
 .modern-layout {
   display: flex;
@@ -13508,27 +13529,6 @@ html,
   outline: none;
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 *,
 *:before,

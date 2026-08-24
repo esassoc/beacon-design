@@ -910,7 +910,7 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```

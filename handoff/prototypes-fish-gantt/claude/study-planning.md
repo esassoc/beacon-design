@@ -38962,7 +38962,7 @@ a.breadcrumb-item {
   color: var(--bcn-gray-1000);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 .page-layout__utilities {
@@ -39765,61 +39765,9 @@ a.breadcrumb-item {
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -39918,6 +39866,62 @@ a.breadcrumb-item {
   cursor: not-allowed;
   pointer-events: none;
 }
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-md-strong {
+  font-family: var(--typography-microcopy-md-strong-font-family);
+  font-size: var(--typography-microcopy-md-strong-font-size);
+  font-weight: var(--typography-microcopy-md-strong-font-weight);
+  line-height: var(--typography-microcopy-md-strong-line-height);
+  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   display: inline-flex;
@@ -39952,10 +39956,6 @@ a.breadcrumb-item {
 }
 .bcn-rrep__add {
   align-self: flex-start;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
 }
 .bcn-gantt-coa {
   font-family: var(--font-mono);

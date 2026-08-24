@@ -182,5 +182,6 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-z`
 - `--gap`
 - `--justify`
+- `--page-title-icon-color`
 - `--sidebar-content-min`
 - `--sidebar-width`

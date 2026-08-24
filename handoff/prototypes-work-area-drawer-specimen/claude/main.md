@@ -2257,6 +2257,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
 .bcn-status-chip {
   display: inline-flex;
   align-items: center;
@@ -2361,29 +2378,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   flex-direction: column;
   gap: var(--spacing-400, 1rem);
   padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
 }
 .spec {
   max-width: 1480px;
@@ -3386,6 +3380,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .check__act {
   grid-row: 1;
   grid-column: 3;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);

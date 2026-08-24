@@ -195,7 +195,7 @@ The project record's own fields — description, start and end dates, and attach
 .esa-card__body{padding:var(--_card-padding)}
 .esa-card__footer{padding:var(--spacing-300, .75rem) var(--_card-padding);border-top:var(--border-width-default, 1px) solid var(--_card-header-border);background:var(--color-background-elevation-sunken, #f0f0f0)}
 .breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
+.page-layout__title h1 .esa-icon{color:var(--page-title-icon-color, var(--bcn-gray-1000));flex-shrink:0}
 ```
 
 ## Tokens

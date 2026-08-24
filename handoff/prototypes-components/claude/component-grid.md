@@ -4755,7 +4755,7 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .esa-icon--xl{--_icon-size: var(--icon-size-xl, 28px)}
 .esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
 .breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
+.page-layout__title h1 .esa-icon{color:var(--page-title-icon-color, var(--bcn-gray-1000));flex-shrink:0}
 .cluster{--gap: var(--spacing-300, .75rem);--align: center;--justify: flex-start;display:flex;flex-wrap:wrap;gap:var(--gap);align-items:var(--align);justify-content:var(--justify)}
 .repel{--gap: var(--spacing-400, 1rem);--align: center;display:flex;flex-wrap:wrap;gap:var(--gap);align-items:var(--align);justify-content:space-between}
 ```

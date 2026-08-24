@@ -200,7 +200,7 @@ The single-select Component picker that scopes the whole page — map, grids, an
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```

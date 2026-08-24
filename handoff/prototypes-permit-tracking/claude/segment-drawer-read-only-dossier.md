@@ -655,7 +655,7 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```

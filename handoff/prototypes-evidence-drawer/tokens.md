@@ -158,3 +158,4 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-width`
 - `--bcn-bottom-drawer-z`
 - `--gap`
+- `--page-title-icon-color`

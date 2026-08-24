@@ -692,7 +692,7 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```

@@ -866,7 +866,7 @@ svg.leaflet-zoom-animated{will-change:transform}
 .bcn-fmap__key[data-shape=area]{width:14px;height:10px;border-radius:2px;background:color-mix(in srgb,var(--_cmap-key, #dcdcdc) 18%,transparent);border:1px solid var(--_cmap-key, #dcdcdc)}
 .bcn-fmap__key[data-shape=line]{width:16px;height:0;background:none;border-top:2px dashed var(--_cmap-key, #dcdcdc)}
 .breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
+.page-layout__title h1 .esa-icon{color:var(--page-title-icon-color, var(--bcn-gray-1000));flex-shrink:0}
 .stack{--gap: var(--spacing-400, 1rem);display:flex;flex-direction:column;gap:var(--gap)}
 .stack[data-split]>[data-split]{margin-block-end:auto}
 .cluster{--gap: var(--spacing-300, .75rem);--align: center;--justify: flex-start;display:flex;flex-wrap:wrap;gap:var(--gap);align-items:var(--align);justify-content:var(--justify)}

@@ -2350,6 +2350,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
 .bcn-status-chip {
   display: inline-flex;
   align-items: center;
@@ -2454,59 +2471,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   flex-direction: column;
   gap: var(--spacing-400, 1rem);
   padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
 }
 body {
   background: var(--color-background);
@@ -3512,6 +3476,42 @@ body {
 .check__act {
   grid-row: 1;
   grid-column: 3;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);

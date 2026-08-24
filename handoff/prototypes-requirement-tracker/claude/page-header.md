@@ -391,7 +391,7 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   color: var(--bcn-gray-1000);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```

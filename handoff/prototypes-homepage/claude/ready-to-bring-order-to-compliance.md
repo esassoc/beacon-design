@@ -127,13 +127,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
 .bcn-mkt-section {
   --_section-pad: clamp(48px, 8vw, 96px);
   padding-block: var(--_section-pad);
@@ -272,6 +265,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   background: var(--color-primary);
   padding: var(--spacing-100) var(--spacing-300);
   border-radius: var(--radius-full, 9999px);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

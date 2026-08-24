@@ -248,7 +248,7 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```
