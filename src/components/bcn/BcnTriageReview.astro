@@ -198,10 +198,7 @@ const pickerOptions = (componentId: string) =>
                 })}
               </div>
             ) : (
-              <p class="bcn-triage-review__nonetext">
-                Nothing matched closely enough to propose. Attach it to an action yourself, or
-                dismiss it if it is not evidence of compliance.
-              </p>
+              <p class="bcn-triage-review__nonetext">No matches found</p>
             )}
 
           </section>
@@ -378,9 +375,12 @@ const pickerOptions = (componentId: string) =>
     color: var(--color-text-primary);
   }
 
-  /* The one field that is a to-do rather than a fact. */
+  /* An ABSENCE, not a warning. Orange claimed something was wrong; muted italic says the
+     field simply has no value yet, which is all "Not set" means. */
   .bcn-triage-review__facts dd[data-warn] {
-    color: var(--color-warning-strong, var(--color-text-primary));
+    font-weight: var(--font-weight-regular, 400);
+    font-style: italic;
+    color: var(--color-text-muted);
   }
 
   /* The files disclosure closes out the record block, divided by a rule rather than given a
@@ -471,16 +471,22 @@ const pickerOptions = (componentId: string) =>
        should not out-measure the text it belongs to.
        SANCTIONED HARD-CODE: --badge-height-md is a real hook but no token defines it. */
     --badge-height-md: 22px;
-    --badge-bg: var(--color-surface-sunken);
+    --badge-bg: var(--color-info-subtle);
     --badge-text-color: var(--color-text-primary);
+    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
     font-weight: var(--font-weight-semibold);
   }
 
+  /* Centred and italic: this is the section reporting on ITSELF, not prose addressed to the
+     reader, and italic is how the house marks a line as a state rather than as content. */
   .bcn-triage-review__nonetext {
     margin: 0;
+    padding: var(--spacing-200) 0;
     font-size: 0.8125rem;
+    font-style: italic;
     line-height: 1.45;
-    color: var(--color-text-secondary);
+    text-align: center;
+    color: var(--color-text-muted);
   }
 
   .bcn-triage-review__sugs {
@@ -522,10 +528,14 @@ const pickerOptions = (componentId: string) =>
      surface things are filed INTO is one value down, which makes the cards on it read as
      objects rather than as regions of the panel.
      --card-* are esa-card's own public hooks. */
+  /* A blue edge ALL AROUND, not a thicker rule on one side. A single coloured edge used to
+     mean "this is a suggestion" is the colored-left-border status pattern design-principles
+     bans outright; a full border says the same thing about the whole object without smuggling
+     the meaning into one side. White fill keeps the card an object, not a tinted region. */
   .bcn-triage-sug {
     --card-padding: var(--spacing-250);
     --card-bg: var(--color-surface);
-    --card-border-color: var(--color-border);
+    --card-border-color: color-mix(in srgb, var(--color-info) 45%, transparent);
     --card-radius: var(--radius-100);
   }
 
@@ -618,7 +628,11 @@ const pickerOptions = (componentId: string) =>
     padding-block: var(--spacing-150);
   }
 
+  /* esa-collapsible's body ships a --spacing-400 BOTTOM padding, which stacked on the
+     section's own and left the expanded picker swimming. The section already provides that
+     space, so the body only needs its top gap. */
   .bcn-triage-review__attach :global(.esa-collapsible[open] .esa-collapsible__body) {
     padding-top: var(--spacing-150);
+    padding-bottom: 0;
   }
 </style>

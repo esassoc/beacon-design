@@ -7,10 +7,11 @@
 // a match without reading why it was made, which is the one thing this surface exists to
 // prevent.
 //
-// Rows the utility was not confident about say so plainly. That is the case Jamie raised in
-// the sync: you can review the suggestions the utility makes, but never the ones it fails to
-// make. A record sitting here marked "Nothing proposed" is the queue admitting the gap rather
-// than showing an empty panel and letting it age out of sight.
+// A record the utility proposed nothing for carries no badge at all — the absence is the
+// signal, and it keeps every row to the same two lines. It is still reachable: the Match
+// filter's "Nothing proposed" option selects exactly those rows, which is where the case
+// Jamie raised in the sync now lives (you can review the suggestions the utility makes, but
+// never the ones it fails to make).
 //
 // NO BULK SELECTION. There are no row checkboxes and no select-all: one record at a time,
 // each on its own merits. Approving a screenful at once is a real need for the repetitive
@@ -128,19 +129,19 @@ const rowFor = (item: TriageItem) => {
 
                       Zero is words, not a badge: a "0" chip is a number that means nothing,
                       and this is the case that most needs a person, so it says so. */}
-                  <div class="bcn-triage-row__foot">
-                    {row.total > 0 ? (
+                  {/* A record with nothing proposed says nothing at all — the absent badge
+                      IS the signal, and the row stays two lines instead of spending a third
+                      on a negative. The Match filter still separates these rows on
+                      data-match, so only the words are gone. */}
+                  {row.total > 0 && (
+                    <div class="bcn-triage-row__foot">
                       <span class="bcn-triage-row__match bcn-triage-row__sug">
                         <EsaBadge
                           value={`${row.total} suggested action${row.total === 1 ? '' : 's'}`}
                         />
                       </span>
-                    ) : (
-                      <span class="bcn-triage-row__match bcn-triage-row__state" data-state="unmatched">
-                        Nothing proposed
-                      </span>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </li>
               );
             })}
@@ -379,20 +380,6 @@ const rowFor = (item: TriageItem) => {
     --badge-height-md: 24px;
     border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
     font-weight: var(--font-weight-medium);
-  }
-
-  /* The no-suggestions case stays plain text — it is not a count, and giving it a chip of its
-     own would make the two states compete instead of contrast. It earns attention by
-     DARKENING rather than by taking a fill: the house rule for small text is never gray out
-     as you shrink. */
-  .bcn-triage-row__state {
-    font-size: 0.8125rem;
-    color: var(--color-text-secondary);
-  }
-
-  .bcn-triage-row__state[data-state='unmatched'] {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
   }
 
   .bcn-triage-queue__empty {
