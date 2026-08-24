@@ -101,12 +101,12 @@
      left looking load-bearing. Restoring Beacon's compact density is a hub
      request (/request-lego), not a theme override. */
 
-  /* Beacon rounds every control to a flat 4px ($input-border-radius = $radius-md
-     = 4px). The hub defaults md/lg to 8px (--radius-200), so buttons + inputs
-     read more rounded than Beacon. Re-point all four to 4px (--radius-100). */
+  /* Beacon rounds to a flat 4px ($input-border-radius = $radius-md = 4px).
+     WIDER THAN BEFORE (2026-08-24): the old --form-radius-* re-point scoped the
+     4px to form controls; the hub deleted that surface, so migrate-tokens moved
+     it onto the semantic --radius-sm/md aliases — which every md-radius consumer
+     (cards, dialogs, popovers) now inherits, matching prod's flatter chrome. */
   --radius-sm: var(--radius-100);
-  --radius-sm: var(--radius-100);
-  --radius-md: var(--radius-100);
   --radius-md: var(--radius-100);
 
   /* Beacon's warning fill (#f2770e) is dark enough for white text — its ui-button
