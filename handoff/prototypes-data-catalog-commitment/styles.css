@@ -163,6 +163,365 @@
   --typography-microcopy-xs-strong-line-height: 1;
 }
 
+:host {
+  display: inline-block;
+
+  --_filter-height: 40px;
+  --_filter-padding-x: var(--spacing-400, 1rem);
+  --_filter-radius: var(--radius-md, 0.5rem);
+  --_filter-bg: var(--color-background-elevation-raised, #fcfcfc);
+  --_filter-bg-active: var(--color-background-brand-subtle, #fbfefb);
+  --_filter-text: var(--color-content-default, #202020);
+  --_filter-text-active: var(--color-background-brand, #46a758);
+  --_filter-border: var(--color-border-default, #cecece);
+  --_filter-border-active: var(--color-background-brand, #46a758);
+}
+:host([size="sm"]) {
+  --_filter-height: 32px;
+  --_filter-padding-x: var(--spacing-300, 0.75rem);
+  --_filter-radius: var(--radius-sm, 0.25rem);
+}
+.esa-filter-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+.esa-filter-dropdown__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.25rem);
+  height: var(--_filter-height);
+  padding-inline: var(--_filter-padding-x);
+  border: var(--border-width-default, 1px) solid var(--_filter-border);
+  border-radius: var(--_filter-radius);
+  background: var(--_filter-bg);
+  color: var(--_filter-text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--transition-fast, 150ms ease),
+    border-color var(--transition-fast, 150ms ease),
+    color var(--transition-fast, 150ms ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-filter-dropdown__label {
+  /* clip/visible, not "overflow: hidden" — the trigger sets a microcopy composite,
+         whose line-height "none" (1) leaves the line box 1em against DM Sans's 1.30em
+         glyph box, so hiding the Y axis clips the descenders in a label like
+         "Category" or "Region type". Same fix as esa-file-list's .file__name, where
+         the arithmetic is written out. */
+  overflow-x: clip;
+  overflow-y: visible;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+.esa-filter-dropdown__arrow {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  transition: transform var(--transition-fast, 150ms ease);
+}
+.esa-filter-dropdown__arrow svg {
+  width: 20px;
+  height: 20px;
+}
+:host {
+  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+  --_popover-border: var(--color-border-default, #cecece);
+  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--radius-md, 0.5rem);
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--color-content-default, #202020);
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
+}
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.typography-microcopy-sm-subtle {
+  font-family: var(--typography-microcopy-sm-subtle-font-family);
+  font-size: var(--typography-microcopy-sm-subtle-font-size);
+  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
+  line-height: var(--typography-microcopy-sm-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+:host {
+  display: contents;
+}
+dialog.esa-confirm-dialog {
+  position: relative;
+  border: none;
+  padding: 0;
+  margin: auto;
+  width: var(--confirm-dialog-width, 360px);
+  max-width: calc(100vw - 2rem);
+  background: var(--color-background-elevation-floating, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-lg, 0.75rem);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
+}
+:host {
+  display: block;
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150, 6px);
+}
+.file {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  /* hub-edit-approved: Andrew (front-end architect) approved in-session — add a
+         backward-compatible density knob so consumers can give file rows more breathing
+         room without restyling the shadow DOM. Defaults reproduce the original tight row. */
+  padding: var(--file-list-row-padding-y, 2px)
+    var(--file-list-row-padding-x, var(--spacing-300, 12px));
+  /* --border-width-default, not --form-border-width: a file row is not a form
+         control, and the colour half of this very declaration already reads the
+         tier-2 role. --form-border-width is a thin alias over the same token, so
+         this is value-neutral and stops a spoke's input restyling from reaching
+         file rows. */
+  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
+  border-radius: var(--radius-sm, 0.25rem);
+  background: var(--color-background-elevation-raised, #fcfcfc);
+}
+.file__icon {
+  display: inline-flex;
+  color: var(--color-content-default-secondary, #646464);
+}
+.file__icon svg {
+  width: 16px;
+  height: 16px;
+}
+.file__name {
+  min-width: 0;
+  /* CLIP THE X AXIS ONLY — "overflow: hidden" here sliced the descenders off
+         every g/j/p/q/y in a filename. The row carries .typography-microcopy-sm-subtle,
+         so line-height is "none" (1): the line box is exactly 1em tall while DM Sans's
+         glyph box needs 1.30em (0.99 ascent + 0.31 descent). Half-leading is therefore
+         NEGATIVE (-0.15em) and the baseline sits 0.16em off the bottom, but the
+         descender ink reaches 0.21em — ~1px of it below the box at 14px. Hiding both
+         axes clips that ink; hiding one and leaving the other visible does not.
+         clip/visible is the legal pair (hidden/visible is not — it computes to auto
+         and can grow a scrollbar), text-overflow: ellipsis still applies, and the box
+         height is unchanged, so nothing in the grid row moves. Verified truncating in
+         Chromium, WebKit and Firefox. Do not collapse this back to "overflow: hidden". */
+  overflow-x: clip;
+  overflow-y: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-content-default, #202020);
+  /* Transparent, not 'none'. text-decoration-color IS force-adjusted, so the
+         underline comes back in forced colors and a linked filename stays
+         distinguishable from an unlinked one — which here is otherwise a pure
+         colour difference. Removing the decoration outright cannot come back. */
+  text-decoration-color: transparent;
+}
+a.file__name {
+  color: var(--color-content-brand, #2a7e3b);
+}
+.file__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-050, 2px);
+}
+.file__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-content-default-secondary, #646464);
+  border-radius: var(--radius-sm, 0.25rem);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--transition-fast, 150ms ease),
+    color var(--transition-fast, 150ms ease);
+}
+.file__btn svg {
+  width: 15px;
+  height: 15px;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -246,6 +605,777 @@
   );
   color: var(--_accent-text);
   border-color: var(--color-border-default-strong, #bbbbbb);
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-pill {
+  --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  --_pill-text: var(--color-content-default, #202020);
+  --_pill-border: var(--color-border-default-subtle, #d9d9d9);
+  --_pill-padding-y: var(--spacing-150, 0.375rem);
+  --_pill-padding-x: var(--spacing-200, 0.5rem);
+  --_pill-gap: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_pill-gap);
+  padding-block: var(--_pill-padding-y);
+  padding-inline: var(--_pill-padding-x);
+  border: var(--border-width-default, 1px) solid var(--_pill-border);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_pill-bg);
+  color: var(--_pill-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-pill--sm {
+  --_pill-padding-y: var(--spacing-100, 0.25rem);
+  --_pill-padding-x: var(--spacing-150, 0.375rem);
+}
+:host {
+  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
+  --_dialog-border-radius: var(--radius-lg, 0.75rem);
+  --_dialog-padding: var(--spacing-500, 1.5rem);
+  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
+  /* Header/footer surface tints. These were --dialog-header-bg /
+         --dialog-footer-bg, declared in no token file — a hook offered on the
+         strength of a fallback nobody had asked to override. Folded to their
+         literal default 2026-08-16; --dialog-* is a live namespace, so they come
+         back as declarations the day a spoke actually wants to frame the body. */
+  --_dialog-header-bg: transparent;
+  --_dialog-footer-bg: transparent;
+  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+  --_dialog-width: var(--dialog-width, 480px);
+  --_dialog-max-height: 85vh;
+}
+dialog.esa-dialog {
+  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
+         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
+         panel renders inside a second, smaller box. */
+  border: none;
+  padding: 0;
+  margin: auto;
+  background: var(--_dialog-bg);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--_dialog-border-radius);
+  box-shadow: var(--_dialog-shadow);
+  width: var(--_dialog-width);
+  max-width: 100vw;
+  max-height: var(--_dialog-max-height);
+  overflow: hidden;
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
+}
+.page-layout__title {
+  display: none !important;
+}
+.bcn-cmt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-600);
+}
+.bcn-cmt__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  padding-bottom: var(--spacing-400);
+  border-bottom: 1px solid var(--color-border);
+}
+.bcn-cmt__identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+  min-width: 0;
+}
+.bcn-cmt__badge {
+  flex-shrink: 0;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-100);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.bcn-cmt__badge--commitment {
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+}
+.bcn-cmt__title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-cmt__title {
+  margin: 0;
+  font-family: var(--font-decorative);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+.bcn-cmt__badge--type {
+  color: var(--color-text-secondary);
+  background: var(--color-surface-sunken);
+  transform: translateY(2px);
+}
+.bcn-cmt__head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-shrink: 0;
+}
+.bcn-btn-ico {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+.bcn-cmt__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--spacing-600);
+  align-items: start;
+}
+.bcn-cmt__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-600);
+}
+.bcn-cmt__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  margin: 0;
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-cmttext {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.bcn-cmttext__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-cmttext__item {
+  font-family: var(--font-decorative);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text-primary);
+}
+.bcn-cmttext__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+  padding-top: var(--spacing-200);
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-cmt__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+}
+.bcn-count-neutral {
+  display: inline-flex;
+  align-items: center;
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+}
+.bcn-reqfilters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+}
+.bcn-reqfilters esa-text-field {
+  max-width: 360px;
+}
+.bcn-reqfilters__row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-300);
+}
+.bcn-row-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  background: var(--color-surface);
+  text-decoration: none;
+  transition: background-color 0.12s ease;
+}
+.bcn-row__name {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-row .bcn-cmt__badge--type,
+.bcn-row .bcn-cmt__badge--phase {
+  transform: none;
+}
+.bcn-cmt__badge--phase {
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid var(--color-border);
+}
+.bcn-row > .esa-icon:last-child {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+  transition:
+    transform 0.12s ease,
+    color 0.12s ease;
+}
+.bcn-reqs__empty {
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-200);
+  padding: var(--spacing-400);
+}
+#cmt-files {
+  --file-list-row-padding-y: var(--spacing-200);
+}
+.bcn-cmt__rail {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+}
+.bcn-cmt__rail .esa-collapsible__title {
+  font-size: var(--type-size-250);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-lineage {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-lineage__node {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-300);
+  padding-bottom: var(--spacing-400);
+}
+.bcn-lineage__node:before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 30px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--color-border);
+}
+.bcn-lineage__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+.bcn-lineage__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  padding-top: 2px;
+}
+.bcn-lineage__kind {
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  width: fit-content;
+}
+.bcn-lineage__name {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.35;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.bcn-lineage__node--current .bcn-lineage__icon {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+.bcn-lineage__name--current {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-lineage__node.bcn-lineage__node--child {
+  align-items: center;
+}
+.bcn-lineage__node--child .bcn-lineage__body {
+  flex: 1;
+  padding-top: 0;
+}
+.bcn-lineage__node--child .bcn-lineage__name {
+  font-size: 0.75rem;
+}
+.bcn-lineage__node--child .bcn-count-neutral {
+  flex-shrink: 0;
+}
+.bcn-lineage__node:last-child {
+  padding-bottom: 0;
+}
+.bcn-lineage__node:last-child:before {
+  display: none;
+}
+.bcn-tagrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-150);
+  margin-top: var(--spacing-100);
+}
+.bcn-tagrow .esa-pill {
+  border-radius: var(--radius-100);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+.bcn-rail-meta {
+  margin: var(--spacing-300) 0 0;
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border-light);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+.bcn-lists {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-list-link {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.bcn-revs .bcn-lineage__body {
+  gap: 2px;
+}
+.bcn-revs__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+}
+.bcn-revs .bcn-lineage__kind {
+  color: var(--color-text-tertiary);
+}
+.bcn-revs__edit {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+}
+.bcn-revs__summary {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+.bcn-revs__meta {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+.bcn-revs__by {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  margin-top: 1px;
+}
+.bcn-revs__add {
+  padding-top: var(--spacing-300);
+}
+#add-rev {
+  display: block;
+}
+#add-rev .esa-button {
+  width: 100%;
+  justify-content: center;
+}
+.bcn-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-form--dialog {
+  padding: var(--spacing-100) 0;
+}
+.bcn-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-300);
+}
+.bcn-form esa-input-tag {
+  --_chip-bg: var(--color-surface-sunken);
+  --_chip-color: var(--color-text-primary);
+  --_chip-radius: var(--radius-100);
+}
+.bcn-editor__foot {
+  display: flex;
+  gap: var(--spacing-300);
+  justify-content: flex-end;
+  width: 100%;
+}
+.bcn-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+}
+.bcn-field__label {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+.bcn-source-pdf {
+  height: 100%;
+  min-height: 60vh;
+}
+.bcn-source-pdf__frame {
+  width: 100%;
+  height: 100%;
+  min-height: 60vh;
+  border: 0;
+  border-radius: var(--radius-200);
+  background: var(--color-surface-sunken);
+}
+.bcn-source-foot {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+:host {
+  --_field-padding-y: var(--spacing-300, 0.75rem);
+  --_field-padding-x: var(--spacing-300, 0.75rem);
+  --_field-radius: var(--radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #cecece);
+  display: block;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
+         box plus its padding. A px height could not grow with rem text, so it
+         clipped — and this rule used to pair one with overflow:hidden, which is
+         what made the clipping silent. See semantic/size.json.
+
+         line-height 1 is what leaves padding as the only variable: at 1.6 there
+         is a third term (0.6 x font-size of leading) that nobody chose and that
+         grows faster than either input. Everything else — face, size, weight,
+         tracking — still comes from .typography-body-* on this element and
+         inherits to the input and the affixes below. */
+  background: var(--color-background-field, transparent);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  /* No height: 100%. It used to resolve against .control's fixed height, which
+         meant this padding was ABSORBED into that height rather than adding to it.
+         With no fixed parent it would compute to auto anyway; removing it makes the
+         padding load-bearing, which is the point. .control is align-items:stretch,
+         so the affixes still match this element's height. */
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  /* A native control does not inherit type by default — this is what opts it
+         into the composite already resolved on .control. */
+  font: inherit;
+  color: var(--form-text-color, #202020);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #838383);
+}
+.help,
+.error {
+  margin: 0;
+}
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+}
+.help {
+  color: var(--form-help-color, #838383);
+}
+:host {
+  display: block;
+}
+.native {
+  display: none;
+}
+.zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-100, 4px);
+  padding: var(--spacing-600, 32px) var(--spacing-400, 16px);
+  /* The colour half was wired from the start; the width was a bare 2px until
+         2026-08-16, because no tier-2 width meant 2px (default is the 1px
+         hairline, focus means the ring). That literal is why the kit could keep
+         claiming no component needed an emphasis role — a hardcoded number does
+         not show up in a survey of token reads, so the one border that wanted
+         the role was the one border the survey could not see. */
+  border: var(--border-width-emphasis, 2px) dashed var(--form-border-color, #cecece);
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--color-background-field, transparent);
+  cursor: pointer;
+  text-align: center;
+  color: var(--color-content-default-secondary, #646464);
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    background var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.icon {
+  width: var(--icon-size-md, 20px);
+  height: var(--icon-size-md, 20px);
+  flex-shrink: 0;
+}
+.icon--lg {
+  width: var(--icon-size-lg, 24px);
+  height: var(--icon-size-lg, 24px);
+}
+.zone__label {
+  color: var(--color-content-default, #202020);
+}
+.zone__hint {
+  color: var(--color-content-default-secondary, #646464);
+}
+.browse {
+  color: var(--color-content-brand, #2a7e3b);
+  text-decoration: underline;
+}
+.zone__limit {
+  color: var(--color-content-default-secondary, #646464);
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+:host([size="lg"]) {
+  --_width: var(--side-dialog-width-lg, 520px);
+}
+dialog.panel {
+  --_inset: var(--side-dialog-inset, 16px);
+  position: fixed;
+  top: var(--_inset);
+  bottom: var(--_inset);
+  margin: 0;
+  border: none;
+  padding: 0;
+  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+  max-width: none;
+  max-height: none;
+  background: var(--color-background-elevation-raised, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-md, 0.5rem);
+  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+  outline: none;
+  overflow: hidden;
+  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+  transition:
+    top 220ms ease,
+    right 220ms ease,
+    bottom 220ms ease,
+    left 220ms ease;
+}
+:host([position="right"]) dialog.panel {
+  right: var(--_inset);
+  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+}
+:host {
+  display: block;
+  --_field-padding-y: var(--spacing-300, 0.75rem);
+  --_field-padding-x: var(--spacing-300, 0.75rem);
+  --_field-radius: var(--radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #cecece);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+}
+.field__label {
+  /* Was the last reader of --form-label-font-size and one of two readers of
+         --form-label-font-weight. Both are retired with the rest of the size-only
+         ramp; the composite carries size and weight together. */
+  color: var(--form-label-color, #646464);
+}
+.field__required {
+  color: var(--color-content-utility-danger, #ce2c31);
+  margin-left: 2px;
+}
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+}
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.input {
+  width: 100%;
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  padding-inline-end: calc(var(--_field-padding-x) + 24px);
+  /* The box is content + padding since heights were removed (2026-08-14), so
+         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
+         is. On a single-line control leading has no typographic job: there is one
+         line, and the space above and below it is invisible. Letting the body-*
+         composite's relaxed leading through added 12px here at md and made this
+         field 7px taller than esa-text-field on the same step, breaking the row
+         alignment component-tokens.css promises.
+         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
+         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
+         whose composite declares the line-height for us — there is deliberately no
+         line-height declaration in this rule, because one here would outrank the
+         composite rather than agree with it. A static padding offset was the other option and
+         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
+         is re-pointable by a theme, so an offset would cancel it at exactly one
+         viewport. esa-textarea stays on a body-* composite on purpose — it is
+         genuinely multi-line, so its leading has a typographic job. */
+  color: var(--form-text-color, #202020);
+  background: var(--color-background-field, transparent);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input--trigger {
+  display: block;
+  text-align: start;
+  font: inherit;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.input--placeholder {
+  color: var(--form-placeholder-color, #838383);
+}
+.arrow {
+  position: absolute;
+  right: var(--_field-padding-x);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--color-content-default-secondary, #646464);
+  pointer-events: none;
+  transition: transform var(--transition-fast, 150ms ease);
+}
+.arrow svg {
+  width: var(--icon-size-md, 20px);
+  height: var(--icon-size-md, 20px);
+}
+.field__error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+}
+.field__help {
+  color: var(--form-help-color, #838383);
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
 }
 .modern-layout {
   display: flex;
@@ -1043,1139 +2173,9 @@
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
-:host {
-  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-  --_popover-border: var(--color-border-default, #cecece);
-  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--radius-md, 0.5rem);
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--color-content-default, #202020);
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
-}
-.page-layout__title {
-  display: none !important;
-}
-.bcn-cmt {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-cmt__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding-bottom: var(--spacing-400);
-  border-bottom: 1px solid var(--color-border);
-}
-.bcn-cmt__identity {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-cmt__badge {
-  flex-shrink: 0;
-  padding: 0.125rem 0.375rem;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  white-space: nowrap;
-}
-.bcn-cmt__badge--commitment {
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
-.bcn-cmt__title-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-cmt__title {
-  margin: 0;
-  font-family: var(--font-decorative);
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-  color: var(--color-text-primary);
-}
-.bcn-cmt__badge--type {
-  color: var(--color-text-secondary);
-  background: var(--color-surface-sunken);
-  transform: translateY(2px);
-}
-.bcn-cmt__head-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  flex-shrink: 0;
-}
-.bcn-btn-ico {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.bcn-cmt__body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: var(--spacing-600);
-  align-items: start;
-}
-.bcn-cmt__main {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-cmt__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-section-title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0;
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-cmttext {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.bcn-cmttext__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-cmttext__item {
-  font-family: var(--font-decorative);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--color-text-primary);
-}
-.bcn-cmttext__footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-100);
-  padding-top: var(--spacing-200);
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-cmt__section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-}
-.bcn-count-neutral {
-  display: inline-flex;
-  align-items: center;
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-reqfilters {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-250);
-}
-.bcn-reqfilters esa-text-field {
-  max-width: 360px;
-}
-.bcn-reqfilters__row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-300);
-}
-.bcn-row-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-  text-decoration: none;
-  transition: background-color 0.12s ease;
-}
-.bcn-row__name {
-  flex: 1;
-  min-width: 0;
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-row .bcn-cmt__badge--type,
-.bcn-row .bcn-cmt__badge--phase {
-  transform: none;
-}
-.bcn-cmt__badge--phase {
-  color: var(--color-text-secondary);
-  background: transparent;
-  border: 1px solid var(--color-border);
-}
-.bcn-row > .esa-icon:last-child {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-  transition:
-    transform 0.12s ease,
-    color 0.12s ease;
-}
-.bcn-reqs__empty {
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-200);
-  padding: var(--spacing-400);
-}
-#cmt-files {
-  --file-list-row-padding-y: var(--spacing-200);
-}
-.bcn-cmt__rail {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500);
-}
-.bcn-cmt__rail .esa-collapsible__title {
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-lineage {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-lineage__node {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-300);
-  padding-bottom: var(--spacing-400);
-}
-.bcn-lineage__node:before {
-  content: "";
-  position: absolute;
-  left: 13px;
-  top: 30px;
-  bottom: 2px;
-  width: 2px;
-  background: var(--color-border);
-}
-.bcn-lineage__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-.bcn-lineage__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-  padding-top: 2px;
-}
-.bcn-lineage__kind {
-  font-size: 0.75rem;
-  color: var(--color-primary);
-  text-decoration: none;
-  width: fit-content;
-}
-.bcn-lineage__name {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.35;
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-lineage__node--current .bcn-lineage__icon {
-  border-color: var(--color-primary);
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-}
-.bcn-lineage__name--current {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-lineage__node.bcn-lineage__node--child {
-  align-items: center;
-}
-.bcn-lineage__node--child .bcn-lineage__body {
-  flex: 1;
-  padding-top: 0;
-}
-.bcn-lineage__node--child .bcn-lineage__name {
-  font-size: 0.75rem;
-}
-.bcn-lineage__node--child .bcn-count-neutral {
-  flex-shrink: 0;
-}
-.bcn-lineage__node:last-child {
-  padding-bottom: 0;
-}
-.bcn-lineage__node:last-child:before {
-  display: none;
-}
-.bcn-tagrow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-150);
-  margin-top: var(--spacing-100);
-}
-.bcn-tagrow .esa-pill {
-  border-radius: var(--radius-100);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-rail-meta {
-  margin: var(--spacing-300) 0 0;
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-light);
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-.bcn-lists {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-150);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-list-link {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-revs .bcn-lineage__body {
-  gap: 2px;
-}
-.bcn-revs__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-200);
-}
-.bcn-revs .bcn-lineage__kind {
-  color: var(--color-text-tertiary);
-}
-.bcn-revs__edit {
-  border: 0;
-  background: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-}
-.bcn-revs__summary {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-revs__meta {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-.bcn-revs__by {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-  margin-top: 1px;
-}
-.bcn-revs__add {
-  padding-top: var(--spacing-300);
-}
-#add-rev {
-  display: block;
-}
-#add-rev .esa-button {
-  width: 100%;
-  justify-content: center;
-}
-.bcn-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-form--dialog {
-  padding: var(--spacing-100) 0;
-}
-.bcn-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-300);
-}
-.bcn-form esa-input-tag {
-  --_chip-bg: var(--color-surface-sunken);
-  --_chip-color: var(--color-text-primary);
-  --_chip-radius: var(--radius-100);
-}
-.bcn-editor__foot {
-  display: flex;
-  gap: var(--spacing-300);
-  justify-content: flex-end;
-  width: 100%;
-}
-.bcn-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-}
-.bcn-field__label {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-}
-.bcn-source-pdf {
-  height: 100%;
-  min-height: 60vh;
-}
-.bcn-source-pdf__frame {
-  width: 100%;
-  height: 100%;
-  min-height: 60vh;
-  border: 0;
-  border-radius: var(--radius-200);
-  background: var(--color-surface-sunken);
-}
-.bcn-source-foot {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-:host {
-  display: block;
-}
-.native {
-  display: none;
-}
-.zone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-100, 4px);
-  padding: var(--spacing-600, 32px) var(--spacing-400, 16px);
-  /* The colour half was wired from the start; the width was a bare 2px until
-         2026-08-16, because no tier-2 width meant 2px (default is the 1px
-         hairline, focus means the ring). That literal is why the kit could keep
-         claiming no component needed an emphasis role — a hardcoded number does
-         not show up in a survey of token reads, so the one border that wanted
-         the role was the one border the survey could not see. */
-  border: var(--border-width-emphasis, 2px) dashed var(--form-border-color, #cecece);
-  border-radius: var(--radius-md, 0.5rem);
-  background: var(--color-background-field, transparent);
-  cursor: pointer;
-  text-align: center;
-  color: var(--color-content-default-secondary, #646464);
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    background var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.icon {
-  width: var(--icon-size-md, 20px);
-  height: var(--icon-size-md, 20px);
-  flex-shrink: 0;
-}
-.icon--lg {
-  width: var(--icon-size-lg, 24px);
-  height: var(--icon-size-lg, 24px);
-}
-.zone__label {
-  color: var(--color-content-default, #202020);
-}
-.zone__hint {
-  color: var(--color-content-default-secondary, #646464);
-}
-.browse {
-  color: var(--color-content-brand, #2a7e3b);
-  text-decoration: underline;
-}
-.zone__limit {
-  color: var(--color-content-default-secondary, #646464);
-}
-:host {
-  display: contents;
-}
-dialog.esa-confirm-dialog {
-  position: relative;
-  border: none;
-  padding: 0;
-  margin: auto;
-  width: var(--confirm-dialog-width, 360px);
-  max-width: calc(100vw - 2rem);
-  background: var(--color-background-elevation-floating, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-lg, 0.75rem);
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.15),
-    0 4px 16px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-}
-:host {
-  display: inline-block;
-
-  --_filter-height: 40px;
-  --_filter-padding-x: var(--spacing-400, 1rem);
-  --_filter-radius: var(--radius-md, 0.5rem);
-  --_filter-bg: var(--color-background-elevation-raised, #fcfcfc);
-  --_filter-bg-active: var(--color-background-brand-subtle, #fbfefb);
-  --_filter-text: var(--color-content-default, #202020);
-  --_filter-text-active: var(--color-background-brand, #46a758);
-  --_filter-border: var(--color-border-default, #cecece);
-  --_filter-border-active: var(--color-background-brand, #46a758);
-}
-:host([size="sm"]) {
-  --_filter-height: 32px;
-  --_filter-padding-x: var(--spacing-300, 0.75rem);
-  --_filter-radius: var(--radius-sm, 0.25rem);
-}
-.esa-filter-dropdown {
-  position: relative;
-  display: inline-flex;
-}
-.esa-filter-dropdown__trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  height: var(--_filter-height);
-  padding-inline: var(--_filter-padding-x);
-  border: var(--border-width-default, 1px) solid var(--_filter-border);
-  border-radius: var(--_filter-radius);
-  background: var(--_filter-bg);
-  color: var(--_filter-text);
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background var(--transition-fast, 150ms ease),
-    border-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-filter-dropdown__label {
-  /* clip/visible, not "overflow: hidden" — the trigger sets a microcopy composite,
-         whose line-height "none" (1) leaves the line box 1em against DM Sans's 1.30em
-         glyph box, so hiding the Y axis clips the descenders in a label like
-         "Category" or "Region type". Same fix as esa-file-list's .file__name, where
-         the arithmetic is written out. */
-  overflow-x: clip;
-  overflow-y: visible;
-  text-overflow: ellipsis;
-  max-width: 200px;
-}
-.esa-filter-dropdown__arrow {
-  display: inline-flex;
-  width: 20px;
-  height: 20px;
-  transition: transform var(--transition-fast, 150ms ease);
-}
-.esa-filter-dropdown__arrow svg {
-  width: 20px;
-  height: 20px;
-}
-:host {
-  display: block;
-  --_field-padding-y: var(--spacing-300, 0.75rem);
-  --_field-padding-x: var(--spacing-300, 0.75rem);
-  --_field-radius: var(--radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #cecece);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.field__label {
-  /* Was the last reader of --form-label-font-size and one of two readers of
-         --form-label-font-weight. Both are retired with the rest of the size-only
-         ramp; the composite carries size and weight together. */
-  color: var(--form-label-color, #646464);
-}
-.field__required {
-  color: var(--color-content-utility-danger, #ce2c31);
-  margin-left: 2px;
-}
-.container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-.input {
-  width: 100%;
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  padding-inline-end: calc(var(--_field-padding-x) + 24px);
-  /* The box is content + padding since heights were removed (2026-08-14), so
-         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
-         is. On a single-line control leading has no typographic job: there is one
-         line, and the space above and below it is invisible. Letting the body-*
-         composite's relaxed leading through added 12px here at md and made this
-         field 7px taller than esa-text-field on the same step, breaking the row
-         alignment component-tokens.css promises.
-         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
-         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
-         whose composite declares the line-height for us — there is deliberately no
-         line-height declaration in this rule, because one here would outrank the
-         composite rather than agree with it. A static padding offset was the other option and
-         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
-         is re-pointable by a theme, so an offset would cancel it at exactly one
-         viewport. esa-textarea stays on a body-* composite on purpose — it is
-         genuinely multi-line, so its leading has a typographic job. */
-  color: var(--form-text-color, #202020);
-  background: var(--color-background-field, transparent);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  outline: none;
-  cursor: pointer;
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input--trigger {
-  display: block;
-  text-align: start;
-  font: inherit;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.input--placeholder {
-  color: var(--form-placeholder-color, #838383);
-}
-.arrow {
-  position: absolute;
-  right: var(--_field-padding-x);
-  top: 50%;
-  transform: translateY(-50%);
-  display: inline-flex;
-  color: var(--color-content-default-secondary, #646464);
-  pointer-events: none;
-  transition: transform var(--transition-fast, 150ms ease);
-}
-.arrow svg {
-  width: var(--icon-size-md, 20px);
-  height: var(--icon-size-md, 20px);
-}
-.field__error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-}
-.field__help {
-  color: var(--form-help-color, #838383);
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-:host([size="lg"]) {
-  --_width: var(--side-dialog-width-lg, 520px);
-}
-dialog.panel {
-  --_inset: var(--side-dialog-inset, 16px);
-  position: fixed;
-  top: var(--_inset);
-  bottom: var(--_inset);
-  margin: 0;
-  border: none;
-  padding: 0;
-  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-  max-width: none;
-  max-height: none;
-  background: var(--color-background-elevation-raised, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-md, 0.5rem);
-  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-  outline: none;
-  overflow: hidden;
-  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-  transition:
-    top 220ms ease,
-    right 220ms ease,
-    bottom 220ms ease,
-    left 220ms ease;
-}
-:host([position="right"]) dialog.panel {
-  right: var(--_inset);
-  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-pill {
-  --_pill-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_pill-text: var(--color-content-default, #202020);
-  --_pill-border: var(--color-border-default-subtle, #d9d9d9);
-  --_pill-padding-y: var(--spacing-150, 0.375rem);
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--_pill-gap);
-  padding-block: var(--_pill-padding-y);
-  padding-inline: var(--_pill-padding-x);
-  border: var(--border-width-default, 1px) solid var(--_pill-border);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-pill--sm {
-  --_pill-padding-y: var(--spacing-100, 0.25rem);
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
-}
-:host {
-  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
-  --_dialog-border-radius: var(--radius-lg, 0.75rem);
-  --_dialog-padding: var(--spacing-500, 1.5rem);
-  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
-  /* Header/footer surface tints. These were --dialog-header-bg /
-         --dialog-footer-bg, declared in no token file — a hook offered on the
-         strength of a fallback nobody had asked to override. Folded to their
-         literal default 2026-08-16; --dialog-* is a live namespace, so they come
-         back as declarations the day a spoke actually wants to frame the body. */
-  --_dialog-header-bg: transparent;
-  --_dialog-footer-bg: transparent;
-  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-  --_dialog-width: var(--dialog-width, 480px);
-  --_dialog-max-height: 85vh;
-}
-dialog.esa-dialog {
-  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
-         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
-         panel renders inside a second, smaller box. */
-  border: none;
-  padding: 0;
-  margin: auto;
-  background: var(--_dialog-bg);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--_dialog-border-radius);
-  box-shadow: var(--_dialog-shadow);
-  width: var(--_dialog-width);
-  max-width: 100vw;
-  max-height: var(--_dialog-max-height);
-  overflow: hidden;
-  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-}
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
-}
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-:host {
-  --_field-padding-y: var(--spacing-300, 0.75rem);
-  --_field-padding-x: var(--spacing-300, 0.75rem);
-  --_field-radius: var(--radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #cecece);
-  display: block;
-}
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
-         box plus its padding. A px height could not grow with rem text, so it
-         clipped — and this rule used to pair one with overflow:hidden, which is
-         what made the clipping silent. See semantic/size.json.
-
-         line-height 1 is what leaves padding as the only variable: at 1.6 there
-         is a third term (0.6 x font-size of leading) that nobody chose and that
-         grows faster than either input. Everything else — face, size, weight,
-         tracking — still comes from .typography-body-* on this element and
-         inherits to the input and the affixes below. */
-  background: var(--color-background-field, transparent);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  /* No height: 100%. It used to resolve against .control's fixed height, which
-         meant this padding was ABSORBED into that height rather than adding to it.
-         With no fixed parent it would compute to auto anyway; removing it makes the
-         padding load-bearing, which is the point. .control is align-items:stretch,
-         so the affixes still match this element's height. */
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  /* A native control does not inherit type by default — this is what opts it
-         into the composite already resolved on .control. */
-  font: inherit;
-  color: var(--form-text-color, #202020);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #838383);
-}
-.help,
-.error {
-  margin: 0;
-}
-.error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-}
-.help {
-  color: var(--form-help-color, #838383);
-}
-:host {
-  display: block;
-}
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150, 6px);
-}
-.file {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  /* hub-edit-approved: Andrew (front-end architect) approved in-session — add a
-         backward-compatible density knob so consumers can give file rows more breathing
-         room without restyling the shadow DOM. Defaults reproduce the original tight row. */
-  padding: var(--file-list-row-padding-y, 2px)
-    var(--file-list-row-padding-x, var(--spacing-300, 12px));
-  /* --border-width-default, not --form-border-width: a file row is not a form
-         control, and the colour half of this very declaration already reads the
-         tier-2 role. --form-border-width is a thin alias over the same token, so
-         this is value-neutral and stops a spoke's input restyling from reaching
-         file rows. */
-  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
-  border-radius: var(--radius-sm, 0.25rem);
-  background: var(--color-background-elevation-raised, #fcfcfc);
-}
-.file__icon {
-  display: inline-flex;
-  color: var(--color-content-default-secondary, #646464);
-}
-.file__icon svg {
-  width: 16px;
-  height: 16px;
-}
-.file__name {
-  min-width: 0;
-  /* CLIP THE X AXIS ONLY — "overflow: hidden" here sliced the descenders off
-         every g/j/p/q/y in a filename. The row carries .typography-microcopy-sm-subtle,
-         so line-height is "none" (1): the line box is exactly 1em tall while DM Sans's
-         glyph box needs 1.30em (0.99 ascent + 0.31 descent). Half-leading is therefore
-         NEGATIVE (-0.15em) and the baseline sits 0.16em off the bottom, but the
-         descender ink reaches 0.21em — ~1px of it below the box at 14px. Hiding both
-         axes clips that ink; hiding one and leaving the other visible does not.
-         clip/visible is the legal pair (hidden/visible is not — it computes to auto
-         and can grow a scrollbar), text-overflow: ellipsis still applies, and the box
-         height is unchanged, so nothing in the grid row moves. Verified truncating in
-         Chromium, WebKit and Firefox. Do not collapse this back to "overflow: hidden". */
-  overflow-x: clip;
-  overflow-y: visible;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--color-content-default, #202020);
-  /* Transparent, not 'none'. text-decoration-color IS force-adjusted, so the
-         underline comes back in forced colors and a linked filename stays
-         distinguishable from an unlinked one — which here is otherwise a pure
-         colour difference. Removing the decoration outright cannot come back. */
-  text-decoration-color: transparent;
-}
-a.file__name {
-  color: var(--color-content-brand, #2a7e3b);
-}
-.file__actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-050, 2px);
-}
-.file__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-content-default-secondary, #646464);
-  border-radius: var(--radius-sm, 0.25rem);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition:
-    background var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease);
-}
-.file__btn svg {
-  width: 15px;
-  height: 15px;
-}
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);

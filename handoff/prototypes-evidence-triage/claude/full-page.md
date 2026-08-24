@@ -15106,7 +15106,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-surface-sunken: #efefef;
   --color-text-inverse: #fcfcfc;
   --color-text-link: #46a758;
-  --color-text-muted: #7c7c7c;
   --color-text-primary: #3d3d3d;
   --color-text-secondary: #525252;
   --color-text-tertiary: #656565;
@@ -15214,97 +15213,83 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-microcopy-xs-strong-line-height: 1;
 }
 
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
+.esa-filter-container {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
+  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
+  padding: var(--filter-container-padding, 0);
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-:host {
-  display: inline-block;
-
-  --_filter-height: 40px;
-  --_filter-padding-x: var(--spacing-400, 1rem);
-  --_filter-radius: var(--radius-md, 0.5rem);
-  --_filter-bg: var(--color-background-elevation-raised, #fcfcfc);
-  --_filter-bg-active: var(--color-background-brand-subtle, #fbfefb);
-  --_filter-text: var(--color-content-default, #202020);
-  --_filter-text-active: var(--color-background-brand, #46a758);
-  --_filter-border: var(--color-border-default, #cecece);
-  --_filter-border-active: var(--color-background-brand, #46a758);
-}
-:host([size="sm"]) {
-  --_filter-height: 32px;
-  --_filter-padding-x: var(--spacing-300, 0.75rem);
-  --_filter-radius: var(--radius-sm, 0.25rem);
-}
-.esa-filter-dropdown {
-  position: relative;
-  display: inline-flex;
-}
-.esa-filter-dropdown__trigger {
+.esa-filter-clear-button {
+  --_clear-text: var(--color-content-default-secondary, #646464);
+  --_clear-text-hover: var(--color-content-utility-danger, var(--color-content-brand, #2a7e3b));
+  --_clear-icon-size: 18px;
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-100, 0.25rem);
-  height: var(--_filter-height);
-  padding-inline: var(--_filter-padding-x);
-  border: var(--border-width-default, 1px) solid var(--_filter-border);
-  border-radius: var(--_filter-radius);
-  background: var(--_filter-bg);
-  color: var(--_filter-text);
+  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
+  border: none;
+  border-radius: var(--radius-sm, 0.25rem);
+  background: transparent;
+  color: var(--_clear-text);
   cursor: pointer;
-  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 2px;
   transition:
-    background var(--transition-fast, 150ms ease),
-    border-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease);
+    color var(--transition-fast, 0.15s ease),
+    background var(--transition-fast, 0.15s ease);
+}
+.esa-filter-clear-button__icon {
+  width: var(--_clear-icon-size);
+  height: var(--_clear-icon-size);
+  flex: none;
+}
+.esa-filter-clear-button__label {
+  white-space: nowrap;
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
 }
-.esa-filter-dropdown__label {
-  /* clip/visible, not "overflow: hidden" — the trigger sets a microcopy composite,
-         whose line-height "none" (1) leaves the line box 1em against DM Sans's 1.30em
-         glyph box, so hiding the Y axis clips the descenders in a label like
-         "Category" or "Region type". Same fix as esa-file-list's .file__name, where
-         the arithmetic is written out. */
-  overflow-x: clip;
-  overflow-y: visible;
-  text-overflow: ellipsis;
-  max-width: 200px;
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
 }
-.esa-filter-dropdown__arrow {
-  display: inline-flex;
-  width: 20px;
-  height: 20px;
-  transition: transform var(--transition-fast, 150ms ease);
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
+  color: inherit;
+  border-color: transparent;
 }
-.esa-filter-dropdown__arrow svg {
-  width: 20px;
-  height: 20px;
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
 }
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
@@ -15348,297 +15333,272 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   line-height: var(--typography-body-xs-line-height);
   letter-spacing: var(--typography-body-xs-letter-spacing);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
 :host {
-  --_field-padding-y: var(--spacing-300, 0.75rem);
-  --_field-padding-x: var(--spacing-300, 0.75rem);
-  --_field-radius: var(--radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #cecece);
-  display: block;
-}
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
-         box plus its padding. A px height could not grow with rem text, so it
-         clipped — and this rule used to pair one with overflow:hidden, which is
-         what made the clipping silent. See semantic/size.json.
-
-         line-height 1 is what leaves padding as the only variable: at 1.6 there
-         is a third term (0.6 x font-size of leading) that nobody chose and that
-         grows faster than either input. Everything else — face, size, weight,
-         tracking — still comes from .typography-body-* on this element and
-         inherits to the input and the affixes below. */
-  background: var(--color-background-field, transparent);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  /* No height: 100%. It used to resolve against .control's fixed height, which
-         meant this padding was ABSORBED into that height rather than adding to it.
-         With no fixed parent it would compute to auto anyway; removing it makes the
-         padding load-bearing, which is the point. .control is align-items:stretch,
-         so the affixes still match this element's height. */
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  /* A native control does not inherit type by default — this is what opts it
-         into the composite already resolved on .control. */
-  font: inherit;
-  color: var(--form-text-color, #202020);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #838383);
-}
-.help,
-.error {
-  margin: 0;
-}
-.error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-}
-.help {
-  color: var(--form-help-color, #838383);
-}
-:host {
-  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-  --_popover-border: var(--color-border-default, #cecece);
-  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--radius-md, 0.5rem);
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--color-content-default, #202020);
   display: inline-block;
 }
-.esa-popover-anchor {
+.esa-tooltip-anchor {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
 }
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
   white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-}
-*,
-*:before,
-*:after {
   box-sizing: border-box;
 }
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-.page-layout {
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  gap: var(--_empty-gap);
 }
-.page-layout section {
-  width: 100%;
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
 }
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
+.esa-empty-state__title {
   margin: 0;
-  color: var(--bcn-gray-1000);
+  color: var(--color-content-default, #202020);
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
+.esa-empty-state__description {
+  margin: 0;
+  color: var(--color-content-default-secondary, #646464);
+  max-width: 360px;
 }
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
 }
-[data-gap="sm"] {
-  --gap: var(--spacing-300, 0.75rem);
+:host {
+  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
+  --_dialog-border-radius: var(--radius-lg, 0.75rem);
+  --_dialog-padding: var(--spacing-500, 1.5rem);
+  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
+  /* Header/footer surface tints. These were --dialog-header-bg /
+         --dialog-footer-bg, declared in no token file — a hook offered on the
+         strength of a fallback nobody had asked to override. Folded to their
+         literal default 2026-08-16; --dialog-* is a live namespace, so they come
+         back as declarations the day a spoke actually wants to frame the body. */
+  --_dialog-header-bg: transparent;
+  --_dialog-footer-bg: transparent;
+  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+  --_dialog-width: var(--dialog-width, 480px);
+  --_dialog-max-height: 85vh;
 }
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
+:host([size="lg"]) {
+  --_dialog-width: var(--dialog-width-lg, 640px);
 }
-.stack {
-  --gap: var(--spacing-400, 1rem);
+dialog.esa-dialog {
+  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
+         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
+         panel renders inside a second, smaller box. */
+  border: none;
+  padding: 0;
+  margin: auto;
+  background: var(--_dialog-bg);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--_dialog-border-radius);
+  box-shadow: var(--_dialog-shadow);
+  width: var(--_dialog-width);
+  max-width: 100vw;
+  max-height: var(--_dialog-max-height);
+  overflow: hidden;
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
+}
+.bcn-triage-counts {
+  --gap: var(--spacing-250);
+}
+.bcn-triage-counts__chip {
+  display: inline-flex;
+  align-items: center;
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-height-md: 24px;
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing[hidden] {
+  display: none;
+}
+.bcn-triage-workspace__panes {
+  --sidebar-width: 31rem;
+  --sidebar-content-min: 42%;
+  height: clamp(32rem, 70vh, 58rem);
+  align-items: stretch;
+}
+.bcn-triage-workspace__queue {
+  height: 100%;
+  min-height: 0;
+}
+.bcn-triage-queue {
   display: flex;
   flex-direction: column;
-  gap: var(--gap);
-}
-[data-gap="md"] {
-  --gap: var(--spacing-400, 1rem);
-}
-.bcn-filterbar {
+  min-height: 0;
+  height: 100%;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-}
-.bcn-filterbar__top {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__group {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-300);
-}
-.bcn-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.bcn-filterbar__search {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  min-width: 300px;
-}
-.bcn-filterbar__search esa-text-field {
-  flex: 1;
-}
-.bcn-filterbar__bottom {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__top + .bcn-filterbar__bottom {
-  border-top: 1px solid var(--color-border);
-}
-.bcn-filterbar__clear {
-  margin-left: auto;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-dialog.panel {
-  --_inset: var(--side-dialog-inset, 16px);
-  position: fixed;
-  top: var(--_inset);
-  bottom: var(--_inset);
-  margin: 0;
-  border: none;
-  padding: 0;
-  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-  max-width: none;
-  max-height: none;
-  background: var(--color-background-elevation-raised, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-md, 0.5rem);
-  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-  outline: none;
+  border-radius: var(--radius-100);
   overflow: hidden;
-  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-  transition:
-    top 220ms ease,
-    right 220ms ease,
-    bottom 220ms ease,
-    left 220ms ease;
 }
-:host([position="right"]) dialog.panel {
-  right: var(--_inset);
-  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+.bcn-triage-queue__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: var(--spacing-500);
+}
+.bcn-triage-queue__day {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--spacing-100) var(--spacing-300);
+  background: var(--color-surface-sunken);
+  border-block: 1px solid var(--color-border-light);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
+  border-top: 0;
+}
+.bcn-triage-queue__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-triage-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: var(--spacing-300);
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-surface);
+}
+.bcn-triage-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bcn-triage-row__line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-250);
+  min-width: 0;
+}
+.bcn-triage-row__title {
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+.bcn-triage-row__date {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__meta {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__foot {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.bcn-triage-row__match {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-triage-row__sug .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  --badge-height-md: 24px;
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-row:last-child {
+  border-bottom: 0;
+}
+.bcn-triage-queue__group + .bcn-triage-queue__group {
+  margin-top: 0;
+}
+.bcn-triage-row__foot[hidden] {
+  display: none;
+}
+.bcn-triage-queue__empty {
+  padding: var(--spacing-700) var(--spacing-400);
+}
+.bcn-triage-queue__empty[hidden] {
+  display: none;
+}
+.bcn-triage-workspace__review {
+  align-self: start;
+  max-height: 100%;
+  min-height: 0;
+}
+.bcn-triage-review {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+}
+.bcn-triage-review,
+.bcn-triage-sug {
+  --color-primary-strong: var(--color-primary);
+}
+.bcn-triage-review__prompt {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 22rem;
+  padding: var(--spacing-700) var(--spacing-500);
+}
+.bcn-triage-review__panel {
+  display: flex;
+  flex-direction: column;
+}
+.bcn-triage-review__panel[hidden] {
+  display: none;
 }
 .modern-layout {
   display: flex;
@@ -16461,349 +16421,103 @@ dialog.panel {
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 :host {
-  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
-  --_dialog-border-radius: var(--radius-lg, 0.75rem);
-  --_dialog-padding: var(--spacing-500, 1.5rem);
-  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
-  /* Header/footer surface tints. These were --dialog-header-bg /
-         --dialog-footer-bg, declared in no token file — a hook offered on the
-         strength of a fallback nobody had asked to override. Folded to their
-         literal default 2026-08-16; --dialog-* is a live namespace, so they come
-         back as declarations the day a spoke actually wants to frame the body. */
-  --_dialog-header-bg: transparent;
-  --_dialog-footer-bg: transparent;
-  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-  --_dialog-width: var(--dialog-width, 480px);
-  --_dialog-max-height: 85vh;
+  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+  --_popover-border: var(--color-border-default, #cecece);
+  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--radius-md, 0.5rem);
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--color-content-default, #202020);
+  display: inline-block;
 }
-:host([size="lg"]) {
-  --_dialog-width: var(--dialog-width-lg, 640px);
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
 }
-dialog.esa-dialog {
-  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
-         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
-         panel renders inside a second, smaller box. */
-  border: none;
-  padding: 0;
-  margin: auto;
-  background: var(--_dialog-bg);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--_dialog-border-radius);
-  box-shadow: var(--_dialog-shadow);
-  width: var(--_dialog-width);
-  max-width: 100vw;
-  max-height: var(--_dialog-max-height);
-  overflow: hidden;
-  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
+:host {
+  display: inline-block;
+
+  --_filter-height: 40px;
+  --_filter-padding-x: var(--spacing-400, 1rem);
+  --_filter-radius: var(--radius-md, 0.5rem);
+  --_filter-bg: var(--color-background-elevation-raised, #fcfcfc);
+  --_filter-bg-active: var(--color-background-brand-subtle, #fbfefb);
+  --_filter-text: var(--color-content-default, #202020);
+  --_filter-text-active: var(--color-background-brand, #46a758);
+  --_filter-border: var(--color-border-default, #cecece);
+  --_filter-border-active: var(--color-background-brand, #46a758);
 }
-.bcn-triage-counts {
-  --gap: var(--spacing-250);
+:host([size="sm"]) {
+  --_filter-height: 32px;
+  --_filter-padding-x: var(--spacing-300, 0.75rem);
+  --_filter-radius: var(--radius-sm, 0.25rem);
 }
-.bcn-triage-counts__chip {
+.esa-filter-dropdown {
+  position: relative;
   display: inline-flex;
-  align-items: center;
 }
-.bcn-triage-counts__chip .esa-badge {
-  --badge-height-md: 24px;
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-triage-counts__showing {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-counts__showing[hidden] {
-  display: none;
-}
-.bcn-triage-workspace__panes {
-  --sidebar-width: 31rem;
-  --sidebar-content-min: 42%;
-  height: clamp(32rem, 70vh, 58rem);
-  align-items: stretch;
-}
-.bcn-triage-workspace__queue {
-  height: 100%;
-  min-height: 0;
-}
-.bcn-triage-queue {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  overflow: hidden;
-}
-.bcn-triage-queue__scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding-bottom: var(--spacing-500);
-}
-.bcn-triage-queue__day {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  margin: 0;
-  padding: var(--spacing-100) var(--spacing-300);
-  background: var(--color-surface-sunken);
-  border-block: 1px solid var(--color-border-light);
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-medium);
-  line-height: 1.4;
-  color: var(--color-text-primary);
-}
-.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
-  border-top: 0;
-}
-.bcn-triage-queue__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-triage-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  padding: var(--spacing-300);
-  border-bottom: 1px solid var(--color-border-light);
-  background: var(--color-surface);
-}
-.bcn-triage-row__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.bcn-triage-row__line {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-250);
-  min-width: 0;
-}
-.bcn-triage-row__title {
-  min-width: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-triage-row__date {
-  flex: none;
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__meta {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__foot {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-}
-.bcn-triage-row__match {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-triage-row__sug .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  --badge-height-md: 24px;
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-row:last-child {
-  border-bottom: 0;
-}
-.bcn-triage-queue__group + .bcn-triage-queue__group {
-  margin-top: 0;
-}
-.bcn-triage-row__foot[hidden] {
-  display: none;
-}
-.bcn-triage-queue__empty {
-  padding: var(--spacing-700) var(--spacing-400);
-}
-.bcn-triage-queue__empty[hidden] {
-  display: none;
-}
-.bcn-triage-workspace__review {
-  align-self: start;
-  max-height: 100%;
-  min-height: 0;
-}
-.bcn-triage-review {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  max-height: 100%;
-  overflow-y: auto;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-}
-.bcn-triage-review,
-.bcn-triage-sug {
-  --color-primary-strong: var(--color-primary);
-}
-.bcn-triage-review__prompt {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  min-height: 22rem;
-  padding: var(--spacing-700) var(--spacing-500);
-}
-.bcn-triage-review__panel {
-  display: flex;
-  flex-direction: column;
-}
-.bcn-triage-review__panel[hidden] {
-  display: none;
-}
-.bcn-triage-add {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-triage-add__scope {
-  margin: 0;
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-add__hint {
-  margin: 0;
-  padding: var(--spacing-500) 0;
-  font-size: 0.8125rem;
-  font-style: italic;
-  text-align: center;
-  color: var(--color-text-muted);
-}
-.bcn-triage-add__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  height: 22rem;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-  list-style: none;
-}
-.bcn-triage-add__hint[hidden],
-.bcn-triage-add__list[hidden],
-.bcn-triage-add__staged[hidden] {
-  display: none;
-}
-.bcn-triage-add__empty {
-  margin: 0;
-  padding: var(--spacing-300) 0;
-  font-size: 0.8125rem;
-  font-style: italic;
-  text-align: center;
-  color: var(--color-text-muted);
-}
-.bcn-triage-add__staged {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border);
-}
-.bcn-triage-add__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-250);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.esa-filter-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
-  padding: var(--filter-container-padding, 0);
-}
-.esa-filter-clear-button {
-  --_clear-text: var(--color-content-default-secondary, #646464);
-  --_clear-text-hover: var(--color-content-utility-danger, var(--color-content-brand, #2a7e3b));
-  --_clear-icon-size: 18px;
+.esa-filter-dropdown__trigger {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-100, 0.25rem);
-  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
-  border: none;
-  border-radius: var(--radius-sm, 0.25rem);
-  background: transparent;
-  color: var(--_clear-text);
+  height: var(--_filter-height);
+  padding-inline: var(--_filter-padding-x);
+  border: var(--border-width-default, 1px) solid var(--_filter-border);
+  border-radius: var(--_filter-radius);
+  background: var(--_filter-bg);
+  color: var(--_filter-text);
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-}
-.esa-filter-clear-button__icon {
-  width: var(--_clear-icon-size);
-  height: var(--_clear-icon-size);
-  flex: none;
-}
-.esa-filter-clear-button__label {
   white-space: nowrap;
+  transition:
+    background var(--transition-fast, 150ms ease),
+    border-color var(--transition-fast, 150ms ease),
+    color var(--transition-fast, 150ms ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-filter-dropdown__label {
+  /* clip/visible, not "overflow: hidden" — the trigger sets a microcopy composite,
+         whose line-height "none" (1) leaves the line box 1em against DM Sans's 1.30em
+         glyph box, so hiding the Y axis clips the descenders in a label like
+         "Category" or "Region type". Same fix as esa-file-list's .file__name, where
+         the arithmetic is written out. */
+  overflow-x: clip;
+  overflow-y: visible;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+.esa-filter-dropdown__arrow {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  transition: transform var(--transition-fast, 150ms ease);
+}
+.esa-filter-dropdown__arrow svg {
+  width: 20px;
+  height: 20px;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
 }
 :host {
   display: flex;
@@ -16859,109 +16573,325 @@ dialog.esa-dialog {
   color: var(--color-content-brand, #2a7e3b);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  background: transparent;
-  color: inherit;
-  border-color: transparent;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-.esa-button__label {
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
   white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
 }
-.esa-button--variant-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-content-default, #202020);
-  border-color: transparent;
+:host {
+  --_field-padding-y: var(--spacing-300, 0.75rem);
+  --_field-padding-x: var(--spacing-300, 0.75rem);
+  --_field-radius: var(--radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #cecece);
+  display: block;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
+.field {
   display: flex;
   flex-direction: column;
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
+         box plus its padding. A px height could not grow with rem text, so it
+         clipped — and this rule used to pair one with overflow:hidden, which is
+         what made the clipping silent. See semantic/size.json.
+
+         line-height 1 is what leaves padding as the only variable: at 1.6 there
+         is a third term (0.6 x font-size of leading) that nobody chose and that
+         grows faster than either input. Everything else — face, size, weight,
+         tracking — still comes from .typography-body-* on this element and
+         inherits to the input and the affixes below. */
+  background: var(--color-background-field, transparent);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  /* No height: 100%. It used to resolve against .control's fixed height, which
+         meant this padding was ABSORBED into that height rather than adding to it.
+         With no fixed parent it would compute to auto anyway; removing it makes the
+         padding load-bearing, which is the point. .control is align-items:stretch,
+         so the affixes still match this element's height. */
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  /* A native control does not inherit type by default — this is what opts it
+         into the composite already resolved on .control. */
+  font: inherit;
+  color: var(--form-text-color, #202020);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #838383);
+}
+.help,
+.error {
+  margin: 0;
+}
+.error {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  gap: var(--_empty-gap);
+  gap: var(--spacing-100, 4px);
+  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
 }
-.esa-empty-state--sm {
-  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+.help {
+  color: var(--form-help-color, #838383);
 }
-.esa-empty-state__title {
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
   margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout section {
+  width: 100%;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+}
+[data-gap="sm"] {
+  --gap: var(--spacing-300, 0.75rem);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+[data-gap="md"] {
+  --gap: var(--spacing-400, 1rem);
+}
+.bcn-filterbar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+}
+.bcn-filterbar__top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.bcn-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-filterbar__search {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  min-width: 300px;
+}
+.bcn-filterbar__search esa-text-field {
+  flex: 1;
+}
+.bcn-filterbar__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__top + .bcn-filterbar__bottom {
+  border-top: 1px solid var(--color-border);
+}
+.bcn-filterbar__clear {
+  margin-left: auto;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+dialog.panel {
+  --_inset: var(--side-dialog-inset, 16px);
+  position: fixed;
+  top: var(--_inset);
+  bottom: var(--_inset);
+  margin: 0;
+  border: none;
+  padding: 0;
+  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+  max-width: none;
+  max-height: none;
+  background: var(--color-background-elevation-raised, #fcfcfc);
   color: var(--color-content-default, #202020);
+  border-radius: var(--radius-md, 0.5rem);
+  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+  outline: none;
+  overflow: hidden;
+  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+  transition:
+    top 220ms ease,
+    right 220ms ease,
+    bottom 220ms ease,
+    left 220ms ease;
 }
-.esa-empty-state__description {
-  margin: 0;
-  color: var(--color-content-default-secondary, #646464);
-  max-width: 360px;
+:host([position="right"]) dialog.panel {
+  right: var(--_inset);
+  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
 }
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 ```
 
@@ -17017,7 +16947,6 @@ dialog.esa-dialog {
 | `--color-surface-sunken` | `#efefef` | component |
 | `--color-text-inverse` | `#fcfcfc` | component |
 | `--color-text-link` | `#46a758` | component |
-| `--color-text-muted` | `#7c7c7c` | component |
 | `--color-text-primary` | `#3d3d3d` | component |
 | `--color-text-secondary` | `#525252` | component |
 | `--color-text-tertiary` | `#656565` | component |

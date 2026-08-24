@@ -1,6 +1,6 @@
 # Token contract — prototypes-due-diligence-boundary
 
-The 156 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 157 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -135,6 +135,7 @@ The 156 design tokens this page actually uses, resolved to their final values fo
 | `--form-border-color` | `#cecece` |
 | `--form-border-width` | `1px` |
 | `--form-error-color` | `#ce2c31` |
+| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--form-help-color` | `#646464` |
 | `--form-label-color` | `#646464` |
 | `--form-label-gap` | `.25rem` |

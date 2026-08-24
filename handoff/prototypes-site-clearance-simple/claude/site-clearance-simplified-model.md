@@ -11679,6 +11679,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
 .modern-layout {
   display: flex;
   flex-direction: column;
@@ -12480,9 +12484,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 .bcn-status-chip {
   display: inline-flex;
@@ -12577,96 +12584,6 @@ html,
 .bcn-status-select__menu[hidden] {
   display: none;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  background: transparent;
-  color: inherit;
-  border-color: transparent;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-}
-.esa-button--variant-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-content-default, #202020);
-  border-color: transparent;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -12739,28 +12656,109 @@ a.breadcrumb-item {
   min-height: 70vh;
   position: relative;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
   color: inherit;
+  border-color: transparent;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
 }
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  background: transparent;
+  color: var(--_accent-text);
+  border-color: var(--_accent);
 }
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
+.esa-button--variant-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-content-default, #202020);
+  border-color: transparent;
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .cmp-note {
   display: flex;
@@ -12982,26 +12980,28 @@ a.breadcrumb-item {
   padding-top: var(--spacing-300);
   border-top: 1px solid var(--color-border);
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
 }
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
 }
 ```
 
