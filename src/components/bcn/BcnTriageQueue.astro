@@ -65,14 +65,13 @@ const rowFor = (item: TriageItem) => {
   // Counted from the HIGH-confidence tier only, because that is the only tier the review
   // panel shows. Counting both would have the row promise proposals the panel never
   // displays — the badge has to agree with what opening the record actually reveals.
-  const match = confidentCount === 1 ? 'confident' : confidentCount > 1 ? 'multiple' : 'unmatched';
+  // (The controller re-syncs this at runtime, since a manual addition changes it.)
 
   return {
     inline,
     total: confidentCount,
     confidentCount,
     component,
-    match,
     fileLabel: item.files.length === 1 ? '1 file' : `${item.files.length} files`,
     // Lowercased haystack for the search box — built here so the controller never has to
     // read text back out of the DOM.
@@ -99,7 +98,6 @@ const rowFor = (item: TriageItem) => {
                   data-triage-row={item.id}
                   data-source={item.source}
                   data-component={item.componentId || 'none'}
-                  data-match={row.match}
                   data-search={row.search}
                 >
                   <button

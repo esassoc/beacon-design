@@ -20,8 +20,9 @@
 interface FilterState {
   source: string[];
   component: string[];
-  match: string[];
   search: string;
+  /** 'all' | 'has' — the has-suggestions pivot. */
+  scope: string;
 }
 
 /** What has happened to one record this session. */
@@ -81,7 +82,7 @@ export function setupTriage(): void {
   // ── State ────────────────────────────────────────────────────────────────
 
   const state = new Map<string, ItemState>();
-  const filters: FilterState = { source: [], component: [], match: [], search: '' };
+  const filters: FilterState = { source: [], component: [], search: '', scope: 'all' };
   let activeId = '';
 
   const stateFor = (id: string): ItemState => {
@@ -121,11 +122,20 @@ export function setupTriage(): void {
   const rowPasses = (row: HTMLLIElement): boolean => {
     if (isResolved(row.dataset.triageRow ?? '')) return false;
 
-    const { source = '', component = '', match = '', search = '' } = row.dataset;
+    const { source = '', component = '', search = '' } = row.dataset;
     if (filters.source.length && !filters.source.includes(source)) return false;
     if (filters.component.length && !filters.component.includes(component)) return false;
-    if (filters.match.length && !filters.match.includes(match)) return false;
     if (filters.search && !search.includes(filters.search)) return false;
+
+    // Counted LIVE from the panel, not from the build-time facet: a manual addition can give
+    // a record its first suggestion, and this pivot has to reflect what the record carries
+    // now rather than what the utility proposed when the page was built.
+    if (filters.scope === 'has') {
+      const id = row.dataset.triageRow ?? '';
+      if (document.querySelectorAll(`[data-triage-panel="${id}"] [data-triage-sug]`).length === 0) {
+        return false;
+      }
+    }
     return true;
   };
 
@@ -398,11 +408,19 @@ export function setupTriage(): void {
   for (const el of qsa<HTMLElement>('[data-triage-filter]')) {
     applyArrayProp(el, 'data-options', 'options');
     el.addEventListener('selection-change', (e) => {
-      const key = el.dataset.triageFilter as keyof FilterState;
+      const key = el.dataset.triageFilter as 'source' | 'component';
       const value = (e as CustomEvent<{ value: string[] | string }>).detail?.value ?? [];
-      if (key !== 'search') {
-        filters[key] = Array.isArray(value) ? value : [value].filter(Boolean);
-      }
+      filters[key] = Array.isArray(value) ? value : [value].filter(Boolean);
+      render();
+    });
+  }
+
+  // The scope pivot. Its options are a Lit ARRAY property, same as the filter dropdowns.
+  const scopeToggle = document.querySelector<HTMLElement>('[data-triage-scope]');
+  if (scopeToggle) {
+    applyArrayProp(scopeToggle, 'data-options', 'options');
+    scopeToggle.addEventListener('change', (e) => {
+      filters.scope = (e as CustomEvent<{ value: string }>).detail?.value ?? 'all';
       render();
     });
   }
@@ -417,8 +435,10 @@ export function setupTriage(): void {
   const resetFilters = (): void => {
     filters.source = [];
     filters.component = [];
-    filters.match = [];
     filters.search = '';
+    filters.scope = 'all';
+    const scope = document.querySelector<HTMLElement & { value: string }>('[data-triage-scope]');
+    if (scope) scope.value = 'all';
     for (const el of qsa<HTMLElement>('[data-triage-filter]')) clearDropdown(el);
     setFieldValue(search, '');
     render();

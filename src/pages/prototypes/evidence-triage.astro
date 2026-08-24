@@ -40,19 +40,17 @@ const componentOptions = [...componentCounts.entries()].map(([id, n]) => ({
   label: id === 'none' ? `Component not set (${n})` : `${componentById(id).name} (${n})`,
 }));
 
-// The match facet sorts by how sure the utility was, which is the closest thing this queue
-// has to a priority — and the reason it is offered at all. The first two are both high
-// confidence and differ only in whether a person still has to choose between matches.
-const matchOptions = [
-  { value: 'confident', label: 'High confidence — one match' },
-  { value: 'multiple', label: 'High confidence — several' },
-  { value: 'unmatched', label: 'Nothing proposed' },
-];
-
 const facets = [
   { key: 'source', label: 'Source', options: sourceOptions },
   { key: 'component', label: 'Component', options: componentOptions },
-  { key: 'match', label: 'Match', options: matchOptions },
+];
+
+// A two-way pivot rather than a facet: "has suggestions" is the shape of the WORK, not a
+// property of the evidence, and it is the split a person actually triages along — the records
+// something can be approved on, and everything else.
+const scopeOptions = [
+  { label: 'All', value: 'all' },
+  { label: 'Has suggestions', value: 'has' },
 ];
 ---
 
@@ -79,7 +77,15 @@ const facets = [
     <BcnTriageCounts slot="title-badge" total={TRIAGE_ITEMS.length} />
 
     <div class="stack" data-gap="md">
-      <BcnFilterBar>
+      <BcnFilterBar leadLabel="Show">
+        <esa-button-toggle
+          slot="lead"
+          data-triage-scope
+          size="sm"
+          value="all"
+          data-options={JSON.stringify(scopeOptions)}
+        />
+
         <esa-text-field
           slot="search"
           data-triage-search
@@ -110,4 +116,5 @@ const facets = [
 <script>
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-button-toggle';
 </script>

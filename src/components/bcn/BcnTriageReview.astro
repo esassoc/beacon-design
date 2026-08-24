@@ -137,13 +137,6 @@ const FILE_PLUS =
             <h3 class="bcn-triage-review__legend">
               {/* Hangs in the section's indent so the radar glyph and the cards below keep
                   the same left edge — the gutter the indent created is what this lives in. */}
-              {/* The hook rides the WRAPPER, not the lego: esa-icon-button does not forward
-                  arbitrary attributes the way esa-button does, so a data-* passed to it is
-                  silently dropped. Click bubbles from the button to this span either way.
-                  LEGO GAP: esa-icon-button should forward extra attrs like esa-button. */}
-              <span class="bcn-triage-review__add" data-triage-add={item.id}>
-                <EsaIconButton icon="plus" label="Add a suggested action" size="sm" />
-              </span>
               <EsaIcon name="radar" paths={scopeIcon('actions')} size="sm" />
               Suggested actions
               {/* The count wears the same info chip as the queue row's badge and the
@@ -155,6 +148,14 @@ const FILE_PLUS =
                   <EsaBadge value={confident.length} />
                 </span>
               )}
+
+              {/* Pushed to the far end of the heading row. The hook rides the WRAPPER, not the
+                  lego: esa-icon-button does not forward arbitrary attributes the way esa-button
+                  does, so a data-* passed to it is silently dropped. Click bubbles either way.
+                  LEGO GAP: esa-icon-button should forward extra attrs like esa-button. */}
+              <span class="bcn-triage-review__add" data-triage-add={item.id}>
+                <EsaIconButton icon="plus" label="Add a suggested action" size="sm" />
+              </span>
             </h3>
 
             {/* The list container is ALWAYS rendered, even with nothing in it: a manual
@@ -576,11 +577,24 @@ const FILE_PLUS =
 
 
 
-  /* The + hangs left into the section's indent, so it does not push the heading or break the
-     edge the cards share with it. */
+  /* Pushed to the far end of the heading row, and given an outline so it reads as a control
+     rather than a glyph: a bare icon on a heading line looks like decoration. esa-icon-button
+     ships no bordered variant, so the chrome is added here.
+     LEGO GAP: esa-icon-button needs an outline/appearance option. */
   .bcn-triage-review__add {
     display: inline-flex;
-    margin-left: calc((1rem + var(--spacing-200)) * -1);
+    margin-left: auto;
+  }
+
+  .bcn-triage-review__add :global(.esa-icon-button) {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    background: var(--color-surface);
+  }
+
+  .bcn-triage-review__add :global(.esa-icon-button:hover) {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-sunken);
   }
 
   /* ── The add-a-suggestion modal ──────────────────────────────────────── */
