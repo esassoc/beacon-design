@@ -1,0 +1,566 @@
+---
+// <BcnTriageReview> — the right pane: one record, everything proposed for it, and the three
+// verbs.
+//
+// WHY EVERY PANEL IS RENDERED AT BUILD TIME. Astro components are compile-time — a panel
+// invented at runtime would have to be assembled from a JavaScript template literal, which
+// bypasses the design system entirely and no gate can see it (component-first is explicit
+// about this). So all sixteen panels render as real markup and ./triage.ts only ever toggles
+// which one is visible. One definition of the panel, no duplicated markup, every control a
+// lego.
+//
+// THE RATIONALE IS THE POINT. Andrew's premise is "the LLM suggests and humans approve", and
+// a suggestion you cannot argue with is not a suggestion — it is a verdict wearing a button.
+// So every proposal states, in one plain line, what in the evidence pointed at that action.
+// The two tiers behave differently on purpose: high-confidence proposals are open and
+// actionable, low-confidence ones sit behind a disclosure — present, but not soliciting a
+// reflex click.
+//
+// The record that got NOTHING is not an error state. It opens straight onto the picker,
+// because the honest answer is "the utility had no opinion, you decide" — not an empty box.
+//
+// Composes: esa-file-list, esa-collapsible, esa-select, esa-button, esa-badge,
+// esa-empty-state, bcn-key-value. Behavior lives in ./triage.ts.
+//
+// bcn-lego-checked: no esa-* lego is a record-review panel — esa-card is a plain box (and
+// nests badly three deep), esa-side-dialog/esa-dialog are overlays with their own scrim and
+// this pane is permanent page furniture, and esa-collapsible is one disclosure (composed
+// INSIDE here for the less-certain tier, not reimplemented). Checked Beacon: its action
+// dialog is the closest prod relative and is a modal, not a persistent pane.
+// bcn-triage-review is the reusable home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import {
+  TRIAGE_ITEMS,
+  suggestionsForItem,
+  suggestionTarget,
+  SOURCE_META,
+  formatDate,
+} from '../../data/evidence-triage';
+import { phaseName } from '../../data/evidence-drawer';
+import {
+  componentById,
+  actionById,
+  actionsFor,
+  ACTIONS,
+  FREQUENCY_LABEL,
+  TYPE_LABEL,
+} from '../../data/evidence-drawer';
+import { scopeIcon } from '../../data/global-search';
+
+const FILE_PLUS =
+  '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>' +
+  '<path d="M14 2v4a2 2 0 0 0 2 2h4"/>' +
+  '<path d="M9 15h6"/><path d="M12 12v6"/>';
+
+/**
+ * The picker's options. Scoped to the record's component, because evidence never crosses
+ * components — except when the record never named one, where the whole project is genuinely
+ * the right scope and the human is being asked to narrow it.
+ */
+const pickerOptions = (componentId: string) =>
+  (componentId ? actionsFor(componentId) : ACTIONS).map((a) => ({
+    value: a.id,
+    label: `${a.code} — ${a.name}`,
+  }));
+---
+
+<div class="bcn-triage-review">
+  <!-- Nothing picked yet: the pane says what it is for rather than sitting blank. -->
+  <div class="bcn-triage-review__prompt" data-triage-prompt>
+    <EsaEmptyState
+      title="Select a record to review"
+      description="Each one shows the actions proposed for it. Approve, dismiss, or attach it to an action you pick yourself."
+      size="sm"
+    />
+  </div>
+
+  {
+    TRIAGE_ITEMS.map((item) => {
+      // Only the high-confidence tier is surfaced. The weaker proposals are still in the
+      // fixture (they are part of the suggestion contract, and the two-tier model is real),
+      // but nothing on this surface shows them — so nothing here counts them either.
+      const confident = suggestionsForItem(item.id).filter((s) => s.tier === 'suggested');
+      const component = item.componentId ? componentById(item.componentId).name : '';
+
+      return (
+        <article class="bcn-triage-review__panel" data-triage-panel={item.id} hidden>
+          <header class="bcn-triage-review__head">
+            <h2 class="bcn-triage-review__title">{item.title}</h2>
+            <p class="bcn-triage-review__notes">{item.notes}</p>
+
+            {/* Four facts in an ALIGNED grid rather than a wrapping flex row. Flex-wrap left
+                the columns ragged — each pair as wide as its own value — which read as a
+                scatter of loose tags instead of a record's facts. Equal columns line the
+                labels up and let the values sit under them. */}
+            <dl class="bcn-triage-review__facts">
+              <div>
+                <dt>Source</dt>
+                <dd title={SOURCE_META[item.source].label}>{SOURCE_META[item.source].label}</dd>
+              </div>
+              <div>
+                <dt>Component</dt>
+                <dd title={component || 'Not set'} data-warn={component ? undefined : 'true'}>
+                  {component || 'Not set'}
+                </dd>
+              </div>
+              <div><dt>Submitted by</dt><dd title={item.submittedBy}>{item.submittedBy}</dd></div>
+              <div><dt>Received</dt><dd>{formatDate(item.receivedOn)}</dd></div>
+            </dl>
+          </header>
+
+          {/* Collapsed by default. The file NAMES are rarely what decides an association —
+              the record's description is — and four of them cost 137px directly above the
+              suggestions. The count stays visible in the summary, so nothing is hidden that
+              you needed to know before opening it. */}
+          <section class="bcn-triage-review__section bcn-triage-review__files" aria-label="Files">
+            <EsaCollapsible
+              title={item.files.length === 1 ? '1 file' : `${item.files.length} files`}
+              icon="paperclip"
+              iconPaths={scopeIcon('evidence')}
+              flush
+            >
+              <esa-file-list
+                data-triage-files={JSON.stringify(item.files.map((f) => ({ name: f.name })))}
+              />
+            </EsaCollapsible>
+          </section>
+
+          <section class="bcn-triage-review__section" aria-label="Suggested actions">
+            <h3 class="bcn-triage-review__legend">
+              <EsaIcon name="radar" paths={scopeIcon('actions')} size="sm" />
+              Suggested actions
+            </h3>
+
+            {confident.length > 0 ? (
+              <div class="bcn-triage-review__sugs">
+                {confident.map((s) => {
+                  const t = suggestionTarget(s);
+                  const a = actionById(s.actionId);
+                  return (
+                    <div
+                      class="bcn-triage-sug"
+                      data-triage-sug={`${item.id}|${s.actionId}`}
+                      data-tier="suggested"
+                    >
+                      <EsaCard variant="outlined">
+                        <div class="bcn-ev-row">
+                          {/* The code is part of the action's IDENTITY, so it stays on the
+                              title line; type and phase are facets and drop below it. */}
+                          <div class="bcn-ev-row__titlerow">
+                            <span class="bcn-ev-row__name">{t.name}</span>
+                            <BcnCommitmentBadge code={t.code} size="sm" />
+                            <span class="bcn-ev-row__spacer" aria-hidden="true" />
+                            <span class="bcn-ev-row__mark">
+                              <EsaBadge value="High confidence" size="sm" />
+                            </span>
+                          </div>
+
+                          <div class="bcn-ev-row__meta">
+                            {a && <EsaBadge value={TYPE_LABEL[a.type]} size="sm" />}
+                            {a && <EsaBadge value={phaseName(a.phase)} size="sm" />}
+                          </div>
+
+                          <div class="bcn-triage-sug__act" data-triage-sug-act>
+                            <EsaButton size="sm" color="primary" data-triage-sug-approve>
+                              Approve
+                            </EsaButton>
+                            <EsaButton size="sm" color="danger" appearance="outline" data-triage-sug-dismiss>
+                              Dismiss
+                            </EsaButton>
+                          </div>
+
+                          <div class="bcn-triage-sug__done" data-triage-sug-done hidden>
+                            <span data-triage-sug-verdict>
+                              <EsaBadge value="Attached" variant="success" size="sm" />
+                            </span>
+                            <EsaButton size="sm" color="ghost" data-triage-sug-undo>
+                              Undo
+                            </EsaButton>
+                          </div>
+                        </div>
+                      </EsaCard>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p class="bcn-triage-review__nonetext">
+                Nothing matched closely enough to propose. Attach it to an action yourself, or
+                dismiss it if it is not evidence of compliance.
+              </p>
+            )}
+
+          </section>
+
+          {/* Collapsed by default — the proposals are the point, and the hand-pick route is
+              the exception. It opens automatically when there is NOTHING proposed, because
+              then it is the only thing on the panel a person can act on, and a record with no
+              suggestions must not open onto a screen of nothing but a closed disclosure. */}
+          <section
+            class="bcn-triage-review__section bcn-triage-review__attach"
+            aria-label="Attach to another action"
+          >
+            <EsaCollapsible
+              title="Attach to another action"
+              icon="file-plus"
+              iconPaths={FILE_PLUS}
+              open={confident.length === 0}
+              flush
+            >
+            <div class="bcn-triage-review__picker">
+              <esa-select
+                data-triage-picker={item.id}
+                data-options={JSON.stringify(pickerOptions(item.componentId))}
+                placeholder="Search actions…"
+                size="sm"
+                searchable
+              />
+              <EsaButton size="sm" color="primary" appearance="outline" data-triage-picker-file={item.id}>
+                Attach evidence
+              </EsaButton>
+            </div>
+            </EsaCollapsible>
+          </section>
+
+          <footer class="bcn-triage-review__foot">
+            <EsaButton size="sm" color="danger" appearance="outline" data-triage-dismiss-all={item.id}>
+              Not evidence of compliance
+            </EsaButton>
+          </footer>
+        </article>
+      );
+    })
+  }
+</div>
+
+<script>
+  import '@esa/ecology/esa-file-list';
+  import '@esa/ecology/esa-select';
+</script>
+
+<style>
+  .bcn-triage-review {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+  }
+
+  .bcn-triage-review__prompt {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-700) var(--spacing-500);
+  }
+
+  .bcn-triage-review__prompt[hidden] {
+    display: none;
+  }
+
+  .bcn-triage-review__panel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bcn-triage-review__panel[hidden] {
+    display: none;
+  }
+
+  /* ── Header ───────────────────────────────────────────────────────────── */
+
+  .bcn-triage-review__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-400) var(--spacing-400) var(--spacing-300);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* One step down from a card title: this pane is dense, and the record's NAME is not the
+     thing being decided — the suggestions are. */
+  .bcn-triage-review__title {
+    margin: 0;
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+    color: var(--color-text-primary);
+  }
+
+  .bcn-triage-review__notes {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+  }
+
+  /* Four label/value pairs on one dense row, wrapping only when it must. Replaces a
+     four-cell grid of bcn-key-value stacks that ran to 212px on its own. */
+  /* FOUR fixed columns, so the block is always two lines: labels, then values. auto-fit was
+     re-flowing to two and three rows as the values changed length, which made the header grow
+     and shrink between records — the one thing a fixed frame is meant to prevent.
+     The fractions are weighted by what each field actually holds: component names are the long
+     ones, a date is the short one. */
+  .bcn-triage-review__facts {
+    display: grid;
+    grid-template-columns: 1.1fr 1.7fr 1fr 0.6fr;
+    gap: var(--spacing-250) var(--spacing-400);
+    margin: var(--spacing-150) 0 0;
+  }
+
+  /* Below the two-pane breakpoint the pane is full width and four columns get cramped, so
+     they fall to two — still an even grid, still predictable. */
+  @media (max-width: 60rem) {
+    .bcn-triage-review__facts {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .bcn-triage-review__facts > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  /* One line each. A long component name ellipses rather than wrapping the whole row onto a
+     second line — the `title` on the element keeps the full string reachable. */
+  .bcn-triage-review__facts dd,
+  .bcn-triage-review__facts dt {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .bcn-triage-review__facts dt {
+    /* 13px is the house FLOOR for genuine meta — never smaller. The label/value hierarchy is
+       carried by colour and weight instead: secondary + regular here, primary + medium below. */
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-triage-review__facts dd {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+  }
+
+  /* The one field that is a to-do rather than a fact. */
+  .bcn-triage-review__facts dd[data-warn] {
+    color: var(--color-warning-strong, var(--color-text-primary));
+  }
+
+  /* ── Sections ─────────────────────────────────────────────────────────── */
+
+  .bcn-triage-review__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+    padding: var(--spacing-300) var(--spacing-400);
+  }
+
+  .bcn-triage-review__section + .bcn-triage-review__section {
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* The drawer's in-drawer section-header SHAPE — icon + label, semibold, primary text, with
+     the glyph subordinate in a quieter tone — using the spoke's own entity vocabulary
+     (paperclip = evidence, radar = actions) so the icons mark structure rather than decorate
+     it. Sized to --type-size-150 rather than the drawer's 250 on purpose: two of this pane's
+     three sections ARE esa-collapsible, whose summary is fixed at 150 with no hook to
+     re-point, so matching it is the only way all three headers read as one tier. The drawer
+     can afford the larger step; this pane is dense.
+     LEGO GAP: esa-collapsible needs a --collapsible-title-size custom property. */
+  .bcn-triage-review__legend {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    /* Matches .esa-collapsible__summary's padding-block in the Files section, so a plain
+       heading and a disclosure heading occupy the same box. */
+    padding-block: var(--spacing-150);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.25;
+    color: var(--color-text-primary);
+  }
+
+  /* One glyph tone across all three section headers. esa-collapsible paints its own summary
+     icon a step darker than this, so a plain <h3> header and a disclosure header were showing
+     two different grays for the same job — the disclosure ones read as heavier, which is most
+     obvious on a dense glyph like the document-add. Both are pinned to the drawer's
+     "glyph subordinate to its heading" tone.
+     LEGO GAP: esa-collapsible needs a --collapsible-icon-color hook; this reaches for its
+     inner class because there is none. */
+  .bcn-triage-review__legend :global(.esa-icon),
+  .bcn-triage-review__files :global(.esa-collapsible__summary .esa-icon),
+  .bcn-triage-review__attach :global(.esa-collapsible__summary .esa-icon) {
+    flex: none;
+    color: var(--color-text-muted);
+  }
+
+  .bcn-triage-review__nonetext {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-triage-review__sugs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+
+  .bcn-triage-review__picker {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    flex-wrap: wrap;
+  }
+
+  .bcn-triage-review__picker esa-select {
+    flex: 1 1 16rem;
+    min-width: 0;
+  }
+
+  /* Right-aligned, matching the card footers above it, with extra air on top so the record's
+     last destructive option is not crowded against the attach section. */
+  .bcn-triage-review__foot {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--spacing-400) var(--spacing-400) var(--spacing-300);
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* ── A single proposal ────────────────────────────────────────────────── */
+  /* Ported from the evidence drawer's action card (bcn-ev-row in BcnEvidenceTargets), minus
+     its attachment count — the same action, wearing the same clothes, on both surfaces.
+     Approved patterns are canon: these metrics are copied, not re-derived. */
+
+  /* esa-card's padding lives on .esa-card__body and defaults to --spacing-500 (24px), which
+     is a page-level card's breathing room, not a dense review row's. --card-padding is the
+     lego's own public hook, so this re-points it rather than reaching past it. */
+  .bcn-triage-sug {
+    --card-padding: var(--spacing-250);
+  }
+
+  /* THEME GAP, patched locally. esa-button's outline appearance takes its LABEL colour from
+     --color-primary-strong (the hub: "step 11 = colored text on surfaces… Override in your
+     theme when changing the primary ramp"). theme-beacon.css re-points --color-primary to
+     teal-900 but never overrode *-strong, so it is still the hub's GRASS green — which is why
+     a primary-outline button renders a teal border around a green label.
+     Scoped here rather than fixed in the theme because the same token also drives
+     --color-link, the filter-pill text and the active sidenav link across every page;
+     re-pointing it spoke-wide is right, but it is a deliberate site-wide change. */
+  .bcn-triage-review,
+  .bcn-triage-sug {
+    --color-primary-strong: var(--color-primary);
+  }
+
+  .bcn-triage-sug[data-state='dismissed'] {
+    opacity: 0.55;
+  }
+
+  .bcn-ev-row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Line one: the name, and the confidence pushed hard right. */
+  .bcn-ev-row__titlerow {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+
+  /* Line two: the action's facets. */
+  .bcn-ev-row__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+    margin-top: var(--spacing-150);
+  }
+
+  .bcn-ev-row__name {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--type-size-150, 0.875rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+    color: var(--color-text-primary);
+  }
+
+  .bcn-ev-row__spacer {
+    flex: 1 1 auto;
+  }
+
+  /* The quiet 4px gray tag: sunken-surface fill, secondary ink, medium weight — the drawer's tag
+     treatment. Scoped to esa-badge so it cannot touch bcn-commitment-badge, which is its own
+     chip with its own colour and sits on the same line. esa-badge's DEFAULT variant is what
+     reads --badge-bg / --badge-text-color; the named variants hardcode their fill, which is
+     why leaving these unstyled rendered them as solid brand teal. */
+  .bcn-ev-row__meta :global(.esa-badge) {
+    --badge-bg: var(--color-surface-sunken);
+    --badge-text-color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* The confidence mark, wearing the drawer's suggestion-marker treatment: an info-subtle
+     fill given DEFINITION by a mixed border rather than by a darker fill. */
+  .bcn-ev-row__mark {
+    flex: none;
+  }
+
+  .bcn-ev-row__mark :global(.esa-badge) {
+    --badge-bg: var(--color-info-subtle);
+    --badge-text-color: var(--color-text-primary);
+    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* A card FOOTER: right-aligned group, hairline above it, primary LEFT of secondary within
+     the group (the house's Windows-order rule). */
+  .bcn-triage-sug__act,
+  .bcn-triage-sug__done {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    margin-top: var(--spacing-250);
+    padding-top: var(--spacing-200);
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .bcn-triage-sug__act[hidden],
+  .bcn-triage-sug__done[hidden] {
+    display: none;
+  }
+
+  /* These summaries are section HEADERS, not rows in a list — they want a little air, just
+     less than the lego's 12px. */
+  .bcn-triage-review__files :global(.esa-collapsible__summary),
+  .bcn-triage-review__attach :global(.esa-collapsible__summary) {
+    padding-block: var(--spacing-150);
+  }
+
+  .bcn-triage-review__files :global(.esa-collapsible[open] .esa-collapsible__body),
+  .bcn-triage-review__attach :global(.esa-collapsible[open] .esa-collapsible__body) {
+    padding-top: var(--spacing-150);
+  }
+</style>

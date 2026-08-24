@@ -1,0 +1,117 @@
+---
+// Evidence Triage — the inbox for evidence that arrived without anyone attaching it.
+//
+// The other half of the evidence feature. /prototypes/evidence-drawer covers the case where a
+// person is holding a file and says where it goes; this covers the case Andrew flagged in the
+// same sync and then deferred: surveys, daily monitoring reports, finalized Beacon reports and
+// drop-box submissions that "are just being blindly added to a table in the database with no
+// sort of connective tissue." The test he set for it is five years out — could you reconstruct
+// what happened in 2026 from what ended up in the filing cabinet?
+//
+// Built as a full page rather than a tab in the drawer because of the objection he raised
+// himself: at sixty rows a tab is not a surface you can work in.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnFilterBar from '../../components/bcn/BcnFilterBar.astro';
+import BcnTriageWorkspace from '../../components/bcn/BcnTriageWorkspace.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnTriageCounts from '../../components/bcn/BcnTriageCounts.astro';
+import { TRIAGE_ITEMS, SEEN_BY_USER, SOURCE_META, SOURCES } from '../../data/evidence-triage';
+import { componentById } from '../../data/evidence-drawer';
+
+// Facet options are DERIVED from the records actually queued, so a filter can never offer a
+// value that matches nothing — and a new source appears without a code edit here.
+const sourceCounts = new Map<string, number>();
+for (const i of TRIAGE_ITEMS) sourceCounts.set(i.source, (sourceCounts.get(i.source) ?? 0) + 1);
+
+const sourceOptions = SOURCES.filter((s) => sourceCounts.has(s)).map((s) => ({
+  value: s,
+  label: `${SOURCE_META[s].label} (${sourceCounts.get(s)})`,
+}));
+
+const componentCounts = new Map<string, number>();
+for (const i of TRIAGE_ITEMS) {
+  const key = i.componentId || 'none';
+  componentCounts.set(key, (componentCounts.get(key) ?? 0) + 1);
+}
+
+const componentOptions = [...componentCounts.entries()].map(([id, n]) => ({
+  value: id,
+  label: id === 'none' ? `Component not set (${n})` : `${componentById(id).name} (${n})`,
+}));
+
+// The match facet sorts by how sure the utility was, which is the closest thing this queue
+// has to a priority — and the reason it is offered at all. The first two are both high
+// confidence and differ only in whether a person still has to choose between matches.
+const matchOptions = [
+  { value: 'confident', label: 'High confidence — one match' },
+  { value: 'multiple', label: 'High confidence — several' },
+  { value: 'unmatched', label: 'Nothing proposed' },
+];
+
+const facets = [
+  { key: 'source', label: 'Source', options: sourceOptions },
+  { key: 'component', label: 'Component', options: componentOptions },
+  { key: 'match', label: 'Match', options: matchOptions },
+];
+---
+
+<!-- manifest:
+  layout: stack(md)                                       # SPINE
+  sections:
+    - filters          -> bcn-filter-bar                  # REUSED; controls are esa-* legos
+    - triage workspace -> bcn-triage-workspace            # fixed two-pane frame
+        - queue        -> bcn-triage-queue                #   left: relative date buckets
+        - review       -> bcn-triage-review               #   right: proposals + rationale + verbs
+  title-badge: bcn-triage-counts                          # live suggestion + unread counts
+-->
+
+<AppShell
+  title="Evidence Inbox — Beacon"
+  activeNavId="action-lists"
+  expandedSections={['project']}
+>
+  <PageLayout title="Evidence Inbox" icon="inbox">
+    {/* The count rides the page title, so the area is named once. It counts what is IN the
+        inbox — a filter changes the view, not the backlog — and the controller reveals
+        "Showing n" beside it whenever a filter narrows the list, so the two numbers can never
+        look like they disagree. */}
+    <BcnTriageCounts
+      slot="title-badge"
+      total={TRIAGE_ITEMS.length}
+      unread={TRIAGE_ITEMS.length - SEEN_BY_USER.length}
+    />
+
+    <div class="stack" data-gap="md">
+      <BcnFilterBar>
+        <esa-text-field
+          slot="search"
+          data-triage-search
+          placeholder="Search evidence, submitters, components…"
+          aria-label="Search the triage queue"
+          size="md"></esa-text-field>
+
+        {
+          facets.map((f) => (
+            <esa-filter-dropdown
+              data-triage-filter={f.key}
+              label={f.label}
+              multiple
+              size="sm"
+              data-options={JSON.stringify(f.options)}
+            />
+          ))
+        }
+
+        <span slot="actions" data-triage-clear><FilterClearButton /></span>
+      </BcnFilterBar>
+
+      <BcnTriageWorkspace />
+    </div>
+  </PageLayout>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-filter-dropdown';
+</script>

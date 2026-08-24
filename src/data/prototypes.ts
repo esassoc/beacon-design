@@ -512,6 +512,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-08-06',
         status: 'in-progress',
       },
+      {
+        slug: 'evidence-triage',
+        title: 'Evidence Inbox',
+        description:
+          'The inbox for evidence that arrives without anyone attaching it — synced surveys, daily monitoring reports, finalized Beacon reports and drop-box submissions, which land in the evidence table today with nothing connecting them to an action. A two-pane surface: a queue grouped into relative buckets (Today, Yesterday, Earlier this week, Last week) whose rows report source, file count, component and a suggestion count but carry no verbs, and a review panel where the record is decided — its facts, a collapsed file list, the suggested actions with their commitment code and facets, and a collapsed section for attaching it to an action you pick yourself. Filter by source, component and match strength; unread is tracked per user and shown as a dot plus a header count; clear the queue and it says so.',
+        route: '/prototypes/evidence-triage',
+        createdAt: '2026-08-14',
+        status: 'in-progress',
+      },
     ],
   },
   {

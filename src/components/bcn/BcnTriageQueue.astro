@@ -1,0 +1,405 @@
+---
+// <BcnTriageQueue> — the left pane: everything waiting, grouped by how recently it arrived.
+//
+// THE ROW REPORTS, IT DOES NOT ACT. Every row states what the utility proposed and how sure
+// it was; deciding happens in the review panel, where the rationale is. There is no inline
+// Approve — a one-click file straight off the list is the fastest possible way to rubber-stamp
+// a match without reading why it was made, which is the one thing this surface exists to
+// prevent.
+//
+// Rows the utility was not confident about say so plainly. That is the case Jamie raised in
+// the sync: you can review the suggestions the utility makes, but never the ones it fails to
+// make. A record sitting here marked "Nothing proposed" is the queue admitting the gap rather
+// than showing an empty panel and letting it age out of sight.
+//
+// NO BULK SELECTION. There are no row checkboxes and no select-all: one record at a time,
+// each on its own merits. Approving a screenful at once is a real need for the repetitive
+// daily-report traffic, but it is the same question standing rules ask and it deserves to be
+// designed once, deliberately, rather than smuggled in as a checkbox column.
+//
+// GROUPED IN RELATIVE BUCKETS, not one heading per calendar day — Today / Yesterday / Earlier
+// this week / Last week / Older, the way a mail client does it. A heading per date turns the
+// list into a wall of dates; the exact date still rides every row, on the title line.
+//
+// Two empty states, and they mean different things — "you finished" and "your filters hide
+// everything" are not the same news. Both are esa-empty-state; only the words differ.
+//
+// Composes: esa-empty-state and the .stack primitive.
+// Behavior (filtering, selection, resolution) lives in ./triage.ts.
+//
+// bcn-lego-checked: no esa-* lego is a grouped, selectable inbox list — esa-card is a single
+// box, esa-link-column is a card of bare links, esa-collapsible is one disclosure, and
+// esa-sidebar-nav is navigation, not records. Beacon's own grids are AG Grid, which is the
+// wrong instrument for a review queue whose rows carry prose rationale (and /design-qa's own
+// note: AG Grid is for scannable columns). Every CONTROL in here is a lego.
+// bcn-triage-queue is the reusable home.
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import {
+  groupByBucket,
+  formatDate,
+  inlineSuggestionFor,
+  suggestionsForItem,
+  SOURCE_META,
+  isUnread,
+  type TriageItem,
+} from '../../data/evidence-triage';
+import { componentById } from '../../data/evidence-drawer';
+
+const buckets = groupByBucket();
+
+/**
+ * Everything the row needs, resolved at build time so the markup stays declarative and the
+ * controller only ever toggles what is already there.
+ */
+const rowFor = (item: TriageItem) => {
+  const inline = inlineSuggestionFor(item.id);
+  const all = suggestionsForItem(item.id);
+  const confidentCount = all.filter((s) => s.tier === 'suggested').length;
+  const component = item.componentId ? componentById(item.componentId).name : '';
+
+  // Counted from the HIGH-confidence tier only, because that is the only tier the review
+  // panel shows. Counting both would have the row promise proposals the panel never
+  // displays — the badge has to agree with what opening the record actually reveals.
+  const match = confidentCount === 1 ? 'confident' : confidentCount > 1 ? 'multiple' : 'unmatched';
+
+  return {
+    inline,
+    total: confidentCount,
+    confidentCount,
+    component,
+    match,
+    fileLabel: item.files.length === 1 ? '1 file' : `${item.files.length} files`,
+    // Lowercased haystack for the search box — built here so the controller never has to
+    // read text back out of the DOM.
+    search: [item.title, item.notes, item.submittedBy, component, SOURCE_META[item.source].label]
+      .join(' ')
+      .toLowerCase(),
+  };
+};
+---
+
+<div class="bcn-triage-queue">
+  <div class="bcn-triage-queue__scroll" data-triage-scroll>
+    {
+      buckets.map((bucket) => (
+        <section class="bcn-triage-queue__group" data-triage-group={bucket.id}>
+          <h3 class="bcn-triage-queue__day">{bucket.label}</h3>
+
+          <ul class="bcn-triage-queue__list">
+            {bucket.items.map((item) => {
+              const row = rowFor(item);
+              return (
+                <li
+                  class="bcn-triage-row"
+                  data-triage-row={item.id}
+                  data-source={item.source}
+                  data-component={item.componentId || 'none'}
+                  data-match={row.match}
+                  data-search={row.search}
+                  data-unread={isUnread(item.id) ? 'true' : undefined}
+                >
+                  {/* A status DOT, never a colored left border (banned) — and it marks the
+                      row's read state, which is a property of the row itself, so this is the
+                      one place an item-level mark is right. aria-hidden because the row's
+                      accessible name carries "Unread" instead. */}
+                  <span class="bcn-triage-row__unread" aria-hidden="true" />
+                  <button
+                    type="button"
+                    class="bcn-triage-row__body"
+                    data-triage-open={item.id}
+                    aria-label={`${isUnread(item.id) ? 'Unread. ' : ''}Review ${item.title}`}
+                  >
+                    <span class="bcn-triage-row__line">
+                      <span class="bcn-triage-row__title">{item.title}</span>
+                      {/* The bucket heading says "Last week", not a date — so the row has to
+                          carry its own, the way a mail list puts the time on every message. */}
+                      <span class="bcn-triage-row__date">{formatDate(item.receivedOn)}</span>
+                    </span>
+                    <span class="bcn-triage-row__meta">
+                      {SOURCE_META[item.source].label} · {row.fileLabel} ·{' '}
+                      {row.component || 'Component not set'}
+                    </span>
+                  </button>
+
+                  {/* Just how many were proposed. WHICH actions, and how sure the utility was
+                      about each, is the review panel's job — naming an action here invited
+                      filing it without ever reading why it was picked.
+
+                      Zero is words, not a badge: a "0" chip is a number that means nothing,
+                      and this is the case that most needs a person, so it says so. */}
+                  <div class="bcn-triage-row__foot">
+                    {row.total > 0 ? (
+                      <span class="bcn-triage-row__match bcn-triage-row__sug">
+                        <EsaBadge
+                          value={`${row.total} suggested action${row.total === 1 ? '' : 's'}`}
+                        />
+                      </span>
+                    ) : (
+                      <span class="bcn-triage-row__match bcn-triage-row__state" data-state="unmatched">
+                        Nothing proposed
+                      </span>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))
+    }
+
+    <div class="bcn-triage-queue__empty" data-triage-empty="filtered" hidden>
+      <EsaEmptyState
+        title="No evidence matches these filters"
+        description="Clear a filter or broaden the search to see the rest of the queue."
+        size="sm"
+      />
+    </div>
+
+    <div class="bcn-triage-queue__empty" data-triage-empty="cleared" hidden>
+      <EsaEmptyState
+        title="Queue clear"
+        description="Every record that arrived has been attached to an action or dismissed. New evidence lands here as it syncs."
+        size="sm"
+      />
+    </div>
+  </div>
+</div>
+
+<style>
+  .bcn-triage-queue {
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* lets the scroll region actually scroll inside the fixed frame */
+    height: 100%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    overflow: hidden;
+  }
+
+  /* ── Scroll region ────────────────────────────────────────────────────── */
+
+  .bcn-triage-queue__scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-bottom: var(--spacing-500);
+  }
+
+  /* Bands butt straight against the rows above and below them — the separator IS the
+     spacing, so nothing needs to be pushed apart. */
+  .bcn-triage-queue__group + .bcn-triage-queue__group {
+    margin-top: 0;
+  }
+
+  .bcn-triage-queue__group[hidden] {
+    display: none;
+  }
+
+  /* A tight full-bleed band, not a heading with air around it. It runs edge to edge and
+     sticks while you scroll, so the bucket you are reading is always named. Kept to a hair
+     over the text height — the separator's job is to divide, not to occupy. */
+  .bcn-triage-queue__day {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin: 0;
+    padding: var(--spacing-100) var(--spacing-300);
+    background: var(--color-surface-sunken);
+    border-block: 1px solid var(--color-border-light);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+    color: var(--color-text-primary);
+  }
+
+  /* The first band sits flush against the pane's top edge. */
+  .bcn-triage-queue__group:first-child .bcn-triage-queue__day {
+    border-top: 0;
+  }
+
+  .bcn-triage-queue__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* ── Row ──────────────────────────────────────────────────────────────── */
+
+  /* Not a card. A row in a list: no box, no radius, no margin — one hairline separating it
+     from the next. Sixteen bordered cards stacked in a narrow column read as sixteen
+     objects to consider; a plain list reads as one thing to work through. */
+  .bcn-triage-row {
+    display: grid;
+    grid-template-columns: 0.5rem minmax(0, 1fr);
+    align-items: start;
+    gap: var(--spacing-150) var(--spacing-250);
+    padding: var(--spacing-300);
+    border-bottom: 1px solid var(--color-border-light);
+    background: var(--color-surface);
+  }
+
+  /* The band below already draws its own top rule; a second one here would double it. */
+  .bcn-triage-row:last-child {
+    border-bottom: 0;
+  }
+
+  .bcn-triage-row[hidden] {
+    display: none;
+  }
+
+  .bcn-triage-row:hover {
+    background: var(--color-surface-sunken);
+  }
+
+  /* The reviewed row reads as selected through a tinted SURFACE alone — never a colored left
+     border (a banned pattern), and no ring now that the row has no box of its own to ring. */
+  .bcn-triage-row[data-active],
+  .bcn-triage-row[data-active]:hover {
+    background: var(--color-primary-subtle);
+  }
+
+  /* The unread dot: 6px, brand-independent info blue, in its own gutter so nothing shifts
+     when a row is marked read — the dot just stops being painted. */
+  .bcn-triage-row__unread {
+    grid-row: 1 / span 2;
+    align-self: start;
+    width: 6px;
+    height: 6px;
+    margin-top: 0.4rem;
+    border-radius: var(--radius-full);
+    background: transparent;
+  }
+
+  .bcn-triage-row[data-unread] .bcn-triage-row__unread {
+    background: var(--color-info);
+  }
+
+  /* Read rows recede, the way a read message does — the title drops from semibold to regular
+     rather than going gray, so it stays legible at 14px. */
+  .bcn-triage-row:not([data-unread]) .bcn-triage-row__title {
+    font-weight: var(--font-weight-regular, 400);
+  }
+
+  .bcn-triage-row__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .bcn-triage-row__body:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-100);
+  }
+
+  .bcn-triage-row__line {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-250);
+    min-width: 0;
+  }
+
+  .bcn-triage-row__title {
+    min-width: 0;
+    font-size: 0.875rem; /* 14px — the dense-surface floor; darkened rather than grayed */
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-text-primary);
+  }
+
+  .bcn-triage-row__date {
+    flex: none;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-triage-row__meta {
+    font-size: 0.8125rem; /* 13px meta */
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-triage-row__foot {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .bcn-triage-row__match {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+
+  .bcn-triage-row__foot {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .bcn-triage-row__match {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+
+  /* The suggestion badge carries its own noun, so it reads as one object rather than a
+     number next to a word. Its tint comes from esa-badge's own --badge-* component tokens
+     (the sanctioned theming hook) rather than one of the six variants: every variant is a
+     SATURATED fill, and a saturated chip on every row is the traffic light this list already
+     had removed once.
+
+     The treatment is the drawer's suggestion marker (bcn-ev-row__mark in
+     BcnEvidenceTargets), copied rather than re-derived: an info-subtle fill given DEFINITION
+     by a mixed border instead of by a darker background. That is the answer to "too light" —
+     a near-white chip reads as an object once it has an edge, and it stays quiet enough that
+     sixteen of them do not fight the row titles they sit under. Approved patterns are canon;
+     it is also now the same chip as the confidence mark in the review panel. */
+  .bcn-triage-row__sug :global(.esa-badge) {
+    --badge-bg: var(--color-info-subtle);
+    --badge-text-color: var(--color-text-primary);
+    /* esa-badge's md step is 28px tall, which is sized for a chip standing on its own. In a
+       dense list row it reads as a button. 24px keeps the 13px label comfortable and lets the
+       chip sit INSIDE the row's rhythm instead of setting it.
+       SANCTIONED HARD-CODE: --badge-height-md is a real hook, but no token defines it (the
+       lego only ever uses it with a literal fallback), so there is nothing to point at. */
+    --badge-height-md: 24px;
+    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* The no-suggestions case stays plain text — it is not a count, and giving it a chip of its
+     own would make the two states compete instead of contrast. It earns attention by
+     DARKENING rather than by taking a fill: the house rule for small text is never gray out
+     as you shrink. */
+  .bcn-triage-row__state {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-triage-row__state[data-state='unmatched'] {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+  }
+
+  .bcn-triage-queue__empty {
+    padding: var(--spacing-700) var(--spacing-400);
+  }
+
+  .bcn-triage-queue__empty[hidden] {
+    display: none;
+  }
+</style>
