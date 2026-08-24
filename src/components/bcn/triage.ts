@@ -9,9 +9,13 @@
 // There is no bulk selection. Records are decided one at a time, so nothing here tracks a
 // checked set — see BcnTriageQueue.astro for why that was pulled.
 //
-// SESSION-ONLY BY DESIGN. Nothing persists. A prototype that remembers an empty queue from
-// yesterday's demo is a prototype that cannot be demoed twice, so a reload always restores
-// the full sixteen.
+// SESSION-ONLY, WITH ONE EXCEPTION. Approvals and dismissals do not persist: a prototype that
+// remembers an empty queue from yesterday's demo cannot be demoed twice, so a reload always
+// restores the full sixteen. MANUALLY ADDED suggestions are the exception — they are authored
+// content rather than a decision, and they are expected to survive a reload, so they live in
+// localStorage under MANUAL_KEY. Clear them from the console with
+//   localStorage.removeItem('bcn-triage-manual')
+// which is worth knowing before a demo, since they do accumulate.
 
 interface FilterState {
   source: string[];
@@ -30,6 +34,25 @@ interface ItemState {
 
 const qsa = <T extends Element>(sel: string, root: ParentNode = document): T[] =>
   Array.from(root.querySelectorAll<T>(sel));
+
+/** Where manual suggestions live between sessions: { [itemId]: actionId[] }. */
+const MANUAL_KEY = 'bcn-triage-manual';
+
+const readManual = (): Record<string, string[]> => {
+  try {
+    return JSON.parse(localStorage.getItem(MANUAL_KEY) ?? '{}') as Record<string, string[]>;
+  } catch {
+    return {};
+  }
+};
+
+const writeManual = (all: Record<string, string[]>): void => {
+  try {
+    localStorage.setItem(MANUAL_KEY, JSON.stringify(all));
+  } catch {
+    /* A private-mode browser refusing storage should not break the surface. */
+  }
+};
 
 /** Assign a Lit ARRAY property from a JSON data attribute (attributes can't carry arrays). */
 const applyArrayProp = (el: Element, attr: string, prop: string): void => {
@@ -231,6 +254,14 @@ export function setupTriage(): void {
     render();
   };
 
+  /** Wire one proposal card's three buttons. Used by both the built-in cards and the clones. */
+  const wireCard = (card: HTMLElement): void => {
+    const [itemId, actionId] = (card.dataset.triageSug ?? '').split('|');
+    card.querySelector('[data-triage-sug-approve]')?.addEventListener('click', () => fileProposal(itemId, actionId));
+    card.querySelector('[data-triage-sug-dismiss]')?.addEventListener('click', () => dismissProposal(itemId, actionId));
+    card.querySelector('[data-triage-sug-undo]')?.addEventListener('click', () => undoProposal(itemId, actionId));
+  };
+
   // ── Events ───────────────────────────────────────────────────────────────
 
   // Row click → review it.
@@ -238,28 +269,128 @@ export function setupTriage(): void {
     btn.addEventListener('click', () => showPanel(btn.dataset.triageOpen ?? ''));
   }
 
-  // Panel proposal buttons.
-  for (const card of qsa<HTMLElement>('[data-triage-sug]')) {
-    const [itemId, actionId] = (card.dataset.triageSug ?? '').split('|');
-    card
-      .querySelector('[data-triage-sug-approve]')
-      ?.addEventListener('click', () => fileProposal(itemId, actionId));
-    card
-      .querySelector('[data-triage-sug-dismiss]')
-      ?.addEventListener('click', () => dismissProposal(itemId, actionId));
-    card
-      .querySelector('[data-triage-sug-undo]')
-      ?.addEventListener('click', () => undoProposal(itemId, actionId));
+  // Panel proposal buttons. Manual cards are wired by wireCard() as they are created.
+  for (const card of qsa<HTMLElement>('[data-triage-sug]')) wireCard(card);
+
+  // ── Manual suggestions ──────────────────────────────────────────────────
+  // A manual addition is a SUGGESTION, not an attachment: it lands in the list still needing
+  // approval, so the rule "nothing is attached until a person approves it" holds whether the
+  // proposal came from the utility or from the person.
+
+  const dialog = document.querySelector<HTMLElement & { open: boolean }>('[data-triage-adddialog]');
+  const template = document.querySelector<HTMLTemplateElement>('[data-triage-manual-template]');
+  const addSearch = document.querySelector<HTMLElement>('[data-triage-add-search]');
+  const addScope = document.querySelector<HTMLElement>('[data-triage-add-scope]');
+  const addEmpty = document.querySelector<HTMLElement>('[data-triage-add-empty]');
+  const addOptions = qsa<HTMLButtonElement>('[data-triage-add-pick]');
+  let addingFor = '';
+
+  /** Build a manual card from the template and put it at the end of the record's list. */
+  const addManualCard = (itemId: string, actionId: string): boolean => {
+    if (!template) return false;
+    const panel = document.querySelector<HTMLElement>(`[data-triage-panel="${itemId}"]`);
+    const list = panel?.querySelector<HTMLElement>('.bcn-triage-review__sugs');
+    const option = addOptions.find((o) => o.dataset.triageAddPick === actionId);
+    if (!panel || !list || !option) return false;
+    if (panel.querySelector(`[data-triage-sug="${itemId}|${actionId}"]`)) return false;
+
+    const card = template.content.firstElementChild!.cloneNode(true) as HTMLElement;
+    card.setAttribute('data-triage-sug', `${itemId}|${actionId}`);
+
+    const name = option.querySelector('.bcn-triage-add__name')?.textContent ?? '';
+    card.querySelector('[data-tpl-name]')!.textContent = name;
+
+    // Copy the option's own chips rather than rebuilding them: they are already real legos.
+    const meta = option.querySelector('.bcn-triage-add__meta');
+    const badges = meta ? [...meta.children] : [];
+    const codeSlot = card.querySelector('[data-tpl-code]');
+    if (codeSlot && badges[0]) codeSlot.replaceChildren(badges[0].cloneNode(true));
+    const tagSlot = card.querySelector('[data-tpl-tags]');
+    if (tagSlot) tagSlot.replaceChildren(...badges.slice(1).map((b) => b.cloneNode(true)));
+
+    list.appendChild(card);
+    wireCard(card);
+
+    // The "No matches found" line belongs to an empty list, not to an empty utility.
+    const nomatch = panel.querySelector<HTMLElement>('[data-triage-nomatch]');
+    if (nomatch) nomatch.hidden = list.children.length > 0;
+
+    syncRowBadge(itemId);
+    return true;
+  };
+
+  /**
+   * Keep the queue row's badge equal to the number of cards its panel actually shows. The
+   * badge is rendered at build time from the utility's output, so a manual addition would
+   * otherwise leave the row promising fewer proposals than opening it reveals — the same
+   * row-must-agree-with-the-panel rule the badge was built on.
+   */
+  const syncRowBadge = (itemId: string): void => {
+    const n = document.querySelectorAll(`[data-triage-panel="${itemId}"] [data-triage-sug]`).length;
+    const foot = document.querySelector<HTMLElement>(
+      `[data-triage-row="${itemId}"] [data-triage-rowfoot]`
+    );
+    if (!foot) return;
+    foot.hidden = n === 0;
+    const text = foot.querySelector('.esa-badge__text');
+    if (text) text.textContent = `${n} suggested action${n === 1 ? '' : 's'}`;
+  };
+
+  /** Re-hydrate everything a previous session added, before the first render. */
+  const hydrateManual = (): void => {
+    const stored = readManual();
+    for (const [itemId, actionIds] of Object.entries(stored)) {
+      for (const actionId of actionIds) addManualCard(itemId, actionId);
+    }
+  };
+
+  const rememberManual = (itemId: string, actionId: string): void => {
+    const all = readManual();
+    const forItem = all[itemId] ?? [];
+    if (!forItem.includes(actionId)) all[itemId] = [...forItem, actionId];
+    writeManual(all);
+  };
+
+  /** Filter the modal's list, and grey out what this record already carries. */
+  const refreshAddList = (): void => {
+    const q = ((addSearch as unknown as { value?: string })?.value ?? '').trim().toLowerCase();
+    const panel = document.querySelector<HTMLElement>(`[data-triage-panel="${addingFor}"]`);
+    let shown = 0;
+
+    for (const option of addOptions) {
+      const already = !!panel?.querySelector(
+        `[data-triage-sug="${addingFor}|${option.dataset.triageAddPick}"]`
+      );
+      const matches = !q || (option.dataset.search ?? '').includes(q);
+      option.hidden = !matches;
+      if (already) option.setAttribute('data-already', '');
+      else option.removeAttribute('data-already');
+      if (matches) shown++;
+    }
+
+    if (addEmpty) addEmpty.hidden = shown !== 0;
+  };
+
+  for (const btn of qsa<HTMLElement>('[data-triage-add]')) {
+    btn.addEventListener('click', () => {
+      addingFor = btn.dataset.triageAdd ?? '';
+      const row = document.querySelector<HTMLElement>(`[data-triage-row="${addingFor}"]`);
+      const title = row?.querySelector('.bcn-triage-row__title')?.textContent ?? '';
+      if (addScope) addScope.textContent = title ? `Adding to: ${title}` : '';
+      setFieldValue(addSearch, '');
+      refreshAddList();
+      if (dialog) dialog.open = true;
+    });
   }
 
-  // Attach to a hand-picked action — the "edit the association" path.
-  for (const btn of qsa<HTMLElement>('[data-triage-picker-file]')) {
-    btn.addEventListener('click', () => {
-      const itemId = btn.dataset.triagePickerFile ?? '';
-      const select = document.querySelector<HTMLElement>(`[data-triage-picker="${itemId}"]`);
-      const chosen = (select as unknown as { value?: string })?.value;
-      if (!chosen) return;
-      fileProposal(itemId, chosen);
+  addSearch?.addEventListener('input', refreshAddList);
+
+  for (const option of addOptions) {
+    option.addEventListener('click', () => {
+      const actionId = option.dataset.triageAddPick ?? '';
+      if (addManualCard(addingFor, actionId)) rememberManual(addingFor, actionId);
+      if (dialog) dialog.open = false;
+      render();
     });
   }
 
@@ -298,6 +429,7 @@ export function setupTriage(): void {
   document.querySelector('[data-triage-clear]')?.addEventListener('click', resetFilters);
   document.addEventListener('esa-filter-clear', resetFilters);
 
+  hydrateManual();
   render();
 }
 

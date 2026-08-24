@@ -126,19 +126,18 @@ const rowFor = (item: TriageItem) => {
 
                       Zero is words, not a badge: a "0" chip is a number that means nothing,
                       and this is the case that most needs a person, so it says so. */}
-                  {/* A record with nothing proposed says nothing at all — the absent badge
-                      IS the signal, and the row stays two lines instead of spending a third
-                      on a negative. The Match filter still separates these rows on
-                      data-match, so only the words are gone. */}
-                  {row.total > 0 && (
-                    <div class="bcn-triage-row__foot">
-                      <span class="bcn-triage-row__match bcn-triage-row__sug">
-                        <EsaBadge
-                          value={`${row.total} suggested action${row.total === 1 ? '' : 's'}`}
-                        />
-                      </span>
-                    </div>
-                  )}
+                  {/* Always RENDERED, hidden at zero. A record with nothing proposed shows
+                      no badge — the absence is the signal — but the element has to exist,
+                      because a manual addition can give a record its first suggestion and the
+                      controller needs something to update. Building a badge from scratch in JS
+                      would bypass the lego; this way the markup is always the real one. */}
+                  <div class="bcn-triage-row__foot" data-triage-rowfoot hidden={row.total === 0}>
+                    <span class="bcn-triage-row__match bcn-triage-row__sug">
+                      <EsaBadge
+                        value={`${row.total} suggested action${row.total === 1 ? '' : 's'}`}
+                      />
+                    </span>
+                  </div>
                 </li>
               );
             })}
@@ -315,6 +314,10 @@ const rowFor = (item: TriageItem) => {
     color: var(--color-text-secondary);
   }
 
+  .bcn-triage-row__foot[hidden] {
+    display: none;
+  }
+
   .bcn-triage-row__foot {
     display: flex;
     align-items: center;
@@ -326,6 +329,10 @@ const rowFor = (item: TriageItem) => {
     align-items: center;
     gap: var(--spacing-200);
     min-width: 0;
+  }
+
+  .bcn-triage-row__foot[hidden] {
+    display: none;
   }
 
   .bcn-triage-row__foot {

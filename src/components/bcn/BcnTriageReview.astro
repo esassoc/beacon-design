@@ -16,11 +16,17 @@
 // actionable, low-confidence ones sit behind a disclosure — present, but not soliciting a
 // reflex click.
 //
-// The record that got NOTHING is not an error state. It opens straight onto the picker,
-// because the honest answer is "the utility had no opinion, you decide" — not an empty box.
+// The record that got NOTHING is not an error state — it says so plainly, and the + beside
+// the heading is how a person supplies the answer the utility could not.
 //
-// Composes: esa-file-list, esa-collapsible, esa-select, esa-button, esa-badge,
-// esa-empty-state, bcn-key-value. Behavior lives in ./triage.ts.
+// MANUAL ADDITIONS ARE SUGGESTIONS, not attachments. Picking an action from the modal does not
+// file the evidence; it puts a card in the list that still has to be approved. That keeps one
+// rule for the whole surface — nothing is attached until a person approves it — whether the
+// proposal came from the matching utility or from the person themselves.
+//
+// Composes: esa-file-list, esa-collapsible, esa-dialog, esa-text-field, esa-icon-button,
+// esa-button, esa-badge, esa-icon, esa-empty-state, esa-card, bcn-commitment-badge.
+// Behavior lives in ./triage.ts.
 //
 // bcn-lego-checked: no esa-* lego is a record-review panel — esa-card is a plain box (and
 // nests badly three deep), esa-side-dialog/esa-dialog are overlays with their own scrim and
@@ -29,6 +35,7 @@
 // dialog is the closest prod relative and is a modal, not a persistent pane.
 // bcn-triage-review is the reusable home.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
@@ -46,9 +53,7 @@ import { phaseName } from '../../data/evidence-drawer';
 import {
   componentById,
   actionById,
-  actionsFor,
   ACTIONS,
-  FREQUENCY_LABEL,
   TYPE_LABEL,
 } from '../../data/evidence-drawer';
 import { scopeIcon } from '../../data/global-search';
@@ -58,16 +63,6 @@ const FILE_PLUS =
   '<path d="M14 2v4a2 2 0 0 0 2 2h4"/>' +
   '<path d="M9 15h6"/><path d="M12 12v6"/>';
 
-/**
- * The picker's options. Scoped to the record's component, because evidence never crosses
- * components — except when the record never named one, where the whole project is genuinely
- * the right scope and the human is being asked to narrow it.
- */
-const pickerOptions = (componentId: string) =>
-  (componentId ? actionsFor(componentId) : ACTIONS).map((a) => ({
-    value: a.id,
-    label: `${a.code} — ${a.name}`,
-  }));
 ---
 
 <div class="bcn-triage-review">
@@ -140,6 +135,15 @@ const pickerOptions = (componentId: string) =>
 
           <section class="bcn-triage-review__section" aria-label="Suggested actions">
             <h3 class="bcn-triage-review__legend">
+              {/* Hangs in the section's indent so the radar glyph and the cards below keep
+                  the same left edge — the gutter the indent created is what this lives in. */}
+              {/* The hook rides the WRAPPER, not the lego: esa-icon-button does not forward
+                  arbitrary attributes the way esa-button does, so a data-* passed to it is
+                  silently dropped. Click bubbles from the button to this span either way.
+                  LEGO GAP: esa-icon-button should forward extra attrs like esa-button. */}
+              <span class="bcn-triage-review__add" data-triage-add={item.id}>
+                <EsaIconButton icon="plus" label="Add a suggested action" size="sm" />
+              </span>
               <EsaIcon name="radar" paths={scopeIcon('actions')} size="sm" />
               Suggested actions
               {/* The count wears the same info chip as the queue row's badge and the
@@ -153,8 +157,11 @@ const pickerOptions = (componentId: string) =>
               )}
             </h3>
 
-            {confident.length > 0 ? (
-              <div class="bcn-triage-review__sugs">
+            {/* The list container is ALWAYS rendered, even with nothing in it: a manual
+                addition needs somewhere to land, and the records with no proposals are
+                exactly the ones most likely to get one. The empty line sits beside it and
+                the controller hides it as soon as a card arrives. */}
+            <div class="bcn-triage-review__sugs" data-triage-suglist>
                 {confident.map((s) => {
                   const t = suggestionTarget(s);
                   const a = actionById(s.actionId);
@@ -201,52 +208,96 @@ const pickerOptions = (componentId: string) =>
                     </div>
                   );
                 })}
-              </div>
-            ) : (
-              <p class="bcn-triage-review__nonetext">No matches found</p>
+            </div>
+
+            {confident.length === 0 && (
+              <p class="bcn-triage-review__nonetext" data-triage-nomatch>No matches found</p>
             )}
 
-          </section>
-
-          {/* Collapsed by default — the proposals are the point, and the hand-pick route is
-              the exception. It opens automatically when there is NOTHING proposed, because
-              then it is the only thing on the panel a person can act on, and a record with no
-              suggestions must not open onto a screen of nothing but a closed disclosure. */}
-          <section
-            class="bcn-triage-review__section bcn-triage-review__attach"
-            aria-label="Attach to another action"
-          >
-            <EsaCollapsible
-              title="Attach to another action"
-              icon="file-plus"
-              iconPaths={FILE_PLUS}
-              open={confident.length === 0}
-              flush
-            >
-            <div class="bcn-triage-review__picker">
-              <esa-select
-                data-triage-picker={item.id}
-                data-options={JSON.stringify(pickerOptions(item.componentId))}
-                placeholder="Search actions…"
-                size="sm"
-                searchable
-              />
-              <EsaButton size="sm" color="primary" appearance="outline" data-triage-picker-file={item.id}>
-                Attach evidence
-              </EsaButton>
-            </div>
-            </EsaCollapsible>
           </section>
 
         </article>
       );
     })
   }
+
+  {/* ONE dialog for the whole pane, not one per record: the controller remembers which record
+      opened it. Sixteen copies of a modal is sixteen focus traps waiting to disagree.
+      esa-dialog brings Esc, the focus trap and focus restore with it. */}
+  <esa-dialog heading="Add a suggested action" size="lg" data-triage-adddialog>
+    <div class="bcn-triage-add">
+      <esa-text-field
+        data-triage-add-search
+        placeholder="Search actions by name or commitment code…"
+        aria-label="Search actions"
+        size="md"></esa-text-field>
+
+      <p class="bcn-triage-add__scope" data-triage-add-scope></p>
+
+      <ul class="bcn-triage-add__list" data-triage-add-list>
+        {ACTIONS.map((a) => (
+          <li>
+            <button
+              type="button"
+              class="bcn-triage-add__option"
+              data-triage-add-pick={a.id}
+              data-component={a.componentId}
+              data-search={`${a.code} ${a.name}`.toLowerCase()}
+            >
+              <span class="bcn-triage-add__name">{a.name}</span>
+              <span class="bcn-triage-add__meta">
+                <BcnCommitmentBadge code={a.code} size="sm" />
+                <EsaBadge value={TYPE_LABEL[a.type]} size="sm" />
+                <EsaBadge value={phaseName(a.phase)} size="sm" />
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <p class="bcn-triage-add__empty" data-triage-add-empty hidden>No actions match that search</p>
+    </div>
+  </esa-dialog>
+
+  {/* The card the controller clones for a manual addition. Astro's legos are compile-time, so
+      a template is how a runtime-built card still gets real esa-card / esa-badge markup
+      instead of a hand-written copy of it — the same trick BcnEvidenceTargets uses for its
+      attached-evidence rows. */}
+  <template data-triage-manual-template>
+    <div class="bcn-triage-sug" data-tier="manual">
+      <EsaCard>
+        <div class="bcn-ev-row">
+          <div class="bcn-ev-row__titlerow">
+            <span class="bcn-ev-row__name" data-tpl-name></span>
+            <span data-tpl-code><BcnCommitmentBadge code="" size="sm" /></span>
+            <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+            <span class="bcn-ev-row__tags" data-tpl-tags>
+              <EsaBadge value="" size="sm" />
+              <EsaBadge value="" size="sm" />
+            </span>
+          </div>
+
+          <div class="bcn-triage-sug__act" data-triage-sug-act>
+            <EsaButton size="sm" color="primary" data-triage-sug-approve>Approve</EsaButton>
+            <EsaButton size="sm" color="danger" appearance="outline" data-triage-sug-dismiss>
+              Dismiss
+            </EsaButton>
+          </div>
+
+          <div class="bcn-triage-sug__done" data-triage-sug-done hidden>
+            <span data-triage-sug-verdict><EsaBadge value="Attached" variant="success" size="sm" /></span>
+            <EsaButton size="sm" color="ghost" data-triage-sug-undo>Undo</EsaButton>
+          </div>
+        </div>
+      </EsaCard>
+    </div>
+  </template>
 </div>
 
 <script>
   import '@esa/ecology/esa-file-list';
-  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
 </script>
 
 <style>
@@ -453,8 +504,7 @@ const pickerOptions = (componentId: string) =>
      LEGO GAP: esa-collapsible needs a --collapsible-icon-color hook; this reaches for its
      inner class because there is none. */
   .bcn-triage-review__legend :global(.esa-icon),
-  .bcn-triage-review__files :global(.esa-collapsible__summary .esa-icon),
-  .bcn-triage-review__attach :global(.esa-collapsible__summary .esa-icon) {
+  .bcn-triage-review__files :global(.esa-collapsible__summary .esa-icon) {
     flex: none;
     color: var(--color-text-muted);
   }
@@ -526,16 +576,105 @@ const pickerOptions = (componentId: string) =>
 
 
 
-  .bcn-triage-review__picker {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-250);
-    flex-wrap: wrap;
+  /* The + hangs left into the section's indent, so it does not push the heading or break the
+     edge the cards share with it. */
+  .bcn-triage-review__add {
+    display: inline-flex;
+    margin-left: calc((1rem + var(--spacing-200)) * -1);
   }
 
-  .bcn-triage-review__picker esa-select {
-    flex: 1 1 16rem;
+  /* ── The add-a-suggestion modal ──────────────────────────────────────── */
+
+  .bcn-triage-add {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+
+  .bcn-triage-add__scope {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* A fixed frame, so the modal is the same height whatever the search returns — a dialog
+     that resizes as you type is a dialog that moves the thing you are aiming at. */
+  .bcn-triage-add__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    height: 22rem;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+  }
+
+  .bcn-triage-add__option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    width: 100%;
+    padding: var(--spacing-250) var(--spacing-300);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .bcn-triage-add__option:hover {
+    background: var(--color-surface-sunken);
+  }
+
+  .bcn-triage-add__option:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .bcn-triage-add__option[hidden] {
+    display: none;
+  }
+
+  /* The name takes the free space and the chips hold their size, so a long action name uses
+     the row rather than being squeezed into four words per line by the badges. */
+  .bcn-triage-add__name {
+    flex: 1 1 auto;
     min-width: 0;
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+    color: var(--color-text-primary);
+  }
+
+  .bcn-triage-add__meta {
+    display: flex;
+    align-items: center;
+    flex: none;
+    gap: var(--spacing-150);
+  }
+
+  .bcn-triage-add__meta :global(.esa-badge) {
+    --badge-bg: var(--color-surface-sunken);
+    --badge-text-color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* An action already on this record cannot be added twice. */
+  .bcn-triage-add__option[data-already] {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .bcn-triage-add__empty {
+    margin: 0;
+    padding: var(--spacing-300) 0;
+    font-size: 0.8125rem;
+    font-style: italic;
+    text-align: center;
+    color: var(--color-text-muted);
   }
 
   /* ── A single proposal ────────────────────────────────────────────────── */
@@ -644,10 +783,6 @@ const pickerOptions = (componentId: string) =>
   .bcn-triage-sug__act[hidden],
   .bcn-triage-sug__done[hidden] {
     display: none;
-  }
-
-  .bcn-triage-review__attach :global(.esa-collapsible__summary) {
-    padding-block: var(--spacing-150);
   }
 
   /* esa-collapsible's body ships a --spacing-400 BOTTOM padding, which stacked on the
