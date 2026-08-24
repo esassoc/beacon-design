@@ -26,8 +26,6 @@ interface ItemState {
   filed: Set<string>;
   /** Proposals explicitly rejected. */
   dismissed: Set<string>;
-  /** The whole record was thrown out — not evidence of compliance. */
-  discarded: boolean;
 }
 
 const qsa = <T extends Element>(sel: string, root: ParentNode = document): T[] =>
@@ -66,7 +64,7 @@ export function setupTriage(): void {
   const stateFor = (id: string): ItemState => {
     let s = state.get(id);
     if (!s) {
-      s = { filed: new Set(), dismissed: new Set(), discarded: false };
+      s = { filed: new Set(), dismissed: new Set() };
       state.set(id, s);
     }
     return s;
@@ -79,13 +77,13 @@ export function setupTriage(): void {
       .filter(Boolean);
 
   /**
-   * A record leaves the queue once it has been filed somewhere, thrown out, or had every
-   * proposal rejected. Rejecting only SOME proposals leaves it here — the remaining ones
-   * still need an answer.
+   * A record leaves the queue once it has been attached somewhere, or had every proposal
+   * rejected. Rejecting only SOME proposals leaves it here — the remaining ones still need an
+   * answer. A record with no proposals at all can only leave by being attached by hand.
    */
   const isResolved = (id: string): boolean => {
     const s = stateFor(id);
-    if (s.discarded || s.filed.size > 0) return true;
+    if (s.filed.size > 0) return true;
     const all = proposalsFor(id);
     return all.length > 0 && all.every((k) => s.dismissed.has(k.split('|')[1]));
   };
@@ -229,7 +227,6 @@ export function setupTriage(): void {
     const s = stateFor(itemId);
     s.filed.delete(actionId);
     s.dismissed.delete(actionId);
-    s.discarded = false;
     paintProposal(`${itemId}|${actionId}`);
     render();
   };
@@ -263,16 +260,6 @@ export function setupTriage(): void {
       const chosen = (select as unknown as { value?: string })?.value;
       if (!chosen) return;
       fileProposal(itemId, chosen);
-    });
-  }
-
-  // Throw the whole record out.
-  for (const btn of qsa<HTMLElement>('[data-triage-dismiss-all]')) {
-    btn.addEventListener('click', () => {
-      const itemId = btn.dataset.triageDismissAll ?? '';
-      stateFor(itemId).discarded = true;
-      advanceFrom(itemId);
-      render();
     });
   }
 

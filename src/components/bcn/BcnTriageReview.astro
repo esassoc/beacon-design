@@ -71,11 +71,16 @@ const pickerOptions = (componentId: string) =>
 ---
 
 <div class="bcn-triage-review">
-  <!-- Nothing picked yet: the pane says what it is for rather than sitting blank. -->
+  <!-- Nothing picked yet: the pane says what it is for rather than sitting blank.
+
+       NOTE: there is no "not evidence of compliance" action any more. A record leaves the
+       queue only by being attached to an action — either an approved suggestion or one picked
+       by hand. Nothing on this surface can say "this is not evidence", so a record that is
+       genuinely junk has no exit; if that becomes a real case, this is where it would go. -->
   <div class="bcn-triage-review__prompt" data-triage-prompt>
     <EsaEmptyState
       title="Select a record to review"
-      description="Each one shows the actions proposed for it. Approve, dismiss, or attach it to an action you pick yourself."
+      description="Each one shows the actions proposed for it. Approve a suggestion, or attach the record to an action you pick yourself."
       size="sm"
     />
   </div>
@@ -233,11 +238,6 @@ const pickerOptions = (componentId: string) =>
             </EsaCollapsible>
           </section>
 
-          <footer class="bcn-triage-review__foot">
-            <EsaButton size="sm" color="danger" appearance="outline" data-triage-dismiss-all={item.id}>
-              Not evidence of compliance
-            </EsaButton>
-          </footer>
         </article>
       );
     })
@@ -526,15 +526,6 @@ const pickerOptions = (componentId: string) =>
   .bcn-triage-review__picker esa-select {
     flex: 1 1 16rem;
     min-width: 0;
-  }
-
-  /* Right-aligned, matching the card footers above it, with extra air on top so the record's
-     last destructive option is not crowded against the attach section. */
-  .bcn-triage-review__foot {
-    display: flex;
-    justify-content: flex-end;
-    padding: var(--spacing-400) var(--spacing-400) var(--spacing-300);
-    border-top: 1px solid var(--color-border);
   }
 
   /* ── A single proposal ────────────────────────────────────────────────── */
