@@ -136,7 +136,6 @@ export function setupTriage(): void {
 
   // ── Wire the Lit array properties Astro could only pass as JSON ──────────
 
-  qsa('[data-triage-files]').forEach((el) => applyArrayProp(el, 'data-triage-files', 'files'));
   qsa('[data-triage-picker]').forEach((el) => applyArrayProp(el, 'data-options', 'options'));
 
   // ── Filtering ────────────────────────────────────────────────────────────
@@ -183,6 +182,42 @@ export function setupTriage(): void {
     if (emptyFiltered) emptyFiltered.hidden = visible !== 0 || remaining === 0;
 
     updateInboxCount(remaining, visible);
+  };
+
+  // ── Sort ─────────────────────────────────────────────────────────────────
+
+  /**
+   * Two orders that are different SHAPES, not just different sequences.
+   *
+   * Chronological is the grouped view: day bands, newest first, which is what makes this
+   * readable as an inbox. Alphabetical cannot keep the bands — ordering by name interleaves
+   * the dates by definition — so every row moves into one flat list and the bands hide. The
+   * date rides each row's title line, so dropping the headings loses nothing.
+   *
+   * Where each row started is recorded up front so chronological is RESTORED rather than
+   * re-derived: the build-time order already encodes the bucketing, and re-sorting by date
+   * here would be a second implementation of it to keep in agreement.
+   */
+  const flatList = document.querySelector<HTMLElement>('[data-triage-flat]');
+  const homes = rows.map((row) => ({ row, parent: row.parentElement as HTMLElement }));
+
+  const applySort = (mode: string): void => {
+    if (mode === 'name') {
+      for (const row of [...rows].sort((a, b) =>
+        (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '')
+      )) {
+        flatList?.appendChild(row);
+      }
+    } else {
+      // `homes` is in document order and each list's rows are contiguous within it, so
+      // appending in that order rebuilds the original sequence exactly.
+      for (const home of homes) home.parent.appendChild(home.row);
+    }
+
+    if (flatList) flatList.hidden = mode !== 'name';
+    // render() hides a band with no visible rows, and in name mode every band is empty —
+    // so it takes care of the headings without needing to know a sort exists.
+    render();
   };
 
   // ── Inbox header ─────────────────────────────────────────────────────────
@@ -303,6 +338,31 @@ export function setupTriage(): void {
 
   // Panel proposal buttons. Manual cards are wired by wireCard() as they are created.
   for (const card of qsa<HTMLElement>('[data-triage-sug]')) wireCard(card);
+
+  // ── File preview ─────────────────────────────────────────────────────────
+
+  /**
+   * One stand-in viewer serves every file on every record, so opening it means naming the
+   * file first — the dialog carries no state of its own between openings.
+   *
+   * The hook is read from the WRAPPER span: esa-icon-button does not forward arbitrary
+   * attributes to its rendered element, so a data-attribute set on the lego vanishes.
+   */
+  const previewDialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>(
+    '[data-bcn-filepreview]'
+  );
+  const previewName = document.querySelector<HTMLElement>('[data-bcn-filepreview-name]');
+
+  for (const hook of qsa<HTMLElement>('[data-bcn-file-preview]')) {
+    hook.addEventListener('click', () => {
+      const name = hook.dataset.bcnFileName ?? '';
+      if (previewName) previewName.textContent = name;
+      if (previewDialog) {
+        previewDialog.heading = name || 'Preview';
+        previewDialog.open = true;
+      }
+    });
+  }
 
   // ── Manual suggestions ──────────────────────────────────────────────────
   // A manual addition is a SUGGESTION, not an attachment: it lands in the list still needing
@@ -494,6 +554,38 @@ export function setupTriage(): void {
   // Closing a record returns the pane to its unselected state.
   for (const btn of qsa<HTMLElement>('[data-triage-close]')) {
     btn.addEventListener('click', () => showPanel(''));
+  }
+
+  // The sort pivot. Not a filter: it changes the order, never what is in the list, so it is
+  // deliberately left out of [data-triage-filter] and survives Clear all.
+  const sortSelect = document.querySelector<HTMLElement & { options: unknown; value: unknown }>(
+    '[data-triage-sort]'
+  );
+  if (sortSelect) {
+    /**
+     * Seeded so the control states the order the list is ACTUALLY in — a facet can read as
+     * unset, a sort cannot. esa-select exposes a real public value setter, so unlike
+     * clearDropdown() below this needs no reach into private state.
+     *
+     * But it has to wait for the element to be DEFINED. `value` is a plain accessor on the
+     * class, not a Lit reactive property, so assigning it before upgrade writes an own
+     * property that shadows the setter forever — the control kept showing its placeholder
+     * while the list was already sorted by date.
+     */
+    const seed = (): void => {
+      sortSelect.options = [
+        { value: 'date', label: 'Date' },
+        { value: 'name', label: 'Name' },
+      ];
+      sortSelect.value = 'date';
+    };
+    if (customElements.get('esa-select')) seed();
+    else void customElements.whenDefined('esa-select').then(seed);
+
+    sortSelect.addEventListener('change', (e) => {
+      const value = (e as CustomEvent<{ value: string | string[] }>).detail?.value;
+      applySort((Array.isArray(value) ? value[0] : value) || 'date');
+    });
   }
 
   // Filter dropdowns + search, supplied by the page.

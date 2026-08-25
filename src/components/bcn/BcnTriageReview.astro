@@ -24,7 +24,7 @@
 // rule for the whole surface — nothing is attached until a person approves it — whether the
 // proposal came from the matching utility or from the person themselves.
 //
-// Composes: esa-file-list, esa-collapsible, esa-dialog, esa-text-field, esa-icon-button,
+// Composes: bcn-file-row, bcn-file-preview, esa-collapsible, esa-dialog, esa-text-field, esa-icon-button,
 // esa-button, esa-badge, esa-icon, esa-empty-state, esa-card, bcn-commitment-badge.
 // Behavior lives in ./triage.ts.
 //
@@ -41,6 +41,8 @@ import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnFileRow from './BcnFileRow.astro';
+import BcnFilePreview from './BcnFilePreview.astro';
 import {
   TRIAGE_ITEMS,
   suggestionsForItem,
@@ -126,9 +128,14 @@ const FILE_PLUS =
                 iconPaths={scopeIcon('evidence')}
                 flush
               >
-                <esa-file-list
-                  data-triage-files={JSON.stringify(item.files.map((f) => ({ name: f.name })))}
-                />
+                {/* bcn-file-row rather than esa-file-list: the lego renders in a closed
+                    shadow root with exactly two actions (download, remove), so a preview
+                    button cannot be added to its rows from outside. See BcnFileRow. */}
+                <div class="bcn-triage-review__filelist">
+                  {item.files.map((f) => (
+                    <BcnFileRow name={f.name} size={f.size} previewId={f.name} />
+                  ))}
+                </div>
               </EsaCollapsible>
             </div>
           </header>
@@ -221,6 +228,9 @@ const FILE_PLUS =
       );
     })
   }
+
+  {/* The stand-in document viewer, mounted once for every file on every record. */}
+  <BcnFilePreview />
 
   {/* ONE dialog for the whole pane, not one per record: the controller remembers which record
       opened it. Sixteen copies of a modal is sixteen focus traps waiting to disagree.
@@ -318,7 +328,6 @@ const FILE_PLUS =
 </div>
 
 <script>
-  import '@esa/ecology/esa-file-list';
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-combobox';
 </script>
@@ -497,6 +506,13 @@ const FILE_PLUS =
      dividing the record from its files rather than floating between two equal gaps. */
   .bcn-triage-review__files :global(.esa-collapsible__summary) {
     padding-block: var(--spacing-300) var(--spacing-150);
+  }
+
+  /* The rows stack with the gap esa-file-list used, so the swap is invisible. */
+  .bcn-triage-review__filelist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
   }
 
   /* Air between the summary and the list when open, so the first file is not welded to it. */

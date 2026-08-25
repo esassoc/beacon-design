@@ -29,6 +29,10 @@
 // Two empty states, and they mean different things — "you finished" and "your filters hide
 // everything" are not the same news. Both are esa-empty-state; only the words differ.
 //
+// SORTING IS TWO SHAPES, not two sequences. Chronological keeps the bands, because "Today /
+// Yesterday / Last week" is what makes an inbox readable. Alphabetical drops them into one
+// flat list — see the note on [data-triage-flat] below.
+//
 // Composes: esa-empty-state and the .stack primitive.
 // Behavior (filtering, selection, resolution) lives in ./triage.ts.
 //
@@ -99,6 +103,7 @@ const rowFor = (item: TriageItem) => {
                   data-source={item.source}
                   data-component={item.componentId || 'none'}
                   data-search={row.search}
+                  data-title={item.title.toLowerCase()}
                 >
                   <button
                     type="button"
@@ -143,6 +148,12 @@ const rowFor = (item: TriageItem) => {
         </section>
       ))
     }
+
+    {/* Where alphabetical order lives. Sorting by name and keeping the day bands are
+        mutually exclusive — a name-ordered list interleaves dates by definition — so the
+        controller moves every row in here and hides the bands. Nothing is lost: the date
+        already rides each row's title line. Empty in the default (chronological) order. */}
+    <ul class="bcn-triage-queue__list" data-triage-flat hidden></ul>
 
     <div class="bcn-triage-queue__empty" data-triage-empty="filtered" hidden>
       <EsaEmptyState
@@ -221,6 +232,10 @@ const rowFor = (item: TriageItem) => {
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .bcn-triage-queue__list[hidden] {
+    display: none;
   }
 
   /* ── Row ──────────────────────────────────────────────────────────────── */

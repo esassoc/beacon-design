@@ -79,7 +79,7 @@ const scopeOptions = [
     <BcnTriageCounts slot="title-badge" total={TRIAGE_ITEMS.length} />
 
     <div class="stack" data-gap="md">
-      <BcnFilterBar leadLabel="Show">
+      <BcnFilterBar leadLabel="Show" sortLabel="Sort" filtersLabel="Filter">
         <esa-button-toggle
           slot="lead"
           data-triage-scope
@@ -88,12 +88,21 @@ const scopeOptions = [
           data-options={JSON.stringify(scopeOptions)}
         />
 
+
         <esa-text-field
           slot="search"
           data-triage-search
           placeholder="Search evidence, submitters, components…"
           aria-label="Search the triage queue"
           size="md"></esa-text-field>
+
+        {/* The same shape as the facets beside it — a word, then a dropdown. esa-select
+            rather than esa-filter-dropdown because a filter dropdown renders its own name
+            into the trigger ("Sort: Date"), which would say "Sort" twice next to the bar's
+            label; a label-less select shows only the value, exactly as "Upload Source" does.
+            Date is the default because the queue IS a date-ordered inbox; name is for the
+            other errand — going back to a record you can name but cannot place in time. */}
+        <esa-select slot="sort" data-triage-sort size="md" />
 
         {
           facets.map((f) => (
@@ -118,5 +127,6 @@ const scopeOptions = [
 <script>
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-button-toggle';
 </script>

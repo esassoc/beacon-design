@@ -1,0 +1,107 @@
+---
+// <BcnFileRow> — one attached file: its glyph, its name, its size, then its actions.
+//
+// PREVIEW SITS LEFT OF DOWNLOAD, deliberately. Looking is the cheaper, more common act and
+// the one that should be reached first; downloading takes the file out of the system, so it
+// reads second. Both are icon-only because the name is the content of the row and a pair of
+// labelled buttons would out-shout it.
+//
+// The preview hook lives on the WRAPPER span, not on esa-icon-button. Unlike esa-button, the
+// icon button does not forward arbitrary attributes to its rendered element, so a
+// data-attribute set on the lego silently disappears and the click never binds.
+//
+// Composes: esa-icon, esa-icon-button.
+//
+// bcn-lego-checked: esa-file-list IS the lego for a list of files, and it is what this
+// replaces — but it renders into a CLOSED shadow root (`static styles`, no slots, no parts)
+// and exposes exactly two actions: `downloadable` and `removable`. A third per-row action
+// cannot be slotted, parted, or injected into it from outside, so the ROW itself has to be
+// ours; every CONTROL in it is still a lego. Checked Beacon: prod's evidence rows are the
+// same shape (name + trailing icon rail). Filed as a hub gap — esa-file-list wants a
+// `previewable` flag and a `preview` event, at which point this component should be deleted
+// and the lego adopted again. bcn-file-row is the reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+
+interface Props {
+  name: string;
+  /** Human size string — presentational only; omitted renders no size. */
+  size?: string;
+  /**
+   * Value handed to the preview handler when the eye is clicked. Omitted renders no preview
+   * button, so a row of files that cannot be viewed is still this component.
+   */
+  previewId?: string;
+}
+const { name, size, previewId } = Astro.props as Props;
+---
+
+<div class="bcn-file-row">
+  <span class="bcn-file-row__icon">
+    <EsaIcon name="file-text" size="sm" />
+  </span>
+
+  <span class="bcn-file-row__name" title={name}>{name}</span>
+  {size && <span class="bcn-file-row__size">{size}</span>}
+
+  <span class="bcn-file-row__actions">
+    {
+      previewId && (
+        <span class="bcn-file-row__act" data-bcn-file-preview={previewId} data-bcn-file-name={name}>
+          <EsaIconButton icon="eye" label={`Preview ${name}`} size="sm" />
+        </span>
+      )
+    }
+    <span class="bcn-file-row__act">
+      <EsaIconButton icon="download" label={`Download ${name}`} size="sm" />
+    </span>
+  </span>
+</div>
+
+<style>
+  /* A faithful port of esa-file-list's row so a surface swapping to this does not shift:
+     same grid, same border, same radius, same surface. The one deliberate change is type
+     size — the lego's row is 12px, under the house's 13px meta floor. */
+  .bcn-file-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-100) var(--spacing-300);
+    border: var(--form-border-width, 1px) solid var(--color-border);
+    border-radius: var(--radius-100);
+    background: var(--color-surface);
+    font-size: 0.875rem;
+  }
+
+  .bcn-file-row__icon {
+    display: inline-flex;
+    color: var(--color-text-muted);
+  }
+
+  .bcn-file-row__name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-text-primary);
+  }
+
+  /* Genuine meta, at the meta floor — and darker rather than fainter as it shrinks. */
+  .bcn-file-row__size {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  .bcn-file-row__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-050);
+  }
+
+  /* The wrapper exists to carry the click hook, so it must not eat the button's box. */
+  .bcn-file-row__act {
+    display: inline-flex;
+  }
+</style>

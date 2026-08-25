@@ -54,6 +54,10 @@ const LUCIDE: Record<string, string> = {
     '<path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/>',
   'flask-conical':
     '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
+  // esa-icon's registry has no inbox, so `icon="inbox"` rendered an EMPTY svg — the element
+  // was there, sized and coloured, with nothing in it.
+  inbox:
+    '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
   'notepad-text':
     '<path d="M8 2v4"/><path d="M12 2v4"/><path d="M16 2v4"/><rect width="16" height="18" x="4" y="4" rx="2"/><path d="M8 10h6"/><path d="M8 14h8"/><path d="M8 18h5"/>',
 };
@@ -138,7 +142,7 @@ const hasCrumbEnd = Astro.slots.has('breadcrumb-end');
         >
           <div class="page-layout__title-main">
             <h1>
-              {icon && <EsaIcon name={icon} paths={iconPaths} />}
+              {icon && <EsaIcon name={icon} paths={iconPaths} size="lg" />}
               {title}
             </h1>
             <slot name="title-badge" />
@@ -240,13 +244,15 @@ const hasCrumbEnd = Astro.slots.has('breadcrumb-end');
   .page-layout__title-main {
     display: flex;
     align-items: center;
-    gap: var(--spacing-200);
+    /* The count badge is a separate object from the title, not a suffix to it — it needs
+       more room than the title's own glyph does. */
+    gap: var(--spacing-400);
     min-width: 0;
   }
   .page-layout__title h1 {
     display: flex;
     align-items: center;
-    gap: var(--spacing-200);
+    gap: var(--spacing-300);
     font-family: var(--font-decorative);
     font-weight: var(--font-weight-bold);
     font-size: var(--type-size-500);

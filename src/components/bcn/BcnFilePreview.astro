@@ -1,0 +1,89 @@
+---
+// <BcnFilePreview> — the stand-in for Beacon's document viewer.
+//
+// ONE per surface, not one per row: the controller sets the heading and the filename before
+// opening it, so sixteen records sharing a hundred files still share a single focus trap.
+// Mounted once by the host, outside any loop.
+//
+// It is EXPLICITLY a placeholder, and says so in the body. Beacon already has a real PDF
+// preview; re-mocking a document renderer here would be prototype work that teaches nothing
+// and would invite the demo audience to critique a viewer that already exists. What this
+// surface is actually being asked to prove is that the preview is REACHABLE from a triage
+// row — so the button, the wiring and the frame are real, and the page inside is not.
+//
+// Composes: esa-dialog (Esc, focus trap, focus restore, backdrop click, close button),
+// esa-icon.
+//
+// bcn-lego-checked: esa-dialog IS the lego and it is what this composes — this component is
+// only the placeholder CONTENT that goes inside it plus the one-per-surface discipline.
+// There is no esa-* document/PDF viewer (checked the catalog); Beacon's real viewer is an
+// Angular component that cannot be imported into an Astro spoke. bcn-file-preview is the
+// reusable home for the stand-in.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+---
+
+<esa-dialog heading="Preview" size="lg" data-bcn-filepreview>
+  <div class="bcn-file-preview">
+    {/* A page-shaped frame, so it reads as "a document would appear here" rather than as an
+        error or an empty state. */}
+    <div class="bcn-file-preview__page">
+      <EsaIcon name="file-text" />
+      <p class="bcn-file-preview__name" data-bcn-filepreview-name></p>
+      <p class="bcn-file-preview__note">
+        Document preview isn't wired up in this prototype. In Beacon this opens the existing
+        PDF viewer, in place, without leaving the queue.
+      </p>
+    </div>
+  </div>
+</esa-dialog>
+
+<script>
+  // Registered here rather than relying on the host: the component is only self-contained if
+  // it brings its own custom element with it.
+  import '@esa/ecology/esa-dialog';
+</script>
+
+<style>
+  .bcn-file-preview {
+    display: flex;
+    justify-content: center;
+    /* The frame is fixed, not content-sized: a preview that resizes itself per filename
+       would make the whole dialog jump between files. */
+    min-height: 26rem;
+    padding: var(--spacing-400) 0;
+    background: var(--color-surface-sunken);
+    border-radius: var(--radius-100);
+  }
+
+  /* Page proportions, roughly US Letter, so the shape itself says "document". */
+  .bcn-file-preview__page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-200);
+    width: min(20rem, 100%);
+    padding: var(--spacing-500);
+    text-align: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+  }
+
+  .bcn-file-preview__page :global(.esa-icon) {
+    color: var(--color-text-muted);
+  }
+
+  .bcn-file-preview__name {
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    overflow-wrap: anywhere;
+  }
+
+  .bcn-file-preview__note {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+</style>
