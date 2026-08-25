@@ -317,15 +317,32 @@ export function setupTriage(): void {
   const addScope = document.querySelector<HTMLElement>('[data-triage-add-scope]');
   const commitBtn = document.querySelector<HTMLButtonElement>('[data-triage-add-commit]');
   const cancelBtn = document.querySelector<HTMLElement>('[data-triage-add-cancel]');
+  const stagedBox = document.querySelector<HTMLElement>('[data-triage-add-staged]');
+  const stagedLabel = document.querySelector<HTMLElement>('[data-triage-add-stagedlabel]');
+  const stagedList = document.querySelector<HTMLElement>('[data-triage-add-stagedlist]');
+  const stagedTemplate = document.querySelector<HTMLTemplateElement>('[data-triage-staged-template]');
+
   let addingFor = '';
 
-  if (combo) applyArrayProp(combo, 'data-options', 'options');
+  /**
+   * THIS is the selection — not the combobox's value. The field is a finder that empties after
+   * every pick, so reading its value asked the wrong object what had been chosen and left Add
+   * permanently disabled. The staged set is the source of truth; the field only feeds it.
+   */
+  const staged = new Set<string>();
 
-  /** The combobox holds the selection; normalise its value to a plain array. */
-  const staged = (): string[] => {
-    const v = combo?.value;
-    if (!v) return [];
-    return Array.isArray(v) ? v : [v];
+  /** Rebuild the field's options, disabling anything already staged or already on the record. */
+  const refreshComboOptions = (): void => {
+    if (!combo) return;
+    const panel = document.querySelector<HTMLElement>(`[data-triage-panel="${addingFor}"]`);
+    (combo as unknown as { options: unknown }).options = Object.entries(actionIndex).map(
+      ([id, meta]) => ({
+        value: id,
+        label: `${meta.code} — ${meta.name}`,
+        disabled:
+          staged.has(id) || !!panel?.querySelector(`[data-triage-sug="${addingFor}|${id}"]`),
+      })
+    );
   };
 
   /** Build a manual card from the template and put it at the end of the record's list. */
@@ -392,14 +409,39 @@ export function setupTriage(): void {
 
   const refreshCommit = (): void => {
     if (!commitBtn) return;
-    const n = staged().length;
-    commitBtn.disabled = n === 0;
+    commitBtn.disabled = staged.size === 0;
     const label = commitBtn.querySelector('.esa-button__label') ?? commitBtn;
-    label.textContent = n > 1 ? `Add ${n}` : 'Add';
+    label.textContent = staged.size > 1 ? `Add ${staged.size}` : 'Add';
+  };
+
+  /** Redraw the staged list from the set. */
+  const refreshStaged = (): void => {
+    if (stagedBox) stagedBox.hidden = staged.size === 0;
+    if (stagedLabel) {
+      stagedLabel.textContent =
+        staged.size === 1 ? '1 action selected' : `${staged.size} actions selected`;
+    }
+
+    if (stagedList && stagedTemplate) {
+      stagedList.replaceChildren();
+      for (const id of staged) {
+        const row = stagedTemplate.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        row.querySelector('[data-tpl-name]')!.textContent = actionMeta(id)?.name ?? '';
+        row.querySelector('[data-tpl-remove]')?.addEventListener('click', () => {
+          staged.delete(id);
+          refreshStaged();
+          refreshCommit();
+          refreshComboOptions();
+        });
+        stagedList.appendChild(row);
+      }
+    }
   };
 
   const closeAddDialog = (): void => {
-    if (combo) combo.value = [];
+    staged.clear();
+    if (combo) combo.value = '';
+    refreshStaged();
     refreshCommit();
     if (dialog) dialog.open = false;
   };
@@ -410,17 +452,29 @@ export function setupTriage(): void {
       const row = document.querySelector<HTMLElement>(`[data-triage-row="${addingFor}"]`);
       const title = row?.querySelector('.bcn-triage-row__title')?.textContent ?? '';
       if (addScope) addScope.textContent = title ? `Adding to: ${title}` : '';
-      if (combo) combo.value = [];
+      staged.clear();
+      if (combo) combo.value = '';
+      refreshComboOptions();
+      refreshStaged();
       refreshCommit();
       if (dialog) dialog.open = true;
     });
   }
 
-  // Picking STAGES rather than commits: the record is not touched until Add.
-  combo?.addEventListener('change', refreshCommit);
+  // Picking STAGES rather than commits: the record is not touched until Add. The field is
+  // cleared straight after so it is ready for the next search rather than holding a stale pick.
+  combo?.addEventListener('change', () => {
+    const v = combo.value;
+    const id = Array.isArray(v) ? v[0] : v;
+    if (id) staged.add(id);
+    combo.value = '';
+    refreshStaged();
+    refreshCommit();
+    refreshComboOptions();
+  });
 
   commitBtn?.addEventListener('click', () => {
-    for (const id of staged()) {
+    for (const id of staged) {
       if (addManualCard(addingFor, id)) rememberManual(addingFor, id);
     }
     closeAddDialog();
@@ -431,7 +485,9 @@ export function setupTriage(): void {
 
   // Esc and the lego's own close button both fire `close`; drop anything staged with them.
   dialog?.addEventListener('close', () => {
-    if (combo) combo.value = [];
+    staged.clear();
+    if (combo) combo.value = '';
+    refreshStaged();
     refreshCommit();
   });
 

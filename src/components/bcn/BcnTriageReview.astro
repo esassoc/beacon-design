@@ -229,10 +229,12 @@ const FILE_PLUS =
     <div class="bcn-triage-add">
       <p class="bcn-triage-add__scope" data-triage-add-scope></p>
 
-      {/* esa-combobox in autocomplete + multiple mode IS this control: an input that opens a
-          filtered dropdown, keeps its picks as chips, and brings keyboard nav, outside-click
-          close and Escape with it. The hand-rolled search + result list + staged strip this
-          replaces was all of that, reimplemented worse. */}
+      {/* esa-combobox in autocomplete mode is the FINDER: an input that opens a filtered
+          dropdown with match highlighting, and brings keyboard nav, outside-click close and
+          Escape with it. Single-select on purpose — each pick moves straight into the list
+          below and the field clears, so it is always ready for the next search rather than
+          accumulating chips inside itself. Options already picked, or already on the record,
+          come back disabled. */}
       <span
         hidden
         data-triage-action-meta={JSON.stringify(
@@ -248,13 +250,20 @@ const FILE_PLUS =
       <esa-combobox
         data-triage-add-combo
         mode="autocomplete"
-        multiple
         size="md"
         placeholder="Search actions by name or commitment code…"
         data-options={JSON.stringify(
           ACTIONS.map((a) => ({ value: a.id, label: `${a.code} — ${a.name}` }))
         )}
       />
+
+      {/* Picked actions collect HERE rather than as chips in the field. The field is a finder
+          — it empties after every pick so the next search starts clean — and this is the
+          list of what you are about to add, which is the thing worth seeing. */}
+      <div class="bcn-triage-add__staged" data-triage-add-staged hidden>
+        <p class="bcn-triage-add__stagedlabel" data-triage-add-stagedlabel></p>
+        <ul class="bcn-triage-add__stagedlist" data-triage-add-stagedlist></ul>
+      </div>
     </div>
 
     <div slot="footer" class="bcn-triage-add__actions">
@@ -262,6 +271,16 @@ const FILE_PLUS =
       <EsaButton size="md" color="ghost" data-triage-add-cancel>Cancel</EsaButton>
     </div>
   </esa-dialog>
+
+  {/* A staged row, cloned per pick — legos rather than strings, same as the card below. */}
+  <template data-triage-staged-template>
+    <li class="bcn-triage-add__stagedrow">
+      <span class="bcn-triage-add__stagedname" data-tpl-name></span>
+      <span data-tpl-remove>
+        <EsaIconButton icon="x" label="Remove from selection" size="sm" />
+      </span>
+    </li>
+  </template>
 
   {/* The card the controller clones for a manual addition. Astro's legos are compile-time, so
       a template is how a runtime-built card still gets real esa-card / esa-badge markup
@@ -664,6 +683,50 @@ const FILE_PLUS =
     color: var(--color-text-secondary);
   }
 
+  .bcn-triage-add__staged[hidden] {
+    display: none;
+  }
+
+  .bcn-triage-add__staged {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .bcn-triage-add__stagedlabel {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .bcn-triage-add__stagedlist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bcn-triage-add__stagedrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-250);
+    padding: var(--spacing-150) var(--spacing-250);
+    background: var(--color-info-subtle);
+    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+    border-radius: var(--radius-100);
+  }
+
+  .bcn-triage-add__stagedname {
+    font-size: 0.8125rem;
+    color: var(--color-text-primary);
+  }
+
   /* Windows order: the primary sits LEFT of the secondary within a right-aligned group. */
   .bcn-triage-add__actions {
     display: flex;
@@ -692,19 +755,6 @@ const FILE_PLUS =
     --card-bg: var(--color-surface);
     --card-border-color: color-mix(in srgb, var(--color-info) 45%, transparent);
     --card-radius: var(--radius-100);
-  }
-
-  /* THEME GAP, patched locally. esa-button's outline appearance takes its LABEL colour from
-     --color-primary-strong (the hub: "step 11 = colored text on surfaces… Override in your
-     theme when changing the primary ramp"). theme-beacon.css re-points --color-primary to
-     teal-900 but never overrode *-strong, so it is still the hub's GRASS green — which is why
-     a primary-outline button renders a teal border around a green label.
-     Scoped here rather than fixed in the theme because the same token also drives
-     --color-link, the filter-pill text and the active sidenav link across every page;
-     re-pointing it spoke-wide is right, but it is a deliberate site-wide change. */
-  .bcn-triage-review,
-  .bcn-triage-sug {
-    --color-primary-strong: var(--color-primary);
   }
 
   .bcn-triage-sug[data-state='dismissed'] {
