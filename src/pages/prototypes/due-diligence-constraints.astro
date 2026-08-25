@@ -376,10 +376,30 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
     const next = document.getElementById('cx-d-next');
     if (next) next.innerHTML = l.nextSteps.map((s) => `<li>${s}</li>`).join('');
 
+    resetDrawerAction('cx-d-flag', 'Flag for permit matrix');
+    resetDrawerAction('cx-d-add', 'Add to report');
+
     const dialog = document.getElementById('cx-drawer') as (HTMLElement & { open?: boolean; show?: () => void }) | null;
     if (dialog?.show) dialog.show();
     else if (dialog) dialog.open = true;
   }
+
+  function resetDrawerAction(spanId: string, label: string) {
+    const btn = document.getElementById(spanId)?.querySelector('button');
+    if (!btn) return;
+    btn.disabled = false;
+    (btn.querySelector('.esa-button__label') ?? btn).textContent = label;
+  }
+
+  function completeDrawerAction(spanId: string, doneLabel: string) {
+    const btn = document.getElementById(spanId)?.querySelector('button');
+    if (!btn) return;
+    btn.disabled = true;
+    (btn.querySelector('.esa-button__label') ?? btn).textContent = doneLabel;
+  }
+
+  document.getElementById('cx-d-flag')?.addEventListener('click', () => completeDrawerAction('cx-d-flag', 'Flagged'));
+  document.getElementById('cx-d-add')?.addEventListener('click', () => completeDrawerAction('cx-d-add', 'Added to report'));
 </script>
 
 <style>

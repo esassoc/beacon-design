@@ -134,10 +134,10 @@ const permitRows: CiaPermitRow[] = PERMITS.map((p) => ({
 </AppShell>
 
 <script>
+  import { withBase } from '../../lib/base';
+
   document.getElementById('cia-advance')?.addEventListener('click', () => {
     // Prototype only — the next module isn't built yet, so this just returns to Due Diligence.
-    window.location.href = document.body.dataset.baseUrl
-      ? `${document.body.dataset.baseUrl}/prototypes/due-diligence-siting`
-      : '/prototypes/due-diligence-siting';
+    window.location.href = withBase('/prototypes/due-diligence-siting');
   });
 </script>

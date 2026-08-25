@@ -315,7 +315,18 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
         r.id,
         r.reviewStatus === 'confirmed' ? [{ text: 'Reviewed and confirmed', by: REVIEWER, when: '2026-08-15' }] : [],
       );
-      commentsById.set(r.id, []);
+      commentsById.set(
+        r.id,
+        r.id === 'section-404'
+          ? [
+              {
+                text: 'Field delineation confirms the on-site wash connects to a downstream tributary with an indicator of relatively permanent flow, so it is jurisdictional post-Sackett. Marked applicable — a Section 404 permit will be required.',
+                by: REVIEWER,
+                when: '2026-08-22',
+              },
+            ]
+          : [],
+      );
     }
     const displayRows = rows.map(toDisplayRow);
 

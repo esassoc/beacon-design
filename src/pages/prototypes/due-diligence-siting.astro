@@ -143,6 +143,7 @@ const observations = rows.map((r) => ({
   import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-text-field';
   import { beaconTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { withBase } from '../../lib/base';
   import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
   // Page-level workaround for a hub bug: esa-side-dialog's default position="right"
@@ -316,13 +317,12 @@ const observations = rows.map((r) => ({
       const btn = advanceBtn.querySelector('button');
       if (btn) {
         btn.disabled = !r.allPass;
-        btn.textContent = r.allPass ? 'Advance to Due Diligence' : 'Does not meet criteria';
+        const label = btn.querySelector('.esa-button__label') ?? btn;
+        label.textContent = r.allPass ? 'Advance to Due Diligence' : 'Does not meet criteria';
       }
       advanceBtn.onclick = r.allPass
         ? () => {
-            window.location.href = document.body.dataset.baseUrl
-              ? `${document.body.dataset.baseUrl}/prototypes/due-diligence-boundary`
-              : '/prototypes/due-diligence-boundary';
+            window.location.href = withBase('/prototypes/due-diligence-boundary');
           }
         : null;
     }

@@ -178,7 +178,7 @@ export const PROJECT = {
    *  project-switcher and in-page titles use this, not the screening-era codename. */
   name: 'Almond',
   codeName: 'Project Almond',
-  formalName: 'Beale Data Center Campus — Kern County, CA',
+  formalName: 'Project Almond — Kern County, CA',
   developer: 'Beale',
   county: 'Kern County',
   city: 'Mojave, CA',
@@ -350,10 +350,10 @@ export const GIS_LAYERS: GisLayerFixture[] = [
     color: '#228be6',
     defaultOn: true,
     source: 'USGS NHD + USFWS NWI',
-    intersects: [{ label: 'Feature', value: 'Ephemeral wash — potential State jurisdiction' }],
+    intersects: [{ label: 'Feature', value: 'Ephemeral wash — confirmed federal + State jurisdiction' }],
     nextSteps: [
-      'Delineate the ephemeral wash.',
-      'Determine USACE jurisdiction (post-Sackett — likely State-only).',
+      'Wash delineated; confirmed as a jurisdictional Water of the U.S. (relatively permanent flow to a downstream tributary).',
+      'Apply for a USACE Section 404 permit.',
       'Apply for the SWRCB Construction General Permit (SWPPP).',
     ],
   },
@@ -496,8 +496,8 @@ export const PERMITS: PermitFixture[] = [
     level: 'Federal',
     name: 'Section 404 Permit',
     requirement: 'Discharge to Waters of the U.S.',
-    applicability: 'not-likely',
-    notes: 'Post-Sackett, an ephemeral wash is unlikely to be jurisdictional WOTUS.',
+    applicability: 'applicable',
+    notes: 'A jurisdictional delineation confirmed the on-site wash connects to a downstream tributary with an indicator of relatively permanent flow, placing it within federal jurisdiction post-Sackett — a Section 404 permit is required.',
     reviewStatus: 'confirmed',
   },
   {
@@ -618,7 +618,7 @@ export const REPORT_RESOURCES: ReportResource[] = [
     leadAgency: 'U.S. Fish and Wildlife Service; California Dept. of Fish and Wildlife',
     findings: [
       'The Project site lies adjacent to designated Critical Habitat for the Mohave ground squirrel (federally listed) and within CNDDB sensitivity polygons for burrowing owl and western Joshua tree. A 5-mile CNDDB query also returned occurrences of desert tortoise, Le Conte’s thrasher, Swainson’s hawk (foraging only), and one record of prairie falcon. The site does not fall within a USFWS Habitat Conservation Plan (HCP) or CDFW Natural Community Conservation Plan (NCCP) area.',
-      'An ephemeral wash traverses the southwestern portion of the parcel per the National Hydrography Dataset (NHD), consistent with riverine features in the USFWS National Wetlands Inventory (NWI). Following the Supreme Court decision in Sackett v. EPA, ephemeral washes such as this are unlikely to be Waters of the U.S. and would not be subject to Section 404 permitting; the wash may still be subject to State jurisdiction.',
+      'An ephemeral wash traverses the southwestern portion of the parcel per the National Hydrography Dataset (NHD), consistent with riverine features in the USFWS National Wetlands Inventory (NWI). A jurisdictional delineation confirmed the wash connects to a downstream tributary exhibiting an indicator of relatively permanent flow — placing it within federal jurisdiction even post-Sackett v. EPA — so it is subject to Section 404 permitting, in addition to State jurisdiction.',
     ],
     aiNote: 'The CNDDB Q2 2026 refresh added one new occurrence of western Joshua tree within the parcel that was not present in the prior release. Verify before finalizing.',
     recommendations: [
