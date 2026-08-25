@@ -8739,7 +8739,7 @@ summary.esa-button--variant-chrome:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-150);
-  min-width: 300px;
+  min-width: 380px;
 }
 .bcn-filterbar__search esa-text-field {
   flex: 1;
@@ -8747,6 +8747,14 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-filterbar__search--alone {
   margin-left: 0;
   flex: 1;
+}
+.bcn-filterbar__sort {
+  margin-left: var(--spacing-600);
+  --form-height-md: 32px;
+  --form-font-size-md: 14px;
+}
+.bcn-filterbar__sort esa-select {
+  width: 9rem;
 }
 .bcn-filterbar__clear {
   margin-left: auto;

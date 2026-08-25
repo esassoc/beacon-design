@@ -12,4 +12,4 @@ snapshot of one page for a developer (or an AI agent) to re-implement on any sta
 - **`manifest.json`** — per-section data powering the live dev-mode overlay.
 
 Source URL: http://localhost:4399/beacon-design/prototypes/due-diligence-report/
-Rules shipped: 221 · Tokens referenced: 189
+Rules shipped: 222 · Tokens referenced: 190

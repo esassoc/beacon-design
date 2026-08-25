@@ -675,10 +675,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <section class="page-layout__title" style="--page-title-icon-color: var(--bcn-aldo-600)">
             <div class="page-layout__title-main">
               <h1>
-                <span class="esa-icon esa-icon--md" aria-hidden="true">
+                <span class="esa-icon esa-icon--lg" aria-hidden="true">
                   <svg
-                    width="20"
-                    height="20"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -686,7 +686,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     focusable="false"
-                  ></svg>
+                  >
+                    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                    <path
+                      d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"
+                    ></path>
+                  </svg>
                 </span>
                 Evidence Inbox
               </h1>
@@ -729,7 +734,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                 </div>
                 <div class="bcn-filterbar__bottom">
-                  <span class="bcn-filterbar__label">Filters</span>
+                  <span class="bcn-filterbar__label">Filter</span>
                   <div
                     class="esa-filter-container typography-label-md"
                     style="
@@ -751,6 +756,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       size="sm"
                       data-options='[{"value":"intake-b-north-delta","label":"Intake B — North Delta (3)"},{"value":"southern-forebay-pumping-plant","label":"Southern Forebay &amp; Pumping Plant (7)"},{"value":"none","label":"Component not set (4)"},{"value":"twin-cities-complex","label":"Twin Cities Complex (2)"}]'
                     ></esa-filter-dropdown>
+                  </div>
+                  <div class="bcn-filterbar__group bcn-filterbar__sort">
+                    <span class="bcn-filterbar__label">Sort</span>
+                    <esa-select slot="sort" data-triage-sort="true" size="md"></esa-select>
                   </div>
                   <span class="bcn-filterbar__clear">
                     <span data-triage-clear=""
@@ -803,6 +812,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="monitoring-portal"
                               data-component="intake-b-north-delta"
                               data-search="intake b turbidity monitoring — jul 22 continuous readings at the cofferdam, 06:00–18:00. two exceedances of the 15 ntu trigger, both cleared within the hour. r. delgado intake b — north delta monitoring portal"
+                              data-title="intake b turbidity monitoring — jul 22"
                             >
                               <button
                                 type="button"
@@ -836,6 +846,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="daily-report"
                               data-component="southern-forebay-pumping-plant"
                               data-search="daily biological monitoring — southern forebay, jul 22 ground disturbance at the north levee toe. one swainson’s hawk observed foraging; no nest located within the work area. c. anderson southern forebay &amp; pumping plant daily monitoring report"
+                              data-title="daily biological monitoring — southern forebay, jul 22"
                             >
                               <button
                                 type="button"
@@ -870,6 +881,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="drop-box"
                               data-component="none"
                               data-search="fish screen approach-velocity readings — jul 21 velocity measurements at eight screen panels, submitted by the screen fabricator. all panels below the 0.33 ft/s criterion. t. yamada, cascade screen works  drop-box link"
+                              data-title="fish screen approach-velocity readings — jul 21"
                             >
                               <button
                                 type="button"
@@ -908,6 +920,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="monitoring-portal"
                               data-component="southern-forebay-pumping-plant"
                               data-search="swppp inspection — southern forebay, jul 21 qualified-personnel walk of all four stockpiles. two corrective actions logged at the southern stockpile perimeter. m. okafor southern forebay &amp; pumping plant monitoring portal"
+                              data-title="swppp inspection — southern forebay, jul 21"
                             >
                               <button
                                 type="button"
@@ -941,6 +954,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="daily-report"
                               data-component="southern-forebay-pumping-plant"
                               data-search="daily biological monitoring — southern forebay, jul 21 excavation along the utility trench. no listed species observed; buffers intact. c. anderson southern forebay &amp; pumping plant daily monitoring report"
+                              data-title="daily biological monitoring — southern forebay, jul 21"
                             >
                               <button
                                 type="button"
@@ -975,6 +989,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="monitoring-portal"
                               data-component="twin-cities-complex"
                               data-search="rtm stockpile inspection — twin cities, jul 21 reusable tunnel material stockpile cover and perimeter controls checked after the jul 20 wind event. no erosion observed. j. whitfield twin cities complex monitoring portal"
+                              data-title="rtm stockpile inspection — twin cities, jul 21"
                             >
                               <button
                                 type="button"
@@ -1013,6 +1028,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="monitoring-portal"
                               data-component="intake-b-north-delta"
                               data-search="hydroacoustic monitoring — intake b pile driving, jul 20 underwater sound pressure levels recorded at 10 m and 150 m during 6.5 hours of impact driving. peak 204 db at 10 m. delta acoustics llc intake b — north delta monitoring portal"
+                              data-title="hydroacoustic monitoring — intake b pile driving, jul 20"
                             >
                               <button
                                 type="button"
@@ -1046,6 +1062,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="monitoring-portal"
                               data-component="southern-forebay-pumping-plant"
                               data-search="construction noise readings — week of jul 13 five sensitive receptors along the eastern boundary, all below the 75 dba threshold. highest reading 71 dba at receptor r-3. m. okafor southern forebay &amp; pumping plant monitoring portal"
+                              data-title="construction noise readings — week of jul 13"
                             >
                               <button
                                 type="button"
@@ -1079,6 +1096,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="drop-box"
                               data-component="none"
                               data-search="tribal monitor availability confirmation letter confirming monitor coverage for the august excavation window. no monitoring observations included. cultural resources liaison  drop-box link"
+                              data-title="tribal monitor availability confirmation"
                             >
                               <button
                                 type="button"
@@ -1112,6 +1130,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="beacon-report"
                               data-component="southern-forebay-pumping-plant"
                               data-search="monthly compliance monitoring report — june 2026 finalized in beacon. covers all southern forebay actions for the june reporting period, including the four open corrective actions. beacon southern forebay &amp; pumping plant beacon report"
+                              data-title="monthly compliance monitoring report — june 2026"
                             >
                               <button
                                 type="button"
@@ -1145,6 +1164,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="daily-report"
                               data-component="southern-forebay-pumping-plant"
                               data-search="daily biological monitoring — southern forebay, jul 19 two mourning dove nests flagged with 50-ft buffers ahead of vegetation clearing. giant garter snake upland refugia re-checked. c. anderson southern forebay &amp; pumping plant daily monitoring report"
+                              data-title="daily biological monitoring — southern forebay, jul 19"
                             >
                               <button
                                 type="button"
@@ -1179,6 +1199,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="daily-report"
                               data-component="southern-forebay-pumping-plant"
                               data-search="dust control log — week of jul 13 daily watering passes and two wind-speed shutdowns. logged by the site superintendent. site superintendent southern forebay &amp; pumping plant daily monitoring report"
+                              data-title="dust control log — week of jul 13"
                             >
                               <button
                                 type="button"
@@ -1218,6 +1239,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="monitoring-portal"
                               data-component="intake-b-north-delta"
                               data-search="fish screen criteria compliance inspection — jul 17 quarterly inspection of screen cleaning cycle, sweeping velocity and debris accumulation. one panel scheduled for servicing. r. delgado intake b — north delta monitoring portal"
+                              data-title="fish screen criteria compliance inspection — jul 17"
                             >
                               <button
                                 type="button"
@@ -1251,6 +1273,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="monitoring-portal"
                               data-component="twin-cities-complex"
                               data-search="nesting bird sweep — twin cities, jul 17 pre-clearing sweep of the staging area. one red-winged blackbird nest flagged; buffer released jul 21 after fledging. j. whitfield twin cities complex monitoring portal"
+                              data-title="nesting bird sweep — twin cities, jul 17"
                             >
                               <button
                                 type="button"
@@ -1284,6 +1307,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="beacon-report"
                               data-component="none"
                               data-search="quarterly commitment status summary — q2 2026 finalized in beacon. project-wide roll-up across all components; not scoped to any single one. beacon  beacon report"
+                              data-title="quarterly commitment status summary — q2 2026"
                             >
                               <button
                                 type="button"
@@ -1317,6 +1341,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-source="drop-box"
                               data-component="none"
                               data-search="contractor equipment emissions certificates tier 4 final certificates for eleven pieces of equipment, submitted by the earthwork subcontractor. k. boyle, meridian earthworks  drop-box link"
+                              data-title="contractor equipment emissions certificates"
                             >
                               <button
                                 type="button"
@@ -1346,6 +1371,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </li>
                           </ul>
                         </section>
+                        <ul class="bcn-triage-queue__list" data-triage-flat="" hidden=""></ul>
                         <div class="bcn-triage-queue__empty" data-triage-empty="filtered" hidden="">
                           <div class="esa-empty-state esa-empty-state--sm">
                             <h3 class="esa-empty-state__title typography-label-sm-strong">
@@ -1466,10 +1492,392 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">4 files</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"IB-turbidity-log-2026-07-22.xlsx"},{"name":"IB-turbidity-field-notes-2026-07-22.pdf"},{"name":"IB-probe-calibration-2026-07-22.pdf"},{"name":"IB-turbidity-photos-2026-07-22.zip"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="IB-turbidity-log-2026-07-22.xlsx"
+                                      >IB-turbidity-log-2026-07-22.xlsx</span
+                                    >
+                                    <span class="bcn-file-row__size">86 KB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="IB-turbidity-log-2026-07-22.xlsx"
+                                        data-bcn-file-name="IB-turbidity-log-2026-07-22.xlsx"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview IB-turbidity-log-2026-07-22.xlsx"
+                                            title="Preview IB-turbidity-log-2026-07-22.xlsx"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download IB-turbidity-log-2026-07-22.xlsx"
+                                            title="Download IB-turbidity-log-2026-07-22.xlsx"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="IB-turbidity-field-notes-2026-07-22.pdf"
+                                      >IB-turbidity-field-notes-2026-07-22.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">1.2 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="IB-turbidity-field-notes-2026-07-22.pdf"
+                                        data-bcn-file-name="IB-turbidity-field-notes-2026-07-22.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview IB-turbidity-field-notes-2026-07-22.pdf"
+                                            title="Preview IB-turbidity-field-notes-2026-07-22.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download IB-turbidity-field-notes-2026-07-22.pdf"
+                                            title="Download IB-turbidity-field-notes-2026-07-22.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="IB-probe-calibration-2026-07-22.pdf"
+                                      >IB-probe-calibration-2026-07-22.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">244 KB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="IB-probe-calibration-2026-07-22.pdf"
+                                        data-bcn-file-name="IB-probe-calibration-2026-07-22.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview IB-probe-calibration-2026-07-22.pdf"
+                                            title="Preview IB-probe-calibration-2026-07-22.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download IB-probe-calibration-2026-07-22.pdf"
+                                            title="Download IB-probe-calibration-2026-07-22.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="IB-turbidity-photos-2026-07-22.zip"
+                                      >IB-turbidity-photos-2026-07-22.zip</span
+                                    >
+                                    <span class="bcn-file-row__size">14.3 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="IB-turbidity-photos-2026-07-22.zip"
+                                        data-bcn-file-name="IB-turbidity-photos-2026-07-22.zip"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview IB-turbidity-photos-2026-07-22.zip"
+                                            title="Preview IB-turbidity-photos-2026-07-22.zip"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download IB-turbidity-photos-2026-07-22.zip"
+                                            title="Download IB-turbidity-photos-2026-07-22.zip"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -1699,10 +2107,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"daily-bio-monitoring-2026-07-22.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="daily-bio-monitoring-2026-07-22.pdf"
+                                      >daily-bio-monitoring-2026-07-22.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">640 KB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="daily-bio-monitoring-2026-07-22.pdf"
+                                        data-bcn-file-name="daily-bio-monitoring-2026-07-22.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview daily-bio-monitoring-2026-07-22.pdf"
+                                            title="Preview daily-bio-monitoring-2026-07-22.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download daily-bio-monitoring-2026-07-22.pdf"
+                                            title="Download daily-bio-monitoring-2026-07-22.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -1935,10 +2437,198 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">2 files</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"approach-velocity-readings-2026-07-21.pdf"},{"name":"screen-panel-layout.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="approach-velocity-readings-2026-07-21.pdf"
+                                      >approach-velocity-readings-2026-07-21.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">890 KB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="approach-velocity-readings-2026-07-21.pdf"
+                                        data-bcn-file-name="approach-velocity-readings-2026-07-21.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview approach-velocity-readings-2026-07-21.pdf"
+                                            title="Preview approach-velocity-readings-2026-07-21.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download approach-velocity-readings-2026-07-21.pdf"
+                                            title="Download approach-velocity-readings-2026-07-21.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span class="bcn-file-row__name" title="screen-panel-layout.pdf"
+                                      >screen-panel-layout.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">1.6 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="screen-panel-layout.pdf"
+                                        data-bcn-file-name="screen-panel-layout.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview screen-panel-layout.pdf"
+                                            title="Preview screen-panel-layout.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download screen-panel-layout.pdf"
+                                            title="Download screen-panel-layout.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -2171,10 +2861,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"SWPPP-inspection-2026-07-21.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="SWPPP-inspection-2026-07-21.pdf"
+                                      >SWPPP-inspection-2026-07-21.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">1.1 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="SWPPP-inspection-2026-07-21.pdf"
+                                        data-bcn-file-name="SWPPP-inspection-2026-07-21.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview SWPPP-inspection-2026-07-21.pdf"
+                                            title="Preview SWPPP-inspection-2026-07-21.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download SWPPP-inspection-2026-07-21.pdf"
+                                            title="Download SWPPP-inspection-2026-07-21.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -2407,10 +3191,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"daily-bio-monitoring-2026-07-21.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="daily-bio-monitoring-2026-07-21.pdf"
+                                      >daily-bio-monitoring-2026-07-21.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">612 KB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="daily-bio-monitoring-2026-07-21.pdf"
+                                        data-bcn-file-name="daily-bio-monitoring-2026-07-21.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview daily-bio-monitoring-2026-07-21.pdf"
+                                            title="Preview daily-bio-monitoring-2026-07-21.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download daily-bio-monitoring-2026-07-21.pdf"
+                                            title="Download daily-bio-monitoring-2026-07-21.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -2641,10 +3519,200 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">2 files</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"RTM-stockpile-inspection-2026-07-21.pdf"},{"name":"RTM-stockpile-photos-2026-07-21.zip"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="RTM-stockpile-inspection-2026-07-21.pdf"
+                                      >RTM-stockpile-inspection-2026-07-21.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">1.4 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="RTM-stockpile-inspection-2026-07-21.pdf"
+                                        data-bcn-file-name="RTM-stockpile-inspection-2026-07-21.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview RTM-stockpile-inspection-2026-07-21.pdf"
+                                            title="Preview RTM-stockpile-inspection-2026-07-21.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download RTM-stockpile-inspection-2026-07-21.pdf"
+                                            title="Download RTM-stockpile-inspection-2026-07-21.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="RTM-stockpile-photos-2026-07-21.zip"
+                                      >RTM-stockpile-photos-2026-07-21.zip</span
+                                    >
+                                    <span class="bcn-file-row__size">9.2 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="RTM-stockpile-photos-2026-07-21.zip"
+                                        data-bcn-file-name="RTM-stockpile-photos-2026-07-21.zip"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview RTM-stockpile-photos-2026-07-21.zip"
+                                            title="Preview RTM-stockpile-photos-2026-07-21.zip"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download RTM-stockpile-photos-2026-07-21.zip"
+                                            title="Download RTM-stockpile-photos-2026-07-21.zip"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -2875,10 +3943,198 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">2 files</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"hydroacoustic-monitoring-2026-07-20.pdf"},{"name":"SPL-raw-2026-07-20.csv"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="hydroacoustic-monitoring-2026-07-20.pdf"
+                                      >hydroacoustic-monitoring-2026-07-20.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">3.8 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="hydroacoustic-monitoring-2026-07-20.pdf"
+                                        data-bcn-file-name="hydroacoustic-monitoring-2026-07-20.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview hydroacoustic-monitoring-2026-07-20.pdf"
+                                            title="Preview hydroacoustic-monitoring-2026-07-20.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download hydroacoustic-monitoring-2026-07-20.pdf"
+                                            title="Download hydroacoustic-monitoring-2026-07-20.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span class="bcn-file-row__name" title="SPL-raw-2026-07-20.csv"
+                                      >SPL-raw-2026-07-20.csv</span
+                                    >
+                                    <span class="bcn-file-row__size">4.1 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="SPL-raw-2026-07-20.csv"
+                                        data-bcn-file-name="SPL-raw-2026-07-20.csv"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview SPL-raw-2026-07-20.csv"
+                                            title="Preview SPL-raw-2026-07-20.csv"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download SPL-raw-2026-07-20.csv"
+                                            title="Download SPL-raw-2026-07-20.csv"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -3111,10 +4367,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"noise-readings-week-2026-07-13.xlsx"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="noise-readings-week-2026-07-13.xlsx"
+                                      >noise-readings-week-2026-07-13.xlsx</span
+                                    >
+                                    <span class="bcn-file-row__size">104 KB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="noise-readings-week-2026-07-13.xlsx"
+                                        data-bcn-file-name="noise-readings-week-2026-07-13.xlsx"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview noise-readings-week-2026-07-13.xlsx"
+                                            title="Preview noise-readings-week-2026-07-13.xlsx"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download noise-readings-week-2026-07-13.xlsx"
+                                            title="Download noise-readings-week-2026-07-13.xlsx"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -3346,10 +4696,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"tribal-monitor-availability-aug-2026.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="tribal-monitor-availability-aug-2026.pdf"
+                                      >tribal-monitor-availability-aug-2026.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">318 KB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="tribal-monitor-availability-aug-2026.pdf"
+                                        data-bcn-file-name="tribal-monitor-availability-aug-2026.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview tribal-monitor-availability-aug-2026.pdf"
+                                            title="Preview tribal-monitor-availability-aug-2026.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download tribal-monitor-availability-aug-2026.pdf"
+                                            title="Download tribal-monitor-availability-aug-2026.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -3501,10 +4945,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"monthly-compliance-report-2026-06.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="monthly-compliance-report-2026-06.pdf"
+                                      >monthly-compliance-report-2026-06.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">5.2 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="monthly-compliance-report-2026-06.pdf"
+                                        data-bcn-file-name="monthly-compliance-report-2026-06.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview monthly-compliance-report-2026-06.pdf"
+                                            title="Preview monthly-compliance-report-2026-06.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download monthly-compliance-report-2026-06.pdf"
+                                            title="Download monthly-compliance-report-2026-06.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -3737,10 +5275,200 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">2 files</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"daily-bio-monitoring-2026-07-19.pdf"},{"name":"nest-buffer-map-2026-07-19.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="daily-bio-monitoring-2026-07-19.pdf"
+                                      >daily-bio-monitoring-2026-07-19.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">702 KB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="daily-bio-monitoring-2026-07-19.pdf"
+                                        data-bcn-file-name="daily-bio-monitoring-2026-07-19.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview daily-bio-monitoring-2026-07-19.pdf"
+                                            title="Preview daily-bio-monitoring-2026-07-19.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download daily-bio-monitoring-2026-07-19.pdf"
+                                            title="Download daily-bio-monitoring-2026-07-19.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="nest-buffer-map-2026-07-19.pdf"
+                                      >nest-buffer-map-2026-07-19.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">2.4 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="nest-buffer-map-2026-07-19.pdf"
+                                        data-bcn-file-name="nest-buffer-map-2026-07-19.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview nest-buffer-map-2026-07-19.pdf"
+                                            title="Preview nest-buffer-map-2026-07-19.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download nest-buffer-map-2026-07-19.pdf"
+                                            title="Download nest-buffer-map-2026-07-19.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -4049,10 +5777,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"dust-control-log-week-2026-07-13.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="dust-control-log-week-2026-07-13.pdf"
+                                      >dust-control-log-week-2026-07-13.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">286 KB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="dust-control-log-week-2026-07-13.pdf"
+                                        data-bcn-file-name="dust-control-log-week-2026-07-13.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview dust-control-log-week-2026-07-13.pdf"
+                                            title="Preview dust-control-log-week-2026-07-13.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download dust-control-log-week-2026-07-13.pdf"
+                                            title="Download dust-control-log-week-2026-07-13.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -4283,10 +6105,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"fish-screen-inspection-2026-07-17.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="fish-screen-inspection-2026-07-17.pdf"
+                                      >fish-screen-inspection-2026-07-17.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">1.9 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="fish-screen-inspection-2026-07-17.pdf"
+                                        data-bcn-file-name="fish-screen-inspection-2026-07-17.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview fish-screen-inspection-2026-07-17.pdf"
+                                            title="Preview fish-screen-inspection-2026-07-17.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download fish-screen-inspection-2026-07-17.pdf"
+                                            title="Download fish-screen-inspection-2026-07-17.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -4517,10 +6433,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"nesting-bird-sweep-2026-07-17.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="nesting-bird-sweep-2026-07-17.pdf"
+                                      >nesting-bird-sweep-2026-07-17.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">1.3 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="nesting-bird-sweep-2026-07-17.pdf"
+                                        data-bcn-file-name="nesting-bird-sweep-2026-07-17.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview nesting-bird-sweep-2026-07-17.pdf"
+                                            title="Preview nesting-bird-sweep-2026-07-17.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download nesting-bird-sweep-2026-07-17.pdf"
+                                            title="Download nesting-bird-sweep-2026-07-17.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -4751,10 +6761,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"quarterly-commitment-summary-2026-Q2.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="quarterly-commitment-summary-2026-Q2.pdf"
+                                      >quarterly-commitment-summary-2026-Q2.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">2.8 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="quarterly-commitment-summary-2026-Q2.pdf"
+                                        data-bcn-file-name="quarterly-commitment-summary-2026-Q2.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview quarterly-commitment-summary-2026-Q2.pdf"
+                                            title="Preview quarterly-commitment-summary-2026-Q2.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download quarterly-commitment-summary-2026-Q2.pdf"
+                                            title="Download quarterly-commitment-summary-2026-Q2.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -4906,10 +7010,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <span class="esa-collapsible__title">1 file</span>
                               </summary>
                               <div class="esa-collapsible__body typography-body-md">
-                                <esa-file-list
-                                  data-triage-files='[{"name":"equipment-emissions-certs-2026-07.pdf"}]'
-                                  downloadable=""
-                                ></esa-file-list>
+                                <div class="bcn-triage-review__filelist">
+                                  <div class="bcn-file-row">
+                                    <span class="bcn-file-row__icon">
+                                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                        <svg
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          focusable="false"
+                                        >
+                                          <path
+                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                          ></path>
+                                          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                          <path d="M10 9H8"></path>
+                                          <path d="M16 13H8"></path>
+                                          <path d="M16 17H8"></path>
+                                        </svg>
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="bcn-file-row__name"
+                                      title="equipment-emissions-certs-2026-07.pdf"
+                                      >equipment-emissions-certs-2026-07.pdf</span
+                                    >
+                                    <span class="bcn-file-row__size">4.6 MB</span>
+                                    <span class="bcn-file-row__actions">
+                                      <span
+                                        class="bcn-file-row__act"
+                                        data-bcn-file-preview="equipment-emissions-certs-2026-07.pdf"
+                                        data-bcn-file-name="equipment-emissions-certs-2026-07.pdf"
+                                      >
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Preview equipment-emissions-certs-2026-07.pdf"
+                                            title="Preview equipment-emissions-certs-2026-07.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                                ></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                      <span class="bcn-file-row__act">
+                                        <span
+                                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                          ><button
+                                            class="esa-button__native typography-microcopy-xs"
+                                            type="button"
+                                            aria-label="Download equipment-emissions-certs-2026-07.pdf"
+                                            title="Download equipment-emissions-certs-2026-07.pdf"
+                                          >
+                                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                              <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path
+                                                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                                ></path>
+                                                <polyline points="7 10 12 15 17 10"></polyline>
+                                                <line x1="12" x2="12" y1="15" y2="3"></line>
+                                              </svg>
+                                            </span></button
+                                        ></span>
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </details>
                           </div>
@@ -4976,6 +7174,42 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           </p>
                         </section>
                       </article>
+                      <esa-dialog heading="Preview" size="lg" data-bcn-filepreview="true">
+                        <div class="bcn-file-preview">
+                          <div class="bcn-file-preview__page">
+                            <span class="esa-icon esa-icon--md" aria-hidden="true">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                ></path>
+                                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                <path d="M10 9H8"></path>
+                                <path d="M16 13H8"></path>
+                                <path d="M16 17H8"></path>
+                              </svg>
+                            </span>
+                            <p class="bcn-file-preview__name" data-bcn-filepreview-name=""></p>
+                            <p class="bcn-file-preview__note">
+                              Document preview isn't wired up in this prototype. In Beacon this
+                              opens the existing PDF viewer, in place, without leaving the queue.
+                            </p>
+                          </div>
+                        </div>
+                      </esa-dialog>
+                      <script
+                        type="module"
+                        src="/beacon-design/_astro/BcnFilePreview.astro_astro_type_script_index_0_lang.BNeEZbXv.js"
+                      ></script>
                       <esa-dialog
                         heading="Add a suggested action"
                         size="lg"
@@ -5199,14 +7433,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </div>
                     <script
                       type="module"
-                      src="/beacon-design/_astro/BcnTriageReview.astro_astro_type_script_index_0_lang.4IXtndAG.js"
+                      src="/beacon-design/_astro/BcnTriageReview.astro_astro_type_script_index_0_lang.CuzrcMDu.js"
                     ></script>
                   </div>
                 </div>
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnTriageWorkspace.astro_astro_type_script_index_0_lang.BcskmvB9.js"
+                src="/beacon-design/_astro/BcnTriageWorkspace.astro_astro_type_script_index_0_lang.C0Gu6MqC.js"
               ></script>
             </div>
           </section>
@@ -14951,6 +17185,397 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.bcn-triage-counts {
+  --gap: var(--spacing-250);
+}
+.bcn-triage-counts__chip {
+  display: inline-flex;
+  align-items: center;
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-height-md: 24px;
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing[hidden] {
+  display: none;
+}
+.bcn-triage-workspace__panes {
+  --sidebar-width: 31rem;
+  --sidebar-content-min: 42%;
+  height: clamp(32rem, 70vh, 58rem);
+  align-items: stretch;
+}
+.bcn-triage-workspace__queue {
+  height: 100%;
+  min-height: 0;
+}
+.bcn-triage-queue {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  overflow: hidden;
+}
+.bcn-triage-queue__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: var(--spacing-500);
+}
+.bcn-triage-queue__day {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--spacing-100) var(--spacing-300);
+  background: var(--color-surface-sunken);
+  border-block: 1px solid var(--color-border-light);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
+  border-top: 0;
+}
+.bcn-triage-queue__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-triage-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: var(--spacing-300);
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-surface);
+}
+.bcn-triage-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bcn-triage-row__line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-250);
+  min-width: 0;
+}
+.bcn-triage-row__title {
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+.bcn-triage-row__date {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__meta {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__foot {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.bcn-triage-row__match {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-triage-row__sug .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  --badge-height-md: 24px;
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-row:last-child {
+  border-bottom: 0;
+}
+.bcn-triage-queue__group + .bcn-triage-queue__group {
+  margin-top: 0;
+}
+.bcn-triage-row__foot[hidden] {
+  display: none;
+}
+.bcn-triage-queue__list[hidden] {
+  display: none;
+}
+.bcn-triage-queue__empty {
+  padding: var(--spacing-700) var(--spacing-400);
+}
+.bcn-triage-queue__empty[hidden] {
+  display: none;
+}
+.bcn-triage-workspace__review {
+  align-self: start;
+  max-height: 100%;
+  min-height: 0;
+}
+.bcn-triage-review {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+}
+.bcn-triage-review:has([data-triage-prompt]:not([hidden])) {
+  border: 0;
+  background: none;
+}
+.bcn-triage-review__prompt {
+  display: flex;
+  flex: 1;
+  align-items: stretch;
+  min-height: 22rem;
+}
+.bcn-triage-review__invite {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: var(--spacing-500);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-200);
+  background: none;
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+.bcn-triage-review__panel {
+  display: flex;
+  flex-direction: column;
+}
+.bcn-triage-review__panel[hidden] {
+  display: none;
+}
+.bcn-file-preview {
+  display: flex;
+  justify-content: center;
+  min-height: 26rem;
+  padding: var(--spacing-400) 0;
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-100);
+}
+.bcn-file-preview__page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200);
+  width: min(20rem, 100%);
+  padding: var(--spacing-500);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+}
+.bcn-file-preview__page .esa-icon {
+  color: var(--color-text-muted);
+}
+.bcn-file-preview__name {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+.bcn-file-preview__note {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-add {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  min-height: 20rem;
+}
+.bcn-triage-add__scope {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-add__staged {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border);
+}
+.bcn-triage-add__staged[hidden] {
+  display: none;
+}
+.bcn-triage-add__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-250);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-sm-strong {
+  font-family: var(--typography-microcopy-sm-strong-font-family);
+  font-size: var(--typography-microcopy-sm-strong-font-size);
+  font-weight: var(--typography-microcopy-sm-strong-font-weight);
+  line-height: var(--typography-microcopy-sm-strong-line-height);
+  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
+  color: inherit;
+  border-color: transparent;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--variant-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-content-default, #202020);
+  border-color: transparent;
+}
 .modern-layout {
   display: flex;
   flex-direction: column;
@@ -15752,377 +18377,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  background: transparent;
-  color: inherit;
-  border-color: transparent;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--variant-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-content-default, #202020);
-  border-color: transparent;
-}
-.bcn-triage-counts {
-  --gap: var(--spacing-250);
-}
-.bcn-triage-counts__chip {
-  display: inline-flex;
-  align-items: center;
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-height-md: 24px;
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-triage-counts__showing {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-counts__showing[hidden] {
-  display: none;
-}
-.bcn-triage-workspace__panes {
-  --sidebar-width: 31rem;
-  --sidebar-content-min: 42%;
-  height: clamp(32rem, 70vh, 58rem);
-  align-items: stretch;
-}
-.bcn-triage-workspace__queue {
-  height: 100%;
-  min-height: 0;
-}
-.bcn-triage-queue {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  overflow: hidden;
-}
-.bcn-triage-queue__scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding-bottom: var(--spacing-500);
-}
-.bcn-triage-queue__day {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  margin: 0;
-  padding: var(--spacing-100) var(--spacing-300);
-  background: var(--color-surface-sunken);
-  border-block: 1px solid var(--color-border-light);
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-medium);
-  line-height: 1.4;
-  color: var(--color-text-primary);
-}
-.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
-  border-top: 0;
-}
-.bcn-triage-queue__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-triage-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  padding: var(--spacing-300);
-  border-bottom: 1px solid var(--color-border-light);
-  background: var(--color-surface);
-}
-.bcn-triage-row__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.bcn-triage-row__line {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-250);
-  min-width: 0;
-}
-.bcn-triage-row__title {
-  min-width: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-triage-row__date {
-  flex: none;
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__meta {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__foot {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-}
-.bcn-triage-row__match {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-triage-row__sug .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  --badge-height-md: 24px;
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-row:last-child {
-  border-bottom: 0;
-}
-.bcn-triage-queue__group + .bcn-triage-queue__group {
-  margin-top: 0;
-}
-.bcn-triage-row__foot[hidden] {
-  display: none;
-}
-.bcn-triage-queue__empty {
-  padding: var(--spacing-700) var(--spacing-400);
-}
-.bcn-triage-queue__empty[hidden] {
-  display: none;
-}
-.bcn-triage-workspace__review {
-  align-self: start;
-  max-height: 100%;
-  min-height: 0;
-}
-.bcn-triage-review {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  max-height: 100%;
-  overflow-y: auto;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-}
-.bcn-triage-review:has([data-triage-prompt]:not([hidden])) {
-  border: 0;
-  background: none;
-}
-.bcn-triage-review__prompt {
-  display: flex;
-  flex: 1;
-  align-items: stretch;
-  min-height: 22rem;
-}
-.bcn-triage-review__invite {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: var(--spacing-500);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-200);
-  background: none;
-  font-size: 0.8125rem;
-  font-style: italic;
-  color: var(--color-text-muted);
-}
-.bcn-triage-review__panel {
-  display: flex;
-  flex-direction: column;
-}
-.bcn-triage-review__panel[hidden] {
-  display: none;
-}
-.bcn-triage-add {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  min-height: 20rem;
-}
-.bcn-triage-add__scope {
-  margin: 0;
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-add__staged {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border);
-}
-.bcn-triage-add__staged[hidden] {
-  display: none;
-}
-.bcn-triage-add__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-250);
-}
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -16149,13 +18403,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .page-layout__title-main {
   display: flex;
   align-items: center;
-  gap: var(--spacing-200);
+  gap: var(--spacing-400);
   min-width: 0;
 }
 .page-layout__title h1 {
   display: flex;
   align-items: center;
-  gap: var(--spacing-200);
+  gap: var(--spacing-300);
   font-family: var(--font-decorative);
   font-weight: var(--font-weight-bold);
   font-size: var(--type-size-500);
@@ -16215,7 +18469,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-150);
-  min-width: 300px;
+  min-width: 380px;
 }
 .bcn-filterbar__search esa-text-field {
   flex: 1;
@@ -16229,6 +18483,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .bcn-filterbar__top + .bcn-filterbar__bottom {
   border-top: 1px solid var(--color-border);
+}
+.bcn-filterbar__sort {
+  margin-left: var(--spacing-600);
+  --form-height-md: 32px;
+  --form-font-size-md: 14px;
+}
+.bcn-filterbar__sort esa-select {
+  width: 9rem;
 }
 .bcn-filterbar__clear {
   margin-left: auto;
@@ -16249,10 +18511,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   flex-basis: 0;
   flex-grow: 999;
   min-inline-size: var(--sidebar-content-min);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
 }
 .esa-filter-container {
   display: flex;
@@ -16288,22 +18546,47 @@ html,
 .esa-filter-clear-button__label {
   white-space: nowrap;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
 }
 ```
 
@@ -16360,6 +18643,7 @@ html,
 | `--font-weight-medium` | `500` | component |
 | `--font-weight-regular` | `350` | component |
 | `--font-weight-semibold` | `550` | component |
+| `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-xs` | `14px` | primitive |

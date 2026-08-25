@@ -1,1 +1,0 @@
-import"./esa-dialog.BNeEZbXv.js";import"./typography.C7xuE2z_.js";import"./boolish.DOQu-9JQ.js";document.querySelectorAll(".trigger").forEach(e=>e.addEventListener("click",()=>{document.getElementById(e.dataset.target)?.show()}));document.querySelectorAll(".trigger-close").forEach(e=>e.addEventListener("click",()=>{document.getElementById(e.dataset.close)?.close()}));

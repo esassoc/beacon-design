@@ -19,10 +19,10 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 <section class="page-layout__title">
   <div class="page-layout__title-main">
     <h1>
-      <span class="esa-icon esa-icon--md" aria-hidden="true">
+      <span class="esa-icon esa-icon--lg" aria-hidden="true">
         <svg
-          width="20"
-          height="20"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -377,13 +377,13 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 .page-layout__title-main {
   display: flex;
   align-items: center;
-  gap: var(--spacing-200);
+  gap: var(--spacing-400);
   min-width: 0;
 }
 .page-layout__title h1 {
   display: flex;
   align-items: center;
-  gap: var(--spacing-200);
+  gap: var(--spacing-300);
   font-family: var(--font-decorative);
   font-weight: var(--font-weight-bold);
   font-size: var(--type-size-500);
@@ -460,6 +460,7 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
+- `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--type-size-500`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(component)_

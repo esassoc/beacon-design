@@ -1,6 +1,6 @@
 # Token contract — prototypes-fish-detail-STY-014
 
-The 175 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 176 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -173,6 +173,7 @@ The 175 design tokens this page actually uses, resolved to their final values fo
 |---|---|
 | `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |

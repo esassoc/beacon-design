@@ -12,4 +12,4 @@ snapshot of one page for a developer (or an AI agent) to re-implement on any sta
 - **`manifest.json`** — per-section data powering the live dev-mode overlay.
 
 Source URL: http://localhost:4399/beacon-design/prototypes/evidence-triage/
-Rules shipped: 238 · Tokens referenced: 192
+Rules shipped: 257 · Tokens referenced: 193
