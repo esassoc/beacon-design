@@ -163,7 +163,7 @@
         },
         {
           "name": "--color-text-link",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -236,7 +236,7 @@
       "tokens": [
         {
           "name": "--badge-bg",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -291,17 +291,17 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
@@ -441,12 +441,12 @@
         },
         {
           "name": "--color-text-link",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "component"
         },
         {
           "name": "--color-text-link-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "component"
         },
         {
@@ -761,7 +761,7 @@
       "tokens": [
         {
           "name": "--badge-bg",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -816,17 +816,17 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
@@ -966,12 +966,12 @@
         },
         {
           "name": "--color-text-link",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "component"
         },
         {
           "name": "--color-text-link-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "component"
         },
         {

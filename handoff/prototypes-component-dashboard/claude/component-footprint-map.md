@@ -893,10 +893,10 @@ svg.leaflet-zoom-animated{will-change:transform}
 - `--card-header-bg`: transparent _(component)_
 - `--color-background-ai`: #a18072 _(semantic)_
 - `--color-background-ai-hover`: #957468 _(semantic)_
-- `--color-background-brand`: #46a758 _(semantic)_
-- `--color-background-brand-hover`: #3e9b4f _(semantic)_
-- `--color-background-brand-muted`: #e9f6e9 _(semantic)_
-- `--color-background-brand-muted-hover`: #daf1db _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -912,7 +912,7 @@ svg.leaflet-zoom-animated{will-change:transform}
 - `--color-border-default-strong`: #bbbbbb _(semantic)_
 - `--color-border-default-subtle`: #d9d9d9 _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #202020 _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #646464 _(semantic)_

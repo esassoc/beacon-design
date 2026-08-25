@@ -2263,7 +2263,7 @@ The article reader shared by the help home and every category page. It renders O
 ```
 
 ## Tokens
-- `--badge-bg`: #46a758 _(component)_
+- `--badge-bg`: #005862 _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000000 _(component)_
@@ -2274,9 +2274,9 @@ The article reader shared by the help home and every category page. It renders O
 - `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--color-background-brand`: #46a758 _(semantic)_
-- `--color-background-brand-hover`: #3e9b4f _(semantic)_
-- `--color-background-brand-muted`: #e9f6e9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
 - `--color-background-utility-danger-muted`: #feebec _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
@@ -2304,8 +2304,8 @@ The article reader shared by the help home and every category page. It renders O
 - `--color-primary`: #005862 _(component)_
 - `--color-surface`: #fcfcfc _(component)_
 - `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-link`: #46a758 _(component)_
-- `--color-text-link-hover`: #3e9b4f _(component)_
+- `--color-text-link`: #005862 _(component)_
+- `--color-text-link-hover`: #00474f _(component)_
 - `--color-text-primary`: #3d3d3d _(component)_
 - `--color-text-secondary`: #525252 _(component)_
 - `--color-text-tertiary`: #656565 _(component)_

@@ -4169,7 +4169,7 @@ The AG Grid itself — the real grid (ag-grid-community), not a styled table. Co
 - `--ag-internal-hover-color`: rgba(0, 0, 0, 0) _(component)_
 - `--ag-internal-moving-color`: rgba(0, 0, 0, 0) _(component)_
 - `--color-primary-hover`: #00474f _(component)_
-- `--color-text-link`: #46a758 _(component)_
+- `--color-text-link`: #005862 _(component)_
 - `--font-weight-regular`: 350 _(component)_
 - `--font-weight-semibold`: 550 _(component)_
 - `--radius-100`: .25rem _(primitive)_

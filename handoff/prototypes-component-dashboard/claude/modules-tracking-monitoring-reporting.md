@@ -779,7 +779,7 @@ The three work areas as equal cards, each rolling up this component's actions of
 - `--color-border-light`: #efefef _(component)_
 - `--color-border-strong`: #bdbdbd _(component)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #202020 _(semantic)_
 - `--color-content-default-secondary`: #646464 _(semantic)_
 - `--color-danger`: #ce2c31 _(component)_
@@ -817,7 +817,7 @@ The three work areas as equal cards, each rolling up this component's actions of
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
-- `--stat-accent-color`: #2a7e3b _(component)_
+- `--stat-accent-color`: #005862 _(component)_
 - `--stat-value-color`: #202020 _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_

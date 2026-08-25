@@ -137,7 +137,7 @@ The comprehensive list for one category: a quiet article count, then EVERY artic
 
 ## Tokens
 - `--color-border-light`: #efefef _(component)_
-- `--color-text-link`: #46a758 _(component)_
+- `--color-text-link`: #005862 _(component)_
 - `--color-text-primary`: #3d3d3d _(component)_
 - `--color-text-secondary`: #525252 _(component)_
 - `--color-text-tertiary`: #656565 _(component)_

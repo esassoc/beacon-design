@@ -8,9 +8,9 @@ The 155 design tokens this page actually uses, resolved to their final values fo
 |---|---|
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
-| `--color-background-brand` | `#46a758` |
-| `--color-background-brand-hover` | `#3e9b4f` |
-| `--color-background-brand-muted` | `#e9f6e9` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
+| `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-utility-danger-muted` | `#feebec` |
 | `--color-background-utility-info-muted` | `#e6f4fe` |
@@ -22,7 +22,7 @@ The 155 design tokens this page actually uses, resolved to their final values fo
 | `--color-border-utility-info` | `#acd8fc` |
 | `--color-border-utility-success` | `#adddc0` |
 | `--color-border-utility-warning` | `#f3d673` |
-| `--color-content-brand` | `#2a7e3b` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default` | `#202020` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#646464` |
@@ -96,7 +96,7 @@ The 155 design tokens this page actually uses, resolved to their final values fo
 | Token | Value |
 |---|---|
 | `--alert-box-text-color` | `#646464` |
-| `--badge-bg` | `#46a758` |
+| `--badge-bg` | `#005862` |
 | `--badge-text-color` | `#fcfcfc` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
@@ -127,7 +127,7 @@ The 155 design tokens this page actually uses, resolved to their final values fo
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
-| `--color-text-link` | `#46a758` |
+| `--color-text-link` | `#005862` |
 | `--color-text-muted` | `#7c7c7c` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |

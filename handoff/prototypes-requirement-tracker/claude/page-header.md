@@ -406,7 +406,7 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--border-width-default`: 1px _(semantic)_
-- `--color-background-brand-subtle`: #fbfefb _(semantic)_
+- `--color-background-brand-subtle`: #effefb _(semantic)_
 - `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
 - `--color-background-overlay-heavy-hover`: rgba(0, 0, 0, .1) _(semantic)_
 - `--color-background-utility-danger-subtle`: #fffcfc _(semantic)_
@@ -422,7 +422,7 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 - `--color-border-utility-info`: #acd8fc _(semantic)_
 - `--color-border-utility-success`: #adddc0 _(semantic)_
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
-- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #202020 _(semantic)_
 - `--color-content-default-secondary`: #646464 _(semantic)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_

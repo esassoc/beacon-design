@@ -3820,7 +3820,7 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
 - `--color-primary-hover`: #00474f _(component)_
 - `--color-surface`: #fcfcfc _(component)_
 - `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-link`: #46a758 _(component)_
+- `--color-text-link`: #005862 _(component)_
 - `--color-text-primary`: #3d3d3d _(component)_
 - `--color-text-secondary`: #525252 _(component)_
 - `--font-weight-regular`: 350 _(component)_

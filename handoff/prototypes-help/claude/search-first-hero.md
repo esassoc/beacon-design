@@ -1061,8 +1061,8 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 - `--color-surface`: #fcfcfc _(component)_
 - `--color-surface-sunken`: #efefef _(component)_
 - `--color-text-inverse`: #fcfcfc _(component)_
-- `--color-text-link`: #46a758 _(component)_
-- `--color-text-link-hover`: #3e9b4f _(component)_
+- `--color-text-link`: #005862 _(component)_
+- `--color-text-link-hover`: #00474f _(component)_
 - `--color-text-primary`: #3d3d3d _(component)_
 - `--color-text-secondary`: #525252 _(component)_
 - `--color-text-tertiary`: #656565 _(component)_

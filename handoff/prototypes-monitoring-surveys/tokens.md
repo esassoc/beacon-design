@@ -8,14 +8,14 @@ The 129 design tokens this page actually uses, resolved to their final values fo
 |---|---|
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
-| `--color-background-brand` | `#46a758` |
-| `--color-background-brand-hover` | `#3e9b4f` |
-| `--color-background-brand-subtle` | `#fbfefb` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
+| `--color-background-brand-subtle` | `#effefb` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#f0f0f0` |
 | `--color-background-field` | `rgba(0, 0, 0, 0)` |
 | `--color-border-default` | `#cecece` |
-| `--color-content-brand` | `#2a7e3b` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default` | `#202020` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#646464` |
@@ -96,7 +96,7 @@ The 129 design tokens this page actually uses, resolved to their final values fo
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
-| `--color-text-link` | `#46a758` |
+| `--color-text-link` | `#005862` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |

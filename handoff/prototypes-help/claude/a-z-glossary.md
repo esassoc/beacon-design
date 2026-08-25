@@ -129,7 +129,7 @@ Every glossary-kind article as a bare term link, sorted A–Z and flowing into n
 
 ## Tokens
 - `--color-border`: #dcdcdc _(component)_
-- `--color-text-link`: #46a758 _(component)_
+- `--color-text-link`: #005862 _(component)_
 - `--color-text-primary`: #3d3d3d _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_

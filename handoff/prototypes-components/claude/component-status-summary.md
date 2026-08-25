@@ -479,14 +479,14 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--card-bg`: #fcfcfc _(component)_
 - `--card-border-color`: #cecece _(component)_
 - `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #46a758 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
 - `--color-border`: #dcdcdc _(component)_
 - `--color-border-default`: #cecece _(semantic)_
 - `--color-border-default-subtle`: #d9d9d9 _(semantic)_
 - `--color-border-light`: #efefef _(component)_
-- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #202020 _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #646464 _(semantic)_
@@ -515,7 +515,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
-- `--stat-accent-color`: #2a7e3b _(component)_
+- `--stat-accent-color`: #005862 _(component)_
 - `--stat-value-color`: #202020 _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_

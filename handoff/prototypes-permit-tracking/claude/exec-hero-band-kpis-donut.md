@@ -552,7 +552,7 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
 - `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #202020 _(semantic)_
 - `--color-content-default-secondary`: #646464 _(semantic)_
 - `--color-danger`: #ce2c31 _(component)_
@@ -583,7 +583,7 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
 - `--spacing-600`: 2rem _(primitive)_
 - `--st-cleared`: #1a9850 _(component)_
 - `--st-not-started`: #d73027 _(component)_
-- `--stat-accent-color`: #2a7e3b _(component)_
+- `--stat-accent-color`: #005862 _(component)_
 - `--stat-value-color`: #202020 _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_

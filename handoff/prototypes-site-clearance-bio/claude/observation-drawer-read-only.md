@@ -1369,7 +1369,7 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #46a758 _(component)_
+- `--badge-bg`: #005862 _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000000 _(component)_
@@ -1390,10 +1390,10 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background`: #fafafa _(component)_
 - `--color-background-ai`: #a18072 _(semantic)_
 - `--color-background-ai-hover`: #957468 _(semantic)_
-- `--color-background-brand`: #46a758 _(semantic)_
-- `--color-background-brand-hover`: #3e9b4f _(semantic)_
-- `--color-background-brand-muted`: #e9f6e9 _(semantic)_
-- `--color-background-brand-muted-hover`: #daf1db _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -1418,7 +1418,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-utility-success`: #adddc0 _(semantic)_
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #202020 _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #646464 _(semantic)_

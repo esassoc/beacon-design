@@ -442,7 +442,7 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
 - `--color-secondary`: #00918b _(component)_
 - `--color-surface`: #fcfcfc _(component)_
 - `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-link`: #46a758 _(component)_
+- `--color-text-link`: #005862 _(component)_
 - `--color-text-primary`: #3d3d3d _(component)_
 - `--color-text-secondary`: #525252 _(component)_
 - `--color-text-tertiary`: #656565 _(component)_

@@ -987,7 +987,7 @@ The component-level clearance history: a single-column, date-grouped feed of rec
 - `--color-border`: #dcdcdc _(component)_
 - `--color-border-light`: #efefef _(component)_
 - `--color-border-strong`: #bdbdbd _(component)_
-- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #202020 _(semantic)_
 - `--color-content-default-secondary`: #646464 _(semantic)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_

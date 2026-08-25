@@ -113,22 +113,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -203,7 +203,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -643,7 +643,7 @@
       "label": "Clear-to-build timeline",
       "tag": "section",
       "selector": ".ctb",
-      "html": "<section class=\"ctb\" aria-label=\"Clear-to-build timeline\">\n  <div class=\"ctb__head\">\n    <h3 class=\"ctb__title\">Clear-to-build timeline</h3>\n    <p class=\"ctb__sub\">Segments by projected clear-to-build date</p>\n  </div>\n  <div class=\"ctb__axisrow\" aria-hidden=\"true\">\n    <span></span>\n    <div class=\"ctb__axis\" id=\"ctb-axis\">\n      <span class=\"ctb-tick\" style=\"left: 0%\">Jun ’26</span\n      ><span class=\"ctb-tick\" style=\"left: 16.3934%\">Jul</span\n      ><span class=\"ctb-tick\" style=\"left: 33.3333%\">Aug</span\n      ><span class=\"ctb-tick\" style=\"left: 50.2732%\">Sep</span\n      ><span class=\"ctb-tick\" style=\"left: 66.6667%\">Oct</span\n      ><span class=\"ctb-tick\" style=\"left: 83.6066%\">Nov</span\n      ><span class=\"ctb-tick ctb-tick--today\" style=\"left: 45.9016%\">Today</span>\n    </div>\n    <span></span>\n  </div>\n  <ul class=\"ctb__rows\" id=\"ctb-rows\">\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1E<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 0.546448087431694%;\n            width: 45.3551912568306%;\n            background: var(--st-cleared);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 0.546448087431694%; background: var(--st-cleared)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Jun 2, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1F<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 0.546448087431694%;\n            width: 45.3551912568306%;\n            background: var(--st-cleared);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 0.546448087431694%; background: var(--st-cleared)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Jun 2, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3G<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 0.546448087431694%;\n            width: 45.3551912568306%;\n            background: var(--st-cleared);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 0.546448087431694%; background: var(--st-cleared)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Jun 2, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3F<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 26.775956284153008%;\n            width: 19.125683060109285%;\n            background: var(--st-in-preparation);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 26.775956284153008%; background: var(--st-in-preparation)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Jul 20, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1B<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 43.71584699453552%;\n            width: 2.185792349726775%;\n            background: var(--st-under-review);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 43.71584699453552%; background: var(--st-under-review)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Aug 20, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Easements Reach<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 3.278688524590166%;\n            background: var(--st-under-review);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 49.18032786885246%; background: var(--st-under-review)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Aug 30, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 2B<span class=\"ctb-row__sub\">Path 2</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 3.278688524590166%;\n            background: var(--st-under-review);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 49.18032786885246%; background: var(--st-under-review)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Aug 30, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 4A<span class=\"ctb-row__sub\">Path 4</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 6.557377049180332%;\n            background: var(--st-submitted);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 52.459016393442624%; background: var(--st-submitted)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 5, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1A<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 9.289617486338798%;\n            background: var(--st-submitted);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 55.19125683060109%; background: var(--st-submitted)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 10, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3B<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 9.289617486338798%;\n            background: var(--st-submitted);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 55.19125683060109%; background: var(--st-submitted)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 10, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1C<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 17.486338797814213%;\n            background: var(--st-in-preparation);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 63.387978142076506%; background: var(--st-in-preparation)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 25, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 2A<span class=\"ctb-row__sub\">Path 2</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 17.486338797814213%;\n            background: var(--st-in-preparation);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 63.387978142076506%; background: var(--st-in-preparation)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 25, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3A<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 17.486338797814213%;\n            background: var(--st-in-preparation);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 63.387978142076506%; background: var(--st-in-preparation)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 25, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3H<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 28.415300546448094%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 74.31693989071039%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Oct 15, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3I<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 28.415300546448094%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 74.31693989071039%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Oct 15, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3J<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 28.415300546448094%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 74.31693989071039%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Oct 15, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3C<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 37.70491803278689%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 83.60655737704919%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Nov 1, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3D<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 37.70491803278689%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 83.60655737704919%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Nov 1, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3E<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 45.90163934426229%;\n            width: 37.70491803278689%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 83.60655737704919%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Nov 1, 2026</span>\n    </li>\n  </ul>\n</section>",
+      "html": "<section class=\"ctb\" aria-label=\"Clear-to-build timeline\">\n  <div class=\"ctb__head\">\n    <h3 class=\"ctb__title\">Clear-to-build timeline</h3>\n    <p class=\"ctb__sub\">Segments by projected clear-to-build date</p>\n  </div>\n  <div class=\"ctb__axisrow\" aria-hidden=\"true\">\n    <span></span>\n    <div class=\"ctb__axis\" id=\"ctb-axis\">\n      <span class=\"ctb-tick\" style=\"left: 0%\">Jun ’26</span\n      ><span class=\"ctb-tick\" style=\"left: 16.3934%\">Jul</span\n      ><span class=\"ctb-tick\" style=\"left: 33.3333%\">Aug</span\n      ><span class=\"ctb-tick\" style=\"left: 50.2732%\">Sep</span\n      ><span class=\"ctb-tick\" style=\"left: 66.6667%\">Oct</span\n      ><span class=\"ctb-tick\" style=\"left: 83.6066%\">Nov</span\n      ><span class=\"ctb-tick ctb-tick--today\" style=\"left: 46.4481%\">Today</span>\n    </div>\n    <span></span>\n  </div>\n  <ul class=\"ctb__rows\" id=\"ctb-rows\">\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1E<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 0.546448087431694%;\n            width: 45.9016393442623%;\n            background: var(--st-cleared);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 0.546448087431694%; background: var(--st-cleared)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Jun 2, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1F<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 0.546448087431694%;\n            width: 45.9016393442623%;\n            background: var(--st-cleared);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 0.546448087431694%; background: var(--st-cleared)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Jun 2, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3G<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 0.546448087431694%;\n            width: 45.9016393442623%;\n            background: var(--st-cleared);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 0.546448087431694%; background: var(--st-cleared)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Jun 2, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3F<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 26.775956284153008%;\n            width: 19.672131147540984%;\n            background: var(--st-in-preparation);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 26.775956284153008%; background: var(--st-in-preparation)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Jul 20, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1B<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 43.71584699453552%;\n            width: 2.732240437158474%;\n            background: var(--st-under-review);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 43.71584699453552%; background: var(--st-under-review)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Aug 20, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Easements Reach<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 2.7322404371584668%;\n            background: var(--st-under-review);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 49.18032786885246%; background: var(--st-under-review)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Aug 30, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 2B<span class=\"ctb-row__sub\">Path 2</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 2.7322404371584668%;\n            background: var(--st-under-review);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 49.18032786885246%; background: var(--st-under-review)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Aug 30, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 4A<span class=\"ctb-row__sub\">Path 4</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 6.010928961748633%;\n            background: var(--st-submitted);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 52.459016393442624%; background: var(--st-submitted)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 5, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1A<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 8.7431693989071%;\n            background: var(--st-submitted);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 55.19125683060109%; background: var(--st-submitted)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 10, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3B<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 8.7431693989071%;\n            background: var(--st-submitted);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 55.19125683060109%; background: var(--st-submitted)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 10, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 1C<span class=\"ctb-row__sub\">Path 1</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 16.939890710382514%;\n            background: var(--st-in-preparation);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 63.387978142076506%; background: var(--st-in-preparation)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 25, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 2A<span class=\"ctb-row__sub\">Path 2</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 16.939890710382514%;\n            background: var(--st-in-preparation);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 63.387978142076506%; background: var(--st-in-preparation)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 25, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3A<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 16.939890710382514%;\n            background: var(--st-in-preparation);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 63.387978142076506%; background: var(--st-in-preparation)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Sep 25, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3H<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 27.868852459016395%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 74.31693989071039%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Oct 15, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3I<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 27.868852459016395%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 74.31693989071039%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Oct 15, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3J<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 27.868852459016395%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 74.31693989071039%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Oct 15, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3C<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 37.15846994535519%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 83.60655737704919%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Nov 1, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3D<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 37.15846994535519%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 83.60655737704919%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Nov 1, 2026</span>\n    </li>\n    <li class=\"ctb-row\">\n      <span class=\"ctb-row__name\"\n        >Segment 3E<span class=\"ctb-row__sub\">Path 3</span></span\n      >\n      <span class=\"ctb-row__track\"\n        ><span\n          class=\"ctb-row__bar\"\n          style=\"\n            left: 46.44808743169399%;\n            width: 37.15846994535519%;\n            background: var(--st-not-started);\n          \"\n        ></span>\n        <span\n          class=\"ctb-row__dot\"\n          style=\"left: 83.60655737704919%; background: var(--st-not-started)\"\n        ></span\n      ></span>\n      <span class=\"ctb-row__meta\">Nov 1, 2026</span>\n    </li>\n  </ul>\n</section>",
       "css": ".ctb {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-200);\n  margin-top: var(--spacing-400);\n  padding: var(--spacing-400);\n  background: var(--color-surface);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-300);\n}\n.ctb__head {\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n  gap: var(--spacing-300);\n  flex-wrap: wrap;\n}\n.ctb__title {\n  margin: 0;\n  font-size: 0.9375rem;\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-primary);\n}\n.ctb__sub {\n  margin: 0;\n  font-size: 0.8125rem;\n  color: var(--color-text-tertiary);\n}\n.ctb__axisrow {\n  display: grid;\n  grid-template-columns: 190px 1fr 260px;\n  gap: var(--spacing-400);\n}\n.ctb__axis {\n  position: relative;\n  height: 18px;\n}\n.ctb-tick {\n  position: absolute;\n  top: 0;\n  transform: translate(-50%);\n  font-size: 0.75rem;\n  color: var(--color-text-tertiary);\n  white-space: nowrap;\n}\n.ctb-tick--today {\n  color: var(--color-primary);\n  font-weight: var(--font-weight-semibold);\n}\n.ctb__rows {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.ctb-row {\n  display: grid;\n  grid-template-columns: 190px 1fr 260px;\n  gap: var(--spacing-400);\n  align-items: center;\n  padding: var(--spacing-200) 0;\n  border-top: 1px solid var(--color-border-light);\n  cursor: pointer;\n}\n.ctb-row:hover {\n  background: var(--grid-row-bg-hover);\n}\n.ctb-row__name {\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-primary);\n}\n.ctb-row__sub {\n  font-size: 0.75rem;\n  font-weight: var(--font-weight-regular);\n  color: var(--color-text-tertiary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.ctb-row__track {\n  position: relative;\n  height: 12px;\n  border-radius: var(--radius-full);\n  background: var(--bcn-gray-100);\n}\n.ctb-row__bar {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n  height: 4px;\n  border-radius: var(--radius-full);\n  opacity: 0.55;\n}\n.ctb-row__dot {\n  position: absolute;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  width: 12px;\n  height: 12px;\n  border-radius: 50%;\n  border: 2px solid var(--color-surface);\n  box-shadow: 0 0 0 1px #0000001f;\n}\n.ctb-row__meta {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n  gap: 1px;\n  min-width: 0;\n  text-align: right;\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-primary);\n  font-variant-numeric: tabular-nums;\n}",
       "guide": {
         "intent": "A horizontal timeline of segments ordered by projected clear-to-build date against a Today tick — the planning companion to the mileage strip (the two headline figures read together). Each row is a segment; its bar runs from Today to the projected clear date, colored by derived status. Clicking a row opens the segment dossier.",
@@ -1045,22 +1045,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -1140,7 +1140,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -1601,22 +1601,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -1691,7 +1691,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -2064,22 +2064,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -2154,7 +2154,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -2447,7 +2447,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -2602,7 +2602,7 @@
         },
         {
           "name": "--stat-accent-color",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -2969,7 +2969,7 @@
       "tokens": [
         {
           "name": "--badge-bg",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -3029,17 +3029,17 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
@@ -3438,22 +3438,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -3533,7 +3533,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -4005,22 +4005,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -4095,7 +4095,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {

@@ -114,22 +114,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -209,7 +209,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -591,22 +591,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -686,7 +686,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -1864,22 +1864,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -1959,7 +1959,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -2445,22 +2445,22 @@
         },
         {
           "name": "--color-background-brand",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-hover",
-          "value": "#3e9b4f",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
-          "value": "#e9f6e9",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted-hover",
-          "value": "#daf1db",
+          "value": "#b9d6d2",
           "tier": "semantic"
         },
         {
@@ -2530,7 +2530,7 @@
         },
         {
           "name": "--color-content-brand",
-          "value": "#2a7e3b",
+          "value": "#005862",
           "tier": "semantic"
         },
         {

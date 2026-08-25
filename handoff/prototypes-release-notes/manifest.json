@@ -50,7 +50,7 @@
         },
         {
           "name": "--color-text-link",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -237,7 +237,7 @@
         },
         {
           "name": "--color-text-link",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -624,7 +624,7 @@
         },
         {
           "name": "--color-text-link",
-          "value": "#46a758",
+          "value": "#005862",
           "tier": "component"
         },
         {

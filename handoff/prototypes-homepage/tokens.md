@@ -7,9 +7,9 @@ The 62 design tokens this page actually uses, resolved to their final values for
 | Token | Value |
 |---|---|
 | `--border-width-default` | `1px` |
-| `--color-background-brand` | `#46a758` |
-| `--color-background-brand-hover` | `#3e9b4f` |
-| `--color-content-brand` | `#2a7e3b` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--transition-fast` | `.15s ease` |
 | `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` |
@@ -36,7 +36,7 @@ The 62 design tokens this page actually uses, resolved to their final values for
 | `--color-success-subtle` | `#fbfefc` |
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
-| `--color-text-link` | `#46a758` |
+| `--color-text-link` | `#005862` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |

@@ -8577,10 +8577,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 [data-theme="beacon"] {
   --border-width-default: 1px;
   --button-radius-md: 0.5rem;
-  --color-background-brand: #46a758;
-  --color-background-brand-hover: #3e9b4f;
+  --color-background-brand: #005862;
+  --color-background-brand-hover: #00474f;
   --color-border: #dcdcdc;
-  --color-content-brand: #2a7e3b;
+  --color-content-brand: #005862;
   --color-content-default-knockout: #fcfcfc;
   --color-danger: #ce2c31;
   --color-danger-border: #fdbdbe;
@@ -8595,7 +8595,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-success-subtle: #fbfefc;
   --color-surface: #fcfcfc;
   --color-surface-sunken: #efefef;
-  --color-text-link: #46a758;
+  --color-text-link: #005862;
   --color-text-primary: #3d3d3d;
   --color-text-secondary: #525252;
   --color-text-tertiary: #656565;
@@ -8639,6 +8639,43 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-microcopy-md-line-height: 1;
 }
 
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
 .bcn-mkt-nav {
   position: absolute;
   top: 16px;
@@ -9285,36 +9322,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   opacity: 1;
   transform: translateY(0);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -9356,13 +9363,6 @@ html,
 .esa-button__label {
   white-space: nowrap;
 }
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
 *,
 *:before,
 *:after {
@@ -9394,10 +9394,10 @@ img {
 |---|---|---|
 | `--border-width-default` | `1px` | semantic |
 | `--button-radius-md` | `.5rem` | component |
-| `--color-background-brand` | `#46a758` | semantic |
-| `--color-background-brand-hover` | `#3e9b4f` | semantic |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
 | `--color-border` | `#dcdcdc` | component |
-| `--color-content-brand` | `#2a7e3b` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-danger` | `#ce2c31` | component |
 | `--color-danger-border` | `#fdbdbe` | component |
@@ -9412,7 +9412,7 @@ img {
 | `--color-success-subtle` | `#fbfefc` | component |
 | `--color-surface` | `#fcfcfc` | component |
 | `--color-surface-sunken` | `#efefef` | component |
-| `--color-text-link` | `#46a758` | component |
+| `--color-text-link` | `#005862` | component |
 | `--color-text-primary` | `#3d3d3d` | component |
 | `--color-text-secondary` | `#525252` | component |
 | `--color-text-tertiary` | `#656565` | component |

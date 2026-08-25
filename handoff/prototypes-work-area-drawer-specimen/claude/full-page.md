@@ -2224,15 +2224,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ```css
 :root,
 [data-theme="beacon"] {
-  --badge-bg: #46a758;
+  --badge-bg: #005862;
   --badge-text-color: #fcfcfc;
   --border-width-default: 1px;
   --button-radius-md: 0.5rem;
   --button-radius-sm: 0.25rem;
   --color-background: #fafafa;
-  --color-background-brand: #46a758;
-  --color-background-brand-hover: #3e9b4f;
-  --color-background-brand-muted: #e9f6e9;
+  --color-background-brand: #005862;
+  --color-background-brand-hover: #00474f;
+  --color-background-brand-muted: #eef5f4;
   --color-background-elevation-raised: #fcfcfc;
   --color-background-utility-danger: #ce2c31;
   --color-background-utility-danger-hover: #641723;
@@ -2240,7 +2240,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-border-default: #cecece;
   --color-border-light: #efefef;
   --color-border-strong: #bdbdbd;
-  --color-content-brand: #2a7e3b;
+  --color-content-brand: #005862;
   --color-content-default: #202020;
   --color-content-default-knockout: #fcfcfc;
   --color-content-default-secondary: #646464;
@@ -2250,7 +2250,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-primary-subtle: #effefb;
   --color-secondary: #00918b;
   --color-surface: #fcfcfc;
-  --color-text-link: #46a758;
+  --color-text-link: #005862;
   --color-text-primary: #3d3d3d;
   --color-text-secondary: #525252;
   --color-text-tertiary: #656565;
@@ -2315,41 +2315,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-microcopy-xs-strong-line-height: 1;
 }
 
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   display: inline-flex;
@@ -3477,6 +3442,10 @@ body {
   grid-row: 1;
   grid-column: 3;
 }
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
 *,
 *:before,
 *:after {
@@ -3584,24 +3553,55 @@ a {
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
 }
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--badge-bg` | `#46a758` | component |
+| `--badge-bg` | `#005862` | component |
 | `--badge-text-color` | `#fcfcfc` | component |
 | `--border-width-default` | `1px` | semantic |
 | `--button-radius-md` | `.5rem` | component |
 | `--button-radius-sm` | `.25rem` | component |
 | `--color-background` | `#fafafa` | component |
-| `--color-background-brand` | `#46a758` | semantic |
-| `--color-background-brand-hover` | `#3e9b4f` | semantic |
-| `--color-background-brand-muted` | `#e9f6e9` | semantic |
+| `--color-background-brand` | `#005862` | semantic |
+| `--color-background-brand-hover` | `#00474f` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-utility-danger` | `#ce2c31` | semantic |
 | `--color-background-utility-danger-hover` | `#641723` | semantic |
@@ -3609,7 +3609,7 @@ html,
 | `--color-border-default` | `#cecece` | semantic |
 | `--color-border-light` | `#efefef` | component |
 | `--color-border-strong` | `#bdbdbd` | component |
-| `--color-content-brand` | `#2a7e3b` | semantic |
+| `--color-content-brand` | `#005862` | semantic |
 | `--color-content-default` | `#202020` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#646464` | semantic |
@@ -3619,7 +3619,7 @@ html,
 | `--color-primary-subtle` | `#effefb` | component |
 | `--color-secondary` | `#00918b` | component |
 | `--color-surface` | `#fcfcfc` | component |
-| `--color-text-link` | `#46a758` | component |
+| `--color-text-link` | `#005862` | component |
 | `--color-text-primary` | `#3d3d3d` | component |
 | `--color-text-secondary` | `#525252` | component |
 | `--color-text-tertiary` | `#656565` | component |

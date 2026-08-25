@@ -7,14 +7,14 @@ The 89 design tokens this page actually uses, resolved to their final values for
 | Token | Value |
 |---|---|
 | `--border-width-default` | `1px` |
-| `--color-background-brand` | `#46a758` |
-| `--color-background-brand-hover` | `#3e9b4f` |
-| `--color-background-brand-muted` | `#e9f6e9` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
+| `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-utility-danger` | `#ce2c31` |
 | `--color-background-utility-danger-hover` | `#641723` |
 | `--color-border-default` | `#cecece` |
-| `--color-content-brand` | `#2a7e3b` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default` | `#202020` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#646464` |
@@ -54,7 +54,7 @@ The 89 design tokens this page actually uses, resolved to their final values for
 
 | Token | Value |
 |---|---|
-| `--badge-bg` | `#46a758` |
+| `--badge-bg` | `#005862` |
 | `--badge-text-color` | `#fcfcfc` |
 | `--button-radius-md` | `.5rem` |
 | `--button-radius-sm` | `.25rem` |
@@ -66,7 +66,7 @@ The 89 design tokens this page actually uses, resolved to their final values for
 | `--color-primary-subtle` | `#effefb` |
 | `--color-secondary` | `#00918b` |
 | `--color-surface` | `#fcfcfc` |
-| `--color-text-link` | `#46a758` |
+| `--color-text-link` | `#005862` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |

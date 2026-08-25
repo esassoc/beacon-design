@@ -755,7 +755,7 @@ BcnTimelineExplorer — replaced the old aggregate opened-vs-resolved bar chart 
 - `--card-bg`: #fcfcfc _(component)_
 - `--card-border-color`: #cecece _(component)_
 - `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #46a758 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
 - `--color-border`: #dcdcdc _(component)_

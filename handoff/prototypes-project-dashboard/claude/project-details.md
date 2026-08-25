@@ -210,7 +210,7 @@ The project record's own fields — description, start and end dates, and attach
 - `--card-bg`: #fcfcfc _(component)_
 - `--card-border-color`: #cecece _(component)_
 - `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #46a758 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
 - `--color-border-default`: #cecece _(semantic)_

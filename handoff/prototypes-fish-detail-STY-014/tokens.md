@@ -8,9 +8,9 @@ The 175 design tokens this page actually uses, resolved to their final values fo
 |---|---|
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
-| `--color-background-brand` | `#46a758` |
-| `--color-background-brand-hover` | `#3e9b4f` |
-| `--color-background-brand-muted` | `#e9f6e9` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
+| `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#f0f0f0` |
 | `--color-background-field` | `rgba(0, 0, 0, 0)` |
@@ -18,7 +18,7 @@ The 175 design tokens this page actually uses, resolved to their final values fo
 | `--color-border-default` | `#cecece` |
 | `--color-border-default-subtle` | `#d9d9d9` |
 | `--color-border-utility-warning` | `#f3d673` |
-| `--color-content-brand` | `#2a7e3b` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default` | `#202020` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#646464` |
@@ -93,7 +93,7 @@ The 175 design tokens this page actually uses, resolved to their final values fo
 | `--avatar-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--avatar-size-md` | `40px` |
 | `--avatar-size-sm` | `28px` |
-| `--badge-bg` | `#46a758` |
+| `--badge-bg` | `#005862` |
 | `--badge-text-color` | `#fcfcfc` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
@@ -129,7 +129,7 @@ The 175 design tokens this page actually uses, resolved to their final values fo
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
-| `--color-text-link` | `#46a758` |
+| `--color-text-link` | `#005862` |
 | `--color-text-muted` | `#7c7c7c` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
