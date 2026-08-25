@@ -2315,127 +2315,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-microcopy-xs-strong-line-height: 1;
 }
 
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
-.bcn-status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-}
-.bcn-key-value {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.esa-collapsible {
-  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
-  border-radius: var(--radius-md, 0.5rem);
-  background: var(--color-background-elevation-raised, #fcfcfc);
-}
-.esa-collapsible--flush {
-  border: none;
-  border-radius: 0;
-  background: transparent;
-}
-.esa-collapsible__summary {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
-  color: var(--color-content-default, #202020);
-  cursor: pointer;
-  list-style: none;
-}
-.esa-collapsible--flush > .esa-collapsible__summary,
-.esa-collapsible--flush > .esa-collapsible__body {
-  padding-inline: 0;
-}
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-content-default-secondary, #646464);
-}
-.esa-collapsible__summary:after {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid var(--color-content-default-secondary, #646464);
-  border-bottom: 2px solid var(--color-content-default-secondary, #646464);
-  transform: rotate(-45deg);
-  transition: transform 0.15s ease;
-  margin-left: auto;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.esa-collapsible[open] > .esa-collapsible__summary:after {
-  transform: rotate(45deg);
-}
-.esa-collapsible__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400, 1rem);
-  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
 }
 body {
   background: var(--color-background);
@@ -3442,6 +3355,128 @@ body {
   grid-row: 1;
   grid-column: 3;
 }
+.bcn-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+}
+.bcn-status-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+}
+.bcn-key-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bcn-key-value__key {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.esa-collapsible {
+  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--color-background-elevation-raised, #fcfcfc);
+}
+.esa-collapsible--flush {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+.esa-collapsible__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+  color: var(--color-content-default, #202020);
+  cursor: pointer;
+  list-style: none;
+}
+.esa-collapsible--flush > .esa-collapsible__summary,
+.esa-collapsible--flush > .esa-collapsible__body {
+  padding-inline: 0;
+}
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-content-default-secondary, #646464);
+}
+.esa-collapsible__summary:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--color-content-default-secondary, #646464);
+  border-bottom: 2px solid var(--color-content-default-secondary, #646464);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+  margin-left: auto;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-collapsible[open] > .esa-collapsible__summary:after {
+  transform: rotate(45deg);
+}
+.esa-collapsible__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400, 1rem);
+  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
@@ -3552,41 +3587,6 @@ a {
 }
 .esa-button--variant-primary {
   --_accent-text: var(--color-content-brand);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
 }
 ```
 
