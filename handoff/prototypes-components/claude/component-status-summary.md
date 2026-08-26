@@ -45,7 +45,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
           ></span
           ><span
             class="bcn-summary__seg"
-            style="--_c: var(--color-warning); width: 43.75%"
+            style="--_c: var(--color-background-utility-warning); width: 43.75%"
           ></span
           ><span
             class="bcn-summary__seg"
@@ -53,7 +53,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
           ></span
           ><span
             class="bcn-summary__seg"
-            style="--_c: var(--color-success); width: 18.75%"
+            style="--_c: var(--color-background-utility-success); width: 18.75%"
           ></span>
         </div>
         <ul class="bcn-summary__legend">
@@ -61,20 +61,26 @@ A project-wide roll-up above the list: how many components exist, how they distr
             <span
               class="bcn-summary__dot"
               style="--_c: var(--bcn-status-not-started)"
-            ></span>
-            Not started <span class="bcn-summary__legend-count">4</span>
+            ></span
+            >Not started<span class="bcn-summary__legend-count">4</span>
           </li>
           <li class="bcn-summary__legend-item">
-            <span class="bcn-summary__dot" style="--_c: var(--color-warning)"></span> In
-            progress <span class="bcn-summary__legend-count">7</span>
+            <span
+              class="bcn-summary__dot"
+              style="--_c: var(--color-background-utility-warning)"
+            ></span
+            >In progress<span class="bcn-summary__legend-count">7</span>
           </li>
           <li class="bcn-summary__legend-item">
-            <span class="bcn-summary__dot" style="--_c: var(--bcn-status-on-hold)"></span>
-            On hold <span class="bcn-summary__legend-count">2</span>
+            <span class="bcn-summary__dot" style="--_c: var(--bcn-status-on-hold)"></span
+            >On hold<span class="bcn-summary__legend-count">2</span>
           </li>
           <li class="bcn-summary__legend-item">
-            <span class="bcn-summary__dot" style="--_c: var(--color-success)"></span>
-            Complete <span class="bcn-summary__legend-count">3</span>
+            <span
+              class="bcn-summary__dot"
+              style="--_c: var(--color-background-utility-success)"
+            ></span
+            >Complete<span class="bcn-summary__legend-count">3</span>
           </li>
         </ul>
       </div>
@@ -90,7 +96,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
     </div>
     <div class="esa-card__body typography-body-md">
       <div class="bcn-summary__attention">
-        <div style="--stat-value-color: var(--color-danger-strong)">
+        <div style="--stat-value-color: var(--color-content-utility-danger)">
           <div class="esa-stat">
             <div class="esa-stat__value typography-display-sm">5</div>
             <div class="esa-stat__label typography-label-md">
@@ -103,18 +109,15 @@ A project-wide roll-up above the list: how many components exist, how they distr
             <span class="bcn-summary__att-name"
               >Southern Tunnel Reach — King Island to Bethany Complex Launch Shaft
               Transition Zone</span
-            >
-            <span class="bcn-summary__att-flag">6 overdue</span>
+            ><span class="bcn-summary__att-flag">6 overdue</span>
           </li>
           <li class="bcn-summary__att-row">
-            <span class="bcn-summary__att-name"
-              >Southern Forebay &amp; Pumping Plant</span
-            >
-            <span class="bcn-summary__att-flag">3 overdue</span>
+            <span class="bcn-summary__att-name">Southern Forebay &amp; Pumping Plant</span
+            ><span class="bcn-summary__att-flag">3 overdue</span>
           </li>
           <li class="bcn-summary__att-row">
-            <span class="bcn-summary__att-name">Intake B — North Delta</span>
-            <span class="bcn-summary__att-flag">2 overdue</span>
+            <span class="bcn-summary__att-name">Intake B — North Delta</span
+            ><span class="bcn-summary__att-flag">2 overdue</span>
           </li>
           <li class="bcn-summary__att-more">+2 more</li>
         </ul>
@@ -161,12 +164,129 @@ A project-wide roll-up above the list: how many components exist, how they distr
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
+  --_card-radius: var(--radius-md, 0.5rem);
+  --_card-padding: var(--spacing-500, 1.5rem);
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--color-content-default, #202020);
+  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
+  --_card-meta-label-color: var(--color-content-default-secondary, #646464);
+  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);
+  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);
+  background: var(--_card-bg);
+  border: var(--border-width-default, 1px) solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  display: block;
+  overflow: hidden;
+}
+.esa-card--outlined {
+  --_card-border: var(--color-border-default, #cecece);
+}
+.esa-card--elevated {
+  --_card-border: transparent;
+  box-shadow: var(--elevation-2, 0 2px 12px 0 #0000000a);
+}
+.esa-card--filled {
+  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  --_card-border: transparent;
+}
+.esa-card--header-primary .esa-card__header {
+  --_card-header-bg: var(--color-background-brand, #46a758);
+  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-card--header-muted .esa-card__header {
+  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-card--padding-none {
+  --_card-padding: 0;
+}
+.esa-card--padding-compact {
+  --_card-padding: var(--spacing-300, 0.75rem);
+}
+.esa-card--padding-spacious {
+  --_card-padding: var(--spacing-700, 3rem);
+}
+.esa-card__header {
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);
+  justify-content: space-between;
+  align-items: center;
+  min-height: 56px;
+  display: flex;
+}
+.esa-card__header-content {
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+  display: flex;
+}
+.esa-card__titles {
+  gap: var(--spacing-050, 0.125rem);
+  flex-direction: column;
+  display: flex;
+}
+.esa-card__title {
+  color: inherit;
+  margin: 0;
+}
+.esa-card__subtitle {
+  color: var(--color-content-default-secondary, #646464);
+  margin: 0;
+}
+.esa-card--header-primary .esa-card__subtitle {
+  color: var(--color-content-on-brand, #fffc);
+}
+.esa-card__meta {
+  gap: var(--spacing-100, 0.25rem) var(--spacing-500, 1.5rem);
+  margin: var(--spacing-050, 0.125rem) 0 0;
+  flex-wrap: wrap;
+  display: flex;
+}
+.esa-card__meta-pair {
+  align-items: baseline;
+  gap: var(--spacing-100, 0.25rem);
+  min-width: 0;
+  display: flex;
+}
+.esa-card__meta dt {
+  font-size: var(--_card-meta-label-size);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--_card-meta-label-color);
+}
+.esa-card__meta dd {
+  font-size: var(--_card-meta-value-size);
+  color: inherit;
+  margin: 0;
+}
+.esa-card--header-primary .esa-card__meta dt {
+  color: #fffc;
+}
+.esa-card__icon {
+  color: inherit;
+  flex-shrink: 0;
+}
+.esa-card__actions {
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  display: flex;
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.esa-card__footer {
+  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
+  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+}
 .bcn-ev-staging__item .esa-card {
   overflow: visible;
 }
 .bcn-ev-targets__item[data-receiving] .esa-card {
-  border-color: var(--color-secondary);
-  background: color-mix(in srgb, var(--color-secondary) 5%, transparent);
+  border-color: var(--color-background-brand-muted);
+  background: color-mix(in srgb, var(--color-background-brand-muted) 5%, transparent);
 }
 .bcn-ev-targets__item[data-blocked] .esa-card {
   opacity: 0.45;
@@ -175,122 +295,122 @@ A project-wide roll-up above the list: how many components exist, how they distr
   overflow: visible;
 }
 .bcn-summary {
-  display: grid;
-  grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
   gap: var(--spacing-500);
+  grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
   align-items: stretch;
+  display: grid;
 }
 .bcn-summary > .esa-card {
   height: 100%;
 }
 .bcn-summary__count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   min-width: 22px;
   height: 22px;
   padding: 0 var(--spacing-150);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default-secondary);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-100);
   font-variant-numeric: tabular-nums;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .bcn-summary__main {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-400);
+  flex-direction: column;
+  display: flex;
 }
 .bcn-summary__bar {
-  height: 14px;
   border-radius: var(--radius-full);
-  overflow: hidden;
+  background: var(--color-background-elevation-sunken);
+  height: 14px;
   display: flex;
-  background: var(--color-surface-sunken);
+  overflow: hidden;
 }
 .bcn-summary__seg {
-  height: 100%;
   background: var(--_c);
+  height: 100%;
 }
 .bcn-summary__legend {
-  list-style: none;
+  gap: var(--spacing-200) var(--spacing-500);
+  flex-wrap: wrap;
   margin: 0;
   padding: 0;
+  list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-200) var(--spacing-500);
 }
 .bcn-summary__legend-item {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
+  display: flex;
 }
 .bcn-summary__dot {
-  width: 10px;
-  height: 10px;
   border-radius: var(--radius-full);
   background: var(--_c);
   flex-shrink: 0;
+  width: 10px;
+  height: 10px;
 }
 .bcn-summary__legend-count {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
   font-variant-numeric: tabular-nums;
 }
 .bcn-summary__attention {
-  display: flex;
   flex-direction: column;
+  display: flex;
 }
 .bcn-summary__att-list {
-  list-style: none;
   margin: var(--spacing-400) 0 0;
   padding: var(--spacing-400) 0 0;
-  border-top: 1px solid var(--color-border-light);
-  display: flex;
-  flex-direction: column;
+  border-top: 1px solid var(--color-border-default-subtle);
   gap: var(--spacing-200);
+  flex-direction: column;
+  list-style: none;
+  display: flex;
 }
 .bcn-summary__att-row {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
   justify-content: space-between;
+  display: flex;
 }
 .bcn-summary__att-name {
-  font-size: var(--type-size-150);
-  color: var(--color-text-primary);
-  overflow: hidden;
+  font-size: var(--font-size-150);
+  color: var(--color-content-default);
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 .bcn-summary__att-flag {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-100);
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-danger-strong);
-  background: color-mix(in srgb, var(--color-danger) 12%, white);
-  border: 1px solid color-mix(in srgb, var(--color-danger) 26%, white);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-utility-danger);
+  background: color-mix(in srgb, var(--color-background-utility-danger) 12%, white);
+  border: 1px solid color-mix(in srgb, var(--color-background-utility-danger) 26%, white);
   white-space: nowrap;
   flex-shrink: 0;
+  display: inline-flex;
 }
 .bcn-summary__att-more {
-  font-size: var(--type-size-100);
-  color: var(--color-text-muted);
+  font-size: var(--font-size-100);
+  color: var(--bcn-content-muted);
 }
 .bcn-summary__att-clear {
   margin: var(--spacing-400) 0 0;
   padding: var(--spacing-400) 0 0;
-  border-top: 1px solid var(--color-border-light);
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+  border-top: 1px solid var(--color-border-default-subtle);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
 }
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
@@ -327,95 +447,6 @@ A project-wide roll-up above the list: how many components exist, how they distr
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
-.esa-card {
-  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
-  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
-  --_card-radius: var(--radius-md, 0.5rem);
-  --_card-padding: var(--spacing-500, 1.5rem);
-  --_card-header-bg: var(--card-header-bg, transparent);
-  --_card-header-color: var(--color-content-default, #202020);
-  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
-  display: block;
-  background: var(--_card-bg);
-  border: var(--border-width-default, 1px) solid var(--_card-border);
-  border-radius: var(--_card-radius);
-  overflow: hidden;
-}
-.esa-card--outlined {
-  --_card-border: var(--color-border-default, #cecece);
-}
-.esa-card--elevated {
-  --_card-border: transparent;
-  box-shadow: var(--elevation-2, 0 2px 12px 0 rgba(0, 0, 0, 0.04));
-}
-.esa-card--filled {
-  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_card-border: transparent;
-}
-.esa-card--header-primary .esa-card__header {
-  --_card-header-bg: var(--color-background-brand, #46a758);
-  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
-}
-.esa-card--header-muted .esa-card__header {
-  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.esa-card--padding-none {
-  --_card-padding: 0;
-}
-.esa-card--padding-compact {
-  --_card-padding: var(--spacing-300, 0.75rem);
-}
-.esa-card--padding-spacious {
-  --_card-padding: var(--spacing-700, 3rem);
-}
-.esa-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-400, 1rem) var(--_card-padding);
-  background: var(--_card-header-bg);
-  color: var(--_card-header-color);
-  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);
-  min-height: 56px;
-}
-.esa-card__header-content {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300, 0.75rem);
-}
-.esa-card__titles {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-050, 0.125rem);
-}
-.esa-card__title {
-  margin: 0;
-  color: inherit;
-}
-.esa-card__subtitle {
-  color: var(--color-content-default-secondary, #646464);
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__subtitle {
-  color: var(--color-content-on-brand, rgba(255, 255, 255, 0.8));
-}
-.esa-card__icon {
-  color: inherit;
-  flex-shrink: 0;
-}
-.esa-card__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-}
-.esa-card__body {
-  padding: var(--_card-padding);
-}
-.esa-card__footer {
-  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
-  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
-  background: var(--color-background-elevation-sunken, #f0f0f0);
-}
 .esa-stat {
   --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));
   --_stat-value-font: var(
@@ -449,10 +480,10 @@ A project-wide roll-up above the list: how many components exist, how they distr
   );
   --_stat-accent-color: var(--stat-accent-color, var(--color-content-brand, #2a7e3b));
   --_stat-gap: var(--spacing-050, 0.125rem);
-  display: flex;
-  flex-direction: column;
   gap: var(--_stat-gap);
-  background: transparent;
+  background: 0 0;
+  flex-direction: column;
+  display: flex;
 }
 .esa-stat__value {
   font-family: var(--_stat-value-font);
@@ -475,38 +506,33 @@ A project-wide roll-up above the list: how many components exist, how they distr
 ```
 
 ## Tokens
+- `--bcn-content-muted`: #7c7c7c _(component)_
 - `--border-width-default`: 1px _(semantic)_
 - `--card-bg`: #fcfcfc _(component)_
-- `--card-border-color`: #cecece _(component)_
+- `--card-border-color`: #dcdcdc _(component)_
 - `--card-header-bg`: transparent _(component)_
 - `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-muted`: #00918b _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
-- `--color-border`: #dcdcdc _(component)_
-- `--color-border-default`: #cecece _(semantic)_
-- `--color-border-default-subtle`: #d9d9d9 _(semantic)_
-- `--color-border-light`: #efefef _(component)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #202020 _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #646464 _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-on-brand`: #fcfcfc _(semantic)_
-- `--color-danger`: #ce2c31 _(component)_
-- `--color-danger-strong`: #ce2c31 _(component)_
-- `--color-secondary`: #00918b _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-muted`: #7c7c7c _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--elevation-2`: 0 2px 12px 0 rgba(0, 0, 0, .04) _(semantic)_
+- `--color-content-utility-danger`: #ce2c31 _(semantic)_
+- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
 - `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
 - `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--font-weight-medium`: 500 _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
-- `--radius-md`: .5rem _(semantic)_
+- `--radius-md`: .25rem _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -515,11 +541,9 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
-- `--stat-accent-color`: #005862 _(component)_
-- `--stat-value-color`: #202020 _(component)_
+- `--stat-accent-color`: #2a7e3b _(component)_
+- `--stat-value-color`: #3d3d3d _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
 - `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-body-md-font-weight`: 350 _(semantic)_
@@ -534,6 +558,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-bold`: 650 _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-label-md-font-weight`: 500 _(semantic)_
@@ -544,6 +569,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--typography-label-md-strong-font-weight`: 550 _(semantic)_
 - `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
 - `--typography-title-sm-strong-font-weight`: 550 _(semantic)_

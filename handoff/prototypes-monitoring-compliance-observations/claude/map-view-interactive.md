@@ -183,7 +183,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              fill="#ce2c31"
+              fill="#e5484d"
               fill-opacity="0.9"
               fill-rule="evenodd"
               d="M495,445a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
@@ -195,7 +195,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              fill="#ce2c31"
+              fill="#e5484d"
               fill-opacity="0.9"
               fill-rule="evenodd"
               d="M424,356a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
@@ -207,7 +207,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              fill="#ce2c31"
+              fill="#e5484d"
               fill-opacity="0.9"
               fill-rule="evenodd"
               d="M273,174a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
@@ -923,12 +923,12 @@ svg.leaflet-image-layer.leaflet-interactive path {
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--font-sans`: "DM Sans", sans-serif _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--font-sans`: "DM Sans", sans-serif _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--shadow-300`: 0 6px 24px -6px rgba(0, 0, 0, .07) _(component)_
+- `--shadow-300`: 0 6px 24px -6px rgba(0, 0, 0, .07) _(primitive)_

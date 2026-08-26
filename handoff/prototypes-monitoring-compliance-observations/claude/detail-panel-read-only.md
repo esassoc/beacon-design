@@ -192,17 +192,17 @@ An esa-side-dialog showing one observation in full — header chips for severity
 ```
 
 ## Tokens
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-weight-medium`: 500 _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--form-label-color`: #646464 _(component)_
+- `--form-label-color`: #525252 _(component)_
 - `--radius-full`: 9999px _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_

@@ -1,6 +1,6 @@
 # Token contract — prototypes-evidence-drawer
 
-The 133 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 127 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -8,17 +8,26 @@ The 133 design tokens this page actually uses, resolved to their final values fo
 |---|---|
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
+| `--color-background-accent` | `#f76b15` |
 | `--color-background-brand` | `#005862` |
 | `--color-background-brand-hover` | `#00474f` |
+| `--color-background-brand-muted` | `#00918b` |
+| `--color-background-brand-subtle` | `#effefb` |
+| `--color-background-default` | `#fafafa` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
-| `--color-border-default` | `#cecece` |
-| `--color-border-default-subtle` | `#d9d9d9` |
-| `--color-content-brand` | `#005862` |
-| `--color-content-default` | `#202020` |
+| `--color-background-elevation-sunken` | `#efefef` |
+| `--color-background-overlay-backdrop` | `#00000080` |
+| `--color-border-default` | `#dcdcdc` |
+| `--color-border-default-subtle` | `#efefef` |
+| `--color-content-brand` | `#2a7e3b` |
+| `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
-| `--elevation-4` | `0 6px 24px -6px rgba(0, 0, 0, .07)` |
-| `--elevation-5` | `0 8px 32px -8px rgba(0, 0, 0, .08)` |
-| `--radius-md` | `.5rem` |
+| `--color-content-default-secondary` | `#525252` |
+| `--color-content-default-tertiary` | `#656565` |
+| `--color-content-link` | `#005862` |
+| `--elevation-4` | `0 6px 24px -6px #00000012` |
+| `--elevation-5` | `0 8px 32px -8px #00000014` |
+| `--radius-md` | `.25rem` |
 | `--transition-fast` | `.15s ease` |
 | `--typography-body-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
@@ -30,6 +39,12 @@ The 133 design tokens this page actually uses, resolved to their final values fo
 | `--typography-body-sm-font-weight` | `350` |
 | `--typography-body-sm-letter-spacing` | `.01em` |
 | `--typography-body-sm-line-height` | `1.6` |
+| `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` |
+| `--typography-font-weight-bold` | `650` |
+| `--typography-font-weight-medium` | `500` |
+| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-semibold` | `550` |
 | `--typography-heading-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-heading-md-font-size` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 | `--typography-heading-md-font-weight` | `550` |
@@ -40,6 +55,7 @@ The 133 design tokens this page actually uses, resolved to their final values fo
 | `--typography-label-md-font-weight` | `500` |
 | `--typography-label-md-letter-spacing` | `.01em` |
 | `--typography-label-md-line-height` | `1.6` |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
 | `--typography-meta-font-family` | `"DM Sans", sans-serif` |
 | `--typography-meta-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--typography-meta-font-weight` | `350` |
@@ -74,7 +90,7 @@ The 133 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-aldo-100` | `#cfeceb` |
 | `--bcn-aldo-50` | `#e8f6f5` |
 | `--bcn-gray-100` | `#efefef` |
-| `--bcn-gray-1000` | `#000000` |
+| `--bcn-gray-1000` | `#000` |
 | `--bcn-gray-200` | `#dcdcdc` |
 | `--bcn-gray-300` | `#bdbdbd` |
 | `--bcn-gray-400` | `#989898` |
@@ -83,54 +99,32 @@ The 133 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-gray-600` | `#656565` |
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
-| `--bcn-helpbar-bg` | `rgba(23, 25, 27, .78)` |
+| `--bcn-helpbar-bg` | `#17191bc7` |
 | `--bcn-helpbar-bg-solid` | `#1f2224` |
-| `--bcn-helpbar-border` | `rgba(255, 255, 255, .12)` |
-| `--bcn-helpbar-divider` | `rgba(255, 255, 255, .16)` |
-| `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` |
-| `--button-radius-md` | `.5rem` |
+| `--bcn-helpbar-border` | `#ffffff1f` |
+| `--bcn-helpbar-divider` | `#ffffff29` |
+| `--bcn-helpbar-fg` | `#ffffffeb` |
+| `--button-radius-md` | `.25rem` |
 | `--button-radius-sm` | `.25rem` |
 | `--card-bg` | `#fcfcfc` |
-| `--card-border-color` | `#cecece` |
+| `--card-border-color` | `#dcdcdc` |
 | `--card-header-bg` | `transparent` |
-| `--color-accent` | `#f76b15` |
-| `--color-backdrop` | `rgba(0, 0, 0, .5)` |
-| `--color-background` | `#fafafa` |
-| `--color-border` | `#dcdcdc` |
-| `--color-border-light` | `#efefef` |
 | `--color-commitment` | `#58508d` |
-| `--color-primary` | `#005862` |
-| `--color-primary-subtle` | `#effefb` |
-| `--color-secondary` | `#00918b` |
-| `--color-surface` | `#fcfcfc` |
-| `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#fcfcfc` |
-| `--color-text-link` | `#005862` |
-| `--color-text-primary` | `#3d3d3d` |
-| `--color-text-secondary` | `#525252` |
-| `--color-text-tertiary` | `#656565` |
 | `--font-decorative` | `"Besley", serif` |
-| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` |
-| `--font-sans` | `"DM Sans", sans-serif` |
-| `--font-weight-bold` | `650` |
-| `--font-weight-medium` | `500` |
-| `--font-weight-regular` | `350` |
-| `--font-weight-semibold` | `550` |
 | `--side-dialog-inset` | `16px` |
 | `--side-dialog-width` | `400px` |
-| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
-| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 
 ## Primitive
 
 | Token | Value |
 |---|---|
-| `--icon-size-lg` | `24px` |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--font-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
+| `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |

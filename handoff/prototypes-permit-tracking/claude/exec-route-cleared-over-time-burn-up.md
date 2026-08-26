@@ -42,7 +42,6 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
       <text x="515.9" y="272" class="bu-xlabel">Aug</text>
       <text x="633.9" y="272" class="bu-xlabel">Sep</text>
       <text x="748.0" y="272" class="bu-xlabel">Oct</text>
-      <text x="866.0" y="272" class="bu-xlabel">Nov</text>
       <line x1="44" y1="22.0" x2="866" y2="22.0" class="bu-target"></line>
       <polyline
         points="367.5,238.0 470.2,228.4 588.2,213.0 626.3,185.6 649.1,183.0 668.1,149.9 725.2,70.7 801.3,57.4 866.0,22.0"
@@ -194,13 +193,13 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
 ```
 
 ## Tokens
-- `--color-border-light`: #efefef _(component)_
-- `--color-primary`: #005862 _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--st-cleared`: #1a9850 _(component)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_

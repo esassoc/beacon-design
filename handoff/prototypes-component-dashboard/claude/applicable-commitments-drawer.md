@@ -51,9 +51,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
       </svg>
     </span>
     <h2 class="bcn-sw__headtitle">Applicable Commitments</h2>
-    <span
-      class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-    >
+    <span class="esa-badge esa-badge--secondary esa-badge--sm">
       <span class="esa-badge__text">Bouldin Island Launch Shaft</span>
     </span>
   </div>
@@ -62,20 +60,20 @@ The surface that actually settles applicability: a wide side drawer listing the 
       <div class="bcn-sw__figures">
         <div class="bcn-sw__figure" data-sw-figure="undecided">
           <div class="esa-stat">
-            <div class="esa-stat__value typography-display-sm">26</div>
-            <div class="esa-stat__label typography-label-md">Need a decision</div>
+            <div class="esa-stat__value">26</div>
+            <div class="esa-stat__label">Need a decision</div>
           </div>
         </div>
         <div class="bcn-sw__figure" data-sw-figure="new">
           <div class="esa-stat">
-            <div class="esa-stat__value typography-display-sm">8</div>
-            <div class="esa-stat__label typography-label-md">New since last review</div>
+            <div class="esa-stat__value">8</div>
+            <div class="esa-stat__label">New since last review</div>
           </div>
         </div>
         <div class="bcn-sw__figure bcn-sw__figure--progress" data-sw-figure="decided">
           <div class="esa-stat">
-            <div class="esa-stat__value typography-display-sm">11 of 37</div>
-            <div class="esa-stat__label typography-label-md">Decided</div>
+            <div class="esa-stat__value">11 of 37</div>
+            <div class="esa-stat__label">Decided</div>
           </div>
           <div class="bcn-sw__bar" data-sw-progress="">
             <div
@@ -86,7 +84,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
               aria-valuemax="100"
               aria-label="Progress"
             >
-              <div class="esa-progress-bar__header typography-body-xs">
+              <div class="esa-progress-bar__header">
                 <span class="esa-progress-bar__value">30%</span>
               </div>
               <div class="esa-progress-bar__track">
@@ -115,9 +113,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
         <div class="bcn-filterbar__bottom">
           <span class="bcn-filterbar__label">Filters</span>
           <div
-            class="esa-filter-container typography-label-md"
+            class="esa-filter-container"
             style="
-              --_filter-container-gap: var(--spacing-200, var(--spacing-300, 0.75rem));
+              --_filter-container-gap: var(
+                --filter-container-gap,
+                var(--spacing-300, 0.75rem)
+              );
               --_filter-container-row-gap: var(--spacing-200, 0.5rem);
             "
           >
@@ -153,7 +154,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
           <span class="bcn-filterbar__clear">
             <span data-sw-clear=""
               ><button
-                class="esa-filter-clear-button typography-microcopy-sm"
+                class="esa-filter-clear-button"
                 type="button"
                 data-esa-filter-clear=""
                 aria-label="Clear all filters"
@@ -192,35 +193,30 @@ The surface that actually settles applicability: a wide side drawer listing the 
           <span class="bcn-sw__listcount" data-sw-listcount="">26 commitments</span>
           <span class="bcn-sw__listacts" data-sw-bulk="" hidden="">
             <span
-              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-              ><button
-                class="esa-button__native typography-microcopy-xs"
-                type="button"
-                data-sw-bulk-apply="true"
-              >
-                <span class="esa-button__label">Apply</span>
-              </button></span
+              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
             >
+              <button class="esa-button__native" type="button" data-sw-bulk-apply="true">
+                <span class="esa-button__label"> Apply </span>
+              </button>
+            </span>
             <span
-              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-              ><button
-                class="esa-button__native typography-microcopy-xs"
+              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+            >
+              <button
+                class="esa-button__native"
                 type="button"
                 data-sw-bulk-dismiss="true"
               >
-                <span class="esa-button__label">Dismiss</span>
-              </button></span
-            >
+                <span class="esa-button__label"> Dismiss </span>
+              </button>
+            </span>
             <span
-              class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--sm"
-              ><button
-                class="esa-button__native typography-microcopy-xs"
-                type="button"
-                data-sw-bulk-clear="true"
-              >
-                <span class="esa-button__label">Clear</span>
-              </button></span
+              class="esa-button esa-button--color-ghost esa-button--appearance-fill esa-button--sm"
             >
+              <button class="esa-button__native" type="button" data-sw-bulk-clear="true">
+                <span class="esa-button__label"> Clear </span>
+              </button>
+            </span>
           </span>
         </div>
         <div class="bcn-sw__scroll" data-sw-scroll="">
@@ -263,16 +259,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -281,91 +273,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-001">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-03"
-                          title="Apply BIO-03"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-03"
+                        title="Apply BIO-03"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-001">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-03"
-                          title="Dismiss BIO-03"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-03"
+                        title="Dismiss BIO-03"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-001">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-03"
-                            title="Undo BIO-03"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-03"
+                          title="Undo BIO-03"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -410,16 +396,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -428,91 +410,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-002">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-21"
-                          title="Apply BIO-21"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-21"
+                        title="Apply BIO-21"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-002">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-21"
-                          title="Dismiss BIO-21"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-21"
+                        title="Dismiss BIO-21"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-002">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-21"
-                            title="Undo BIO-21"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-21"
+                          title="Undo BIO-21"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -557,16 +533,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -575,91 +547,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-003">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply CUL-02"
-                          title="Apply CUL-02"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply CUL-02"
+                        title="Apply CUL-02"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-003">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss CUL-02"
-                          title="Dismiss CUL-02"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss CUL-02"
+                        title="Dismiss CUL-02"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-003">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo CUL-02"
-                            title="Undo CUL-02"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo CUL-02"
+                          title="Undo CUL-02"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -704,16 +670,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -722,91 +684,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-004">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-08"
-                          title="Apply WQ-08"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply WQ-08"
+                        title="Apply WQ-08"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-004">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-08"
-                          title="Dismiss WQ-08"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss WQ-08"
+                        title="Dismiss WQ-08"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-004">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-08"
-                            title="Undo WQ-08"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo WQ-08"
+                          title="Undo WQ-08"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -851,16 +807,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -869,91 +821,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-005">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply NOI-03"
-                          title="Apply NOI-03"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply NOI-03"
+                        title="Apply NOI-03"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-005">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss NOI-03"
-                          title="Dismiss NOI-03"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss NOI-03"
+                        title="Dismiss NOI-03"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-005">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo NOI-03"
-                            title="Undo NOI-03"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo NOI-03"
+                          title="Undo NOI-03"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -996,16 +942,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -1014,91 +956,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-006">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply AIR-04"
-                          title="Apply AIR-04"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply AIR-04"
+                        title="Apply AIR-04"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-006">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss AIR-04"
-                          title="Dismiss AIR-04"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss AIR-04"
+                        title="Dismiss AIR-04"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-006">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo AIR-04"
-                            title="Undo AIR-04"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo AIR-04"
+                          title="Undo AIR-04"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -1143,16 +1079,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -1161,91 +1093,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-007">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply GEO-01"
-                          title="Apply GEO-01"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply GEO-01"
+                        title="Apply GEO-01"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-007">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss GEO-01"
-                          title="Dismiss GEO-01"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss GEO-01"
+                        title="Dismiss GEO-01"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-007">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo GEO-01"
-                            title="Undo GEO-01"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo GEO-01"
+                          title="Undo GEO-01"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -1290,16 +1216,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -1308,91 +1230,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-008">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-44"
-                          title="Apply BIO-44"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-44"
+                        title="Apply BIO-44"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-008">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-44"
-                          title="Dismiss BIO-44"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-44"
+                        title="Dismiss BIO-44"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-008">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-44"
-                            title="Undo BIO-44"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-44"
+                          title="Undo BIO-44"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -1437,16 +1353,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -1455,91 +1367,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-009">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-52"
-                          title="Apply BIO-52"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-52"
+                        title="Apply BIO-52"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-009">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-52"
-                          title="Dismiss BIO-52"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-52"
+                        title="Dismiss BIO-52"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-009">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-52"
-                            title="Undo BIO-52"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-52"
+                          title="Undo BIO-52"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -1584,16 +1490,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -1602,91 +1504,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-010">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-19"
-                          title="Apply WQ-19"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply WQ-19"
+                        title="Apply WQ-19"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-010">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-19"
-                          title="Dismiss WQ-19"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss WQ-19"
+                        title="Dismiss WQ-19"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-010">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-19"
-                            title="Undo WQ-19"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo WQ-19"
+                          title="Undo WQ-19"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -1731,16 +1627,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -1749,91 +1641,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-011">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply TRA-07"
-                          title="Apply TRA-07"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply TRA-07"
+                        title="Apply TRA-07"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-011">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss TRA-07"
-                          title="Dismiss TRA-07"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss TRA-07"
+                        title="Dismiss TRA-07"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-011">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo TRA-07"
-                            title="Undo TRA-07"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo TRA-07"
+                          title="Undo TRA-07"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -1875,16 +1761,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -1893,91 +1775,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-012">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-09"
-                          title="Apply BIO-09"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-09"
+                        title="Apply BIO-09"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-012">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-09"
-                          title="Dismiss BIO-09"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-09"
+                        title="Dismiss BIO-09"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-012">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-09"
-                            title="Undo BIO-09"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-09"
+                          title="Undo BIO-09"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -2021,16 +1897,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -2039,91 +1911,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-013">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-18"
-                          title="Apply BIO-18"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-18"
+                        title="Apply BIO-18"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-013">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-18"
-                          title="Dismiss BIO-18"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-18"
+                        title="Dismiss BIO-18"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-013">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-18"
-                            title="Undo BIO-18"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-18"
+                          title="Undo BIO-18"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -2167,16 +2033,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -2185,91 +2047,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-014">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-27"
-                          title="Apply BIO-27"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-27"
+                        title="Apply BIO-27"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-014">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-27"
-                          title="Dismiss BIO-27"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-27"
+                        title="Dismiss BIO-27"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-014">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-27"
-                            title="Undo BIO-27"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-27"
+                          title="Undo BIO-27"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -2313,16 +2169,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -2331,91 +2183,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-015">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-30"
-                          title="Apply BIO-30"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-30"
+                        title="Apply BIO-30"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-015">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-30"
-                          title="Dismiss BIO-30"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-30"
+                        title="Dismiss BIO-30"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-015">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-30"
-                            title="Undo BIO-30"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-30"
+                          title="Undo BIO-30"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -2459,16 +2305,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -2477,91 +2319,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-016">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-36"
-                          title="Apply BIO-36"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-36"
+                        title="Apply BIO-36"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-016">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-36"
-                          title="Dismiss BIO-36"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-36"
+                        title="Dismiss BIO-36"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-016">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-36"
-                            title="Undo BIO-36"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-36"
+                          title="Undo BIO-36"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -2605,16 +2441,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -2623,91 +2455,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-017">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply CUL-05"
-                          title="Apply CUL-05"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply CUL-05"
+                        title="Apply CUL-05"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-017">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss CUL-05"
-                          title="Dismiss CUL-05"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss CUL-05"
+                        title="Dismiss CUL-05"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-017">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo CUL-05"
-                            title="Undo CUL-05"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo CUL-05"
+                          title="Undo CUL-05"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -2751,16 +2577,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -2769,91 +2591,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-018">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply CUL-11"
-                          title="Apply CUL-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply CUL-11"
+                        title="Apply CUL-11"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-018">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss CUL-11"
-                          title="Dismiss CUL-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss CUL-11"
+                        title="Dismiss CUL-11"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-018">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo CUL-11"
-                            title="Undo CUL-11"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo CUL-11"
+                          title="Undo CUL-11"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -2897,16 +2713,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -2915,91 +2727,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-019">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-05"
-                          title="Apply WQ-05"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply WQ-05"
+                        title="Apply WQ-05"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-019">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-05"
-                          title="Dismiss WQ-05"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss WQ-05"
+                        title="Dismiss WQ-05"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-019">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-05"
-                            title="Undo WQ-05"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo WQ-05"
+                          title="Undo WQ-05"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -3041,16 +2847,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -3059,91 +2861,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-020">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-12"
-                          title="Apply WQ-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply WQ-12"
+                        title="Apply WQ-12"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-020">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-12"
-                          title="Dismiss WQ-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss WQ-12"
+                        title="Dismiss WQ-12"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-020">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-12"
-                            title="Undo WQ-12"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo WQ-12"
+                          title="Undo WQ-12"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -3187,16 +2983,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -3205,91 +2997,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-021">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply VEG-06"
-                          title="Apply VEG-06"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply VEG-06"
+                        title="Apply VEG-06"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-021">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss VEG-06"
-                          title="Dismiss VEG-06"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss VEG-06"
+                        title="Dismiss VEG-06"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-021">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo VEG-06"
-                            title="Undo VEG-06"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo VEG-06"
+                          title="Undo VEG-06"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -3333,16 +3119,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -3351,91 +3133,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-022">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply VEG-14"
-                          title="Apply VEG-14"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply VEG-14"
+                        title="Apply VEG-14"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-022">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss VEG-14"
-                          title="Dismiss VEG-14"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss VEG-14"
+                        title="Dismiss VEG-14"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-022">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo VEG-14"
-                            title="Undo VEG-14"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo VEG-14"
+                          title="Undo VEG-14"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -3477,16 +3253,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -3495,91 +3267,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-023">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply TRA-11"
-                          title="Apply TRA-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply TRA-11"
+                        title="Apply TRA-11"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-023">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss TRA-11"
-                          title="Dismiss TRA-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss TRA-11"
+                        title="Dismiss TRA-11"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-023">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo TRA-11"
-                            title="Undo TRA-11"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo TRA-11"
+                          title="Undo TRA-11"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -3621,16 +3387,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -3639,91 +3401,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-024">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply NOI-08"
-                          title="Apply NOI-08"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply NOI-08"
+                        title="Apply NOI-08"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-024">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss NOI-08"
-                          title="Dismiss NOI-08"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss NOI-08"
+                        title="Dismiss NOI-08"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-024">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo NOI-08"
-                            title="Undo NOI-08"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo NOI-08"
+                          title="Undo NOI-08"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -3767,16 +3523,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -3785,91 +3537,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-025">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply GEO-04"
-                          title="Apply GEO-04"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply GEO-04"
+                        title="Apply GEO-04"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-025">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss GEO-04"
-                          title="Dismiss GEO-04"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss GEO-04"
+                        title="Dismiss GEO-04"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-025">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo GEO-04"
-                            title="Undo GEO-04"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo GEO-04"
+                          title="Undo GEO-04"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -3911,16 +3657,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -3929,91 +3671,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-026">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply GEO-09"
-                          title="Apply GEO-09"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply GEO-09"
+                        title="Apply GEO-09"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-026">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss GEO-09"
-                          title="Dismiss GEO-09"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss GEO-09"
+                        title="Dismiss GEO-09"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-026">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo GEO-09"
-                            title="Undo GEO-09"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo GEO-09"
+                          title="Undo GEO-09"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -4057,16 +3793,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -4075,91 +3807,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-027">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply USACE-02"
-                          title="Apply USACE-02"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply USACE-02"
+                        title="Apply USACE-02"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-027">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss USACE-02"
-                          title="Dismiss USACE-02"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss USACE-02"
+                        title="Dismiss USACE-02"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-027">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo USACE-02"
-                            title="Undo USACE-02"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo USACE-02"
+                          title="Undo USACE-02"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -4203,16 +3929,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -4221,91 +3943,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-028">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply USACE-07"
-                          title="Apply USACE-07"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply USACE-07"
+                        title="Apply USACE-07"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-028">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss USACE-07"
-                          title="Dismiss USACE-07"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss USACE-07"
+                        title="Dismiss USACE-07"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-028">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo USACE-07"
-                            title="Undo USACE-07"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo USACE-07"
+                          title="Undo USACE-07"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -4349,16 +4065,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -4367,91 +4079,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-029">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-39"
-                          title="Apply BIO-39"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-39"
+                        title="Apply BIO-39"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-029">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-39"
-                          title="Dismiss BIO-39"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-39"
+                        title="Dismiss BIO-39"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-029">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-39"
-                            title="Undo BIO-39"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-39"
+                          title="Undo BIO-39"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -4495,16 +4201,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -4513,91 +4215,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-030">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-41"
-                          title="Apply BIO-41"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-41"
+                        title="Apply BIO-41"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-030">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-41"
-                          title="Dismiss BIO-41"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-41"
+                        title="Dismiss BIO-41"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-030">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-41"
-                            title="Undo BIO-41"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-41"
+                          title="Undo BIO-41"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -4641,16 +4337,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -4659,91 +4351,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-031">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-47"
-                          title="Apply BIO-47"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-47"
+                        title="Apply BIO-47"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-031">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-47"
-                          title="Dismiss BIO-47"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-47"
+                        title="Dismiss BIO-47"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-031">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-47"
-                            title="Undo BIO-47"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-47"
+                          title="Undo BIO-47"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -4787,16 +4473,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -4805,91 +4487,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-032">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply WQ-23"
-                          title="Apply WQ-23"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply WQ-23"
+                        title="Apply WQ-23"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-032">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss WQ-23"
-                          title="Dismiss WQ-23"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss WQ-23"
+                        title="Dismiss WQ-23"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-032">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo WQ-23"
-                            title="Undo WQ-23"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo WQ-23"
+                          title="Undo WQ-23"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -4933,16 +4609,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -4951,91 +4623,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-033">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply AIR-11"
-                          title="Apply AIR-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply AIR-11"
+                        title="Apply AIR-11"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-033">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss AIR-11"
-                          title="Dismiss AIR-11"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss AIR-11"
+                        title="Dismiss AIR-11"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-033">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo AIR-11"
-                            title="Undo AIR-11"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo AIR-11"
+                          title="Undo AIR-11"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -5077,16 +4743,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -5095,91 +4757,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-034">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply CUL-14"
-                          title="Apply CUL-14"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply CUL-14"
+                        title="Apply CUL-14"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-034">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss CUL-14"
-                          title="Dismiss CUL-14"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss CUL-14"
+                        title="Dismiss CUL-14"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-034">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo CUL-14"
-                            title="Undo CUL-14"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo CUL-14"
+                          title="Undo CUL-14"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -5223,16 +4879,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -5241,91 +4893,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-035">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply GEO-12"
-                          title="Apply GEO-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply GEO-12"
+                        title="Apply GEO-12"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-035">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss GEO-12"
-                          title="Dismiss GEO-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss GEO-12"
+                        title="Dismiss GEO-12"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-035">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo GEO-12"
-                            title="Undo GEO-12"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo GEO-12"
+                          title="Undo GEO-12"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -5369,16 +5015,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -5387,91 +5029,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-036">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply NOI-12"
-                          title="Apply NOI-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply NOI-12"
+                        title="Apply NOI-12"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-036">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss NOI-12"
-                          title="Dismiss NOI-12"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss NOI-12"
+                        title="Dismiss NOI-12"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-036">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo NOI-12"
-                            title="Undo NOI-12"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo NOI-12"
+                          title="Undo NOI-12"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -5515,16 +5151,12 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   </button>
                   <span class="bcn-sw-row__marks">
                     <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Applied</span>
                       </span>
                     </span>
                     <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                      <span
-                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                      >
+                      <span class="esa-badge esa-badge--primary esa-badge--sm">
                         <span class="esa-badge__text">Dismissed</span>
                       </span>
                     </span>
@@ -5533,91 +5165,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
                 <span class="bcn-sw-row__acts">
                   <esa-tooltip text="Apply to this component" position="top">
                     <span data-sw-apply="cc-037">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Apply BIO-55"
-                          title="Apply BIO-55"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M20 6 9 17l-5-5"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Apply BIO-55"
+                        title="Apply BIO-55"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <esa-tooltip text="Not applicable" position="top">
                     <span data-sw-dismiss="cc-037">
-                      <span
-                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        ><button
-                          class="esa-button__native typography-microcopy-xs"
-                          type="button"
-                          aria-label="Dismiss BIO-55"
-                          title="Dismiss BIO-55"
-                        >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="M18 6 6 18"></path>
-                              <path d="m6 6 12 12"></path>
-                            </svg>
-                          </span></button
-                      ></span>
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Dismiss BIO-55"
+                        title="Dismiss BIO-55"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
                     </span>
                   </esa-tooltip>
                   <span class="bcn-sw-row__undo">
                     <esa-tooltip text="Undo this decision" position="top">
                       <span data-sw-undo="cc-037">
-                        <span
-                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                          ><button
-                            class="esa-button__native typography-microcopy-xs"
-                            type="button"
-                            aria-label="Undo BIO-55"
-                            title="Undo BIO-55"
-                          >
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                                ></path>
-                                <path d="M3 3v5h5"></path>
-                              </svg>
-                            </span></button
-                        ></span>
+                        <button
+                          class="esa-icon-button esa-icon-button--sm"
+                          type="button"
+                          aria-label="Undo BIO-55"
+                          title="Undo BIO-55"
+                        >
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                              ></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                          </span>
+                        </button>
                       </span>
                     </esa-tooltip>
                   </span>
@@ -5627,10 +5253,8 @@ The surface that actually settles applicability: a wide side drawer listing the 
           </ul>
           <div class="bcn-sw__none" data-sw-none="" hidden="">
             <div class="esa-empty-state esa-empty-state--sm">
-              <h3 class="esa-empty-state__title typography-label-sm-strong">
-                No commitments match these filters
-              </h3>
-              <div class="esa-empty-state__actions typography-label-md"></div>
+              <h3 class="esa-empty-state__title">No commitments match these filters</h3>
+              <div class="esa-empty-state__actions"></div>
             </div>
           </div>
         </div>
@@ -5642,10 +5266,8 @@ The surface that actually settles applicability: a wide side drawer listing the 
         <div class="bcn-sw__scroll bcn-sw__scroll--pad">
           <div class="bcn-sw__nopreview" data-sw-nopreview="">
             <div class="esa-empty-state esa-empty-state--sm">
-              <h3 class="esa-empty-state__title typography-label-sm-strong">
-                Select a commitment
-              </h3>
-              <div class="esa-empty-state__actions typography-label-md"></div>
+              <h3 class="esa-empty-state__title">Select a commitment</h3>
+              <div class="esa-empty-state__actions"></div>
             </div>
           </div>
           <article class="bcn-sw-prev" data-sw-preview="cc-001" hidden="">
@@ -5682,9 +5304,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Nesting-bird preconstruction survey</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -5738,9 +5358,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Giant garter snake preconstruction survey</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -5796,9 +5414,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Cultural resources worker training</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -5851,9 +5467,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >SWPPP preparation and submittal</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -5906,9 +5520,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Noise monitoring plan submittal</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -5961,9 +5573,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Fugitive dust control implementation</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -6018,9 +5628,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Borehole abandonment verification</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -6232,9 +5840,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Swainson’s hawk nest buffer verification</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -6284,9 +5890,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Worker environmental awareness refresher</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -6335,9 +5939,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">BIO-27</span>
                   <span class="bcn-sw-prev__actname">Pond turtle clearance survey</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -6390,9 +5992,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Vernal pool branchiopod wet-season survey</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -6443,9 +6043,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Elderberry shrub buffer installation</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -6496,9 +6094,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Discovery protocol acknowledgement</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -6548,9 +6144,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Archaeological monitor coverage</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -6598,9 +6192,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">WQ-05</span>
                   <span class="bcn-sw-prev__actname">Dewatering discharge sampling</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -6648,9 +6240,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">WQ-12</span>
                   <span class="bcn-sw-prev__actname">SWPPP quarterly inspection</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -6702,9 +6292,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Revegetation plan agency review</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -6752,9 +6340,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">VEG-14</span>
                   <span class="bcn-sw-prev__actname">Equipment washing log</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -6804,9 +6390,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Haul route compliance verification</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -6856,9 +6440,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Nighttime noise level verification</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -6908,9 +6490,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">GEO-04</span>
                   <span class="bcn-sw-prev__actname">Levee deformation survey</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -6960,9 +6540,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Drilling fluid containment inspection</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -7013,9 +6591,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Preconstruction notification submittal</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Reporting</span>
                     </span>
                   </span>
@@ -7064,9 +6640,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">USACE-07</span>
                   <span class="bcn-sw-prev__actname">Mitigation ledger update</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Reporting</span>
                     </span>
                   </span>
@@ -7117,9 +6691,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Daily biological monitoring report</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Reporting</span>
                     </span>
                   </span>
@@ -7207,9 +6779,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">BIO-47</span>
                   <span class="bcn-sw-prev__actname">Raptor buffer establishment</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -7258,9 +6828,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">WQ-23</span>
                   <span class="bcn-sw-prev__actname">Spill response plan submittal</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -7308,9 +6876,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">AIR-11</span>
                   <span class="bcn-sw-prev__actname">Equipment tier verification</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Tracking</span>
                     </span>
                   </span>
@@ -7359,9 +6925,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                   <span class="bcn-cbadge bcn-cbadge--sm">CUL-14</span>
                   <span class="bcn-sw-prev__actname">Tribal monitor notification</span>
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Reporting</span>
                     </span>
                   </span>
@@ -7449,9 +7013,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
                     >Vibration monitoring at receptors</span
                   >
                   <span class="bcn-sw-prev__acttype">
-                    <span
-                      class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--primary esa-badge--sm">
                       <span class="esa-badge__text">Monitoring</span>
                     </span>
                   </span>
@@ -7518,25 +7080,19 @@ The surface that actually settles applicability: a wide side drawer listing the 
   <div slot="footer" class="bcn-sw__foot">
     <span class="bcn-sw__footacts">
       <span
-        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
-        ><button
-          class="esa-button__native typography-microcopy-md"
-          type="button"
-          data-sw-save="true"
-        >
+        class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+      >
+        <button class="esa-button__native" type="button" data-sw-save="true">
           Save decisions
-        </button></span
-      >
+        </button>
+      </span>
       <span
-        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
-        ><button
-          class="esa-button__native typography-microcopy-md"
-          type="button"
-          data-sw-cancel="true"
-        >
-          <span class="esa-button__label">Cancel</span>
-        </button></span
+        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
       >
+        <button class="esa-button__native" type="button" data-sw-cancel="true">
+          <span class="esa-button__label"> Cancel </span>
+        </button>
+      </span>
     </span>
   </div>
 </esa-side-dialog>
@@ -7544,172 +7100,85 @@ The surface that actually settles applicability: a wide side drawer listing the 
 
 ## Styles
 ```css
-.typography-display-sm {
-  font-family: var(--typography-display-sm-font-family);
-  font-size: var(--typography-display-sm-font-size);
-  font-weight: var(--typography-display-sm-font-weight);
-  line-height: var(--typography-display-sm-line-height);
-  letter-spacing: var(--typography-display-sm-letter-spacing);
-}
-.typography-body-xs {
-  font-family: var(--typography-body-xs-font-family);
-  font-size: var(--typography-body-xs-font-size);
-  font-weight: var(--typography-body-xs-font-weight);
-  line-height: var(--typography-body-xs-line-height);
-  letter-spacing: var(--typography-body-xs-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
 .esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
+  --_on: var(--color-text-inverse, #ffffff);
   --_accent-text: var(--_accent);
   --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
 .esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
+  --_btn-height: var(--form-height-xs, 28px);
+  --_btn-padding-x: var(--form-padding-x-xs, 8px);
+  --_btn-font-size: var(--form-font-size-xs, 11px);
+  --_btn-radius: var(--form-radius-xs, 4px);
 }
 .esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
+  --_btn-height: var(--form-height-sm, 32px);
+  --_btn-padding-x: var(--form-padding-x-sm, 12px);
+  --_btn-font-size: var(--form-font-size-sm, 12px);
+  --_btn-radius: var(--form-radius-sm, 4px);
 }
 .esa-button--lg {
-  --_btn-pad-y: var(--spacing-400, 1rem);
-  --_btn-padding-x: var(--spacing-400, 1rem);
-  --_btn-radius: var(--button-radius-lg, 8px);
+  --_btn-height: var(--form-height-lg, 48px);
+  --_btn-padding-x: var(--form-padding-x-lg, 20px);
+  --_btn-font-size: var(--form-font-size-lg, 16px);
+  --_btn-radius: var(--form-radius-lg, 8px);
 }
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
+.esa-button--sm .esa-button__native {
+  height: auto;
+  padding-block: var(--spacing-150, 6px);
 }
-.esa-button--variant-secondary {
-  --_accent: var(--color-background-brand-muted);
-  --_accent-hover: var(--color-background-brand-muted-hover);
-  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
-  --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbbbbb);
+.esa-button--sm.esa-button--icon-only .esa-button__native {
+  height: var(--form-height-sm, 32px);
+  padding-block: 0;
 }
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
 }
-.esa-button--variant-success {
-  --_accent: var(--color-background-utility-success);
-  --_accent-hover: var(--color-background-utility-success-hover);
-  --_on: var(--color-content-on-utility-success);
-  --_accent-text: var(--color-content-utility-success);
+.esa-button--color-secondary {
+  --_accent: var(--color-secondary);
+  --_accent-hover: var(--color-secondary-hover);
+  --_on: var(--color-secondary-on-fill, var(--color-gray-12));
+  --_accent-text: var(--color-secondary-strong);
 }
-.esa-button--variant-warning {
-  --_accent: var(--color-background-utility-warning);
-  --_accent-hover: var(--color-background-utility-warning-hover);
-  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
-  --_accent-text: var(--color-content-utility-warning);
+.esa-button--color-danger {
+  --_accent: var(--color-danger);
+  --_accent-hover: var(--color-danger-hover);
+  --_accent-text: var(--color-danger-strong);
 }
-.esa-button--variant-info {
-  --_accent: var(--color-background-utility-info);
-  --_accent-hover: var(--color-background-utility-info-hover);
-  --_accent-text: var(--color-content-utility-info);
+.esa-button--color-success {
+  --_accent: var(--color-success);
+  --_accent-hover: var(--color-success-hover);
+  --_on: var(--color-success-on-fill);
+  --_accent-text: var(--color-success-strong);
 }
-.esa-button--variant-ai {
-  --_accent: var(--color-background-ai);
-  --_accent-hover: var(--color-background-ai-hover);
-  --_accent-text: var(--color-content-ai);
+.esa-button--color-warning {
+  --_accent: var(--color-warning);
+  --_accent-hover: var(--color-warning-hover);
+  --_on: var(--button-on-warning, var(--color-gray-12));
+  --_accent-text: var(--color-warning-strong);
+}
+.esa-button--color-info {
+  --_accent: var(--color-info);
+  --_accent-hover: var(--color-info-hover);
+  --_accent-text: var(--color-info-strong);
+}
+.esa-button--color-ai {
+  --_accent: var(--color-ai);
+  --_accent-hover: var(--color-ai-hover);
+  --_accent-text: var(--color-ai-strong);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
   color: var(--_on);
-  border-color: var(--_accent-border, transparent);
+  border-color: transparent;
 }
 .esa-button--appearance-fill .esa-button__native:hover:not(:disabled) {
   background: var(--_accent-hover);
@@ -7737,11 +7206,11 @@ The surface that actually settles applicability: a wide side drawer listing the 
 .esa-button--appearance-soft .esa-button__native {
   background: color-mix(
     in srgb,
-    var(--color-background-elevation-sunken, #f0f0f0) 45%,
-    var(--color-background-elevation-raised, #fcfcfc)
+    var(--color-surface-sunken, #efefef) 45%,
+    var(--color-surface, #fff)
   );
   color: var(--_accent-text);
-  border-color: var(--color-border-default-strong, #bbbbbb);
+  border-color: var(--color-border-strong, #d4d4d4);
 }
 .esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
 .esa-button--appearance-soft.esa-button--active .esa-button__native {
@@ -7749,34 +7218,18 @@ The surface that actually settles applicability: a wide side drawer listing the 
   color: var(--_on);
   border-color: var(--_accent);
 }
-.esa-button--variant-ghost .esa-button__native {
+.esa-button--color-ghost .esa-button__native {
   background: transparent;
-  color: var(--color-content-default, #202020);
+  color: var(--color-text-primary, #171717);
   border-color: transparent;
 }
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border, #e5e5e5);
 }
-.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),
-.esa-button--variant-ghost.esa-button--active .esa-button__native {
-  background: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.esa-button--variant-chrome .esa-button__native {
-  background: transparent;
-  color: inherit;
-  border-color: transparent;
-}
-.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
-.esa-button--variant-chrome.esa-button--active .esa-button__native,
-.esa-button--variant-chrome.esa-button--current .esa-button__native {
-  background: var(
-    --button-chrome-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-}
-.esa-button--variant-chrome .esa-button__native:focus-visible {
-  outline-color: currentColor;
+.esa-button--color-ghost .esa-button__native:hover:not(:disabled),
+.esa-button--color-ghost.esa-button--active .esa-button__native {
+  background: var(--color-surface-sunken, #efefef);
 }
 .esa-button__native {
   display: inline-flex;
@@ -7784,10 +7237,14 @@ The surface that actually settles applicability: a wide side drawer listing the 
   justify-content: center;
   gap: var(--spacing-200, 8px);
   width: 100%;
-  padding-block: var(--_btn-pad-y);
+  height: var(--_btn-height);
   padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
+  border: 1px solid transparent;
   border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
   text-decoration: none;
   cursor: pointer;
   transition:
@@ -7797,7 +7254,7 @@ The surface that actually settles applicability: a wide side drawer listing the 
   appearance: none;
 }
 .esa-button__native:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset, 2px);
 }
 .esa-button--disabled {
@@ -7806,34 +7263,16 @@ The surface that actually settles applicability: a wide side drawer listing the 
   pointer-events: none;
 }
 .esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-summary.esa-button {
-  list-style: none;
-  cursor: pointer;
-}
-summary.esa-button::-webkit-details-marker {
-  display: none;
-}
-summary.esa-button:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
-  outline-offset: var(--focus-ring-offset, 2px);
-  border-radius: var(--_btn-radius);
-}
-summary.esa-button--variant-chrome:focus-visible {
-  outline-color: currentColor;
+  padding-inline: 0;
+  width: var(--_btn-height);
 }
 .esa-button__label {
   white-space: nowrap;
 }
 .esa-button__label--hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
+  visibility: hidden;
+  width: 0;
   overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 .esa-button__spinner {
   display: inline-block;
@@ -7842,7 +7281,110 @@ summary.esa-button--variant-chrome:focus-visible {
   border: 2px solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
-  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
+  animation: esa-button-spin 0.6s linear infinite;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s ease;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-countchip__num .esa-badge {
+  --badge-radius: var(--radius-full);
+  --badge-bg: var(--color-border);
+  --badge-text-color: var(--color-text-secondary);
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: 0 0 0 1.5px var(--color-surface);
+}
+.bcn-ev-staging__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-targets__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-attached__mark .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-ev-row__mark .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-ev-row__tags .esa-badge {
+  --badge-bg: var(--bcn-gray-100);
+  --badge-text-color: var(--bcn-gray-700);
+  font-weight: var(--font-weight-medium);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
 }
 .bcn-tl__pop .bcn-cbadge {
   display: inline-block;
@@ -7859,6 +7401,71 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-mod__link .esa-icon {
   color: var(--color-text-muted);
+}
+.esa-progress-bar {
+  --_progress-height: var(--progress-bar-height-md, 8px);
+  --_progress-radius: var(--progress-bar-radius, var(--radius-full, 9999px));
+  --_progress-track-bg: var(
+    --progress-bar-track-bg,
+    var(--color-surface-sunken, #efefef)
+  );
+  --_progress-fill-bg: var(--progress-bar-fill-bg, var(--color-primary, #43608a));
+  --_progress-font-size: 13px;
+  display: block;
+  width: 100%;
+}
+.esa-progress-bar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--spacing-100, 0.25rem);
+  font-size: var(--_progress-font-size);
+}
+.esa-progress-bar__label {
+  color: var(--color-text-primary, #171717);
+  font-weight: 500;
+}
+.esa-progress-bar__value {
+  color: var(--color-text-secondary, #525252);
+  font-variant-numeric: tabular-nums;
+}
+.esa-progress-bar__track {
+  position: relative;
+  height: var(--_progress-height);
+  border-radius: var(--_progress-radius);
+  background: var(--_progress-track-bg);
+  overflow: hidden;
+}
+.esa-progress-bar__fill {
+  height: 100%;
+  border-radius: var(--_progress-radius);
+  background: var(--_progress-fill-bg);
+  transition: width 0.3s ease;
+}
+.esa-progress-bar--xs {
+  --_progress-height: var(--progress-bar-height-xs, 2px);
+  --_progress-font-size: 10px;
+}
+.esa-progress-bar--sm {
+  --_progress-height: var(--progress-bar-height-sm, 4px);
+  --_progress-font-size: 11px;
+}
+.esa-progress-bar--lg {
+  --_progress-height: var(--progress-bar-height-lg, 12px);
+  --_progress-font-size: 14px;
+}
+.esa-progress-bar--success {
+  --_progress-fill-bg: var(--color-success, #22c55e);
+}
+.esa-progress-bar--warning {
+  --_progress-fill-bg: var(--color-warning, #f59e0b);
+}
+.esa-progress-bar--danger {
+  --_progress-fill-bg: var(--color-danger, #ef4444);
+}
+.esa-progress-bar--indeterminate .esa-progress-bar__fill {
+  width: 40% !important;
+  animation: esa-progress-indeterminate 1.5s ease-in-out infinite;
 }
 .bcn-sw {
   --side-dialog-width-lg: 1180px;
@@ -8284,210 +7891,54 @@ summary.esa-button--variant-chrome:focus-visible {
   gap: var(--spacing-300);
   width: 100%;
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
+.esa-stat {
+  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
+  --_stat-value-font: var(
+    --stat-value-font,
+    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
+  );
+  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
+  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
+  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
+  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
+  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
+  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
+  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
+  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
+  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
+  display: flex;
+  flex-direction: column;
+  gap: var(--_stat-gap);
+  background: transparent;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+.esa-stat__value {
+  font-family: var(--_stat-value-font);
+  font-size: var(--_stat-value-size);
+  font-weight: var(--_stat-value-weight);
+  line-height: var(--line-height-tight, 1.3);
+  letter-spacing: var(--letter-spacing-tight, -0.01em);
+  color: var(--_stat-value-color);
 }
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
+.esa-stat--accent .esa-stat__value {
+  color: var(--_stat-accent-color);
 }
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
+.esa-stat__label {
+  font-size: var(--_stat-label-size);
+  font-weight: var(--_stat-label-weight);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-label-color);
 }
-.bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-disclosure .esa-icon {
-  transition: transform 0.15s ease;
-}
-.bcn-disclosure[aria-expanded="false"] .esa-icon {
-  transform: rotate(-90deg);
-}
-.bcn-countchip__num .esa-badge {
-  --badge-radius: var(--radius-full);
-  --badge-bg: var(--color-border);
-  --badge-text-color: var(--color-text-secondary);
-  min-width: 19px;
-  height: 19px;
-  padding: 0 4px;
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8125rem;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-  box-shadow: 0 0 0 1.5px var(--color-surface);
-}
-.bcn-ev-staging__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-ev-targets__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-ev-attached__mark .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-ev-row__mark .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-ev-row__tags .esa-badge {
-  --badge-bg: var(--bcn-gray-100);
-  --badge-text-color: var(--bcn-gray-700);
-  font-weight: var(--font-weight-medium);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.user-panel__item .esa-icon {
-  color: var(--bcn-gray-500);
-}
-.user-panel__item--danger .esa-icon {
-  color: var(--color-danger);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
-  display: none;
-}
-.typography-display-sm {
-  font-family: var(--typography-display-sm-font-family);
-  font-size: var(--typography-display-sm-font-size);
-  font-weight: var(--typography-display-sm-font-weight);
-  line-height: var(--typography-display-sm-line-height);
-  letter-spacing: var(--typography-display-sm-letter-spacing);
-}
-.typography-body-xs {
-  font-family: var(--typography-body-xs-font-family);
-  font-size: var(--typography-body-xs-font-size);
-  font-weight: var(--typography-body-xs-font-weight);
-  line-height: var(--typography-body-xs-line-height);
-  letter-spacing: var(--typography-body-xs-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+.esa-stat__sub {
+  font-size: var(--_stat-sub-size);
+  font-weight: var(--font-weight-regular, 350);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-sub-color);
 }
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
+  --_empty-title-size: 16px;
+  --_empty-desc-size: 14px;
+  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8498,18 +7949,24 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-empty-state--xs {
   --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
+  --_empty-title-size: 13px;
+  --_empty-desc-size: 11px;
   padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
 }
 .esa-empty-state--sm {
   --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  --_empty-title-size: 14px;
+  --_empty-desc-size: 12px;
   padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
 }
 .esa-empty-state--lg {
   --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
+  --_empty-title-size: 20px;
+  --_empty-desc-size: 16px;
   padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
 }
 .esa-empty-state__icon {
-  color: var(--color-content-default-secondary, #646464);
+  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
   margin-bottom: var(--spacing-100, 0.25rem);
   display: inline-flex;
 }
@@ -8519,11 +7976,14 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-empty-state__title {
   margin: 0;
-  color: var(--color-content-default, #202020);
+  font-size: var(--_empty-title-size);
+  font-weight: 600;
+  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
 }
 .esa-empty-state__description {
   margin: 0;
-  color: var(--color-content-default-secondary, #646464);
+  font-size: var(--_empty-desc-size);
+  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
   max-width: 360px;
 }
 .esa-empty-state__actions {
@@ -8575,109 +8035,107 @@ summary.esa-button--variant-chrome:focus-visible {
   background: var(--bcn-gray-100);
 }
 .esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
+  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
+  --_badge-height: var(--badge-height-md, 28px);
+  --_badge-font-size: 13px;
   --_badge-padding-x: var(--spacing-200, 0.5rem);
+  --_badge-min-width: var(--badge-height-md, 28px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
+  height: var(--_badge-height);
+  min-width: var(--_badge-min-width);
   padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  border-radius: var(--badge-radius, var(--radius-100, 4px));
   background: var(--_badge-bg);
   color: var(--_badge-text);
+  font-size: var(--_badge-font-size);
+  font-weight: 600;
+  line-height: 1;
   white-space: nowrap;
   box-sizing: border-box;
 }
 .esa-badge--xs {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-height: var(--badge-height-xs, 18px);
+  --_badge-font-size: 10px;
   --_badge-padding-x: var(--spacing-100, 0.25rem);
+  --_badge-min-width: var(--badge-height-xs, 18px);
 }
 .esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-height: var(--badge-height-sm, 22px);
+  --_badge-font-size: 11px;
   --_badge-padding-x: var(--spacing-150, 0.375rem);
+  --_badge-min-width: var(--badge-height-sm, 22px);
 }
 .esa-badge--lg {
-  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-height: var(--badge-height-lg, 34px);
+  --_badge-font-size: 14px;
   --_badge-padding-x: var(--spacing-300, 0.75rem);
+  --_badge-min-width: var(--badge-height-lg, 34px);
 }
 .esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+  --_badge-bg: var(--color-secondary, #65ba74);
+  --_badge-text: var(--color-secondary-on-fill, #203c25);
 }
 .esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
+  --_badge-bg: var(--color-success, #bdee63);
+  --_badge-text: var(--color-success-on-fill, #37401c);
 }
 .esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
+  --_badge-bg: var(--color-warning, #ffc53d);
+  --_badge-text: var(--color-warning-on-fill, #4f3422);
 }
 .esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+  --_badge-bg: var(--color-danger, #e5484d);
 }
 .esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
+  --_badge-bg: var(--color-info, #0090ff);
 }
 .esa-badge--dot {
   width: 8px;
   height: 8px;
   min-width: 8px;
   padding: 0;
-  border-radius: var(--radius-pill, 9999px);
+  border-radius: var(--radius-full, 9999px);
 }
 .esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+  --_badge-bg: var(--color-primary-hover, #3e9b4f);
 }
 .esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand, #46a758);
+  --_badge-bg: var(--color-secondary-hover, #46a758);
 }
 .esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+  --_badge-bg: var(--color-success-hover, #b0e64c);
 }
 .esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+  --_badge-bg: var(--color-warning-hover, #ffba18);
 }
 .esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+  --_badge-bg: var(--color-danger-hover, #dc3e42);
 }
 .esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
-}
-.esa-badge--dot {
-  border: 0;
-  outline: 1px solid CanvasText;
-  background: CanvasText;
+  --_badge-bg: var(--color-info-hover, #0588f0);
 }
 .esa-filter-clear-button {
-  --_clear-text: var(--color-content-default-secondary, #646464);
+  --_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));
   --_clear-text-hover: var(
-    --color-content-utility-danger,
-    var(--color-content-brand, #2a7e3b)
+    --filter-clear-color-hover,
+    var(--color-primary-strong, #3a7c59)
   );
+  --_clear-font-size: var(--type-size-150, 0.875rem);
   --_clear-icon-size: 18px;
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-100, 0.25rem);
   padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
   border: none;
-  border-radius: var(--radius-sm, 0.25rem);
+  border-radius: var(--radius-100, 0.25rem);
   background: transparent;
   color: var(--_clear-text);
+  font-family: var(--font-sans, inherit);
+  font-size: var(--_clear-font-size);
+  font-weight: var(--font-weight-medium, 450);
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -8687,10 +8145,10 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-filter-clear-button:hover {
   color: var(--_clear-text-hover);
-  background: var(--color-background-overlay-hover, rgba(0, 0, 0, 0.03));
+  background: var(--color-hover-overlay, rgba(0, 0, 0, 0.03));
 }
 .esa-filter-clear-button:focus-visible {
-  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset, 2px);
 }
 .esa-filter-clear-button__icon {
@@ -8700,6 +8158,12 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-filter-clear-button__label {
   white-space: nowrap;
+}
+.esa-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
 }
 .bcn-filterbar {
   background: var(--color-surface);
@@ -8739,7 +8203,7 @@ summary.esa-button--variant-chrome:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-150);
-  min-width: 380px;
+  min-width: 300px;
 }
 .bcn-filterbar__search esa-text-field {
   flex: 1;
@@ -8748,100 +8212,30 @@ summary.esa-button--variant-chrome:focus-visible {
   margin-left: 0;
   flex: 1;
 }
-.bcn-filterbar__sort {
-  margin-left: var(--spacing-600);
-  --form-height-md: 32px;
-  --form-font-size-md: 14px;
-}
-.bcn-filterbar__sort esa-select {
-  width: 9rem;
-}
 .bcn-filterbar__clear {
   margin-left: auto;
 }
-.esa-filter-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
-  padding: var(--filter-container-padding, 0);
-}
-.esa-stat {
-  --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));
-  --_stat-value-font: var(
-    --typography-font-family-display,
-    var(
-      --typography-display-sm-font-family,
-      var(--typography-font-family-display, "DM Sans", sans-serif)
-    )
-  );
-  --_stat-value-size: var(
-    --stat-value-size,
-    var(--typography-display-sm-font-size, var(--font-size-700, 2.25rem))
-  );
-  --_stat-value-weight: var(
-    --typography-font-weight-bold,
-    var(--typography-display-sm-font-weight, var(--typography-font-weight-bold, 650))
-  );
-  --_stat-label-color: var(--color-content-default-secondary, #646464);
-  --_stat-label-size: var(
-    --font-size-200,
-    var(--typography-label-md-font-size, var(--font-size-200, 0.9375rem))
-  );
-  --_stat-label-weight: var(
-    --typography-font-weight-medium,
-    var(--typography-label-md-font-weight, var(--typography-font-weight-medium, 500))
-  );
-  --_stat-sub-color: var(--color-content-default-secondary, #646464);
-  --_stat-sub-size: var(
-    --font-size-150,
-    var(--typography-body-sm-font-size, var(--font-size-150, 0.875rem))
-  );
-  --_stat-accent-color: var(--stat-accent-color, var(--color-content-brand, #2a7e3b));
-  --_stat-gap: var(--spacing-050, 0.125rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--_stat-gap);
-  background: transparent;
-}
-.esa-stat__value {
-  font-family: var(--_stat-value-font);
-  font-size: var(--_stat-value-size);
-  font-weight: var(--_stat-value-weight);
-  color: var(--_stat-value-color);
-}
-.esa-stat--accent .esa-stat__value {
-  color: var(--_stat-accent-color);
-}
-.esa-stat__label {
-  font-size: var(--_stat-label-size);
-  font-weight: var(--_stat-label-weight);
-  color: var(--_stat-label-color);
-}
-.esa-stat__sub {
-  font-size: var(--_stat-sub-size);
-  color: var(--_stat-sub-color);
-}
 .esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--_icon-size);
   height: var(--_icon-size);
+  line-height: 1;
   color: inherit;
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
 }
 .esa-icon--xl {
   --_icon-size: var(--icon-size-xl, 28px);
@@ -8851,82 +8245,59 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
 }
-.esa-progress-bar {
-  --_progress-height: var(--progress-bar-height-md, 8px);
-  --_progress-radius: var(--radius-pill, 9999px);
-  --_progress-track-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_progress-fill-bg: var(--color-background-brand, #46a758);
-  display: block;
-  width: 100%;
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
-.esa-progress-bar__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: var(--spacing-100, 0.25rem);
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
 }
-.esa-progress-bar__label {
-  color: var(--color-content-default, #202020);
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
 }
-.esa-progress-bar__value {
-  color: var(--color-content-default-secondary, #646464);
-  font-variant-numeric: tabular-nums;
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
 }
-.esa-progress-bar__track {
-  position: relative;
-  height: var(--_progress-height);
-  border-radius: var(--_progress-radius);
-  background: var(--_progress-track-bg);
-  overflow: hidden;
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
 }
-.esa-progress-bar__fill {
-  height: 100%;
-  border-radius: var(--_progress-radius);
-  background: var(--_progress-fill-bg);
-  transition: width 0.3s ease;
-}
-.esa-progress-bar--xs {
-  --_progress-height: var(--progress-bar-height-xs, 2px);
-}
-.esa-progress-bar--sm {
-  --_progress-height: var(--progress-bar-height-sm, 4px);
-}
-.esa-progress-bar--lg {
-  --_progress-height: var(--progress-bar-height-lg, 12px);
-}
-.esa-progress-bar--success {
-  --_progress-fill-bg: var(--color-background-utility-success, #30a46c);
-}
-.esa-progress-bar--warning {
-  --_progress-fill-bg: var(--color-background-utility-warning, #ffc53d);
-}
-.esa-progress-bar--danger {
-  --_progress-fill-bg: var(--color-background-utility-danger, #e5484d);
-}
-.esa-progress-bar--indeterminate .esa-progress-bar__fill {
-  width: 40% !important;
-  animation: esa-progress-indeterminate
-    var(--animation-indeterminate, 1.5s ease-in-out infinite);
-}
-.esa-progress-bar__fill {
-  transition: none;
-}
-.esa-progress-bar__fill {
-  background: Highlight;
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
 }
 ```
 
 ## Tokens
-- `--animation-indeterminate`: 1.5s ease-in-out infinite _(semantic)_
-- `--animation-spin`: .75s linear infinite _(semantic)_
 - `--badge-bg`: #005862 _(component)_
+- `--badge-height-lg`: 34px _(component)_
+- `--badge-height-md`: 28px _(component)_
+- `--badge-height-sm`: 22px _(component)_
+- `--badge-height-xs`: 18px _(component)_
+- `--badge-radius`: .25rem _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-citation-bg`: #f6f3ed _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
@@ -8938,100 +8309,106 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--border-width-default`: 1px _(semantic)_
-- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--button-on-warning`: #ffffff _(component)_
-- `--button-radius-lg`: .5rem _(component)_
-- `--button-radius-md`: .5rem _(component)_
-- `--button-radius-sm`: .25rem _(component)_
-- `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #a18072 _(semantic)_
-- `--color-background-ai-hover`: #957468 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
-- `--color-background-overlay-hover`: rgba(0, 0, 0, .03) _(semantic)_
-- `--color-background-utility-danger`: #ce2c31 _(semantic)_
-- `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-danger-muted`: #feebec _(semantic)_
-- `--color-background-utility-info`: #0d74ce _(semantic)_
-- `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
-- `--color-background-utility-success`: #218358 _(semantic)_
-- `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
-- `--color-background-utility-warning`: #ffc53d _(semantic)_
-- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
-- `--color-border`: #dcdcdc _(component)_
-- `--color-border-default`: #cecece _(semantic)_
-- `--color-border-default-strong`: #bbbbbb _(semantic)_
-- `--color-border-light`: #efefef _(component)_
-- `--color-border-strong`: #bdbdbd _(component)_
-- `--color-border-utility-danger`: #fdbdbe _(semantic)_
-- `--color-border-utility-info`: #acd8fc _(semantic)_
-- `--color-border-utility-success`: #adddc0 _(semantic)_
-- `--color-border-utility-warning`: #f3d673 _(semantic)_
+- `--color-ai`: #699cc6 _(semantic)_
+- `--color-ai-hover`: #4c75a9 _(semantic)_
+- `--color-ai-strong`: #7d5e54 _(semantic)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-border-strong`: #bdbdbd _(semantic)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #202020 _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #646464 _(semantic)_
-- `--color-content-on-brand-muted`: #203c25 _(semantic)_
-- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
-- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
-- `--color-content-utility-danger`: #ce2c31 _(semantic)_
-- `--color-content-utility-info`: #0d74ce _(semantic)_
-- `--color-content-utility-success`: #218358 _(semantic)_
-- `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-danger`: #ce2c31 _(component)_
-- `--color-info`: #228be6 _(component)_
-- `--color-info-subtle`: #fbfdff _(component)_
-- `--color-primary`: #005862 _(component)_
-- `--color-primary-border`: #b9d6d2 _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-muted`: #7c7c7c _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-danger-hover`: #dc3e42 _(semantic)_
+- `--color-danger-strong`: #ce2c31 _(semantic)_
+- `--color-gray-12`: #202020 _(primitive)_
+- `--color-hover-overlay`: rgba(0, 0, 0, .03) _(primitive)_
+- `--color-info`: #228be6 _(semantic)_
+- `--color-info-hover`: #0588f0 _(semantic)_
+- `--color-info-strong`: #0d74ce _(semantic)_
+- `--color-info-subtle`: #f4faff _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-primary-border`: #b9d6d2 _(semantic)_
+- `--color-primary-hover`: #00474f _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
+- `--color-secondary`: #00918b _(semantic)_
+- `--color-secondary-hover`: #0a6562 _(semantic)_
+- `--color-secondary-on-fill`: #203c25 _(semantic)_
+- `--color-secondary-strong`: #2a7e3b _(semantic)_
+- `--color-success`: #2e7571 _(semantic)_
+- `--color-success-hover`: #b0e64c _(semantic)_
+- `--color-success-on-fill`: #37401c _(semantic)_
+- `--color-success-strong`: #5c7c2f _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
+- `--color-text-muted`: #7c7c7c _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-warning`: #f59e0b _(semantic)_
+- `--color-warning-hover`: #ffba18 _(semantic)_
+- `--color-warning-on-fill`: #4f3422 _(semantic)_
+- `--color-warning-strong`: #ab6400 _(semantic)_
+- `--empty-state-description-color`: #525252 _(component)_
+- `--empty-state-gap`: .5rem _(component)_
+- `--empty-state-icon-color`: #7c7c7c _(component)_
 - `--empty-state-icon-size-lg`: 64px _(component)_
 - `--empty-state-icon-size-md`: 48px _(component)_
 - `--empty-state-icon-size-sm`: 32px _(component)_
 - `--empty-state-icon-size-xs`: 24px _(component)_
-- `--filter-container-padding`: 0 _(component)_
-- `--focus-ring-color`: #3e9b4f _(component)_
-- `--focus-ring-offset`: 2px _(component)_
-- `--focus-ring-width`: 2px _(component)_
+- `--empty-state-title-color`: #3d3d3d _(component)_
+- `--filter-clear-color`: #7c7c7c _(component)_
+- `--filter-clear-color-hover`: #ce2c31 _(component)_
+- `--focus-ring-color`: #65ba74 _(primitive)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(component)_
-- `--font-sans`: "DM Sans", sans-serif _(component)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
-- `--font-weight-medium`: 500 _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--font-display`: "DM Sans", sans-serif _(primitive)_
+- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(primitive)_
+- `--font-sans`: "DM Sans", sans-serif _(primitive)_
+- `--font-weight-bold`: 650 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-regular`: 350 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
+- `--form-font-size-lg`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(component)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--form-label-color`: #646464 _(component)_
+- `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--form-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
+- `--form-height-lg`: 44px _(component)_
+- `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
+- `--form-label-color`: #525252 _(component)_
+- `--form-padding-x-lg`: 1rem _(component)_
+- `--form-padding-x-md`: .75rem _(component)_
+- `--form-padding-x-sm`: .625rem _(component)_
+- `--form-padding-x-xs`: .5rem _(component)_
+- `--form-radius-lg`: .25rem _(component)_
+- `--form-radius-md`: .25rem _(component)_
+- `--form-radius-sm`: .25rem _(component)_
+- `--form-radius-xs`: .25rem _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
+- `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
+- `--icon-size-small`: 16px _(component)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
+- `--letter-spacing-tight`: -.01em _(primitive)_
+- `--line-height-normal`: 1.6 _(primitive)_
+- `--line-height-tight`: 1.3 _(primitive)_
+- `--progress-bar-fill-bg`: #005862 _(component)_
 - `--progress-bar-height-lg`: 12px _(component)_
 - `--progress-bar-height-md`: 8px _(component)_
 - `--progress-bar-height-sm`: 4px _(component)_
 - `--progress-bar-height-xs`: 2px _(component)_
+- `--progress-bar-radius`: 9999px _(component)_
+- `--progress-bar-track-bg`: #efefef _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--radius-chip`: .25rem _(semantic)_
 - `--radius-full`: 9999px _(primitive)_
-- `--radius-pill`: 9999px _(semantic)_
-- `--radius-sm`: .25rem _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -9043,86 +8420,10 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-600`: 2rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
 - `--spacing-800`: 4rem _(primitive)_
-- `--stat-accent-color`: #005862 _(component)_
-- `--stat-value-color`: #202020 _(component)_
-- `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
-- `--transition-fast`: .15s ease _(semantic)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(component)_
-- `--type-size-600`: clamp(1.375rem, 1.2rem + .88vw, 1.875rem) _(component)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-body-xs-font-weight`: 350 _(semantic)_
-- `--typography-body-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-body-xs-line-height`: 1.6 _(semantic)_
-- `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-display-sm-font-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(semantic)_
-- `--typography-display-sm-font-weight`: 650 _(semantic)_
-- `--typography-display-sm-letter-spacing`: -.01em _(semantic)_
-- `--typography-display-sm-line-height`: 1.3 _(semantic)_
-- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
-- `--typography-label-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-label-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-sm-strong-line-height`: 1.6 _(semantic)_
-- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-strong-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-sm-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-sm-subtle-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-microcopy-sm-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-sm-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-sm-subtle-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
-- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
-- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
-- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
-- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
-- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+- `--transition-fast`: .15s ease _(primitive)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
+- `--type-size-600`: clamp(1.375rem, 1.2rem + .88vw, 1.875rem) _(primitive)_
+- `--type-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_

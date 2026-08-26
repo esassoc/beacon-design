@@ -93,15 +93,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--font-weight-bold` | `650` | component |
-| `--font-weight-medium` | `500` | component |
+| `--font-weight-bold` | `650` | primitive |
+| `--font-weight-medium` | `500` | primitive |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
 | `--spacing-250` | `.625rem` | primitive |
 | `--spacing-400` | `1rem` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

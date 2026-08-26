@@ -131,20 +131,20 @@ One result row: a head line of a purple commitment-ID badge + a semibold title, 
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(component)_
+- `--color-border`: #dcdcdc _(semantic)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-sans`: "DM Sans", sans-serif _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--font-sans`: "DM Sans", sans-serif _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_

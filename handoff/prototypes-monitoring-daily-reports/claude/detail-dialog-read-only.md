@@ -24,8 +24,7 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
   style="--_width: 520px; --z-modal: 1200; --z-modal-backdrop: 1150"
   position="right"
   open=""
->
-  <div slot="header" class="bcn-detail__head">
+  ><div slot="header" class="bcn-detail__head">
     <div class="bcn-detail__title-row">
       <h2 id="dr-detail-title" class="bcn-detail__title">Aug 4, 2026</h2>
     </div>
@@ -36,43 +35,41 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
         ><span
           class="bcn-status-chip"
           data-status="draft"
-          style="--_chip: var(--color-text-tertiary)"
-        >
-          <span class="bcn-status-chip__dot"></span>
-          <span class="bcn-status-chip__label">Draft</span>
-        </span>
-      </span>
+          style="--_chip: var(--color-content-default-tertiary)"
+          ><span class="bcn-status-chip__dot"></span
+          ><span class="bcn-status-chip__label">Draft</span></span
+        ></span
+      >
     </div>
     <div class="bcn-detail__grid">
       <span id="dr-detail-monitor"
         ><div class="bcn-key-value">
-          <span class="bcn-key-value__key">Monitor</span>
-          <span class="bcn-key-value__val"
+          <span class="bcn-key-value__key">Monitor</span
+          ><span class="bcn-key-value__val"
             >J. Park (Fieldstone Environmental Monitoring)</span
           >
-        </div>
-      </span>
-      <span id="dr-detail-areas"
+        </div></span
+      ><span id="dr-detail-areas"
         ><div class="bcn-key-value">
-          <span class="bcn-key-value__key">Work Areas</span>
-          <span class="bcn-key-value__val">Substation Yard</span>
-        </div>
-      </span>
+          <span class="bcn-key-value__key">Work Areas</span
+          ><span class="bcn-key-value__val">Substation Yard</span>
+        </div></span
+      >
     </div>
     <span id="dr-detail-summary"
       ><div class="bcn-key-value">
-        <span class="bcn-key-value__key">Summary</span>
-        <span class="bcn-key-value__val">Routine patrol — no issues observed.</span>
-      </div>
-    </span>
+        <span class="bcn-key-value__key">Summary</span
+        ><span class="bcn-key-value__val">Routine patrol — no issues observed.</span>
+      </div></span
+    >
     <div id="dr-detail-observations" class="bcn-dr-detail__observations"></div>
     <div class="bcn-dr-detail__download">
       <span id="dr-detail-download-btn"
         ><span
           class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
           ><button class="esa-button__native typography-microcopy-xs" type="button">
-            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-              <svg
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
                 width="16"
                 height="16"
                 viewBox="0 0 24 24"
@@ -85,16 +82,14 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
               >
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" x2="12" y1="15" y2="3"></line>
-              </svg>
-            </span>
-            <span class="esa-button__label">Download Report</span>
+                <line x1="12" x2="12" y1="15" y2="3"></line></svg></span
+            ><span class="esa-button__label">Download Report</span>
           </button></span
         ></span
       >
     </div>
-  </div>
-</esa-side-dialog>
+  </div></esa-side-dialog
+>
 ```
 
 ## Styles
@@ -119,6 +114,122 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
   font-weight: var(--typography-microcopy-xs-strong-font-weight);
   line-height: var(--typography-microcopy-xs-strong-line-height);
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.bcn-search-trigger .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-ev-targets__title .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-content-default-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-background-utility-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  color: var(--bcn-gray-500);
+  flex-shrink: 0;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-background-brand);
+}
+.nav-section__header > .esa-icon:first-child {
+  color: var(--bcn-gray-950);
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  flex-shrink: 0;
+  transition:
+    transform 0.15s,
+    opacity 0.2s ease-in-out;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__title,
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
+}
+.bcn-detail__head {
+  gap: var(--spacing-150);
+  min-width: 0;
+  padding: var(--spacing-400) var(--spacing-500);
+  flex-direction: column;
+  flex: 1;
+  display: flex;
+}
+.bcn-detail__title-row {
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-wrap: wrap;
+  min-width: 0;
+  display: flex;
+}
+.bcn-detail__title {
+  font-family: var(--font-decorative);
+  font-size: 1.125rem;
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
+  line-height: 1.3;
+}
+.bcn-detail__chips {
+  gap: var(--spacing-200);
+  margin-bottom: var(--spacing-400);
+  display: flex;
+}
+.bcn-detail__grid {
+  gap: var(--spacing-400);
+  margin-bottom: var(--spacing-400);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-detail__body esa-side-dialog {
+  display: block;
+}
+.bcn-dr-detail__observations {
+  flex-direction: column;
+  display: flex;
+}
+.bcn-dr-detail__download {
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border-default-subtle);
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -155,7 +266,7 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
   --_accent-hover: var(--color-background-brand-muted-hover);
   --_on: var(--color-content-on-brand-muted, var(--color-content-default));
   --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbbbbb);
+  --_accent-border: var(--color-border-default-strong, #bbb);
 }
 .esa-button--variant-danger {
   --_accent: var(--color-background-utility-danger);
@@ -189,17 +300,15 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
   color: var(--_on);
   border-color: var(--_accent-border, transparent);
 }
-.esa-button--appearance-fill .esa-button__native:hover:not(:disabled) {
-  background: var(--_accent-hover);
-}
+.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),
 .esa-button--appearance-fill.esa-button--active .esa-button__native {
   background: var(--_accent-hover);
 }
 .esa-button--appearance-outline .esa-button__native,
 .esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
   color: var(--_accent-text);
   border-color: var(--_accent);
+  background: 0 0;
 }
 .esa-button--appearance-dashed .esa-button__native {
   border-style: dashed;
@@ -219,7 +328,7 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
     var(--color-background-elevation-raised, #fcfcfc)
   );
   color: var(--_accent-text);
-  border-color: var(--color-border-default-strong, #bbbbbb);
+  border-color: var(--color-border-default-strong, #bbb);
 }
 .esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
 .esa-button--appearance-soft.esa-button--active .esa-button__native {
@@ -228,9 +337,9 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
   border-color: var(--_accent);
 }
 .esa-button--variant-ghost .esa-button__native {
-  background: transparent;
   color: var(--color-content-default, #202020);
-  border-color: transparent;
+  background: 0 0;
+  border-color: #0000;
 }
 .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
 .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
@@ -241,9 +350,9 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
   background: var(--color-background-elevation-sunken, #f0f0f0);
 }
 .esa-button--variant-chrome .esa-button__native {
-  background: transparent;
   color: inherit;
-  border-color: transparent;
+  background: 0 0;
+  border-color: #0000;
 }
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
@@ -257,22 +366,22 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
   outline-color: currentColor;
 }
 .esa-button__native {
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: var(--spacing-200, 8px);
   width: 100%;
   padding-block: var(--_btn-pad-y);
   padding-inline: var(--_btn-padding-x);
   border: var(--border-width-default, 1px) solid transparent;
   border-radius: var(--_btn-radius);
-  text-decoration: none;
   cursor: pointer;
   transition:
     background var(--transition-fast, 0.15s ease),
     border-color var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+  text-decoration: none;
+  display: inline-flex;
 }
 .esa-button__native:focus-visible {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
@@ -288,8 +397,8 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
   aspect-ratio: 1;
 }
 summary.esa-button {
-  list-style: none;
   cursor: pointer;
+  list-style: none;
 }
 summary.esa-button::-webkit-details-marker {
   display: none;
@@ -306,91 +415,21 @@ summary.esa-button--variant-chrome:focus-visible {
   white-space: nowrap;
 }
 .esa-button__label--hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  overflow: hidden;
 }
 .esa-button__spinner {
-  display: inline-block;
   width: 1em;
   height: 1em;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
   animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-disclosure .esa-icon {
-  transition: transform 0.15s ease;
-}
-.bcn-disclosure[aria-expanded="false"] .esa-icon {
-  transform: rotate(-90deg);
-}
-.bcn-ev-staging__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-ev-targets__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.user-panel__item .esa-icon {
-  color: var(--bcn-gray-500);
-}
-.user-panel__item--danger .esa-icon {
-  color: var(--color-danger);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
-  display: none;
+  border: 2px solid;
+  border-right-color: #0000;
+  border-radius: 50%;
+  display: inline-block;
 }
 .typography-microcopy-xs {
   font-family: var(--typography-microcopy-xs-font-family);
@@ -414,96 +453,51 @@ summary.esa-button--variant-chrome:focus-visible {
   letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
 .bcn-key-value {
-  display: flex;
   flex-direction: column;
   gap: 2px;
+  display: flex;
 }
 .bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
   color: var(--form-label-color);
 }
 .bcn-key-value__val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .bcn-key-value__hint {
+  color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
-  color: var(--color-text-tertiary);
 }
 .bcn-status-chip {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-150);
   padding: 2px var(--spacing-250);
   border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
   white-space: nowrap;
   background: color-mix(in srgb, var(--_chip) 16%, transparent);
   color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
 }
 .bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
   border-radius: var(--radius-full);
   background: var(--_chip);
   flex-shrink: 0;
-}
-.bcn-detail__head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  min-width: 0;
-  padding: var(--spacing-400) var(--spacing-500);
-  flex: 1;
-}
-.bcn-detail__title-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-detail__title {
-  margin: 0;
-  font-family: var(--font-decorative);
-  font-size: 1.125rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  line-height: 1.3;
-}
-.bcn-detail__chips {
-  display: flex;
-  gap: var(--spacing-200);
-  margin-bottom: var(--spacing-400);
-}
-.bcn-detail__grid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-  margin-bottom: var(--spacing-400);
-}
-.bcn-detail__body esa-side-dialog {
-  display: block;
-}
-.bcn-dr-detail__observations {
-  display: flex;
-  flex-direction: column;
-}
-.bcn-dr-detail__download {
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-light);
+  width: 8px;
+  height: 8px;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: var(--_icon-size);
   height: var(--_icon-size);
   color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
@@ -521,9 +515,9 @@ summary.esa-button--variant-chrome:focus-visible {
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
-  display: block;
   width: var(--_icon-size);
   height: var(--_icon-size);
+  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -536,43 +530,45 @@ summary.esa-button--variant-chrome:focus-visible {
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-gray-1000`: #000000 _(component)_
+- `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
-- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
-- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
+- `--bcn-helpbar-fg`: #ffffffeb _(component)_
+- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
+- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
 - `--border-width-default`: 1px _(semantic)_
 - `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #ffffff _(component)_
-- `--button-radius-lg`: .5rem _(component)_
-- `--button-radius-md`: .5rem _(component)_
+- `--button-on-warning`: #fff _(component)_
+- `--button-radius-lg`: .25rem _(component)_
+- `--button-radius-md`: .25rem _(component)_
 - `--button-radius-sm`: .25rem _(component)_
 - `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #a18072 _(semantic)_
-- `--color-background-ai-hover`: #957468 _(semantic)_
+- `--color-background-ai`: #699cc6 _(semantic)_
+- `--color-background-ai-hover`: #4c75a9 _(semantic)_
 - `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
+- `--color-background-brand-muted`: #00918b _(semantic)_
+- `--color-background-brand-muted-hover`: #0a6562 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #0d74ce _(semantic)_
+- `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #218358 _(semantic)_
+- `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #ffc53d _(semantic)_
+- `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #cecece _(semantic)_
-- `--color-border-default-strong`: #bbbbbb _(semantic)_
-- `--color-border-light`: #efefef _(component)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-strong`: #bdbdbd _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #202020 _(semantic)_
+- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
@@ -580,19 +576,12 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-danger`: #ce2c31 _(component)_
-- `--color-primary`: #005862 _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-weight-medium`: 500 _(component)_
-- `--font-weight-semibold`: 550 _(component)_
-- `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--form-label-color`: #646464 _(component)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--form-label-color`: #525252 _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_
@@ -606,7 +595,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
 - `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-font-weight`: 500 _(semantic)_

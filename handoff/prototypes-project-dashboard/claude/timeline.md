@@ -499,35 +499,35 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
 
 ## Tokens
 - `--bcn-teal-800`: #0a6562 _(component)_
-- `--color-border`: #dcdcdc _(component)_
-- `--color-border-light`: #efefef _(component)_
-- `--color-border-strong`: #bdbdbd _(component)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-border-strong`: #bdbdbd _(semantic)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-danger`: #ce2c31 _(component)_
-- `--color-info`: #228be6 _(component)_
-- `--color-primary`: #005862 _(component)_
-- `--color-primary-hover`: #00474f _(component)_
-- `--color-secondary`: #00918b _(component)_
-- `--color-secondary-hover`: #0a6562 _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-muted`: #7c7c7c _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
-- `--color-warning`: #f59e0b _(component)_
-- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-info`: #228be6 _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-primary-hover`: #00474f _(semantic)_
+- `--color-secondary`: #00918b _(semantic)_
+- `--color-secondary-hover`: #0a6562 _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-muted`: #7c7c7c _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-warning`: #f59e0b _(semantic)_
+- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--line-height-tight`: 1.3 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
-- `--shadow-300`: 0 6px 24px -6px rgba(0, 0, 0, .07) _(component)_
+- `--shadow-300`: 0 6px 24px -6px rgba(0, 0, 0, .07) _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_

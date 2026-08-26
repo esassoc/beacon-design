@@ -194,17 +194,17 @@ One stacked status bar per path (route-miles by derived status), stacked top-to-
 
 ## Tokens
 - `--bcn-gray-100`: #efefef _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
-- `--font-weight-bold`: 650 _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--font-weight-bold`: 650 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--st-cleared`: #1a9850 _(component)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
-- `--type-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(component)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(primitive)_

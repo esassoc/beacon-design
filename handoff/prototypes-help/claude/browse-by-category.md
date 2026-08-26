@@ -216,18 +216,17 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 ## Styles
 ```css
 .type-section-title {
-  font-family: var(--typography-heading-md-font-family);
-  font-size: var(--typography-heading-md-font-size);
-  font-weight: var(--typography-heading-md-font-weight);
-  line-height: var(--typography-heading-md-line-height);
-  letter-spacing: var(--typography-heading-md-letter-spacing);
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-500);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
 }
 .type-card-title {
-  font-family: var(--typography-title-font-family);
-  font-size: var(--typography-title-font-size);
-  font-weight: var(--typography-title-font-weight);
-  line-height: var(--typography-title-line-height);
-  letter-spacing: var(--typography-title-letter-spacing);
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
 }
 .bcn-kbc {
   display: flex;
@@ -331,16 +330,22 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(component)_
-- `--color-border-light`: #efefef _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-text-link`: #005862 _(component)_
-- `--color-text-link-hover`: #00474f _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
-- `--font-weight-medium`: 500 _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-link`: #005862 _(semantic)_
+- `--color-text-link-hover`: #00474f _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--font-display`: "DM Sans", sans-serif _(primitive)_
+- `--font-sans`: "DM Sans", sans-serif _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
+- `--letter-spacing-normal`: .01em _(primitive)_
+- `--letter-spacing-tight`: -.01em _(primitive)_
+- `--line-height-normal`: 1.6 _(primitive)_
+- `--line-height-tight`: 1.3 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
@@ -348,13 +353,5 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
-- `--typography-heading-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-heading-md-font-size`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(semantic)_
-- `--typography-heading-md-font-weight`: 550 _(semantic)_
-- `--typography-heading-md-letter-spacing`: -.01em _(semantic)_
-- `--typography-heading-md-line-height`: 1.3 _(semantic)_
-- `--typography-title-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
-- `--typography-title-font-weight`: 500 _(semantic)_
-- `--typography-title-letter-spacing`: .01em _(semantic)_
-- `--typography-title-line-height`: 1.6 _(semantic)_
+- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
+- `--type-size-500`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(primitive)_

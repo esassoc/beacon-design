@@ -25,15 +25,15 @@ BcnTimelineExplorer — replaced the old aggregate opened-vs-resolved bar chart 
   <div class="esa-card__header">
     <div class="esa-card__header-content">
       <div class="esa-card__titles">
-        <h3 class="esa-card__title typography-title-sm-strong">Timeline Explorer</h3>
-        <p class="esa-card__subtitle typography-body-sm">
+        <h3 class="esa-card__title">Timeline Explorer</h3>
+        <p class="esa-card__subtitle">
           Open needs-attention / non-compliance concerns by category — select a window to
           see the trend
         </p>
       </div>
     </div>
   </div>
-  <div class="esa-card__body typography-body-md">
+  <div class="esa-card__body">
     <div class="bcn-tlx stack" data-gap="md">
       <div class="bcn-tlx__toolbar cluster" data-gap="md" data-align="center">
         <span class="bcn-tlx__toolbar-label type-label">Timeframe</span>
@@ -493,27 +493,6 @@ BcnTimelineExplorer — replaced the old aggregate opened-vs-resolved bar chart 
 
 ## Styles
 ```css
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
 .bcn-tlx__toolbar-label {
   color: var(--color-text-tertiary);
 }
@@ -605,130 +584,6 @@ BcnTimelineExplorer — replaced the old aggregate opened-vs-resolved bar chart 
 .bcn-ev-targets__item .esa-card {
   overflow: visible;
 }
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
-.type-label {
-  font-family: var(--typography-label-font-family);
-  font-size: var(--typography-label-font-size);
-  font-weight: var(--typography-label-font-weight);
-  line-height: var(--typography-label-line-height);
-  letter-spacing: var(--typography-label-letter-spacing);
-}
-.type-caption {
-  font-family: var(--typography-meta-font-family);
-  font-size: var(--typography-meta-font-size);
-  font-weight: var(--typography-meta-font-weight);
-  line-height: var(--typography-meta-line-height);
-  letter-spacing: var(--typography-meta-letter-spacing);
-}
-.esa-card {
-  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
-  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
-  --_card-radius: var(--radius-md, 0.5rem);
-  --_card-padding: var(--spacing-500, 1.5rem);
-  --_card-header-bg: var(--card-header-bg, transparent);
-  --_card-header-color: var(--color-content-default, #202020);
-  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
-  display: block;
-  background: var(--_card-bg);
-  border: var(--border-width-default, 1px) solid var(--_card-border);
-  border-radius: var(--_card-radius);
-  overflow: hidden;
-}
-.esa-card--outlined {
-  --_card-border: var(--color-border-default, #cecece);
-}
-.esa-card--elevated {
-  --_card-border: transparent;
-  box-shadow: var(--elevation-2, 0 2px 12px 0 rgba(0, 0, 0, 0.04));
-}
-.esa-card--filled {
-  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
-  --_card-border: transparent;
-}
-.esa-card--header-primary .esa-card__header {
-  --_card-header-bg: var(--color-background-brand, #46a758);
-  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
-}
-.esa-card--header-muted .esa-card__header {
-  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
-}
-.esa-card--padding-none {
-  --_card-padding: 0;
-}
-.esa-card--padding-compact {
-  --_card-padding: var(--spacing-300, 0.75rem);
-}
-.esa-card--padding-spacious {
-  --_card-padding: var(--spacing-700, 3rem);
-}
-.esa-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-400, 1rem) var(--_card-padding);
-  background: var(--_card-header-bg);
-  color: var(--_card-header-color);
-  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);
-  min-height: 56px;
-}
-.esa-card__header-content {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300, 0.75rem);
-}
-.esa-card__titles {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-050, 0.125rem);
-}
-.esa-card__title {
-  margin: 0;
-  color: inherit;
-}
-.esa-card__subtitle {
-  color: var(--color-content-default-secondary, #646464);
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__subtitle {
-  color: var(--color-content-on-brand, rgba(255, 255, 255, 0.8));
-}
-.esa-card__icon {
-  color: inherit;
-  flex-shrink: 0;
-}
-.esa-card__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-}
-.esa-card__body {
-  padding: var(--_card-padding);
-}
-.esa-card__footer {
-  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
-  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
-  background: var(--color-background-elevation-sunken, #f0f0f0);
-}
 .stack {
   --gap: var(--spacing-400, 1rem);
   display: flex;
@@ -748,36 +603,148 @@ BcnTimelineExplorer — replaced the old aggregate opened-vs-resolved bar chart 
   align-items: var(--align);
   justify-content: var(--justify);
 }
+.type-label {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-caption {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
+  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
+  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
+  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
+  --_card-header-border: var(
+    --card-header-border-color,
+    var(--color-border-light, #efefef)
+  );
+  display: block;
+  background: var(--_card-bg);
+  border: 1px solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  overflow: hidden;
+}
+.esa-card--outlined {
+  --_card-border: var(--color-border, #e5e5e5);
+}
+.esa-card--elevated {
+  --_card-border: transparent;
+  box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.04));
+}
+.esa-card--filled {
+  --_card-bg: var(--color-surface-sunken, #efefef);
+  --_card-border: transparent;
+}
+.esa-card--header-primary .esa-card__header {
+  --_card-header-bg: var(--color-primary, #43608a);
+  --_card-header-color: var(--color-text-inverse, #ffffff);
+}
+.esa-card--header-muted .esa-card__header {
+  --_card-header-bg: var(--color-surface-sunken, #efefef);
+}
+.esa-card--padding-none {
+  --_card-padding: 0;
+}
+.esa-card--padding-compact {
+  --_card-padding: var(--spacing-300, 0.75rem);
+}
+.esa-card--padding-spacious {
+  --_card-padding: var(--spacing-700, 3rem);
+}
+.esa-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: 1px solid var(--_card-header-border);
+  min-height: 56px;
+}
+.esa-card__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+}
+.esa-card__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.125rem);
+}
+.esa-card__title {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
+}
+.esa-card__subtitle {
+  font-size: var(--type-size-150, 0.8125rem);
+  color: var(--color-text-secondary, #525252);
+  margin: 0;
+}
+.esa-card--header-primary .esa-card__subtitle {
+  color: #fffc;
+}
+.esa-card__icon {
+  color: inherit;
+  flex-shrink: 0;
+}
+.esa-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.esa-card__footer {
+  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
+  border-top: 1px solid var(--_card-header-border);
+  background: var(--card-footer-bg, var(--color-surface-sunken, #efefef));
+}
 ```
 
 ## Tokens
-- `--border-width-default`: 1px _(semantic)_
 - `--card-bg`: #fcfcfc _(component)_
-- `--card-border-color`: #cecece _(component)_
+- `--card-border-color`: #dcdcdc _(component)_
+- `--card-footer-bg`: #efefef _(component)_
 - `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
-- `--color-border`: #dcdcdc _(component)_
-- `--color-border-default`: #cecece _(semantic)_
-- `--color-border-default-subtle`: #d9d9d9 _(semantic)_
-- `--color-content-default`: #202020 _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #646464 _(semantic)_
-- `--color-content-on-brand`: #fcfcfc _(semantic)_
-- `--color-secondary`: #00918b _(component)_
-- `--color-success`: #2e7571 _(component)_
-- `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
-- `--color-warning`: #f59e0b _(component)_
-- `--elevation-2`: 0 2px 12px 0 rgba(0, 0, 0, .04) _(semantic)_
-- `--font-weight-bold`: 650 _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--card-header-border-color`: #efefef _(component)_
+- `--card-header-color`: #3d3d3d _(component)_
+- `--card-padding`: 1.5rem _(component)_
+- `--card-radius`: .5rem _(component)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-secondary`: #00918b _(semantic)_
+- `--color-success`: #2e7571 _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-warning`: #f59e0b _(semantic)_
+- `--font-sans`: "DM Sans", sans-serif _(primitive)_
+- `--font-weight-bold`: 650 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-regular`: 350 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--gap`: 2rem _(component)_
+- `--letter-spacing-normal`: .01em _(primitive)_
+- `--line-height-normal`: 1.6 _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--radius-md`: .5rem _(semantic)_
+- `--radius-300`: .5rem _(primitive)_
+- `--shadow-100`: 0 2px 12px 0 rgba(0, 0, 0, .04) _(primitive)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
@@ -785,31 +752,7 @@ BcnTimelineExplorer — replaced the old aggregate opened-vs-resolved bar chart 
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
-- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(component)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-label-font-family`: "DM Sans", sans-serif _(component)_
-- `--typography-label-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--typography-label-font-weight`: 500 _(component)_
-- `--typography-label-letter-spacing`: .01em _(component)_
-- `--typography-label-line-height`: 1.6 _(component)_
-- `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
-- `--typography-meta-font-weight`: 350 _(semantic)_
-- `--typography-meta-letter-spacing`: .01em _(semantic)_
-- `--typography-meta-line-height`: 1.6 _(semantic)_
-- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
-- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(primitive)_
+- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_

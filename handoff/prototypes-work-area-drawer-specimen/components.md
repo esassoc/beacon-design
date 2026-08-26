@@ -8,3 +8,4 @@ The component blocks composing this page. Hub (`esa-*`) components are the share
 | `esa-button` | hub | src/components/esa-button.astro |
 | `esa-collapsible` | hub | src/components/esa-collapsible.astro |
 | `esa-icon` | hub | src/components/esa-icon.astro |
+| `esa-icon-button` | hub | src/components/esa-icon-button.astro |

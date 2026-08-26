@@ -88,13 +88,13 @@ One change inside an area group: the entry title, optional deployment notes (a f
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
-- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--line-height-normal`: 1.6 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_

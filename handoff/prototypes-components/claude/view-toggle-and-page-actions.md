@@ -17,12 +17,12 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
 ```html
 <div class="page-layout__utilities">
   <div class="cluster" data-gap="sm" data-align="center">
-    <esa-button-toggle id="view-toggle" value="grid" size="sm"></esa-button-toggle>
-    <span
+    <esa-button-toggle id="view-toggle" value="grid" size="sm"></esa-button-toggle
+    ><span
       class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
       ><button class="esa-button__native typography-microcopy-md" type="button">
-        <span class="esa-icon esa-icon--md" aria-hidden="true">
-          <svg
+        <span class="esa-icon esa-icon--md" aria-hidden="true"
+          ><svg
             width="20"
             height="20"
             viewBox="0 0 24 24"
@@ -34,10 +34,8 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
             focusable="false"
           >
             <path d="M5 12h14"></path>
-            <path d="M12 5v14"></path>
-          </svg>
-        </span>
-        <span class="esa-button__label">New component</span>
+            <path d="M12 5v14"></path></svg></span
+        ><span class="esa-button__label">New component</span>
       </button></span
     >
   </div>
@@ -66,6 +64,77 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
   font-weight: var(--typography-microcopy-md-strong-font-weight);
   line-height: var(--typography-microcopy-md-strong-line-height);
   letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
+.bcn-search-trigger .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-ev-targets__title .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-content-default-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-background-utility-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  color: var(--bcn-gray-500);
+  flex-shrink: 0;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-background-brand);
+}
+.nav-section__header > .esa-icon:first-child {
+  color: var(--bcn-gray-950);
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  flex-shrink: 0;
+  transition:
+    transform 0.15s,
+    opacity 0.2s ease-in-out;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__title,
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -102,7 +171,7 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
   --_accent-hover: var(--color-background-brand-muted-hover);
   --_on: var(--color-content-on-brand-muted, var(--color-content-default));
   --_accent-text: var(--color-content-brand);
-  --_accent-border: var(--color-border-default-strong, #bbbbbb);
+  --_accent-border: var(--color-border-default-strong, #bbb);
 }
 .esa-button--variant-danger {
   --_accent: var(--color-background-utility-danger);
@@ -136,17 +205,15 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
   color: var(--_on);
   border-color: var(--_accent-border, transparent);
 }
-.esa-button--appearance-fill .esa-button__native:hover:not(:disabled) {
-  background: var(--_accent-hover);
-}
+.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),
 .esa-button--appearance-fill.esa-button--active .esa-button__native {
   background: var(--_accent-hover);
 }
 .esa-button--appearance-outline .esa-button__native,
 .esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
   color: var(--_accent-text);
   border-color: var(--_accent);
+  background: 0 0;
 }
 .esa-button--appearance-dashed .esa-button__native {
   border-style: dashed;
@@ -166,7 +233,7 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
     var(--color-background-elevation-raised, #fcfcfc)
   );
   color: var(--_accent-text);
-  border-color: var(--color-border-default-strong, #bbbbbb);
+  border-color: var(--color-border-default-strong, #bbb);
 }
 .esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
 .esa-button--appearance-soft.esa-button--active .esa-button__native {
@@ -175,9 +242,9 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
   border-color: var(--_accent);
 }
 .esa-button--variant-ghost .esa-button__native {
-  background: transparent;
   color: var(--color-content-default, #202020);
-  border-color: transparent;
+  background: 0 0;
+  border-color: #0000;
 }
 .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
 .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
@@ -188,9 +255,9 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
   background: var(--color-background-elevation-sunken, #f0f0f0);
 }
 .esa-button--variant-chrome .esa-button__native {
-  background: transparent;
   color: inherit;
-  border-color: transparent;
+  background: 0 0;
+  border-color: #0000;
 }
 .esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
 .esa-button--variant-chrome.esa-button--active .esa-button__native,
@@ -204,22 +271,22 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
   outline-color: currentColor;
 }
 .esa-button__native {
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: var(--spacing-200, 8px);
   width: 100%;
   padding-block: var(--_btn-pad-y);
   padding-inline: var(--_btn-padding-x);
   border: var(--border-width-default, 1px) solid transparent;
   border-radius: var(--_btn-radius);
-  text-decoration: none;
   cursor: pointer;
   transition:
     background var(--transition-fast, 0.15s ease),
     border-color var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+  text-decoration: none;
+  display: inline-flex;
 }
 .esa-button__native:focus-visible {
   outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
@@ -235,8 +302,8 @@ Two views of one dataset — Grid and Map — plus the primary action that creat
   aspect-ratio: 1;
 }
 summary.esa-button {
-  list-style: none;
   cursor: pointer;
+  list-style: none;
 }
 summary.esa-button::-webkit-details-marker {
   display: none;
@@ -253,91 +320,21 @@ summary.esa-button--variant-chrome:focus-visible {
   white-space: nowrap;
 }
 .esa-button__label--hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  overflow: hidden;
 }
 .esa-button__spinner {
-  display: inline-block;
   width: 1em;
   height: 1em;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
   animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-disclosure .esa-icon {
-  transition: transform 0.15s ease;
-}
-.bcn-disclosure[aria-expanded="false"] .esa-icon {
-  transform: rotate(-90deg);
-}
-.bcn-ev-staging__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-ev-targets__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.user-panel__item .esa-icon {
-  color: var(--bcn-gray-500);
-}
-.user-panel__item--danger .esa-icon {
-  color: var(--color-danger);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
-  display: none;
+  border: 2px solid;
+  border-right-color: #0000;
+  border-radius: 50%;
+  display: inline-block;
 }
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
@@ -362,12 +359,12 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: var(--_icon-size);
   height: var(--_icon-size);
   color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
@@ -385,9 +382,9 @@ summary.esa-button--variant-chrome:focus-visible {
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
-  display: block;
   width: var(--_icon-size);
   height: var(--_icon-size);
+  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -397,59 +394,61 @@ summary.esa-button--variant-chrome:focus-visible {
   flex-shrink: 0;
 }
 .page-layout__utilities {
-  display: flex;
   gap: var(--spacing-200);
+  display: flex;
 }
 .cluster {
   --gap: var(--spacing-300, 0.75rem);
   --align: center;
   --justify: flex-start;
-  display: flex;
-  flex-wrap: wrap;
   gap: var(--gap);
   align-items: var(--align);
   justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
 }
 ```
 
 ## Tokens
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--bcn-gray-1000`: #000000 _(component)_
+- `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
-- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
-- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
+- `--bcn-helpbar-fg`: #ffffffeb _(component)_
+- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
+- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
 - `--border-width-default`: 1px _(semantic)_
 - `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--button-on-warning`: #ffffff _(component)_
-- `--button-radius-lg`: .5rem _(component)_
-- `--button-radius-md`: .5rem _(component)_
+- `--button-on-warning`: #fff _(component)_
+- `--button-radius-lg`: .25rem _(component)_
+- `--button-radius-md`: .25rem _(component)_
 - `--button-radius-sm`: .25rem _(component)_
 - `--button-radius-xs`: .25rem _(component)_
-- `--color-background-ai`: #a18072 _(semantic)_
-- `--color-background-ai-hover`: #957468 _(semantic)_
+- `--color-background-ai`: #699cc6 _(semantic)_
+- `--color-background-ai-hover`: #4c75a9 _(semantic)_
 - `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #eef5f4 _(semantic)_
-- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
+- `--color-background-brand-muted`: #00918b _(semantic)_
+- `--color-background-brand-muted-hover`: #0a6562 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
 - `--color-background-utility-danger-hover`: #641723 _(semantic)_
-- `--color-background-utility-info`: #0d74ce _(semantic)_
+- `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
-- `--color-background-utility-success`: #218358 _(semantic)_
+- `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
-- `--color-background-utility-warning`: #ffc53d _(semantic)_
+- `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
-- `--color-border-default`: #cecece _(semantic)_
-- `--color-border-default-strong`: #bbbbbb _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #202020 _(semantic)_
+- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
@@ -457,10 +456,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
-- `--color-danger`: #ce2c31 _(component)_
-- `--color-primary`: #005862 _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
