@@ -1,1 +1,0 @@
-import"./esa-dialog.DgXTR0cu.js";document.querySelectorAll(`.trigger`).forEach(e=>e.addEventListener(`click`,()=>{document.getElementById(e.dataset.target)?.show()})),document.querySelectorAll(`.trigger-close`).forEach(e=>e.addEventListener(`click`,()=>{document.getElementById(e.dataset.close)?.close()}));

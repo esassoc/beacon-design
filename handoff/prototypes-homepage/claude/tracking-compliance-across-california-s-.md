@@ -7669,16 +7669,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | Token | Value | Tier |
 |---|---|---|
 | `--color-gray-2` | `#f9f9f9` | primitive |
-| `--color-primary` | `#005862` | semantic |
-| `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-sunken` | `#efefef` | semantic |
-| `--color-text-primary` | `#3d3d3d` | semantic |
-| `--color-text-secondary` | `#525252` | semantic |
-| `--color-text-tertiary` | `#656565` | semantic |
+| `--color-primary` | `#005862` | component |
+| `--color-surface` | `#fcfcfc` | component |
+| `--color-surface-sunken` | `#efefef` | component |
+| `--color-text-primary` | `#3d3d3d` | component |
+| `--color-text-secondary` | `#525252` | component |
+| `--color-text-tertiary` | `#656565` | component |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-semibold` | `550` | primitive |
+| `--font-sans` | `"DM Sans", sans-serif` | component |
+| `--font-weight-bold` | `650` | component |
+| `--font-weight-semibold` | `550` | component |
 | `--line-height-normal` | `1.6` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
 | `--line-height-tight` | `1.3` | primitive |
@@ -7690,9 +7690,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--spacing-400` | `1rem` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | component |
+| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | component |
+| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | component |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

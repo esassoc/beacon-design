@@ -1,1 +1,0 @@
-var e=2026,t=2045;function n(n){let[r,i=`01`,a=`01`]=n.split(`-`),o=new Date(Number(r),Number(i)-1,Number(a)).getTime(),s=new Date(e,0,1).getTime(),c=new Date(t,0,1).getTime();return Math.min(1,Math.max(0,(o-s)/(c-s)))}export{e as n,n as r,t};

@@ -1,1 +1,0 @@
-var e=e=>`/beacon-design/`+e.replace(/^\//,``);export{e as t};

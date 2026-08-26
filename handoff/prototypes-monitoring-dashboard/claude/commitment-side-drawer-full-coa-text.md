@@ -178,98 +178,107 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
     <span class="cmt-foot__src" id="cmt-source">Source: EIR</span>
     <span id="cmt-close"
       ><span
-        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-      >
-        <button class="esa-button__native" type="button">
-          <span class="esa-button__label"> Close </span>
-        </button>
-      </span>
-    </span>
+        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+        ><button class="esa-button__native typography-microcopy-md" type="button">
+          <span class="esa-button__label">Close</span>
+        </button></span
+      ></span
+    >
   </span>
 </esa-side-dialog>
 ```
 
 ## Styles
 ```css
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-microcopy-md-strong {
+  font-family: var(--typography-microcopy-md-strong-font-family);
+  font-size: var(--typography-microcopy-md-strong-font-size);
+  font-weight: var(--typography-microcopy-md-strong-font-weight);
+  line-height: var(--typography-microcopy-md-strong-line-height);
+  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
 .esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
   --_accent-text: var(--_accent);
   --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
 .esa-button--xs {
-  --_btn-height: var(--form-height-xs, 28px);
-  --_btn-padding-x: var(--form-padding-x-xs, 8px);
-  --_btn-font-size: var(--form-font-size-xs, 11px);
-  --_btn-radius: var(--form-radius-xs, 4px);
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
 }
 .esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
 }
 .esa-button--lg {
-  --_btn-height: var(--form-height-lg, 48px);
-  --_btn-padding-x: var(--form-padding-x-lg, 20px);
-  --_btn-font-size: var(--form-font-size-lg, 16px);
-  --_btn-radius: var(--form-radius-lg, 8px);
+  --_btn-pad-y: var(--spacing-400, 1rem);
+  --_btn-padding-x: var(--spacing-400, 1rem);
+  --_btn-radius: var(--button-radius-lg, 8px);
 }
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
 }
-.esa-button--sm.esa-button--icon-only .esa-button__native {
-  height: var(--form-height-sm, 32px);
-  padding-block: 0;
+.esa-button--variant-secondary {
+  --_accent: var(--color-background-brand-muted);
+  --_accent-hover: var(--color-background-brand-muted-hover);
+  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
+  --_accent-text: var(--color-content-brand);
+  --_accent-border: var(--color-border-default-strong, #bbbbbb);
 }
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
 }
-.esa-button--color-secondary {
-  --_accent: var(--color-secondary);
-  --_accent-hover: var(--color-secondary-hover);
-  --_on: var(--color-secondary-on-fill, var(--color-gray-12));
-  --_accent-text: var(--color-secondary-strong);
+.esa-button--variant-success {
+  --_accent: var(--color-background-utility-success);
+  --_accent-hover: var(--color-background-utility-success-hover);
+  --_on: var(--color-content-on-utility-success);
+  --_accent-text: var(--color-content-utility-success);
 }
-.esa-button--color-danger {
-  --_accent: var(--color-danger);
-  --_accent-hover: var(--color-danger-hover);
-  --_accent-text: var(--color-danger-strong);
+.esa-button--variant-warning {
+  --_accent: var(--color-background-utility-warning);
+  --_accent-hover: var(--color-background-utility-warning-hover);
+  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
+  --_accent-text: var(--color-content-utility-warning);
 }
-.esa-button--color-success {
-  --_accent: var(--color-success);
-  --_accent-hover: var(--color-success-hover);
-  --_on: var(--color-success-on-fill);
-  --_accent-text: var(--color-success-strong);
+.esa-button--variant-info {
+  --_accent: var(--color-background-utility-info);
+  --_accent-hover: var(--color-background-utility-info-hover);
+  --_accent-text: var(--color-content-utility-info);
 }
-.esa-button--color-warning {
-  --_accent: var(--color-warning);
-  --_accent-hover: var(--color-warning-hover);
-  --_on: var(--button-on-warning, var(--color-gray-12));
-  --_accent-text: var(--color-warning-strong);
-}
-.esa-button--color-info {
-  --_accent: var(--color-info);
-  --_accent-hover: var(--color-info-hover);
-  --_accent-text: var(--color-info-strong);
-}
-.esa-button--color-ai {
-  --_accent: var(--color-ai);
-  --_accent-hover: var(--color-ai-hover);
-  --_accent-text: var(--color-ai-strong);
+.esa-button--variant-ai {
+  --_accent: var(--color-background-ai);
+  --_accent-hover: var(--color-background-ai-hover);
+  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
   color: var(--_on);
-  border-color: transparent;
+  border-color: var(--_accent-border, transparent);
 }
 .esa-button--appearance-fill .esa-button__native:hover:not(:disabled) {
   background: var(--_accent-hover);
@@ -297,11 +306,11 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
 .esa-button--appearance-soft .esa-button__native {
   background: color-mix(
     in srgb,
-    var(--color-surface-sunken, #efefef) 45%,
-    var(--color-surface, #fff)
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
   );
   color: var(--_accent-text);
-  border-color: var(--color-border-strong, #d4d4d4);
+  border-color: var(--color-border-default-strong, #bbbbbb);
 }
 .esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
 .esa-button--appearance-soft.esa-button--active .esa-button__native {
@@ -309,18 +318,34 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
   color: var(--_on);
   border-color: var(--_accent);
 }
-.esa-button--color-ghost .esa-button__native {
+.esa-button--variant-ghost .esa-button__native {
   background: transparent;
-  color: var(--color-text-primary, #171717);
+  color: var(--color-content-default, #202020);
   border-color: transparent;
 }
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
 }
-.esa-button--color-ghost .esa-button__native:hover:not(:disabled),
-.esa-button--color-ghost.esa-button--active .esa-button__native {
-  background: var(--color-surface-sunken, #efefef);
+.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),
+.esa-button--variant-ghost.esa-button--active .esa-button__native {
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
+  color: inherit;
+  border-color: transparent;
+}
+.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
+.esa-button--variant-chrome.esa-button--active .esa-button__native,
+.esa-button--variant-chrome.esa-button--current .esa-button__native {
+  background: var(
+    --button-chrome-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+}
+.esa-button--variant-chrome .esa-button__native:focus-visible {
+  outline-color: currentColor;
 }
 .esa-button__native {
   display: inline-flex;
@@ -328,14 +353,10 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
   justify-content: center;
   gap: var(--spacing-200, 8px);
   width: 100%;
-  height: var(--_btn-height);
+  padding-block: var(--_btn-pad-y);
   padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
+  border: var(--border-width-default, 1px) solid transparent;
   border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
   text-decoration: none;
   cursor: pointer;
   transition:
@@ -345,7 +366,7 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
   appearance: none;
 }
 .esa-button__native:focus-visible {
-  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
 .esa-button--disabled {
@@ -354,16 +375,34 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
   pointer-events: none;
 }
 .esa-button--icon-only .esa-button__native {
-  padding-inline: 0;
-  width: var(--_btn-height);
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+summary.esa-button {
+  list-style: none;
+  cursor: pointer;
+}
+summary.esa-button::-webkit-details-marker {
+  display: none;
+}
+summary.esa-button:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: var(--_btn-radius);
+}
+summary.esa-button--variant-chrome:focus-visible {
+  outline-color: currentColor;
 }
 .esa-button__label {
   white-space: nowrap;
 }
 .esa-button__label--hidden {
-  visibility: hidden;
-  width: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .esa-button__spinner {
   display: inline-block;
@@ -372,7 +411,7 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
   border: 2px solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
-  animation: esa-button-spin 0.6s linear infinite;
+  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
 }
 .cmt-head {
   display: flex;
@@ -420,74 +459,101 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
   font-size: var(--type-size-100);
   color: var(--color-text-tertiary);
 }
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-microcopy-md-strong {
+  font-family: var(--typography-microcopy-md-strong-font-family);
+  font-size: var(--typography-microcopy-md-strong-font-size);
+  font-weight: var(--typography-microcopy-md-strong-font-weight);
+  line-height: var(--typography-microcopy-md-strong-line-height);
+  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
 ```
 
 ## Tokens
+- `--animation-spin`: .75s linear infinite _(semantic)_
+- `--border-width-default`: 1px _(semantic)_
+- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--button-on-warning`: #ffffff _(component)_
-- `--color-ai`: #699cc6 _(semantic)_
-- `--color-ai-hover`: #4c75a9 _(semantic)_
-- `--color-ai-strong`: #7d5e54 _(semantic)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-strong`: #bdbdbd _(semantic)_
+- `--button-radius-lg`: .5rem _(component)_
+- `--button-radius-md`: .5rem _(component)_
+- `--button-radius-sm`: .25rem _(component)_
+- `--button-radius-xs`: .25rem _(component)_
+- `--color-background-ai`: #a18072 _(semantic)_
+- `--color-background-ai-hover`: #957468 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
+- `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-background-utility-danger-hover`: #641723 _(semantic)_
+- `--color-background-utility-info`: #0d74ce _(semantic)_
+- `--color-background-utility-info-hover`: #113264 _(semantic)_
+- `--color-background-utility-success`: #218358 _(semantic)_
+- `--color-background-utility-success-hover`: #193b2d _(semantic)_
+- `--color-background-utility-warning`: #ffc53d _(semantic)_
+- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
+- `--color-border`: #dcdcdc _(component)_
+- `--color-border-default`: #cecece _(semantic)_
+- `--color-border-default-strong`: #bbbbbb _(semantic)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-danger`: #e5484d _(semantic)_
-- `--color-danger-hover`: #dc3e42 _(semantic)_
-- `--color-danger-strong`: #ce2c31 _(semantic)_
-- `--color-gray-12`: #202020 _(primitive)_
-- `--color-info`: #228be6 _(semantic)_
-- `--color-info-hover`: #0588f0 _(semantic)_
-- `--color-info-strong`: #0d74ce _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-primary-strong`: #2a7e3b _(semantic)_
-- `--color-secondary`: #00918b _(semantic)_
-- `--color-secondary-hover`: #0a6562 _(semantic)_
-- `--color-secondary-on-fill`: #203c25 _(semantic)_
-- `--color-secondary-strong`: #2a7e3b _(semantic)_
-- `--color-success`: #2e7571 _(semantic)_
-- `--color-success-hover`: #b0e64c _(semantic)_
-- `--color-success-on-fill`: #37401c _(semantic)_
-- `--color-success-strong`: #5c7c2f _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--color-warning`: #f59e0b _(semantic)_
-- `--color-warning-hover`: #ffba18 _(semantic)_
-- `--color-warning-strong`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #65ba74 _(primitive)_
-- `--focus-ring-offset`: 2px _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
+- `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
+- `--color-content-default`: #202020 _(semantic)_
+- `--color-content-default-knockout`: #fcfcfc _(semantic)_
+- `--color-content-on-brand-muted`: #203c25 _(semantic)_
+- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
+- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-utility-danger`: #ce2c31 _(semantic)_
+- `--color-content-utility-info`: #0d74ce _(semantic)_
+- `--color-content-utility-success`: #218358 _(semantic)_
+- `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--color-surface`: #fcfcfc _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
+- `--focus-ring-color`: #3e9b4f _(component)_
+- `--focus-ring-offset`: 2px _(component)_
+- `--focus-ring-width`: 2px _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(primitive)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-bold`: 650 _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--form-font-size-lg`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(component)_
-- `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--form-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
-- `--form-height-lg`: 44px _(component)_
-- `--form-height-md`: 36px _(component)_
-- `--form-height-sm`: 28px _(component)_
-- `--form-height-xs`: 24px _(component)_
-- `--form-padding-x-lg`: 1rem _(component)_
-- `--form-padding-x-md`: .75rem _(component)_
-- `--form-padding-x-sm`: .625rem _(component)_
-- `--form-padding-x-xs`: .5rem _(component)_
-- `--form-radius-lg`: .25rem _(component)_
-- `--form-radius-md`: .25rem _(component)_
-- `--form-radius-sm`: .25rem _(component)_
-- `--form-radius-xs`: .25rem _(component)_
+- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(component)_
+- `--font-weight-bold`: 650 _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
+- `--transition-fast`: .15s ease _(semantic)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(component)_
+- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-md-line-height`: 1 _(semantic)_
+- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_

@@ -63,14 +63,14 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
 ```
 
 ## Tokens
-- `--color-background`: #fafafa _(semantic)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-background`: #fafafa _(component)_
+- `--color-border`: #dcdcdc _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
+- `--font-weight-medium`: 500 _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--form-label-color`: #525252 _(component)_
+- `--form-label-color`: #646464 _(component)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_

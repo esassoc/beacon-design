@@ -182,13 +182,13 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
 ```
 
 ## Tokens
-- `--color-background`: #fafafa _(semantic)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--font-weight-bold`: 650 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-background`: #fafafa _(component)_
+- `--color-border`: #dcdcdc _(component)_
+- `--color-surface`: #fcfcfc _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--font-weight-bold`: 650 _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--radius-050`: .125rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_

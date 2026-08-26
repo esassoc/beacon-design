@@ -3172,7 +3172,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
               </div>
               <!--AG-FAKE-VERTICAL-SCROLL-->
               <div
-                class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+                class="ag-body-vertical-scroll ag-scrollbar-invisible"
                 aria-hidden="true"
                 style="width: 16px; max-width: 16px; min-width: 16px"
               >
@@ -3317,7 +3317,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
             </div>
             <!--AG-FAKE-HORIZONTAL-SCROLL-->
             <div
-              class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-scrolling ag-scrollbar-invisible"
+              class="ag-body-horizontal-scroll ag-scrollbar-scrolling ag-scrollbar-invisible"
               aria-hidden="true"
               style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
             >
@@ -4506,7 +4506,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 ## Tokens
 - `--ag-internal-hover-color`: rgba(0, 0, 0, 0) _(component)_
 - `--ag-internal-moving-color`: rgba(0, 0, 0, 0) _(component)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_

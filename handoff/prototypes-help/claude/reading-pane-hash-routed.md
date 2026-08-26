@@ -28,7 +28,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-project-vs-component-scope" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Scope</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -108,7 +110,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-tenant" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Tenant</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -135,7 +139,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-work-area" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Work Area</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -163,7 +169,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           A five-minute tour of Beacon
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -193,7 +201,9 @@ The article reader shared by the help home and every category page. It renders O
               </span>
             </span>
             <span class="bcn-help-article__video-duration"
-              ><span class="esa-badge esa-badge--primary esa-badge--sm">
+              ><span
+                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+              >
                 <span class="esa-badge__text">4:32</span>
               </span>
             </span>
@@ -282,7 +292,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           Finding anything with search
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -358,7 +370,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-actions-vs-implementations" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Implementation</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -387,7 +401,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-what-is-a-component" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Component</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -415,7 +431,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-permit" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Permit</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -443,7 +461,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           Reading the Permit Tracking board
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -487,7 +507,9 @@ The article reader shared by the help home and every category page. It renders O
               </span>
             </span>
             <span class="bcn-help-article__video-duration"
-              ><span class="esa-badge esa-badge--primary esa-badge--sm">
+              ><span
+                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+              >
                 <span class="esa-badge__text">2:47</span>
               </span>
             </span>
@@ -566,7 +588,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           Starring components on your dashboard
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -628,7 +652,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           How the dashboard decides what needs attention
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -683,7 +709,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           Reading the project timeline
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -742,7 +770,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-what-is-a-dmr" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Daily Monitoring Report</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -769,7 +799,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-what-is-an-observation" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Observation</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -821,7 +853,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-survey" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Survey</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -849,7 +883,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-site-clearance" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Site Clearance</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -876,7 +912,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-monitoring-portal" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Monitoring Portal</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -905,7 +943,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           Reviewing field surveys before they count
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -967,7 +1007,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           Using Site Clearance go/no-go
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -1058,7 +1100,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-what-is-evidence" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Evidence of Compliance</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -1116,7 +1160,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           Assembling a compliance report
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -1205,7 +1251,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-what-is-a-source" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Source Document</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -1233,7 +1281,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-what-is-a-commitment" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Commitment</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -1289,7 +1339,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-what-is-a-requirement" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Requirement</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -1316,7 +1368,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-what-is-an-action" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Action</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -1374,7 +1428,9 @@ The article reader shared by the help home and every category page. It renders O
         <h2 class="bcn-help-article__title type-card-title">
           Tracing a requirement back to its source
         </h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -1428,7 +1484,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-feature-flag" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Feature Flag</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">Glossary</span>
         </span>
       </header>
@@ -1455,7 +1513,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-managing-tenant-settings" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Managing tenant settings</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -1545,7 +1605,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-managing-users-roles" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Managing users and roles</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -1626,7 +1688,9 @@ The article reader shared by the help home and every category page. It renders O
     <article id="article-configuring-notifications" class="bcn-help-article">
       <header class="bcn-help-article__head">
         <h2 class="bcn-help-article__title type-card-title">Configuring notifications</h2>
-        <span class="esa-badge esa-badge--primary esa-badge--sm">
+        <span
+          class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+        >
           <span class="esa-badge__text">How-to</span>
         </span>
       </header>
@@ -1706,6 +1770,13 @@ The article reader shared by the help home and every category page. It renders O
 
 ## Styles
 ```css
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -1922,6 +1993,53 @@ The article reader shared by the help home and every category page. It renders O
   color: var(--color-text-tertiary);
   flex: none;
 }
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s ease;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-countchip__num .esa-badge {
+  --badge-radius: var(--radius-full);
+  --badge-bg: var(--color-border);
+  --badge-text-color: var(--color-text-secondary);
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: 0 0 0 1.5px var(--color-surface);
+}
+.bcn-ev-staging__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-targets__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-attached__mark .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-ev-row__mark .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-ev-row__tags .esa-badge {
+  --badge-bg: var(--bcn-gray-100);
+  --badge-text-color: var(--bcn-gray-700);
+  font-weight: var(--font-weight-medium);
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
 }
@@ -1958,35 +2076,47 @@ The article reader shared by the help home and every category page. It renders O
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
 .type-card-title {
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
+  font-family: var(--typography-title-font-family);
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  letter-spacing: var(--typography-title-letter-spacing);
 }
 .type-body-large {
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
+  font-family: var(--typography-body-lg-font-family);
+  font-size: var(--typography-body-lg-font-size);
+  font-weight: var(--typography-body-lg-font-weight);
+  line-height: var(--typography-body-lg-line-height);
+  letter-spacing: var(--typography-body-lg-letter-spacing);
 }
 .type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
 }
 .type-body-small {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 .type-caption {
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
+  font-family: var(--typography-meta-font-family);
+  font-size: var(--typography-meta-font-size);
+  font-weight: var(--typography-meta-font-weight);
+  line-height: var(--typography-meta-line-height);
+  letter-spacing: var(--typography-meta-letter-spacing);
 }
 .bcn-kb__pane {
   min-block-size: 60vh;
@@ -2005,64 +2135,26 @@ The article reader shared by the help home and every category page. It renders O
 .bcn-kb__article[hidden] {
   display: none;
 }
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-button--lg {
-  --_ib-size: var(--form-height-lg, 48px);
-}
-.esa-icon-button:hover {
-  background: var(--_ib-bg-hover);
-}
-.esa-icon-button:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
-}
 .esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--_icon-size);
   height: var(--_icon-size);
-  line-height: 1;
   color: inherit;
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+  --_icon-size: var(--icon-size-lg, 24px);
 }
 .esa-icon--xl {
   --_icon-size: var(--icon-size-xl, 28px);
@@ -2073,172 +2165,198 @@ The article reader shared by the help home and every category page. It renders O
   height: var(--_icon-size);
 }
 .esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
-  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 28px);
-  --_badge-font-size: 13px;
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
   --_badge-padding-x: var(--spacing-200, 0.5rem);
-  --_badge-min-width: var(--badge-height-md, 28px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: var(--_badge-height);
-  min-width: var(--_badge-min-width);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
   padding-inline: var(--_badge-padding-x);
-  border-radius: var(--badge-radius, var(--radius-100, 4px));
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
   background: var(--_badge-bg);
   color: var(--_badge-text);
-  font-size: var(--_badge-font-size);
-  font-weight: 600;
-  line-height: 1;
   white-space: nowrap;
   box-sizing: border-box;
 }
 .esa-badge--xs {
-  --_badge-height: var(--badge-height-xs, 18px);
-  --_badge-font-size: 10px;
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
   --_badge-padding-x: var(--spacing-100, 0.25rem);
-  --_badge-min-width: var(--badge-height-xs, 18px);
 }
 .esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 22px);
-  --_badge-font-size: 11px;
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
   --_badge-padding-x: var(--spacing-150, 0.375rem);
-  --_badge-min-width: var(--badge-height-sm, 22px);
 }
 .esa-badge--lg {
-  --_badge-height: var(--badge-height-lg, 34px);
-  --_badge-font-size: 14px;
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
   --_badge-padding-x: var(--spacing-300, 0.75rem);
-  --_badge-min-width: var(--badge-height-lg, 34px);
 }
 .esa-badge--secondary {
-  --_badge-bg: var(--color-secondary, #65ba74);
-  --_badge-text: var(--color-secondary-on-fill, #203c25);
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
 }
 .esa-badge--success {
-  --_badge-bg: var(--color-success, #bdee63);
-  --_badge-text: var(--color-success-on-fill, #37401c);
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
 }
 .esa-badge--warning {
-  --_badge-bg: var(--color-warning, #ffc53d);
-  --_badge-text: var(--color-warning-on-fill, #4f3422);
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
 }
 .esa-badge--danger {
-  --_badge-bg: var(--color-danger, #e5484d);
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
 }
 .esa-badge--info {
-  --_badge-bg: var(--color-info, #0090ff);
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
 }
 .esa-badge--dot {
   width: 8px;
   height: 8px;
   min-width: 8px;
   padding: 0;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: var(--radius-pill, 9999px);
 }
 .esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-primary-hover, #3e9b4f);
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
 }
 .esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-secondary-hover, #46a758);
+  --_badge-bg: var(--color-background-brand, #46a758);
 }
 .esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-success-hover, #b0e64c);
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
 }
 .esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-warning-hover, #ffba18);
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
 }
 .esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-danger-hover, #dc3e42);
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
 }
 .esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-info-hover, #0588f0);
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  border: 0;
+  outline: 1px solid CanvasText;
+  background: CanvasText;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```
 
 ## Tokens
 - `--badge-bg`: #005862 _(component)_
-- `--badge-height-lg`: 34px _(component)_
-- `--badge-height-md`: 28px _(component)_
-- `--badge-height-sm`: 22px _(component)_
-- `--badge-height-xs`: 18px _(component)_
-- `--badge-radius`: .25rem _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
+- `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
+- `--bcn-gray-700`: #525252 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-light`: #efefef _(semantic)_
-- `--color-border-strong`: #bdbdbd _(semantic)_
-- `--color-danger`: #e5484d _(semantic)_
-- `--color-danger-hover`: #dc3e42 _(semantic)_
-- `--color-info`: #228be6 _(semantic)_
-- `--color-info-hover`: #0588f0 _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-secondary`: #00918b _(semantic)_
-- `--color-secondary-hover`: #0a6562 _(semantic)_
-- `--color-secondary-on-fill`: #203c25 _(semantic)_
-- `--color-success`: #2e7571 _(semantic)_
-- `--color-success-hover`: #b0e64c _(semantic)_
-- `--color-success-on-fill`: #37401c _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-link-hover`: #00474f _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--color-warning`: #f59e0b _(semantic)_
-- `--color-warning-hover`: #ffba18 _(semantic)_
-- `--color-warning-on-fill`: #4f3422 _(semantic)_
-- `--focus-ring-offset`: 2px _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--form-height-lg`: 44px _(component)_
-- `--form-height-md`: 36px _(component)_
-- `--form-height-sm`: 28px _(component)_
-- `--form-height-xs`: 24px _(component)_
-- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--icon-size-large`: 24px _(component)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-utility-danger-hover`: #641723 _(semantic)_
+- `--color-background-utility-danger-muted`: #feebec _(semantic)_
+- `--color-background-utility-info-hover`: #113264 _(semantic)_
+- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
+- `--color-background-utility-success-hover`: #193b2d _(semantic)_
+- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
+- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
+- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
+- `--color-border`: #dcdcdc _(component)_
+- `--color-border-light`: #efefef _(component)_
+- `--color-border-strong`: #bdbdbd _(component)_
+- `--color-border-utility-danger`: #fdbdbe _(semantic)_
+- `--color-border-utility-info`: #acd8fc _(semantic)_
+- `--color-border-utility-success`: #adddc0 _(semantic)_
+- `--color-border-utility-warning`: #f3d673 _(semantic)_
+- `--color-content-default-knockout`: #fcfcfc _(semantic)_
+- `--color-content-on-brand-muted`: #203c25 _(semantic)_
+- `--color-content-utility-danger`: #ce2c31 _(semantic)_
+- `--color-content-utility-info`: #0d74ce _(semantic)_
+- `--color-content-utility-success`: #218358 _(semantic)_
+- `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--color-danger`: #ce2c31 _(component)_
+- `--color-info`: #228be6 _(component)_
+- `--color-info-subtle`: #fbfdff _(component)_
+- `--color-primary`: #005862 _(component)_
+- `--color-surface`: #fcfcfc _(component)_
+- `--color-surface-sunken`: #efefef _(component)_
+- `--color-text-link`: #005862 _(component)_
+- `--color-text-link-hover`: #00474f _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
+- `--font-weight-medium`: 500 _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-small`: 16px _(component)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
-- `--letter-spacing-normal`: .01em _(primitive)_
-- `--line-height-normal`: 1.6 _(primitive)_
-- `--line-height-relaxed`: 1.8 _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
+- `--radius-chip`: .25rem _(semantic)_
 - `--radius-full`: 9999px _(primitive)_
+- `--radius-pill`: 9999px _(semantic)_
+- `--radius-sm`: .25rem _(semantic)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-600`: 2rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--type-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_
-- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--typography-body-lg-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-lg-font-size`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(semantic)_
+- `--typography-body-lg-font-weight`: 350 _(semantic)_
+- `--typography-body-lg-letter-spacing`: .01em _(semantic)_
+- `--typography-body-lg-line-height`: 1.8 _(semantic)_
+- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-letter-spacing`: .01em _(semantic)_
+- `--typography-body-md-line-height`: 1.6 _(semantic)_
+- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
+- `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-meta-font-weight`: 350 _(semantic)_
+- `--typography-meta-letter-spacing`: .01em _(semantic)_
+- `--typography-meta-line-height`: 1.6 _(semantic)_
+- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+- `--typography-title-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
+- `--typography-title-font-weight`: 500 _(semantic)_
+- `--typography-title-letter-spacing`: .01em _(semantic)_
+- `--typography-title-line-height`: 1.6 _(semantic)_

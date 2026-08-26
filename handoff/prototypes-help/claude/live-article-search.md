@@ -701,20 +701,20 @@ The results dropdown anchored under the search field: matching articles as two-l
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-border`: #dcdcdc _(component)_
+- `--color-primary`: #005862 _(component)_
+- `--color-surface`: #fcfcfc _(component)_
+- `--color-surface-sunken`: #efefef _(component)_
+- `--color-text-inverse`: #fcfcfc _(component)_
+- `--color-text-link`: #005862 _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
+- `--font-weight-medium`: 500 _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
-- `--shadow-200`: 0 4px 20px -4px rgba(0, 0, 0, .06) _(primitive)_
+- `--shadow-200`: 0 4px 20px -4px rgba(0, 0, 0, .06) _(component)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_

@@ -172,21 +172,21 @@ The app-wide entry point to this page: a popover anchored above the floating hel
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-border`: #dcdcdc _(component)_
+- `--color-surface-sunken`: #efefef _(component)_
+- `--color-text-link`: #005862 _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--font-weight-medium`: 500 _(component)_
+- `--font-weight-regular`: 350 _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--radius-200`: .5rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--transition-fast`: .15s ease _(semantic)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
