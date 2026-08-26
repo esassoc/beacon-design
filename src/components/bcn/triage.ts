@@ -31,6 +31,12 @@ interface ItemState {
   filed: Set<string>;
   /** Proposals explicitly rejected. */
   dismissed: Set<string>;
+  /**
+   * Actions this record's evidence was declared to COMPLETE. A subset of `filed` by
+   * construction: the question is only asked on the row that attaches, and answering it
+   * cannot attach anything on its own.
+   */
+  completed: Set<string>;
 }
 
 const qsa = <T extends Element>(sel: string, root: ParentNode = document): T[] =>
@@ -99,7 +105,7 @@ export function setupTriage(): void {
   const stateFor = (id: string): ItemState => {
     let s = state.get(id);
     if (!s) {
-      s = { filed: new Set(), dismissed: new Set() };
+      s = { filed: new Set(), dismissed: new Set(), completed: new Set() };
       state.set(id, s);
     }
     return s;
@@ -276,6 +282,7 @@ export function setupTriage(): void {
     const act = card.querySelector<HTMLElement>('[data-triage-sug-act]');
     const done = card.querySelector<HTMLElement>('[data-triage-sug-done]');
     const badge = card.querySelector<HTMLElement>('[data-triage-sug-verdict] .esa-badge');
+    const completeMark = card.querySelector<HTMLElement>('[data-triage-sug-completemark]');
 
     const filed = s.filed.has(actionId);
     const dismissed = s.dismissed.has(actionId);
@@ -293,12 +300,24 @@ export function setupTriage(): void {
       badge.classList.toggle('esa-badge--success', filed);
       badge.classList.toggle('esa-badge--secondary', dismissed);
     }
+
+    // Only meaningful next to Attached: dismissing never made a claim about the action.
+    if (completeMark) completeMark.hidden = !(filed && s.completed.has(actionId));
   };
 
   const fileProposal = (itemId: string, actionId: string): void => {
     const s = stateFor(itemId);
     s.filed.add(actionId);
     s.dismissed.delete(actionId);
+
+    // Read at the MOMENT of approval, not on every toggle: the answer only means something
+    // once the association it qualifies has been accepted, and the row hides straight after.
+    const toggle = document.querySelector<HTMLElement & { value: string }>(
+      `[data-triage-sug="${itemId}|${actionId}"] [data-triage-sug-complete]`
+    );
+    if (toggle?.value === 'yes') s.completed.add(actionId);
+    else s.completed.delete(actionId);
+
     paintProposal(`${itemId}|${actionId}`);
     if (activeId === itemId) advanceFrom(itemId);
     render();
@@ -317,13 +336,20 @@ export function setupTriage(): void {
     const s = stateFor(itemId);
     s.filed.delete(actionId);
     s.dismissed.delete(actionId);
+    // Undo returns the card to undecided, and the completion claim was part of that decision.
+    // The toggle keeps whatever was picked, so re-approving repeats it rather than losing it.
+    s.completed.delete(actionId);
     paintProposal(`${itemId}|${actionId}`);
     render();
   };
 
-  /** Wire one proposal card's three buttons. Used by both the built-in cards and the clones. */
+  /** Wire one proposal card's controls. Used by both the built-in cards and the clones. */
   const wireCard = (card: HTMLElement): void => {
     const [itemId, actionId] = (card.dataset.triageSug ?? '').split('|');
+    // esa-button-toggle takes its options as a Lit ARRAY property, which Astro can only ship
+    // as JSON — including inside the <template> the manual cards are cloned from.
+    const toggle = card.querySelector('[data-triage-sug-complete]');
+    if (toggle) applyArrayProp(toggle, 'data-options', 'options');
     card.querySelector('[data-triage-sug-approve]')?.addEventListener('click', () => fileProposal(itemId, actionId));
     card.querySelector('[data-triage-sug-dismiss]')?.addEventListener('click', () => dismissProposal(itemId, actionId));
     card.querySelector('[data-triage-sug-undo]')?.addEventListener('click', () => undoProposal(itemId, actionId));
