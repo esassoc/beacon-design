@@ -6,7 +6,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 - **Source prototype:** http://localhost:4399/beacon-design/prototypes/work-area-drawer-specimen/
 - **Section element:** `<page>`
-- **Components:** esa-badge (hub), esa-button (hub), esa-collapsible (hub), esa-icon (hub)
+- **Components:** esa-badge (hub), esa-button (hub), esa-collapsible (hub), esa-icon (hub), esa-icon-button (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -94,11 +94,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </p>
               <div class="decide__actions">
                 <span
-                  class="esa-button esa-button--variant-danger esa-button--appearance-fill esa-button--sm"
-                  ><button class="esa-button__native typography-microcopy-xs" type="button">
-                    <span class="esa-button__label">Confirm block</span>
-                  </button></span
+                  class="esa-button esa-button--color-danger esa-button--appearance-fill esa-button--sm"
                 >
+                  <button class="esa-button__native" type="button">
+                    <span class="esa-button__label"> Confirm block </span>
+                  </button>
+                </span>
               </div>
             </div>
             <section>
@@ -227,7 +228,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </section>
             <div class="drawer__more">
               <details class="esa-collapsible esa-collapsible--flush">
-                <summary class="esa-collapsible__summary typography-label-sm-strong">
+                <summary class="esa-collapsible__summary">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -249,7 +250,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                   <span class="esa-collapsible__title">Buffer conflicts (1)</span>
                 </summary>
-                <div class="esa-collapsible__body typography-body-md">
+                <div class="esa-collapsible__body">
                   <ul class="rows">
                     <li class="conflict">
                       <span class="conflict__main">
@@ -264,7 +265,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
               </details>
               <details class="esa-collapsible esa-collapsible--flush">
-                <summary class="esa-collapsible__summary typography-label-sm-strong">
+                <summary class="esa-collapsible__summary">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -287,7 +288,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                   <span class="esa-collapsible__title">Notes (1)</span>
                 </summary>
-                <div class="esa-collapsible__body typography-body-md">
+                <div class="esa-collapsible__body">
                   <blockquote class="note">
                     5/27 email (from H. Barbare): 30-day Notification was scheduled to be sent
                     5/15/2026 for 6/15/2026 site clearance visit and 6/29/2026 work. This location
@@ -296,7 +297,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
               </details>
               <details class="esa-collapsible esa-collapsible--flush">
-                <summary class="esa-collapsible__summary typography-label-sm-strong">
+                <summary class="esa-collapsible__summary">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -316,7 +317,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                   <span class="esa-collapsible__title">Activity</span>
                 </summary>
-                <div class="esa-collapsible__body typography-body-md">
+                <div class="esa-collapsible__body">
                   <p class="empty">No changes this session.</p>
                 </div>
               </details>
@@ -324,11 +325,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <footer class="drawer__foot">
             <span
-              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
-              ><button class="esa-button__native typography-microcopy-md" type="button">
-                <span class="esa-button__label">Edit site details</span>
-              </button></span
+              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
             >
+              <button class="esa-button__native" type="button">
+                <span class="esa-button__label"> Edit site details </span>
+              </button>
+            </span>
           </footer>
         </article>
       </figure>
@@ -395,11 +397,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
               <div class="decide__actions">
                 <span
-                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                  ><button class="esa-button__native typography-microcopy-xs" type="button">
-                    <span class="esa-button__label">Edit start</span>
-                  </button></span
+                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                 >
+                  <button class="esa-button__native" type="button">
+                    <span class="esa-button__label"> Edit start </span>
+                  </button>
+                </span>
               </div>
             </div>
             <section>
@@ -543,7 +546,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </section>
             <div class="drawer__more">
               <details class="esa-collapsible esa-collapsible--flush">
-                <summary class="esa-collapsible__summary typography-label-sm-strong">
+                <summary class="esa-collapsible__summary">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -566,7 +569,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                   <span class="esa-collapsible__title">Notes (1)</span>
                 </summary>
-                <div class="esa-collapsible__body typography-body-md">
+                <div class="esa-collapsible__body">
                   <blockquote class="note">
                     6/3 email: This DH is located in a gravel work pad. It was moved slightly to be
                     placed outside of a dry roadside ditch and to be situated further from the
@@ -577,7 +580,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
               </details>
               <details class="esa-collapsible esa-collapsible--flush">
-                <summary class="esa-collapsible__summary typography-label-sm-strong">
+                <summary class="esa-collapsible__summary">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -597,7 +600,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                   <span class="esa-collapsible__title">Activity</span>
                 </summary>
-                <div class="esa-collapsible__body typography-body-md">
+                <div class="esa-collapsible__body">
                   <p class="empty">No changes this session.</p>
                 </div>
               </details>
@@ -605,11 +608,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <footer class="drawer__foot">
             <span
-              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
-              ><button class="esa-button__native typography-microcopy-md" type="button">
-                <span class="esa-button__label">Edit site details</span>
-              </button></span
+              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
             >
+              <button class="esa-button__native" type="button">
+                <span class="esa-button__label"> Edit site details </span>
+              </button>
+            </span>
           </footer>
         </article>
       </figure>
@@ -688,9 +692,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <button type="button" class="board__cell board__cell--btn" data-active="true">
                   <span class="board__cellhead">
                     <span class="board__dim">Biological</span>
-                    <span
-                      class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
-                    >
+                    <span class="esa-badge esa-badge--secondary esa-badge--sm">
                       <span class="esa-badge__text">2</span>
                     </span>
                     <span class="board__chev"
@@ -793,7 +795,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </section>
             <div class="drawer__more">
               <details class="esa-collapsible esa-collapsible--flush">
-                <summary class="esa-collapsible__summary typography-label-sm-strong">
+                <summary class="esa-collapsible__summary">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -815,7 +817,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                   <span class="esa-collapsible__title">Buffer conflicts (1)</span>
                 </summary>
-                <div class="esa-collapsible__body typography-body-md">
+                <div class="esa-collapsible__body">
                   <ul class="rows">
                     <li class="conflict">
                       <span class="conflict__main">
@@ -830,7 +832,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
               </details>
               <details class="esa-collapsible esa-collapsible--flush">
-                <summary class="esa-collapsible__summary typography-label-sm-strong">
+                <summary class="esa-collapsible__summary">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -853,14 +855,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                   <span class="esa-collapsible__title">Notes (1)</span>
                 </summary>
-                <div class="esa-collapsible__body typography-body-md">
+                <div class="esa-collapsible__body">
                   <blockquote class="note">
                     This was the site clearance visit that identified the SWHA nest on 5/18.
                   </blockquote>
                 </div>
               </details>
               <details class="esa-collapsible esa-collapsible--flush">
-                <summary class="esa-collapsible__summary typography-label-sm-strong">
+                <summary class="esa-collapsible__summary">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -880,7 +882,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                   <span class="esa-collapsible__title">Activity</span>
                 </summary>
-                <div class="esa-collapsible__body typography-body-md">
+                <div class="esa-collapsible__body">
                   <p class="empty">No changes this session.</p>
                 </div>
               </details>
@@ -888,11 +890,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <footer class="drawer__foot">
             <span
-              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
-              ><button class="esa-button__native typography-microcopy-md" type="button">
-                <span class="esa-button__label">Edit site details</span>
-              </button></span
+              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
             >
+              <button class="esa-button__native" type="button">
+                <span class="esa-button__label"> Edit site details </span>
+              </button>
+            </span>
           </footer>
         </article>
         <!-- Child drawer (top card — the discipline's review history) -->
@@ -909,31 +912,30 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <span class="bcn-status-chip__label">Blocked</span>
               </span>
               <span class="drawer__close"
-                ><span
-                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                  ><button
-                    class="esa-button__native typography-microcopy-xs"
-                    type="button"
-                    aria-label="Close review history"
-                    title="Close review history"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path>
-                      </svg>
-                    </span></button></span
-              ></span>
+                ><button
+                  class="esa-icon-button esa-icon-button--sm"
+                  type="button"
+                  aria-label="Close review history"
+                  title="Close review history"
+                >
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18"></path>
+                      <path d="m6 6 12 12"></path>
+                    </svg>
+                  </span>
+                </button>
+              </span>
             </div>
             <p class="drawer__sub">DCTR2-DH-010 · the latest completed review sets this status</p>
           </header>
@@ -941,11 +943,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <div class="child__bar">
               <span class="child__count">2 reviews</span>
               <span
-                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                ><button class="esa-button__native typography-microcopy-xs" type="button">
-                  <span class="esa-button__label">Add review</span>
-                </button></span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
               >
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Add review </span>
+                </button>
+              </span>
             </div>
             <ol class="revs">
               <li class="rev" data-kind="scheduled">
@@ -999,11 +1002,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <footer class="drawer__foot">
             <span
-              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
-              ><button class="esa-button__native typography-microcopy-md" type="button">
-                <span class="esa-button__label">Close</span>
-              </button></span
+              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
             >
+              <button class="esa-button__native" type="button">
+                <span class="esa-button__label"> Close </span>
+              </button>
+            </span>
           </footer>
         </article>
       </div>
@@ -1113,17 +1117,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </p>
                   <div class="action__btns">
                     <span
-                      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-                      ><button class="esa-button__native typography-microcopy-xs" type="button">
-                        <span class="esa-button__label">Confirm block</span>
-                      </button></span
+                      class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
                     >
+                      <button class="esa-button__native" type="button">
+                        <span class="esa-button__label"> Confirm block </span>
+                      </button>
+                    </span>
                     <span
-                      class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                      ><button class="esa-button__native typography-microcopy-xs" type="button">
-                        <span class="esa-button__label">Review gates</span>
-                      </button></span
+                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                     >
+                      <button class="esa-button__native" type="button">
+                        <span class="esa-button__label"> Review gates </span>
+                      </button>
+                    </span>
                   </div>
                 </div>
               </section>
@@ -1178,7 +1184,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </section>
               <div class="drawer__more">
                 <details class="esa-collapsible esa-collapsible--flush" open="">
-                  <summary class="esa-collapsible__summary typography-label-sm-strong">
+                  <summary class="esa-collapsible__summary">
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -1200,7 +1206,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </span>
                     <span class="esa-collapsible__title">Buffer conflicts (1)</span>
                   </summary>
-                  <div class="esa-collapsible__body typography-body-md">
+                  <div class="esa-collapsible__body">
                     <ul class="rows">
                       <li class="conflict">
                         <span class="conflict__main">
@@ -1215,7 +1221,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                 </details>
                 <details class="esa-collapsible esa-collapsible--flush">
-                  <summary class="esa-collapsible__summary typography-label-sm-strong">
+                  <summary class="esa-collapsible__summary">
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -1237,12 +1243,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </span>
                     <span class="esa-collapsible__title">Survey records</span>
                   </summary>
-                  <div class="esa-collapsible__body typography-body-md">
-                    <p class="empty">No survey on record.</p>
-                  </div>
+                  <div class="esa-collapsible__body"><p class="empty">No survey on record.</p></div>
                 </details>
                 <details class="esa-collapsible esa-collapsible--flush">
-                  <summary class="esa-collapsible__summary typography-label-sm-strong">
+                  <summary class="esa-collapsible__summary">
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -1265,7 +1269,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </span>
                     <span class="esa-collapsible__title">Notes (1)</span>
                   </summary>
-                  <div class="esa-collapsible__body typography-body-md">
+                  <div class="esa-collapsible__body">
                     <blockquote class="note">
                       5/27 email (from H. Barbare): 30-day Notification was scheduled to be sent
                       5/15/2026 for 6/15/2026 site clearance visit and 6/29/2026 work. This location
@@ -1274,7 +1278,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                 </details>
                 <details class="esa-collapsible esa-collapsible--flush">
-                  <summary class="esa-collapsible__summary typography-label-sm-strong">
+                  <summary class="esa-collapsible__summary">
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -1293,7 +1297,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </span>
                     <span class="esa-collapsible__title">Dates</span>
                   </summary>
-                  <div class="esa-collapsible__body typography-body-md">
+                  <div class="esa-collapsible__body">
                     <div class="dates">
                       <div class="bcn-key-value">
                         <span class="bcn-key-value__key">Notification</span>
@@ -1311,7 +1315,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                 </details>
                 <details class="esa-collapsible esa-collapsible--flush">
-                  <summary class="esa-collapsible__summary typography-label-sm-strong">
+                  <summary class="esa-collapsible__summary">
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -1331,7 +1335,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </span>
                     <span class="esa-collapsible__title">Activity</span>
                   </summary>
-                  <div class="esa-collapsible__body typography-body-md">
+                  <div class="esa-collapsible__body">
                     <p class="empty">No changes this session.</p>
                   </div>
                 </details>
@@ -1339,11 +1343,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </div>
             <footer class="drawer__foot">
               <span
-                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
-                ><button class="esa-button__native typography-microcopy-md" type="button">
-                  <span class="esa-button__label">Edit clearance</span>
-                </button></span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
               >
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Edit clearance </span>
+                </button>
+              </span>
             </footer>
           </article>
         </figure>
@@ -1401,11 +1406,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </p>
                   <div class="action__btns">
                     <span
-                      class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                      ><button class="esa-button__native typography-microcopy-xs" type="button">
-                        <span class="esa-button__label">Edit planned start</span>
-                      </button></span
+                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                     >
+                      <button class="esa-button__native" type="button">
+                        <span class="esa-button__label"> Edit planned start </span>
+                      </button>
+                    </span>
                   </div>
                 </div>
               </section>
@@ -1476,7 +1482,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </section>
               <div class="drawer__more">
                 <details class="esa-collapsible esa-collapsible--flush">
-                  <summary class="esa-collapsible__summary typography-label-sm-strong">
+                  <summary class="esa-collapsible__summary">
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -1498,7 +1504,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </span>
                     <span class="esa-collapsible__title">Survey records (1)</span>
                   </summary>
-                  <div class="esa-collapsible__body typography-body-md">
+                  <div class="esa-collapsible__body">
                     <ul class="rows">
                       <li class="survey">
                         <a class="survey__link" href="#" onclick="return false;">
@@ -1509,7 +1515,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                 </details>
                 <details class="esa-collapsible esa-collapsible--flush">
-                  <summary class="esa-collapsible__summary typography-label-sm-strong">
+                  <summary class="esa-collapsible__summary">
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -1532,7 +1538,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </span>
                     <span class="esa-collapsible__title">Notes (1)</span>
                   </summary>
-                  <div class="esa-collapsible__body typography-body-md">
+                  <div class="esa-collapsible__body">
                     <blockquote class="note">
                       6/3 email: This DH is located in a gravel work pad. It was moved slightly to
                       be placed outside of a dry roadside ditch and to be situated further from the
@@ -1543,7 +1549,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                 </details>
                 <details class="esa-collapsible esa-collapsible--flush">
-                  <summary class="esa-collapsible__summary typography-label-sm-strong">
+                  <summary class="esa-collapsible__summary">
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -1562,7 +1568,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </span>
                     <span class="esa-collapsible__title">Dates</span>
                   </summary>
-                  <div class="esa-collapsible__body typography-body-md">
+                  <div class="esa-collapsible__body">
                     <div class="dates">
                       <div class="bcn-key-value">
                         <span class="bcn-key-value__key">Notification</span>
@@ -1580,7 +1586,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                 </details>
                 <details class="esa-collapsible esa-collapsible--flush">
-                  <summary class="esa-collapsible__summary typography-label-sm-strong">
+                  <summary class="esa-collapsible__summary">
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -1600,7 +1606,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </span>
                     <span class="esa-collapsible__title">Activity</span>
                   </summary>
-                  <div class="esa-collapsible__body typography-body-md">
+                  <div class="esa-collapsible__body">
                     <p class="empty">No changes this session.</p>
                   </div>
                 </details>
@@ -1608,11 +1614,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </div>
             <footer class="drawer__foot">
               <span
-                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
-                ><button class="esa-button__native typography-microcopy-md" type="button">
-                  <span class="esa-button__label">Edit clearance</span>
-                </button></span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
               >
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Edit clearance </span>
+                </button>
+              </span>
             </footer>
           </article>
         </figure>
@@ -1760,11 +1767,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
                 <div class="disc-panel__foot">
                   <span
-                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                    ><button class="esa-button__native typography-microcopy-xs" type="button">
-                      <span class="esa-button__label">Edit biological review</span>
-                    </button></span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                   >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Edit biological review </span>
+                    </button>
+                  </span>
                 </div>
               </section>
               <!-- Cultural — not reviewed -->
@@ -1775,17 +1783,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </p>
                 <div class="disc-panel__foot">
                   <span
-                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                    ><button class="esa-button__native typography-microcopy-xs" type="button">
-                      <span class="esa-button__label">Add review</span>
-                    </button></span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                   >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Add review </span>
+                    </button>
+                  </span>
                   <span
-                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                    ><button class="esa-button__native typography-microcopy-xs" type="button">
-                      <span class="esa-button__label">Mark no review required</span>
-                    </button></span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                   >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Mark no review required </span>
+                    </button>
+                  </span>
                 </div>
               </section>
               <!-- Noise — review scheduled -->
@@ -1817,11 +1827,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
                 <div class="disc-panel__foot">
                   <span
-                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                    ><button class="esa-button__native typography-microcopy-xs" type="button">
-                      <span class="esa-button__label">Edit noise review</span>
-                    </button></span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                   >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Edit noise review </span>
+                    </button>
+                  </span>
                 </div>
               </section>
               <!-- Geology — review scheduled (default panel: the next pending review) -->
@@ -1875,21 +1886,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </p>
                 <div class="disc-panel__foot">
                   <span
-                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                    ><button class="esa-button__native typography-microcopy-xs" type="button">
-                      <span class="esa-button__label">Edit geology review</span>
-                    </button></span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                   >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Edit geology review </span>
+                    </button>
+                  </span>
                 </div>
               </section>
             </div>
             <footer class="drawer__foot">
               <span
-                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
-                ><button class="esa-button__native typography-microcopy-md" type="button">
-                  <span class="esa-button__label">Edit site details</span>
-                </button></span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
               >
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Edit site details </span>
+                </button>
+              </span>
             </footer>
           </article>
         </figure>
@@ -2003,11 +2016,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </p>
                       <div class="action__btns">
                         <span
-                          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
-                          ><button class="esa-button__native typography-microcopy-xs" type="button">
-                            <span class="esa-button__label">Confirm block</span>
-                          </button></span
+                          class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
                         >
+                          <button class="esa-button__native" type="button">
+                            <span class="esa-button__label"> Confirm block </span>
+                          </button>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -2090,11 +2104,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <p class="step__text">No 30-day landowner notification recorded.</p>
                     <div class="step__act">
                       <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                        ><button class="esa-button__native typography-microcopy-xs" type="button">
-                          <span class="esa-button__label">Record notification</span>
-                        </button></span
+                        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                       >
+                        <button class="esa-button__native" type="button">
+                          <span class="esa-button__label"> Record notification </span>
+                        </button>
+                      </span>
                     </div>
                   </div>
                 </li>
@@ -2147,15 +2162,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <span class="check__dim">Cultural Resources</span>
                         <span class="check__act"
                           ><span
-                            class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                            ><button
-                              class="esa-button__native typography-microcopy-xs"
-                              type="button"
-                            >
-                              <span class="esa-button__label">Add review</span>
-                            </button></span
-                          ></span
-                        >
+                            class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                          >
+                            <button class="esa-button__native" type="button">
+                              <span class="esa-button__label"> Add review </span>
+                            </button>
+                          </span>
+                        </span>
                         <span class="check__state">Not reviewed</span>
                       </li>
                     </ul>
@@ -2202,11 +2215,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </p>
                     <div class="step__act">
                       <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
-                        ><button class="esa-button__native typography-microcopy-xs" type="button">
-                          <span class="esa-button__label">Edit planned start</span>
-                        </button></span
+                        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                       >
+                        <button class="esa-button__native" type="button">
+                          <span class="esa-button__label"> Edit planned start </span>
+                        </button>
+                      </span>
                     </div>
                   </div>
                 </li>
@@ -2225,31 +2239,30 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 :root,
 [data-theme="beacon"] {
   --badge-bg: #005862;
+  --badge-height-md: 28px;
+  --badge-height-sm: 22px;
+  --badge-radius: 0.25rem;
   --badge-text-color: #fcfcfc;
-  --border-width-default: 1px;
-  --button-radius-md: 0.5rem;
-  --button-radius-sm: 0.25rem;
+  --collapsible-bg: #fcfcfc;
+  --collapsible-border-color: #dcdcdc;
+  --collapsible-padding-x: 1rem;
+  --collapsible-radius: 0.5rem;
+  --collapsible-title-color: #3d3d3d;
   --color-background: #fafafa;
-  --color-background-brand: #005862;
-  --color-background-brand-hover: #00474f;
-  --color-background-brand-muted: #eef5f4;
-  --color-background-elevation-raised: #fcfcfc;
-  --color-background-utility-danger: #ce2c31;
-  --color-background-utility-danger-hover: #641723;
   --color-border: #dcdcdc;
-  --color-border-default: #cecece;
   --color-border-light: #efefef;
   --color-border-strong: #bdbdbd;
-  --color-content-brand: #005862;
-  --color-content-default: #202020;
-  --color-content-default-knockout: #fcfcfc;
-  --color-content-default-secondary: #646464;
-  --color-content-on-brand-muted: #203c25;
-  --color-content-utility-danger: #ce2c31;
+  --color-danger: #e5484d;
+  --color-danger-hover: #dc3e42;
+  --color-danger-strong: #ce2c31;
   --color-primary: #005862;
+  --color-primary-hover: #00474f;
+  --color-primary-strong: #2a7e3b;
   --color-primary-subtle: #effefb;
   --color-secondary: #00918b;
+  --color-secondary-on-fill: #203c25;
   --color-surface: #fcfcfc;
+  --color-text-inverse: #fcfcfc;
   --color-text-link: #005862;
   --color-text-primary: #3d3d3d;
   --color-text-secondary: #525252;
@@ -2261,16 +2274,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --font-weight-regular: 350;
   --font-weight-semibold: 550;
   --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --form-label-color: #646464;
+  --form-font-size-sm: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --form-height-md: 36px;
+  --form-height-sm: 28px;
+  --form-label-color: #525252;
+  --form-padding-x-md: 0.75rem;
+  --form-padding-x-sm: 0.625rem;
+  --form-radius-md: 0.25rem;
+  --form-radius-sm: 0.25rem;
+  --icon-button-bg-hover: color-mix(in srgb, currentColor 14%, transparent);
   --icon-size-md: 20px;
+  --icon-size-medium: 20px;
   --icon-size-sm: 16px;
+  --icon-size-small: 16px;
   --radius-100: 0.25rem;
   --radius-200: 0.5rem;
   --radius-300: 0.5rem;
-  --radius-chip: 0.25rem;
   --radius-full: 9999px;
-  --radius-md: 0.5rem;
-  --radius-sm: 0.25rem;
   --spacing-100: 0.25rem;
   --spacing-150: 0.375rem;
   --spacing-200: 0.5rem;
@@ -2286,52 +2306,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --st-survey-scheduled: #74add1;
   --transition-fast: 0.15s ease;
   --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
   --type-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
   --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
-  --typography-body-md-font-family: "DM Sans", sans-serif;
-  --typography-body-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --typography-body-md-font-weight: 350;
-  --typography-body-md-letter-spacing: 0.01em;
-  --typography-body-md-line-height: 1.6;
-  --typography-label-sm-strong-font-family: "DM Sans", sans-serif;
-  --typography-label-sm-strong-font-size: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
-  --typography-label-sm-strong-font-weight: 550;
-  --typography-label-sm-strong-letter-spacing: 0.01em;
-  --typography-label-sm-strong-line-height: 1.6;
-  --typography-microcopy-md-font-family: "DM Sans", sans-serif;
-  --typography-microcopy-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --typography-microcopy-md-font-weight: 500;
-  --typography-microcopy-md-letter-spacing: 0.01em;
-  --typography-microcopy-md-line-height: 1;
-  --typography-microcopy-xs-font-family: "DM Sans", sans-serif;
-  --typography-microcopy-xs-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-  --typography-microcopy-xs-font-weight: 500;
-  --typography-microcopy-xs-letter-spacing: 0.01em;
-  --typography-microcopy-xs-line-height: 1;
-  --typography-microcopy-xs-strong-font-family: "DM Sans", sans-serif;
-  --typography-microcopy-xs-strong-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-  --typography-microcopy-xs-strong-font-weight: 550;
-  --typography-microcopy-xs-strong-letter-spacing: 0.01em;
-  --typography-microcopy-xs-strong-line-height: 1;
 }
 
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
 .bcn-status-chip {
   display: inline-flex;
   align-items: center;
@@ -2366,10 +2345,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
 .esa-collapsible {
-  border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
-  border-radius: var(--radius-md, 0.5rem);
-  background: var(--color-background-elevation-raised, #fcfcfc);
+  border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
+  border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
+  background: var(--collapsible-bg, var(--color-surface, #fff));
 }
 .esa-collapsible--flush {
   border: none;
@@ -2380,8 +2377,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   display: flex;
   align-items: center;
   gap: var(--spacing-200, 0.5rem);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
-  color: var(--color-content-default, #202020);
+  padding: var(--spacing-300, 0.75rem) var(--collapsible-padding-x, var(--spacing-400, 1rem));
+  font-size: var(--type-size-150, 0.9375rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--collapsible-title-color, var(--color-text-primary, #171717));
   cursor: pointer;
   list-style: none;
 }
@@ -2391,42 +2390,70 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
-  color: var(--color-content-default-secondary, #646464);
+  color: var(--color-text-secondary, #404040);
 }
 .esa-collapsible__summary:after {
   content: "";
   width: 8px;
   height: 8px;
-  border-right: 2px solid var(--color-content-default-secondary, #646464);
-  border-bottom: 2px solid var(--color-content-default-secondary, #646464);
+  border-right: 2px solid var(--color-text-tertiary, #737373);
+  border-bottom: 2px solid var(--color-text-tertiary, #737373);
   transform: rotate(-45deg);
   transition: transform 0.15s ease;
   margin-left: auto;
 }
 .esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
+  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
+  --_badge-height: var(--badge-height-md, 28px);
+  --_badge-font-size: 13px;
   --_badge-padding-x: var(--spacing-200, 0.5rem);
+  --_badge-min-width: var(--badge-height-md, 28px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
+  height: var(--_badge-height);
+  min-width: var(--_badge-min-width);
   padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  border-radius: var(--badge-radius, var(--radius-100, 4px));
   background: var(--_badge-bg);
   color: var(--_badge-text);
+  font-size: var(--_badge-font-size);
+  font-weight: 600;
+  line-height: 1;
   white-space: nowrap;
   box-sizing: border-box;
 }
 .esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-height: var(--badge-height-sm, 22px);
+  --_badge-font-size: 11px;
   --_badge-padding-x: var(--spacing-150, 0.375rem);
+  --_badge-min-width: var(--badge-height-sm, 22px);
 }
 .esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+  --_badge-bg: var(--color-secondary, #65ba74);
+  --_badge-text: var(--color-secondary-on-fill, #203c25);
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
 }
 .esa-collapsible[open] > .esa-collapsible__summary:after {
   transform: rotate(45deg);
@@ -2435,7 +2462,83 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   display: flex;
   flex-direction: column;
   gap: var(--spacing-400, 1rem);
-  padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
+  padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
+}
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
+  --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--sm {
+  --_btn-height: var(--form-height-sm, 32px);
+  --_btn-padding-x: var(--form-padding-x-sm, 12px);
+  --_btn-font-size: var(--form-font-size-sm, 12px);
+  --_btn-radius: var(--form-radius-sm, 4px);
+}
+.esa-button--color-danger {
+  --_accent: var(--color-danger);
+  --_accent-hover: var(--color-danger-hover);
+  --_accent-text: var(--color-danger-strong);
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--sm .esa-button__native {
+  height: auto;
+  padding-block: var(--spacing-150, 6px);
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  background: transparent;
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+}
+.esa-button--color-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-text-primary, #171717);
+  border-color: transparent;
+}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border, #e5e5e5);
+}
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
 }
 body {
   background: var(--color-background);
@@ -3442,9 +3545,213 @@ body {
   grid-row: 1;
   grid-column: 3;
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+:host {
+  all: initial;
+}
+.host-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483000;
+  font-family: system-ui, sans-serif;
+}
+.host-root > * {
+  pointer-events: auto;
+}
+.launch {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 19px;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid #3d6fd6;
+  background: linear-gradient(180deg, #1f6feb, #1551c4);
+  box-shadow:
+    0 10px 28px -8px rgba(31, 111, 235, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+.launch svg {
+  flex: none;
+}
+.panel {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  bottom: 18px;
+  width: min(720px, 94vw);
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  border-radius: 16px;
+  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 28px 70px -18px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-size: 12.5px;
+  overflow: hidden;
+  /* slide in from the right */
+  transform: translateX(calc(100% + 32px));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease,
+    visibility 0s linear 0.3s;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.head strong {
+  font-size: 14px;
+}
+.head .sub {
+  flex: 1;
+  color: #ccd5e0;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.x {
+  border: 0;
+  background: none;
+  color: #c4cdd8;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.picker {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #eef2f6;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.chip.on {
+  background: rgba(31, 111, 235, 0.28);
+  border-color: #4493f8;
+  color: #fff;
+  font-weight: 600;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.tabs button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #ccd5e0;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.tabs button.on {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.body {
+  overflow: auto;
+  padding: 13px 16px;
+  flex: 1;
+}
+.hint {
+  margin: 0;
+  color: #c4cdd8;
+  line-height: 1.6;
+}
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 11px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+}
+[hidden] {
+  display: none !important;
+}
+.cpreview {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(100% + 8px);
+  background: rgba(13, 17, 23, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
+  padding: 12px 14px;
+  max-height: 50vh;
+  overflow: auto;
+}
+.copy {
+  color: #eef2f6;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+}
+.footer button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.claude {
+  color: #fff;
+  border: 1px solid #d97757;
+  background: linear-gradient(180deg, #e0805f, #c25e3c);
+  box-shadow:
+    0 6px 18px -6px rgba(217, 119, 87, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.claude svg {
+  flex: none;
 }
 *,
 *:before,
@@ -3478,115 +3785,9 @@ a {
   color: var(--color-text-link, #005862);
   text-decoration: none;
 }
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-}
-.esa-button--variant-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-content-default, #202020);
-  border-color: transparent;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.esa-button--variant-chrome .esa-button__native {
-  background: transparent;
-  color: inherit;
-  border-color: transparent;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 ```
 
@@ -3594,52 +3795,58 @@ a {
 | Token | Value | Tier |
 |---|---|---|
 | `--badge-bg` | `#005862` | component |
+| `--badge-height-md` | `28px` | component |
+| `--badge-height-sm` | `22px` | component |
+| `--badge-radius` | `.25rem` | component |
 | `--badge-text-color` | `#fcfcfc` | component |
-| `--border-width-default` | `1px` | semantic |
-| `--button-radius-md` | `.5rem` | component |
-| `--button-radius-sm` | `.25rem` | component |
-| `--color-background` | `#fafafa` | component |
-| `--color-background-brand` | `#005862` | semantic |
-| `--color-background-brand-hover` | `#00474f` | semantic |
-| `--color-background-brand-muted` | `#eef5f4` | semantic |
-| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
-| `--color-background-utility-danger` | `#ce2c31` | semantic |
-| `--color-background-utility-danger-hover` | `#641723` | semantic |
-| `--color-border` | `#dcdcdc` | component |
-| `--color-border-default` | `#cecece` | semantic |
-| `--color-border-light` | `#efefef` | component |
-| `--color-border-strong` | `#bdbdbd` | component |
-| `--color-content-brand` | `#005862` | semantic |
-| `--color-content-default` | `#202020` | semantic |
-| `--color-content-default-knockout` | `#fcfcfc` | semantic |
-| `--color-content-default-secondary` | `#646464` | semantic |
-| `--color-content-on-brand-muted` | `#203c25` | semantic |
-| `--color-content-utility-danger` | `#ce2c31` | semantic |
-| `--color-primary` | `#005862` | component |
-| `--color-primary-subtle` | `#effefb` | component |
-| `--color-secondary` | `#00918b` | component |
-| `--color-surface` | `#fcfcfc` | component |
-| `--color-text-link` | `#005862` | component |
-| `--color-text-primary` | `#3d3d3d` | component |
-| `--color-text-secondary` | `#525252` | component |
-| `--color-text-tertiary` | `#656565` | component |
+| `--collapsible-bg` | `#fcfcfc` | component |
+| `--collapsible-border-color` | `#dcdcdc` | component |
+| `--collapsible-padding-x` | `1rem` | component |
+| `--collapsible-radius` | `.5rem` | component |
+| `--collapsible-title-color` | `#3d3d3d` | component |
+| `--color-background` | `#fafafa` | semantic |
+| `--color-border` | `#dcdcdc` | semantic |
+| `--color-border-light` | `#efefef` | semantic |
+| `--color-border-strong` | `#bdbdbd` | semantic |
+| `--color-danger` | `#e5484d` | semantic |
+| `--color-danger-hover` | `#dc3e42` | semantic |
+| `--color-danger-strong` | `#ce2c31` | semantic |
+| `--color-primary` | `#005862` | semantic |
+| `--color-primary-hover` | `#00474f` | semantic |
+| `--color-primary-strong` | `#2a7e3b` | semantic |
+| `--color-primary-subtle` | `#effefb` | semantic |
+| `--color-secondary` | `#00918b` | semantic |
+| `--color-secondary-on-fill` | `#203c25` | semantic |
+| `--color-surface` | `#fcfcfc` | semantic |
+| `--color-text-inverse` | `#fcfcfc` | semantic |
+| `--color-text-link` | `#005862` | semantic |
+| `--color-text-primary` | `#3d3d3d` | semantic |
+| `--color-text-secondary` | `#525252` | semantic |
+| `--color-text-tertiary` | `#656565` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | component |
-| `--font-sans` | `"DM Sans", sans-serif` | component |
-| `--font-weight-medium` | `500` | component |
-| `--font-weight-regular` | `350` | component |
-| `--font-weight-semibold` | `550` | component |
+| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
+| `--font-sans` | `"DM Sans", sans-serif` | primitive |
+| `--font-weight-medium` | `500` | primitive |
+| `--font-weight-regular` | `350` | primitive |
+| `--font-weight-semibold` | `550` | primitive |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
-| `--form-label-color` | `#646464` | component |
+| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
+| `--form-height-md` | `36px` | component |
+| `--form-height-sm` | `28px` | component |
+| `--form-label-color` | `#525252` | component |
+| `--form-padding-x-md` | `.75rem` | component |
+| `--form-padding-x-sm` | `.625rem` | component |
+| `--form-radius-md` | `.25rem` | component |
+| `--form-radius-sm` | `.25rem` | component |
+| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--icon-size-md` | `20px` | primitive |
+| `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
+| `--icon-size-small` | `16px` | component |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--radius-300` | `.5rem` | primitive |
-| `--radius-chip` | `.25rem` | semantic |
 | `--radius-full` | `9999px` | primitive |
-| `--radius-md` | `.5rem` | semantic |
-| `--radius-sm` | `.25rem` | semantic |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
@@ -3653,35 +3860,11 @@ a {
 | `--st-blocked` | `#d73027` | component |
 | `--st-provisional-block` | `#d73027` | component |
 | `--st-survey-scheduled` | `#74add1` | component |
-| `--transition-fast` | `.15s ease` | semantic |
-| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | component |
-| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
-| `--typography-body-md-font-weight` | `350` | semantic |
-| `--typography-body-md-letter-spacing` | `.01em` | semantic |
-| `--typography-body-md-line-height` | `1.6` | semantic |
-| `--typography-label-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
-| `--typography-label-sm-strong-font-weight` | `550` | semantic |
-| `--typography-label-sm-strong-letter-spacing` | `.01em` | semantic |
-| `--typography-label-sm-strong-line-height` | `1.6` | semantic |
-| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
-| `--typography-microcopy-md-font-weight` | `500` | semantic |
-| `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
-| `--typography-microcopy-md-line-height` | `1` | semantic |
-| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
-| `--typography-microcopy-xs-font-weight` | `500` | semantic |
-| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
-| `--typography-microcopy-xs-line-height` | `1` | semantic |
-| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
-| `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |
-| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` | semantic |
-| `--typography-microcopy-xs-strong-line-height` | `1` | semantic |
+| `--transition-fast` | `.15s ease` | primitive |
+| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

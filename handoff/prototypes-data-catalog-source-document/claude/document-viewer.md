@@ -55,5 +55,5 @@ The source PDF shown in the family side-dialog (esa-side-dialog, lg / 66vw), ope
 ```
 
 ## Tokens
-- `--color-surface-sunken`: #efefef _(component)_
+- `--color-surface-sunken`: #efefef _(semantic)_
 - `--radius-200`: .5rem _(primitive)_

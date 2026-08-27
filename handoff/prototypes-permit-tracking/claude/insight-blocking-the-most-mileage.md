@@ -149,12 +149,12 @@ The right insight card: the actionable one — pending permits ranked by the rou
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(component)_
-- `--color-border-light`: #efefef _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--grid-row-bg-hover`: #f0f0f0 _(component)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_

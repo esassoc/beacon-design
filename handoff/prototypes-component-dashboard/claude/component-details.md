@@ -101,15 +101,15 @@ The quiet rail card of the Component record's own fields: start date, expected e
 ```
 
 ## Tokens
-- `--color-border-light`: #efefef _(component)_
-- `--color-text-muted`: #7c7c7c _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-text-muted`: #7c7c7c _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--line-height-normal`: 1.6 _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_

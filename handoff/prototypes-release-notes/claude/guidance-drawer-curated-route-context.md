@@ -392,20 +392,6 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
   color: var(--color-text-tertiary);
   flex: none;
 }
-.bcn-disclosure .esa-icon {
-  transition: transform 0.15s ease;
-}
-.bcn-disclosure[aria-expanded="false"] .esa-icon {
-  transform: rotate(-90deg);
-}
-.bcn-ev-staging__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-ev-targets__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
 }
@@ -442,26 +428,64 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
 .esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--_icon-size);
   height: var(--_icon-size);
+  line-height: 1;
   color: inherit;
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
 }
 .esa-icon--xl {
   --_icon-size: var(--icon-size-xl, 28px);
@@ -475,7 +499,7 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
 }
 ```
@@ -491,21 +515,31 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
 - `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--color-border-light`: #efefef _(component)_
-- `--color-danger`: #ce2c31 _(component)_
-- `--color-primary`: #005862 _(component)_
-- `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-inverse`: #fcfcfc _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--color-text-tertiary`: #656565 _(component)_
-- `--font-weight-bold`: 650 _(component)_
-- `--font-weight-medium`: 500 _(component)_
-- `--font-weight-regular`: 350 _(component)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
+- `--font-weight-bold`: 650 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-regular`: 350 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
+- `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
+- `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
+- `--icon-size-small`: 16px _(component)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
@@ -517,6 +551,7 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--type-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(component)_
+- `--transition-fast`: .15s ease _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--type-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(primitive)_

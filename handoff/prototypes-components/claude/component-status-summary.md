@@ -21,18 +21,18 @@ A project-wide roll-up above the list: how many components exist, how they distr
     <div class="esa-card__header">
       <div class="esa-card__header-content">
         <div class="esa-card__titles">
-          <h3 class="esa-card__title typography-title-sm-strong">Component status</h3>
+          <h3 class="esa-card__title">Component status</h3>
         </div>
       </div>
-      <div class="esa-card__actions typography-label-md">
+      <div class="esa-card__actions">
         <span class="bcn-summary__count">16 total</span>
       </div>
     </div>
-    <div class="esa-card__body typography-body-md">
+    <div class="esa-card__body">
       <div class="bcn-summary__main">
         <div class="esa-stat">
-          <div class="esa-stat__value typography-display-sm">16</div>
-          <div class="esa-stat__label typography-label-md">Components tracked</div>
+          <div class="esa-stat__value">16</div>
+          <div class="esa-stat__label">Components tracked</div>
         </div>
         <div
           class="bcn-summary__bar"
@@ -84,18 +84,16 @@ A project-wide roll-up above the list: how many components exist, how they distr
     <div class="esa-card__header">
       <div class="esa-card__header-content">
         <div class="esa-card__titles">
-          <h3 class="esa-card__title typography-title-sm-strong">Needs attention</h3>
+          <h3 class="esa-card__title">Needs attention</h3>
         </div>
       </div>
     </div>
-    <div class="esa-card__body typography-body-md">
+    <div class="esa-card__body">
       <div class="bcn-summary__attention">
         <div style="--stat-value-color: var(--color-danger-strong)">
           <div class="esa-stat">
-            <div class="esa-stat__value typography-display-sm">5</div>
-            <div class="esa-stat__label typography-label-md">
-              Components with overdue actions
-            </div>
+            <div class="esa-stat__value">5</div>
+            <div class="esa-stat__label">Components with overdue actions</div>
           </div>
         </div>
         <ul class="bcn-summary__att-list">
@@ -126,41 +124,6 @@ A project-wide roll-up above the list: how many components exist, how they distr
 
 ## Styles
 ```css
-.typography-display-sm {
-  font-family: var(--typography-display-sm-font-family);
-  font-size: var(--typography-display-sm-font-size);
-  font-weight: var(--typography-display-sm-font-weight);
-  line-height: var(--typography-display-sm-line-height);
-  letter-spacing: var(--typography-display-sm-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
 .bcn-ev-staging__item .esa-card {
   overflow: visible;
 }
@@ -292,72 +255,40 @@ A project-wide roll-up above the list: how many components exist, how they distr
   font-size: var(--type-size-150);
   color: var(--color-text-secondary);
 }
-.typography-display-sm {
-  font-family: var(--typography-display-sm-font-family);
-  font-size: var(--typography-display-sm-font-size);
-  font-weight: var(--typography-display-sm-font-weight);
-  line-height: var(--typography-display-sm-line-height);
-  letter-spacing: var(--typography-display-sm-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
 .esa-card {
-  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
-  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
-  --_card-radius: var(--radius-md, 0.5rem);
-  --_card-padding: var(--spacing-500, 1.5rem);
+  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
+  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
+  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
+  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
   --_card-header-bg: var(--card-header-bg, transparent);
-  --_card-header-color: var(--color-content-default, #202020);
-  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
+  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
+  --_card-header-border: var(
+    --card-header-border-color,
+    var(--color-border-light, #efefef)
+  );
   display: block;
   background: var(--_card-bg);
-  border: var(--border-width-default, 1px) solid var(--_card-border);
+  border: 1px solid var(--_card-border);
   border-radius: var(--_card-radius);
   overflow: hidden;
 }
 .esa-card--outlined {
-  --_card-border: var(--color-border-default, #cecece);
+  --_card-border: var(--color-border, #e5e5e5);
 }
 .esa-card--elevated {
   --_card-border: transparent;
-  box-shadow: var(--elevation-2, 0 2px 12px 0 rgba(0, 0, 0, 0.04));
+  box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.04));
 }
 .esa-card--filled {
-  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  --_card-bg: var(--color-surface-sunken, #efefef);
   --_card-border: transparent;
 }
 .esa-card--header-primary .esa-card__header {
-  --_card-header-bg: var(--color-background-brand, #46a758);
-  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
+  --_card-header-bg: var(--color-primary, #43608a);
+  --_card-header-color: var(--color-text-inverse, #ffffff);
 }
 .esa-card--header-muted .esa-card__header {
-  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  --_card-header-bg: var(--color-surface-sunken, #efefef);
 }
 .esa-card--padding-none {
   --_card-padding: 0;
@@ -375,7 +306,7 @@ A project-wide roll-up above the list: how many components exist, how they distr
   padding: var(--spacing-400, 1rem) var(--_card-padding);
   background: var(--_card-header-bg);
   color: var(--_card-header-color);
-  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);
+  border-bottom: 1px solid var(--_card-header-border);
   min-height: 56px;
 }
 .esa-card__header-content {
@@ -389,15 +320,19 @@ A project-wide roll-up above the list: how many components exist, how they distr
   gap: var(--spacing-050, 0.125rem);
 }
 .esa-card__title {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: 600;
   margin: 0;
   color: inherit;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
 }
 .esa-card__subtitle {
-  color: var(--color-content-default-secondary, #646464);
+  font-size: var(--type-size-150, 0.8125rem);
+  color: var(--color-text-secondary, #525252);
   margin: 0;
 }
 .esa-card--header-primary .esa-card__subtitle {
-  color: var(--color-content-on-brand, rgba(255, 255, 255, 0.8));
+  color: #fffc;
 }
 .esa-card__icon {
   color: inherit;
@@ -413,42 +348,24 @@ A project-wide roll-up above the list: how many components exist, how they distr
 }
 .esa-card__footer {
   padding: var(--spacing-300, 0.75rem) var(--_card-padding);
-  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
-  background: var(--color-background-elevation-sunken, #f0f0f0);
+  border-top: 1px solid var(--_card-header-border);
+  background: var(--card-footer-bg, var(--color-surface-sunken, #efefef));
 }
 .esa-stat {
-  --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));
+  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
   --_stat-value-font: var(
-    --typography-font-family-display,
-    var(
-      --typography-display-sm-font-family,
-      var(--typography-font-family-display, "DM Sans", sans-serif)
-    )
+    --stat-value-font,
+    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
   );
-  --_stat-value-size: var(
-    --stat-value-size,
-    var(--typography-display-sm-font-size, var(--font-size-700, 2.25rem))
-  );
-  --_stat-value-weight: var(
-    --typography-font-weight-bold,
-    var(--typography-display-sm-font-weight, var(--typography-font-weight-bold, 650))
-  );
-  --_stat-label-color: var(--color-content-default-secondary, #646464);
-  --_stat-label-size: var(
-    --font-size-200,
-    var(--typography-label-md-font-size, var(--font-size-200, 0.9375rem))
-  );
-  --_stat-label-weight: var(
-    --typography-font-weight-medium,
-    var(--typography-label-md-font-weight, var(--typography-font-weight-medium, 500))
-  );
-  --_stat-sub-color: var(--color-content-default-secondary, #646464);
-  --_stat-sub-size: var(
-    --font-size-150,
-    var(--typography-body-sm-font-size, var(--font-size-150, 0.875rem))
-  );
-  --_stat-accent-color: var(--stat-accent-color, var(--color-content-brand, #2a7e3b));
-  --_stat-gap: var(--spacing-050, 0.125rem);
+  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
+  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
+  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
+  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
+  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
+  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
+  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
+  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
+  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
   display: flex;
   flex-direction: column;
   gap: var(--_stat-gap);
@@ -458,6 +375,8 @@ A project-wide roll-up above the list: how many components exist, how they distr
   font-family: var(--_stat-value-font);
   font-size: var(--_stat-value-size);
   font-weight: var(--_stat-value-weight);
+  line-height: var(--line-height-tight, 1.3);
+  letter-spacing: var(--letter-spacing-tight, -0.01em);
   color: var(--_stat-value-color);
 }
 .esa-stat--accent .esa-stat__value {
@@ -466,47 +385,52 @@ A project-wide roll-up above the list: how many components exist, how they distr
 .esa-stat__label {
   font-size: var(--_stat-label-size);
   font-weight: var(--_stat-label-weight);
+  line-height: var(--line-height-normal, 1.6);
   color: var(--_stat-label-color);
 }
 .esa-stat__sub {
   font-size: var(--_stat-sub-size);
+  font-weight: var(--font-weight-regular, 350);
+  line-height: var(--line-height-normal, 1.6);
   color: var(--_stat-sub-color);
 }
 ```
 
 ## Tokens
-- `--border-width-default`: 1px _(semantic)_
 - `--card-bg`: #fcfcfc _(component)_
-- `--card-border-color`: #cecece _(component)_
+- `--card-border-color`: #dcdcdc _(component)_
+- `--card-footer-bg`: #efefef _(component)_
 - `--card-header-bg`: transparent _(component)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
-- `--color-border`: #dcdcdc _(component)_
-- `--color-border-default`: #cecece _(semantic)_
-- `--color-border-default-subtle`: #d9d9d9 _(semantic)_
-- `--color-border-light`: #efefef _(component)_
-- `--color-content-brand`: #005862 _(semantic)_
-- `--color-content-default`: #202020 _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #646464 _(semantic)_
-- `--color-content-on-brand`: #fcfcfc _(semantic)_
-- `--color-danger`: #ce2c31 _(component)_
-- `--color-danger-strong`: #ce2c31 _(component)_
-- `--color-secondary`: #00918b _(component)_
-- `--color-surface`: #fcfcfc _(component)_
-- `--color-surface-sunken`: #efefef _(component)_
-- `--color-text-muted`: #7c7c7c _(component)_
-- `--color-text-primary`: #3d3d3d _(component)_
-- `--color-text-secondary`: #525252 _(component)_
-- `--elevation-2`: 0 2px 12px 0 rgba(0, 0, 0, .04) _(semantic)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
-- `--font-weight-semibold`: 550 _(component)_
+- `--card-header-border-color`: #efefef _(component)_
+- `--card-header-color`: #3d3d3d _(component)_
+- `--card-padding`: 1.5rem _(component)_
+- `--card-radius`: .5rem _(component)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-danger-strong`: #ce2c31 _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-secondary`: #00918b _(semantic)_
+- `--color-secondary-strong`: #2a7e3b _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
+- `--color-text-muted`: #7c7c7c _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--font-display`: "DM Sans", sans-serif _(primitive)_
+- `--font-sans`: "DM Sans", sans-serif _(primitive)_
+- `--font-weight-bold`: 650 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-regular`: 350 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
+- `--letter-spacing-tight`: -.01em _(primitive)_
+- `--line-height-normal`: 1.6 _(primitive)_
+- `--line-height-tight`: 1.3 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
+- `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
-- `--radius-md`: .5rem _(semantic)_
+- `--shadow-100`: 0 2px 12px 0 rgba(0, 0, 0, .04) _(primitive)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -515,37 +439,8 @@ A project-wide roll-up above the list: how many components exist, how they distr
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
-- `--stat-accent-color`: #005862 _(component)_
-- `--stat-value-color`: #202020 _(component)_
-- `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
-- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-body-md-font-weight`: 350 _(semantic)_
-- `--typography-body-md-letter-spacing`: .01em _(semantic)_
-- `--typography-body-md-line-height`: 1.6 _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-display-sm-font-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(semantic)_
-- `--typography-display-sm-font-weight`: 650 _(semantic)_
-- `--typography-display-sm-letter-spacing`: -.01em _(semantic)_
-- `--typography-display-sm-line-height`: 1.3 _(semantic)_
-- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-medium`: 500 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
-- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
-- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
-- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--type-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(primitive)_
+- `--type-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
