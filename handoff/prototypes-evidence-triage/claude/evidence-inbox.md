@@ -1974,7 +1974,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -2320,7 +2320,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -2760,7 +2760,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -3106,7 +3106,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -3452,7 +3452,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -3892,7 +3892,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -4330,7 +4330,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -4677,7 +4677,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -5270,7 +5270,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -5712,7 +5712,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -5804,7 +5804,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -6150,7 +6150,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -6494,7 +6494,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -6838,7 +6838,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       <span class="bcn-triage-sug__complete">
                                         <esa-button-toggle
                                           data-triage-sug-complete="true"
-                                          size="sm"
+                                          size="xs"
                                           value="no"
                                           label="Mark complete?"
                                           data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -7589,7 +7589,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   <span class="bcn-triage-sug__complete" data-astro-cid-uqyrcodq="">
                                     <esa-button-toggle
                                       data-triage-sug-complete="true"
-                                      size="sm"
+                                      size="xs"
                                       value="no"
                                       label="Mark complete?"
                                       data-options='[{"value":"yes","label":"Yes"},{"value":"no","label":"No"}]'
@@ -17432,211 +17432,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout section {
-  width: 100%;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.bcn-filterbar {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-}
-.bcn-filterbar__top {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__group {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-300);
-}
-.bcn-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.bcn-filterbar__search {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  min-width: 380px;
-}
-.bcn-filterbar__search esa-text-field {
-  flex: 1;
-}
-.bcn-filterbar__bottom {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__top + .bcn-filterbar__bottom {
-  border-top: 1px solid var(--color-border);
-}
-.bcn-filterbar__sort {
-  margin-left: var(--spacing-600);
-  --form-height-md: 32px;
-  --form-font-size-md: 14px;
-}
-.bcn-filterbar__sort esa-select {
-  width: 9rem;
-}
-.bcn-filterbar__clear {
-  margin-left: auto;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
 .esa-filter-container {
   display: flex;
   flex-wrap: wrap;
@@ -17866,26 +17661,201 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-triage-review__panel[hidden] {
   display: none;
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.bcn-file-preview {
+  display: flex;
+  justify-content: center;
+  min-height: 26rem;
+  padding: var(--spacing-400) 0;
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-100);
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  display: inline-flex;
+.bcn-file-preview__page {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
+  gap: var(--spacing-200);
+  width: min(20rem, 100%);
+  padding: var(--spacing-500);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+}
+.bcn-file-preview__page .esa-icon {
+  color: var(--color-text-muted);
+}
+.bcn-file-preview__name {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+.bcn-file-preview__note {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-add {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  min-height: 20rem;
+}
+.bcn-triage-add__scope {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-add__staged {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border);
+}
+.bcn-triage-add__staged[hidden] {
+  display: none;
+}
+.bcn-triage-add__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-250);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
   box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout section {
+  width: 100%;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.bcn-filterbar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+}
+.bcn-filterbar__top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.bcn-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-filterbar__search {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  min-width: 380px;
+}
+.bcn-filterbar__search esa-text-field {
+  flex: 1;
+}
+.bcn-filterbar__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__top + .bcn-filterbar__bottom {
+  border-top: 1px solid var(--color-border);
+}
+.bcn-filterbar__sort {
+  margin-left: var(--spacing-600);
+  --form-height-md: 32px;
+  --form-font-size-md: 14px;
+}
+.bcn-filterbar__sort esa-select {
+  width: 9rem;
+}
+.bcn-filterbar__clear {
+  margin-left: auto;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -17930,6 +17900,81 @@ html,
 .esa-button--icon-only .esa-button__native {
   padding-inline: var(--_btn-pad-y);
   aspect-ratio: 1;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--variant-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-content-default, #202020);
+  border-color: transparent;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
@@ -18758,6 +18803,38 @@ html,
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-sm-strong {
+  font-family: var(--typography-microcopy-sm-strong-font-family);
+  font-size: var(--typography-microcopy-sm-strong-font-size);
+  font-weight: var(--typography-microcopy-sm-strong-font-weight);
+  line-height: var(--typography-microcopy-sm-strong-line-height);
+  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
 ```
 
 ## Tokens
@@ -18792,6 +18869,7 @@ html,
 | `--color-border` | `#dcdcdc` | component |
 | `--color-border-light` | `#efefef` | component |
 | `--color-content-brand` | `#005862` | semantic |
+| `--color-content-default` | `#202020` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#646464` | semantic |
 | `--color-content-utility-danger` | `#ce2c31` | semantic |

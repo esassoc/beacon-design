@@ -1,6 +1,6 @@
 # Token contract — prototypes-settings-operations
 
-The 144 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 150 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -63,6 +63,11 @@ The 144 design tokens this page actually uses, resolved to their final values fo
 | `--typography-microcopy-md-subtle-font-weight` | `350` |
 | `--typography-microcopy-md-subtle-letter-spacing` | `.01em` |
 | `--typography-microcopy-md-subtle-line-height` | `1` |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-microcopy-xs-font-weight` | `500` |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` |
+| `--typography-microcopy-xs-line-height` | `1` |
 | `--typography-title-sm-strong-font-family` | `"DM Sans", sans-serif` |
 | `--typography-title-sm-strong-font-size` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
 | `--typography-title-sm-strong-font-weight` | `550` |
@@ -93,6 +98,7 @@ The 144 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-helpbar-divider` | `rgba(255, 255, 255, .16)` |
 | `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` |
 | `--button-radius-md` | `.5rem` |
+| `--button-radius-sm` | `.25rem` |
 | `--card-bg` | `#fcfcfc` |
 | `--card-border-color` | `#cecece` |
 | `--card-header-bg` | `transparent` |
