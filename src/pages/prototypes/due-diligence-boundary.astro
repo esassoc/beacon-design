@@ -9,9 +9,11 @@ import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnBoundaryDrawMap from '../../components/bcn/BcnBoundaryDrawMap.astro';
 import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
 import { PROJECT, advancedCandidate } from '../../data/due-diligence-fixture';
 import { withBase } from '../../lib/base';
 import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+import { PROJECT_PHASES } from '../../lib/project-phases';
 
 const candidate = advancedCandidate();
 
@@ -58,6 +60,9 @@ const seedRing: [number, number][] = [
       { label: 'Project Boundary' },
     ]}
   >
+    <div slot="title-badge">
+      <BcnStatusChip status="phase" label={PROJECT_PHASES['due-diligence'].label} hex={PROJECT_PHASES['due-diligence'].hex} />
+    </div>
     <div slot="utilities">
       <a href={withBase('/prototypes/due-diligence-siting')}><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></a>
       <span id="bd-continue"><EsaButton color="primary" icon="arrow-right">Run constraints check</EsaButton></span>

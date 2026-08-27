@@ -12,10 +12,12 @@ import BcnFilterBar from '../../components/bcn/BcnFilterBar.astro';
 import BcnGisLayerPanel from '../../components/bcn/BcnGisLayerPanel.astro';
 import BcnFindingList from '../../components/bcn/BcnFindingList.astro';
 import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
 import '../../styles/beacon-map.css';
 import { PROJECT, GIS_LAYERS, RISK_HEX } from '../../data/due-diligence-fixture';
 import { withBase } from '../../lib/base';
 import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+import { PROJECT_PHASES } from '../../lib/project-phases';
 
 const gisLayerRows = GIS_LAYERS.map((l) => ({
   id: l.id,
@@ -82,6 +84,9 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
       { label: 'Constraints' },
     ]}
   >
+    <div slot="title-badge">
+      <BcnStatusChip status="phase" label={PROJECT_PHASES['due-diligence'].label} hex={PROJECT_PHASES['due-diligence'].hex} />
+    </div>
     <div slot="utilities">
       <span id="cx-rerun"><EsaButton color="ghost" appearance="outline" icon="rotate-ccw">Re-run</EsaButton></span>
       <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="primary" icon="file-text">View report</EsaButton></a>

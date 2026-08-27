@@ -1,0 +1,514 @@
+---
+// Permitting — Permit Details. The workspace half of the Permitting module (its
+// sibling is permitting-dashboard.astro, the module's landing page with summary
+// metrics — this page is just the record grid + editor, no stats, no lifecycle
+// stepper, mirroring how Due Diligence splits its Overview from its Permit Matrix).
+//
+// The 11 permits identified in the Due Diligence Permit Matrix are actively tracked
+// here: every field is editable — Permit / Approval (name), Level, Agency, Target
+// Date, Reference No., Notes, and the tracking status ladder (Pending Determination /
+// Not Started / In Preparation / Submitted / Under Agency Review / Approved) — with
+// a per-permit activity log and comments thread. Requirement (why the permit applies) is on the
+// underlying record but not shown here or in the grid — it's Due Diligence's field
+// to explain applicability, not something Permitting tracks or edits (design review
+// 2026-08-27). One consolidated page — no map/tabs — since 11 permits at one site
+// don't need the segment-based workspace linear-infrastructure Permit Tracking
+// (BCN-1266) uses.
+//
+// Fixture data lives in src/data/permitting-fixture.ts, which overlays phase-2 fields
+// onto due-diligence-fixture.ts's PERMITS — same 11 records, single source of truth.
+// A saved edit is also written to src/lib/permitting-store.ts's localStorage overlay,
+// which this page and permitting-dashboard.astro both read on load — that overlay,
+// not this fixture file, is what makes an edit here show up on the dashboard.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnGridChrome from '../../components/bcn/BcnGridChrome.astro';
+import BcnGridFooter from '../../components/bcn/BcnGridFooter.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
+import { PROJECT } from '../../data/due-diligence-fixture';
+import { TRACKED_PERMITS, STATUS_META } from '../../data/permitting-fixture';
+import { withBase } from '../../lib/base';
+import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+import { PROJECT_PHASES } from '../../lib/project-phases';
+
+const gridRows = TRACKED_PERMITS.map((p) => ({
+  id: p.id,
+  agency: p.agency,
+  level: p.level,
+  name: p.name,
+  notes: p.notes,
+  status: p.status,
+  statusLabel: STATUS_META[p.status].label,
+  targetDate: p.targetDate ?? '',
+  refNumber: p.refNumber ?? '',
+}));
+---
+
+<!-- manifest:
+  layout: stack(lg)
+  sections:
+    - permit tracking -> esa-card          # BcnGridChrome/BcnGridFooter + beacon-grid AG Grid
+    - permit editor     -> esa-side-dialog # every field editable + status, activity log, comments
+-->
+
+<!-- bcn-lego-checked: composed from esa-card, esa-side-dialog, esa-select, esa-text-field,
+     esa-textarea, esa-date-picker (the same date control permit-tracking.astro's editor
+     already uses), and the shared beacon-grid AG Grid kit (bcn-grid-chrome / bcn-grid-footer
+     / mountBeaconGrid), the same reusable home every carded grid in this spoke uses. The
+     title-badge "current phase" chip is bcn-status-chip — the SAME mechanism
+     BcnProjectHeader already uses for a project's phase. This page's editor drawer widens
+     due-diligence-permits.astro's pm-drawer shape (status-select + activity-log +
+     comments-log) to every field, rather than reinventing a form — no esa- lego renders a
+     record-editor drawer as a unit. No page CSS beyond the grid-host geometry and the
+     status chip AG Grid renders outside Astro's scope (documents the same convention as
+     that page). -->
+<!-- bcn-lego-checked: esa-side-dialog's default position="right" renders flush-LEFT (a
+     hub bug — see due-diligence-siting.astro's forceSideDialogRight for the full
+     explanation); worked around at the page level per user direction rather than
+     editing the hub. A second hub bug lives beside it: dialog.panel never gets an
+     explicit `height`, so the browser's own `dialog { height: fit-content }` UA
+     default wins over the component's intended `top/bottom: 16px` viewport clamp —
+     the panel just grows to fit a tall drawer instead of clamping and letting its
+     own `.body { overflow-y: auto }` scroll, which is how the footer's Save/Cancel
+     end up pushed off-screen. Same page-level workaround pattern as the position
+     bug — both live in one forceSideDialogLayout call rather than two. -->
+<AppShell
+  title="Permit Details — Almond — Beale"
+  tenantName="Beale"
+  projectName={PROJECT.name}
+  activeNavId="permitting-details"
+  navSections={dueDiligenceNavSections({ showProject: true })}
+>
+  <PageLayout
+    title="Permit Details"
+    icon="file-text"
+    breadcrumbs={[
+      { label: 'Almond', href: withBase('/prototypes/due-diligence-overview') },
+      { label: 'Permit Dashboard', href: withBase('/prototypes/permitting-dashboard') },
+      { label: 'Permit Details' },
+    ]}
+  >
+    <div slot="title-badge">
+      <BcnStatusChip status="phase" label={PROJECT_PHASES.permitting.label} hex={PROJECT_PHASES.permitting.hex} />
+    </div>
+
+    <EsaCard title="Permit Tracking" padding="compact">
+      <Fragment slot="actions">
+        <BcnGridChrome prefix="pt" searchPlaceholder="Search permits…" />
+      </Fragment>
+      <div class="pt-grid-host" data-pt-host></div>
+      <Fragment slot="footer">
+        <BcnGridFooter prefix="pt" total={gridRows.length} downloadLabel="Download as CSV" />
+      </Fragment>
+    </EsaCard>
+
+    <script type="application/json" id="pt-data" set:html={JSON.stringify(gridRows)}></script>
+  </PageLayout>
+
+  <!-- Permit editor drawer — EVERY field editable: Permit / Approval, Level,
+       Agency, Target Date, Reference No., Notes, and Status, plus a system activity
+       log and a free-text comments thread. No "Details"/"Status" section labels —
+       each control already carries its own field label, so a section eyebrow above
+       them repeated the same words for no reason (design review 2026-08-27); one
+       flat stack instead. The header's name stays a plain label (live-updated on
+       Save) rather than the edit surface itself — orientation while scrolled past
+       the field below, the same role a dialog title plays elsewhere. -->
+  <esa-side-dialog id="pt-drawer" size="md" style="--_width: 560px;">
+    <div slot="header" class="stack" data-gap="xs">
+      <span class="type-body-small pt-d-label">Permit</span>
+      <span class="type-card-title" id="pt-d-name">—</span>
+    </div>
+    <div class="stack" data-gap="lg">
+      <div class="stack" data-gap="md">
+        <esa-text-field id="pt-d-name-field" label="Permit / Approval" size="md"></esa-text-field>
+        <esa-select id="pt-d-level" label="Level" size="md"></esa-select>
+        <esa-text-field id="pt-d-agency" label="Agency" size="md"></esa-text-field>
+        <esa-date-picker id="pt-d-target" label="Target date" size="md"></esa-date-picker>
+        <esa-text-field id="pt-d-ref" label="Reference No." size="md"></esa-text-field>
+        <esa-textarea id="pt-d-notes" label="Notes" rows="3"></esa-textarea>
+        <esa-select id="pt-d-status" label="Tracking status" size="md"></esa-select>
+      </div>
+
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small pt-d-label">Activity</span>
+        <ul class="pt-activity" id="pt-d-activity"></ul>
+      </div>
+
+      <div class="stack" data-gap="xs">
+        <span class="type-body-small pt-d-label">Comments</span>
+        <ul class="pt-comments" id="pt-d-comments"></ul>
+        <div class="stack" data-gap="xs">
+          <esa-textarea id="pt-d-comment-input" rows="2" placeholder="Add a note…"></esa-textarea>
+          <div class="repel">
+            <span class="type-body-small" style="color: var(--color-text-tertiary);">Posting as {PROJECT.team[0].name}</span>
+            <span id="pt-d-post"><EsaButton color="primary" size="sm">Post</EsaButton></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div slot="footer" class="cluster" data-justify="end">
+      <span id="pt-d-save"><EsaButton color="primary">Save</EsaButton></span>
+      <span id="pt-d-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+    </div>
+  </esa-side-dialog>
+</AppShell>
+
+<script>
+  import type { ColDef, GridOptions, GridApi } from 'ag-grid-community';
+  import { beaconTheme, makeQuietChipRenderer, mountBeaconGrid } from '../../lib/beacon-grid';
+  import { PROJECT } from '../../data/due-diligence-fixture';
+  import { STATUS_META, STATUS_ORDER, formatDate } from '../../data/permitting-fixture';
+  import { loadOverrides, saveOverride } from '../../lib/permitting-store';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-date-picker';
+
+  // Page-level workaround for two hub bugs on esa-side-dialog (see this page's
+  // bcn-lego-checked comment for both):
+  //  1. position="right" renders flush-LEFT instead (due-diligence-siting.astro has
+  //     the full explanation) — cleared via `left: auto`.
+  //  2. dialog.panel never gets an explicit `height`, so the browser's own
+  //     `dialog { height: fit-content }` wins over the intended viewport clamp and
+  //     the panel just grows with its content — pushing the footer's Save/Cancel
+  //     off-screen instead of letting `.body { overflow-y: auto }` scroll. Fixed by
+  //     setting the height the component meant to: 100vh minus its own 16px top +
+  //     bottom inset.
+  function forceSideDialogLayout(id: string) {
+    const el = document.getElementById(id) as (HTMLElement & { shadowRoot: ShadowRoot | null }) | null;
+    if (!el) return;
+    const apply = () => {
+      const panel = el.shadowRoot?.querySelector('dialog.panel') as HTMLElement | null;
+      if (!panel) return;
+      panel.style.left = 'auto';
+      panel.style.height = 'calc(100vh - 32px)';
+    };
+    apply();
+    requestAnimationFrame(apply);
+  }
+  forceSideDialogLayout('pt-drawer');
+
+  type TrackingStatus = keyof typeof STATUS_META;
+  type Level = 'Local' | 'State' | 'Regional' | 'Federal' | 'Utility';
+  interface Row {
+    id: string;
+    agency: string;
+    level: Level;
+    name: string;
+    notes: string;
+    status: TrackingStatus;
+    statusLabel: string;
+    targetDate: string;
+    refNumber: string;
+  }
+
+  const LEVEL_OPTIONS: { value: Level; label: Level }[] = ['Local', 'State', 'Regional', 'Federal', 'Utility'].map((v) => ({
+    value: v as Level,
+    label: v as Level,
+  }));
+
+  const $id = (id: string) => document.getElementById(id);
+  type ValueField = HTMLElement & { value: string };
+  const field = (id: string) => document.getElementById(id) as ValueField | null;
+
+  // ── Editor drawer state (in-session — same idiom due-diligence-permits.astro uses
+  //    for its change log: seeded from the fixture's own status, then grows as the
+  //    demo user edits or comments). ─────────────────────────────────────────────
+  interface LogEntry { text: string; by: string; when: string }
+
+  const REVIEWER = PROJECT.team[1].name; // Project Director — the technical-review persona
+  const CURRENT_USER = PROJECT.team[0].name; // Project Manager — posts edits/comments in this demo
+
+  let gridApi: GridApi<Row> | null = null;
+  let activePermitId: string | null = null;
+  const activityById = new Map<string, LogEntry[]>();
+  const commentsById = new Map<string, LogEntry[]>();
+
+  // Activity text is built from edited fields (Agency, Notes, …) and comments are
+  // free-typed — both are user-entered text landing in innerHTML, so escape them
+  // the same way permitting-dashboard.astro's rebuild does.
+  function escapeHtml(s: string): string {
+    return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] as string);
+  }
+
+  function renderLog(listId: string, entries: LogEntry[], emptyText: string) {
+    const list = document.getElementById(listId);
+    if (!list) return;
+    list.innerHTML = entries.length
+      ? entries
+          .map((e) => `<li><p class="pt-log__text">${escapeHtml(e.text)}</p><span class="pt-log__meta">${escapeHtml(e.by)} · ${escapeHtml(e.when)}</span></li>`)
+          .join('')
+      : `<li class="pt-log__empty">${emptyText}</li>`;
+  }
+
+  function openDrawer(id: string, byId: Map<string, Row>) {
+    const r = byId.get(id);
+    if (!r) return;
+    activePermitId = id;
+
+    const nameEl = $id('pt-d-name');
+    if (nameEl) nameEl.textContent = r.name;
+    const nameField = field('pt-d-name-field');
+    if (nameField) nameField.value = r.name;
+
+    const levelSelect = field('pt-d-level') as (ValueField & { options: unknown[] }) | null;
+    if (levelSelect) {
+      levelSelect.options = LEVEL_OPTIONS;
+      levelSelect.value = r.level;
+    }
+    const agencyField = field('pt-d-agency');
+    if (agencyField) agencyField.value = r.agency;
+    const targetField = field('pt-d-target');
+    if (targetField) targetField.value = r.targetDate ?? '';
+    const refField = field('pt-d-ref');
+    if (refField) refField.value = r.refNumber ?? '';
+    const notesField = field('pt-d-notes');
+    if (notesField) notesField.value = r.notes ?? '';
+
+    const statusSelect = field('pt-d-status') as (ValueField & { options: unknown[] }) | null;
+    if (statusSelect) {
+      statusSelect.options = STATUS_ORDER.map((value) => ({ value, label: STATUS_META[value as TrackingStatus].label }));
+      statusSelect.value = r.status;
+    }
+
+    renderLog('pt-d-activity', activityById.get(id) ?? [], 'No activity yet.');
+    renderLog('pt-d-comments', commentsById.get(id) ?? [], 'No comments yet.');
+
+    const dialog = document.getElementById('pt-drawer') as (HTMLElement & { open?: boolean; show?: () => void }) | null;
+    if (dialog?.show) dialog.show();
+    else if (dialog) dialog.open = true;
+  }
+
+  // ── Grid ────────────────────────────────────────────────────────────────────
+  const ptData = $id('pt-data');
+  if (ptData) {
+    // Baseline rows from the fixture, with any previously SAVED edit layered on top —
+    // the same overlay Permit Dashboard reads, so a Save here is what makes it show
+    // up there too.
+    const overrides = loadOverrides();
+    const rows: Row[] = (JSON.parse(ptData.textContent || '[]') as Row[]).map((r) => {
+      const patch = overrides[r.id];
+      if (!patch) return r;
+      const merged: Row = { ...r, ...(patch as Partial<Row>) };
+      merged.statusLabel = STATUS_META[merged.status].label;
+      return merged;
+    });
+    const byId = new Map(rows.map((r) => [r.id, r]));
+    for (const r of rows) {
+      activityById.set(
+        r.id,
+        r.status !== 'pending-determination' && r.status !== 'not-started'
+          ? [{ text: `Status set to ${r.statusLabel}`, by: REVIEWER, when: '2026-08-24' }]
+          : [],
+      );
+    }
+
+    const columnDefs: ColDef<Row>[] = [
+      { field: 'agency', headerName: 'Agency', flex: 1.6, minWidth: 220 },
+      { field: 'level', headerName: 'Level', width: 110 },
+      { field: 'name', headerName: 'Permit / Approval', flex: 1.4, minWidth: 200 },
+      {
+        field: 'statusLabel',
+        headerName: 'Status',
+        width: 190,
+        cellRenderer: makeQuietChipRenderer({ toneField: 'status', className: 'pt-chip' }),
+      },
+      {
+        field: 'targetDate',
+        headerName: 'Target Date',
+        width: 140,
+        valueFormatter: (p) => (p.value ? formatDate(p.value) : '—'),
+        sort: 'asc',
+        // Nearest-due first is the sensible default read; pending-determination
+        // permits carry no target date yet, so they sort AFTER every dated permit
+        // rather than first (an empty string would otherwise sort before "2026-…").
+        comparator: (a: string, b: string) => {
+          if (!a && !b) return 0;
+          if (!a) return 1;
+          if (!b) return -1;
+          return a.localeCompare(b);
+        },
+      },
+      { field: 'refNumber', headerName: 'Reference No.', width: 170, valueFormatter: (p) => p.value || '—' },
+      { field: 'notes', headerName: 'Notes', flex: 1.6, minWidth: 220 },
+    ];
+
+    const gridOptions: GridOptions<Row> = {
+      theme: beaconTheme,
+      rowData: rows,
+      columnDefs,
+      getRowId: (p) => p.data.id,
+      defaultColDef: { sortable: true, resizable: true, filter: true, suppressHeaderMenuButton: true, wrapText: true, autoHeight: true },
+      onRowClicked: (e) => {
+        if (e.data) openDrawer(e.data.id, byId);
+      },
+    };
+
+    const host = document.querySelector<HTMLElement>('[data-pt-host]');
+    if (host) {
+      const handle = mountBeaconGrid({
+        mount: host.closest('section')!,
+        prefix: 'pt',
+        gridOptions,
+        csvName: 'permit-details.csv',
+        totalRows: () => rows.length,
+      });
+      gridApi = handle?.api ?? null;
+    }
+
+    // ── Save: commit every field back to the row, log what changed, repaint ──
+    document.getElementById('pt-d-save')?.addEventListener('click', () => {
+      if (!activePermitId) return;
+      const r = byId.get(activePermitId);
+      if (!r) return;
+
+      const newName = field('pt-d-name-field')?.value ?? r.name;
+      const newLevel = (field('pt-d-level')?.value ?? r.level) as Level;
+      const newAgency = field('pt-d-agency')?.value ?? r.agency;
+      const newTarget = field('pt-d-target')?.value ?? r.targetDate;
+      const newRef = field('pt-d-ref')?.value ?? r.refNumber;
+      const newNotes = field('pt-d-notes')?.value ?? r.notes;
+      const newStatus = (field('pt-d-status')?.value ?? r.status) as TrackingStatus;
+
+      const changes: string[] = [];
+      if (newName !== r.name) changes.push(`Permit / Approval → ${newName}`);
+      if (newLevel !== r.level) changes.push(`Level → ${newLevel}`);
+      if (newAgency !== r.agency) changes.push(`Agency → ${newAgency}`);
+      if (newTarget !== r.targetDate) changes.push(`Target date → ${newTarget ? formatDate(newTarget) : 'Not yet scheduled'}`);
+      if (newRef !== r.refNumber) changes.push(`Reference No. → ${newRef || '—'}`);
+      if (newNotes !== r.notes) changes.push('Notes updated');
+      if (newStatus !== r.status) changes.push(`Status → ${STATUS_META[newStatus].label}`);
+
+      r.name = newName;
+      r.level = newLevel;
+      r.agency = newAgency;
+      r.targetDate = newTarget;
+      r.refNumber = newRef;
+      r.notes = newNotes;
+      r.status = newStatus;
+      r.statusLabel = STATUS_META[newStatus].label;
+
+      const nameEl = $id('pt-d-name');
+      if (nameEl) nameEl.textContent = newName;
+
+      if (changes.length) {
+        const entries = activityById.get(r.id) ?? [];
+        entries.unshift({ text: changes.join(' · '), by: CURRENT_USER, when: 'Just now' });
+        activityById.set(r.id, entries);
+        renderLog('pt-d-activity', entries, 'No activity yet.');
+
+        // Persist the full current field set (not just the diff) so the saved
+        // override always reflects this permit's complete latest state — Permit
+        // Dashboard reads this same overlay on its next load.
+        saveOverride(r.id, {
+          name: newName,
+          level: newLevel,
+          agency: newAgency,
+          targetDate: newTarget,
+          refNumber: newRef,
+          notes: newNotes,
+          status: newStatus,
+        });
+      }
+
+      gridApi?.applyTransaction({ update: [r] });
+
+      const dialog = document.getElementById('pt-drawer') as (HTMLElement & { open?: boolean }) | null;
+      if (dialog) dialog.open = false;
+    });
+
+    document.getElementById('pt-d-cancel')?.addEventListener('click', () => {
+      const dialog = document.getElementById('pt-drawer') as (HTMLElement & { open?: boolean }) | null;
+      if (dialog) dialog.open = false;
+    });
+
+    // ── Comments — free-text notes, separate from the system activity log ──
+    document.getElementById('pt-d-post')?.addEventListener('click', () => {
+      if (!activePermitId) return;
+      const textarea = document.getElementById('pt-d-comment-input') as (HTMLElement & { value: string }) | null;
+      const text = textarea?.value?.trim();
+      if (!text) return;
+      const entries = commentsById.get(activePermitId) ?? [];
+      entries.unshift({ text, by: CURRENT_USER, when: 'Just now' });
+      commentsById.set(activePermitId, entries);
+      renderLog('pt-d-comments', entries, 'No comments yet.');
+      if (textarea) textarea.value = '';
+    });
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: grid-host geometry + the quiet-chip tone rules AG Grid injects
+     outside Astro's scope (mountBeaconGrid's own convention, see BcnComponentGrid) —
+     the same pattern due-diligence-permits.astro documents for its .dd-chip. */
+  .pt-grid-host {
+    inline-size: 100%;
+    block-size: calc(100vh - 320px);
+    min-block-size: 26rem;
+  }
+  :global(.ag-cell-wrap-text) {
+    line-height: 1.35 !important;
+    padding-block: var(--spacing-200) !important;
+  }
+  :global(.pt-chip) {
+    --_tone: var(--color-text-muted, #8a9099);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_tone) 16%, transparent);
+    color: color-mix(in srgb, var(--_tone) 70%, var(--color-text-primary));
+  }
+  :global(.pt-chip::before) {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    background: var(--_tone);
+    flex-shrink: 0;
+  }
+  :global(.pt-chip[data-tone='pending-determination']) { --_tone: var(--color-text-muted, #8a9099); }
+  :global(.pt-chip[data-tone='not-started'])    { --_tone: var(--color-text-muted, #8a9099); }
+  :global(.pt-chip[data-tone='in-preparation']) { --_tone: var(--color-warning, #f59e0b); }
+  :global(.pt-chip[data-tone='submitted'])      { --_tone: var(--color-info, #228be6); }
+  :global(.pt-chip[data-tone='under-review'])   { --_tone: #7b5ea7; }
+  :global(.pt-chip[data-tone='approved'])       { --_tone: var(--color-success, #2e7571); }
+
+  /* Permit editor drawer — every field is a lego form control (its own label), so
+     the only CSS here is the section eyebrow labels and the two log lists (activity
+     + comments), which share one row shape (text line + a by/when meta line). Same
+     idiom as due-diligence-permits.astro's pm-drawer. */
+  .pt-d-label {
+    color: var(--color-text-tertiary);
+  }
+  .pt-activity,
+  .pt-comments {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: var(--spacing-300);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+  :global(.pt-log__text) {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+  :global(.pt-log__meta) {
+    color: var(--color-text-tertiary);
+    font-size: var(--type-size-150);
+  }
+  :global(.pt-log__empty) {
+    color: var(--color-text-tertiary);
+    font-size: var(--type-size-200);
+  }
+</style>

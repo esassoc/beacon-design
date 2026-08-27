@@ -565,7 +565,7 @@ export const prototypeGroups: PrototypeGroup[] = [
     tenant: 'beale',
     title: 'Due Diligence',
     description:
-      'A two-step acquisition workflow for a prospective client: broad site screening against five fixed property criteria across California\'s Central Valley and SoCal, then a single-site desktop Critical Issues Assessment for the one candidate that clears screening.',
+      'Project Almond\'s acquisition-through-permitting lifecycle: broad site screening against five fixed property criteria across California\'s Central Valley and SoCal, a single-site desktop Critical Issues Assessment for the one candidate that clears screening (phase 1), and active permit tracking for the CIA\'s permit matrix (phase 2) — handing off to Beacon\'s existing compliance-tracking module as phase 3.',
     pages: [
       {
         slug: 'due-diligence-siting',
@@ -619,6 +619,24 @@ export const prototypeGroups: PrototypeGroup[] = [
           'The formatted Critical Issues Assessment deliverable, auto-assembled from the boundary, constraint findings, and permit matrix: a sticky-TOC document with resource-by-resource findings and recommendations, a permit matrix appendix, and explicit limitations.',
         route: '/prototypes/due-diligence-report',
         createdAt: '2026-08-20',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permitting-dashboard',
+        title: 'Permit Dashboard (phase 2)',
+        description:
+          'Permitting\'s landing page: permits outstanding, approved-to-date, and the projected completion date (the latest target date across all tracked permits), plus a Needs Attention list (due within 45 days) and a by-status breakdown. No permit grid here — that\'s Permit Details, its sibling page.',
+        route: '/prototypes/permitting-dashboard',
+        createdAt: '2026-08-27',
+        status: 'in-progress',
+      },
+      {
+        slug: 'permitting-details',
+        title: 'Permit Details (phase 2)',
+        description:
+          'The 11 permits from the CIA\'s permit matrix become actively tracked items: a status ladder (Pending Determination → Not Started → In Preparation → Submitted → Under Agency Review → Approved), target dates, and agency reference numbers. Every field — Level, Agency, Requirement, Target Date, Reference No., Notes, Status — is editable from the record drawer and saved to a browser-local overlay, so an edit here shows up on the Permit Dashboard too.',
+        route: '/prototypes/permitting-details',
+        createdAt: '2026-08-27',
         status: 'in-progress',
       },
     ],

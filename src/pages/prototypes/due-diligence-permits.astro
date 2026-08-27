@@ -9,9 +9,11 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnGridChrome from '../../components/bcn/BcnGridChrome.astro';
 import BcnGridFooter from '../../components/bcn/BcnGridFooter.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
 import { PROJECT, PERMITS, CEQA_RESOURCES, AHJ_NOTES } from '../../data/due-diligence-fixture';
 import { withBase } from '../../lib/base';
 import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+import { PROJECT_PHASES } from '../../lib/project-phases';
 ---
 
 <!-- manifest:
@@ -54,6 +56,9 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
       { label: 'Permit Matrix' },
     ]}
   >
+    <div slot="title-badge">
+      <BcnStatusChip status="phase" label={PROJECT_PHASES['due-diligence'].label} hex={PROJECT_PHASES['due-diligence'].hex} />
+    </div>
     <div slot="utilities">
       <span id="pm-excel"><EsaButton color="ghost" appearance="outline" icon="download">Export to Excel</EsaButton></span>
       <a href={withBase('/prototypes/due-diligence-report')}><EsaButton color="primary" icon="arrow-right">View report</EsaButton></a>
