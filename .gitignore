@@ -17,3 +17,9 @@ public/handoff/**
 # these repos and their deployed sites are public.
 /docs/private/
 /node_modules
+
+# Local secrets (e.g. PUBLIC_MAPBOX_TOKEN) — .env.example documents the shape,
+# each machine supplies its own real .env.
+.env
+.env.*
+!.env.example

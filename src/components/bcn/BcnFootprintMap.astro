@@ -307,6 +307,7 @@ const expandId = `${idPrefix}-expand`;
 <script>
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
+  import { BASEMAP_TILE_URL, BASEMAP_ATTRIBUTION } from '../../lib/basemap';
   import '@esa/ecology/esa-dialog';
 
   interface MapPoint {
@@ -365,12 +366,7 @@ const expandId = `${idPrefix}-expand`;
   }
 
   /** Grayscale basemap — the container stays neutral so the markers carry the color. */
-  const basemap = () =>
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      subdomains: 'abcd',
-      maxZoom: 19,
-    });
+  const basemap = () => L.tileLayer(BASEMAP_TILE_URL, { attribution: BASEMAP_ATTRIBUTION, maxZoom: 19 });
 
   const INSET_OPTIONS: L.MapOptions = {
     zoomControl: false,

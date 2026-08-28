@@ -197,6 +197,7 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
 <script>
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
+  import { BASEMAP_TILE_URL, BASEMAP_ATTRIBUTION } from '../../lib/basemap';
   import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-select';
 
@@ -238,7 +239,7 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
   const CENTER: [number, number] = [35.0516, -118.176];
   const map = L.map('cx-map', { zoomControl: true }).setView(CENTER, 15);
   const basemaps = {
-    streets: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19 }),
+    streets: L.tileLayer(BASEMAP_TILE_URL, { attribution: BASEMAP_ATTRIBUTION, maxZoom: 19 }),
     satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; Esri World Imagery', maxZoom: 19 }),
   };
   basemaps.satellite.addTo(map);

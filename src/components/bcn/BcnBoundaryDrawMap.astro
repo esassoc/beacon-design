@@ -162,6 +162,7 @@ const mapLabel = `${title} — draw or edit the site outline`;
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
   import 'leaflet-draw/dist/leaflet.draw.css';
+  import { BASEMAP_TILE_URL, BASEMAP_ATTRIBUTION } from '../../lib/basemap';
   import '@esa/ecology/esa-button-toggle';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-file-upload';
@@ -204,18 +205,14 @@ const mapLabel = `${title} — draw or edit the site outline`;
   }
 
   /**
-   * Streets is the CARTO grayscale sheet the sibling maps use, not the full-color OSM
-   * one: house rule is that the container stays neutral so the drawn boundary carries
-   * the only color. Satellite and Terrain are the two cases where the imagery IS the
-   * information — you cannot trace a site outline against a gray rectangle.
+   * Streets is the shared Mapbox Light sheet every map in the spoke uses (src/lib/
+   * basemap.ts), not the full-color OSM one: house rule is that the container stays
+   * neutral so the drawn boundary carries the only color. Satellite and Terrain are
+   * the two cases where the imagery IS the information — you cannot trace a site
+   * outline against a gray rectangle.
    */
   const BASEMAPS: Record<string, () => L.TileLayer> = {
-    streets: () =>
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap &copy; CARTO',
-        subdomains: 'abcd',
-        maxZoom: 19,
-      }),
+    streets: () => L.tileLayer(BASEMAP_TILE_URL, { attribution: BASEMAP_ATTRIBUTION, maxZoom: 19 }),
     satellite: () =>
       L.tileLayer(
         'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
