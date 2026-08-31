@@ -625,7 +625,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'permitting-dashboard',
         title: 'Permit Dashboard (phase 2)',
         description:
-          'Permitting\'s landing page: permits outstanding, approved-to-date, and the projected completion date (the latest target date across all tracked permits), plus a Needs Attention list (due within 45 days) and a by-status breakdown. No permit grid here — that\'s Permit Details, its sibling page.',
+          'Permitting\'s landing page: permits outstanding, approved-to-date, and the expected permitting completion date (the latest target date across all tracked permits), plus a Needs Attention list (due within 45 days) and a by-status breakdown. No permit grid here — that\'s Permit Details, its sibling page.',
         route: '/prototypes/permitting-dashboard',
         createdAt: '2026-08-27',
         status: 'in-progress',

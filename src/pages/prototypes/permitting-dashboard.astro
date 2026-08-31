@@ -1,6 +1,6 @@
 ---
 // Permitting — Permit Dashboard. The Permitting module's landing page: summary
-// metrics only (permits outstanding, projected completion, what needs attention,
+// metrics only (permits outstanding, expected permitting completion, what needs attention,
 // approved-to-date, and a by-status breakdown) — no lifecycle stepper (redundant
 // now that Permitting is its own module with its own dashboard) and no permit
 // grid (that's Permit Details, this page's sibling). Mirrors how Due Diligence
@@ -27,7 +27,7 @@ const stats = computeStats(TRACKED_PERMITS);
 <!-- manifest:
   layout: stack(lg)
   sections:
-    - stats strip     -> esa-card   # outstanding · approved · projected completion
+    - stats strip     -> esa-card   # outstanding · approved · expected permitting completion
     - needs attention  -> esa-card  # list of permits due within 45 days
     - by status         -> esa-card # bcn-status-chip + count per tracking status
 -->
@@ -81,7 +81,7 @@ const stats = computeStats(TRACKED_PERMITS);
         </EsaCard>
         <EsaCard>
           <div class="stack" data-gap="xs">
-            <span class="type-body-small">Projected completion</span>
+            <span class="type-body-small">Expected permitting completion</span>
             <span class="type-page-title" id="pd-completion">{stats.latestTargetDate ? formatDate(stats.latestTargetDate) : 'TBD'}</span>
             <span class="type-body-small">Latest dated permit · as of {formatDate(TODAY)}</span>
           </div>

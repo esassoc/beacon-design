@@ -8,7 +8,7 @@
 // here: every field is editable — Permit / Approval (name), Level, Agency, Target
 // Date, Reference No., Notes, and the tracking status ladder (Pending Determination /
 // Not Started / In Preparation / Submitted / Under Agency Review / Approved) — with
-// a per-permit activity log and comments thread. Requirement (why the permit applies) is on the
+// a Permit Files upload, a per-permit activity log, and a comments thread. Requirement (why the permit applies) is on the
 // underlying record but not shown here or in the grid — it's Due Diligence's field
 // to explain applicability, not something Permitting tracks or edits (design review
 // 2026-08-27). One consolidated page — no map/tabs — since 11 permits at one site
@@ -55,7 +55,9 @@ const gridRows = TRACKED_PERMITS.map((p) => ({
 
 <!-- bcn-lego-checked: composed from esa-card, esa-side-dialog, esa-select, esa-text-field,
      esa-textarea, esa-date-picker (the same date control permit-tracking.astro's editor
-     already uses), and the shared beacon-grid AG Grid kit (bcn-grid-chrome / bcn-grid-footer
+     already uses), esa-file-upload (the Permit Files dropzone — data-catalog-action.astro's
+     edit dialog already establishes this as the reusable Reference-Files control), and the
+     shared beacon-grid AG Grid kit (bcn-grid-chrome / bcn-grid-footer
      / mountBeaconGrid), the same reusable home every carded grid in this spoke uses. The
      title-badge "current phase" chip is bcn-status-chip — the SAME mechanism
      BcnProjectHeader already uses for a project's phase. This page's editor drawer widens
@@ -132,6 +134,11 @@ const gridRows = TRACKED_PERMITS.map((p) => ({
       </div>
 
       <div class="stack" data-gap="xs">
+        <span class="type-body-small pt-d-label">Permit Files</span>
+        <esa-file-upload label="Drag & drop files, or browse" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"></esa-file-upload>
+      </div>
+
+      <div class="stack" data-gap="xs">
         <span class="type-body-small pt-d-label">Activity</span>
         <ul class="pt-activity" id="pt-d-activity"></ul>
       </div>
@@ -166,6 +173,7 @@ const gridRows = TRACKED_PERMITS.map((p) => ({
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-textarea';
   import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-file-upload';
 
   // Page-level workaround for two hub bugs on esa-side-dialog (see this page's
   // bcn-lego-checked comment for both):
