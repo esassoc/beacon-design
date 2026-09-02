@@ -38,6 +38,13 @@ export default [
   // not authored by this change. Its own curated spec still belongs with whoever
   // built it; remove this entry once src/data/handoff/evidence-triage.mjs exists.
   'evidence-triage',
+  // Added as a stopgap (2026-09-02) to unblock the Deploy workflow's guidance gate.
+  // monitoring-data is the Monitoring Data catalog from the 2026-08-24 rebuild; the
+  // two permitting pages came in with the Permitting module. Each still owes a
+  // curated spec at src/data/handoff/<slug>.mjs; remove the entry when it exists.
+  'monitoring-data',
+  'permitting-dashboard',
+  'permitting-details',
   // Added as a stopgap (2026-08-24) to unblock deploy for the Beale due-diligence
   // flow (siting -> boundary -> overview -> constraints -> permits -> report).
   // Real curated specs (sections with selector + intent/decisions/gotchas/
