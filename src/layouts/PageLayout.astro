@@ -42,6 +42,13 @@ interface Props {
    * this spoke, and the title row belongs to the layout.
    */
   iconColor?: string;
+  /**
+   * Inner SVG markup for a glyph in neither the esa-icon registry nor the local
+   * LUCIDE map (e.g. the monitoring streams' per-stream icons, whose paths ship
+   * with their registry in src/data/monitoring-streams.ts). Additive: omitted,
+   * resolution is unchanged.
+   */
+  iconPaths?: string;
 }
 
 // Lucide glyphs not in esa-icon's registry (inner SVG markup only).
@@ -63,10 +70,11 @@ const {
   title,
   icon,
   iconColor,
+  iconPaths: iconPathsProp,
   hideTitleRow = false,
   bleedHeader = false,
 } = Astro.props as Props;
-const iconPaths = icon ? LUCIDE[icon] : undefined;
+const iconPaths = iconPathsProp ?? (icon ? LUCIDE[icon] : undefined);
 const hasUtilities = Astro.slots.has('utilities');
 const hasBleed = bleedHeader && Astro.slots.has('bleed');
 // Record-level sibling navigation (prev / next). Prod hosts this INSIDE the

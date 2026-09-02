@@ -146,16 +146,14 @@ const {
       iconPaths: LUCIDE['map-pinned'],
       expanded: true,
       items: [
-        // The Monitoring Portal's former top-tabs, promoted into the rail (tabs → sidebar).
-        { id: 'mp-dashboard', label: 'Dashboard', href: withBase('/prototypes/monitoring/dashboard') },
-        { id: 'mp-compliance-concerns', label: 'Compliance Concerns', href: withBase('/prototypes/monitoring/compliance-concerns') },
-        { id: 'mp-nesting-birds', label: 'Nesting Birds', href: withBase('/prototypes/monitoring/nesting-birds') },
-        { id: 'mp-biological-resources', label: 'Biological Resources', href: withBase('/prototypes/monitoring/biological-resources') },
-        { id: 'mp-daily-monitoring-reports', label: 'Daily Monitoring Reports', href: withBase('/prototypes/monitoring/daily-monitoring-reports') },
-        { id: 'mp-surveys', label: 'Surveys', href: withBase('/prototypes/monitoring/surveys') },
-        { id: 'mp-all-observations', label: 'All Observations', href: withBase('/prototypes/monitoring/all-observations') },
-        // Site Clearance is a distinct go/no-go workspace — divided off as the last item.
-        { id: 'site-clearance', label: 'Site Clearance', href: withBase('/prototypes/site-clearance'), divider: true },
+        // 2026-08 restructure: the portal scales by DATA STREAMS, not nav items. The
+        // composable Monitoring Portal dashboard + the Data catalog are the fixed views;
+        // streams are reached through the catalog. Customizing happens ON the
+        // dashboard (configure dialog + drag + add tile — spec §10), so it has no
+        // nav destination.
+        { id: 'mp-dashboard', label: 'Monitoring Portal', href: withBase('/prototypes/monitoring/dashboard') },
+        { id: 'site-clearance', label: 'Site Clearance', href: withBase('/prototypes/site-clearance') },
+        { id: 'mp-data', label: 'Data', href: withBase('/prototypes/monitoring/data') },
       ],
     },
     {

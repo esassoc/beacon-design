@@ -23,17 +23,21 @@ export const TODAY = '2026-06-17';
 // gets a BIOLOGICAL/MANAGEMENT state (it is not inherently a compliance judgment); only
 // a compliance CONCERN carries a compliance state — so only a concern reads "Open"
 // (non-compliant). This is the taxonomy fix: a logged bird ≠ a raised violation.
+// Semantic tokens, not literals (spec §11.2 / §9 finding 3): every status chip
+// on three surfaces reads through these, and the consumers that need a computed
+// literal (Leaflet pins) resolve var() themselves. `tracking` reads the shared
+// quiet-status token, same gray the rest of the platform uses for "not started".
 export type ObservationState = 'active' | 'cleared' | 'tracking';
 export const OBSERVATION_STATE_META: Record<ObservationState, { label: string; hex: string }> = {
-  'active': { label: 'Active', hex: '#f2770e' },     // species/nest present; measures in effect
-  'cleared': { label: 'Cleared', hex: '#2e7571' },   // fledged/inactive; buffer can lift
-  'tracking': { label: 'Tracking', hex: '#7c7c7c' }, // sighting, no nest; logged for awareness
+  'active': { label: 'Active', hex: 'var(--color-background-utility-warning)' },   // species/nest present; measures in effect
+  'cleared': { label: 'Cleared', hex: 'var(--color-background-utility-success)' }, // fledged/inactive; buffer can lift
+  'tracking': { label: 'Tracking', hex: 'var(--bcn-status-not-started)' },         // sighting, no nest; logged for awareness
 };
 
 export type ConcernState = 'open' | 'resolved';
 export const CONCERN_STATE_META: Record<ConcernState, { label: string; hex: string }> = {
-  'open': { label: 'Open', hex: '#ef4444' },         // non-compliant; needs resolution
-  'resolved': { label: 'Resolved', hex: '#2e7571' },
+  'open': { label: 'Open', hex: 'var(--color-background-utility-danger)' },        // non-compliant; needs resolution
+  'resolved': { label: 'Resolved', hex: 'var(--color-background-utility-success)' },
 };
 
 export type Phase = 'pre-construction' | 'construction' | 'post-construction';
@@ -46,7 +50,7 @@ export const PHASE_META: Record<Phase, { label: string; short: string; note?: st
 export type SurveyStatus = 'draft' | 'qc' | 'final';
 export const SURVEY_STATUS_META: Record<SurveyStatus, { label: string; hex: string }> = {
   'draft': { label: 'Draft', hex: '#989898' },
-  'qc': { label: 'In QC', hex: '#f2770e' },
+  'qc': { label: 'In QC', hex: '#f59e0b' },
   'final': { label: 'Final', hex: '#2e7571' },
 };
 
@@ -116,7 +120,10 @@ export const FINDS: Find[] = [
     kind: 'concern', type: 'Compliance Concern', state: 'open',
     title: 'Staging within the SWHA buffer before clearance',
     observedDate: '2026-06-16', workArea: 'DCTR2-DH-010',
-    description: 'ILLUSTRATIVE SAMPLE — the geotech export has no real compliance concerns yet. Geotechnical staging equipment was observed inside the Swainson’s hawk no-disturbance buffer at DCTR2-DH-010 before clearance was issued. The designated biologist halted staging and notified the construction lead.',
+    // Surface-visible field text only — the ILLUSTRATIVE caveat lives in the
+    // section comment above, never in the description (it now renders in the
+    // Commitment Compliance dossier).
+    description: 'Geotechnical staging equipment was observed inside the Swainson’s hawk no-disturbance buffer at DCTR2-DH-010 before clearance was issued. The designated biologist halted staging and notified the construction lead.',
     commitments: defs('BIO-39'),
   },
   {
@@ -193,34 +200,42 @@ export const FINDS: Find[] = [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Dashboard stats — the top cards (reconciled to the real observation breakdown).
+// Dashboard stats — stored ROLLUPS of the full export. FINDS above is a SAMPLE
+// of that export (the grid-data.csv subset), so window counts here can exceed
+// what a scan of FINDS reproduces — total30d 13 vs the 10 sampled rows is the
+// visible case. Per-record derivations (Outstanding Issues) derive from FINDS
+// directly and are NOT stored: a stored rollup that can silently disagree with
+// its own rule is the expensive kind of bug (remy finding, 2026-08-24 — the
+// stored list was missing MALL-1520).
+// Category color reads the entity-mark ramp (--bcn-mark-*), never status hexes.
 // ─────────────────────────────────────────────────────────────────────────────
 export interface BreakdownItem { label: string; value: number; hex: string; }
 export interface DashboardStats {
   activeObservations: number;
   total30d: number;
-  outstandingIssues: number;
   observationBreakdown: BreakdownItem[];
   nestingBirds: { total: number; total30d: number; species: BreakdownItem[] };
   complianceConcerns: { active: number; total30d: number };
   biologicalResources: { total: number; total30d: number; items: BreakdownItem[] };
 }
 
+const MARK_TEAL = 'var(--bcn-mark-teal)';
+const MARK_ORANGE = 'var(--bcn-mark-orange)';
+
 export const DASHBOARD: DashboardStats = {
   activeObservations: 9,
   total30d: 13,
-  outstandingIssues: 4,
   observationBreakdown: [
-    { label: 'Nesting Birds', value: 6, hex: '#2e7571' },
-    { label: 'Biological Resources', value: 3, hex: '#f2770e' },
+    { label: 'Nesting Birds', value: 6, hex: MARK_TEAL },
+    { label: 'Biological Resources', value: 3, hex: MARK_ORANGE },
   ],
   nestingBirds: {
     total: 6, total30d: 9,
     species: [
-      { label: 'CORA', value: 2, hex: '#2e7571' },
-      { label: 'SWHA', value: 1, hex: '#2e7571' },
-      { label: 'KILL', value: 1, hex: '#2e7571' },
-      { label: 'MALL', value: 1, hex: '#2e7571' },
+      { label: 'CORA', value: 2, hex: MARK_TEAL },
+      { label: 'SWHA', value: 1, hex: MARK_TEAL },
+      { label: 'KILL', value: 1, hex: MARK_TEAL },
+      { label: 'MALL', value: 1, hex: MARK_TEAL },
       { label: 'UNK', value: 1, hex: '#bdbdbd' },
     ],
   },
@@ -228,19 +243,23 @@ export const DASHBOARD: DashboardStats = {
   biologicalResources: {
     total: 3, total30d: 3,
     items: [
-      { label: 'SWHA foraging', value: 2, hex: '#f2770e' },
-      { label: 'Habitat / burrows', value: 1, hex: '#f2770e' },
+      { label: 'SWHA foraging', value: 2, hex: MARK_ORANGE },
+      { label: 'Habitat / burrows', value: 1, hex: MARK_ORANGE },
     ],
   },
 };
 
-/** The "Outstanding Issues" mini-list — the non-compliant finds. */
-export const OUTSTANDING_ISSUES: { id: string; ageDays: number }[] = [
-  { id: 'SWHA-2289', ageDays: 30 },
-  { id: 'KILL-7655', ageDays: 14 },
-  { id: 'UNK-5895', ageDays: 14 },
-  { id: 'CORA-2695', ageDays: 13 },
-];
+/** Days between an ISO date and TODAY. */
+export const ageDays = (iso: string): number =>
+  Math.round((Date.parse(TODAY) - Date.parse(iso)) / 86_400_000);
+
+/**
+ * Outstanding Issues — DERIVED, never stored: active observations ≥ 7 days old
+ * as of TODAY, oldest first. (Same rule as prod's outstanding-issues panel.)
+ */
+export const outstandingIssues = (): Find[] =>
+  FINDS.filter((f) => f.kind === 'observation' && f.state === 'active' && ageDays(f.observedDate) >= 7)
+    .sort((a, b) => ageDays(b.observedDate) - ageDays(a.observedDate));
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Surveys — Fulcrum / Survey123 / CASP documents brought into Beacon as Evidence of

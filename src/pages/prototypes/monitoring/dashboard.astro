@@ -1,54 +1,223 @@
 ---
-// Monitoring Portal → Dashboard — the portal's landing view (top-tabs are gone;
-// the rail is the nav now). Two bands:
-//   1. The observation stat cards (reproducing the prod screenshot).
-//   2. Commitment Compliance, reframed OBSERVATION-FIRST (Leah/Christy): each
-//      observation is the parent, its RELEVANT commitments are the children. An
-//      inline-expandable card per observation opens to the dossier — fledging
-//      countdown + the relevant commitments to review (+ "show all phases"). The
-//      section groups by Species (default) or Date, and DEFAULTS to "Needs action".
-//      Design input for the empty BCN-1315.
+// Monitoring Portal — the composable dashboard (WordPress dashboard × iOS widget
+// grid; design: specimens/spec.md, remy 2026-08-24).
+//
+// A 3-column grid whose row unit is a FLOOR (grid-auto-rows: minmax(84px, auto)),
+// carrying nine widgets across mixed 1/2/3-column footprints. Every widget is one
+// glanceable derivation over a data stream plus a link-through to the stream's
+// index — the portal is a launching point, not a destination. Layout editing
+// lives ON the dashboard (spec §10, the composer page is dead): the ⋯ menu
+// (width, remove), the configure dialog (real-clone preview), pointer
+// drag-to-reorder (lift + reflowing slot), and the add-widget tile — all
+// writing one saved layout.
+//
+// Derivations follow prod (esassoc/Beacon origin/develop): active count, "N total
+// in the past 30 days", donut by observation type, Outstanding Issues = active
+// observations ≥ 7 days (DERIVED — see monitoring.ts), species bars by code.
+// Chart/scope variants chosen in the composer persist in the layout record; this
+// prototype renders each widget's default chart (variant re-render is out of
+// prototype scope).
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
-import EsaButton from '@esa/ecology/esa-button.astro';
-import BcnStatusChip from '../../../components/bcn/BcnStatusChip.astro';
-import BcnMonitoringStats from '../../../components/bcn/BcnMonitoringStats.astro';
-import BcnObservationCard from '../../../components/bcn/BcnObservationCard.astro';
-import { DASHBOARD, OUTSTANDING_ISSUES, FINDS, PROJECT_NAME } from '../../../data/monitoring';
-import { COMMITMENT_TEXT } from '../../../data/commitment-text';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnDashboardWidget from '../../../components/bcn/BcnDashboardWidget.astro';
+import BcnVizDonut from '../../../components/bcn/BcnVizDonut.astro';
+import BcnVizBars from '../../../components/bcn/BcnVizBars.astro';
+import BcnVizTrend from '../../../components/bcn/BcnVizTrend.astro';
+import BcnVizMeter from '../../../components/bcn/BcnVizMeter.astro';
+import BcnVizStrip from '../../../components/bcn/BcnVizStrip.astro';
+import BcnWidgetPanels from '../../../components/bcn/BcnWidgetPanels.astro';
+import BcnMiniTable from '../../../components/bcn/BcnMiniTable.astro';
+import BcnObservationMap from '../../../components/bcn/BcnObservationMap.astro';
+import BcnConfigDialog from '../../../components/bcn/BcnConfigDialog.astro';
+import BcnComponentPicker from '../../../components/bcn/BcnComponentPicker.astro';
+import BcnComplianceList from '../../../components/bcn/BcnComplianceList.astro';
+import BcnWidgetCard from '../../../components/bcn/BcnWidgetCard.astro';
+import { COMPONENTS, GEOTECH_COMPONENT } from '../../../data/geotech-fixture-bio';
+import {
+  WIDGETS,
+  streamById,
+  STREAM_ICON_PATHS,
+  MILEAGE_ROLLUP,
+  RUNTIME_ROLLUP,
+  WEAP_ROLLUP,
+  TODAY,
+} from '../../../data/monitoring-streams';
+import {
+  FINDS,
+  SURVEYS,
+  DASHBOARD,
+  SURVEY_STATUS_META,
+  PROJECT_NAME,
+  outstandingIssues,
+  ageDays,
+  findStateMeta,
+} from '../../../data/monitoring';
+import { workAreas } from '../../../data/geotech-fixture-simple';
+import { withBase } from '../../../lib/base';
 
-// Side-drawer payload: every whitelisted commitment's title + the real CoA text.
-const commitmentDrawerData = Object.fromEntries(
-  Object.entries(COMMITMENT_TEXT).map(([code, v]) => [code, { code, title: v.title, source: v.source, text: v.text }]),
-);
+const st = (id: string) => streamById(id)!;
+const streamHref = (id: string) => withBase(`/prototypes/monitoring/stream/${id}`);
 
-// Date view: a reverse-chronological log — group by observed date (newest first),
-// each header a full weekday date ("Monday, June 15, 2026").
-const fmtLong = (iso: string) =>
-  new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-const dateMap = new Map<string, typeof FINDS>();
-for (const f of FINDS) {
-  const arr = dateMap.get(f.observedDate) ?? [];
-  arr.push(f);
-  dateMap.set(f.observedDate, arr);
+const fmtShort = (iso: string) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+// ── Active Observations (anchor) ─────────────────────────────────────────────
+const issues = outstandingIssues();
+const issueRows = issues.map((f) => [
+  { text: `${ageDays(f.observedDate)}d`, num: true },
+  { text: f.shortId, href: streamHref('observations') },
+  { text: f.species },
+  { text: f.workArea || '–' },
+]);
+
+// Inset map (Andy round 4, X2): same pin derivation as the stream index —
+// Find.workArea → KMZ site coordinates, deterministic per-index fan-out for
+// co-located finds, state meta drives the pin color. Finds with no recorded
+// work area are absent from the map, present in the tables.
+const siteById = new Map(workAreas.map((w) => [w.id, w]));
+const obsPins = FINDS.flatMap((f, i) => {
+  const site = siteById.get(f.workArea);
+  if (!site) return [];
+  const meta = findStateMeta(f);
+  return [
+    {
+      id: f.id,
+      lat: site.lat + ((i % 5) - 2) * 0.0011,
+      lng: site.lng + ((Math.floor(i / 5) % 5) - 2) * 0.0013,
+      label: `${f.kind === 'concern' ? (f.title ?? f.species) : f.species} · ${meta.label}`,
+      hex: meta.hex,
+    },
+  ];
+});
+
+// ── Compliance Concerns: concerns raised per day, past 30 days ───────────────
+const concernDates = new Map<string, number>();
+for (const f of FINDS.filter((x) => x.kind === 'concern')) {
+  concernDates.set(f.observedDate, (concernDates.get(f.observedDate) ?? 0) + 1);
 }
-const dateGroups = [...dateMap.entries()]
-  .sort((a, b) => (a[0] < b[0] ? 1 : -1))
-  .map(([date, finds]) => ({ date, label: fmtLong(date), finds }));
+const concernTrend = Array.from({ length: 30 }, (_, i) => {
+  const d = new Date(Date.parse(TODAY) - (29 - i) * 86_400_000).toISOString().slice(0, 10);
+  return { date: d, value: concernDates.get(d) ?? 0 };
+});
+const openConcerns = DASHBOARD.complianceConcerns.active;
 
-// Source view (default): the two lanes — compliance concerns vs species observations.
-const sourceGroups = [
-  { key: 'concern', label: 'Compliance concerns', finds: FINDS.filter((f) => f.kind === 'concern') },
-  { key: 'observation', label: 'Species observations', finds: FINDS.filter((f) => f.kind === 'observation') },
-];
+// ── Daily Monitoring Reports ─────────────────────────────────────────────────
+const dmr = st('daily-monitoring-reports');
+const dmrRecent7 = dmr.sampleRecords.filter(
+  (r) => Date.parse(String(r.reportDate)) >= Date.parse(TODAY) - 6 * 86_400_000,
+);
+// Weekdays only (Andy 2026-08-24): monitoring is a field-day expectation, so a
+// Sat/Sun cell would read as a missed report that was never due.
+const dmrStrip = Array.from({ length: 7 }, (_, i) => {
+  const d = new Date(Date.parse(TODAY) - (6 - i) * 86_400_000).toISOString().slice(0, 10);
+  return { date: d, filled: dmr.sampleRecords.some((r) => r.reportDate === d) };
+}).filter((d) => {
+  const day = new Date(`${d.date}T00:00:00Z`).getUTCDay();
+  return day !== 0 && day !== 6;
+});
+const DMR_STATUS: Record<string, { label: string; hex: string }> = {
+  Draft: { label: 'Draft', hex: '#989898' },
+  Final: { label: 'Final', hex: '#2e7571' },
+};
+// The date IS the report file: clicking it downloads the DMR (prototype stand-in
+// for the generated report — a small text rendition of the record).
+const dmrFile = (r: Record<string, unknown>) => ({
+  name: `DMR_${String(r.workAreas).split(',')[0].trim()}_${r.reportDate}.txt`,
+  href: `data:text/plain;charset=utf-8,${encodeURIComponent(
+    [
+      `Daily Monitoring Report — ${r.reportDate}`,
+      `Monitor: ${r.monitor}`,
+      `Work areas: ${r.workAreas}`,
+      `Activities: ${r.activities}`,
+      `Observations logged: ${r.observationsLogged}`,
+      `Status: ${r.status}`,
+    ].join('\n'),
+  )}`,
+});
+const dmrRows = dmr.sampleRecords.slice(0, 5).map((r) => {
+  const file = dmrFile(r);
+  return [
+    { text: fmtShort(String(r.reportDate)), href: file.href, download: file.name, num: true },
+    { text: String(r.monitor) },
+    { text: String(r.workAreas) },
+    { text: String(r.status), status: DMR_STATUS[String(r.status)] },
+  ];
+});
+
+// ── Biological Resources: latest record ──────────────────────────────────────
+const latestBio = [...FINDS]
+  .filter((f) => f.type === 'Biological Resource')
+  .sort((a, b) => (a.observedDate < b.observedDate ? 1 : -1))[0];
+
+// ── Surveys: QC meter + latest ───────────────────────────────────────────────
+const surveyOrder = ['final', 'qc', 'draft'] as const;
+const surveyMeter = surveyOrder.map((s) => ({
+  label: SURVEY_STATUS_META[s].label,
+  value: SURVEYS.filter((d) => d.status === s).length,
+  color: SURVEY_STATUS_META[s].hex,
+}));
+// The five most recent survey documents (Andy round 4, X3).
+const surveyRows = [...SURVEYS]
+  .sort((a, b) => (a.date < b.date ? 1 : -1))
+  .slice(0, 5)
+  .map((s) => [
+    { text: s.id, href: streamHref('surveys') },
+    { text: fmtShort(s.date), num: true },
+  ]);
+
+// ── WEAP: latest confirmations ───────────────────────────────────────────────
+const weap = st('weap');
+const weapRows = weap.sampleRecords.slice(0, 4).map((r) => [
+  { text: String(r.worker) },
+  { text: String(r.trade) },
+  { text: fmtShort(String(r.trainingDate)), num: true },
+]);
+
+// ── Config payload: everything the page script needs per widget ──────────────
+// Series labels are the widget's REAL data series (spec §10.6) — for the one
+// series widget, the observation-type breakdown.
+const cfgPayload = WIDGETS.map((w) => ({
+  id: w.id,
+  title: w.title,
+  charts: w.charts,
+  scopes: w.scopes,
+  colorMode: w.colorMode,
+  series: w.colorMode === 'series' ? DASHBOARD.observationBreakdown.map((b) => b.label) : [],
+  stream: streamById(w.streamId)!.name,
+}));
+
+// ── Add-widget gallery (spec §11.4): every registered widget, always shown ───
+const addCards = WIDGETS.map((w) => {
+  const stream = streamById(w.streamId)!;
+  return {
+    id: w.id,
+    title: w.title,
+    streamName: stream.name,
+    iconName: w.id === 'commitment-compliance' ? 'clipboard-check' : stream.icon,
+    on: w.defaultOn,
+  };
+});
+
 ---
 
 <!-- manifest:
-  layout: stack
+  layout: grid
   sections:
-    - portal stats            -> bcn-monitoring-stats   # the four observation cards
-    - compliance controls     -> esa-button-toggle      # group-by + needs-action (strip = glue)
-    - compliance observations -> bcn-observation-card    # observation parent → relevant commitments
+    - component picker          -> bcn-component-picker
+    - active observations       -> bcn-dashboard-widget
+    - nesting birds             -> bcn-dashboard-widget
+    - compliance concerns       -> bcn-dashboard-widget
+    - daily monitoring reports  -> bcn-dashboard-widget
+    - biological resources      -> bcn-dashboard-widget
+    - commitment compliance     -> bcn-dashboard-widget
+    - vehicle mileage           -> bcn-dashboard-widget
+    - equipment runtime         -> bcn-dashboard-widget
+    - surveys                   -> bcn-dashboard-widget
+    - weap trainings            -> bcn-dashboard-widget
+    - configure dialog          -> bcn-config-dialog
+    - add-widget gallery        -> bcn-widget-card
 -->
 
 <AppShell
@@ -60,266 +229,1121 @@ const sourceGroups = [
 >
   <PageLayout
     title="Monitoring Portal"
-    icon="map"
-    breadcrumbs={[
-      { label: 'Delta Conveyance', href: '#project' },
-      { label: 'Monitoring Portal' },
-    ]}
+    icon="map-pinned"
+    iconPaths={STREAM_ICON_PATHS['map-pinned']}
+    breadcrumbs={[{ label: 'Delta Conveyance', href: '#project' }, { label: 'Monitoring Portal' }]}
   >
-    <BcnStatusChip slot="title-badge" status="cleared" label="Connected" hex="#2e7571" />
-    <div slot="utilities">
-      <EsaButton variant="ghost" appearance="outline" size="sm">Edit Connection</EsaButton>
-    </div>
-
-    <!-- ═══ 1 · Observation stat cards ═══ -->
-    <BcnMonitoringStats stats={DASHBOARD} outstandingIssues={OUTSTANDING_ISSUES} />
-
-    <!-- ═══ 2 · Commitment Compliance — observation-first ═══
-         bcn-lego-checked: the section header, the organize-control STRIP, the
-         view-pane wrappers, and the species/date group headers are page-composition
-         glue (the Fish Studies view-toggle idiom). Every control is a lego
-         (esa-button-toggle) and every observation is a bcn-* component
-         (BcnObservationCard, which owns the parent→child commitment view). -->
-    <section class="cc">
-      <div class="cc__bar">
-        <h2 class="cc__title">Commitment Compliance</h2>
-        <div class="cc__controls">
-          <div class="cc__ctx">
-            <span class="cc__ctx-label">Show</span>
-            <esa-button-toggle id="cc-needs" value="needs" size="sm"></esa-button-toggle>
-          </div>
-          <div class="cc__ctx">
-            <span class="cc__ctx-label">Group by</span>
-            <esa-button-toggle id="cc-group" value="species" size="sm"></esa-button-toggle>
-          </div>
-        </div>
-      </div>
-
-      <!-- Group by source (default) — the two lanes -->
-      <div class="cc__pane" id="cc-by-source">
-        {sourceGroups.map((g) => (
-          <section class="cc-group">
-            <header class="cc-group__head">
-              <span class="cc-group__name">{g.label}</span>
-              <span class="cc-badge">{g.finds.length}</span>
-            </header>
-            <div class="cc-group__cards">
-              {g.finds.map((f) => <BcnObservationCard find={f} />)}
-            </div>
-          </section>
-        ))}
-      </div>
-
-      <!-- Group by date (reverse-chronological log) -->
-      <div class="cc__pane" id="cc-by-date" hidden>
-        {dateGroups.map((g) => (
-          <section class="cc-group">
-            <header class="cc-group__head">
-              <span class="cc-group__name">{g.label}</span>
-              <span class="cc-badge">{g.finds.length}</span>
-            </header>
-            <div class="cc-group__cards">
-              {g.finds.map((f) => <BcnObservationCard find={f} />)}
-            </div>
-          </section>
-        ))}
-      </div>
-    </section>
-  </PageLayout>
-
-  <!-- ═══ Commitment side drawer — full Condition-of-Approval text (document-review pattern) ═══
-       z lifts the panel + backdrop above the fixed topbar (z 1100), per the esa-dialog
-       overlay note. Body text is set in Besley (--font-decorative), preserving the
-       register's own line breaks. -->
-  <esa-side-dialog id="cmt-drawer" size="md" style="--z-modal: 1300; --z-modal-backdrop: 1250; --side-dialog-width: 640px;">
-    <div slot="header" class="cmt-head">
-      <span class="cmt-head__code" id="cmt-code">—</span>
-      <span class="cmt-head__title" id="cmt-title">—</span>
-    </div>
-    <article class="cmt-body" id="cmt-body"></article>
-    <span slot="footer" class="cmt-foot">
-      <span class="cmt-foot__src" id="cmt-source"></span>
-      <span id="cmt-close"><EsaButton variant="ghost" appearance="outline">Close</EsaButton></span>
+    {/* Component switcher beside the H1 (spec §11.1) — same register site-clearance
+        scopes by. The picker only announces; the page script below owns what
+        re-scoping means (the honest empty state for the three record-less components). */}
+    <span slot="title-badge">
+      <BcnComponentPicker components={COMPONENTS} />
     </span>
-  </esa-side-dialog>
-  <script type="application/json" id="cmt-data" set:html={JSON.stringify(commitmentDrawerData)}></script>
+    <div class="mpdash" data-mpdash data-geotech-component={GEOTECH_COMPONENT}>
+      {/* Drag-mode column tracks (spec §11.3) — reads the grid's own --_col/--_gap
+          so alignment is by construction; visible only while data-mode='drag'. */}
+      <div class="mpd-tracks" aria-hidden="true"><i></i><i></i><i></i></div>
+      <!-- ═══ Band A ═══ -->
+      <BcnDashboardWidget
+        id="obs-active"
+        title="Active Observations"
+        width={2}
+        height={5}
+        accent={st('observations').markColor}
+        iconName={st('observations').icon}
+        iconPaths={STREAM_ICON_PATHS[st('observations').icon]}
+        footHref={streamHref('observations')}
+        footLabel="All observations"
+      >
+        <div class="cluster" data-gap="xl" style="--align: flex-start;">
+          <span style="--stat-value-size: var(--font-size-900);">
+            <EsaStat
+              value={DASHBOARD.activeObservations}
+              label="active observations"
+              sub={`${DASHBOARD.total30d} total in the past 30 days`}
+            />
+          </span>
+          <BcnVizDonut segments={DASHBOARD.observationBreakdown.map((b) => ({ label: b.label, value: b.value, color: b.hex }))} />
+        </div>
+        {
+          obsPins.length > 0 && (
+            <BcnObservationMap observations={obsPins} mapId="mpdash-obs" height="220px" interactive={false} />
+          )
+        }
+        <div class="stack" data-gap="sm">
+          <span
+            class="cluster"
+            data-gap="sm"
+            style="--badge-bg: var(--color-background-elevation-sunken); --badge-text-color: var(--color-content-default-secondary);"
+          >
+            <span class="typography-label-md-strong">Outstanding issues</span>
+            <EsaBadge value={issues.length} />
+          </span>
+          <BcnMiniTable
+            columns={[{ label: 'Age' }, { label: 'Observation' }, { label: 'Species' }, { label: 'Work area', align: 'end' }]}
+            rows={issueRows}
+          />
+        </div>
+      </BcnDashboardWidget>
+
+      <BcnDashboardWidget
+        id="obs-nesting-birds"
+        title="Nesting Birds"
+        width={1}
+        height={3}
+        accent={st('nesting-birds').markColor}
+        iconName={st('nesting-birds').icon}
+        iconPaths={STREAM_ICON_PATHS[st('nesting-birds').icon]}
+        footHref={streamHref('nesting-birds')}
+        footLabel="All nesting-bird observations"
+      >
+        <EsaStat
+          value={DASHBOARD.nestingBirds.total}
+          label="nesting-bird observations"
+          sub={`${DASHBOARD.nestingBirds.total30d} total in the past 30 days`}
+        />
+        <BcnVizBars
+          variant="code"
+          rows={DASHBOARD.nestingBirds.species.map((s) => ({ name: s.label, value: s.value, color: s.hex }))}
+        />
+      </BcnDashboardWidget>
+
+      <BcnDashboardWidget
+        id="obs-concerns"
+        title="Compliance Concerns"
+        width={1}
+        height={2}
+        accent={st('compliance-concerns').markColor}
+        iconName={st('compliance-concerns').icon}
+        iconPaths={STREAM_ICON_PATHS[st('compliance-concerns').icon]}
+        footHref={streamHref('compliance-concerns')}
+        footLabel="All compliance concerns"
+      >
+        <span style={openConcerns > 0 ? '--stat-value-color: var(--color-content-utility-danger);' : undefined}>
+          <EsaStat value={openConcerns} label="open compliance concerns" />
+        </span>
+        <BcnVizTrend
+          points={concernTrend}
+          height="sm"
+          color="var(--color-background-utility-danger)"
+          label={`Concerns raised per day, ${fmtShort(concernTrend[0].date)} to ${fmtShort(TODAY)}`}
+        />
+      </BcnDashboardWidget>
+
+      <!-- ═══ Band B ═══ -->
+      <BcnDashboardWidget
+        id="dmr-recent"
+        title="Daily Monitoring Reports"
+        width={2}
+        height={3}
+        accent={dmr.markColor}
+        iconName={dmr.icon}
+        iconPaths={STREAM_ICON_PATHS[dmr.icon]}
+        footHref={streamHref('daily-monitoring-reports')}
+        footLabel="All daily monitoring reports"
+      >
+        <BcnWidgetPanels>
+          <div slot="a" class="stack" data-gap="md">
+            <EsaStat value={dmr.recordCount} label="daily monitoring reports" sub={`${dmrRecent7.length} filed in the past 7 days`} />
+            <BcnVizStrip days={dmrStrip} label={`Reports filed by weekday, ${fmtShort(dmrStrip[0].date)} to ${fmtShort(TODAY)}`} />
+          </div>
+          <div slot="b">
+            <BcnMiniTable
+              columns={[{ label: 'Date' }, { label: 'Monitor' }, { label: 'Work areas' }, { label: 'Status', align: 'end' }]}
+              rows={dmrRows}
+            />
+          </div>
+        </BcnWidgetPanels>
+      </BcnDashboardWidget>
+
+      <BcnDashboardWidget
+        id="obs-bio"
+        title="Biological Resources"
+        width={1}
+        height={3}
+        accent={st('biological-resources').markColor}
+        iconName={st('biological-resources').icon}
+        iconPaths={STREAM_ICON_PATHS[st('biological-resources').icon]}
+        footHref={streamHref('biological-resources')}
+        footLabel="All biological-resource observations"
+      >
+        <EsaStat
+          value={DASHBOARD.biologicalResources.total}
+          label="biological-resource observations"
+          sub={`${DASHBOARD.biologicalResources.total30d} total in the past 30 days`}
+        />
+        <BcnVizBars rows={DASHBOARD.biologicalResources.items.map((b) => ({ name: b.label, value: b.value, color: b.hex }))} />
+        {latestBio && (
+          <BcnMiniTable
+            columns={[{ label: 'Latest observation' }, { label: 'Observed', align: 'end' }]}
+            rows={[[{ text: latestBio.shortId, href: streamHref('observations') }, { text: fmtShort(latestBio.observedDate), num: true }]]}
+          />
+        )}
+      </BcnDashboardWidget>
+
+      <!-- ═══ Band C ═══ -->
+      {/* No footer on purpose (Andy round 5): the widget IS the whole
+          commitment-compliance feature — there is no page to link through to.
+          Its Show control and row disclosures all live in BcnComplianceList. */}
+      <BcnDashboardWidget
+        id="commitment-compliance"
+        title="Commitment Compliance"
+        width={3}
+        height={3}
+        accent={st('observations').markColor}
+        iconName="clipboard-check"
+        iconPaths={STREAM_ICON_PATHS['clipboard-check']}
+      >
+        <BcnComplianceList />
+      </BcnDashboardWidget>
+
+      <!-- ═══ Band D ═══ -->
+      <BcnDashboardWidget
+        id="mileage-total"
+        title="Vehicle Mileage"
+        width={3}
+        height={3}
+        accent={st('mileage').markColor}
+        iconName={st('mileage').icon}
+        iconPaths={STREAM_ICON_PATHS[st('mileage').icon]}
+        footHref={streamHref('mileage')}
+        footLabel="All vehicle mileage"
+      >
+        <BcnWidgetPanels>
+          <div slot="a">
+            <EsaStat
+              value={MILEAGE_ROLLUP.miles14d.toLocaleString('en-US')}
+              label="vehicle miles, past 14 days"
+              sub={`${MILEAGE_ROLLUP.trips14d} trips logged`}
+            />
+          </div>
+          <div slot="b" class="stack" data-gap="sm">
+            <span class="typography-label-md-strong">Miles per day</span>
+            <BcnVizTrend points={MILEAGE_ROLLUP.perDay} label={`Miles per day, ${fmtShort(MILEAGE_ROLLUP.perDay[0].date)} to ${fmtShort(TODAY)}`} />
+          </div>
+          <div slot="c" class="stack" data-gap="sm">
+            <span class="typography-label-md-strong">Miles by vehicle</span>
+            <BcnVizBars rows={MILEAGE_ROLLUP.byVehicle.map((v) => ({ name: v.name, value: v.value }))} />
+          </div>
+        </BcnWidgetPanels>
+      </BcnDashboardWidget>
+
+      <!-- ═══ Band E ═══ -->
+      <BcnDashboardWidget
+        id="runtime-total"
+        title="Equipment Runtime"
+        width={2}
+        height={3}
+        accent={st('runtime').markColor}
+        iconName={st('runtime').icon}
+        iconPaths={STREAM_ICON_PATHS[st('runtime').icon]}
+        footHref={streamHref('runtime')}
+        footLabel="All equipment runtime"
+      >
+        <BcnWidgetPanels>
+          <div slot="a" class="stack" data-gap="md">
+            <EsaStat value={RUNTIME_ROLLUP.hours14d} label="equipment hours, past 14 days" sub={`${RUNTIME_ROLLUP.unitsLogged} units logged`} />
+            <BcnVizTrend
+              points={RUNTIME_ROLLUP.perDayMinutes}
+              height="sm"
+              label={`Runtime minutes per day, ${fmtShort(RUNTIME_ROLLUP.perDayMinutes[0].date)} to ${fmtShort(TODAY)}`}
+            />
+          </div>
+          <div slot="b" class="stack" data-gap="sm">
+            <span class="typography-label-md-strong">Hours by equipment class</span>
+            <BcnVizBars rows={RUNTIME_ROLLUP.byClassHours.map((c) => ({ name: c.name, value: c.value }))} />
+          </div>
+        </BcnWidgetPanels>
+      </BcnDashboardWidget>
+
+      <BcnDashboardWidget
+        id="surveys-qc"
+        title="Surveys"
+        width={1}
+        height={3}
+        accent={st('surveys').markColor}
+        iconName={st('surveys').icon}
+        iconPaths={STREAM_ICON_PATHS[st('surveys').icon]}
+        footHref={streamHref('surveys')}
+        footLabel="All surveys"
+      >
+        <EsaStat value={SURVEYS.length} label="survey documents" />
+        <BcnVizMeter segments={surveyMeter} />
+        <BcnMiniTable
+          columns={[{ label: 'Latest surveys' }, { label: 'Surveyed', align: 'end' }]}
+          rows={surveyRows}
+        />
+      </BcnDashboardWidget>
+
+      <!-- ═══ Band F ═══ -->
+      <BcnDashboardWidget
+        id="weap-trained"
+        title="WEAP Trainings"
+        width={3}
+        height={3}
+        accent={weap.markColor}
+        iconName={weap.icon}
+        iconPaths={STREAM_ICON_PATHS[weap.icon]}
+        footHref={streamHref('weap')}
+        footLabel="All WEAP trainings"
+      >
+        <BcnWidgetPanels>
+          <div slot="a">
+            <EsaStat value={WEAP_ROLLUP.workersTrained} label="workers trained" sub={`${WEAP_ROLLUP.confirmations30d} confirmations in the past 30 days`} />
+          </div>
+          <div slot="b" class="stack" data-gap="sm">
+            <span class="typography-label-md-strong">Workers by company</span>
+            <BcnVizBars rows={WEAP_ROLLUP.byCompany.map((c) => ({ name: c.name, value: c.value }))} />
+          </div>
+          <div slot="c" class="stack" data-gap="sm">
+            <span class="typography-label-md-strong">Latest confirmations</span>
+            <BcnMiniTable columns={[{ label: 'Worker' }, { label: 'Trade' }, { label: 'Date', align: 'end' }]} rows={weapRows} />
+          </div>
+        </BcnWidgetPanels>
+      </BcnDashboardWidget>
+
+      <!-- bcn-lego-checked: the add tile is the board's own dashed affordance
+           (spec §10.8; checked esa-empty-state — a full-region message, wrong
+           shape; esa-button — real chrome, this is a wireframe void). -->
+      <button type="button" class="mpd-add" data-mpd-add-open>
+        <span aria-hidden="true">+</span>
+        Add widget
+      </button>
+    </div>
+
+    {/* Add-widget gallery (spec §11.4): every registered widget always renders;
+        placed ones disable with an `On dashboard` badge as the reason. Width
+        re-point is INLINE so it scopes to this element only — the config dialog
+        re-points the same property to 1140px. No footer: picks commit on click
+        (reversible from the widget's ⋯ menu) and the dialog stays open so the
+        card's flip is the confirmation. */}
+    <esa-dialog id="mpd-add-dialog" heading="Add widget" size="lg" show-close-button style="--dialog-width-lg: min(760px, 92vw);">
+      <div class="mpd-add-grid" data-mpd-add-grid>
+        {addCards.map((c) => (
+          <BcnWidgetCard
+            id={c.id}
+            title={c.title}
+            streamName={c.streamName}
+            iconName={c.iconName}
+            iconPaths={STREAM_ICON_PATHS[c.iconName]}
+            on={c.on}
+          />
+        ))}
+      </div>
+    </esa-dialog>
+
+    <BcnConfigDialog />
+
+    <script type="application/json" data-mpd-payload set:html={JSON.stringify(cfgPayload)}></script>
+  </PageLayout>
 </AppShell>
 
 <script>
-  import '@esa/ecology/esa-button-toggle';
-  import '@esa/ecology/esa-side-dialog';
+  // The dashboard controller (spec §10): layout application, the widget ⋯ menu,
+  // the configure dialog (real-clone preview), drag-to-reorder with insertion
+  // carets, and the add-widget picker. The persisted layout is the ONE record in
+  // lib/mpdash-config; every path here reads, mutates, writes, re-applies.
+  import '@esa/ecology/esa-dialog';
+  import {
+    readDashboardConfig as readConfig,
+    writeDashboardConfig as writeConfig,
+    type DashboardConfig,
+  } from '../../../lib/mpdash-config';
+  import type { MarkKey, WidgetColor, WidgetConfig } from '../../../data/monitoring-streams';
 
-  interface ToggleEl extends HTMLElement {
-    options: { label: string; value: string; icon?: string }[];
+  interface CfgInfo {
+    id: string;
+    title: string;
+    charts: string[];
+    scopes: string[];
+    colorMode: 'mono' | 'series' | 'status';
+    series: string[];
+    stream: string;
+  }
+  interface Option {
+    label: string;
     value: string;
   }
-  const el = (id: string) => document.getElementById(id);
-
-  // ── Show filter (Needs action default | All) ──
-  const needs = el('cc-needs') as ToggleEl;
-  needs.options = [
-    { label: 'Needs action', value: 'needs' },
-    { label: 'All', value: 'all' },
-  ];
-  needs.value = 'needs';
-  function applyNeeds(mode: string) {
-    document.querySelectorAll<HTMLElement>('.bcn-obs').forEach((card) => {
-      card.hidden = mode === 'needs' && card.dataset.needsAction === 'false';
-    });
-    // Re-count each group's visible cards: update its badge, hide it if empty.
-    document.querySelectorAll<HTMLElement>('.cc-group').forEach((grp) => {
-      const visible = [...grp.querySelectorAll<HTMLElement>('.bcn-obs')].filter((c) => !c.hidden).length;
-      const badge = grp.querySelector('.cc-badge');
-      if (badge) badge.textContent = String(visible);
-      grp.hidden = visible === 0;
-    });
+  interface SizeDetail {
+    width: number;
+    height: number;
   }
-  needs.addEventListener('change', (e) => applyNeeds((e as CustomEvent).detail.value as string));
-  applyNeeds('needs'); // default lens = needs action
 
-  // ── Group by (Species | Date) ──
-  const panes: Record<string, HTMLElement> = {
-    source: el('cc-by-source')!,
-    date: el('cc-by-date')!,
+  const CHART_LABEL: Record<string, string> = {
+    donut: 'Donut by type',
+    bars: 'Horizontal bars',
+    trend: 'Daily columns',
+    list: 'Latest records',
+    stat: 'Total only',
+    meter: 'Status meter',
   };
-  const group = el('cc-group') as ToggleEl;
-  group.options = [
-    { label: 'Source', value: 'source', icon: "<path d='m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z'/><path d='M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12'/><path d='M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17'/>" },
-    { label: 'Date', value: 'date', icon: "<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" },
-  ];
-  group.value = 'source';
-  group.addEventListener('change', (e) => {
-    const v = (e as CustomEvent).detail.value as string;
-    Object.entries(panes).forEach(([k, p]) => (p.hidden = k !== v));
+  const SCOPE_LABEL: Record<string, string> = {
+    '7d': 'Past 7 days',
+    '14d': 'Past 14 days',
+    '30d': 'Past 30 days',
+    '90d': 'Past 90 days',
+  };
+
+  const grid = document.querySelector<HTMLElement>('[data-mpdash]');
+  const payloadEl = document.querySelector('[data-mpd-payload]');
+  const INFO: CfgInfo[] = payloadEl ? JSON.parse(payloadEl.textContent || '[]') : [];
+  const infoById = new Map(INFO.map((i) => [i.id, i]));
+
+  const widgetEls = new Map<string, HTMLElement>();
+  grid?.querySelectorAll<HTMLElement>('.bcn-dwidget').forEach((el) => {
+    if (el.dataset.widgetId) widgetEls.set(el.dataset.widgetId, el);
+  });
+  // The server-rendered accent (the stream's stored mark) — restored when a
+  // color override is cleared.
+  const baseAccent = new Map<string, string>();
+  widgetEls.forEach((el, id) => baseAccent.set(id, el.style.getPropertyValue('--_accent')));
+
+  const markVar = (key: MarkKey): string => `var(--bcn-mark-${key})`;
+
+  // ── Color application (spec §10.6): mono re-points --_accent/--_mono; series
+  //    re-points --_series-n by the widget's real series order. ──
+  const applyColor = (el: HTMLElement, id: string, color?: WidgetColor): void => {
+    el.style.setProperty('--_accent', baseAccent.get(id) || '');
+    el.style.removeProperty('--_mono');
+    for (let i = 1; i <= 6; i++) el.style.removeProperty(`--_series-${i}`);
+    if (!color) return;
+    if (color.mode === 'mono') {
+      el.style.setProperty('--_accent', markVar(color.color));
+      el.style.setProperty('--_mono', markVar(color.color));
+    } else {
+      (infoById.get(id)?.series ?? []).forEach((label, i) => {
+        const key = color.series[label];
+        if (key) el.style.setProperty(`--_series-${i + 1}`, markVar(key));
+      });
+    }
+  };
+
+  const apply = (config: DashboardConfig): void => {
+    if (!grid) return;
+    for (const id of config.order) {
+      const el = widgetEls.get(id);
+      const c = config.widgets[id];
+      if (!el || !c) continue;
+      grid.appendChild(el); // append in order — DOM order is grid order
+      el.hidden = !c.on;
+      el.dataset.w = String(c.width);
+      el.dataset.h = String(c.height);
+      const h = el.querySelector('.bcn-dwidget__title');
+      if (h) h.textContent = c.title ?? infoById.get(id)?.title ?? '';
+      applyColor(el, id, c.color);
+      // Sync the ⋯ menu's size block (the menu arms itself; rAF lets it attach).
+      const menu = el.querySelector('[data-widget-menu]');
+      if (menu) {
+        requestAnimationFrame(() =>
+          menu.dispatchEvent(new CustomEvent('bcn-size-set', { detail: { width: c.width, height: c.height } })),
+        );
+      }
+    }
+    const addTile = grid.querySelector('.mpd-add');
+    if (addTile) grid.appendChild(addTile); // the add tile always trails
+  };
+
+  apply(readConfig());
+
+  const mutate = (fn: (c: DashboardConfig) => void): void => {
+    const c = readConfig();
+    fn(c);
+    writeConfig(c);
+    apply(c);
+  };
+
+  // ── Widget ⋯ menu ──
+  document.addEventListener('bcn-widget-menu', (event) => {
+    const action = (event as CustomEvent<{ action: string }>).detail.action;
+    const id = (event.target as Element | null)?.closest<HTMLElement>('.bcn-dwidget')?.dataset.widgetId;
+    if (!id) return;
+    if (action === 'configure') openConfig(id);
+    else if (action === 'remove') mutate((c) => (c.widgets[id] = { ...c.widgets[id], on: false }));
   });
 
-  // ── Commitment side drawer (full CoA text) ──
-  interface CommitmentEntry { code: string; title: string; source: string; text: string; }
-  const cmtData = JSON.parse(document.getElementById('cmt-data')!.textContent || '{}') as Record<string, CommitmentEntry>;
-  const drawer = document.getElementById('cmt-drawer') as HTMLElement & { show(): void; close(): void };
-  const dCode = document.getElementById('cmt-code')!;
-  const dTitle = document.getElementById('cmt-title')!;
-  const dBody = document.getElementById('cmt-body')!;
-  const dSource = document.getElementById('cmt-source')!;
-  function openCommitment(code: string) {
-    const c = cmtData[code];
-    if (!c) return;
-    dCode.textContent = c.code;
-    dTitle.textContent = c.title;
-    dSource.textContent = c.source ? `Source: ${c.source}` : '';
-    dBody.textContent = c.text; // white-space: pre-wrap preserves the register's line breaks
-    drawer.show();
+  // Size changes from a widget menu apply live and persist. (The dialog's own
+  // picker bubbles the same event — the dialog handler below stops it there.)
+  document.addEventListener('bcn-size-change', (event) => {
+    if ((event.target as Element | null)?.closest('[data-config-dialog]')) return;
+    const { width, height } = (event as CustomEvent<SizeDetail>).detail;
+    const id = (event.target as Element | null)?.closest<HTMLElement>('.bcn-dwidget')?.dataset.widgetId;
+    if (!id) return;
+    mutate(
+      (c) =>
+        (c.widgets[id] = {
+          ...c.widgets[id],
+          width: width as WidgetConfig['width'],
+          height: height as WidgetConfig['height'],
+        }),
+    );
+  });
+
+  // ── Configure dialog (spec §10.3): a real clone in the stage, options right. ──
+  const dialog = document.querySelector<HTMLElement & { open: boolean }>('[data-config-dialog]');
+  const stage = dialog?.querySelector<HTMLElement>('[data-preview-stage]');
+  const tabs = dialog?.querySelector<HTMLElement & { value: string }>('[data-cfg-tabs]');
+  const titleField = dialog?.querySelector<HTMLElement & { value: string }>('[data-cfg-title]');
+  const showsField = dialog?.querySelector<HTMLElement>('[data-cfg-shows-field]');
+  const showsSelect = dialog?.querySelector<HTMLElement & { options: Option[]; value: string }>('[data-cfg-shows]');
+  const scopeSelect = dialog?.querySelector<HTMLElement & { options: Option[]; value: string }>('[data-cfg-scope]');
+  const monoWrap = dialog?.querySelector<HTMLElement>('[data-cfg-color-mono]');
+  const seriesWrap = dialog?.querySelector<HTMLElement>('[data-cfg-color-series]');
+
+  let openId: string | null = null;
+  let draft: WidgetConfig | null = null;
+  let clone: HTMLElement | null = null;
+
+  // Frame math, read from the live grid (spec: measured, never hardcoded).
+  const frameMath = () => {
+    const style = grid ? getComputedStyle(grid) : null;
+    const gap = style ? parseFloat(style.columnGap) || 16 : 16;
+    const col = grid ? (grid.clientWidth - gap * 2) / 3 : 360;
+    return {
+      frameW: (w: number) => col * w + gap * (w - 1),
+      minH: (h: number) => 84 * h + gap * (h - 1),
+    };
+  };
+
+  const stageEvent = (name: string, detail: object): void => {
+    stage?.dispatchEvent(new CustomEvent(name, { detail }));
+  };
+
+  const badgeOf = (w: number, h: number) => `${w} × ${h}`;
+
+  const setColorFields = (info: CfgInfo, color?: WidgetColor): void => {
+    if (monoWrap) monoWrap.hidden = info.colorMode !== 'mono';
+    if (seriesWrap) seriesWrap.hidden = info.colorMode !== 'series';
+    monoWrap?.querySelector('[data-color-field]')?.dispatchEvent(
+      new CustomEvent('bcn-color-set', { detail: { value: color?.mode === 'mono' ? color.color : null } }),
+    );
+    seriesWrap?.querySelectorAll('[data-color-field]').forEach((field) => {
+      const key = field.getAttribute('data-series') || '';
+      const value = color?.mode === 'series' ? (color.series[key] ?? null) : null;
+      field.dispatchEvent(new CustomEvent('bcn-color-set', { detail: { value } }));
+    });
+  };
+
+  const openConfig = (id: string): void => {
+    const el = widgetEls.get(id);
+    const info = infoById.get(id);
+    if (!el || !info || !dialog) return;
+    const c = readConfig().widgets[id];
+    openId = id;
+    draft = { ...c, color: c.color ? JSON.parse(JSON.stringify(c.color)) : undefined };
+
+    // The preview is the REAL widget: clone, made inert, tools dropped.
+    clone = el.cloneNode(true) as HTMLElement;
+    clone.hidden = false;
+    clone.setAttribute('inert', '');
+    clone.querySelector('.bcn-dwidget__tools')?.remove();
+    const { frameW, minH } = frameMath();
+    stageEvent('bcn-stage-show', {
+      node: clone,
+      frameWidth: frameW(draft.width),
+      minHeight: minH(draft.height),
+      badge: badgeOf(draft.width, draft.height),
+    });
+
+    if (tabs) tabs.value = String(draft.width);
+    if (titleField) titleField.value = draft.title ?? info.title;
+    if (showsField) showsField.hidden = info.charts.length < 2;
+    if (showsSelect) {
+      showsSelect.options = info.charts.map((v) => ({ label: CHART_LABEL[v] ?? v, value: v }));
+      showsSelect.value = draft.chart;
+    }
+    if (scopeSelect) {
+      scopeSelect.options = info.scopes.map((v) => ({ label: SCOPE_LABEL[v] ?? v, value: v }));
+      scopeSelect.value = draft.scope;
+    }
+    setColorFields(info, draft.color);
+
+    dialog.open = true;
+  };
+
+  const closeConfig = (): void => {
+    if (dialog) dialog.open = false;
+    openId = null;
+    draft = null;
+    clone = null;
+  };
+
+  const reframe = (): void => {
+    if (!draft) return;
+    const { frameW, minH } = frameMath();
+    stageEvent('bcn-stage-show', {
+      node: clone,
+      frameWidth: frameW(draft.width),
+      minHeight: minH(draft.height),
+      badge: badgeOf(draft.width, draft.height),
+    });
+  };
+
+  dialog?.addEventListener('change', (event) => {
+    if (!draft || !openId) return;
+    const el = event.target as HTMLElement;
+    const value = (event as CustomEvent<{ value?: string }>).detail?.value ?? (el as HTMLInputElement).value;
+    if (el.hasAttribute('data-cfg-tabs')) {
+      // The column tabs are the dialog's ONLY size control (Andy round 5) —
+      // height stays the widget's stored footprint.
+      draft.width = Number(value) as WidgetConfig['width'];
+      reframe();
+    } else if (el.hasAttribute('data-cfg-title')) {
+      draft.title = value || undefined;
+      const h = clone?.querySelector('.bcn-dwidget__title');
+      if (h) h.textContent = value || infoById.get(openId)?.title || '';
+    } else if (el.hasAttribute('data-cfg-shows')) {
+      draft.chart = value as WidgetConfig['chart'];
+    } else if (el.hasAttribute('data-cfg-scope')) {
+      draft.scope = value as WidgetConfig['scope'];
+    }
+  });
+
+  dialog?.addEventListener('bcn-color-change', (event) => {
+    if (!draft || !openId || !clone) return;
+    const { value, seriesKey } = (event as CustomEvent<{ value: MarkKey; seriesKey?: string }>).detail;
+    const info = infoById.get(openId)!;
+    if (info.colorMode === 'mono') draft.color = { mode: 'mono', color: value };
+    else if (info.colorMode === 'series' && seriesKey) {
+      const series = draft.color?.mode === 'series' ? { ...draft.color.series } : {};
+      series[seriesKey] = value;
+      draft.color = { mode: 'series', series };
+    }
+    applyColor(clone, openId, draft.color); // live on the preview clone
+  });
+
+  dialog?.addEventListener('click', (event) => {
+    const target = event.target as Element | null;
+    if (!target) return;
+    if (target.closest('[data-cfg-save]')) {
+      if (openId && draft) {
+        const id = openId;
+        const next = draft;
+        mutate((c) => (c.widgets[id] = { ...next }));
+      }
+      closeConfig();
+    } else if (target.closest('[data-cfg-cancel]')) {
+      closeConfig();
+    } else if (target.closest('[data-cfg-remove]')) {
+      if (openId) {
+        const id = openId;
+        mutate((c) => (c.widgets[id] = { ...c.widgets[id], on: false }));
+      }
+      closeConfig();
+    }
+  });
+
+  // ── Drag mode (spec §11.3): column tracks show the structure; ONE reflowing
+  //    placeholder (.mpd-slot) is both the origin hole and the drop target. The
+  //    placeholder is not a picture of the insertion index — it IS the insertion
+  //    index, laid out by the same auto-placement that runs on drop, so the
+  //    board reflows now exactly as it will on release. ──
+  let dragId: string | null = null;
+  let slotEl: HTMLElement | null = null;
+
+  const visibleOrder = (): HTMLElement[] =>
+    Array.from(grid?.querySelectorAll<HTMLElement>('.bcn-dwidget:not([hidden])') ?? []);
+
+  const makeSlot = (w: string, h: string): HTMLElement => {
+    const slot = document.createElement('div');
+    slot.className = 'mpd-slot';
+    slot.style.gridColumn = `span ${w}`;
+    slot.style.gridRow = `span ${h}`;
+    slot.dataset.size = `${w} × ${h}`;
+    return slot;
+  };
+
+  /** Move the slot so it sits before `ref` (or before the add tile at the end).
+      One DOM move per index change — never per pointermove. */
+  const placeSlotBefore = (ref: Element | null): void => {
+    if (!grid || !slotEl) return;
+    const target = ref ?? grid.querySelector('.mpd-add');
+    if (!target || target === slotEl || slotEl.nextElementSibling === target) return;
+    grid.insertBefore(slotEl, target);
+  };
+
+  /** The candidate insertion point for a pointer position: the nearest visible
+      widget (the lifted one excluded), split at its midline — vertical for the
+      row axis, horizontal within a band. Returns the element to insert BEFORE
+      (null = end of board). */
+  const insertionRefAt = (x: number, y: number): Element | null => {
+    const els = visibleOrder().filter((el) => el.dataset.widgetId !== dragId);
+    let best: HTMLElement | null = null;
+    let bestDist = Infinity;
+    for (const el of els) {
+      const r = el.getBoundingClientRect();
+      const dx = Math.max(r.left - x, 0, x - r.right);
+      const dy = Math.max(r.top - y, 0, y - r.bottom);
+      const dist = dx * dx + dy * dy;
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = el;
+      }
+    }
+    if (!best) return null;
+    const r = best.getBoundingClientRect();
+    const before = y < r.top ? true : y > r.bottom ? false : x < r.left + r.width / 2;
+    return before ? best : best.nextElementSibling;
+  };
+
+  const reorderTo = (id: string, index: number): void => {
+    const visible = visibleOrder()
+      .map((el) => el.dataset.widgetId!)
+      .filter(Boolean);
+    const from = visible.indexOf(id);
+    if (from < 0) return;
+    let to = index;
+    if (from < to) to -= 1;
+    visible.splice(from, 1);
+    visible.splice(Math.max(0, Math.min(to, visible.length)), 0, id);
+    mutate((c) => {
+      c.order = [...visible, ...c.order.filter((x) => !visible.includes(x))];
+    });
+  };
+
+  const endDrag = (): void => {
+    if (!grid) return;
+    delete grid.dataset.mode;
+    slotEl?.remove();
+    slotEl = null;
+    grid.querySelectorAll<HTMLElement>('.bcn-dwidget').forEach((el) => {
+      el.classList.remove('is-drag-origin', 'is-drag-lifted');
+    });
+    dragId = null;
+  };
+
+  // ── The pointer drag (Andy round 5): a real lift. HTML5 dnd is gone — its
+  //    OS-rendered snapshot gave no sense of HOLDING the card and no control
+  //    over the settle. Now: press the header (M8), move past the 4px click
+  //    threshold, and the widget pins fixed at its origin rect and follows the
+  //    pointer via translate3d while the slot reflows underneath; release
+  //    animates it INTO the slot before the order commits; Escape or
+  //    pointercancel flies it home and changes nothing. ──
+  interface DragState {
+    id: string;
+    el: HTMLElement;
+    startX: number;
+    startY: number;
+    lastX: number;
+    lastY: number;
+    originRect: DOMRect;
+    lifted: boolean;
+    raf: number;
   }
-  // Delegate clicks + keyboard from ANY commitment row (the dossier OR the library).
-  document.addEventListener('click', (e) => {
-    const row = (e.target as HTMLElement).closest('.bcn-crow') as HTMLElement | null;
-    if (row?.dataset.code) openCommitment(row.dataset.code);
+  let ptrDrag: DragState | null = null;
+
+  const lift = (): void => {
+    if (!grid || !ptrDrag) return;
+    const { el, originRect: r } = ptrDrag;
+    dragId = ptrDrag.id;
+    grid.dataset.mode = 'drag';
+    slotEl = makeSlot(el.dataset.w || '1', el.dataset.h || '2');
+    grid.insertBefore(slotEl, el);
+    // Pin the root at its origin rect; the shell's .is-drag-lifted owns the
+    // rest (fixed, z-index, pointer-events none, card scale + shadow).
+    el.style.top = `${r.top}px`;
+    el.style.left = `${r.left}px`;
+    el.style.width = `${r.width}px`;
+    el.style.height = `${r.height}px`;
+    el.classList.add('is-drag-lifted');
+    document.body.classList.add('is-widget-drag');
+  };
+
+  const paintDrag = (): void => {
+    if (!ptrDrag?.lifted) return;
+    const { el, startX, startY, lastX, lastY } = ptrDrag;
+    el.style.transform = `translate3d(${lastX - startX}px, ${lastY - startY}px, 0)`;
+    placeSlotBefore(insertionRefAt(lastX, lastY));
+    ptrDrag.raf = 0;
+  };
+
+  const clearLift = (el: HTMLElement): void => {
+    el.style.top = '';
+    el.style.left = '';
+    el.style.width = '';
+    el.style.height = '';
+    el.style.transform = '';
+    el.style.transition = '';
+    document.body.classList.remove('is-widget-drag');
+  };
+
+  const stopPtrListeners = (): void => {
+    window.removeEventListener('pointermove', onPtrMove);
+    window.removeEventListener('pointerup', onPtrUp);
+    window.removeEventListener('pointercancel', onPtrCancel);
+    document.removeEventListener('keydown', onPtrKey, true);
+  };
+
+  /** Animate the lifted card by (dx, dy) from its origin, then run `done`.
+      transitionend can be swallowed (a zero-distance move fires nothing) — the
+      timeout is the floor under it. */
+  const settleTo = (el: HTMLElement, dx: number, dy: number, done: () => void): void => {
+    let ran = false;
+    const finish = (): void => {
+      if (ran) return;
+      ran = true;
+      done();
+    };
+    el.style.transition = 'transform 160ms ease';
+    el.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+    el.addEventListener('transitionend', finish, { once: true });
+    window.setTimeout(finish, 220);
+  };
+
+  const onPtrMove = (event: PointerEvent): void => {
+    if (!ptrDrag) return;
+    ptrDrag.lastX = event.clientX;
+    ptrDrag.lastY = event.clientY;
+    if (!ptrDrag.lifted) {
+      if (Math.hypot(event.clientX - ptrDrag.startX, event.clientY - ptrDrag.startY) < 4) return;
+      ptrDrag.lifted = true;
+      lift();
+    }
+    if (!ptrDrag.raf) ptrDrag.raf = requestAnimationFrame(paintDrag);
+  };
+
+  const cancelPtrDrag = (): void => {
+    if (!ptrDrag) return;
+    const d = ptrDrag;
+    ptrDrag = null;
+    stopPtrListeners();
+    if (!d.lifted) return;
+    // Fly home: only the slot moved in the DOM, so zeroing the translate IS the
+    // origin position; endDrag then removes the slot and the board is untouched.
+    settleTo(d.el, 0, 0, () => {
+      clearLift(d.el);
+      endDrag();
+    });
+  };
+
+  const onPtrUp = (): void => {
+    if (!ptrDrag) return;
+    const d = ptrDrag;
+    ptrDrag = null;
+    stopPtrListeners();
+    if (!d.lifted) return; // never left click territory
+    if (!grid || !slotEl) {
+      clearLift(d.el);
+      endDrag();
+      return;
+    }
+    // The slot's DOM position IS the committed order: its index among the other
+    // visible widgets (the lifted one excluded) is where the id re-enters.
+    const others = visibleOrder()
+      .map((el) => el.dataset.widgetId!)
+      .filter((x) => x && x !== d.id);
+    let index = 0;
+    for (let el = slotEl.previousElementSibling; el; el = el.previousElementSibling) {
+      const id = (el as HTMLElement).dataset?.widgetId;
+      if (id && others.includes(id)) index++;
+    }
+    // Settle INTO the slot, then commit — the reflow lands where the card
+    // visibly came to rest.
+    const slotRect = slotEl.getBoundingClientRect();
+    settleTo(d.el, slotRect.left - d.originRect.left, slotRect.top - d.originRect.top, () => {
+      clearLift(d.el);
+      endDrag();
+      others.splice(index, 0, d.id);
+      mutate((c) => {
+        c.order = [...others, ...c.order.filter((x) => !others.includes(x))];
+      });
+    });
+  };
+
+  const onPtrCancel = (): void => cancelPtrDrag();
+  const onPtrKey = (event: KeyboardEvent): void => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      cancelPtrDrag();
+    }
+  };
+
+  // The WHOLE card header starts a drag (Andy round 3, M8) — any header press
+  // that isn't the ⋯ menu. The grip stays as the visual cue and the keyboard
+  // entry (Enter/Space → move mode, replacing the menu's removed Move row).
+  grid?.addEventListener('pointerdown', (event) => {
+    if (event.button !== 0 || ptrDrag) return;
+    const target = event.target as Element | null;
+    if (target?.closest('[data-widget-menu]')) return;
+    const head = target?.closest('.bcn-dwidget__head');
+    const widget = head?.closest<HTMLElement>('.bcn-dwidget');
+    if (!widget?.dataset.widgetId) return;
+    event.preventDefault(); // no text selection under the drag
+    ptrDrag = {
+      id: widget.dataset.widgetId,
+      el: widget,
+      startX: event.clientX,
+      startY: event.clientY,
+      lastX: event.clientX,
+      lastY: event.clientY,
+      originRect: widget.getBoundingClientRect(),
+      lifted: false,
+      raf: 0,
+    };
+    window.addEventListener('pointermove', onPtrMove);
+    window.addEventListener('pointerup', onPtrUp);
+    window.addEventListener('pointercancel', onPtrCancel);
+    document.addEventListener('keydown', onPtrKey, true);
   });
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    const row = (e.target as HTMLElement).closest('.bcn-crow') as HTMLElement | null;
-    if (row?.dataset.code) { e.preventDefault(); openCommitment(row.dataset.code); }
+  grid?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    const grip = (event.target as Element | null)?.closest('[data-widget-grip]');
+    const id = grip?.closest<HTMLElement>('.bcn-dwidget')?.dataset.widgetId;
+    if (!id) return;
+    event.preventDefault();
+    enterMoveMode(id);
   });
-  document.getElementById('cmt-close')!.addEventListener('click', () => drawer.close());
+
+  // Keyboard path (Enter/Space on the grip): arrows move one position, Enter
+  // commits, Escape restores the pre-move order.
+  const enterMoveMode = (id: string): void => {
+    if (!grid) return;
+    const before = readConfig();
+    grid.dataset.mode = 'drag';
+    widgetEls.get(id)?.classList.add('is-drag-origin');
+    const onKey = (event: KeyboardEvent): void => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowUp' || event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        const visible = visibleOrder().map((el) => el.dataset.widgetId!);
+        const from = visible.indexOf(id);
+        const dir = event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? -1 : 1;
+        const to = from + dir + (dir > 0 ? 1 : 0);
+        if (from >= 0 && to >= 0 && to <= visible.length) reorderTo(id, to);
+        grid.dataset.mode = 'drag'; // apply() cleared nothing, but keep the state explicit
+        widgetEls.get(id)?.classList.add('is-drag-origin');
+      } else if (event.key === 'Enter') {
+        event.preventDefault();
+        exit();
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        writeConfig(before);
+        apply(before);
+        exit();
+      }
+    };
+    const exit = (): void => {
+      document.removeEventListener('keydown', onKey, true);
+      endDrag();
+    };
+    document.addEventListener('keydown', onKey, true);
+  };
+
+  // ── Add widget (spec §10.8): the picker lists what the layout has turned off. ──
+  const addDialog = document.getElementById('mpd-add-dialog') as (HTMLElement & { open: boolean }) | null;
+
+  // ── Add-widget gallery (spec §11.4). Cards are server-rendered; this only
+  //    syncs their placed-state from config. Picks commit on click and the
+  //    dialog STAYS OPEN — the card's flip to `On dashboard` is the confirmation. ──
+  const syncAddCards = (): void => {
+    const config = readConfig();
+    addDialog?.querySelectorAll<HTMLButtonElement>('[data-widget-card]').forEach((card) => {
+      const on = !!config.widgets[card.dataset.widgetId ?? '']?.on;
+      card.toggleAttribute('data-on', on);
+      card.disabled = on;
+    });
+  };
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element | null;
+    if (target?.closest('[data-mpd-add-open]')) {
+      syncAddCards();
+      if (addDialog) addDialog.open = true;
+      return;
+    }
+    const card = target?.closest<HTMLButtonElement>('[data-widget-card]');
+    if (card && !card.disabled && card.dataset.widgetId) {
+      const id = card.dataset.widgetId;
+      // The id never left config.order, so the widget returns to its saved
+      // position — remove-then-re-add is a round trip, not a reorder.
+      mutate((c) => (c.widgets[id] = { ...c.widgets[id], on: true }));
+      syncAddCards();
+    }
+  });
+
+  // ── Component scope (spec §11.1). The picker announces; this page decides
+  //    what re-scoping means — and against this fixture the honest answer for
+  //    the three non-geotech components is EMPTY: stats read 0, every viz and
+  //    table hides, foot link-throughs stay. Absence renders as absence. ──
+  const GEOTECH = grid?.dataset.geotechComponent ?? '';
+  const setScope = (component: string): void => {
+    if (!grid) return;
+    const empty = component !== GEOTECH;
+    grid.toggleAttribute('data-scope-empty', empty);
+    grid.querySelectorAll<HTMLElement>('.esa-stat__value').forEach((el) => {
+      if (empty) {
+        if (el.dataset.scopeOrig === undefined) el.dataset.scopeOrig = el.textContent ?? '';
+        el.textContent = '0';
+      } else if (el.dataset.scopeOrig !== undefined) {
+        el.textContent = el.dataset.scopeOrig;
+        delete el.dataset.scopeOrig;
+      }
+    });
+  };
+  document.addEventListener('bcn:component-change', (event) => {
+    const component = (event as CustomEvent<{ component: string }>).detail?.component;
+    if (component) setScope(component);
+  });
+  try {
+    const saved = localStorage.getItem('beacon.activeComponent');
+    if (saved && saved !== GEOTECH) setScope(saved);
+  } catch {
+    /* storage unavailable — default scope stands */
+  }
 </script>
 
 <style>
-  /* bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY — the Commitment-Compliance section
-     header, the organize-control strip, the view-pane wrappers, the species/date
-     group headers, and the quiet count badge (4px radius, light-gray border — the
-     design-principles "compact + quiet" badge, no esa-* outline-badge variant exists).
-     Every control is a lego (esa-button-toggle); every observation is a bcn-*
-     component (BcnObservationCard). */
+  /* Composition glue only: the page owns the 3-column grid and its row-unit
+     FLOOR (minmax — a band grows to its tallest widget; spec.md §2). Widgets
+     own their spans; the shell owns drag-mode chrome; the tracks, slot and add
+     tile below are the board's own affordances (spec §11.3, §10.8).
+     --_col/--_gap are read by BOTH the real grid and the drag tracks, so their
+     alignment is by construction and cannot drift at the breakpoints. */
+  .mpdash {
+    --_col: 3;
+    --_gap: var(--spacing-400);
+    position: relative; /* the drag tracks are an absolute underlay */
+    display: grid;
+    grid-template-columns: repeat(var(--_col), minmax(0, 1fr));
+    grid-auto-rows: minmax(84px, auto);
+    gap: var(--_gap);
+  }
+  /* Widgets sit over the tracks. (Every widget is already a stacking context
+     via container-type; the explicit index just orders it above the underlay.)
+     :global — the widget root carries the SHELL's scope attribute, not this
+     page's, and the slot is JS-created with no scope at all. The old §10.7
+     carets silently missed for exactly this reason. */
+  .mpdash > :global(.bcn-dwidget) {
+    position: relative;
+    z-index: 1;
+  }
 
-  .cc { margin-top: var(--spacing-700); display: flex; flex-direction: column; gap: var(--spacing-400); }
-
-  .cc__bar {
+  /* The add tile — full-width dashed affordance after the last band (§10.8). */
+  .mpd-add {
+    grid-column: 1 / -1;
+    min-block-size: 64px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-400);
-    flex-wrap: wrap;
-    padding-bottom: var(--spacing-200);
-    border-bottom: 1px solid var(--color-border-default);
-  }
-  .cc__title {
-    margin: 0;
-    font-family: var(--font-decorative);
-    font-size: var(--font-size-400);
-    font-weight: var(--typography-font-weight-bold);
-    color: var(--color-content-default);
-  }
-  .cc__controls { display: flex; align-items: center; gap: var(--spacing-400); flex-wrap: wrap; }
-  .cc__ctx { display: inline-flex; align-items: center; gap: var(--spacing-200); }
-  .cc__ctx-label {
-    font-size: var(--font-size-150);
-    font-weight: var(--typography-font-weight-semibold);
-    color: var(--color-content-default-tertiary);
-    white-space: nowrap;
-  }
-
-  /* View panes — one grouping at a time. */
-  .cc__pane[hidden] { display: none; }
-
-  /* Species / date groups. */
-  .cc-group[hidden] { display: none; }
-  .cc-group + .cc-group { margin-top: var(--spacing-500); }
-  .cc-group__head { display: flex; align-items: center; gap: var(--spacing-250); margin-bottom: var(--spacing-300); }
-  .cc-group__name {
-    font-size: var(--font-size-300);
-    font-weight: var(--typography-font-weight-semibold);
-    color: var(--color-content-default);
-  }
-  /* Quiet count badge — 4px radius, light-gray border (design-principles standard). */
-  .cc-badge {
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
-    min-width: 20px;
-    height: 20px;
-    padding: 0 var(--spacing-150);
-    font-size: var(--font-size-100);
-    font-weight: var(--typography-font-weight-semibold);
+    gap: var(--spacing-200);
+    border: 1.5px dashed var(--color-border-default-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-background-elevation-base);
     color: var(--color-content-default-secondary);
-    background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
+    font-size: var(--font-size-150);
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .mpd-add:hover {
+    border-color: var(--color-background-brand);
+    background: var(--bcn-teal-100, var(--color-background-elevation-sunken));
+    color: var(--color-content-default-primary);
+  }
+  .mpd-add > span {
+    font-size: var(--font-size-400);
+    line-height: 1;
+  }
+  [data-mode='drag'] .mpd-add {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* ── Drag canvas (spec §11.3). Two elements replace the §10.7 carets. ── */
+
+  /* 1 — Column tracks: the structure. Neutral-canvas — no brand anywhere in
+     the structure — but stepped up from the round-3 gray-50 whisper (Andy
+     round 5: the targets have to READ while a card is in hand): the sunken
+     surface plus the default border, both semantic. The negative vertical
+     inset keeps a full band of all three columns visible above and below the
+     board. */
+  .mpd-tracks {
+    position: absolute;
+    inset: calc(var(--_gap) * -1) 0;
+    display: grid;
+    grid-template-columns: repeat(var(--_col), minmax(0, 1fr));
+    gap: var(--_gap);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 120ms ease;
+    z-index: 0;
+  }
+  .mpdash[data-mode='drag'] .mpd-tracks {
+    opacity: 1;
+  }
+  .mpd-tracks > i {
+    background: var(--color-background-elevation-sunken);
+    border: 1px dashed var(--color-border-default-strong);
+    border-radius: var(--radius-200);
+  }
+
+  /* 2 — The reflowing placeholder: origin hole and drop target are one object,
+     at the dragged widget's true footprint. Brand is reserved for it alone.
+     :global — the slot is created by the page script, so it never carries the
+     scope attribute Astro stamps on template elements. */
+  .mpdash :global(.mpd-slot) {
+    position: relative;
+    border: 2px dashed var(--color-background-brand);
+    border-radius: var(--radius-200);
+    background: var(--bcn-teal-100, var(--color-background-brand-subtle));
+    z-index: 1;
+  }
+  .mpdash :global(.mpd-slot)::after {
+    content: attr(data-size);
+    position: absolute;
+    inset-block-start: var(--spacing-200);
+    inset-inline-end: var(--spacing-200);
+    padding: 2px var(--spacing-200);
     border-radius: var(--radius-100);
+    background: var(--color-content-default);
+    color: var(--color-background-elevation-base);
+    font-size: var(--font-size-100);
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
-  .cc-group__cards { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  /* While a widget is in hand the whole page shows the holding cursor and text
+     can't smear-select under the pointer. (The lifted widget itself is pinned
+     fixed by the shell's .is-drag-lifted — it does NOT hide; it IS the thing
+     being held.) :global — body is outside this page's scope. */
+  :global(body.is-widget-drag),
+  :global(body.is-widget-drag *) {
+    cursor: grabbing;
+    user-select: none;
+  }
 
-  /* ── Commitment side drawer ── */
-  .cmt-head { display: flex; flex-direction: column; gap: var(--spacing-200); min-width: 0; }
-  .cmt-head__code {
-    width: max-content;
-    font-family: var(--typography-font-family-mono);
-    font-size: var(--font-size-100);
-    font-weight: var(--typography-font-weight-semibold);
-    color: var(--color-commitment);
-    background: color-mix(in srgb, var(--color-commitment) 12%, white);
-    padding: 1px var(--spacing-200);
-    border-radius: var(--radius-100);
+  /* Add-widget gallery (spec §11.4): three across at the dialog's 760px. */
+  .mpd-add-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(216px, 1fr));
+    gap: var(--spacing-400);
+    padding-block: var(--spacing-200);
   }
-  .cmt-head__title {
-    font-family: var(--font-decorative);
-    font-size: var(--font-size-400);
-    font-weight: var(--typography-font-weight-bold);
-    color: var(--color-content-default);
-    line-height: 1.25;
+
+  /* ── Component scope: the honest empty state (spec §11.1). Everything that is
+     not a stat hides; stats read 0 (the page script swaps values); the foot
+     link-throughs stay. No copy — absence renders as absence. ── */
+  [data-scope-empty] :global(.bcn-viz-donut),
+  [data-scope-empty] :global(.bcn-viz-bars),
+  [data-scope-empty] :global(.bcn-viz-strip),
+  [data-scope-empty] :global(.bcn-viz-meter),
+  [data-scope-empty] :global(.bcn-viztrend),
+  [data-scope-empty] :global(.bcn-mt),
+  [data-scope-empty] :global([data-bcn-obsmap]),
+  [data-scope-empty] :global([data-cc]),
+  [data-scope-empty] :global([data-cc-show]),
+  [data-scope-empty] :global(.esa-stat__sub) {
+    display: none;
   }
-  /* The CoA text — Besley, preserving the register's own line breaks. */
-  .cmt-body {
-    display: block;
-    white-space: pre-wrap;
-    font-family: var(--font-decorative);
-    font-size: var(--font-size-200);
-    line-height: 1.6;
-    color: var(--color-content-default);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-200);
-    padding: var(--spacing-400);
-    background: var(--color-background-elevation-raised);
+  /* Body groups that hold no stat (table sections, panel labels) hide whole. */
+  [data-scope-empty] :global(.bcn-dwidget__body > :not(:has(.esa-stat))) {
+    display: none;
   }
-  .cmt-foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-300); }
-  .cmt-foot__src { font-size: var(--font-size-100); color: var(--color-content-default-tertiary); }
+
+  @media (max-width: 1180px) {
+    .mpdash {
+      --_col: 2;
+    }
+  }
+  @media (max-width: 820px) {
+    .mpdash {
+      --_col: 1;
+    }
+  }
 </style>

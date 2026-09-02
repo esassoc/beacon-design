@@ -371,16 +371,25 @@ export const prototypeGroups: PrototypeGroup[] = [
     tenant: 'dcp',
     title: 'Monitoring Portal',
     description:
-      'The field-monitoring command center — the tabs-to-sidebar nav refactor, the commitment-compliance dashboard explored as three switchable variants, and survey documents (Fulcrum / Survey123 / CASP) brought in as a grid.',
+      'The field-monitoring command center, restructured (2026-08) around n data streams: a Monitoring Data catalog of Fulcrum→Databricks streams with a generic landing per stream, a composable dashboard assembled from stream-contributed widgets (WordPress-dashboard × iOS-widget-grid model), and the former type-specific views recast as installable add-ons.',
     pages: [
       {
         slug: 'monitoring-dashboard',
-        title: 'Dashboard',
+        title: 'Dashboard (composable)',
         description:
-          'The portal dashboard: observation stat cards + the Commitment Compliance feature with three switchable variants (phase list / per-find dossier / triage board), built on the shipped flat observation→commitment model.',
+          'The portal landing as a composable widget grid (WordPress dashboard × iOS home screen): 1/2/3-column widgets with glanceable visualizations — active-observation donut with outstanding issues, species bars, commitment-compliance rollup, mileage and runtime trends, WEAP training counts — each linking through to its data stream.',
         route: '/prototypes/monitoring/dashboard',
         createdAt: '2026-06-16',
         ticket: 'BCN-1315',
+        status: 'in-progress',
+      },
+      {
+        slug: 'monitoring-data',
+        title: 'Monitoring Data catalog',
+        description:
+          'The scaling answer to n data streams: a Data Catalog-style card per Fulcrum/Survey123/CASP stream landing through Databricks (observations and their typed subsets — nesting birds, compliance concerns, biological resources — DMRs, surveys, vehicle mileage, equipment runtime, WEAP trainings), each opening a generic AG Grid index with the View As hybrid/map/grid pattern on geospatial streams.',
+        route: '/prototypes/monitoring/data',
+        createdAt: '2026-08-24',
         status: 'in-progress',
       },
       {

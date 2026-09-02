@@ -15,6 +15,7 @@ import EsaIconButton from '@esa/ecology/esa-button.astro';
 import FilterContainer from '@esa/ecology/esa-filter-container.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import { SURVEYS, SURVEY_STATUS_META, SURVEY_COUNT, PROJECT_NAME } from '../../../data/monitoring';
+import { withBase } from '../../../lib/base';
 
 // Compliance flag meta — only the two determinations render a chip; 'na' stays blank.
 const COMPLIANCE_FLAG_META = {
@@ -51,7 +52,7 @@ const gridPayload = {
   title={`Surveys — ${PROJECT_NAME}`}
   tenantName="DWR"
   projectName="Delta Conveyance"
-  activeNavId="mp-surveys"
+  activeNavId="mp-data"
   expandedSections={['monitoring']}
 >
   <PageLayout
@@ -59,7 +60,8 @@ const gridPayload = {
     icon="clipboard-list"
     breadcrumbs={[
       { label: 'Delta Conveyance', href: '#project' },
-      { label: 'Monitoring Portal', href: '#monitoring' },
+      { label: 'Monitoring Portal', href: withBase('/prototypes/monitoring/dashboard') },
+      { label: 'Data', href: withBase('/prototypes/monitoring/data') },
       { label: 'Surveys' },
     ]}
   >

@@ -230,6 +230,13 @@ const label =
     border: 1px solid var(--color-border-default);
     overflow: hidden;
     background: var(--color-background-elevation-sunken);
+    /* Leaflet stamps z-index 200–700 on its panes and 1000 on controls — high
+       enough to paint over sibling overlays (the widget ⋯ popover, Andy round 5).
+       isolate + an explicit low index contain the whole pile inside the map's
+       own stacking context, so those numbers never compete outside it. */
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
   }
 
   /* Leaflet injects .leaflet-container itself, so it is out of Astro's scope. */

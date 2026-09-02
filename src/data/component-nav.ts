@@ -102,10 +102,9 @@ export const componentNav = (activeId: 'components' | 'dashboard' = 'components'
     iconPaths: GLYPH['map-pinned'],
     expanded: true,
     items: [
-      { id: 'mp-dashboard', label: 'Dashboard', href: withBase('/prototypes/monitoring/dashboard') },
-      { id: 'mp-surveys', label: 'Surveys', href: withBase('/prototypes/monitoring/surveys') },
-      { id: 'mp-all-observations', label: 'All Observations' },
-      { id: 'site-clearance', label: 'Site Clearance', href: withBase('/prototypes/site-clearance'), divider: true },
+      { id: 'mp-dashboard', label: 'Monitoring Portal', href: withBase('/prototypes/monitoring/dashboard') },
+      { id: 'site-clearance', label: 'Site Clearance', href: withBase('/prototypes/site-clearance') },
+      { id: 'mp-data', label: 'Data', href: withBase('/prototypes/monitoring/data') },
     ],
   },
   {
