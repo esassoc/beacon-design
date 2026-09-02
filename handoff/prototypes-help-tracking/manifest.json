@@ -8,8 +8,8 @@
       "label": "Breadcrumb (nested help route)",
       "tag": "section",
       "selector": ".page-layout__breadcrumbs",
-      "html": "<section class=\"page-layout__breadcrumbs\">\n  <nav class=\"breadcrumbs\" aria-label=\"Breadcrumb\">\n    <div class=\"breadcrumbs__items\">\n      <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n        <svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"></path>\n          <path\n            d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"\n          ></path>\n        </svg>\n      </span>\n      <a class=\"breadcrumb-item\" href=\"/beacon-design/prototypes/help\">\n        Help &amp; Guidance </a\n      ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n        <svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path d=\"m9 18 6-6-6-6\"></path>\n        </svg>\n      </span>\n      <span class=\"breadcrumb-item\" aria-current=\"page\"> Tracking </span>\n    </div>\n  </nav>\n</section>",
-      "css": ".bcn-search-trigger .esa-icon {\n  flex: none;\n  color: var(--color-text-tertiary);\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-text-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-text-tertiary);\n  flex: none;\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-text-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-500);\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-primary);\n}\n.nav-section__header > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-950);\n  transition: color 0.15s ease;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  transition:\n    transform 0.15s ease,\n    opacity 0.2s ease-in-out;\n  flex-shrink: 0;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-icon-button {\n  --_ib-size: var(--form-height-md, 40px);\n  --_ib-bg-hover: var(\n    --icon-button-bg-hover,\n    color-mix(in srgb, currentColor 14%, transparent)\n  );\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_ib-size);\n  height: var(--_ib-size);\n  padding: 0;\n  border: 0;\n  border-radius: var(--radius-200, 8px);\n  background: transparent;\n  color: inherit;\n  cursor: pointer;\n  transition: background var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n}\n.esa-icon-button--xs {\n  --_ib-size: var(--form-height-xs, 28px);\n}\n.esa-icon-button--sm {\n  --_ib-size: var(--form-height-sm, 32px);\n}\n.esa-icon-button--lg {\n  --_ib-size: var(--form-height-lg, 48px);\n}\n.esa-icon-button:hover {\n  background: var(--_ib-bg-hover);\n}\n.esa-icon-button:focus-visible {\n  outline: var(--focus-ring-width) solid currentColor;\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  line-height: 1;\n  color: inherit;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  display: block;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n}\n.breadcrumbs {\n  padding: var(--spacing-400) 0;\n}\n.breadcrumbs__items {\n  display: flex;\n  gap: var(--spacing-100);\n  align-items: center;\n  flex-wrap: wrap;\n}\n.breadcrumb-item {\n  color: var(--bcn-gray-600);\n  text-transform: capitalize;\n  font-size: 0.875rem;\n}\na.breadcrumb-item {\n  text-decoration: none;\n}\na.breadcrumb-item:hover {\n  text-decoration: underline;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--bcn-gray-1000);\n  flex-shrink: 0;\n}",
+      "html": "<section class=\"page-layout__breadcrumbs\">\n  <nav class=\"breadcrumbs\" aria-label=\"Breadcrumb\">\n    <div class=\"breadcrumbs__items\">\n      <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n        ><svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"></path>\n          <path\n            d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"\n          ></path></svg></span\n      ><a class=\"breadcrumb-item\" href=\"/beacon-design/prototypes/help\"\n        >Help &amp; Guidance</a\n      ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n        ><svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path d=\"m9 18 6-6-6-6\"></path></svg></span\n      ><span class=\"breadcrumb-item\" aria-current=\"page\">Tracking</span>\n    </div>\n  </nav>\n</section>",
+      "css": ".bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-content-default-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, 20px);\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, 24px);\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.page-layout__breadcrumbs--bleed {\n  padding: 0 var(--spacing-600);\n}\n.breadcrumbs {\n  padding: var(--spacing-400) 0;\n  justify-content: space-between;\n  align-items: center;\n  gap: var(--spacing-400);\n  display: flex;\n}\n.breadcrumbs__end {\n  flex-shrink: 0;\n  align-items: center;\n  display: flex;\n}\n.breadcrumbs__items {\n  gap: var(--spacing-100);\n  flex-wrap: wrap;\n  align-items: center;\n  display: flex;\n}\n.breadcrumb-item {\n  color: var(--bcn-gray-600);\n  text-transform: capitalize;\n  font-size: 0.875rem;\n}\na.breadcrumb-item {\n  text-decoration: none;\n}\na.breadcrumb-item:hover {\n  text-decoration: underline;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
       "guide": {
         "intent": "The way back up. A category page is the only nested route in the knowledge base, so it is the only place the help feature shows a breadcrumb: \"Help & Guidance / <Category>\", with the category as the current page.",
         "decisions": [
@@ -29,7 +29,7 @@
       "tokens": [
         {
           "name": "--bcn-gray-1000",
-          "value": "#000000",
+          "value": "#000",
           "tier": "component"
         },
         {
@@ -54,78 +54,33 @@
         },
         {
           "name": "--bcn-helpbar-fg",
-          "value": "rgba(255, 255, 255, .92)",
+          "value": "#ffffffeb",
           "tier": "component"
         },
         {
           "name": "--bcn-helpbar-fg-muted",
-          "value": "rgba(255, 255, 255, .72)",
+          "value": "#ffffffb8",
           "tier": "component"
         },
         {
           "name": "--bcn-helpbar-hover-bg",
-          "value": "rgba(255, 255, 255, .1)",
+          "value": "#ffffff1a",
           "tier": "component"
         },
         {
-          "name": "--color-danger",
-          "value": "#e5484d",
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
           "tier": "semantic"
         },
         {
-          "name": "--color-primary",
-          "value": "#005862",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-secondary",
+          "name": "--color-content-default-secondary",
           "value": "#525252",
           "tier": "semantic"
         },
         {
-          "name": "--color-text-tertiary",
+          "name": "--color-content-default-tertiary",
           "value": "#656565",
           "tier": "semantic"
-        },
-        {
-          "name": "--focus-ring-offset",
-          "value": "2px",
-          "tier": "primitive"
-        },
-        {
-          "name": "--focus-ring-width",
-          "value": "2px",
-          "tier": "primitive"
-        },
-        {
-          "name": "--form-height-lg",
-          "value": "44px",
-          "tier": "component"
-        },
-        {
-          "name": "--form-height-md",
-          "value": "36px",
-          "tier": "component"
-        },
-        {
-          "name": "--form-height-sm",
-          "value": "28px",
-          "tier": "component"
-        },
-        {
-          "name": "--form-height-xs",
-          "value": "24px",
-          "tier": "component"
-        },
-        {
-          "name": "--icon-button-bg-hover",
-          "value": "color-mix(in srgb, currentColor 14%, transparent)",
-          "tier": "component"
-        },
-        {
-          "name": "--icon-size-large",
-          "value": "24px",
-          "tier": "component"
         },
         {
           "name": "--icon-size-lg",
@@ -138,19 +93,9 @@
           "tier": "primitive"
         },
         {
-          "name": "--icon-size-medium",
-          "value": "20px",
-          "tier": "component"
-        },
-        {
           "name": "--icon-size-sm",
           "value": "16px",
           "tier": "primitive"
-        },
-        {
-          "name": "--icon-size-small",
-          "value": "16px",
-          "tier": "component"
         },
         {
           "name": "--icon-size-xl",
@@ -160,11 +105,6 @@
         {
           "name": "--icon-size-xs",
           "value": "14px",
-          "tier": "primitive"
-        },
-        {
-          "name": "--radius-200",
-          "value": ".5rem",
           "tier": "primitive"
         },
         {
@@ -178,8 +118,8 @@
           "tier": "primitive"
         },
         {
-          "name": "--transition-fast",
-          "value": ".15s ease",
+          "name": "--spacing-600",
+          "value": "2rem",
           "tier": "primitive"
         }
       ],
@@ -190,8 +130,8 @@
       "label": "Category article list (full browse)",
       "tag": "section",
       "selector": ".bcn-kbl",
-      "html": "<section class=\"bcn-kbl\" aria-label=\"Tracking articles\">\n  <span class=\"bcn-kbl__count\">7 articles</span>\n  <ul class=\"bcn-kbl__list\" role=\"list\">\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-actions-vs-implementations\"\n        >Implementation</a\n      >\n      <span class=\"bcn-kbl__summary\"\n        >A single execution of a published action — the record teams work day to\n        day.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-what-is-a-component\">Component</a>\n      <span class=\"bcn-kbl__summary\"\n        >A distinct place or package of work within a project, tracked\n        independently.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-permit\">Permit</a>\n      <span class=\"bcn-kbl__summary\"\n        >An agency authorization the project must obtain, tracked through the acquisition\n        pipeline.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-reading-permit-tracking\"\n        >Reading the Permit Tracking board</a\n      >\n      <span class=\"bcn-kbl__summary\"\n        >Where each permit stands, what is blocking it, and what is due next.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-starring-components\"\n        >Starring components on your dashboard</a\n      >\n      <span class=\"bcn-kbl__summary\"\n        >Pin the three-to-five components you actually work in.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-reading-critical-now\"\n        >How the dashboard decides what needs attention</a\n      >\n      <span class=\"bcn-kbl__summary\"\n        >Urgency comes from action due dates, shown in the zone that owns the work.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-reading-project-timeline\"\n        >Reading the project timeline</a\n      >\n      <span class=\"bcn-kbl__summary\"\n        >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span\n      >\n    </li>\n  </ul>\n</section>",
-      "css": ".bcn-kbl {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-500);\n  max-inline-size: 60rem;\n}\n.bcn-kbl__count {\n  font-size: 0.8125rem;\n  color: var(--color-text-tertiary);\n}\n.bcn-kbl__list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n}\n.bcn-kbl__row {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-050);\n  padding-block: var(--spacing-300);\n}\n.bcn-kbl__row + .bcn-kbl__row {\n  border-top: 1px solid var(--color-border-light);\n}\n.bcn-kbl__link {\n  font-size: 1rem;\n  font-weight: var(--font-weight-medium);\n  line-height: 1.4;\n  color: var(--color-text-primary);\n  text-decoration: none;\n  transition: color 0.12s ease;\n  width: fit-content;\n}\n.bcn-kbl__link:hover {\n  color: var(--color-text-link);\n  text-decoration: underline;\n  text-underline-offset: 2px;\n}\n.bcn-kbl__link:focus-visible {\n  outline: 2px solid var(--color-text-link);\n  outline-offset: 2px;\n  border-radius: var(--radius-100);\n}\n.bcn-kbl__summary {\n  font-size: 0.875rem;\n  line-height: 1.45;\n  color: var(--color-text-secondary);\n}",
+      "html": "<section class=\"bcn-kbl\" aria-label=\"Tracking articles\">\n  <span class=\"bcn-kbl__count\">7 articles</span>\n  <ul class=\"bcn-kbl__list\" role=\"list\">\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-actions-vs-implementations\"\n        >Implementation</a\n      ><span class=\"bcn-kbl__summary\"\n        >A single execution of a published action — the record teams work day to\n        day.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-what-is-a-component\">Component</a\n      ><span class=\"bcn-kbl__summary\"\n        >A distinct place or package of work within a project, tracked\n        independently.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-permit\">Permit</a\n      ><span class=\"bcn-kbl__summary\"\n        >An agency authorization the project must obtain, tracked through the acquisition\n        pipeline.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-reading-permit-tracking\"\n        >Reading the Permit Tracking board</a\n      ><span class=\"bcn-kbl__summary\"\n        >Where each permit stands, what is blocking it, and what is due next.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-starring-components\"\n        >Starring components on your dashboard</a\n      ><span class=\"bcn-kbl__summary\"\n        >Pin the three-to-five components you actually work in.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-reading-critical-now\"\n        >How the dashboard decides what needs attention</a\n      ><span class=\"bcn-kbl__summary\"\n        >Urgency comes from action due dates, shown in the zone that owns the work.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-reading-project-timeline\"\n        >Reading the project timeline</a\n      ><span class=\"bcn-kbl__summary\"\n        >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span\n      >\n    </li>\n  </ul>\n</section>",
+      "css": ".bcn-kbl {\n  gap: var(--spacing-500);\n  flex-direction: column;\n  max-inline-size: 60rem;\n  display: flex;\n}\n.bcn-kbl__count {\n  color: var(--color-content-default-tertiary);\n  font-size: 0.8125rem;\n}\n.bcn-kbl__list {\n  flex-direction: column;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-kbl__row {\n  gap: var(--spacing-050);\n  padding-block: var(--spacing-300);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-kbl__row + .bcn-kbl__row {\n  border-top: 1px solid var(--color-border-default-subtle);\n}\n.bcn-kbl__link {\n  font-size: 1rem;\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default);\n  width: fit-content;\n  line-height: 1.4;\n  text-decoration: none;\n  transition: color 0.12s;\n}\n.bcn-kbl__link:hover {\n  color: var(--color-content-link);\n  text-underline-offset: 2px;\n  text-decoration: underline;\n}\n.bcn-kbl__link:focus-visible {\n  outline: 2px solid var(--color-content-link);\n  outline-offset: 2px;\n  border-radius: var(--radius-100);\n}\n.bcn-kbl__summary {\n  color: var(--color-content-default-secondary);\n  font-size: 0.875rem;\n  line-height: 1.45;\n}",
       "guide": {
         "intent": "The comprehensive list for one category: a quiet article count, then EVERY article in the category as a title link over a terse one-line summary. This is the full browse — denser than the home's curated preview cards, and the reason \"View all →\" exists.",
         "decisions": [
@@ -212,34 +152,24 @@
       },
       "tokens": [
         {
-          "name": "--color-border-light",
+          "name": "--color-border-default-subtle",
           "value": "#efefef",
           "tier": "semantic"
         },
         {
-          "name": "--color-text-link",
-          "value": "#005862",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-primary",
+          "name": "--color-content-default",
           "value": "#3d3d3d",
           "tier": "semantic"
         },
         {
-          "name": "--color-text-secondary",
+          "name": "--color-content-default-secondary",
           "value": "#525252",
           "tier": "semantic"
         },
         {
-          "name": "--color-text-tertiary",
+          "name": "--color-content-default-tertiary",
           "value": "#656565",
           "tier": "semantic"
-        },
-        {
-          "name": "--font-weight-medium",
-          "value": "500",
-          "tier": "primitive"
         },
         {
           "name": "--radius-100",
@@ -260,6 +190,11 @@
           "name": "--spacing-500",
           "value": "1.5rem",
           "tier": "primitive"
+        },
+        {
+          "name": "--typography-font-weight-medium",
+          "value": "500",
+          "tier": "semantic"
         }
       ],
       "claudePath": "claude/category-article-list-full-browse.md",
@@ -269,8 +204,8 @@
       "label": "Category-scoped reading pane",
       "tag": "div",
       "selector": ".bcn-kb__pane",
-      "html": "<div class=\"bcn-kb__pane\" data-kb-pane=\"\" data-kb-default=\"actions-vs-implementations\">\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"actions-vs-implementations\"\n    data-category=\"tracking\"\n  >\n    <article id=\"article-actions-vs-implementations\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">Implementation</h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">Glossary</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          An Implementation is the tracked execution of an action: its status, assignee,\n          tasks, comments, and evidence. The action defines what must be done; the\n          implementation records doing it. In daily use, implementations are what teams\n          refer to as the actions.\n        </p>\n        <p class=\"bcn-help-article__p type-body\">\n          The number of implementations an action generates is determined by its scope and\n          frequency. A one-time, project-scoped submission generates one implementation. A\n          recurring, component-scoped inspection generates one per component, per\n          occurrence.\n        </p>\n      </div>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"what-is-a-component\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-what-is-a-component\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">Component</h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">Glossary</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          A Component is a discrete location or work package within a project — a launch\n          shaft, an intake site, a construction segment. Components exist because the same\n          obligation frequently applies independently at each location.\n        </p>\n        <p class=\"bcn-help-article__p type-body\">\n          A component maps to the commitments that apply to it, may carry its own\n          milestone dates, and receives its own implementations of component-scoped\n          actions. A Work Area subdivides a component further when field tracking requires\n          finer grain.\n        </p>\n      </div>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"permit\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-permit\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">Permit</h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">Glossary</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          A Permit is an authorization or approval a project must secure from a regulatory\n          agency before or during construction. Beacon tracks each permit through its\n          acquisition pipeline — from not yet applied, through agency review, to issued.\n        </p>\n        <p class=\"bcn-help-article__p type-body\">\n          An issued permit typically becomes a source document: its conditions are\n          extracted as commitments and enter the catalog alongside every other obligation.\n        </p>\n      </div>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"reading-permit-tracking\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-reading-permit-tracking\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">\n          Reading the Permit Tracking board\n        </h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">How-to</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          Permit Tracking lists every permit and approval a project needs, each with its\n          current status in the acquisition pipeline — from not yet applied, through\n          agency review, to issued.\n        </p>\n        <ol class=\"bcn-help-article__steps\">\n          <li class=\"bcn-help-article__step type-body\">\n            Each row is one permit; the status lozenge shows where it sits in the\n            pipeline.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            The date column shows the next deadline — a submittal window, an agency\n            response due, or an expiration to renew.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            Open a permit to see its conditions, responsible contacts, and the source\n            document it will become once issued.\n          </li>\n        </ol>\n        <figure class=\"bcn-help-article__video\">\n          <div class=\"bcn-help-article__video-frame\">\n            <span class=\"bcn-help-article__video-play\"\n              ><span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n                <svg\n                  width=\"20\"\n                  height=\"20\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <polygon points=\"6 3 20 12 6 21 6 3\"></polygon>\n                </svg>\n              </span>\n            </span>\n            <span class=\"bcn-help-article__video-duration\"\n              ><span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n                <span class=\"esa-badge__text\">2:47</span>\n              </span>\n            </span>\n          </div>\n          <figcaption class=\"bcn-help-article__caption type-caption\">\n            Watch: a permit’s life in Beacon\n          </figcaption>\n        </figure>\n        <aside class=\"bcn-help-article__callout bcn-help-article__callout--tip\">\n          <span class=\"bcn-help-article__callout-icon\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path\n                  d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"\n                ></path>\n                <path d=\"M9 18h6\"></path>\n                <path d=\"M10 22h4\"></path>\n              </svg>\n            </span>\n          </span>\n          <div class=\"bcn-help-article__callout-body\">\n            <span class=\"bcn-help-article__callout-label\">Tip</span>\n            <p class=\"bcn-help-article__callout-text type-body\">\n              An issued permit becomes a source document: its conditions are extracted as\n              commitments and join the catalog like any other obligation.\n            </p>\n          </div>\n        </aside>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-permit\"\n              >Permit</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-what-is-a-source\"\n              >Source Document</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-what-is-a-commitment\"\n              >Commitment</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"starring-components\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-starring-components\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">\n          Starring components on your dashboard\n        </h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">How-to</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          A project may have dozens of components, though most people work in a few.\n          Starring pins a component to the project dashboard as a card showing its\n          Tracking, Monitoring, and Reporting pulse — the entry point into that\n          component’s own dashboard.\n        </p>\n        <ol class=\"bcn-help-article__steps\">\n          <li class=\"bcn-help-article__step type-body\">\n            Star a component from the all-components list, or from the star in its own\n            header.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            Starred components appear on the project dashboard in the Components section,\n            below the project-wide row.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            Un-star from either place; the component itself is unaffected.\n          </li>\n        </ol>\n        <p class=\"bcn-help-article__p type-body\">\n          Stars are yours alone — starring a component does not change what anyone else\n          sees. The Components section always leads with a project-wide row for actions\n          that belong to the project rather than to any one component.\n        </p>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-what-is-a-component\"\n              >Component</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-reading-critical-now\"\n              >How the dashboard decides what needs attention</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"reading-critical-now\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-reading-critical-now\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">\n          How the dashboard decides what needs attention\n        </h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">How-to</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          Everything urgent on the dashboard is an action with a due date. Each action\n          belongs to one of the three zones by its type — tracking, monitoring, or\n          reporting — so a lapsed survey is a monitoring action and an agency submittal is\n          a reporting action. There is no separate list of critical items to maintain.\n        </p>\n        <p class=\"bcn-help-article__p type-body\">\n          The Tracking, Monitoring, and Reporting modules each count their own overdue\n          actions and the ones due within the next fourteen days, then list the most\n          urgent of them. Red means past due; amber means due soon. Clicking any of them\n          opens the action itself.\n        </p>\n        <p class=\"bcn-help-article__p type-body\">\n          An action leaves the surface when it is completed or its due date moves. There\n          is nothing to configure — the modules read the same action records you work with\n          in each zone.\n        </p>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-starring-components\"\n              >Starring components on your dashboard</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-reading-project-timeline\"\n              >Reading the project timeline</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"reading-project-timeline\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-reading-project-timeline\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">\n          Reading the project timeline\n        </h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">How-to</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          The timeline across the top of the dashboard plots three things on one date\n          axis: action due dates, season windows, and project milestones. It opens a week\n          before today so anything already overdue stays in view.\n        </p>\n        <ol class=\"bcn-help-article__steps\">\n          <li class=\"bcn-help-article__step type-body\">\n            Switch the window between 30, 60, and 90 days to look further ahead.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            Click any mark — a dot, a season bar, or a milestone — to pin its details\n            open.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            Seasons show the ones starting or ending inside the window first; use “Show\n            all” when a project carries many.\n          </li>\n        </ol>\n        <p class=\"bcn-help-article__p type-body\">\n          Action dots follow the same colors as the modules: red for past due, amber for\n          due soon, gray for later. Milestones are shown in blue because they mark\n          schedule rather than urgency.\n        </p>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-reading-critical-now\"\n              >How the dashboard decides what needs attention</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-starring-components\"\n              >Starring components on your dashboard</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n</div>",
-      "css": ".bcn-search-trigger .esa-icon {\n  flex: none;\n  color: var(--color-text-tertiary);\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-help-article {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-500);\n}\n.bcn-help-article--compact {\n  gap: var(--spacing-400);\n}\n.bcn-help-article__head {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-300);\n  flex-wrap: wrap;\n}\n.bcn-help-article__title {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__body {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-400);\n}\n.bcn-help-article--compact .bcn-help-article__body {\n  gap: var(--spacing-300);\n}\n.bcn-help-article__p {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__steps {\n  list-style: none;\n  counter-reset: bcn-step;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-300);\n}\n.bcn-help-article__step {\n  counter-increment: bcn-step;\n  display: grid;\n  grid-template-columns: 1.625rem 1fr;\n  align-items: start;\n  gap: var(--spacing-300);\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__step:before {\n  content: counter(bcn-step);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 1.625rem;\n  height: 1.625rem;\n  border-radius: var(--radius-full);\n  background: var(--color-surface-sunken);\n  color: var(--color-text-primary);\n  font-size: 0.8125rem;\n  font-weight: var(--font-weight-semibold);\n  line-height: 1;\n}\n.bcn-help-article__callout {\n  display: grid;\n  grid-template-columns: auto 1fr;\n  align-items: start;\n  gap: var(--spacing-300);\n  padding: var(--spacing-400);\n  border-radius: var(--radius-200);\n  border: 1px solid var(--color-border-light);\n  background: var(--color-surface-sunken);\n}\n.bcn-help-article--compact .bcn-help-article__callout {\n  padding: var(--spacing-300);\n}\n.bcn-help-article__callout-icon {\n  display: inline-flex;\n  margin-top: 1px;\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__callout-body {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  min-width: 0;\n}\n.bcn-help-article__callout-label {\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__callout-text {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__figure {\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-200);\n}\n.bcn-help-article__figure-frame {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: var(--spacing-200);\n  min-height: 8.5rem;\n  padding: var(--spacing-500);\n  border: 1px dashed var(--color-border-strong);\n  border-radius: var(--radius-200);\n  background: var(--color-surface-sunken);\n  text-align: center;\n}\n.bcn-help-article__figure-icon {\n  color: var(--color-text-tertiary);\n}\n.bcn-help-article__figure-label {\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-medium);\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__video {\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-200);\n}\n.bcn-help-article__video-frame {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  aspect-ratio: 16 / 9;\n  border-radius: var(--radius-200);\n  overflow: hidden;\n  border: 1px solid var(--color-border);\n  background: color-mix(\n    in srgb,\n    var(--color-text-primary) 8%,\n    var(--color-surface-sunken)\n  );\n}\n.bcn-help-article__video-play {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 3rem;\n  height: 3rem;\n  border-radius: var(--radius-full);\n  background: var(--color-surface);\n  color: var(--color-text-primary);\n  box-shadow: 0 1px 4px #0000002e;\n  padding-left: 3px;\n}\n.bcn-help-article__video-duration {\n  position: absolute;\n  right: var(--spacing-200);\n  bottom: var(--spacing-200);\n}\n.bcn-help-article__video-label,\n.bcn-help-article__caption {\n  font-size: max(0.8125rem, var(--type-size-100));\n  color: var(--color-text-secondary);\n  margin: 0;\n}\n.bcn-help-article__related {\n  display: flex;\n  align-items: baseline;\n  flex-wrap: wrap;\n  gap: var(--spacing-150) var(--spacing-300);\n  padding-top: var(--spacing-300);\n  border-top: 1px solid var(--color-border-light);\n}\n.bcn-help-article__related-label {\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__related-list {\n  display: flex;\n  flex-wrap: wrap;\n  gap: var(--spacing-100) var(--spacing-300);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-help-article__related-link {\n  font-size: 0.9375rem;\n  color: var(--color-text-link);\n  text-decoration: none;\n}\n.bcn-help-article__related-link:hover {\n  color: var(--color-text-link-hover);\n  text-decoration: underline;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-text-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-text-tertiary);\n  flex: none;\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-text-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-500);\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-primary);\n}\n.nav-section__header > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-950);\n  transition: color 0.15s ease;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  transition:\n    transform 0.15s ease,\n    opacity 0.2s ease-in-out;\n  flex-shrink: 0;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.type-card-title {\n  font-size: var(--type-size-400);\n  font-weight: var(--font-weight-medium);\n  line-height: var(--line-height-normal);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-body-large {\n  font-size: var(--type-size-300);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-relaxed);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-body {\n  font-size: var(--type-size-200);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-relaxed);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-body-small {\n  font-size: var(--type-size-150);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-normal);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-caption {\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-normal);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.bcn-kb__pane {\n  min-block-size: 60vh;\n  padding-block-start: var(--spacing-600);\n  border-top: 1px solid var(--color-border);\n  scroll-margin-top: var(--spacing-400);\n}\n.bcn-kb__pane:not(:has(> .bcn-kb__article:not([hidden]))) {\n  min-block-size: 0;\n  padding-block-start: 0;\n  border-top: 0;\n}\n.bcn-kb__article {\n  max-inline-size: 70ch;\n}\n.bcn-kb__article[hidden] {\n  display: none;\n}\n.esa-icon-button {\n  --_ib-size: var(--form-height-md, 40px);\n  --_ib-bg-hover: var(\n    --icon-button-bg-hover,\n    color-mix(in srgb, currentColor 14%, transparent)\n  );\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_ib-size);\n  height: var(--_ib-size);\n  padding: 0;\n  border: 0;\n  border-radius: var(--radius-200, 8px);\n  background: transparent;\n  color: inherit;\n  cursor: pointer;\n  transition: background var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n}\n.esa-icon-button--xs {\n  --_ib-size: var(--form-height-xs, 28px);\n}\n.esa-icon-button--sm {\n  --_ib-size: var(--form-height-sm, 32px);\n}\n.esa-icon-button--lg {\n  --_ib-size: var(--form-height-lg, 48px);\n}\n.esa-icon-button:hover {\n  background: var(--_ib-bg-hover);\n}\n.esa-icon-button:focus-visible {\n  outline: var(--focus-ring-width) solid currentColor;\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  line-height: 1;\n  color: inherit;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  display: block;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));\n  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));\n  --_badge-height: var(--badge-height-md, 28px);\n  --_badge-font-size: 13px;\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  --_badge-min-width: var(--badge-height-md, 28px);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  height: var(--_badge-height);\n  min-width: var(--_badge-min-width);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--badge-radius, var(--radius-100, 4px));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  font-size: var(--_badge-font-size);\n  font-weight: 600;\n  line-height: 1;\n  white-space: nowrap;\n  box-sizing: border-box;\n}\n.esa-badge--xs {\n  --_badge-height: var(--badge-height-xs, 18px);\n  --_badge-font-size: 10px;\n  --_badge-padding-x: var(--spacing-100, 0.25rem);\n  --_badge-min-width: var(--badge-height-xs, 18px);\n}\n.esa-badge--sm {\n  --_badge-height: var(--badge-height-sm, 22px);\n  --_badge-font-size: 11px;\n  --_badge-padding-x: var(--spacing-150, 0.375rem);\n  --_badge-min-width: var(--badge-height-sm, 22px);\n}\n.esa-badge--lg {\n  --_badge-height: var(--badge-height-lg, 34px);\n  --_badge-font-size: 14px;\n  --_badge-padding-x: var(--spacing-300, 0.75rem);\n  --_badge-min-width: var(--badge-height-lg, 34px);\n}\n.esa-badge--secondary {\n  --_badge-bg: var(--color-secondary, #65ba74);\n  --_badge-text: var(--color-secondary-on-fill, #203c25);\n}\n.esa-badge--success {\n  --_badge-bg: var(--color-success, #bdee63);\n  --_badge-text: var(--color-success-on-fill, #37401c);\n}\n.esa-badge--warning {\n  --_badge-bg: var(--color-warning, #ffc53d);\n  --_badge-text: var(--color-warning-on-fill, #4f3422);\n}\n.esa-badge--danger {\n  --_badge-bg: var(--color-danger, #e5484d);\n}\n.esa-badge--info {\n  --_badge-bg: var(--color-info, #0090ff);\n}\n.esa-badge--dot {\n  width: 8px;\n  height: 8px;\n  min-width: 8px;\n  padding: 0;\n  border-radius: var(--radius-full, 9999px);\n}\n.esa-badge--dot.esa-badge--primary {\n  --_badge-bg: var(--color-primary-hover, #3e9b4f);\n}\n.esa-badge--dot.esa-badge--secondary {\n  --_badge-bg: var(--color-secondary-hover, #46a758);\n}\n.esa-badge--dot.esa-badge--success {\n  --_badge-bg: var(--color-success-hover, #b0e64c);\n}\n.esa-badge--dot.esa-badge--warning {\n  --_badge-bg: var(--color-warning-hover, #ffba18);\n}\n.esa-badge--dot.esa-badge--danger {\n  --_badge-bg: var(--color-danger-hover, #dc3e42);\n}\n.esa-badge--dot.esa-badge--info {\n  --_badge-bg: var(--color-info-hover, #0588f0);\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--bcn-gray-1000);\n  flex-shrink: 0;\n}",
+      "html": "<div class=\"bcn-kb__pane\" data-kb-pane=\"\" data-kb-default=\"actions-vs-implementations\">\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"actions-vs-implementations\"\n    data-category=\"tracking\"\n  >\n    <article id=\"article-actions-vs-implementations\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title typography-title\">Implementation</h2>\n        <span\n          class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n          ><span class=\"esa-badge__text\">Glossary</span></span\n        >\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p typography-body-md\">\n          An Implementation is the tracked execution of an action: its status, assignee,\n          tasks, comments, and evidence. The action defines what must be done; the\n          implementation records doing it. In daily use, implementations are what teams\n          refer to as the actions.\n        </p>\n        <p class=\"bcn-help-article__p typography-body-md\">\n          The number of implementations an action generates is determined by its scope and\n          frequency. A one-time, project-scoped submission generates one implementation. A\n          recurring, component-scoped inspection generates one per component, per\n          occurrence.\n        </p>\n      </div>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"what-is-a-component\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-what-is-a-component\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title typography-title\">Component</h2>\n        <span\n          class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n          ><span class=\"esa-badge__text\">Glossary</span></span\n        >\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p typography-body-md\">\n          A Component is a discrete location or work package within a project — a launch\n          shaft, an intake site, a construction segment. Components exist because the same\n          obligation frequently applies independently at each location.\n        </p>\n        <p class=\"bcn-help-article__p typography-body-md\">\n          A component maps to the commitments that apply to it, may carry its own\n          milestone dates, and receives its own implementations of component-scoped\n          actions. A Work Area subdivides a component further when field tracking requires\n          finer grain.\n        </p>\n      </div>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"permit\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-permit\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title typography-title\">Permit</h2>\n        <span\n          class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n          ><span class=\"esa-badge__text\">Glossary</span></span\n        >\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p typography-body-md\">\n          A Permit is an authorization or approval a project must secure from a regulatory\n          agency before or during construction. Beacon tracks each permit through its\n          acquisition pipeline — from not yet applied, through agency review, to issued.\n        </p>\n        <p class=\"bcn-help-article__p typography-body-md\">\n          An issued permit typically becomes a source document: its conditions are\n          extracted as commitments and enter the catalog alongside every other obligation.\n        </p>\n      </div>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"reading-permit-tracking\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-reading-permit-tracking\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title typography-title\">\n          Reading the Permit Tracking board\n        </h2>\n        <span\n          class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n          ><span class=\"esa-badge__text\">How-to</span></span\n        >\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p typography-body-md\">\n          Permit Tracking lists every permit and approval a project needs, each with its\n          current status in the acquisition pipeline — from not yet applied, through\n          agency review, to issued.\n        </p>\n        <ol class=\"bcn-help-article__steps\">\n          <li class=\"bcn-help-article__step typography-body-md\">\n            Each row is one permit; the status lozenge shows where it sits in the\n            pipeline.\n          </li>\n          <li class=\"bcn-help-article__step typography-body-md\">\n            The date column shows the next deadline — a submittal window, an agency\n            response due, or an expiration to renew.\n          </li>\n          <li class=\"bcn-help-article__step typography-body-md\">\n            Open a permit to see its conditions, responsible contacts, and the source\n            document it will become once issued.\n          </li>\n        </ol>\n        <figure class=\"bcn-help-article__video\">\n          <div class=\"bcn-help-article__video-frame\">\n            <span class=\"bcn-help-article__video-play\"\n              ><span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\"\n                ><svg\n                  width=\"20\"\n                  height=\"20\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <polygon points=\"6 3 20 12 6 21 6 3\"></polygon></svg></span></span\n            ><span class=\"bcn-help-article__video-duration\"\n              ><span\n                class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n                ><span class=\"esa-badge__text\">2:47</span></span\n              ></span\n            >\n          </div>\n          <figcaption class=\"bcn-help-article__caption typography-meta\">\n            Watch: a permit’s life in Beacon\n          </figcaption>\n        </figure>\n        <aside class=\"bcn-help-article__callout bcn-help-article__callout--tip\">\n          <span class=\"bcn-help-article__callout-icon\"\n            ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n              ><svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path\n                  d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"\n                ></path>\n                <path d=\"M9 18h6\"></path>\n                <path d=\"M10 22h4\"></path></svg></span\n          ></span>\n          <div class=\"bcn-help-article__callout-body\">\n            <span class=\"bcn-help-article__callout-label\">Tip</span>\n            <p class=\"bcn-help-article__callout-text typography-body-md\">\n              An issued permit becomes a source document: its conditions are extracted as\n              commitments and join the catalog like any other obligation.\n            </p>\n          </div>\n        </aside>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-permit\"\n              >Permit</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-what-is-a-source\"\n              >Source Document</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-what-is-a-commitment\"\n              >Commitment</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"starring-components\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-starring-components\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title typography-title\">\n          Starring components on your dashboard\n        </h2>\n        <span\n          class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n          ><span class=\"esa-badge__text\">How-to</span></span\n        >\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p typography-body-md\">\n          A project may have dozens of components, though most people work in a few.\n          Starring pins a component to the project dashboard as a card showing its\n          Tracking, Monitoring, and Reporting pulse — the entry point into that\n          component’s own dashboard.\n        </p>\n        <ol class=\"bcn-help-article__steps\">\n          <li class=\"bcn-help-article__step typography-body-md\">\n            Star a component from the all-components list, or from the star in its own\n            header.\n          </li>\n          <li class=\"bcn-help-article__step typography-body-md\">\n            Starred components appear on the project dashboard in the Components section,\n            below the project-wide row.\n          </li>\n          <li class=\"bcn-help-article__step typography-body-md\">\n            Un-star from either place; the component itself is unaffected.\n          </li>\n        </ol>\n        <p class=\"bcn-help-article__p typography-body-md\">\n          Stars are yours alone — starring a component does not change what anyone else\n          sees. The Components section always leads with a project-wide row for actions\n          that belong to the project rather than to any one component.\n        </p>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-what-is-a-component\"\n              >Component</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-reading-critical-now\"\n              >How the dashboard decides what needs attention</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"reading-critical-now\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-reading-critical-now\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title typography-title\">\n          How the dashboard decides what needs attention\n        </h2>\n        <span\n          class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n          ><span class=\"esa-badge__text\">How-to</span></span\n        >\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p typography-body-md\">\n          Everything urgent on the dashboard is an action with a due date. Each action\n          belongs to one of the three zones by its type — tracking, monitoring, or\n          reporting — so a lapsed survey is a monitoring action and an agency submittal is\n          a reporting action. There is no separate list of critical items to maintain.\n        </p>\n        <p class=\"bcn-help-article__p typography-body-md\">\n          The Tracking, Monitoring, and Reporting modules each count their own overdue\n          actions and the ones due within the next fourteen days, then list the most\n          urgent of them. Red means past due; amber means due soon. Clicking any of them\n          opens the action itself.\n        </p>\n        <p class=\"bcn-help-article__p typography-body-md\">\n          An action leaves the surface when it is completed or its due date moves. There\n          is nothing to configure — the modules read the same action records you work with\n          in each zone.\n        </p>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-starring-components\"\n              >Starring components on your dashboard</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-reading-project-timeline\"\n              >Reading the project timeline</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"reading-project-timeline\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-reading-project-timeline\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title typography-title\">\n          Reading the project timeline\n        </h2>\n        <span\n          class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n          ><span class=\"esa-badge__text\">How-to</span></span\n        >\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p typography-body-md\">\n          The timeline across the top of the dashboard plots three things on one date\n          axis: action due dates, season windows, and project milestones. It opens a week\n          before today so anything already overdue stays in view.\n        </p>\n        <ol class=\"bcn-help-article__steps\">\n          <li class=\"bcn-help-article__step typography-body-md\">\n            Switch the window between 30, 60, and 90 days to look further ahead.\n          </li>\n          <li class=\"bcn-help-article__step typography-body-md\">\n            Click any mark — a dot, a season bar, or a milestone — to pin its details\n            open.\n          </li>\n          <li class=\"bcn-help-article__step typography-body-md\">\n            Seasons show the ones starting or ending inside the window first; use “Show\n            all” when a project carries many.\n          </li>\n        </ol>\n        <p class=\"bcn-help-article__p typography-body-md\">\n          Action dots follow the same colors as the modules: red for past due, amber for\n          due soon, gray for later. Milestones are shown in blue because they mark\n          schedule rather than urgency.\n        </p>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-reading-critical-now\"\n              >How the dashboard decides what needs attention</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-starring-components\"\n              >Starring components on your dashboard</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n</div>",
+      "css": ".typography-title {\n  font-family: var(--typography-title-font-family);\n  font-size: var(--typography-title-font-size);\n  font-weight: var(--typography-title-font-weight);\n  line-height: var(--typography-title-line-height);\n  letter-spacing: var(--typography-title-letter-spacing);\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.typography-title-strong {\n  font-family: var(--typography-title-strong-font-family);\n  font-size: var(--typography-title-strong-font-size);\n  font-weight: var(--typography-title-strong-font-weight);\n  line-height: var(--typography-title-strong-line-height);\n  letter-spacing: var(--typography-title-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.typography-meta {\n  font-family: var(--typography-meta-font-family);\n  font-size: var(--typography-meta-font-size);\n  font-weight: var(--typography-meta-font-weight);\n  line-height: var(--typography-meta-line-height);\n  letter-spacing: var(--typography-meta-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-help-article {\n  gap: var(--spacing-500);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-help-article--compact {\n  gap: var(--spacing-400);\n}\n.bcn-help-article__head {\n  align-items: center;\n  gap: var(--spacing-300);\n  flex-wrap: wrap;\n  display: flex;\n}\n.bcn-help-article__title {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-help-article__body {\n  gap: var(--spacing-400);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-help-article--compact .bcn-help-article__body {\n  gap: var(--spacing-300);\n}\n.bcn-help-article__p {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-help-article__steps {\n  counter-reset: bcn-step;\n  gap: var(--spacing-300);\n  flex-direction: column;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-help-article__step {\n  counter-increment: bcn-step;\n  align-items: start;\n  gap: var(--spacing-300);\n  color: var(--color-content-default);\n  grid-template-columns: 1.625rem 1fr;\n  margin: 0;\n  display: grid;\n}\n.bcn-help-article__step:before {\n  content: counter(bcn-step);\n  border-radius: var(--radius-full);\n  background: var(--color-background-elevation-sunken);\n  width: 1.625rem;\n  height: 1.625rem;\n  color: var(--color-content-default);\n  font-size: 0.8125rem;\n  font-weight: var(--typography-font-weight-semibold);\n  justify-content: center;\n  align-items: center;\n  line-height: 1;\n  display: inline-flex;\n}\n.bcn-help-article__callout {\n  align-items: start;\n  gap: var(--spacing-300);\n  padding: var(--spacing-400);\n  border-radius: var(--radius-200);\n  border: 1px solid var(--color-border-default-subtle);\n  background: var(--color-background-elevation-sunken);\n  grid-template-columns: auto 1fr;\n  display: grid;\n}\n.bcn-help-article--compact .bcn-help-article__callout {\n  padding: var(--spacing-300);\n}\n.bcn-help-article__callout-icon {\n  color: var(--color-content-default-secondary);\n  margin-top: 1px;\n  display: inline-flex;\n}\n.bcn-help-article__callout-body {\n  flex-direction: column;\n  gap: 2px;\n  min-width: 0;\n  display: flex;\n}\n.bcn-help-article__callout-label {\n  font-size: 0.875rem;\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default-secondary);\n}\n.bcn-help-article__callout-text {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-help-article__figure {\n  gap: var(--spacing-200);\n  flex-direction: column;\n  margin: 0;\n  display: flex;\n}\n.bcn-help-article__figure-frame {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200);\n  min-height: 8.5rem;\n  padding: var(--spacing-500);\n  border: 1px dashed var(--color-border-default-strong);\n  border-radius: var(--radius-200);\n  background: var(--color-background-elevation-sunken);\n  text-align: center;\n  flex-direction: column;\n  display: flex;\n}\n.bcn-help-article__figure-icon {\n  color: var(--color-content-default-tertiary);\n}\n.bcn-help-article__figure-label {\n  font-size: 0.875rem;\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default-secondary);\n}\n.bcn-help-article__video {\n  gap: var(--spacing-200);\n  flex-direction: column;\n  margin: 0;\n  display: flex;\n}\n.bcn-help-article__video-frame {\n  aspect-ratio: 16/9;\n  border-radius: var(--radius-200);\n  border: 1px solid var(--color-border-default);\n  background: color-mix(\n    in srgb,\n    var(--color-content-default) 8%,\n    var(--color-background-elevation-sunken)\n  );\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  position: relative;\n  overflow: hidden;\n}\n.bcn-help-article__video-play {\n  border-radius: var(--radius-full);\n  background: var(--color-background-elevation-raised);\n  width: 3rem;\n  height: 3rem;\n  color: var(--color-content-default);\n  justify-content: center;\n  align-items: center;\n  padding-left: 3px;\n  display: inline-flex;\n  box-shadow: 0 1px 4px #0000002e;\n}\n.bcn-help-article__video-duration {\n  right: var(--spacing-200);\n  bottom: var(--spacing-200);\n  position: absolute;\n}\n.bcn-help-article__video-label,\n.bcn-help-article__caption {\n  font-size: max(0.8125rem, var(--font-size-100));\n  color: var(--color-content-default-secondary);\n  margin: 0;\n}\n.bcn-help-article__related {\n  align-items: baseline;\n  gap: var(--spacing-150) var(--spacing-300);\n  padding-top: var(--spacing-300);\n  border-top: 1px solid var(--color-border-default-subtle);\n  flex-wrap: wrap;\n  display: flex;\n}\n.bcn-help-article__related-label {\n  font-size: 0.875rem;\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default-secondary);\n}\n.bcn-help-article__related-list {\n  gap: var(--spacing-100) var(--spacing-300);\n  flex-wrap: wrap;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-help-article__related-link {\n  color: var(--color-content-link);\n  font-size: 0.9375rem;\n  text-decoration: none;\n}\n.bcn-help-article__related-link:hover {\n  color: var(--color-content-link-hover);\n  text-decoration: underline;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n.bcn-countchip__num .esa-badge {\n  --badge-radius: var(--radius-full);\n  --badge-bg: var(--color-border-default);\n  --badge-text-color: var(--color-content-default-secondary);\n  box-sizing: border-box;\n  font-variant-numeric: tabular-nums;\n  min-width: 19px;\n  height: 19px;\n  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);\n  justify-content: center;\n  align-items: center;\n  padding: 0 4px;\n  font-size: 0.8125rem;\n  line-height: 1;\n  display: inline-flex;\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-attached__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid\n    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid\n    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__tags .esa-badge {\n  --badge-bg: var(--bcn-gray-100);\n  --badge-text-color: var(--bcn-gray-700);\n  font-weight: var(--typography-font-weight-medium);\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-content-default-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.typography-title {\n  font-family: var(--typography-title-font-family);\n  font-size: var(--typography-title-font-size);\n  font-weight: var(--typography-title-font-weight);\n  line-height: var(--typography-title-line-height);\n  letter-spacing: var(--typography-title-letter-spacing);\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.typography-title-strong {\n  font-family: var(--typography-title-strong-font-family);\n  font-size: var(--typography-title-strong-font-size);\n  font-weight: var(--typography-title-strong-font-weight);\n  line-height: var(--typography-title-strong-line-height);\n  letter-spacing: var(--typography-title-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.typography-meta {\n  font-family: var(--typography-meta-font-family);\n  font-size: var(--typography-meta-font-size);\n  font-weight: var(--typography-meta-font-weight);\n  line-height: var(--typography-meta-line-height);\n  letter-spacing: var(--typography-meta-letter-spacing);\n}\n.bcn-kb__pane {\n  min-block-size: 60vh;\n  border-top: 1px solid var(--color-border-default);\n  scroll-margin-top: var(--spacing-400);\n  padding-block-start: var(--spacing-600);\n}\n.bcn-kb__pane:not(:has(> .bcn-kb__article:not([hidden]))) {\n  border-top: 0;\n  min-block-size: 0;\n  padding-block-start: 0;\n}\n.bcn-kb__article {\n  max-inline-size: 70ch;\n}\n.bcn-kb__article[hidden] {\n  display: none;\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, 20px);\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, 24px);\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));\n  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));\n  --_badge-padding-y: var(--spacing-150, 0.375rem);\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  min-width: calc(1lh + 2 * var(--_badge-padding-y));\n  padding-block: var(--_badge-padding-y);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  white-space: nowrap;\n  box-sizing: border-box;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-badge--xs {\n  --_badge-padding-y: var(--spacing-100, 0.25rem);\n  --_badge-padding-x: var(--spacing-100, 0.25rem);\n}\n.esa-badge--sm {\n  --_badge-padding-y: var(--spacing-100, 0.25rem);\n  --_badge-padding-x: var(--spacing-150, 0.375rem);\n}\n.esa-badge--lg {\n  --_badge-padding-y: var(--spacing-250, 0.625rem);\n  --_badge-padding-x: var(--spacing-300, 0.75rem);\n}\n.esa-badge--secondary {\n  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);\n  --_badge-text: var(--color-content-on-brand-muted, #203c25);\n}\n.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);\n  --_badge-text: var(--color-content-utility-success, #218358);\n  --_badge-border: var(--color-border-utility-success, #adddc0);\n}\n.esa-badge--warning {\n  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);\n  --_badge-text: var(--color-content-utility-warning, #ab6400);\n  --_badge-border: var(--color-border-utility-warning, #f3d673);\n}\n.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);\n  --_badge-text: var(--color-content-utility-danger, #ce2c31);\n  --_badge-border: var(--color-border-utility-danger, #fdbdbe);\n}\n.esa-badge--info {\n  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);\n  --_badge-text: var(--color-content-utility-info, #0d74ce);\n  --_badge-border: var(--color-border-utility-info, #acd8fc);\n}\n.esa-badge--success:not(.esa-badge--dot),\n.esa-badge--warning:not(.esa-badge--dot),\n.esa-badge--danger:not(.esa-badge--dot),\n.esa-badge--info:not(.esa-badge--dot) {\n  border: 1px solid var(--_badge-border, transparent);\n}\n.esa-badge--dot {\n  border-radius: var(--radius-pill, 9999px);\n  width: 8px;\n  min-width: 8px;\n  height: 8px;\n  padding: 0;\n}\n.esa-badge--dot.esa-badge--primary {\n  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);\n}\n.esa-badge--dot.esa-badge--secondary {\n  --_badge-bg: var(--color-background-brand, #46a758);\n}\n.esa-badge--dot.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);\n}\n.esa-badge--dot.esa-badge--warning {\n  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);\n}\n.esa-badge--dot.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);\n}\n.esa-badge--dot.esa-badge--info {\n  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);\n}\n.esa-badge--dot {\n  background: canvastext;\n  border: 0;\n  outline: 1px solid canvastext;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
       "guide": {
         "intent": "The same reading pane the help home uses, but SCOPED to this category and landing on its first article — so a category page is readable the moment it loads rather than showing an empty reader.",
         "decisions": [
@@ -291,32 +226,7 @@
       "tokens": [
         {
           "name": "--badge-bg",
-          "value": "#005862",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-height-lg",
-          "value": "34px",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-height-md",
-          "value": "28px",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-height-sm",
-          "value": "22px",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-height-xs",
-          "value": "18px",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-radius",
-          "value": ".25rem",
+          "value": "#43608a",
           "tier": "component"
         },
         {
@@ -325,8 +235,13 @@
           "tier": "component"
         },
         {
+          "name": "--bcn-gray-100",
+          "value": "#efefef",
+          "tier": "component"
+        },
+        {
           "name": "--bcn-gray-1000",
-          "value": "#000000",
+          "value": "#000",
           "tier": "component"
         },
         {
@@ -340,209 +255,184 @@
           "tier": "component"
         },
         {
+          "name": "--bcn-gray-700",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
           "name": "--bcn-gray-950",
           "value": "#292929",
           "tier": "component"
         },
         {
           "name": "--bcn-helpbar-fg",
-          "value": "rgba(255, 255, 255, .92)",
+          "value": "#ffffffeb",
           "tier": "component"
         },
         {
           "name": "--bcn-helpbar-fg-muted",
-          "value": "rgba(255, 255, 255, .72)",
+          "value": "#ffffffb8",
           "tier": "component"
         },
         {
           "name": "--bcn-helpbar-hover-bg",
-          "value": "rgba(255, 255, 255, .1)",
+          "value": "#ffffff1a",
           "tier": "component"
         },
         {
-          "name": "--color-border",
-          "value": "#dcdcdc",
+          "name": "--color-background-brand-muted",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
-          "name": "--color-border-light",
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
           "value": "#efefef",
           "tier": "semantic"
         },
         {
-          "name": "--color-border-strong",
-          "value": "#bdbdbd",
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
           "tier": "semantic"
         },
         {
-          "name": "--color-danger",
-          "value": "#e5484d",
+          "name": "--color-background-utility-danger-hover",
+          "value": "#641723",
           "tier": "semantic"
         },
         {
-          "name": "--color-danger-hover",
-          "value": "#dc3e42",
+          "name": "--color-background-utility-danger-muted",
+          "value": "#feebec",
           "tier": "semantic"
         },
         {
-          "name": "--color-info",
+          "name": "--color-background-utility-info",
           "value": "#228be6",
           "tier": "semantic"
         },
         {
-          "name": "--color-info-hover",
-          "value": "#0588f0",
+          "name": "--color-background-utility-info-hover",
+          "value": "#113264",
           "tier": "semantic"
         },
         {
-          "name": "--color-primary",
-          "value": "#005862",
+          "name": "--color-background-utility-info-muted",
+          "value": "#e6f4fe",
           "tier": "semantic"
         },
         {
-          "name": "--color-primary-hover",
-          "value": "#00474f",
+          "name": "--color-background-utility-info-subtle",
+          "value": "#fbfdff",
           "tier": "semantic"
         },
         {
-          "name": "--color-secondary",
-          "value": "#00918b",
+          "name": "--color-background-utility-success-hover",
+          "value": "#193b2d",
           "tier": "semantic"
         },
         {
-          "name": "--color-secondary-hover",
-          "value": "#0a6562",
+          "name": "--color-background-utility-success-muted",
+          "value": "#e6f6eb",
           "tier": "semantic"
         },
         {
-          "name": "--color-secondary-on-fill",
-          "value": "#203c25",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-success",
-          "value": "#2e7571",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-success-hover",
-          "value": "#b0e64c",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-success-on-fill",
-          "value": "#37401c",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-surface",
-          "value": "#fcfcfc",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-surface-sunken",
-          "value": "#efefef",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-inverse",
-          "value": "#fcfcfc",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-link",
-          "value": "#005862",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-link-hover",
-          "value": "#00474f",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-primary",
-          "value": "#3d3d3d",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-secondary",
-          "value": "#525252",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-tertiary",
-          "value": "#656565",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-warning",
-          "value": "#f59e0b",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-warning-hover",
+          "name": "--color-background-utility-warning-hover",
           "value": "#ffba18",
           "tier": "semantic"
         },
         {
-          "name": "--color-warning-on-fill",
-          "value": "#4f3422",
+          "name": "--color-background-utility-warning-muted",
+          "value": "#fff7c2",
           "tier": "semantic"
         },
         {
-          "name": "--focus-ring-offset",
-          "value": "2px",
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-danger",
+          "value": "#fdbdbe",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-info",
+          "value": "#acd8fc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-success",
+          "value": "#adddc0",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-warning",
+          "value": "#f3d673",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-brand-muted",
+          "value": "#203c25",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-info",
+          "value": "#0d74ce",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-success",
+          "value": "#218358",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-warning",
+          "value": "#ab6400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--font-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
           "tier": "primitive"
-        },
-        {
-          "name": "--focus-ring-width",
-          "value": "2px",
-          "tier": "primitive"
-        },
-        {
-          "name": "--font-weight-medium",
-          "value": "500",
-          "tier": "primitive"
-        },
-        {
-          "name": "--font-weight-regular",
-          "value": "350",
-          "tier": "primitive"
-        },
-        {
-          "name": "--font-weight-semibold",
-          "value": "550",
-          "tier": "primitive"
-        },
-        {
-          "name": "--form-height-lg",
-          "value": "44px",
-          "tier": "component"
-        },
-        {
-          "name": "--form-height-md",
-          "value": "36px",
-          "tier": "component"
-        },
-        {
-          "name": "--form-height-sm",
-          "value": "28px",
-          "tier": "component"
-        },
-        {
-          "name": "--form-height-xs",
-          "value": "24px",
-          "tier": "component"
-        },
-        {
-          "name": "--icon-button-bg-hover",
-          "value": "color-mix(in srgb, currentColor 14%, transparent)",
-          "tier": "component"
-        },
-        {
-          "name": "--icon-size-large",
-          "value": "24px",
-          "tier": "component"
         },
         {
           "name": "--icon-size-lg",
@@ -555,19 +445,9 @@
           "tier": "primitive"
         },
         {
-          "name": "--icon-size-medium",
-          "value": "20px",
-          "tier": "component"
-        },
-        {
           "name": "--icon-size-sm",
           "value": "16px",
           "tier": "primitive"
-        },
-        {
-          "name": "--icon-size-small",
-          "value": "16px",
-          "tier": "component"
         },
         {
           "name": "--icon-size-xl",
@@ -580,34 +460,29 @@
           "tier": "primitive"
         },
         {
-          "name": "--letter-spacing-normal",
-          "value": ".01em",
-          "tier": "primitive"
-        },
-        {
-          "name": "--line-height-normal",
-          "value": "1.6",
-          "tier": "primitive"
-        },
-        {
-          "name": "--line-height-relaxed",
-          "value": "1.8",
-          "tier": "primitive"
-        },
-        {
-          "name": "--radius-100",
-          "value": ".25rem",
-          "tier": "primitive"
-        },
-        {
           "name": "--radius-200",
           "value": ".5rem",
           "tier": "primitive"
         },
         {
+          "name": "--radius-chip",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
           "name": "--radius-full",
           "value": "9999px",
           "tier": "primitive"
+        },
+        {
+          "name": "--radius-pill",
+          "value": "9999px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-sm",
+          "value": ".25rem",
+          "tier": "semantic"
         },
         {
           "name": "--spacing-100",
@@ -622,6 +497,11 @@
         {
           "name": "--spacing-200",
           "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
           "tier": "primitive"
         },
         {
@@ -645,34 +525,164 @@
           "tier": "primitive"
         },
         {
-          "name": "--transition-fast",
-          "value": ".15s ease",
-          "tier": "primitive"
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
         },
         {
-          "name": "--type-size-100",
-          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
-          "tier": "primitive"
-        },
-        {
-          "name": "--type-size-150",
-          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
-          "tier": "primitive"
-        },
-        {
-          "name": "--type-size-200",
+          "name": "--typography-body-md-font-size",
           "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
-          "tier": "primitive"
+          "tier": "semantic"
         },
         {
-          "name": "--type-size-300",
-          "value": "clamp(.875rem, .77rem + .52vw, 1.125rem)",
-          "tier": "primitive"
+          "name": "--typography-body-md-font-weight",
+          "value": "350",
+          "tier": "semantic"
         },
         {
-          "name": "--type-size-400",
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-medium",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-font-weight",
+          "value": "350",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-font-size",
           "value": "clamp(1rem, .88rem + .6vw, 1.25rem)",
-          "tier": "primitive"
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-size",
+          "value": "clamp(.8125rem, .71rem + .5vw, 1.0625rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-font-size",
+          "value": "clamp(1rem, .88rem + .6vw, 1.25rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
         }
       ],
       "claudePath": "claude/category-scoped-reading-pane.md",
@@ -687,8 +697,8 @@
           "click": "a[href=\"#article-reading-permit-tracking\"]"
         }
       ],
-      "html": "<article id=\"article-reading-permit-tracking\" class=\"bcn-help-article\">\n  <header class=\"bcn-help-article__head\">\n    <h2 class=\"bcn-help-article__title type-card-title\">\n      Reading the Permit Tracking board\n    </h2>\n    <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n      <span class=\"esa-badge__text\">How-to</span>\n    </span>\n  </header>\n  <div class=\"bcn-help-article__body\">\n    <p class=\"bcn-help-article__p type-body\">\n      Permit Tracking lists every permit and approval a project needs, each with its\n      current status in the acquisition pipeline — from not yet applied, through agency\n      review, to issued.\n    </p>\n    <ol class=\"bcn-help-article__steps\">\n      <li class=\"bcn-help-article__step type-body\">\n        Each row is one permit; the status lozenge shows where it sits in the pipeline.\n      </li>\n      <li class=\"bcn-help-article__step type-body\">\n        The date column shows the next deadline — a submittal window, an agency response\n        due, or an expiration to renew.\n      </li>\n      <li class=\"bcn-help-article__step type-body\">\n        Open a permit to see its conditions, responsible contacts, and the source document\n        it will become once issued.\n      </li>\n    </ol>\n    <figure class=\"bcn-help-article__video\">\n      <div class=\"bcn-help-article__video-frame\">\n        <span class=\"bcn-help-article__video-play\"\n          ><span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n            <svg\n              width=\"20\"\n              height=\"20\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <polygon points=\"6 3 20 12 6 21 6 3\"></polygon>\n            </svg>\n          </span>\n        </span>\n        <span class=\"bcn-help-article__video-duration\"\n          ><span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n            <span class=\"esa-badge__text\">2:47</span>\n          </span>\n        </span>\n      </div>\n      <figcaption class=\"bcn-help-article__caption type-caption\">\n        Watch: a permit’s life in Beacon\n      </figcaption>\n    </figure>\n    <aside class=\"bcn-help-article__callout bcn-help-article__callout--tip\">\n      <span class=\"bcn-help-article__callout-icon\">\n        <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n          <svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path\n              d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"\n            ></path>\n            <path d=\"M9 18h6\"></path>\n            <path d=\"M10 22h4\"></path>\n          </svg>\n        </span>\n      </span>\n      <div class=\"bcn-help-article__callout-body\">\n        <span class=\"bcn-help-article__callout-label\">Tip</span>\n        <p class=\"bcn-help-article__callout-text type-body\">\n          An issued permit becomes a source document: its conditions are extracted as\n          commitments and join the catalog like any other obligation.\n        </p>\n      </div>\n    </aside>\n  </div>\n  <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n    <span class=\"bcn-help-article__related-label\">Related</span>\n    <ul class=\"bcn-help-article__related-list\">\n      <li>\n        <a\n          class=\"bcn-help-article__related-link\"\n          href=\"/beacon-design/prototypes/help#article-permit\"\n          >Permit</a\n        >\n      </li>\n      <li>\n        <a\n          class=\"bcn-help-article__related-link\"\n          href=\"/beacon-design/prototypes/help#article-what-is-a-source\"\n          >Source Document</a\n        >\n      </li>\n      <li>\n        <a\n          class=\"bcn-help-article__related-link\"\n          href=\"/beacon-design/prototypes/help#article-what-is-a-commitment\"\n          >Commitment</a\n        >\n      </li>\n    </ul>\n  </nav>\n</article>",
-      "css": ".bcn-search-trigger .esa-icon {\n  flex: none;\n  color: var(--color-text-tertiary);\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-help-article {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-500);\n}\n.bcn-help-article--compact {\n  gap: var(--spacing-400);\n}\n.bcn-help-article__head {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-300);\n  flex-wrap: wrap;\n}\n.bcn-help-article__title {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__body {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-400);\n}\n.bcn-help-article--compact .bcn-help-article__body {\n  gap: var(--spacing-300);\n}\n.bcn-help-article__p {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__steps {\n  list-style: none;\n  counter-reset: bcn-step;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-300);\n}\n.bcn-help-article__step {\n  counter-increment: bcn-step;\n  display: grid;\n  grid-template-columns: 1.625rem 1fr;\n  align-items: start;\n  gap: var(--spacing-300);\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__step:before {\n  content: counter(bcn-step);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 1.625rem;\n  height: 1.625rem;\n  border-radius: var(--radius-full);\n  background: var(--color-surface-sunken);\n  color: var(--color-text-primary);\n  font-size: 0.8125rem;\n  font-weight: var(--font-weight-semibold);\n  line-height: 1;\n}\n.bcn-help-article__callout {\n  display: grid;\n  grid-template-columns: auto 1fr;\n  align-items: start;\n  gap: var(--spacing-300);\n  padding: var(--spacing-400);\n  border-radius: var(--radius-200);\n  border: 1px solid var(--color-border-light);\n  background: var(--color-surface-sunken);\n}\n.bcn-help-article--compact .bcn-help-article__callout {\n  padding: var(--spacing-300);\n}\n.bcn-help-article__callout-icon {\n  display: inline-flex;\n  margin-top: 1px;\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__callout-body {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  min-width: 0;\n}\n.bcn-help-article__callout-label {\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__callout-text {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__figure {\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-200);\n}\n.bcn-help-article__figure-frame {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: var(--spacing-200);\n  min-height: 8.5rem;\n  padding: var(--spacing-500);\n  border: 1px dashed var(--color-border-strong);\n  border-radius: var(--radius-200);\n  background: var(--color-surface-sunken);\n  text-align: center;\n}\n.bcn-help-article__figure-icon {\n  color: var(--color-text-tertiary);\n}\n.bcn-help-article__figure-label {\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-medium);\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__video {\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-200);\n}\n.bcn-help-article__video-frame {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  aspect-ratio: 16 / 9;\n  border-radius: var(--radius-200);\n  overflow: hidden;\n  border: 1px solid var(--color-border);\n  background: color-mix(\n    in srgb,\n    var(--color-text-primary) 8%,\n    var(--color-surface-sunken)\n  );\n}\n.bcn-help-article__video-play {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 3rem;\n  height: 3rem;\n  border-radius: var(--radius-full);\n  background: var(--color-surface);\n  color: var(--color-text-primary);\n  box-shadow: 0 1px 4px #0000002e;\n  padding-left: 3px;\n}\n.bcn-help-article__video-duration {\n  position: absolute;\n  right: var(--spacing-200);\n  bottom: var(--spacing-200);\n}\n.bcn-help-article__video-label,\n.bcn-help-article__caption {\n  font-size: max(0.8125rem, var(--type-size-100));\n  color: var(--color-text-secondary);\n  margin: 0;\n}\n.bcn-help-article__related {\n  display: flex;\n  align-items: baseline;\n  flex-wrap: wrap;\n  gap: var(--spacing-150) var(--spacing-300);\n  padding-top: var(--spacing-300);\n  border-top: 1px solid var(--color-border-light);\n}\n.bcn-help-article__related-label {\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__related-list {\n  display: flex;\n  flex-wrap: wrap;\n  gap: var(--spacing-100) var(--spacing-300);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-help-article__related-link {\n  font-size: 0.9375rem;\n  color: var(--color-text-link);\n  text-decoration: none;\n}\n.bcn-help-article__related-link:hover {\n  color: var(--color-text-link-hover);\n  text-decoration: underline;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-text-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-text-tertiary);\n  flex: none;\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-text-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-500);\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-primary);\n}\n.nav-section__header > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-950);\n  transition: color 0.15s ease;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  transition:\n    transform 0.15s ease,\n    opacity 0.2s ease-in-out;\n  flex-shrink: 0;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.type-card-title {\n  font-size: var(--type-size-400);\n  font-weight: var(--font-weight-medium);\n  line-height: var(--line-height-normal);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-body-large {\n  font-size: var(--type-size-300);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-relaxed);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-body {\n  font-size: var(--type-size-200);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-relaxed);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-body-small {\n  font-size: var(--type-size-150);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-normal);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-caption {\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-normal);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.esa-icon-button {\n  --_ib-size: var(--form-height-md, 40px);\n  --_ib-bg-hover: var(\n    --icon-button-bg-hover,\n    color-mix(in srgb, currentColor 14%, transparent)\n  );\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_ib-size);\n  height: var(--_ib-size);\n  padding: 0;\n  border: 0;\n  border-radius: var(--radius-200, 8px);\n  background: transparent;\n  color: inherit;\n  cursor: pointer;\n  transition: background var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n}\n.esa-icon-button--xs {\n  --_ib-size: var(--form-height-xs, 28px);\n}\n.esa-icon-button--sm {\n  --_ib-size: var(--form-height-sm, 32px);\n}\n.esa-icon-button--lg {\n  --_ib-size: var(--form-height-lg, 48px);\n}\n.esa-icon-button:hover {\n  background: var(--_ib-bg-hover);\n}\n.esa-icon-button:focus-visible {\n  outline: var(--focus-ring-width) solid currentColor;\n  outline-offset: var(--focus-ring-offset, 2px);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  line-height: 1;\n  color: inherit;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  display: block;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));\n  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));\n  --_badge-height: var(--badge-height-md, 28px);\n  --_badge-font-size: 13px;\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  --_badge-min-width: var(--badge-height-md, 28px);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  height: var(--_badge-height);\n  min-width: var(--_badge-min-width);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--badge-radius, var(--radius-100, 4px));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  font-size: var(--_badge-font-size);\n  font-weight: 600;\n  line-height: 1;\n  white-space: nowrap;\n  box-sizing: border-box;\n}\n.esa-badge--xs {\n  --_badge-height: var(--badge-height-xs, 18px);\n  --_badge-font-size: 10px;\n  --_badge-padding-x: var(--spacing-100, 0.25rem);\n  --_badge-min-width: var(--badge-height-xs, 18px);\n}\n.esa-badge--sm {\n  --_badge-height: var(--badge-height-sm, 22px);\n  --_badge-font-size: 11px;\n  --_badge-padding-x: var(--spacing-150, 0.375rem);\n  --_badge-min-width: var(--badge-height-sm, 22px);\n}\n.esa-badge--lg {\n  --_badge-height: var(--badge-height-lg, 34px);\n  --_badge-font-size: 14px;\n  --_badge-padding-x: var(--spacing-300, 0.75rem);\n  --_badge-min-width: var(--badge-height-lg, 34px);\n}\n.esa-badge--secondary {\n  --_badge-bg: var(--color-secondary, #65ba74);\n  --_badge-text: var(--color-secondary-on-fill, #203c25);\n}\n.esa-badge--success {\n  --_badge-bg: var(--color-success, #bdee63);\n  --_badge-text: var(--color-success-on-fill, #37401c);\n}\n.esa-badge--warning {\n  --_badge-bg: var(--color-warning, #ffc53d);\n  --_badge-text: var(--color-warning-on-fill, #4f3422);\n}\n.esa-badge--danger {\n  --_badge-bg: var(--color-danger, #e5484d);\n}\n.esa-badge--info {\n  --_badge-bg: var(--color-info, #0090ff);\n}\n.esa-badge--dot {\n  width: 8px;\n  height: 8px;\n  min-width: 8px;\n  padding: 0;\n  border-radius: var(--radius-full, 9999px);\n}\n.esa-badge--dot.esa-badge--primary {\n  --_badge-bg: var(--color-primary-hover, #3e9b4f);\n}\n.esa-badge--dot.esa-badge--secondary {\n  --_badge-bg: var(--color-secondary-hover, #46a758);\n}\n.esa-badge--dot.esa-badge--success {\n  --_badge-bg: var(--color-success-hover, #b0e64c);\n}\n.esa-badge--dot.esa-badge--warning {\n  --_badge-bg: var(--color-warning-hover, #ffba18);\n}\n.esa-badge--dot.esa-badge--danger {\n  --_badge-bg: var(--color-danger-hover, #dc3e42);\n}\n.esa-badge--dot.esa-badge--info {\n  --_badge-bg: var(--color-info-hover, #0588f0);\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--bcn-gray-1000);\n  flex-shrink: 0;\n}",
+      "html": "<article id=\"article-reading-permit-tracking\" class=\"bcn-help-article\">\n  <header class=\"bcn-help-article__head\">\n    <h2 class=\"bcn-help-article__title typography-title\">\n      Reading the Permit Tracking board\n    </h2>\n    <span\n      class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n      ><span class=\"esa-badge__text\">How-to</span></span\n    >\n  </header>\n  <div class=\"bcn-help-article__body\">\n    <p class=\"bcn-help-article__p typography-body-md\">\n      Permit Tracking lists every permit and approval a project needs, each with its\n      current status in the acquisition pipeline — from not yet applied, through agency\n      review, to issued.\n    </p>\n    <ol class=\"bcn-help-article__steps\">\n      <li class=\"bcn-help-article__step typography-body-md\">\n        Each row is one permit; the status lozenge shows where it sits in the pipeline.\n      </li>\n      <li class=\"bcn-help-article__step typography-body-md\">\n        The date column shows the next deadline — a submittal window, an agency response\n        due, or an expiration to renew.\n      </li>\n      <li class=\"bcn-help-article__step typography-body-md\">\n        Open a permit to see its conditions, responsible contacts, and the source document\n        it will become once issued.\n      </li>\n    </ol>\n    <figure class=\"bcn-help-article__video\">\n      <div class=\"bcn-help-article__video-frame\">\n        <span class=\"bcn-help-article__video-play\"\n          ><span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\"\n            ><svg\n              width=\"20\"\n              height=\"20\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <polygon points=\"6 3 20 12 6 21 6 3\"></polygon></svg></span></span\n        ><span class=\"bcn-help-article__video-duration\"\n          ><span\n            class=\"esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong\"\n            ><span class=\"esa-badge__text\">2:47</span></span\n          ></span\n        >\n      </div>\n      <figcaption class=\"bcn-help-article__caption typography-meta\">\n        Watch: a permit’s life in Beacon\n      </figcaption>\n    </figure>\n    <aside class=\"bcn-help-article__callout bcn-help-article__callout--tip\">\n      <span class=\"bcn-help-article__callout-icon\"\n        ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\"\n          ><svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path\n              d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"\n            ></path>\n            <path d=\"M9 18h6\"></path>\n            <path d=\"M10 22h4\"></path></svg></span\n      ></span>\n      <div class=\"bcn-help-article__callout-body\">\n        <span class=\"bcn-help-article__callout-label\">Tip</span>\n        <p class=\"bcn-help-article__callout-text typography-body-md\">\n          An issued permit becomes a source document: its conditions are extracted as\n          commitments and join the catalog like any other obligation.\n        </p>\n      </div>\n    </aside>\n  </div>\n  <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n    <span class=\"bcn-help-article__related-label\">Related</span>\n    <ul class=\"bcn-help-article__related-list\">\n      <li>\n        <a\n          class=\"bcn-help-article__related-link\"\n          href=\"/beacon-design/prototypes/help#article-permit\"\n          >Permit</a\n        >\n      </li>\n      <li>\n        <a\n          class=\"bcn-help-article__related-link\"\n          href=\"/beacon-design/prototypes/help#article-what-is-a-source\"\n          >Source Document</a\n        >\n      </li>\n      <li>\n        <a\n          class=\"bcn-help-article__related-link\"\n          href=\"/beacon-design/prototypes/help#article-what-is-a-commitment\"\n          >Commitment</a\n        >\n      </li>\n    </ul>\n  </nav>\n</article>",
+      "css": ".typography-title {\n  font-family: var(--typography-title-font-family);\n  font-size: var(--typography-title-font-size);\n  font-weight: var(--typography-title-font-weight);\n  line-height: var(--typography-title-line-height);\n  letter-spacing: var(--typography-title-letter-spacing);\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.typography-title-strong {\n  font-family: var(--typography-title-strong-font-family);\n  font-size: var(--typography-title-strong-font-size);\n  font-weight: var(--typography-title-strong-font-weight);\n  line-height: var(--typography-title-strong-line-height);\n  letter-spacing: var(--typography-title-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.typography-meta {\n  font-family: var(--typography-meta-font-family);\n  font-size: var(--typography-meta-font-size);\n  font-weight: var(--typography-meta-font-weight);\n  line-height: var(--typography-meta-line-height);\n  letter-spacing: var(--typography-meta-letter-spacing);\n}\n.bcn-search-trigger .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-help-bar .esa-icon-button:hover,\n.bcn-help-bar .esa-icon-button:focus-visible {\n  color: var(--bcn-helpbar-fg);\n}\n.bcn-help-article {\n  gap: var(--spacing-500);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-help-article--compact {\n  gap: var(--spacing-400);\n}\n.bcn-help-article__head {\n  align-items: center;\n  gap: var(--spacing-300);\n  flex-wrap: wrap;\n  display: flex;\n}\n.bcn-help-article__title {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-help-article__body {\n  gap: var(--spacing-400);\n  flex-direction: column;\n  display: flex;\n}\n.bcn-help-article--compact .bcn-help-article__body {\n  gap: var(--spacing-300);\n}\n.bcn-help-article__p {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-help-article__steps {\n  counter-reset: bcn-step;\n  gap: var(--spacing-300);\n  flex-direction: column;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-help-article__step {\n  counter-increment: bcn-step;\n  align-items: start;\n  gap: var(--spacing-300);\n  color: var(--color-content-default);\n  grid-template-columns: 1.625rem 1fr;\n  margin: 0;\n  display: grid;\n}\n.bcn-help-article__step:before {\n  content: counter(bcn-step);\n  border-radius: var(--radius-full);\n  background: var(--color-background-elevation-sunken);\n  width: 1.625rem;\n  height: 1.625rem;\n  color: var(--color-content-default);\n  font-size: 0.8125rem;\n  font-weight: var(--typography-font-weight-semibold);\n  justify-content: center;\n  align-items: center;\n  line-height: 1;\n  display: inline-flex;\n}\n.bcn-help-article__callout {\n  align-items: start;\n  gap: var(--spacing-300);\n  padding: var(--spacing-400);\n  border-radius: var(--radius-200);\n  border: 1px solid var(--color-border-default-subtle);\n  background: var(--color-background-elevation-sunken);\n  grid-template-columns: auto 1fr;\n  display: grid;\n}\n.bcn-help-article--compact .bcn-help-article__callout {\n  padding: var(--spacing-300);\n}\n.bcn-help-article__callout-icon {\n  color: var(--color-content-default-secondary);\n  margin-top: 1px;\n  display: inline-flex;\n}\n.bcn-help-article__callout-body {\n  flex-direction: column;\n  gap: 2px;\n  min-width: 0;\n  display: flex;\n}\n.bcn-help-article__callout-label {\n  font-size: 0.875rem;\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default-secondary);\n}\n.bcn-help-article__callout-text {\n  color: var(--color-content-default);\n  margin: 0;\n}\n.bcn-help-article__figure {\n  gap: var(--spacing-200);\n  flex-direction: column;\n  margin: 0;\n  display: flex;\n}\n.bcn-help-article__figure-frame {\n  justify-content: center;\n  align-items: center;\n  gap: var(--spacing-200);\n  min-height: 8.5rem;\n  padding: var(--spacing-500);\n  border: 1px dashed var(--color-border-default-strong);\n  border-radius: var(--radius-200);\n  background: var(--color-background-elevation-sunken);\n  text-align: center;\n  flex-direction: column;\n  display: flex;\n}\n.bcn-help-article__figure-icon {\n  color: var(--color-content-default-tertiary);\n}\n.bcn-help-article__figure-label {\n  font-size: 0.875rem;\n  font-weight: var(--typography-font-weight-medium);\n  color: var(--color-content-default-secondary);\n}\n.bcn-help-article__video {\n  gap: var(--spacing-200);\n  flex-direction: column;\n  margin: 0;\n  display: flex;\n}\n.bcn-help-article__video-frame {\n  aspect-ratio: 16/9;\n  border-radius: var(--radius-200);\n  border: 1px solid var(--color-border-default);\n  background: color-mix(\n    in srgb,\n    var(--color-content-default) 8%,\n    var(--color-background-elevation-sunken)\n  );\n  justify-content: center;\n  align-items: center;\n  display: flex;\n  position: relative;\n  overflow: hidden;\n}\n.bcn-help-article__video-play {\n  border-radius: var(--radius-full);\n  background: var(--color-background-elevation-raised);\n  width: 3rem;\n  height: 3rem;\n  color: var(--color-content-default);\n  justify-content: center;\n  align-items: center;\n  padding-left: 3px;\n  display: inline-flex;\n  box-shadow: 0 1px 4px #0000002e;\n}\n.bcn-help-article__video-duration {\n  right: var(--spacing-200);\n  bottom: var(--spacing-200);\n  position: absolute;\n}\n.bcn-help-article__video-label,\n.bcn-help-article__caption {\n  font-size: max(0.8125rem, var(--font-size-100));\n  color: var(--color-content-default-secondary);\n  margin: 0;\n}\n.bcn-help-article__related {\n  align-items: baseline;\n  gap: var(--spacing-150) var(--spacing-300);\n  padding-top: var(--spacing-300);\n  border-top: 1px solid var(--color-border-default-subtle);\n  flex-wrap: wrap;\n  display: flex;\n}\n.bcn-help-article__related-label {\n  font-size: 0.875rem;\n  font-weight: var(--typography-font-weight-semibold);\n  color: var(--color-content-default-secondary);\n}\n.bcn-help-article__related-list {\n  gap: var(--spacing-100) var(--spacing-300);\n  flex-wrap: wrap;\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  display: flex;\n}\n.bcn-help-article__related-link {\n  color: var(--color-content-link);\n  font-size: 0.9375rem;\n  text-decoration: none;\n}\n.bcn-help-article__related-link:hover {\n  color: var(--color-content-link-hover);\n  text-decoration: underline;\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-gd-row .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-disclosure .esa-icon {\n  transition: transform 0.15s;\n}\n.bcn-disclosure[aria-expanded=\"false\"] .esa-icon {\n  transform: rotate(-90deg);\n}\n.bcn-countchip__num .esa-badge {\n  --badge-radius: var(--radius-full);\n  --badge-bg: var(--color-border-default);\n  --badge-text-color: var(--color-content-default-secondary);\n  box-sizing: border-box;\n  font-variant-numeric: tabular-nums;\n  min-width: 19px;\n  height: 19px;\n  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);\n  justify-content: center;\n  align-items: center;\n  padding: 0 4px;\n  font-size: 0.8125rem;\n  line-height: 1;\n  display: inline-flex;\n}\n.bcn-ev-staging__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-targets__title .esa-icon {\n  color: var(--color-content-default-tertiary);\n  flex: none;\n}\n.bcn-ev-attached__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid\n    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__mark .esa-badge {\n  --badge-bg: var(--color-background-utility-info-subtle);\n  --badge-text-color: var(--color-content-default);\n  border: 1px solid\n    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);\n  font-weight: var(--typography-font-weight-medium);\n}\n.bcn-ev-row__tags .esa-badge {\n  --badge-bg: var(--bcn-gray-100);\n  --badge-text-color: var(--bcn-gray-700);\n  font-weight: var(--typography-font-weight-medium);\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-content-default-secondary);\n}\n.user-panel__item .esa-icon {\n  color: var(--bcn-gray-500);\n}\n.user-panel__item--danger .esa-icon {\n  color: var(--color-background-utility-danger);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  color: var(--bcn-gray-500);\n  flex-shrink: 0;\n}\n.nav-section__header:hover .esa-icon,\n.nav-section--active .nav-section__header,\n.nav-section--active .nav-section__header .esa-icon {\n  color: var(--color-background-brand);\n}\n.nav-section__header > .esa-icon:first-child {\n  color: var(--bcn-gray-950);\n  flex-shrink: 0;\n  transition: color 0.15s;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  flex-shrink: 0;\n  transition:\n    transform 0.15s,\n    opacity 0.2s ease-in-out;\n}\n.nav-section--collapsed .nav-section__header > .esa-icon:last-child {\n  transform: rotate(-90deg);\n}\n.side-nav.collapsed .nav-section__title,\n.side-nav.collapsed .nav-section__header > .esa-icon:last-child {\n  display: none;\n}\n.typography-title {\n  font-family: var(--typography-title-font-family);\n  font-size: var(--typography-title-font-size);\n  font-weight: var(--typography-title-font-weight);\n  line-height: var(--typography-title-line-height);\n  letter-spacing: var(--typography-title-letter-spacing);\n}\n.typography-body-md {\n  font-family: var(--typography-body-md-font-family);\n  font-size: var(--typography-body-md-font-size);\n  font-weight: var(--typography-body-md-font-weight);\n  line-height: var(--typography-body-md-line-height);\n  letter-spacing: var(--typography-body-md-letter-spacing);\n}\n.typography-microcopy-xs-strong {\n  font-family: var(--typography-microcopy-xs-strong-font-family);\n  font-size: var(--typography-microcopy-xs-strong-font-size);\n  font-weight: var(--typography-microcopy-xs-strong-font-weight);\n  line-height: var(--typography-microcopy-xs-strong-line-height);\n  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);\n}\n.typography-title-strong {\n  font-family: var(--typography-title-strong-font-family);\n  font-size: var(--typography-title-strong-font-size);\n  font-weight: var(--typography-title-strong-font-weight);\n  line-height: var(--typography-title-strong-line-height);\n  letter-spacing: var(--typography-title-strong-letter-spacing);\n}\n.typography-title-sm-strong {\n  font-family: var(--typography-title-sm-strong-font-family);\n  font-size: var(--typography-title-sm-strong-font-size);\n  font-weight: var(--typography-title-sm-strong-font-weight);\n  line-height: var(--typography-title-sm-strong-line-height);\n  letter-spacing: var(--typography-title-sm-strong-letter-spacing);\n}\n.typography-meta {\n  font-family: var(--typography-meta-font-family);\n  font-size: var(--typography-meta-font-size);\n  font-weight: var(--typography-meta-font-weight);\n  line-height: var(--typography-meta-line-height);\n  letter-spacing: var(--typography-meta-letter-spacing);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, 20px);\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  color: inherit;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, 16px);\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, 20px);\n}\n.esa-icon--lg {\n  --_icon-size: var(--icon-size-lg, 24px);\n}\n.esa-icon--xl {\n  --_icon-size: var(--icon-size-xl, 28px);\n}\n.esa-icon svg {\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  display: block;\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));\n  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));\n  --_badge-padding-y: var(--spacing-150, 0.375rem);\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  min-width: calc(1lh + 2 * var(--_badge-padding-y));\n  padding-block: var(--_badge-padding-y);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  white-space: nowrap;\n  box-sizing: border-box;\n  justify-content: center;\n  align-items: center;\n  display: inline-flex;\n}\n.esa-badge--xs {\n  --_badge-padding-y: var(--spacing-100, 0.25rem);\n  --_badge-padding-x: var(--spacing-100, 0.25rem);\n}\n.esa-badge--sm {\n  --_badge-padding-y: var(--spacing-100, 0.25rem);\n  --_badge-padding-x: var(--spacing-150, 0.375rem);\n}\n.esa-badge--lg {\n  --_badge-padding-y: var(--spacing-250, 0.625rem);\n  --_badge-padding-x: var(--spacing-300, 0.75rem);\n}\n.esa-badge--secondary {\n  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);\n  --_badge-text: var(--color-content-on-brand-muted, #203c25);\n}\n.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);\n  --_badge-text: var(--color-content-utility-success, #218358);\n  --_badge-border: var(--color-border-utility-success, #adddc0);\n}\n.esa-badge--warning {\n  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);\n  --_badge-text: var(--color-content-utility-warning, #ab6400);\n  --_badge-border: var(--color-border-utility-warning, #f3d673);\n}\n.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);\n  --_badge-text: var(--color-content-utility-danger, #ce2c31);\n  --_badge-border: var(--color-border-utility-danger, #fdbdbe);\n}\n.esa-badge--info {\n  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);\n  --_badge-text: var(--color-content-utility-info, #0d74ce);\n  --_badge-border: var(--color-border-utility-info, #acd8fc);\n}\n.esa-badge--success:not(.esa-badge--dot),\n.esa-badge--warning:not(.esa-badge--dot),\n.esa-badge--danger:not(.esa-badge--dot),\n.esa-badge--info:not(.esa-badge--dot) {\n  border: 1px solid var(--_badge-border, transparent);\n}\n.esa-badge--dot {\n  border-radius: var(--radius-pill, 9999px);\n  width: 8px;\n  min-width: 8px;\n  height: 8px;\n  padding: 0;\n}\n.esa-badge--dot.esa-badge--primary {\n  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);\n}\n.esa-badge--dot.esa-badge--secondary {\n  --_badge-bg: var(--color-background-brand, #46a758);\n}\n.esa-badge--dot.esa-badge--success {\n  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);\n}\n.esa-badge--dot.esa-badge--warning {\n  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);\n}\n.esa-badge--dot.esa-badge--danger {\n  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);\n}\n.esa-badge--dot.esa-badge--info {\n  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);\n}\n.esa-badge--dot {\n  background: canvastext;\n  border: 0;\n  outline: 1px solid canvastext;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--page-title-icon-color, var(--bcn-gray-1000));\n  flex-shrink: 0;\n}",
       "guide": {
         "intent": "The shared renderer for ONE article, captured on the dataset's richest body so every block type is visible at once: the title with its kind badge, numbered steps, a placeholder video frame, a callout, and the trailing \"Related\" row. Both the knowledge base and the Aldo drawer render articles through this component, so help content looks identical everywhere.",
         "decisions": [
@@ -716,32 +726,7 @@
       "tokens": [
         {
           "name": "--badge-bg",
-          "value": "#005862",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-height-lg",
-          "value": "34px",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-height-md",
-          "value": "28px",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-height-sm",
-          "value": "22px",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-height-xs",
-          "value": "18px",
-          "tier": "component"
-        },
-        {
-          "name": "--badge-radius",
-          "value": ".25rem",
+          "value": "#43608a",
           "tier": "component"
         },
         {
@@ -750,8 +735,13 @@
           "tier": "component"
         },
         {
+          "name": "--bcn-gray-100",
+          "value": "#efefef",
+          "tier": "component"
+        },
+        {
           "name": "--bcn-gray-1000",
-          "value": "#000000",
+          "value": "#000",
           "tier": "component"
         },
         {
@@ -765,209 +755,184 @@
           "tier": "component"
         },
         {
+          "name": "--bcn-gray-700",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
           "name": "--bcn-gray-950",
           "value": "#292929",
           "tier": "component"
         },
         {
           "name": "--bcn-helpbar-fg",
-          "value": "rgba(255, 255, 255, .92)",
+          "value": "#ffffffeb",
           "tier": "component"
         },
         {
           "name": "--bcn-helpbar-fg-muted",
-          "value": "rgba(255, 255, 255, .72)",
+          "value": "#ffffffb8",
           "tier": "component"
         },
         {
           "name": "--bcn-helpbar-hover-bg",
-          "value": "rgba(255, 255, 255, .1)",
+          "value": "#ffffff1a",
           "tier": "component"
         },
         {
-          "name": "--color-border",
-          "value": "#dcdcdc",
+          "name": "--color-background-brand-muted",
+          "value": "#eef5f4",
           "tier": "semantic"
         },
         {
-          "name": "--color-border-light",
+          "name": "--color-background-elevation-raised",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-elevation-sunken",
           "value": "#efefef",
           "tier": "semantic"
         },
         {
-          "name": "--color-border-strong",
-          "value": "#bdbdbd",
+          "name": "--color-background-utility-danger",
+          "value": "#ce2c31",
           "tier": "semantic"
         },
         {
-          "name": "--color-danger",
-          "value": "#e5484d",
+          "name": "--color-background-utility-danger-hover",
+          "value": "#641723",
           "tier": "semantic"
         },
         {
-          "name": "--color-danger-hover",
-          "value": "#dc3e42",
+          "name": "--color-background-utility-danger-muted",
+          "value": "#feebec",
           "tier": "semantic"
         },
         {
-          "name": "--color-info",
+          "name": "--color-background-utility-info",
           "value": "#228be6",
           "tier": "semantic"
         },
         {
-          "name": "--color-info-hover",
-          "value": "#0588f0",
+          "name": "--color-background-utility-info-hover",
+          "value": "#113264",
           "tier": "semantic"
         },
         {
-          "name": "--color-primary",
-          "value": "#005862",
+          "name": "--color-background-utility-info-muted",
+          "value": "#e6f4fe",
           "tier": "semantic"
         },
         {
-          "name": "--color-primary-hover",
-          "value": "#00474f",
+          "name": "--color-background-utility-info-subtle",
+          "value": "#fbfdff",
           "tier": "semantic"
         },
         {
-          "name": "--color-secondary",
-          "value": "#00918b",
+          "name": "--color-background-utility-success-hover",
+          "value": "#193b2d",
           "tier": "semantic"
         },
         {
-          "name": "--color-secondary-hover",
-          "value": "#0a6562",
+          "name": "--color-background-utility-success-muted",
+          "value": "#e6f6eb",
           "tier": "semantic"
         },
         {
-          "name": "--color-secondary-on-fill",
-          "value": "#203c25",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-success",
-          "value": "#2e7571",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-success-hover",
-          "value": "#b0e64c",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-success-on-fill",
-          "value": "#37401c",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-surface",
-          "value": "#fcfcfc",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-surface-sunken",
-          "value": "#efefef",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-inverse",
-          "value": "#fcfcfc",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-link",
-          "value": "#005862",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-link-hover",
-          "value": "#00474f",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-primary",
-          "value": "#3d3d3d",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-secondary",
-          "value": "#525252",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-text-tertiary",
-          "value": "#656565",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-warning",
-          "value": "#f59e0b",
-          "tier": "semantic"
-        },
-        {
-          "name": "--color-warning-hover",
+          "name": "--color-background-utility-warning-hover",
           "value": "#ffba18",
           "tier": "semantic"
         },
         {
-          "name": "--color-warning-on-fill",
-          "value": "#4f3422",
+          "name": "--color-background-utility-warning-muted",
+          "value": "#fff7c2",
           "tier": "semantic"
         },
         {
-          "name": "--focus-ring-offset",
-          "value": "2px",
+          "name": "--color-border-default",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-strong",
+          "value": "#bdbdbd",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-default-subtle",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-danger",
+          "value": "#fdbdbe",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-info",
+          "value": "#acd8fc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-success",
+          "value": "#adddc0",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-utility-warning",
+          "value": "#f3d673",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-knockout",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-default-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-on-brand-muted",
+          "value": "#203c25",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-danger",
+          "value": "#ce2c31",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-info",
+          "value": "#0d74ce",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-success",
+          "value": "#218358",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-utility-warning",
+          "value": "#ab6400",
+          "tier": "semantic"
+        },
+        {
+          "name": "--font-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
           "tier": "primitive"
-        },
-        {
-          "name": "--focus-ring-width",
-          "value": "2px",
-          "tier": "primitive"
-        },
-        {
-          "name": "--font-weight-medium",
-          "value": "500",
-          "tier": "primitive"
-        },
-        {
-          "name": "--font-weight-regular",
-          "value": "350",
-          "tier": "primitive"
-        },
-        {
-          "name": "--font-weight-semibold",
-          "value": "550",
-          "tier": "primitive"
-        },
-        {
-          "name": "--form-height-lg",
-          "value": "44px",
-          "tier": "component"
-        },
-        {
-          "name": "--form-height-md",
-          "value": "36px",
-          "tier": "component"
-        },
-        {
-          "name": "--form-height-sm",
-          "value": "28px",
-          "tier": "component"
-        },
-        {
-          "name": "--form-height-xs",
-          "value": "24px",
-          "tier": "component"
-        },
-        {
-          "name": "--icon-button-bg-hover",
-          "value": "color-mix(in srgb, currentColor 14%, transparent)",
-          "tier": "component"
-        },
-        {
-          "name": "--icon-size-large",
-          "value": "24px",
-          "tier": "component"
         },
         {
           "name": "--icon-size-lg",
@@ -980,19 +945,9 @@
           "tier": "primitive"
         },
         {
-          "name": "--icon-size-medium",
-          "value": "20px",
-          "tier": "component"
-        },
-        {
           "name": "--icon-size-sm",
           "value": "16px",
           "tier": "primitive"
-        },
-        {
-          "name": "--icon-size-small",
-          "value": "16px",
-          "tier": "component"
         },
         {
           "name": "--icon-size-xl",
@@ -1005,34 +960,29 @@
           "tier": "primitive"
         },
         {
-          "name": "--letter-spacing-normal",
-          "value": ".01em",
-          "tier": "primitive"
-        },
-        {
-          "name": "--line-height-normal",
-          "value": "1.6",
-          "tier": "primitive"
-        },
-        {
-          "name": "--line-height-relaxed",
-          "value": "1.8",
-          "tier": "primitive"
-        },
-        {
-          "name": "--radius-100",
-          "value": ".25rem",
-          "tier": "primitive"
-        },
-        {
           "name": "--radius-200",
           "value": ".5rem",
           "tier": "primitive"
         },
         {
+          "name": "--radius-chip",
+          "value": ".25rem",
+          "tier": "semantic"
+        },
+        {
           "name": "--radius-full",
           "value": "9999px",
           "tier": "primitive"
+        },
+        {
+          "name": "--radius-pill",
+          "value": "9999px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--radius-sm",
+          "value": ".25rem",
+          "tier": "semantic"
         },
         {
           "name": "--spacing-100",
@@ -1047,6 +997,11 @@
         {
           "name": "--spacing-200",
           "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
           "tier": "primitive"
         },
         {
@@ -1065,34 +1020,164 @@
           "tier": "primitive"
         },
         {
-          "name": "--transition-fast",
-          "value": ".15s ease",
-          "tier": "primitive"
+          "name": "--typography-body-md-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
         },
         {
-          "name": "--type-size-100",
-          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
-          "tier": "primitive"
-        },
-        {
-          "name": "--type-size-150",
-          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
-          "tier": "primitive"
-        },
-        {
-          "name": "--type-size-200",
+          "name": "--typography-body-md-font-size",
           "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
-          "tier": "primitive"
+          "tier": "semantic"
         },
         {
-          "name": "--type-size-300",
-          "value": "clamp(.875rem, .77rem + .52vw, 1.125rem)",
-          "tier": "primitive"
+          "name": "--typography-body-md-font-weight",
+          "value": "350",
+          "tier": "semantic"
         },
         {
-          "name": "--type-size-400",
+          "name": "--typography-body-md-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-body-md-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-medium",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-font-weight-semibold",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-font-weight",
+          "value": "350",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-meta-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-microcopy-xs-strong-line-height",
+          "value": "1",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-font-size",
           "value": "clamp(1rem, .88rem + .6vw, 1.25rem)",
-          "tier": "primitive"
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-font-weight",
+          "value": "500",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-size",
+          "value": "clamp(.8125rem, .71rem + .5vw, 1.0625rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-sm-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-font-family",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-font-size",
+          "value": "clamp(1rem, .88rem + .6vw, 1.25rem)",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-font-weight",
+          "value": "550",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-letter-spacing",
+          "value": ".01em",
+          "tier": "semantic"
+        },
+        {
+          "name": "--typography-title-strong-line-height",
+          "value": "1.6",
+          "tier": "semantic"
         }
       ],
       "claudePath": "claude/article-renderer-how-to-steps-video-callout.md",

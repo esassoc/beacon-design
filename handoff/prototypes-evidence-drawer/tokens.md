@@ -1,6 +1,6 @@
 # Token contract — prototypes-evidence-drawer
 
-The 127 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 123 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,22 +9,17 @@ The 127 design tokens this page actually uses, resolved to their final values fo
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
 | `--color-background-accent` | `#f76b15` |
-| `--color-background-brand` | `#005862` |
-| `--color-background-brand-hover` | `#00474f` |
-| `--color-background-brand-muted` | `#00918b` |
-| `--color-background-brand-subtle` | `#effefb` |
+| `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-default` | `#fafafa` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
 | `--color-background-overlay-backdrop` | `#00000080` |
 | `--color-border-default` | `#dcdcdc` |
 | `--color-border-default-subtle` | `#efefef` |
-| `--color-content-brand` | `#2a7e3b` |
 | `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
 | `--color-content-default-tertiary` | `#656565` |
-| `--color-content-link` | `#005862` |
 | `--elevation-4` | `0 6px 24px -6px #00000012` |
 | `--elevation-5` | `0 8px 32px -8px #00000014` |
 | `--radius-md` | `.25rem` |
@@ -125,6 +120,7 @@ The 127 design tokens this page actually uses, resolved to their final values fo
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
+| `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
@@ -152,5 +148,10 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-inset`
 - `--bcn-bottom-drawer-width`
 - `--bcn-bottom-drawer-z`
+- `--color-background-brand`
+- `--color-background-brand-hover`
+- `--color-background-brand-subtle`
+- `--color-content-brand`
+- `--color-content-link`
 - `--gap`
 - `--page-title-icon-color`

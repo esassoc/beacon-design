@@ -346,7 +346,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <rect width="7" height="5" x="14" y="3" rx="1"></rect>
                 <rect width="7" height="9" x="14" y="12" rx="1"></rect>
                 <rect width="7" height="5" x="3" y="16" rx="1"></rect></svg></span
-            ><span class="nav-section__title">Project</span
+            ><span class="nav-section__title">Due Diligence</span
             ><span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg
                 width="16"
@@ -386,6 +386,55 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <li class="nav-item">
               <a href="/beacon-design/prototypes/due-diligence-report" class="nav-sublink"
                 >CIA Report</a
+              >
+            </li>
+          </ul>
+        </div>
+        <hr class="nav-divider" aria-hidden="true" />
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <path d="M10 9H8"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path></svg></span
+            ><span class="nav-section__title">Permitting</span
+            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path></svg
+            ></span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/permitting-dashboard" class="nav-sublink"
+                >Permit Dashboard</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/permitting-details" class="nav-sublink"
+                >Permit Details</a
               >
             </li>
           </ul>
@@ -443,10 +492,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <section class="page-layout__title">
             <div class="page-layout__title-main">
               <h1>
-                <span class="esa-icon esa-icon--md" aria-hidden="true"
+                <span class="esa-icon esa-icon--lg" aria-hidden="true"
                   ><svg
-                    width="20"
-                    height="20"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -462,9 +511,21 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 >Almond
               </h1>
               <div>
-                <span class="esa-badge esa-badge--info esa-badge--md typography-microcopy-sm-strong"
-                  ><span class="esa-badge__text"></span
-                ></span>
+                <span
+                  class="bcn-status-chip"
+                  data-status="phase"
+                  style="--_chip: var(--st-phase, #4a90d9)"
+                  ><span class="bcn-status-chip__dot"></span
+                  ><span class="bcn-status-chip__label">Due Diligence</span></span
+                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
               </div>
             </div>
             <div class="page-layout__utilities">
@@ -974,9 +1035,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="stack" data-gap="xs">
                           <div class="cluster" data-gap="xs">
                             <span
-                              class="esa-badge esa-badge--danger esa-badge--md typography-microcopy-sm-strong"
-                              ><span class="esa-badge__text"></span></span
-                            ><strong>2</strong>
+                              class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+                              ><span class="esa-badge__text">2</span></span
+                            ><span
+                              class="typography-body-sm"
+                              style="
+                                font-weight: var(--typography-font-weight-semibold);
+                                color: var(--color-content-default);
+                              "
+                              >High</span
+                            >
                           </div>
                           <div
                             class="esa-progress-bar esa-progress-bar--md esa-progress-bar--danger"
@@ -999,9 +1067,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="stack" data-gap="xs">
                           <div class="cluster" data-gap="xs">
                             <span
-                              class="esa-badge esa-badge--warning esa-badge--md typography-microcopy-sm-strong"
-                              ><span class="esa-badge__text"></span></span
-                            ><strong>4</strong>
+                              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+                              ><span class="esa-badge__text">4</span></span
+                            ><span
+                              class="typography-body-sm"
+                              style="
+                                font-weight: var(--typography-font-weight-semibold);
+                                color: var(--color-content-default);
+                              "
+                              >Medium</span
+                            >
                           </div>
                           <div
                             class="esa-progress-bar esa-progress-bar--md esa-progress-bar--warning"
@@ -1024,9 +1099,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="stack" data-gap="xs">
                           <div class="cluster" data-gap="xs">
                             <span
-                              class="esa-badge esa-badge--info esa-badge--md typography-microcopy-sm-strong"
-                              ><span class="esa-badge__text"></span></span
-                            ><strong>0</strong>
+                              class="esa-badge esa-badge--info esa-badge--sm typography-microcopy-xs-strong"
+                              ><span class="esa-badge__text">0</span></span
+                            ><span
+                              class="typography-body-sm"
+                              style="
+                                font-weight: var(--typography-font-weight-semibold);
+                                color: var(--color-content-default);
+                              "
+                              >Low</span
+                            >
                           </div>
                           <div
                             class="esa-progress-bar esa-progress-bar--md esa-progress-bar--primary"
@@ -1049,9 +1131,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="stack" data-gap="xs">
                           <div class="cluster" data-gap="xs">
                             <span
-                              class="esa-badge esa-badge--secondary esa-badge--md typography-microcopy-sm-strong"
-                              ><span class="esa-badge__text"></span></span
-                            ><strong>4</strong>
+                              class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
+                              ><span class="esa-badge__text">4</span></span
+                            ><span
+                              class="typography-body-sm"
+                              style="
+                                font-weight: var(--typography-font-weight-semibold);
+                                color: var(--color-content-default);
+                              "
+                              >None</span
+                            >
                           </div>
                           <div
                             class="esa-progress-bar esa-progress-bar--md esa-progress-bar--primary"
@@ -2400,7 +2489,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
       ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
-        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-c7ivvrtd=""
+        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
           ><svg
             width="14"
             height="14"
@@ -2411,7 +2500,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -4121,8 +4210,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-65ixjgm5=""
-                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
+                      data-astro-cid-xtwxlazl=""
+                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -4132,19 +4221,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -4155,7 +4244,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -9901,27 +9990,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-sh7ulwla=""
-                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                        data-astro-cid-yahmuvtj=""
+                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -9932,7 +10021,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -10036,240 +10125,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.bcn-dds {
-  --grid-min: 13rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-dds__step {
-  min-width: 0;
-  display: flex;
-}
-.bcn-dds__tile {
-  min-width: 0;
-  padding: var(--spacing-400);
-  background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  color: inherit;
-  flex: 1;
-  text-decoration: none;
-  transition:
-    border-color 0.15s,
-    background-color 0.15s;
-}
-.bcn-dds__top {
-  width: 100%;
-}
-.bcn-dds__mark {
-  border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
-  width: 28px;
-  height: 28px;
-  color: var(--color-content-default-secondary);
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-dds__title-row {
-  --align: flex-start;
-  flex-wrap: nowrap;
-  width: 100%;
-}
-.bcn-dds__label {
-  min-width: 0;
-  color: var(--color-content-default);
-}
-.bcn-dds__chev {
-  color: var(--bcn-content-muted);
-  flex-shrink: 0;
-  margin-top: 0.125rem;
-  transition: color 0.15s;
-  display: inline-flex;
-}
-.bcn-dds__desc {
-  color: var(--color-content-default-secondary);
-  min-width: 0;
-}
-.bcn-dds__tile[data-tone="neutral"] {
-  --badge-bg: var(--color-background-elevation-raised);
-  --badge-text-color: var(--color-content-default-secondary);
-}
-.ov-issue-list {
-  margin: 0;
-  padding-left: 1.1rem;
-  line-height: 1.65;
-}
-.ov-activity {
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.ov-activity li {
-  align-items: flex-start;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) 0;
-  border-bottom: 1px solid var(--color-border-default-subtle);
-  font-size: var(--font-size-300);
-  display: flex;
-}
-.ov-activity__dot {
-  border-radius: var(--radius-full);
-  background: var(--color-background-brand);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  margin-top: 8px;
-}
-.ov-activity__text {
-  flex: 1;
-}
-.ov-activity__time {
-  color: var(--color-content-default-tertiary);
-  font-size: var(--font-size-200);
-  white-space: nowrap;
-}
-.ov-activity li:last-child {
-  border-bottom: none;
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.page-layout {
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__bleed,
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-400);
-  display: flex;
-}
-.breadcrumbs__items {
-  gap: var(--spacing-100);
-  flex-wrap: wrap;
-  align-items: center;
-  display: flex;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  box-sizing: border-box;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-}
-.page-layout__title-main {
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-  display: flex;
-}
-.page-layout__title h1 {
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--typography-font-weight-bold);
-  font-size: var(--font-size-500);
-  color: var(--bcn-gray-1000);
-  margin: 0;
-  display: flex;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
-}
-.page-layout__utilities {
-  gap: var(--spacing-200);
-  display: flex;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-.grid {
-  --gap: var(--spacing-400, 1rem);
-  --grid-min: 16rem;
-  gap: var(--gap);
-  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
-  display: grid;
-}
-.repel {
-  --gap: var(--spacing-400, 1rem);
-  --align: center;
-  gap: var(--gap);
-  align-items: var(--align);
-  flex-wrap: wrap;
-  justify-content: space-between;
-  display: flex;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  gap: var(--gap);
-  flex-wrap: wrap;
-  display: flex;
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-  flex-wrap: wrap;
-  display: flex;
-}
-.sidebar > :last-child {
-  min-inline-size: var(--sidebar-content-min);
-  flex-grow: 999;
-  flex-basis: 0;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
@@ -10292,6 +10147,28 @@ a.breadcrumb-item {
 }
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
 }
 .bcn-key-value {
   flex-direction: column;
@@ -10365,9 +10242,357 @@ a.breadcrumb-item {
 .esa-progress-bar--warning {
   --_progress-fill-bg: var(--color-background-utility-warning, #ffc53d);
 }
+.page-layout {
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__bleed,
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-400);
+  display: flex;
+}
+.breadcrumbs__items {
+  gap: var(--spacing-100);
+  flex-wrap: wrap;
+  align-items: center;
+  display: flex;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__container {
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.page-layout__title-main {
+  align-items: center;
+  gap: var(--spacing-400);
+  min-width: 0;
+  display: flex;
+}
+.page-layout__title h1 {
+  align-items: center;
+  gap: var(--spacing-300);
+  font-family: var(--font-decorative);
+  font-weight: var(--typography-font-weight-bold);
+  font-size: var(--font-size-500);
+  color: var(--bcn-gray-1000);
+  margin: 0;
+  display: flex;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
+}
+.page-layout__utilities {
+  gap: var(--spacing-200);
+  display: flex;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
+}
+.grid {
+  --gap: var(--spacing-400, 1rem);
+  --grid-min: 16rem;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
+  display: grid;
+}
+.repel {
+  --gap: var(--spacing-400, 1rem);
+  --align: center;
+  gap: var(--gap);
+  align-items: var(--align);
+  flex-wrap: wrap;
+  justify-content: space-between;
+  display: flex;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  display: flex;
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
+}
+.sidebar > :last-child {
+  min-inline-size: var(--sidebar-content-min);
+  flex-grow: 999;
+  flex-basis: 0;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-title {
+  font-family: var(--typography-title-font-family);
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  letter-spacing: var(--typography-title-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-xs-strong {
+  font-family: var(--typography-label-xs-strong-font-family);
+  font-size: var(--typography-label-xs-strong-font-size);
+  font-weight: var(--typography-label-xs-strong-font-weight);
+  line-height: var(--typography-label-xs-strong-line-height);
+  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.bcn-dds {
+  --grid-min: 13rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-dds__step {
+  min-width: 0;
+  display: flex;
+}
+.bcn-dds__tile {
+  min-width: 0;
+  padding: var(--spacing-400);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  color: inherit;
+  flex: 1;
+  text-decoration: none;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+.bcn-dds__top {
+  width: 100%;
+}
+.bcn-dds__mark {
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  width: 28px;
+  height: 28px;
+  color: var(--color-content-default-secondary);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.bcn-dds__title-row {
+  --align: flex-start;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+.bcn-dds__label {
+  min-width: 0;
+  color: var(--color-content-default);
+}
+.bcn-dds__chev {
+  color: var(--bcn-content-muted);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  transition: color 0.15s;
+  display: inline-flex;
+}
+.bcn-dds__desc {
+  color: var(--color-content-default-secondary);
+  min-width: 0;
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.bcn-dds__tile[data-tone="neutral"] {
+  --badge-bg: var(--color-background-elevation-raised);
+  --badge-text-color: var(--color-content-default-secondary);
+}
+.ov-issue-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  line-height: 1.65;
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.ov-activity {
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.ov-activity li {
+  align-items: flex-start;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) 0;
+  border-bottom: 1px solid var(--color-border-default-subtle);
+  font-size: var(--font-size-300);
+  display: flex;
+}
+.ov-activity__dot {
+  border-radius: var(--radius-full);
+  background: var(--color-background-brand);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: 8px;
+}
+.ov-activity__text {
+  flex: 1;
+}
+.ov-activity__time {
+  color: var(--color-content-default-tertiary);
+  font-size: var(--font-size-200);
+  white-space: nowrap;
+}
+.ov-activity li:last-child {
+  border-bottom: none;
 }
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
@@ -10438,127 +10663,6 @@ html,
   --_btn-pad-y: var(--spacing-250, 0.625rem);
   --_btn-padding-x: var(--spacing-250, 0.625rem);
   --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
-  --_badge-text: var(--color-content-utility-info, #0d74ce);
-  --_badge-border: var(--color-border-utility-info, #acd8fc);
-}
-.esa-badge--success:not(.esa-badge--dot),
-.esa-badge--warning:not(.esa-badge--dot),
-.esa-badge--danger:not(.esa-badge--dot),
-.esa-badge--info:not(.esa-badge--dot) {
-  border: 1px solid var(--_badge-border, transparent);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
-  --_badge-text: var(--color-content-utility-success, #218358);
-  --_badge-border: var(--color-border-utility-success, #adddc0);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
-  --_badge-text: var(--color-content-utility-warning, #ab6400);
-  --_badge-border: var(--color-border-utility-warning, #f3d673);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
-  --_badge-text: var(--color-content-utility-danger, #ce2c31);
-  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
-  --_badge-text: var(--color-content-on-brand-muted, #203c25);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-title {
-  font-family: var(--typography-title-font-family);
-  font-size: var(--typography-title-font-size);
-  font-weight: var(--typography-title-font-weight);
-  line-height: var(--typography-title-line-height);
-  letter-spacing: var(--typography-title-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-xs-strong {
-  font-family: var(--typography-label-xs-strong-font-family);
-  font-size: var(--typography-label-xs-strong-font-size);
-  font-weight: var(--typography-label-xs-strong-font-weight);
-  line-height: var(--typography-label-xs-strong-line-height);
-  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
 .modern-layout {
   flex-direction: column;
@@ -10923,6 +11027,13 @@ html,
 }
 .nav-item + .nav-item {
   margin-top: var(--spacing-050);
+}
+.nav-divider {
+  height: 1px;
+  margin: var(--spacing-200) 0;
+  background: var(--bcn-gray-200);
+  border: 0;
+  flex-shrink: 0;
 }
 .modern-layout__content {
   flex: 1;
@@ -11401,7 +11512,7 @@ html,
 | `--avatar-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
 | `--avatar-size-md` | `40px` | component |
 | `--avatar-size-sm` | `28px` | component |
-| `--badge-bg` | `#005862` | component |
+| `--badge-bg` | `#43608a` | component |
 | `--badge-text-color` | `#fcfcfc` | component |
 | `--bcn-aldo` | `#08908b` | component |
 | `--bcn-aldo-100` | `#cfeceb` | component |
@@ -11429,9 +11540,7 @@ html,
 | `--card-border-color` | `#dcdcdc` | component |
 | `--card-header-bg` | `transparent` | component |
 | `--color-background-accent` | `#f76b15` | semantic |
-| `--color-background-brand` | `#005862` | semantic |
-| `--color-background-brand-hover` | `#00474f` | semantic |
-| `--color-background-brand-muted` | `#00918b` | semantic |
+| `--color-background-brand-muted` | `#eef5f4` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-elevation-sunken` | `#efefef` | semantic |
 | `--color-background-overlay-backdrop` | `#00000080` | semantic |
@@ -11447,12 +11556,10 @@ html,
 | `--color-border-utility-info` | `#acd8fc` | semantic |
 | `--color-border-utility-success` | `#adddc0` | semantic |
 | `--color-border-utility-warning` | `#f3d673` | semantic |
-| `--color-content-brand` | `#2a7e3b` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
-| `--color-content-link` | `#005862` | semantic |
 | `--color-content-on-brand-muted` | `#203c25` | semantic |
 | `--color-content-utility-danger` | `#ce2c31` | semantic |
 | `--color-content-utility-info` | `#0d74ce` | semantic |
@@ -11467,6 +11574,7 @@ html,
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
 | `--form-label-color` | `#525252` | component |
+| `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-xs` | `14px` | primitive |
@@ -11522,11 +11630,6 @@ html,
 | `--typography-microcopy-md-font-weight` | `500` | semantic |
 | `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
 | `--typography-microcopy-md-line-height` | `1` | semantic |
-| `--typography-microcopy-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-microcopy-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
-| `--typography-microcopy-sm-strong-font-weight` | `550` | semantic |
-| `--typography-microcopy-sm-strong-letter-spacing` | `.01em` | semantic |
-| `--typography-microcopy-sm-strong-line-height` | `1` | semantic |
 | `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
 | `--typography-microcopy-xs-font-weight` | `500` | semantic |

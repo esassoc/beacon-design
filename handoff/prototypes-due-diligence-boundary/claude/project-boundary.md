@@ -346,7 +346,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <rect width="7" height="5" x="14" y="3" rx="1"></rect>
                 <rect width="7" height="9" x="14" y="12" rx="1"></rect>
                 <rect width="7" height="5" x="3" y="16" rx="1"></rect></svg></span
-            ><span class="nav-section__title">Project</span
+            ><span class="nav-section__title">Due Diligence</span
             ><span class="esa-icon esa-icon--sm" aria-hidden="true"
               ><svg
                 width="16"
@@ -386,6 +386,55 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <li class="nav-item">
               <a href="/beacon-design/prototypes/due-diligence-report" class="nav-sublink"
                 >CIA Report</a
+              >
+            </li>
+          </ul>
+        </div>
+        <hr class="nav-divider" aria-hidden="true" />
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                <path d="M10 9H8"></path>
+                <path d="M16 13H8"></path>
+                <path d="M16 17H8"></path></svg></span
+            ><span class="nav-section__title">Permitting</span
+            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+              ><svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path></svg
+            ></span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/permitting-dashboard" class="nav-sublink"
+                >Permit Dashboard</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/permitting-details" class="nav-sublink"
+                >Permit Details</a
               >
             </li>
           </ul>
@@ -457,10 +506,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <section class="page-layout__title">
             <div class="page-layout__title-main">
               <h1>
-                <span class="esa-icon esa-icon--md" aria-hidden="true"
+                <span class="esa-icon esa-icon--lg" aria-hidden="true"
                   ><svg
-                    width="20"
-                    height="20"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -475,6 +524,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <circle cx="12" cy="10" r="3"></circle></svg></span
                 >Project Boundary
               </h1>
+              <div>
+                <span
+                  class="bcn-status-chip"
+                  data-status="phase"
+                  style="--_chip: var(--st-phase, #4a90d9)"
+                  ><span class="bcn-status-chip__dot"></span
+                  ><span class="bcn-status-chip__label">Due Diligence</span></span
+                ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+              </div>
             </div>
             <div class="page-layout__utilities">
               <div>
@@ -688,92 +754,92 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             >
                               <img
                                 alt=""
-                                src="https://a.basemaps.cartocdn.com/light_all/15/5627/12973.png"
-                                class="leaflet-tile leaflet-tile-loaded"
+                                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/15/5627/12973?access_token=undefined"
+                                class="leaflet-tile"
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(172px, 129px, 0px);
+                                  transform: translate3d(247px, 129px, 0px);
                                   opacity: 1;
                                 "
                               /><img
                                 alt=""
-                                src="https://d.basemaps.cartocdn.com/light_all/15/5627/12972.png"
-                                class="leaflet-tile leaflet-tile-loaded"
+                                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/15/5627/12972?access_token=undefined"
+                                class="leaflet-tile"
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(172px, -127px, 0px);
+                                  transform: translate3d(247px, -127px, 0px);
                                   opacity: 1;
                                 "
                               /><img
                                 alt=""
-                                src="https://d.basemaps.cartocdn.com/light_all/15/5626/12973.png"
-                                class="leaflet-tile leaflet-tile-loaded"
+                                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/15/5626/12973?access_token=undefined"
+                                class="leaflet-tile"
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(-84px, 129px, 0px);
+                                  transform: translate3d(-9px, 129px, 0px);
                                   opacity: 1;
                                 "
                               /><img
                                 alt=""
-                                src="https://b.basemaps.cartocdn.com/light_all/15/5628/12973.png"
-                                class="leaflet-tile leaflet-tile-loaded"
+                                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/15/5628/12973?access_token=undefined"
+                                class="leaflet-tile"
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(428px, 129px, 0px);
+                                  transform: translate3d(503px, 129px, 0px);
                                   opacity: 1;
                                 "
                               /><img
                                 alt=""
-                                src="https://b.basemaps.cartocdn.com/light_all/15/5627/12974.png"
-                                class="leaflet-tile leaflet-tile-loaded"
+                                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/15/5627/12974?access_token=undefined"
+                                class="leaflet-tile"
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(172px, 385px, 0px);
+                                  transform: translate3d(247px, 385px, 0px);
                                   opacity: 1;
                                 "
                               /><img
                                 alt=""
-                                src="https://c.basemaps.cartocdn.com/light_all/15/5626/12972.png"
-                                class="leaflet-tile leaflet-tile-loaded"
+                                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/15/5626/12972?access_token=undefined"
+                                class="leaflet-tile"
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(-84px, -127px, 0px);
+                                  transform: translate3d(-9px, -127px, 0px);
                                   opacity: 1;
                                 "
                               /><img
                                 alt=""
-                                src="https://a.basemaps.cartocdn.com/light_all/15/5628/12972.png"
-                                class="leaflet-tile leaflet-tile-loaded"
+                                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/15/5628/12972?access_token=undefined"
+                                class="leaflet-tile"
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(428px, -127px, 0px);
+                                  transform: translate3d(503px, -127px, 0px);
                                   opacity: 1;
                                 "
                               /><img
                                 alt=""
-                                src="https://a.basemaps.cartocdn.com/light_all/15/5626/12974.png"
-                                class="leaflet-tile leaflet-tile-loaded"
+                                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/15/5626/12974?access_token=undefined"
+                                class="leaflet-tile"
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(-84px, 385px, 0px);
+                                  transform: translate3d(-9px, 385px, 0px);
                                   opacity: 1;
                                 "
                               /><img
                                 alt=""
-                                src="https://c.basemaps.cartocdn.com/light_all/15/5628/12974.png"
-                                class="leaflet-tile leaflet-tile-loaded"
+                                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/15/5628/12974?access_token=undefined"
+                                class="leaflet-tile"
                                 style="
                                   width: 256px;
                                   height: 256px;
-                                  transform: translate3d(428px, 385px, 0px);
+                                  transform: translate3d(503px, 385px, 0px);
                                   opacity: 1;
                                 "
                               />
@@ -784,10 +850,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <svg
                             pointer-events="none"
                             class="leaflet-zoom-animated"
-                            width="632"
+                            width="814"
                             height="670"
-                            viewBox="-53 -56 632 670"
-                            style="transform: translate3d(-52.5861px, -55.4972px, 0px) scale(1)"
+                            viewBox="-68 -56 814 670"
+                            style="transform: translate3d(-68.1861px, -55.4972px, 0px) scale(1)"
                           >
                             <g>
                               <path
@@ -800,7 +866,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 fill="#005862"
                                 fill-opacity="0.15"
                                 fill-rule="evenodd"
-                                d="M114 430L414 430L414 129L114 129z"
+                                d="M189 430L489 430L489 129L189 129z"
                               ></path>
                             </g>
                           </svg>
@@ -884,7 +950,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </svg>
                               Leaflet</a
                             >
-                            <span aria-hidden="true">|</span> © OpenStreetMap © CARTO
+                            <span aria-hidden="true">|</span> ©
+                            <a href="https://www.mapbox.com/about/maps/">Mapbox</a> ©
+                            <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>
                           </div>
                         </div>
                       </div>
@@ -920,7 +988,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </script>
                 <script
                   type="module"
-                  src="/beacon-design/_astro/BcnBoundaryDrawMap.astro_astro_type_script_index_0_lang.CUC0r_VO.js"
+                  src="/beacon-design/_astro/BcnBoundaryDrawMap.astro_astro_type_script_index_0_lang.CNvh5VJz.js"
                 ></script>
               </div>
             </div>
@@ -2200,7 +2268,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
       ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
-        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-c7ivvrtd=""
+        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
           ><svg
             width="14"
             height="14"
@@ -2211,7 +2279,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -3904,8 +3972,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-65ixjgm5=""
-                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
+                      data-astro-cid-xtwxlazl=""
+                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -3915,19 +3983,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -3938,7 +4006,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -9684,27 +9752,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-sh7ulwla=""
-                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                        data-astro-cid-yahmuvtj=""
+                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -9715,7 +9783,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -9819,9 +9887,270 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+}
+.bcn-bmap__bar {
+  z-index: 1200;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  position: relative;
+}
+.bcn-bmap__surface {
+  border-radius: var(--radius-200);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-background-elevation-sunken);
+  width: 100%;
+  overflow: hidden;
+}
+.bcn-bmap__hint {
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
+  max-width: 68ch;
+  margin: 0;
+}
+.bcn-bmap__upload {
+  gap: var(--spacing-200);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-bmap__upload[hidden] {
+  display: none;
+}
+.bcn-bmap__surface .leaflet-bar {
+  border-radius: var(--radius-100);
+  border-color: var(--color-border-default);
+}
+.bcn-bmap__surface .leaflet-draw-toolbar a {
+  background-color: var(--color-background-elevation-raised);
+  border-bottom-color: var(--color-border-default);
+}
+.bcn-key-value {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+.bcn-key-value__key {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.esa-alert-box {
+  --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
+  --_alert-border: var(--color-border-utility-info, #acd8fc);
+  --_alert-accent: var(--color-content-utility-info, #0d74ce);
+  --_alert-icon-color: var(--_alert-accent);
+  --_alert-title-color: var(--_alert-accent);
+  --_alert-text-color: var(--alert-box-text-color, var(--color-content-default-secondary, #646464));
+  align-items: flex-start;
+  gap: var(--spacing-300, 0.75rem);
+  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+  border: var(--border-width-default, 1px) solid var(--_alert-border);
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--_alert-bg);
+  display: flex;
+}
+.esa-alert-box--success {
+  --_alert-bg: var(--color-background-utility-success-subtle, #fbfefc);
+  --_alert-border: var(--color-border-utility-success, #adddc0);
+  --_alert-accent: var(--color-content-utility-success, #218358);
+}
+.esa-alert-box__icon {
+  color: var(--_alert-icon-color);
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.esa-alert-box__body {
+  flex: 1;
+  min-width: 0;
+}
+.esa-alert-box__title {
+  color: var(--_alert-title-color);
+  margin-bottom: var(--spacing-050, 0.125rem);
+  display: block;
+}
+.esa-alert-box__message {
+  color: var(--_alert-text-color);
+}
+.leaflet-draw-section {
+  position: relative;
+}
+.leaflet-draw-toolbar {
+  margin-top: 12px;
+}
+.leaflet-draw-toolbar-top {
+  margin-top: 0;
+}
+.leaflet-draw-toolbar a {
+  background-image:
+    linear-gradient(#0000, #0000), url(/beacon-design/_astro/spritesheet.DpIxuf5L.svg);
+  background-repeat: no-repeat;
+  background-size: 300px 30px;
+  background-clip: padding-box;
+}
+.leaflet-draw a {
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+.leaflet-draw-toolbar .leaflet-draw-draw-polygon {
+  background-position: -31px -2px;
+}
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
+  background-position: -29px -1px;
+}
+.leaflet-draw a .sr-only {
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+}
+.leaflet-draw-toolbar .leaflet-draw-draw-rectangle {
+  background-position: -62px -2px;
+}
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-rectangle {
+  background-position: -60px -1px;
+}
+.leaflet-draw-actions {
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 26px;
+}
+.leaflet-touch .leaflet-draw-actions {
+  left: 32px;
+}
+.leaflet-draw-toolbar .leaflet-draw-edit-edit {
+  background-position: -152px -2px;
+}
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-edit {
+  background-position: -150px -1px;
+}
+.leaflet-draw-toolbar .leaflet-draw-edit-remove {
+  background-position: -182px -2px;
+}
+.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-remove {
+  background-position: -180px -1px;
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
 }
 .modern-layout {
   flex-direction: column;
@@ -10186,6 +10515,13 @@ html,
 .nav-sublink.active {
   color: var(--color-background-brand);
   background: #0000000a;
+}
+.nav-divider {
+  height: 1px;
+  margin: var(--spacing-200) 0;
+  background: var(--bcn-gray-200);
+  border: 0;
+  flex-shrink: 0;
 }
 .modern-layout__content {
   flex: 1;
@@ -10645,110 +10981,163 @@ html,
   transform: translate(-50%);
   box-shadow: 0 -12px 48px -12px #00000052;
 }
-.esa-alert-box {
-  --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
-  --_alert-border: var(--color-border-utility-info, #acd8fc);
-  --_alert-accent: var(--color-content-utility-info, #0d74ce);
-  --_alert-icon-color: var(--_alert-accent);
-  --_alert-title-color: var(--_alert-accent);
-  --_alert-text-color: var(--alert-box-text-color, var(--color-content-default-secondary, #646464));
-  align-items: flex-start;
-  gap: var(--spacing-300, 0.75rem);
-  padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
-  border: var(--border-width-default, 1px) solid var(--_alert-border);
-  border-radius: var(--radius-md, 0.5rem);
-  background: var(--_alert-bg);
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.page-layout {
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+  flex-direction: column;
   display: flex;
 }
-.esa-alert-box--success {
-  --_alert-bg: var(--color-background-utility-success-subtle, #fbfefc);
-  --_alert-border: var(--color-border-utility-success, #adddc0);
-  --_alert-accent: var(--color-content-utility-success, #218358);
+.page-layout__bleed,
+.page-layout section {
+  width: 100%;
 }
-.esa-alert-box__icon {
-  color: var(--_alert-icon-color);
-  flex-shrink: 0;
-  padding-top: 1px;
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-400);
+  display: flex;
 }
-.esa-alert-box__body {
-  flex: 1;
+.breadcrumbs__items {
+  gap: var(--spacing-100);
+  flex-wrap: wrap;
+  align-items: center;
+  display: flex;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__container {
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.page-layout__title-main {
+  align-items: center;
+  gap: var(--spacing-400);
   min-width: 0;
+  display: flex;
 }
-.esa-alert-box__title {
-  color: var(--_alert-title-color);
-  margin-bottom: var(--spacing-050, 0.125rem);
-  display: block;
+.page-layout__title h1 {
+  align-items: center;
+  gap: var(--spacing-300);
+  font-family: var(--font-decorative);
+  font-weight: var(--typography-font-weight-bold);
+  font-size: var(--font-size-500);
+  color: var(--bcn-gray-1000);
+  margin: 0;
+  display: flex;
 }
-.esa-alert-box__message {
-  color: var(--_alert-text-color);
+.page-layout__title h1 .esa-icon {
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
+  flex-shrink: 0;
 }
-.leaflet-draw-section {
+.page-layout__utilities {
+  gap: var(--spacing-200);
+  display: flex;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
   position: relative;
 }
-.leaflet-draw-toolbar {
-  margin-top: 12px;
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
 }
-.leaflet-draw-toolbar-top {
-  margin-top: 0;
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  display: flex;
 }
-.leaflet-draw-toolbar a {
-  background-image:
-    linear-gradient(#0000, #0000), url(/beacon-design/_astro/spritesheet.DpIxuf5L.svg);
-  background-repeat: no-repeat;
-  background-size: 300px 30px;
-  background-clip: padding-box;
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
 }
-.leaflet-draw a {
-  text-align: center;
-  text-decoration: none;
-  display: block;
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
 }
-.leaflet-draw-toolbar .leaflet-draw-draw-polygon {
-  background-position: -31px -2px;
+.repel {
+  --gap: var(--spacing-400, 1rem);
+  --align: center;
+  gap: var(--gap);
+  align-items: var(--align);
+  flex-wrap: wrap;
+  justify-content: space-between;
+  display: flex;
 }
-.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
-  background-position: -29px -1px;
+.sidebar > :last-child {
+  min-inline-size: var(--sidebar-content-min);
+  flex-grow: 999;
+  flex-basis: 0;
 }
-.leaflet-draw a .sr-only {
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  position: absolute;
-  overflow: hidden;
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
 }
-.leaflet-draw-toolbar .leaflet-draw-draw-rectangle {
-  background-position: -62px -2px;
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
-.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-rectangle {
-  background-position: -60px -1px;
+.typography-label-sm-strong {
+  font-family: var(--typography-label-sm-strong-font-family);
+  font-size: var(--typography-label-sm-strong-font-size);
+  font-weight: var(--typography-label-sm-strong-font-weight);
+  line-height: var(--typography-label-sm-strong-line-height);
+  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
 }
-.leaflet-draw-actions {
-  white-space: nowrap;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 26px;
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
-.leaflet-touch .leaflet-draw-actions {
-  left: 32px;
-}
-.leaflet-draw-toolbar .leaflet-draw-edit-edit {
-  background-position: -152px -2px;
-}
-.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-edit {
-  background-position: -150px -1px;
-}
-.leaflet-draw-toolbar .leaflet-draw-edit-remove {
-  background-position: -182px -2px;
-}
-.leaflet-touch .leaflet-draw-toolbar .leaflet-draw-edit-remove {
-  background-position: -180px -1px;
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
 }
 .leaflet-container {
   overflow: hidden;
@@ -11022,265 +11411,19 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-tile::selection {
   background: 0 0;
 }
-.leaflet-tile-loaded {
-  visibility: inherit;
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.page-layout {
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__bleed,
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-400);
-  display: flex;
-}
-.breadcrumbs__items {
-  gap: var(--spacing-100);
-  flex-wrap: wrap;
-  align-items: center;
-  display: flex;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  box-sizing: border-box;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-}
-.page-layout__title-main {
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-  display: flex;
-}
-.page-layout__title h1 {
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--typography-font-weight-bold);
-  font-size: var(--font-size-500);
-  color: var(--bcn-gray-1000);
-  margin: 0;
-  display: flex;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--page-title-icon-color, var(--bcn-gray-1000));
-  flex-shrink: 0;
-}
-.page-layout__utilities {
-  gap: var(--spacing-200);
-  display: flex;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  gap: var(--gap);
-  flex-wrap: wrap;
-  display: flex;
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-  flex-wrap: wrap;
-  display: flex;
-}
-.repel {
-  --gap: var(--spacing-400, 1rem);
-  --align: center;
-  gap: var(--gap);
-  align-items: var(--align);
-  flex-wrap: wrap;
-  justify-content: space-between;
-  display: flex;
-}
-.sidebar > :last-child {
-  min-inline-size: var(--sidebar-content-min);
-  flex-grow: 999;
-  flex-basis: 0;
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-  background: 0 0;
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.bcn-bmap__bar {
-  z-index: 1200;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  position: relative;
-}
-.bcn-bmap__surface {
-  border-radius: var(--radius-200);
-  border: 1px solid var(--color-border-default);
-  background: var(--color-background-elevation-sunken);
-  width: 100%;
-  overflow: hidden;
-}
-.bcn-bmap__hint {
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-secondary);
-  max-width: 68ch;
-  margin: 0;
-}
-.bcn-bmap__upload {
-  gap: var(--spacing-200);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-bmap__upload[hidden] {
-  display: none;
-}
-.bcn-bmap__surface .leaflet-bar {
-  border-radius: var(--radius-100);
-  border-color: var(--color-border-default);
-}
-.bcn-bmap__surface .leaflet-draw-toolbar a {
-  background-color: var(--color-background-elevation-raised);
-  border-bottom-color: var(--color-border-default);
-}
-.bcn-key-value {
-  flex-direction: column;
-  gap: 2px;
-  display: flex;
-}
-.bcn-key-value__key {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 .typography-label-md {
   font-family: var(--typography-label-md-font-family);
@@ -11296,20 +11439,6 @@ a.breadcrumb-item {
   line-height: var(--typography-microcopy-md-subtle-line-height);
   letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
 }
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
@@ -11323,41 +11452,6 @@ a.breadcrumb-item {
   font-weight: var(--typography-microcopy-xs-font-weight);
   line-height: var(--typography-microcopy-xs-line-height);
   letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-sm-strong {
-  font-family: var(--typography-label-sm-strong-font-family);
-  font-size: var(--typography-label-sm-strong-font-size);
-  font-weight: var(--typography-label-sm-strong-font-weight);
-  line-height: var(--typography-label-sm-strong-line-height);
-  letter-spacing: var(--typography-label-sm-strong-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
 }
 ```
 
@@ -11389,8 +11483,6 @@ a.breadcrumb-item {
 | `--card-border-color` | `#dcdcdc` | component |
 | `--card-header-bg` | `transparent` | component |
 | `--color-background-accent` | `#f76b15` | semantic |
-| `--color-background-brand` | `#005862` | semantic |
-| `--color-background-brand-hover` | `#00474f` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-elevation-sunken` | `#efefef` | semantic |
 | `--color-background-overlay-backdrop` | `#00000080` | semantic |
@@ -11400,12 +11492,10 @@ a.breadcrumb-item {
 | `--color-border-default-subtle` | `#efefef` | semantic |
 | `--color-border-utility-info` | `#acd8fc` | semantic |
 | `--color-border-utility-success` | `#adddc0` | semantic |
-| `--color-content-brand` | `#2a7e3b` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
-| `--color-content-link` | `#005862` | semantic |
 | `--color-content-utility-info` | `#0d74ce` | semantic |
 | `--color-content-utility-success` | `#218358` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
@@ -11417,6 +11507,7 @@ a.breadcrumb-item {
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
 | `--form-label-color` | `#525252` | component |
+| `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-xs` | `14px` | primitive |

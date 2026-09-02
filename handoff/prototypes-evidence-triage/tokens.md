@@ -1,6 +1,6 @@
 # Token contract — prototypes-evidence-triage
 
-The 145 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 129 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,10 +9,7 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
 | `--color-background-accent` | `#f76b15` |
-| `--color-background-brand` | `#005862` |
-| `--color-background-brand-hover` | `#00474f` |
-| `--color-background-brand-muted` | `#00918b` |
-| `--color-background-brand-subtle` | `#effefb` |
+| `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-floating` | `#fcfcfc` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
@@ -22,12 +19,10 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-utility-info-subtle` | `#fbfdff` |
 | `--color-border-default` | `#dcdcdc` |
 | `--color-border-default-subtle` | `#efefef` |
-| `--color-content-brand` | `#2a7e3b` |
 | `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
 | `--color-content-default-tertiary` | `#656565` |
-| `--color-content-link` | `#005862` |
 | `--color-content-utility-danger` | `#ce2c31` |
 | `--elevation-4` | `0 6px 24px -6px #00000012` |
 | `--elevation-5` | `0 8px 32px -8px #00000014` |
@@ -41,11 +36,6 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--typography-body-sm-font-weight` | `350` |
 | `--typography-body-sm-letter-spacing` | `.01em` |
 | `--typography-body-sm-line-height` | `1.6` |
-| `--typography-body-xs-font-family` | `"DM Sans", sans-serif` |
-| `--typography-body-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--typography-body-xs-font-weight` | `350` |
-| `--typography-body-xs-letter-spacing` | `.01em` |
-| `--typography-body-xs-line-height` | `1.6` |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` |
 | `--typography-font-weight-bold` | `650` |
 | `--typography-font-weight-medium` | `500` |
@@ -56,11 +46,6 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--typography-label-md-font-weight` | `500` |
 | `--typography-label-md-letter-spacing` | `.01em` |
 | `--typography-label-md-line-height` | `1.6` |
-| `--typography-label-sm-strong-font-family` | `"DM Sans", sans-serif` |
-| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--typography-label-sm-strong-font-weight` | `550` |
-| `--typography-label-sm-strong-letter-spacing` | `.01em` |
-| `--typography-label-sm-strong-line-height` | `1.6` |
 | `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` |
 | `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--typography-microcopy-md-font-weight` | `500` |
@@ -96,7 +81,7 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 
 | Token | Value |
 |---|---|
-| `--badge-bg` | `#005862` |
+| `--badge-bg` | `#43608a` |
 | `--badge-text-color` | `#fcfcfc` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
@@ -119,8 +104,6 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--button-radius-md` | `.25rem` |
 | `--dialog-width` | `480px` |
 | `--dialog-width-lg` | `640px` |
-| `--empty-state-icon-size-md` | `48px` |
-| `--empty-state-icon-size-sm` | `32px` |
 | `--filter-container-padding` | `0` |
 | `--font-decorative` | `"Besley", serif` |
 | `--form-border-color` | `#dcdcdc` |
@@ -143,6 +126,7 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
+| `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
@@ -171,6 +155,11 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-inset`
 - `--bcn-bottom-drawer-width`
 - `--bcn-bottom-drawer-z`
+- `--color-background-brand`
+- `--color-background-brand-hover`
+- `--color-background-brand-subtle`
+- `--color-content-brand`
+- `--color-content-link`
 - `--gap`
 - `--justify`
 - `--page-title-icon-color`

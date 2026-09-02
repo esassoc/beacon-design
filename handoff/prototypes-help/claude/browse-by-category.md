@@ -21,192 +21,192 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 ## Markup
 ```html
 <section class="bcn-kbc" aria-labelledby="bcn-kbc-title">
-  <h2 id="bcn-kbc-title" class="bcn-kbc__title type-section-title">Browse by category</h2>
+  <h2 id="bcn-kbc-title" class="bcn-kbc__title typography-heading-md">
+    Browse by category
+  </h2>
   <div class="bcn-kbc__grid">
     <article class="bcn-kbc__card" id="category-general">
-      <h3 class="bcn-kbc__card-title type-card-title">General</h3>
+      <h3 class="bcn-kbc__card-title typography-title">General</h3>
       <p class="bcn-kbc__card-desc">
         App-wide structure and the vocabulary shared across every zone.
       </p>
       <ul class="bcn-kbc__featured" role="list">
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-project-vs-component-scope">
-            Scope
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-project-vs-component-scope"
+            >Scope</a
+          >
         </li>
-        <li><a class="bcn-kbc__featured-link" href="#article-tenant"> Tenant </a></li>
-        <li>
-          <a class="bcn-kbc__featured-link" href="#article-work-area"> Work Area </a>
-        </li>
+        <li><a class="bcn-kbc__featured-link" href="#article-tenant">Tenant</a></li>
+        <li><a class="bcn-kbc__featured-link" href="#article-work-area">Work Area</a></li>
       </ul>
       <div class="bcn-kbc__foot">
-        <span class="bcn-kbc__count"> 3 articles </span>
-        <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/general">
-          View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
-        </a>
+        <span class="bcn-kbc__count">3 articles</span
+        ><a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/general"
+          >View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span></a
+        >
       </div>
     </article>
     <article class="bcn-kbc__card" id="category-getting-started">
-      <h3 class="bcn-kbc__card-title type-card-title">Getting Started</h3>
+      <h3 class="bcn-kbc__card-title typography-title">Getting Started</h3>
       <p class="bcn-kbc__card-desc">
         Orientation, navigation, and search — the first day in Beacon.
       </p>
       <ul class="bcn-kbc__featured" role="list">
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-five-minute-tour">
-            A five-minute tour of Beacon
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-five-minute-tour"
+            >A five-minute tour of Beacon</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-global-search-tips">
-            Finding anything with search
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-global-search-tips"
+            >Finding anything with search</a
+          >
         </li>
       </ul>
       <div class="bcn-kbc__foot">
-        <span class="bcn-kbc__count"> 2 articles </span>
-        <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/getting-started">
-          View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
-        </a>
+        <span class="bcn-kbc__count">2 articles</span
+        ><a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/getting-started"
+          >View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span></a
+        >
       </div>
     </article>
     <article class="bcn-kbc__card" id="category-tracking">
-      <h3 class="bcn-kbc__card-title type-card-title">Tracking</h3>
+      <h3 class="bcn-kbc__card-title typography-title">Tracking</h3>
       <p class="bcn-kbc__card-desc">
         Actions, implementations, components, and permits — how obligations become tracked
         work.
       </p>
       <ul class="bcn-kbc__featured" role="list">
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-what-is-a-component">
-            Component
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-what-is-a-component"
+            >Component</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-starring-components">
-            Starring components on your dashboard
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-starring-components"
+            >Starring components on your dashboard</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-reading-permit-tracking">
-            Reading the Permit Tracking board
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-reading-permit-tracking"
+            >Reading the Permit Tracking board</a
+          >
         </li>
       </ul>
       <div class="bcn-kbc__foot">
-        <span class="bcn-kbc__count"> 7 articles </span>
-        <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/tracking">
-          View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
-        </a>
+        <span class="bcn-kbc__count">7 articles</span
+        ><a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/tracking"
+          >View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span></a
+        >
       </div>
     </article>
     <article class="bcn-kbc__card" id="category-monitoring">
-      <h3 class="bcn-kbc__card-title type-card-title">Monitoring</h3>
+      <h3 class="bcn-kbc__card-title typography-title">Monitoring</h3>
       <p class="bcn-kbc__card-desc">
         Daily reports, observations, surveys, and site clearance.
       </p>
       <ul class="bcn-kbc__featured" role="list">
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-site-clearance-go-no-go">
-            Using Site Clearance go/no-go
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-site-clearance-go-no-go"
+            >Using Site Clearance go/no-go</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-site-clearance">
-            Site Clearance
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-site-clearance"
+            >Site Clearance</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-what-is-a-dmr">
-            Daily Monitoring Report
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-what-is-a-dmr"
+            >Daily Monitoring Report</a
+          >
         </li>
       </ul>
       <div class="bcn-kbc__foot">
-        <span class="bcn-kbc__count"> 7 articles </span>
-        <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/monitoring">
-          View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
-        </a>
+        <span class="bcn-kbc__count">7 articles</span
+        ><a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/monitoring"
+          >View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span></a
+        >
       </div>
     </article>
     <article class="bcn-kbc__card" id="category-reporting">
-      <h3 class="bcn-kbc__card-title type-card-title">Reporting</h3>
+      <h3 class="bcn-kbc__card-title typography-title">Reporting</h3>
       <p class="bcn-kbc__card-desc">
         Evidence of compliance and the reports assembled from it.
       </p>
       <ul class="bcn-kbc__featured" role="list">
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-what-is-evidence">
-            Evidence of Compliance
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-what-is-evidence"
+            >Evidence of Compliance</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-assembling-compliance-report">
-            Assembling a compliance report
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-assembling-compliance-report"
+            >Assembling a compliance report</a
+          >
         </li>
       </ul>
       <div class="bcn-kbc__foot">
-        <span class="bcn-kbc__count"> 2 articles </span>
-        <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/reporting">
-          View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
-        </a>
+        <span class="bcn-kbc__count">2 articles</span
+        ><a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/reporting"
+          >View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span></a
+        >
       </div>
     </article>
     <article class="bcn-kbc__card" id="category-data-catalog">
-      <h3 class="bcn-kbc__card-title type-card-title">Data Catalog</h3>
+      <h3 class="bcn-kbc__card-title typography-title">Data Catalog</h3>
       <p class="bcn-kbc__card-desc">
         Source documents, commitments, and requirements — how obligations are documented.
       </p>
       <ul class="bcn-kbc__featured" role="list">
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-what-is-a-source">
-            Source Document
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-what-is-a-source"
+            >Source Document</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-what-is-a-commitment">
-            Commitment
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-what-is-a-commitment"
+            >Commitment</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-what-is-an-action"> Action </a>
+          <a class="bcn-kbc__featured-link" href="#article-what-is-an-action">Action</a>
         </li>
       </ul>
       <div class="bcn-kbc__foot">
-        <span class="bcn-kbc__count"> 5 articles </span>
-        <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/data-catalog">
-          View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
-        </a>
+        <span class="bcn-kbc__count">5 articles</span
+        ><a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/data-catalog"
+          >View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span></a
+        >
       </div>
     </article>
     <article class="bcn-kbc__card" id="category-settings-config">
-      <h3 class="bcn-kbc__card-title type-card-title">Settings &amp; Configuration</h3>
+      <h3 class="bcn-kbc__card-title typography-title">Settings &amp; Configuration</h3>
       <p class="bcn-kbc__card-desc">
         Tenant configuration, users, notifications, and feature flags.
       </p>
       <ul class="bcn-kbc__featured" role="list">
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-managing-tenant-settings">
-            Managing tenant settings
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-managing-tenant-settings"
+            >Managing tenant settings</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-managing-users-roles">
-            Managing users and roles
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-managing-users-roles"
+            >Managing users and roles</a
+          >
         </li>
         <li>
-          <a class="bcn-kbc__featured-link" href="#article-configuring-notifications">
-            Configuring notifications
-          </a>
+          <a class="bcn-kbc__featured-link" href="#article-configuring-notifications"
+            >Configuring notifications</a
+          >
         </li>
       </ul>
       <div class="bcn-kbc__foot">
-        <span class="bcn-kbc__count"> 4 articles </span>
-        <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/settings-config">
-          View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
-        </a>
+        <span class="bcn-kbc__count">4 articles</span
+        ><a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/settings-config"
+          >View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span></a
+        >
       </div>
     </article>
   </div>
@@ -215,137 +215,170 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 
 ## Styles
 ```css
-.type-section-title {
-  font-family: var(--font-display, var(--font-sans));
-  font-size: var(--type-size-500);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
+.typography-heading-md {
+  font-family: var(--typography-heading-md-font-family);
+  font-size: var(--typography-heading-md-font-size);
+  font-weight: var(--typography-heading-md-font-weight);
+  line-height: var(--typography-heading-md-line-height);
+  letter-spacing: var(--typography-heading-md-letter-spacing);
 }
-.type-card-title {
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
+.typography-title {
+  font-family: var(--typography-title-font-family);
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  letter-spacing: var(--typography-title-letter-spacing);
+}
+.typography-title-strong {
+  font-family: var(--typography-title-strong-font-family);
+  font-size: var(--typography-title-strong-font-size);
+  font-weight: var(--typography-title-strong-font-weight);
+  line-height: var(--typography-title-strong-line-height);
+  letter-spacing: var(--typography-title-strong-letter-spacing);
+}
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
 .bcn-kbc {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-500);
+  flex-direction: column;
+  display: flex;
 }
 .bcn-kbc__title {
+  color: var(--color-content-default);
   margin: 0;
-  color: var(--color-text-primary);
 }
 .bcn-kbc__grid {
-  display: grid;
-  grid-template-columns: 1fr;
   gap: var(--spacing-400);
+  grid-template-columns: 1fr;
+  display: grid;
 }
 .bcn-kbc__card {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-300);
   padding: var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-300);
+  flex-direction: column;
   scroll-margin-top: 5rem;
+  display: flex;
 }
 .bcn-kbc__card-title {
+  color: var(--color-content-default);
   margin: 0;
-  color: var(--color-text-primary);
 }
 .bcn-kbc__card-desc {
+  color: var(--color-content-default-secondary);
   margin: 0;
   font-size: 0.9375rem;
   line-height: 1.5;
-  color: var(--color-text-secondary);
 }
 .bcn-kbc__featured {
-  list-style: none;
+  gap: var(--spacing-150);
+  flex-direction: column;
   margin: 0;
   padding: 0;
+  list-style: none;
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
 }
 .bcn-kbc__featured-link {
   font-size: 0.9375rem;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-default);
   line-height: 1.35;
-  color: var(--color-text-primary);
   text-decoration: none;
-  transition: color 0.12s ease;
+  transition: color 0.12s;
 }
 .bcn-kbc__featured-link:hover {
-  color: var(--color-text-link);
-  text-decoration: underline;
+  color: var(--color-content-link);
   text-underline-offset: 2px;
+  text-decoration: underline;
 }
 .bcn-kbc__featured-link:focus-visible {
-  outline: 2px solid var(--color-text-link);
+  outline: 2px solid var(--color-content-link);
   outline-offset: 2px;
   border-radius: var(--radius-100);
 }
 .bcn-kbc__foot {
-  display: flex;
-  align-items: baseline;
   justify-content: space-between;
+  align-items: baseline;
   gap: var(--spacing-300);
-  margin-top: auto;
   padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-light);
+  border-top: 1px solid var(--color-border-default-subtle);
+  margin-top: auto;
+  display: flex;
 }
 .bcn-kbc__count {
-  font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   white-space: nowrap;
+  font-size: 0.8125rem;
 }
 .bcn-kbc__viewall {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-100);
   font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-link);
-  text-decoration: none;
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-link);
   white-space: nowrap;
-  transition: color 0.15s ease;
+  text-decoration: none;
+  transition: color 0.15s;
+  display: inline-flex;
 }
 .bcn-kbc__viewall:hover {
-  color: var(--color-text-link-hover);
+  color: var(--color-content-link-hover);
 }
 .bcn-kbc__viewall:focus-visible {
-  outline: 2px solid var(--color-text-link);
+  outline: 2px solid var(--color-content-link);
   outline-offset: 2px;
   border-radius: var(--radius-100);
 }
 .bcn-kbc__viewall-arrow {
-  transition: transform 0.15s ease;
+  transition: transform 0.15s;
 }
 .bcn-kbc__viewall:hover .bcn-kbc__viewall-arrow {
   transform: translate(2px);
 }
+.typography-heading-md {
+  font-family: var(--typography-heading-md-font-family);
+  font-size: var(--typography-heading-md-font-size);
+  font-weight: var(--typography-heading-md-font-weight);
+  line-height: var(--typography-heading-md-line-height);
+  letter-spacing: var(--typography-heading-md-letter-spacing);
+}
+.typography-title {
+  font-family: var(--typography-title-font-family);
+  font-size: var(--typography-title-font-size);
+  font-weight: var(--typography-title-font-weight);
+  line-height: var(--typography-title-line-height);
+  letter-spacing: var(--typography-title-letter-spacing);
+}
+.typography-title-strong {
+  font-family: var(--typography-title-strong-font-family);
+  font-size: var(--typography-title-strong-font-size);
+  font-weight: var(--typography-title-strong-font-weight);
+  line-height: var(--typography-title-strong-line-height);
+  letter-spacing: var(--typography-title-strong-letter-spacing);
+}
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-light`: #efefef _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-link-hover`: #00474f _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-display`: "DM Sans", sans-serif _(primitive)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--letter-spacing-normal`: .01em _(primitive)_
-- `--letter-spacing-tight`: -.01em _(primitive)_
-- `--line-height-normal`: 1.6 _(primitive)_
-- `--line-height-tight`: 1.3 _(primitive)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
@@ -353,5 +386,25 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
-- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
-- `--type-size-500`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(primitive)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-heading-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-heading-md-font-size`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(semantic)_
+- `--typography-heading-md-font-weight`: 550 _(semantic)_
+- `--typography-heading-md-letter-spacing`: -.01em _(semantic)_
+- `--typography-heading-md-line-height`: 1.3 _(semantic)_
+- `--typography-title-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-title-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
+- `--typography-title-font-weight`: 500 _(semantic)_
+- `--typography-title-letter-spacing`: .01em _(semantic)_
+- `--typography-title-line-height`: 1.6 _(semantic)_
+- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
+- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
+- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_
+- `--typography-title-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-title-strong-font-size`: clamp(1rem, .88rem + .6vw, 1.25rem) _(semantic)_
+- `--typography-title-strong-font-weight`: 550 _(semantic)_
+- `--typography-title-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-title-strong-line-height`: 1.6 _(semantic)_

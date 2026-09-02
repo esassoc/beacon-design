@@ -18,7 +18,7 @@ Every glossary-kind article as a bare term link, sorted A–Z and flowing into n
 ## Markup
 ```html
 <section class="bcn-kbg" aria-labelledby="bcn-kbg-title">
-  <h2 id="bcn-kbg-title" class="bcn-kbg__title type-section-title">Glossary</h2>
+  <h2 id="bcn-kbg-title" class="bcn-kbg__title typography-heading-md">Glossary</h2>
   <ul class="bcn-kbg__terms" role="list">
     <li class="bcn-kbg__term">
       <a class="bcn-kbg__link" href="#article-what-is-an-action">Action</a>
@@ -79,66 +79,71 @@ Every glossary-kind article as a bare term link, sorted A–Z and flowing into n
 
 ## Styles
 ```css
-.type-section-title {
-  font-family: var(--font-display, var(--font-sans));
-  font-size: var(--type-size-500);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
+.typography-heading-md {
+  font-family: var(--typography-heading-md-font-family);
+  font-size: var(--typography-heading-md-font-size);
+  font-weight: var(--typography-heading-md-font-weight);
+  line-height: var(--typography-heading-md-line-height);
+  letter-spacing: var(--typography-heading-md-letter-spacing);
 }
 .bcn-kbg {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-400);
+  border-top: 1px solid var(--color-border-default);
+  flex-direction: column;
   padding-block-start: var(--spacing-500);
-  border-top: 1px solid var(--color-border);
+  display: flex;
 }
 .bcn-kbg__title {
+  color: var(--color-content-default);
   margin: 0;
-  color: var(--color-text-primary);
 }
 .bcn-kbg__terms {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   columns: 12rem;
   column-gap: var(--spacing-600);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .bcn-kbg__term {
   break-inside: avoid;
   margin-block-end: var(--spacing-150);
 }
 .bcn-kbg__link {
+  color: var(--color-content-default);
   font-size: 0.9375rem;
   line-height: 1.4;
-  color: var(--color-text-primary);
   text-decoration: none;
-  transition: color 0.12s ease;
+  transition: color 0.12s;
 }
 .bcn-kbg__link:hover {
-  color: var(--color-text-link);
-  text-decoration: underline;
+  color: var(--color-content-link);
   text-underline-offset: 2px;
+  text-decoration: underline;
 }
 .bcn-kbg__link:focus-visible {
-  outline: 2px solid var(--color-text-link);
+  outline: 2px solid var(--color-content-link);
   outline-offset: 2px;
   border-radius: var(--radius-100);
+}
+.typography-heading-md {
+  font-family: var(--typography-heading-md-font-family);
+  font-size: var(--typography-heading-md-font-size);
+  font-weight: var(--typography-heading-md-font-weight);
+  line-height: var(--typography-heading-md-line-height);
+  letter-spacing: var(--typography-heading-md-letter-spacing);
 }
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--font-display`: "DM Sans", sans-serif _(primitive)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--letter-spacing-tight`: -.01em _(primitive)_
-- `--line-height-tight`: 1.3 _(primitive)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-600`: 2rem _(primitive)_
-- `--type-size-500`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(primitive)_
+- `--typography-heading-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-heading-md-font-size`: clamp(1.125rem, .98rem + .72vw, 1.5rem) _(semantic)_
+- `--typography-heading-md-font-weight`: 550 _(semantic)_
+- `--typography-heading-md-letter-spacing`: -.01em _(semantic)_
+- `--typography-heading-md-line-height`: 1.3 _(semantic)_

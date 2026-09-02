@@ -1,6 +1,6 @@
 # Token contract — prototypes-monitoring-data
 
-The 105 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 103 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,9 +9,7 @@ The 105 design tokens this page actually uses, resolved to their final values fo
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
 | `--color-background-accent` | `#f76b15` |
-| `--color-background-brand` | `#005862` |
-| `--color-background-brand-hover` | `#00474f` |
-| `--color-background-brand-muted` | `#00918b` |
+| `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
 | `--color-background-overlay-backdrop` | `#00000080` |
@@ -21,7 +19,6 @@ The 105 design tokens this page actually uses, resolved to their final values fo
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
 | `--color-content-default-tertiary` | `#656565` |
-| `--color-content-link` | `#005862` |
 | `--elevation-4` | `0 6px 24px -6px #00000012` |
 | `--elevation-5` | `0 8px 32px -8px #00000014` |
 | `--radius-chip` | `.25rem` |
@@ -64,7 +61,7 @@ The 105 design tokens this page actually uses, resolved to their final values fo
 
 | Token | Value |
 |---|---|
-| `--badge-bg` | `#005862` |
+| `--badge-bg` | `#43608a` |
 | `--badge-text-color` | `#fcfcfc` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
@@ -103,6 +100,7 @@ The 105 design tokens this page actually uses, resolved to their final values fo
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
+| `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
@@ -131,7 +129,10 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-inset`
 - `--bcn-bottom-drawer-width`
 - `--bcn-bottom-drawer-z`
+- `--color-background-brand`
+- `--color-background-brand-hover`
 - `--color-content-default-primary`
+- `--color-content-link`
 - `--gap`
 - `--grid-min`
 - `--justify`

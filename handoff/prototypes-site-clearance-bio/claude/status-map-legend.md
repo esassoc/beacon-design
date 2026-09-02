@@ -19,107 +19,108 @@ The Leaflet map of the component's work areas (geometry from the client KMZ shap
 ## Markup
 ```html
 <div class="map-legend" aria-label="Clearance status legend">
-  <span class="map-legend__title">Work area status</span>
-  <span class="map-legend__row">
-    <span class="map-legend__dot" style="background: var(--st-blocked)"></span>
-    Blocked </span
-  ><span class="map-legend__row">
-    <span
+  <span class="map-legend__title">Work area status</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__dot" style="background: var(--st-blocked)"></span
+    >Blocked</span
+  ><span class="map-legend__row"
+    ><span
       class="map-legend__dot"
       style="
-        background: var(--color-surface);
+        background: var(--color-background-elevation-raised);
         border: 2px solid var(--st-provisional-block);
         box-sizing: border-box;
       "
-    ></span>
-    Provisional Block </span
-  ><span class="map-legend__row">
-    <span class="map-legend__dot" style="background: var(--st-inaccessible)"></span>
-    Inaccessible </span
-  ><span class="map-legend__row">
-    <span class="map-legend__dot" style="background: var(--st-not-surveyed)"></span> Not
-    Surveyed </span
-  ><span class="map-legend__row">
-    <span class="map-legend__dot" style="background: var(--st-cleared)"></span> Cleared
-  </span>
-  <span class="map-legend__row">
-    <span class="map-legend__ring"></span>
-    Observation buffer
-  </span>
-  <span class="map-legend__row">
-    <span class="map-legend__hollow"></span>
-    Tracking-only sighting
-  </span>
+    ></span
+    >Provisional Block</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__dot" style="background: var(--st-inaccessible)"></span
+    >Inaccessible</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__dot" style="background: var(--st-not-surveyed)"></span>Not
+    Surveyed</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__dot" style="background: var(--st-cleared)"></span
+    >Cleared</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__ring"></span>Observation buffer</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__hollow"></span>Tracking-only sighting</span
+  >
 </div>
 ```
 
 ## Styles
 ```css
 .map-legend {
-  position: absolute;
   bottom: var(--spacing-400);
   left: var(--spacing-400);
   z-index: 500;
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-150);
   padding: var(--spacing-300) var(--spacing-400);
-  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-raised) 94%,
+    transparent
+  );
   backdrop-filter: blur(4px);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-300);
-  box-shadow: var(--shadow-400);
+  box-shadow: var(--elevation-5);
+  color: var(--color-content-default-secondary);
+  flex-direction: column;
   font-size: 0.875rem;
-  color: var(--color-text-secondary);
+  display: flex;
+  position: absolute;
 }
 .map-legend__title {
   font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .map-legend__row {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
+  display: flex;
 }
 .map-legend__dot {
   width: 12px;
   height: 12px;
+  box-shadow: 0 0 0 2px var(--color-background-elevation-raised);
   border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--color-surface);
   flex-shrink: 0;
 }
 .map-legend__ring {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
   border: 1.5px dashed var(--obs-color);
   background: color-mix(in srgb, var(--obs-color) 12%, transparent);
   box-sizing: border-box;
+  border-radius: 50%;
   flex-shrink: 0;
+  width: 14px;
+  height: 14px;
 }
 .map-legend__hollow {
+  border: 1.5px solid var(--obs-color);
+  background: var(--color-background-elevation-raised);
+  box-sizing: border-box;
+  border-radius: 50%;
+  flex-shrink: 0;
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  border: 1.5px solid var(--obs-color);
-  background: var(--color-surface);
-  box-sizing: border-box;
-  flex-shrink: 0;
   margin-inline: 2px;
 }
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--elevation-5`: 0 8px 32px -8px #00000014 _(semantic)_
 - `--obs-color`: #7b5ea7 _(component)_
 - `--radius-300`: .5rem _(primitive)_
-- `--shadow-400`: 0 8px 32px -8px rgba(0, 0, 0, .08) _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

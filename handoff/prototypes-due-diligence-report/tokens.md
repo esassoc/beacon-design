@@ -1,6 +1,6 @@
 # Token contract — prototypes-due-diligence-report
 
-The 145 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 141 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,10 +9,7 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
 | `--color-background-accent` | `#f76b15` |
-| `--color-background-brand` | `#005862` |
-| `--color-background-brand-hover` | `#00474f` |
-| `--color-background-brand-muted` | `#00918b` |
-| `--color-background-brand-subtle` | `#effefb` |
+| `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
 | `--color-background-overlay-backdrop` | `#00000080` |
@@ -27,12 +24,10 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--color-border-utility-info` | `#acd8fc` |
 | `--color-border-utility-success` | `#adddc0` |
 | `--color-border-utility-warning` | `#f3d673` |
-| `--color-content-brand` | `#2a7e3b` |
 | `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
 | `--color-content-default-tertiary` | `#656565` |
-| `--color-content-link` | `#005862` |
 | `--color-content-on-brand-muted` | `#203c25` |
 | `--color-content-utility-danger` | `#ce2c31` |
 | `--color-content-utility-info` | `#0d74ce` |
@@ -105,7 +100,7 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | Token | Value |
 |---|---|
 | `--alert-box-text-color` | `#525252` |
-| `--badge-bg` | `#005862` |
+| `--badge-bg` | `#43608a` |
 | `--badge-text-color` | `#fcfcfc` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
@@ -142,6 +137,7 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
+| `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
@@ -171,6 +167,11 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-inset`
 - `--bcn-bottom-drawer-width`
 - `--bcn-bottom-drawer-z`
+- `--color-background-brand`
+- `--color-background-brand-hover`
+- `--color-background-brand-subtle`
+- `--color-content-brand`
+- `--color-content-link`
 - `--gap`
 - `--grid-min`
 - `--justify`

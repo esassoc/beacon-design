@@ -11,8 +11,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Markup (de-scoped, framework-free)
 ```html
 <nav class="bcn-mkt-nav">
-  <a href="/beacon-design/prototypes/homepage/" class="bcn-mkt-nav__logo" aria-label="Beacon home">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 96" fill="none" aria-hidden="true">
+  <a href="/beacon-design/prototypes/homepage/" class="bcn-mkt-nav__logo" aria-label="Beacon home"
+    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 96" fill="none" aria-hidden="true">
       <path
         d="M59.3 68.3V79.2L65.1 81.5V68.3C65.1 60.2 62.7 52.4 58.1 45.7C53.5 39 47.1 33.9 39.6 31L24.1 24.9V31.2L37.5 36.4C50.7 41.6 59.3 54.1 59.3 68.3Z"
         fill="rgba(255,255,255,0.6)"
@@ -32,11 +32,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       <path
         d="M36.9 70.4L42.8 72.7V71.3C42.8 61.4 36.8 52.6 27.6 49L24.1 47.6V53.9L25.4 54.4C32.1 57 36.5 63.3 36.9 70.4Z"
         fill="rgba(255,255,255,0.6)"
-      ></path>
-    </svg>
-    <span class="bcn-mkt-nav__wordmark">Beacon</span>
-  </a>
-  <a href="#" class="bcn-mkt-nav__login">Log In</a>
+      ></path></svg
+    ><span class="bcn-mkt-nav__wordmark">Beacon</span></a
+  ><a href="#" class="bcn-mkt-nav__login">Log In</a>
 </nav>
 <section
   class="bcn-mkt-hero"
@@ -45,23 +43,26 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <div class="bcn-mkt-hero__inner">
     <div data-reveal="" data-reveal-bound="" class="is-visible">
       <h1 class="bcn-mkt-hero__headline">
-        Construction compliance is complex.<br />Beacon makes it clear.
+        Environmental compliance can be a knot.<br />Beacon untangles it.
       </h1>
       <p class="bcn-mkt-hero__sub">
-        Dozens of permits. Hundreds of commitments. Thousands of actions across years, phases,
-        species, and locations. Beacon brings structure to the compliance work that keeps
-        infrastructure projects on track.
+        Nobody should need a day and three spreadsheets to answer what's due next month. Beacon
+        keeps every requirement, the work behind it, and the evidence together — for as long as the
+        project runs.
       </p>
       <div class="bcn-mkt-hero__ctas">
-        <a href="#contact" class="bcn-mkt-hero__btn bcn-mkt-hero__btn--white"> Schedule a Demo </a>
-        <a href="#solution" class="bcn-mkt-hero__btn bcn-mkt-hero__btn--ghost">
-          See How It Works
-        </a>
+        <button
+          type="button"
+          data-bcn-demo-open=""
+          class="bcn-mkt-hero__btn bcn-mkt-hero__btn--white"
+        >
+          Schedule a Demo
+        </button>
       </div>
     </div>
     <div class="bcn-mkt-hero__badge is-visible" data-reveal="" data-reveal-bound="">
-      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-        <svg
+      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -75,10 +76,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <path
             d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
           ></path>
-          <path d="m9 12 2 2 4-4"></path>
-        </svg>
-      </span>
-      Built by ESA — 50+ years of environmental science
+          <path d="m9 12 2 2 4-4"></path></svg></span
+      >Built by ESA — 50+ years of environmental science
     </div>
   </div>
 </section>
@@ -100,9 +99,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <div class="bcn-scale__stats">
             <div class="bcn-scale__stat">
-              <span class="bcn-scale__icon">
-                <span class="esa-icon esa-icon--xl" aria-hidden="true">
-                  <svg
+              <span class="bcn-scale__icon"
+                ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+                  ><svg
                     width="28"
                     height="28"
                     viewBox="0 0 24 24"
@@ -117,19 +116,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                     <path d="M10 9H8"></path>
                     <path d="M16 13H8"></path>
-                    <path d="M16 17H8"></path>
-                  </svg>
-                </span>
-              </span>
+                    <path d="M16 17H8"></path></svg></span
+              ></span>
               <div>
                 <div class="bcn-scale__value">98+</div>
                 <div class="bcn-scale__label">Permits on a single reservoir project</div>
               </div>
             </div>
             <div class="bcn-scale__stat">
-              <span class="bcn-scale__icon">
-                <span class="esa-icon esa-icon--xl" aria-hidden="true">
-                  <svg
+              <span class="bcn-scale__icon"
+                ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+                  ><svg
                     width="28"
                     height="28"
                     viewBox="0 0 24 24"
@@ -147,19 +144,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <path d="M12 11h4"></path>
                     <path d="M12 16h4"></path>
                     <path d="M8 11h.01"></path>
-                    <path d="M8 16h.01"></path>
-                  </svg>
-                </span>
-              </span>
+                    <path d="M8 16h.01"></path></svg></span
+              ></span>
               <div>
                 <div class="bcn-scale__value">1,000s</div>
                 <div class="bcn-scale__label">Tracked actions across a major tunnel project</div>
               </div>
             </div>
             <div class="bcn-scale__stat">
-              <span class="bcn-scale__icon">
-                <span class="esa-icon esa-icon--xl" aria-hidden="true">
-                  <svg
+              <span class="bcn-scale__icon"
+                ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+                  ><svg
                     width="28"
                     height="28"
                     viewBox="0 0 24 24"
@@ -175,19 +170,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <line x1="10" x2="10" y1="18" y2="11"></line>
                     <line x1="14" x2="14" y1="18" y2="11"></line>
                     <line x1="18" x2="18" y1="18" y2="11"></line>
-                    <polygon points="12 2 20 7 4 7"></polygon>
-                  </svg>
-                </span>
-              </span>
+                    <polygon points="12 2 20 7 4 7"></polygon></svg></span
+              ></span>
               <div>
                 <div class="bcn-scale__value">12+</div>
                 <div class="bcn-scale__label">Agencies with overlapping jurisdiction</div>
               </div>
             </div>
             <div class="bcn-scale__stat">
-              <span class="bcn-scale__icon">
-                <span class="esa-icon esa-icon--xl" aria-hidden="true">
-                  <svg
+              <span class="bcn-scale__icon"
+                ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+                  ><svg
                     width="28"
                     height="28"
                     viewBox="0 0 24 24"
@@ -207,10 +200,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <path d="M16 14h.01"></path>
                     <path d="M8 18h.01"></path>
                     <path d="M12 18h.01"></path>
-                    <path d="M16 18h.01"></path>
-                  </svg>
-                </span>
-              </span>
+                    <path d="M16 18h.01"></path></svg></span
+              ></span>
               <div>
                 <div class="bcn-scale__value">10+ yrs</div>
                 <div class="bcn-scale__label">Of ongoing monitoring obligations</div>
@@ -247,9 +238,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     <div data-reveal="" data-reveal-bound="">
       <div class="bcn-challenges">
         <div class="bcn-challenges__card">
-          <span class="bcn-challenges__icon">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+          <span class="bcn-challenges__icon"
+            ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -261,10 +252,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 focusable="false"
               >
                 <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-            </span>
-          </span>
+                <polyline points="12 6 12 12 16 14"></polyline></svg></span
+          ></span>
           <div>
             <h3 class="bcn-challenges__q">“Where are we on that CDFW deadline?”</h3>
             <p class="bcn-challenges__desc">
@@ -274,9 +263,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
         </div>
         <div class="bcn-challenges__card">
-          <span class="bcn-challenges__icon">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+          <span class="bcn-challenges__icon"
+            ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -291,10 +280,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
                 ></path>
                 <path d="M15 5.764v15"></path>
-                <path d="M9 3.236v15"></path>
-              </svg>
-            </span>
-          </span>
+                <path d="M9 3.236v15"></path></svg></span
+          ></span>
           <div>
             <h3 class="bcn-challenges__q">“Which parcels still need pre-construction surveys?”</h3>
             <p class="bcn-challenges__desc">
@@ -304,9 +291,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
         </div>
         <div class="bcn-challenges__card">
-          <span class="bcn-challenges__icon">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+          <span class="bcn-challenges__icon"
+            ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -320,10 +307,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <path
                   d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
                 ></path>
-                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-              </svg>
-            </span>
-          </span>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg></span
+          ></span>
           <div>
             <h3 class="bcn-challenges__q">
               “Can we start grading on Parcel 12 or is the nesting bird window still open?”
@@ -336,9 +321,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
         </div>
         <div class="bcn-challenges__card">
-          <span class="bcn-challenges__icon">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+          <span class="bcn-challenges__icon"
+            ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -354,10 +339,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <path
                   d="M18 15.28c.2-.4.5-.8.9-1a2.1 2.1 0 0 1 2.6.4c.3.4.5.8.5 1.3 0 1.3-2 2-2 2"
                 ></path>
-                <path d="M20 22v.01"></path>
-              </svg>
-            </span>
-          </span>
+                <path d="M20 22v.01"></path></svg></span
+          ></span>
           <div>
             <h3 class="bcn-challenges__q">
               “Did USACE sign off on the revised mitigation plan or are we still waiting?”
@@ -369,9 +352,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
         </div>
         <div class="bcn-challenges__card">
-          <span class="bcn-challenges__icon">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+          <span class="bcn-challenges__icon"
+            ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -385,10 +368,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <path d="M8 3 4 7l4 4"></path>
                 <path d="M4 7h16"></path>
                 <path d="m16 21 4-4-4-4"></path>
-                <path d="M20 17H4"></path>
-              </svg>
-            </span>
-          </span>
+                <path d="M20 17H4"></path></svg></span
+          ></span>
           <div>
             <h3 class="bcn-challenges__q">
               “Does the 404 permit have the same setback as the ITP, or are they different?”
@@ -401,9 +382,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
         </div>
         <div class="bcn-challenges__card">
-          <span class="bcn-challenges__icon">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+          <span class="bcn-challenges__icon"
+            ><span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -416,10 +397,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               >
                 <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
                 <path d="M3 3v5h5"></path>
-                <path d="M12 7v5l4 2"></path>
-              </svg>
-            </span>
-          </span>
+                <path d="M12 7v5l4 2"></path></svg></span
+          ></span>
           <div>
             <h3 class="bcn-challenges__q">
               “We finished construction two years ago — what monitoring reports are still due?”
@@ -458,8 +437,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             />
           </div>
           <div class="bcn-contrast__title">
-            <span class="esa-icon esa-icon--lg" aria-hidden="true">
-              <svg
+            <span class="esa-icon esa-icon--lg" aria-hidden="true"
+              ><svg
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -471,16 +450,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 focusable="false"
               >
                 <path d="M18 6 6 18"></path>
-                <path d="m6 6 12 12"></path>
-              </svg>
-            </span>
-            Without Beacon
+                <path d="m6 6 12 12"></path></svg></span
+            >Without Beacon
           </div>
           <ul class="bcn-contrast__list">
             <li class="bcn-contrast__item">
-              <span class="bcn-contrast__glyph">
-                <span class="esa-icon esa-icon--md" aria-hidden="true">
-                  <svg
+              <span class="bcn-contrast__glyph"
+                ><span class="esa-icon esa-icon--md" aria-hidden="true"
+                  ><svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -492,16 +469,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     focusable="false"
                   >
                     <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                  </svg>
-                </span>
-              </span>
-              <span>Permit conditions scattered across spreadsheets, PDFs, and email</span>
+                    <path d="m6 6 12 12"></path></svg></span></span
+              ><span>Permit conditions scattered across spreadsheets, PDFs, and email</span>
             </li>
             <li class="bcn-contrast__item">
-              <span class="bcn-contrast__glyph">
-                <span class="esa-icon esa-icon--md" aria-hidden="true">
-                  <svg
+              <span class="bcn-contrast__glyph"
+                ><span class="esa-icon esa-icon--md" aria-hidden="true"
+                  ><svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -513,16 +487,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     focusable="false"
                   >
                     <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                  </svg>
-                </span>
-              </span>
-              <span>No traceability from an action back to its source permit language</span>
+                    <path d="m6 6 12 12"></path></svg></span></span
+              ><span>No traceability from an action back to its source permit language</span>
             </li>
             <li class="bcn-contrast__item">
-              <span class="bcn-contrast__glyph">
-                <span class="esa-icon esa-icon--md" aria-hidden="true">
-                  <svg
+              <span class="bcn-contrast__glyph"
+                ><span class="esa-icon esa-icon--md" aria-hidden="true"
+                  ><svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -534,16 +505,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     focusable="false"
                   >
                     <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                  </svg>
-                </span>
-              </span>
-              <span>Deadline tracking relies on individual calendars and memory</span>
+                    <path d="m6 6 12 12"></path></svg></span></span
+              ><span>Deadline tracking relies on individual calendars and memory</span>
             </li>
             <li class="bcn-contrast__item">
-              <span class="bcn-contrast__glyph">
-                <span class="esa-icon esa-icon--md" aria-hidden="true">
-                  <svg
+              <span class="bcn-contrast__glyph"
+                ><span class="esa-icon esa-icon--md" aria-hidden="true"
+                  ><svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -555,11 +523,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     focusable="false"
                   >
                     <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                  </svg>
-                </span>
-              </span>
-              <span>Audit preparation takes weeks of gathering scattered documentation</span>
+                    <path d="m6 6 12 12"></path></svg></span></span
+              ><span>Audit preparation takes weeks of gathering scattered documentation</span>
             </li>
           </ul>
         </div>
@@ -567,34 +532,33 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <div class="bcn-contrast__bleed">
             <div class="bcn-contrast__mock" aria-hidden="true">
               <div class="bcn-contrast__mock-bar">
-                <span class="bcn-contrast__mock-dot"></span>
-                <span>Beacon — Compliance Tracker</span>
+                <span class="bcn-contrast__mock-dot"></span><span>Beacon — Compliance Tracker</span>
               </div>
               <div class="bcn-contrast__mock-row">
-                <span class="bcn-contrast__mock-status is-done"></span>
-                <span>Pre-construction bird survey — Parcel 7</span>
-                <span class="bcn-contrast__mock-badge is-done">Complete</span>
+                <span class="bcn-contrast__mock-status is-done"></span
+                ><span>Pre-construction bird survey — Parcel 7</span
+                ><span class="bcn-contrast__mock-badge is-done">Complete</span>
               </div>
               <div class="bcn-contrast__mock-row">
-                <span class="bcn-contrast__mock-status is-done"></span>
-                <span>Giant garter snake clearance — Parcel 3</span>
-                <span class="bcn-contrast__mock-badge is-done">Complete</span>
+                <span class="bcn-contrast__mock-status is-done"></span
+                ><span>Giant garter snake clearance — Parcel 3</span
+                ><span class="bcn-contrast__mock-badge is-done">Complete</span>
               </div>
               <div class="bcn-contrast__mock-row">
-                <span class="bcn-contrast__mock-status is-active"></span>
-                <span>Nesting bird check — Dam Site</span>
-                <span class="bcn-contrast__mock-badge is-active">In Progress</span>
+                <span class="bcn-contrast__mock-status is-active"></span
+                ><span>Nesting bird check — Dam Site</span
+                ><span class="bcn-contrast__mock-badge is-active">In Progress</span>
               </div>
               <div class="bcn-contrast__mock-row">
-                <span class="bcn-contrast__mock-status is-pending"></span>
-                <span>SWPPP annual report</span>
-                <span class="bcn-contrast__mock-badge is-pending">Upcoming</span>
+                <span class="bcn-contrast__mock-status is-pending"></span
+                ><span>SWPPP annual report</span
+                ><span class="bcn-contrast__mock-badge is-pending">Upcoming</span>
               </div>
             </div>
           </div>
           <div class="bcn-contrast__title">
-            <span class="esa-icon esa-icon--lg" aria-hidden="true">
-              <svg
+            <span class="esa-icon esa-icon--lg" aria-hidden="true"
+              ><svg
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -606,16 +570,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 focusable="false"
               >
                 <circle cx="12" cy="12" r="10"></circle>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </span>
-            With Beacon
+                <path d="m9 12 2 2 4-4"></path></svg></span
+            >With Beacon
           </div>
           <ul class="bcn-contrast__list">
             <li class="bcn-contrast__item">
-              <span class="bcn-contrast__glyph">
-                <span class="esa-icon esa-icon--md" aria-hidden="true">
-                  <svg
+              <span class="bcn-contrast__glyph"
+                ><span class="esa-icon esa-icon--md" aria-hidden="true"
+                  ><svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -627,16 +589,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     focusable="false"
                   >
                     <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path>
-                  </svg>
-                </span>
-              </span>
-              <span>All commitments centralized with complete chain of evidence</span>
+                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+              ><span>All commitments centralized with complete chain of evidence</span>
             </li>
             <li class="bcn-contrast__item">
-              <span class="bcn-contrast__glyph">
-                <span class="esa-icon esa-icon--md" aria-hidden="true">
-                  <svg
+              <span class="bcn-contrast__glyph"
+                ><span class="esa-icon esa-icon--md" aria-hidden="true"
+                  ><svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -648,16 +607,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     focusable="false"
                   >
                     <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path>
-                  </svg>
-                </span>
-              </span>
-              <span>Every action links back to its source document and commitment text</span>
+                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+              ><span>Every action links back to its source document and commitment text</span>
             </li>
             <li class="bcn-contrast__item">
-              <span class="bcn-contrast__glyph">
-                <span class="esa-icon esa-icon--md" aria-hidden="true">
-                  <svg
+              <span class="bcn-contrast__glyph"
+                ><span class="esa-icon esa-icon--md" aria-hidden="true"
+                  ><svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -669,16 +625,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     focusable="false"
                   >
                     <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path>
-                  </svg>
-                </span>
-              </span>
-              <span>Automated scheduling across phases, components, and seasons</span>
+                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+              ><span>Automated scheduling across phases, components, and seasons</span>
             </li>
             <li class="bcn-contrast__item">
-              <span class="bcn-contrast__glyph">
-                <span class="esa-icon esa-icon--md" aria-hidden="true">
-                  <svg
+              <span class="bcn-contrast__glyph"
+                ><span class="esa-icon esa-icon--md" aria-hidden="true"
+                  ><svg
                     width="20"
                     height="20"
                     viewBox="0 0 24 24"
@@ -690,11 +643,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     focusable="false"
                   >
                     <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path>
-                  </svg>
-                </span>
-              </span>
-              <span>Audit-ready reports generated in minutes, not weeks</span>
+                    <path d="m9 12 2 2 4-4"></path></svg></span></span
+              ><span>Audit-ready reports generated in minutes, not weeks</span>
             </li>
           </ul>
         </div>
@@ -719,8 +669,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       <div class="bcn-solution">
         <div class="bcn-solution__card" data-reveal="" data-reveal-delay="1" data-reveal-bound="">
           <div class="bcn-solution__medallion" style="background: #003f5c">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+            <span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -737,9 +687,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <path d="M20 3v4"></path>
                 <path d="M22 5h-4"></path>
                 <path d="M4 17v2"></path>
-                <path d="M5 18H3"></path>
-              </svg>
-            </span>
+                <path d="M5 18H3"></path></svg
+            ></span>
           </div>
           <div class="bcn-solution__title">Catalog</div>
           <div class="bcn-solution__desc">
@@ -749,8 +698,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </div>
         <div class="bcn-solution__card" data-reveal="" data-reveal-delay="2" data-reveal-bound="">
           <div class="bcn-solution__medallion" style="background: #a05195">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+            <span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -765,9 +714,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <rect x="2" y="16" width="6" height="6" rx="1"></rect>
                 <rect x="9" y="2" width="6" height="6" rx="1"></rect>
                 <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path>
-                <path d="M12 12V8"></path>
-              </svg>
-            </span>
+                <path d="M12 12V8"></path></svg
+            ></span>
           </div>
           <div class="bcn-solution__title">Plan</div>
           <div class="bcn-solution__desc">
@@ -777,8 +725,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </div>
         <div class="bcn-solution__card" data-reveal="" data-reveal-delay="3" data-reveal-bound="">
           <div class="bcn-solution__medallion" style="background: #ffa600">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+            <span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -790,9 +738,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 focusable="false"
               >
                 <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                <path d="m9 11 3 3L22 4"></path>
-              </svg>
-            </span>
+                <path d="m9 11 3 3L22 4"></path></svg
+            ></span>
           </div>
           <div class="bcn-solution__title">Execute</div>
           <div class="bcn-solution__desc">
@@ -832,9 +779,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               Noise management, wildlife mitigation, and environmental compliance across 200+
               airports nationwide.
             </p>
-            <a class="bcn-markets__link" href="https://esassoc.com/market/airports-aviation/">
-              Beacon for Airports <span aria-hidden="true">→</span>
-            </a>
+            <a class="bcn-markets__link" href="https://esassoc.com/market/airports-aviation/"
+              >Beacon for Airports <span aria-hidden="true">→</span></a
+            >
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -850,9 +797,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               Climate adaptation, housing, infrastructure resilience, and environmental planning
               from vision to project delivery.
             </p>
-            <a class="bcn-markets__link" href="https://esassoc.com/market/community-development/">
-              Beacon for Communities <span aria-hidden="true">→</span>
-            </a>
+            <a class="bcn-markets__link" href="https://esassoc.com/market/community-development/"
+              >Beacon for Communities <span aria-hidden="true">→</span></a
+            >
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -868,9 +815,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               Solar, wind, battery storage, transmission, and emerging technologies — licensing,
               permitting, and restoration.
             </p>
-            <a class="bcn-markets__link" href="https://esassoc.com/market/energy/">
-              Beacon for Energy <span aria-hidden="true">→</span>
-            </a>
+            <a class="bcn-markets__link" href="https://esassoc.com/market/energy/"
+              >Beacon for Energy <span aria-hidden="true">→</span></a
+            >
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -889,9 +836,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <a
               class="bcn-markets__link"
               href="https://esassoc.com/market/natural-resource-management/"
+              >Beacon for Natural Resources <span aria-hidden="true">→</span></a
             >
-              Beacon for Natural Resources <span aria-hidden="true">→</span>
-            </a>
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -910,9 +856,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <a
               class="bcn-markets__link"
               href="https://esassoc.com/market/surface-transportation-and-ports/"
+              >Beacon for Transportation <span aria-hidden="true">→</span></a
             >
-              Beacon for Transportation <span aria-hidden="true">→</span>
-            </a>
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -928,9 +873,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               Supply, conveyance, wastewater reuse, flood control, and fish passage — integrated
               solutions for water resilience.
             </p>
-            <a class="bcn-markets__link" href="https://esassoc.com/market/water/">
-              Beacon for Water <span aria-hidden="true">→</span>
-            </a>
+            <a class="bcn-markets__link" href="https://esassoc.com/market/water/"
+              >Beacon for Water <span aria-hidden="true">→</span></a
+            >
           </div>
         </div>
       </div>
@@ -8405,8 +8350,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <div class="bcn-dot-map__cards">
           <div class="bcn-dot-map__card">
             <div class="bcn-dot-map__card-header">
-              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span>
-              <span class="bcn-dot-map__name">Delta Conveyance</span>
+              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span
+              ><span class="bcn-dot-map__name">Delta Conveyance</span>
             </div>
             <div class="bcn-dot-map__tagline">
               Tunnel boring and intake construction for 27M Californians' water supply — tracking
@@ -8415,8 +8360,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <div class="bcn-dot-map__card">
             <div class="bcn-dot-map__card-header">
-              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span>
-              <span class="bcn-dot-map__name">Sites Reservoir</span>
+              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span
+              ><span class="bcn-dot-map__name">Sites Reservoir</span>
             </div>
             <div class="bcn-dot-map__tagline">
               Off-stream dam and canal construction — monitoring giant garter snake avoidance,
@@ -8425,8 +8370,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <div class="bcn-dot-map__card">
             <div class="bcn-dot-map__card-header">
-              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span>
-              <span class="bcn-dot-map__name">SFO Shoreline Protection</span>
+              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span
+              ><span class="bcn-dot-map__name">SFO Shoreline Protection</span>
             </div>
             <div class="bcn-dot-map__tagline">
               Levee construction and tidal marsh restoration defending airport infrastructure from
@@ -8435,8 +8380,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <div class="bcn-dot-map__card">
             <div class="bcn-dot-map__card-header">
-              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span>
-              <span class="bcn-dot-map__name">Lake Tahoe Basin Restoration</span>
+              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span
+              ><span class="bcn-dot-map__name">Lake Tahoe Basin Restoration</span>
             </div>
             <div class="bcn-dot-map__tagline">
               Watershed erosion control and stream restoration to preserve lake clarity — Lahontan
@@ -8447,7 +8392,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnCaDotMap.astro_astro_type_script_index_0_lang.DecQEEMA.js"
+        src="/beacon-design/_astro/BcnCaDotMap.astro_astro_type_script_index_0_lang.Dl3URql9.js"
       ></script>
     </div>
   </div>
@@ -8465,8 +8410,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       <div class="bcn-cta-paths">
         <div class="bcn-cta-paths__card">
           <div class="bcn-cta-paths__medallion">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+            <span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -8479,9 +8424,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               >
                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                 <polyline points="10 17 15 12 10 7"></polyline>
-                <line x1="15" x2="3" y1="12" y2="12"></line>
-              </svg>
-            </span>
+                <line x1="15" x2="3" y1="12" y2="12"></line></svg
+            ></span>
           </div>
           <div class="bcn-cta-paths__title">Existing Client?</div>
           <div class="bcn-cta-paths__desc">
@@ -8489,17 +8433,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             generate reports.
           </div>
           <span
-            class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+            ><a class="esa-button__native typography-microcopy-md" href="#" role="button"
+              ><span class="esa-button__label">Go to Beacon</span></a
+            ></span
           >
-            <a class="esa-button__native" href="#" role="button">
-              <span class="esa-button__label"> Go to Beacon </span>
-            </a>
-          </span>
         </div>
         <div class="bcn-cta-paths__card bcn-cta-paths__card--featured">
           <div class="bcn-cta-paths__medallion">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+            <span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -8513,9 +8456,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <path d="M8 2v4"></path>
                 <path d="M16 2v4"></path>
                 <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-                <path d="M3 10h18"></path>
-              </svg>
-            </span>
+                <path d="M3 10h18"></path></svg
+            ></span>
           </div>
           <div class="bcn-cta-paths__title">Schedule a Demo</div>
           <div class="bcn-cta-paths__desc">
@@ -8523,17 +8465,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             needs.
           </div>
           <span
-            class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+            ><a class="esa-button__native typography-microcopy-md" href="#" role="button"
+              ><span class="esa-button__label">Request a Demo</span></a
+            ></span
           >
-            <a class="esa-button__native" href="#" role="button">
-              <span class="esa-button__label"> Request a Demo </span>
-            </a>
-          </span>
         </div>
         <div class="bcn-cta-paths__card">
           <div class="bcn-cta-paths__medallion">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-              <svg
+            <span class="esa-icon esa-icon--xl" aria-hidden="true"
+              ><svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -8547,9 +8488,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <path d="M12 7v14"></path>
                 <path
                   d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
-                ></path>
-              </svg>
-            </span>
+                ></path></svg
+            ></span>
           </div>
           <div class="bcn-cta-paths__title">Explore the Problem</div>
           <div class="bcn-cta-paths__desc">
@@ -8557,12 +8497,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             software, not spreadsheets.
           </div>
           <span
-            class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+            ><a class="esa-button__native typography-microcopy-md" href="#" role="button"
+              ><span class="esa-button__label">Why Beacon?</span></a
+            ></span
           >
-            <a class="esa-button__native" href="#" role="button">
-              <span class="esa-button__label"> Why Beacon? </span>
-            </a>
-          </span>
         </div>
       </div>
     </div>
@@ -8572,49 +8511,119 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <div>© 2026 ESA — Beacon Environmental Compliance Platform</div>
   <div><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Security</a></div>
 </footer>
+<esa-dialog id="bcn-demo-dialog" heading="Schedule a demo" size="md"
+  ><form class="stack" data-gap="md" id="bcn-demo-form" novalidate="">
+    <p class="typography-body-md bcn-demo__lede">
+      Tell us about your project and we'll set up a walkthrough with the Beacon team.
+    </p>
+    <esa-text-field id="bcn-demo-name" label="Name" required="" size="md"></esa-text-field
+    ><esa-text-field
+      id="bcn-demo-email"
+      label="Work email"
+      type="email"
+      required=""
+      size="md"
+    ></esa-text-field
+    ><esa-text-field id="bcn-demo-org" label="Organization" required="" size="md"></esa-text-field
+    ><esa-checkbox-group
+      id="bcn-demo-interests"
+      name="interests"
+      label="What would you like to see?"
+      options='[{"label":"Planning and commitment libraries","value":"plan"},{"label":"Tracking permits, tasks, and deadlines","value":"track"},{"label":"Monitoring and field data","value":"monitor"},{"label":"Agency reporting","value":"report"},{"label":"Not sure yet — show me everything","value":"unsure"}]'
+      size="md"
+      orientation="vertical"
+    ></esa-checkbox-group
+    ><esa-textarea
+      id="bcn-demo-message"
+      label="Anything we should know about your project?"
+      rows="4"
+      size="md"
+    ></esa-textarea>
+  </form>
+  <div class="stack" data-gap="sm" id="bcn-demo-done" hidden="">
+    <p class="typography-title">Thanks — we'll be in touch.</p>
+    <p class="typography-body-md">
+      Someone from the Beacon team will reach out within two business days to schedule your
+      walkthrough.
+    </p>
+  </div>
+  <span slot="footer" class="cluster" data-gap="sm"
+    ><!-- Wrapper spans, not the buttons themselves: `hidden` on an <EsaButton> reaches
+         only the native control, leaving the styled .esa-button wrapper on screen. --><span
+      class="cluster"
+      data-gap="sm"
+      id="bcn-demo-actions"
+      ><span class="esa-button esa-button--variant-ghost esa-button--appearance-soft esa-button--md"
+        ><button
+          class="esa-button__native typography-microcopy-md"
+          type="button"
+          id="bcn-demo-cancel"
+        >
+          <span class="esa-button__label">Cancel</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+        ><button
+          class="esa-button__native typography-microcopy-md"
+          type="button"
+          id="bcn-demo-submit"
+        >
+          <span class="esa-button__label">Send request</span>
+        </button></span
+      ></span
+    ><span id="bcn-demo-close-wrap" hidden=""
+      ><span
+        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+        ><button
+          class="esa-button__native typography-microcopy-md"
+          type="button"
+          id="bcn-demo-close"
+        >
+          <span class="esa-button__label">Close</span>
+        </button></span
+      ></span
+    ></span
+  ></esa-dialog
+>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
 :root,
 [data-theme="beacon"] {
-  --color-border: #dcdcdc;
-  --color-danger: #e5484d;
-  --color-danger-border: #fdbdbe;
-  --color-danger-strong: #ce2c31;
-  --color-danger-subtle: #fff7f7;
+  --border-width-default: 1px;
+  --button-radius-md: 0.25rem;
+  --color-background-elevation-floating: #fcfcfc;
+  --color-background-elevation-raised: #fcfcfc;
+  --color-background-elevation-sunken: #efefef;
+  --color-background-utility-danger: #ce2c31;
+  --color-background-utility-danger-subtle: #fffcfc;
+  --color-background-utility-success: #2e7571;
+  --color-background-utility-success-subtle: #fbfefc;
+  --color-border-default: #dcdcdc;
+  --color-border-default-strong: #bdbdbd;
+  --color-border-default-subtle: #efefef;
+  --color-border-utility-danger: #fdbdbe;
+  --color-border-utility-success: #adddc0;
+  --color-content-default: #3d3d3d;
+  --color-content-default-knockout: #fcfcfc;
+  --color-content-default-secondary: #525252;
+  --color-content-default-tertiary: #656565;
+  --color-content-utility-danger: #ce2c31;
+  --color-content-utility-success: #218358;
   --color-gray-2: #f9f9f9;
-  --color-primary: #005862;
-  --color-primary-hover: #00474f;
-  --color-primary-strong: #2a7e3b;
-  --color-primary-subtle: #effefb;
-  --color-success: #2e7571;
-  --color-success-border: #c2da91;
-  --color-success-strong: #5c7c2f;
-  --color-success-subtle: #f8faf3;
-  --color-surface: #fcfcfc;
-  --color-surface-sunken: #efefef;
-  --color-text-inverse: #fcfcfc;
-  --color-text-link: #005862;
-  --color-text-primary: #3d3d3d;
-  --color-text-secondary: #525252;
-  --color-text-tertiary: #656565;
+  --dialog-width: 480px;
   --font-decorative: "Besley", serif;
-  --font-sans: "DM Sans", sans-serif;
-  --font-weight-bold: 650;
-  --font-weight-medium: 500;
-  --font-weight-regular: 350;
-  --font-weight-semibold: 550;
-  --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --form-height-md: 36px;
-  --form-padding-x-md: 0.75rem;
-  --form-radius-md: 0.25rem;
-  --icon-size-large: 24px;
+  --font-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
+  --font-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --font-size-300: clamp(0.875rem, 0.77rem + 0.52vw, 1.125rem);
+  --font-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
+  --font-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
+  --font-size-700: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem);
+  --font-size-800: clamp(2rem, 1.73rem + 1.35vw, 2.75rem);
   --icon-size-lg: 24px;
   --icon-size-md: 20px;
-  --icon-size-medium: 20px;
   --icon-size-sm: 16px;
-  --icon-size-small: 16px;
   --icon-size-xl: 28px;
   --line-height-normal: 1.6;
   --line-height-relaxed: 1.8;
@@ -8622,6 +8631,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --radius-100: 0.25rem;
   --radius-200: 0.5rem;
   --radius-full: 9999px;
+  --radius-lg: 0.75rem;
   --spacing-100: 0.25rem;
   --spacing-150: 0.375rem;
   --spacing-200: 0.5rem;
@@ -8632,530 +8642,410 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --spacing-600: 2rem;
   --spacing-700: 3rem;
   --transition-fast: 0.15s ease;
-  --type-size-1000: clamp(3rem, 2.6rem + 2vw, 4rem);
-  --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
-  --type-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --type-size-300: clamp(0.875rem, 0.77rem + 0.52vw, 1.125rem);
-  --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
-  --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
-  --type-size-700: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem);
+  --typography-body-md-font-family: "DM Sans", sans-serif;
+  --typography-body-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --typography-body-md-font-weight: 350;
+  --typography-body-md-letter-spacing: 0.01em;
+  --typography-body-md-line-height: 1.6;
+  --typography-font-family-sans: "DM Sans", sans-serif;
+  --typography-font-weight-bold: 650;
+  --typography-font-weight-medium: 500;
+  --typography-font-weight-regular: 350;
+  --typography-font-weight-semibold: 550;
+  --typography-microcopy-md-font-family: "DM Sans", sans-serif;
+  --typography-microcopy-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --typography-microcopy-md-font-weight: 500;
+  --typography-microcopy-md-letter-spacing: 0.01em;
+  --typography-microcopy-md-line-height: 1;
 }
 
+:host {
+  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
+  --_dialog-border-radius: var(--radius-lg, 0.75rem);
+  --_dialog-padding: var(--spacing-500, 1.5rem);
+  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
+  /* Header/footer surface tints. These were --dialog-header-bg /
+         --dialog-footer-bg, declared in no token file — a hook offered on the
+         strength of a fallback nobody had asked to override. Folded to their
+         literal default 2026-08-16; --dialog-* is a live namespace, so they come
+         back as declarations the day a spoke actually wants to frame the body. */
+  --_dialog-header-bg: transparent;
+  --_dialog-footer-bg: transparent;
+  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+  --_dialog-width: var(--dialog-width, 480px);
+  --_dialog-max-height: 85vh;
+}
+dialog.esa-dialog {
+  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
+         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
+         panel renders inside a second, smaller box. */
+  border: none;
+  padding: 0;
+  margin: auto;
+  background: var(--_dialog-bg);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--_dialog-border-radius);
+  box-shadow: var(--_dialog-shadow);
+  width: var(--_dialog-width);
+  max-width: 100vw;
+  max-height: var(--_dialog-max-height);
+  overflow: hidden;
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
 .esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
   height: var(--_icon-size);
-  line-height: 1;
   color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon svg {
-  display: block;
   width: var(--_icon-size);
   height: var(--_icon-size);
+  display: block;
 }
 .esa-icon--xl {
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+  --_icon-size: var(--icon-size-lg, 24px);
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+  --_icon-size: var(--icon-size-md, 20px);
 }
 .esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
   --_accent-text: var(--_accent);
   --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
 }
 .esa-button__native {
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: var(--spacing-200, 8px);
   width: 100%;
-  height: var(--_btn-height);
+  padding-block: var(--_btn-pad-y);
   padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
+  border: var(--border-width-default, 1px) solid transparent;
   border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
   cursor: pointer;
   transition:
     background var(--transition-fast, 0.15s ease),
     border-color var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+  text-decoration: none;
+  display: inline-flex;
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
   color: var(--_on);
-  border-color: transparent;
+  border-color: var(--_accent-border, transparent);
 }
 .esa-button__label {
   white-space: nowrap;
 }
-:host {
-  all: initial;
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-default-strong, #bbb);
 }
-.host-root {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2147483000;
-  font-family: system-ui, sans-serif;
-}
-.host-root > * {
-  pointer-events: auto;
-}
-.launch {
-  position: fixed;
-  bottom: 22px;
-  left: 22px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 13px 19px;
-  border-radius: 999px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid #3d6fd6;
-  background: linear-gradient(180deg, #1f6feb, #1551c4);
-  box-shadow:
-    0 10px 28px -8px rgba(31, 111, 235, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
-}
-.launch svg {
-  flex: none;
-}
-.panel {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  bottom: 18px;
-  width: min(720px, 94vw);
-  display: flex;
-  flex-direction: column;
-  color: #ffffff;
-  border-radius: 16px;
-  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 28px 70px -18px rgba(0, 0, 0, 0.62),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-size: 12.5px;
-  overflow: hidden;
-  /* slide in from the right */
-  transform: translateX(calc(100% + 32px));
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.22s ease,
-    visibility 0s linear 0.3s;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.head strong {
-  font-size: 14px;
-}
-.head .sub {
-  flex: 1;
-  color: #ccd5e0;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.x {
-  border: 0;
-  background: none;
-  color: #c4cdd8;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-}
-.picker {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.chip {
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  color: #eef2f6;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    border-color 0.12s ease,
-    background 0.12s ease,
-    color 0.12s ease;
-}
-.chip.on {
-  background: rgba(31, 111, 235, 0.28);
-  border-color: #4493f8;
-  color: #fff;
-  font-weight: 600;
-}
-.tabs {
-  display: flex;
-  gap: 4px;
-  padding: 9px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.tabs button {
-  padding: 5px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: #ccd5e0;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-}
-.tabs button.on {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-.body {
-  overflow: auto;
-  padding: 13px 16px;
-  flex: 1;
-}
-.hint {
-  margin: 0;
-  color: #c4cdd8;
-  line-height: 1.6;
-}
-.footer {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 11px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.18);
-}
-[hidden] {
-  display: none !important;
-}
-.cpreview {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: calc(100% + 8px);
-  background: rgba(13, 17, 23, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 12px;
-  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
-  padding: 12px 14px;
-  max-height: 50vh;
-  overflow: auto;
-}
-.copy {
-  color: #eef2f6;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-}
-.footer button {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font: inherit;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.claude {
-  color: #fff;
-  border: 1px solid #d97757;
-  background: linear-gradient(180deg, #e0805f, #c25e3c);
-  box-shadow:
-    0 6px 18px -6px rgba(217, 119, 87, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-.claude svg {
-  flex: none;
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
 }
 *,
-*:before,
-*:after {
+:before,
+:after {
   box-sizing: border-box;
 }
 body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
+  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+  font-weight: var(--typography-font-weight-regular, 350);
+  color: var(--color-content-default, #3d3d3d);
+  background: var(--color-background-elevation-raised, #fff);
   -webkit-font-smoothing: antialiased;
+  margin: 0;
 }
 a {
-  color: var(--color-text-link, #005862);
+  color: var(--color-content-link, #005862);
   text-decoration: none;
 }
 :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
   margin: 0;
 }
+button {
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  font-family: inherit;
+}
 img {
-  display: block;
   max-width: 100%;
+  display: block;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
+}
+[data-gap="md"] {
+  --gap: var(--spacing-400, 1rem);
+}
+[data-gap="sm"] {
+  --gap: var(--spacing-300, 0.75rem);
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 .bcn-mkt-nav {
+  z-index: 100;
+  block-size: 56px;
+  padding-inline: var(--spacing-500);
+  border-radius: var(--radius-200);
+  background: #ffffff0d;
+  border: 1px solid #ffffff1a;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
   position: absolute;
   top: 16px;
   left: 16px;
   right: 16px;
-  z-index: 100;
-  block-size: 56px;
-  padding-inline: var(--spacing-500);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff0d;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-200);
 }
 .bcn-mkt-nav__logo {
-  display: flex;
   align-items: center;
   gap: var(--spacing-250);
   text-decoration: none;
+  display: flex;
 }
 .bcn-mkt-nav__logo svg {
-  inline-size: 22px;
   block-size: 32px;
+  inline-size: 22px;
 }
 .bcn-mkt-nav__wordmark {
   font-size: 1.1rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--typography-font-weight-bold);
   letter-spacing: -0.02em;
   color: #fff;
 }
 .bcn-mkt-nav__login {
-  display: inline-flex;
-  align-items: center;
   padding: var(--spacing-150) var(--spacing-400);
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-200);
+  font-weight: var(--typography-font-weight-medium);
   color: #fff;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius-100);
+  background: 0 0;
+  border: 1px solid #fff6;
+  align-items: center;
   text-decoration: none;
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
+    background 0.15s,
+    border-color 0.15s;
+  display: inline-flex;
 }
 .bcn-mkt-hero {
+  background-image:
+    linear-gradient(180deg, #002832d9 0%, #003c46b3 40%, #005862d9 100%), var(--_hero-image);
+  background-position: 50% 30%;
+  background-size: cover;
+  padding: 120px 0 96px;
   position: relative;
   overflow: hidden;
-  padding: 120px 0 96px;
-  background-image:
-    linear-gradient(180deg, #002832d9, #003c46b3 40%, #005862d9), var(--_hero-image);
-  background-size: cover;
-  background-position: center 30%;
 }
 .bcn-mkt-hero__inner {
   max-inline-size: 1600px;
-  margin-inline: auto;
   padding-inline: var(--spacing-500);
   text-align: center;
-  position: relative;
   z-index: 1;
+  margin-inline: auto;
+  position: relative;
 }
 [data-reveal] {
   opacity: 0;
-  transform: translateY(20px);
   transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
+    opacity 0.6s,
+    transform 0.6s;
+  transform: translateY(20px);
 }
 .bcn-mkt-hero__headline {
   margin: 0 0 var(--spacing-500);
-  font-family: var(--font-decorative, var(--font-sans));
-  font-size: var(--type-size-1000);
-  font-weight: var(--font-weight-bold);
-  line-height: 1.15;
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-800);
+  font-weight: var(--typography-font-weight-bold);
   color: #fff;
+  line-height: 1.15;
 }
 .bcn-mkt-hero__sub {
   margin: 0 auto var(--spacing-600);
   max-inline-size: 840px;
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-400);
+  font-weight: var(--typography-font-weight-medium);
   color: #ffffffd9;
-  line-height: var(--line-height-relaxed, 1.75);
   text-wrap: pretty;
+  line-height: normal;
 }
 .bcn-mkt-hero__ctas {
-  display: flex;
   gap: var(--spacing-300);
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+  display: flex;
 }
 .bcn-mkt-hero__btn {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-200);
   padding: var(--spacing-400) var(--spacing-600);
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
+  font-family: inherit;
+  font-size: var(--font-size-300);
+  font-weight: var(--typography-font-weight-semibold);
   border-radius: var(--radius-200);
-  border: 1px solid transparent;
+  cursor: pointer;
+  border: 1px solid #0000;
   text-decoration: none;
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
+    background 0.15s,
+    border-color 0.15s;
+  display: inline-flex;
 }
 .bcn-mkt-hero__btn--white {
+  color: var(--color-background-brand);
   background: #fff;
-  color: var(--color-primary);
   border-color: #fff;
 }
-.bcn-mkt-hero__btn--ghost {
-  background: transparent;
-  color: #fff;
-  border-color: #fff6;
-}
 .bcn-mkt-hero__badge {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-200);
-  margin-block-start: var(--spacing-700);
-  font-size: var(--type-size-150);
+  font-size: var(--font-size-150);
   color: #fff9;
+  margin-block-start: var(--spacing-700);
+  display: inline-flex;
 }
 .bcn-mkt-section {
   --_section-pad: clamp(48px, 8vw, 96px);
   padding-block: var(--_section-pad);
 }
 .bcn-mkt-section--white {
-  background: var(--color-surface);
+  background: var(--color-background-elevation-raised);
 }
 .bcn-mkt-section__inner {
   max-inline-size: 1100px;
-  margin-inline: auto;
   padding-inline: var(--spacing-500);
+  margin-inline: auto;
 }
 .bcn-scale {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-700);
+  grid-template-columns: 1fr 1fr;
   align-items: center;
+  display: grid;
 }
 .bcn-section-intro {
   margin-block-end: var(--spacing-700);
 }
 .bcn-section-intro__eyebrow {
-  display: block;
   font-size: 12px;
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--typography-font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   margin-block-end: var(--spacing-300);
+  display: block;
 }
 .bcn-section-intro__headline {
   margin: 0 0 var(--spacing-400);
-  font-family: var(--font-decorative, var(--font-sans));
-  font-size: var(--type-size-700);
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-700);
+  font-weight: var(--typography-font-weight-bold);
   line-height: var(--line-height-tight, 1.25);
-  color: var(--color-text-primary);
+  color: var(--color-content-default);
   text-wrap: balance;
 }
 .bcn-section-intro__accent {
-  inline-size: 48px;
-  block-size: 4px;
-  background: var(--color-primary);
+  background: var(--color-background-brand);
   border-radius: var(--radius-full, 9999px);
+  block-size: 4px;
+  inline-size: 48px;
   margin-block-end: var(--spacing-400);
 }
 .bcn-section-intro__subtext {
-  margin: 0;
-  font-size: var(--type-size-300);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-300);
+  color: var(--color-content-default-secondary);
   max-inline-size: 820px;
   line-height: var(--line-height-relaxed, 1.75);
   text-wrap: balance;
+  margin: 0;
 }
 .bcn-scale__stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-500);
+  grid-template-columns: 1fr 1fr;
+  display: grid;
 }
 .bcn-scale__stat {
-  display: flex;
   align-items: flex-start;
   gap: var(--spacing-400);
+  display: flex;
 }
 .bcn-scale__icon {
-  display: inline-flex;
-  color: var(--color-primary);
-  margin-block-start: 2px;
+  color: var(--color-background-brand);
   flex-shrink: 0;
+  margin-block-start: 2px;
+  display: inline-flex;
 }
 .bcn-scale__value {
-  font-family: var(--font-decorative, var(--font-sans));
-  font-size: var(--type-size-500);
-  font-weight: var(--font-weight-bold);
-  line-height: 1;
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-500);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--color-content-default);
   margin-block-end: var(--spacing-100);
-  color: var(--color-text-primary);
+  line-height: 1;
 }
 .bcn-scale__label {
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
   line-height: var(--line-height-normal, 1.5);
 }
 .bcn-scale__image {
@@ -9163,13 +9053,13 @@ img {
   overflow: hidden;
 }
 .bcn-scale__image img {
-  inline-size: 100%;
-  block-size: 100%;
   object-fit: cover;
+  block-size: 100%;
   min-block-size: 400px;
+  inline-size: 100%;
 }
 .bcn-mkt-section--light {
-  background: var(--color-surface-sunken, var(--color-gray-2));
+  background: var(--color-background-elevation-sunken, var(--color-gray-2));
 }
 .bcn-section-intro--center {
   text-align: center;
@@ -9181,218 +9071,218 @@ img {
   margin-inline: auto;
 }
 .bcn-challenges {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-400);
+  grid-template-columns: 1fr 1fr;
+  display: grid;
 }
 .bcn-challenges__card {
-  display: flex;
   align-items: flex-start;
   gap: var(--spacing-400);
   padding: var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s;
+  display: flex;
 }
 .bcn-challenges__icon {
-  display: inline-flex;
-  color: var(--color-primary);
+  color: var(--color-background-brand);
   flex-shrink: 0;
   margin-block-start: 2px;
+  display: inline-flex;
 }
 .bcn-challenges__q {
   margin: 0 0 var(--spacing-200);
-  font-family: var(--font-decorative, var(--font-sans));
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-300);
+  font-weight: var(--typography-font-weight-semibold);
   line-height: var(--line-height-tight, 1.25);
-  color: var(--color-text-primary);
+  color: var(--color-content-default);
 }
 .bcn-challenges__desc {
-  margin: 0;
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
   line-height: var(--line-height-relaxed, 1.75);
+  margin: 0;
 }
 .bcn-contrast {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-600);
+  grid-template-columns: 1fr 1fr;
+  display: grid;
 }
 .bcn-contrast__card {
   border-radius: var(--radius-200);
   padding: var(--spacing-600);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-default);
   overflow: hidden;
 }
 .bcn-contrast__card--before {
-  background: var(--color-danger-subtle);
-  border-color: var(--color-danger-border);
+  background: var(--color-background-utility-danger-subtle);
+  border-color: var(--color-border-utility-danger);
 }
 .bcn-contrast__bleed {
   margin: calc(-1 * var(--spacing-600)) calc(-1 * var(--spacing-600)) var(--spacing-500);
 }
 .bcn-contrast__bleed img {
-  inline-size: 100%;
-  block-size: 200px;
   object-fit: cover;
+  block-size: 200px;
+  inline-size: 100%;
   display: block;
 }
 .bcn-contrast__title {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
+  font-size: var(--font-size-400);
+  font-weight: var(--typography-font-weight-semibold);
   margin-block-end: var(--spacing-400);
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-semibold);
+  display: flex;
 }
 .bcn-contrast__card--before .bcn-contrast__title {
-  color: var(--color-danger-strong);
+  color: var(--color-content-utility-danger);
 }
 .bcn-contrast__list {
-  list-style: none;
+  gap: var(--spacing-300);
+  flex-direction: column;
   margin: 0;
   padding: 0;
+  list-style: none;
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
 }
 .bcn-contrast__item {
-  display: flex;
   align-items: flex-start;
   gap: var(--spacing-300);
-  font-size: var(--type-size-200);
+  font-size: var(--font-size-200);
   line-height: var(--line-height-normal, 1.5);
+  display: flex;
 }
 .bcn-contrast__glyph {
-  display: inline-flex;
   flex-shrink: 0;
   margin-block-start: 2px;
+  display: inline-flex;
 }
 .bcn-contrast__card--before .bcn-contrast__glyph {
-  color: var(--color-danger);
+  color: var(--color-background-utility-danger);
 }
 .bcn-contrast__card--after {
-  background: var(--color-success-subtle);
-  border-color: var(--color-success-border);
+  background: var(--color-background-utility-success-subtle);
+  border-color: var(--color-border-utility-success);
 }
 .bcn-contrast__mock {
-  background: #292929;
   padding: var(--spacing-300);
-  font-size: 12px;
   color: #bdbdbd;
-  min-block-size: 200px;
-  display: flex;
+  background: #292929;
   flex-direction: column;
+  min-block-size: 200px;
+  font-size: 12px;
+  display: flex;
 }
 .bcn-contrast__mock-bar {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
   padding: var(--spacing-200) var(--spacing-300);
-  background: #ffffff0f;
   border-radius: var(--radius-100);
-  margin-block-end: var(--spacing-300);
-  font-weight: var(--font-weight-medium);
-  font-size: 11px;
+  font-weight: var(--typography-font-weight-medium);
   color: #989898;
+  background: #ffffff0f;
+  margin-block-end: var(--spacing-300);
+  font-size: 11px;
+  display: flex;
 }
 .bcn-contrast__mock-dot {
-  inline-size: 8px;
-  block-size: 8px;
+  background: var(--color-background-brand);
   border-radius: 50%;
-  background: var(--color-primary);
+  block-size: 8px;
+  inline-size: 8px;
 }
 .bcn-contrast__mock-row {
-  display: flex;
   align-items: center;
   gap: var(--spacing-300);
   padding: var(--spacing-200) var(--spacing-300);
-  border-block-end: 1px solid rgba(255, 255, 255, 0.06);
+  border-block-end: 1px solid #ffffff0f;
   font-size: 11px;
+  display: flex;
 }
 .bcn-contrast__mock-status {
-  inline-size: 8px;
-  block-size: 8px;
   border-radius: 50%;
   flex-shrink: 0;
+  block-size: 8px;
+  inline-size: 8px;
 }
 .bcn-contrast__mock-status.is-done {
   background: #4ade80;
 }
 .bcn-contrast__mock-row span:nth-child(2) {
-  flex: 1;
   color: #fff;
+  flex: 1;
 }
 .bcn-contrast__mock-badge {
   font-size: 10px;
-  font-weight: var(--font-weight-semibold);
-  padding: 2px 8px;
+  font-weight: var(--typography-font-weight-semibold);
   border-radius: var(--radius-full, 9999px);
   white-space: nowrap;
+  padding: 2px 8px;
 }
 .bcn-contrast__mock-badge.is-done {
-  background: #4ade8026;
   color: #4ade80;
+  background: #4ade8026;
 }
 .bcn-contrast__mock-status.is-active {
   background: #f9a134;
 }
 .bcn-contrast__mock-badge.is-active {
-  background: #f9a13426;
   color: #f9a134;
+  background: #f9a13426;
 }
 .bcn-contrast__mock-status.is-pending {
   background: #7c7c7c;
 }
 .bcn-contrast__mock-badge.is-pending {
-  background: #ffffff0f;
   color: #989898;
+  background: #ffffff0f;
 }
 .bcn-contrast__card--after .bcn-contrast__title {
-  color: var(--color-success-strong);
+  color: var(--color-content-utility-success);
 }
 .bcn-contrast__card--after .bcn-contrast__glyph {
-  color: var(--color-success);
+  color: var(--color-background-utility-success);
 }
 .bcn-solution {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-500);
+  grid-template-columns: repeat(3, 1fr);
+  display: grid;
 }
 [data-reveal-delay="1"] {
   transition-delay: 0.1s;
 }
 .bcn-solution__card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
   padding: var(--spacing-600) var(--spacing-500);
   text-align: center;
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 .bcn-solution__medallion {
-  inline-size: 64px;
-  block-size: 64px;
   border-radius: var(--radius-full, 9999px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  block-size: 64px;
+  inline-size: 64px;
   margin: 0 auto var(--spacing-400);
   color: #fff;
   --icon-size-xl: 32px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 .bcn-solution__title {
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-400);
+  font-weight: var(--typography-font-weight-semibold);
   margin-block-end: var(--spacing-300);
 }
 .bcn-solution__desc {
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
   line-height: var(--line-height-relaxed, 1.75);
 }
 [data-reveal-delay="2"] {
@@ -9402,24 +9292,24 @@ img {
   transition-delay: 0.3s;
 }
 .bcn-markets {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-400);
+  grid-template-columns: repeat(3, 1fr);
+  display: grid;
 }
 .bcn-markets__card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
   overflow: hidden;
   box-shadow: 0 1px 2px #0000000f;
-  transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
 }
 .bcn-markets__image {
-  inline-size: 100%;
-  block-size: 140px;
   object-fit: cover;
+  block-size: 140px;
+  inline-size: 100%;
   display: block;
 }
 .bcn-markets__body {
@@ -9427,28 +9317,28 @@ img {
 }
 .bcn-markets__title {
   margin: 0 0 var(--spacing-100);
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-300);
+  font-weight: var(--typography-font-weight-semibold);
 }
 .bcn-markets__desc {
   margin: 0 0 var(--spacing-300);
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
   line-height: var(--line-height-normal, 1.5);
 }
 .bcn-markets__link {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-100);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
+  font-size: var(--font-size-150);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-background-brand);
   text-decoration: none;
+  display: inline-flex;
 }
 .bcn-mkt-section--forest {
   color: #fff;
   background:
-    linear-gradient(160deg, #02140af0, #052312eb 40%, #08321ce6),
+    linear-gradient(160deg, #02140af0 0%, #052312eb 40%, #08321ce6 100%),
     var(--_forest-image) center / cover no-repeat;
 }
 .bcn-section-intro--on-dark .bcn-section-intro__eyebrow {
@@ -9464,133 +9354,140 @@ img {
   color: #fffc;
 }
 .bcn-dot-map {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-700);
+  grid-template-columns: 1fr 1fr;
   align-items: center;
+  display: grid;
 }
 .bcn-dot-map__canvas {
-  position: relative;
-  display: flex;
   justify-content: center;
+  display: flex;
+  position: relative;
 }
 .bcn-dot-map__canvas svg {
-  display: block;
+  cursor: crosshair;
+  transform-origin: 50%;
+  block-size: auto;
   inline-size: 100%;
   max-inline-size: 550px;
-  block-size: auto;
-  cursor: crosshair;
+  display: block;
   transform: scale(1.2);
-  transform-origin: center center;
 }
 .bcn-dot-map__cards {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-400);
+  flex-direction: column;
+  display: flex;
 }
 .bcn-dot-map__card {
-  background: #ffffff0f;
-  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-200);
   padding: var(--spacing-400) var(--spacing-500);
-  transition: background 0.15s ease;
+  background: #ffffff0f;
+  border: 1px solid #ffffff1f;
+  transition: background 0.15s;
 }
 .bcn-dot-map__card-header {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
   margin-block-end: var(--spacing-100);
+  display: flex;
 }
 .bcn-dot-map__dot {
-  inline-size: 10px;
-  block-size: 10px;
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 0 6px currentColor;
+  block-size: 10px;
+  inline-size: 10px;
+  box-shadow: 0 0 6px;
 }
 .bcn-dot-map__name {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-150);
+  font-weight: var(--typography-font-weight-semibold);
   color: #fff;
 }
 .bcn-dot-map__tagline {
-  font-size: var(--type-size-150);
-  font-weight: 300;
+  font-size: var(--font-size-150);
   color: #fff9;
+  font-weight: 300;
   line-height: var(--line-height-normal, 1.5);
 }
 .bcn-cta-paths {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-500);
+  grid-template-columns: repeat(3, 1fr);
+  display: grid;
 }
 .bcn-cta-paths__card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   text-align: center;
   padding: var(--spacing-700) var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
+  flex-direction: column;
+  align-items: center;
+  display: flex;
   box-shadow:
     0 1px 2px #0000000f,
     0 2px 4px #0000000a;
 }
 .bcn-cta-paths__medallion {
-  inline-size: 56px;
-  block-size: 56px;
   border-radius: var(--radius-full, 9999px);
-  background: var(--color-primary-subtle, #effefb);
-  color: var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-block-end: var(--spacing-400);
+  background: var(--color-background-brand-subtle, #effefb);
+  block-size: 56px;
+  inline-size: 56px;
+  color: var(--color-background-brand);
   flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  margin-block-end: var(--spacing-400);
+  display: flex;
 }
 .bcn-cta-paths__title {
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-400);
+  font-weight: var(--typography-font-weight-semibold);
   margin-block-end: var(--spacing-300);
 }
 .bcn-cta-paths__desc {
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
   line-height: var(--line-height-relaxed, 1.75);
-  margin-block-end: var(--spacing-500);
   flex: 1;
+  margin-block-end: var(--spacing-500);
 }
 .bcn-cta-paths__card--featured {
-  border-color: var(--color-primary);
+  border-color: var(--color-background-brand);
   border-width: 2px;
   position: relative;
 }
 .bcn-cta-paths__card--featured:before {
   content: "RECOMMENDED";
+  font-size: 10px;
+  font-weight: var(--typography-font-weight-bold);
+  letter-spacing: 1px;
+  color: #fff;
+  background: var(--color-background-brand);
+  padding: var(--spacing-100) var(--spacing-300);
+  border-radius: var(--radius-full, 9999px);
   position: absolute;
   top: 0;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 10px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 1px;
-  color: #fff;
-  background: var(--color-primary);
-  padding: var(--spacing-100) var(--spacing-300);
-  border-radius: var(--radius-full, 9999px);
 }
 .bcn-mkt-footer {
-  background: #292929;
   color: #989898;
   padding: var(--spacing-600) var(--spacing-500);
-  display: flex;
+  font-size: var(--font-size-150);
+  background: #292929;
   justify-content: space-between;
   align-items: center;
-  font-size: var(--type-size-150);
+  display: flex;
 }
 .bcn-mkt-footer a {
   color: #989898;
+}
+.bcn-demo__lede {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+[hidden] {
+  display: none !important;
 }
 [data-reveal].is-visible {
   opacity: 1;
@@ -9601,43 +9498,39 @@ img {
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--color-border` | `#dcdcdc` | semantic |
-| `--color-danger` | `#e5484d` | semantic |
-| `--color-danger-border` | `#fdbdbe` | semantic |
-| `--color-danger-strong` | `#ce2c31` | semantic |
-| `--color-danger-subtle` | `#fff7f7` | semantic |
+| `--border-width-default` | `1px` | semantic |
+| `--button-radius-md` | `.25rem` | component |
+| `--color-background-elevation-floating` | `#fcfcfc` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-danger-subtle` | `#fffcfc` | semantic |
+| `--color-background-utility-success` | `#2e7571` | semantic |
+| `--color-background-utility-success-subtle` | `#fbfefc` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-border-default-strong` | `#bdbdbd` | semantic |
+| `--color-border-default-subtle` | `#efefef` | semantic |
+| `--color-border-utility-danger` | `#fdbdbe` | semantic |
+| `--color-border-utility-success` | `#adddc0` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--color-content-utility-success` | `#218358` | semantic |
 | `--color-gray-2` | `#f9f9f9` | primitive |
-| `--color-primary` | `#005862` | semantic |
-| `--color-primary-hover` | `#00474f` | semantic |
-| `--color-primary-strong` | `#2a7e3b` | semantic |
-| `--color-primary-subtle` | `#effefb` | semantic |
-| `--color-success` | `#2e7571` | semantic |
-| `--color-success-border` | `#c2da91` | semantic |
-| `--color-success-strong` | `#5c7c2f` | semantic |
-| `--color-success-subtle` | `#f8faf3` | semantic |
-| `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-sunken` | `#efefef` | semantic |
-| `--color-text-inverse` | `#fcfcfc` | semantic |
-| `--color-text-link` | `#005862` | semantic |
-| `--color-text-primary` | `#3d3d3d` | semantic |
-| `--color-text-secondary` | `#525252` | semantic |
-| `--color-text-tertiary` | `#656565` | semantic |
+| `--dialog-width` | `480px` | component |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-medium` | `500` | primitive |
-| `--font-weight-regular` | `350` | primitive |
-| `--font-weight-semibold` | `550` | primitive |
-| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
-| `--form-height-md` | `36px` | component |
-| `--form-padding-x-md` | `.75rem` | component |
-| `--form-radius-md` | `.25rem` | component |
-| `--icon-size-large` | `24px` | component |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--font-size-800` | `clamp(2rem, 1.73rem + 1.35vw, 2.75rem)` | primitive |
 | `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
-| `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
-| `--icon-size-small` | `16px` | component |
 | `--icon-size-xl` | `28px` | primitive |
 | `--line-height-normal` | `1.6` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
@@ -9645,6 +9538,7 @@ img {
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
+| `--radius-lg` | `.75rem` | semantic |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
@@ -9654,14 +9548,22 @@ img {
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--transition-fast` | `.15s ease` | primitive |
-| `--type-size-1000` | `clamp(3rem, 2.6rem + 2vw, 4rem)` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
-| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
-| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `350` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-regular` | `350` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-font-weight` | `500` | semantic |
+| `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-line-height` | `1` | semantic |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

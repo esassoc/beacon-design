@@ -25,22 +25,21 @@ The comprehensive list for one category: a quiet article count, then EVERY artic
     <li class="bcn-kbl__row">
       <a class="bcn-kbl__link" href="#article-actions-vs-implementations"
         >Implementation</a
-      >
-      <span class="bcn-kbl__summary"
+      ><span class="bcn-kbl__summary"
         >A single execution of a published action — the record teams work day to
         day.</span
       >
     </li>
     <li class="bcn-kbl__row">
-      <a class="bcn-kbl__link" href="#article-what-is-a-component">Component</a>
-      <span class="bcn-kbl__summary"
+      <a class="bcn-kbl__link" href="#article-what-is-a-component">Component</a
+      ><span class="bcn-kbl__summary"
         >A distinct place or package of work within a project, tracked
         independently.</span
       >
     </li>
     <li class="bcn-kbl__row">
-      <a class="bcn-kbl__link" href="#article-permit">Permit</a>
-      <span class="bcn-kbl__summary"
+      <a class="bcn-kbl__link" href="#article-permit">Permit</a
+      ><span class="bcn-kbl__summary"
         >An agency authorization the project must obtain, tracked through the acquisition
         pipeline.</span
       >
@@ -48,32 +47,28 @@ The comprehensive list for one category: a quiet article count, then EVERY artic
     <li class="bcn-kbl__row">
       <a class="bcn-kbl__link" href="#article-reading-permit-tracking"
         >Reading the Permit Tracking board</a
-      >
-      <span class="bcn-kbl__summary"
+      ><span class="bcn-kbl__summary"
         >Where each permit stands, what is blocking it, and what is due next.</span
       >
     </li>
     <li class="bcn-kbl__row">
       <a class="bcn-kbl__link" href="#article-starring-components"
         >Starring components on your dashboard</a
-      >
-      <span class="bcn-kbl__summary"
+      ><span class="bcn-kbl__summary"
         >Pin the three-to-five components you actually work in.</span
       >
     </li>
     <li class="bcn-kbl__row">
       <a class="bcn-kbl__link" href="#article-reading-critical-now"
         >How the dashboard decides what needs attention</a
-      >
-      <span class="bcn-kbl__summary"
+      ><span class="bcn-kbl__summary"
         >Urgency comes from action due dates, shown in the zone that owns the work.</span
       >
     </li>
     <li class="bcn-kbl__row">
       <a class="bcn-kbl__link" href="#article-reading-project-timeline"
         >Reading the project timeline</a
-      >
-      <span class="bcn-kbl__summary"
+      ><span class="bcn-kbl__summary"
         >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span
       >
     </li>
@@ -84,65 +79,64 @@ The comprehensive list for one category: a quiet article count, then EVERY artic
 ## Styles
 ```css
 .bcn-kbl {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-500);
+  flex-direction: column;
   max-inline-size: 60rem;
+  display: flex;
 }
 .bcn-kbl__count {
+  color: var(--color-content-default-tertiary);
   font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
 }
 .bcn-kbl__list {
-  list-style: none;
+  flex-direction: column;
   margin: 0;
   padding: 0;
+  list-style: none;
   display: flex;
-  flex-direction: column;
 }
 .bcn-kbl__row {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-050);
   padding-block: var(--spacing-300);
+  flex-direction: column;
+  display: flex;
 }
 .bcn-kbl__row + .bcn-kbl__row {
-  border-top: 1px solid var(--color-border-light);
+  border-top: 1px solid var(--color-border-default-subtle);
 }
 .bcn-kbl__link {
   font-size: 1rem;
-  font-weight: var(--font-weight-medium);
-  line-height: 1.4;
-  color: var(--color-text-primary);
-  text-decoration: none;
-  transition: color 0.12s ease;
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-default);
   width: fit-content;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 0.12s;
 }
 .bcn-kbl__link:hover {
-  color: var(--color-text-link);
-  text-decoration: underline;
+  color: var(--color-content-link);
   text-underline-offset: 2px;
+  text-decoration: underline;
 }
 .bcn-kbl__link:focus-visible {
-  outline: 2px solid var(--color-text-link);
+  outline: 2px solid var(--color-content-link);
   outline-offset: 2px;
   border-radius: var(--radius-100);
 }
 .bcn-kbl__summary {
+  color: var(--color-content-default-secondary);
   font-size: 0.875rem;
   line-height: 1.45;
-  color: var(--color-text-secondary);
 }
 ```
 
 ## Tokens
-- `--color-border-light`: #efefef _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-medium`: 500 _(primitive)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
+- `--typography-font-weight-medium`: 500 _(semantic)_

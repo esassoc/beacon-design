@@ -24,10 +24,9 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
       src="/beacon-design/images/dcp/hero.jpeg"
       alt=""
       aria-hidden="true"
-    />
-    <button class="bcn-phome__edit bcn-phome__edit--cover" type="button">
-      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-        <svg
+    /><button class="bcn-phome__edit bcn-phome__edit--cover" type="button">
+      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -41,26 +40,23 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
           <path
             d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
           ></path>
-          <path d="m15 5 4 4"></path>
-        </svg>
-      </span>
+          <path d="m15 5 4 4"></path></svg
+      ></span>
       Change cover
     </button>
   </div>
   <div class="bcn-phome__body">
-    <span class="bcn-phome__sealwrap">
-      <img
+    <span class="bcn-phome__sealwrap"
+      ><img
         class="bcn-phome__seal"
         src="/beacon-design/images/dcp/dwr-logo.png"
-        alt="DWR seal"
-      />
-      <button
+        alt="DWR seal" /><button
         class="bcn-phome__edit bcn-phome__edit--logo"
         type="button"
         aria-label="Change logo"
       >
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -74,22 +70,27 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
             <path
               d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
             ></path>
-            <path d="m15 5 4 4"></path>
-          </svg>
-        </span>
-      </button>
-    </span>
+            <path d="m15 5 4 4"></path></svg
+        ></span></button
+    ></span>
     <div class="bcn-phome__id">
       <div class="bcn-phome__idtop">
         <h1 class="bcn-phome__name">Delta Conveyance Project</h1>
         <span
           class="bcn-status-chip"
           data-status="phase"
-          style="--_chip: var(--st-phase, var(--color-primary))"
-        >
-          <span class="bcn-status-chip__dot"></span>
-          <span class="bcn-status-chip__label">Pre-Construction</span>
-        </span>
+          style="--_chip: var(--st-phase, var(--color-background-brand))"
+          ><span class="bcn-status-chip__dot"></span
+          ><span class="bcn-status-chip__label">Pre-Construction</span></span
+        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
       </div>
       <p class="bcn-phome__eyebrow">Department of Water Resources</p>
     </div>
@@ -100,8 +101,8 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 ## Styles
 ```css
 .bcn-search-trigger .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -112,104 +113,109 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
 .bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
 .bcn-disclosure .esa-icon {
-  transition: transform 0.15s ease;
+  transition: transform 0.15s;
 }
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
 .bcn-ev-staging__title .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
 }
 .bcn-ev-targets__title .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
 }
 .topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
 }
 .user-panel__item--danger .esa-icon {
-  color: var(--color-danger);
+  color: var(--color-background-utility-danger);
 }
 .project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-500);
+  flex-shrink: 0;
 }
 .nav-section__header:hover .esa-icon,
 .nav-section--active .nav-section__header,
 .nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+  color: var(--color-background-brand);
 }
 .nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+  flex-shrink: 0;
+  transition: color 0.15s;
 }
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
   flex-shrink: 0;
+  transition:
+    transform 0.15s,
+    opacity 0.2s ease-in-out;
 }
 .nav-section--collapsed .nav-section__header > .esa-icon:last-child {
   transform: rotate(-90deg);
 }
+.side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
 .bcn-mod__link .esa-icon {
-  color: var(--color-text-muted);
+  color: var(--bcn-content-muted);
 }
 .bcn-phome {
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border-bottom: 1px solid var(--color-border-default);
 }
 .bcn-phome__cover {
-  position: relative;
+  background: var(--color-background-elevation-sunken);
   height: 132px;
+  position: relative;
   overflow: hidden;
-  background: var(--color-surface-sunken);
 }
 .bcn-phome__hero {
-  display: block;
+  object-fit: cover;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: block;
 }
 .bcn-phome__body {
-  display: flex;
   align-items: flex-start;
   gap: var(--spacing-500);
   padding: 0 var(--spacing-600) var(--spacing-500);
+  display: flex;
 }
 .bcn-phome__edit {
-  position: absolute;
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-150);
   padding: var(--spacing-150) var(--spacing-250);
   font-family: inherit;
   font-size: 0.8125rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-  border: 1px solid var(--color-border);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-raised) 92%,
+    transparent
+  );
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-100);
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.15s;
+  display: inline-flex;
+  position: absolute;
 }
 .bcn-phome__edit--cover {
   top: var(--spacing-300);
@@ -220,199 +226,150 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   opacity: 1;
 }
 .bcn-phome__sealwrap {
-  position: relative;
   flex-shrink: 0;
+  position: relative;
 }
 .bcn-phome__edit--logo {
-  right: 0;
-  bottom: 0;
   padding: var(--spacing-150);
   border-radius: var(--radius-full);
+  bottom: 0;
+  right: 0;
 }
 .bcn-phome__sealwrap:hover .bcn-phome__edit--logo,
 .bcn-phome__edit--logo:focus-visible {
   opacity: 1;
 }
 .bcn-phome__seal {
-  display: block;
-  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-background-elevation-raised);
+  border: 3px solid var(--color-background-elevation-raised);
+  object-fit: contain;
   width: 92px;
   height: 92px;
+  box-shadow: var(--elevation-2, 0 2px 12px 0 #00000014);
+  flex-shrink: 0;
   margin-top: -46px;
-  border-radius: var(--radius-full);
-  background: var(--color-surface);
-  border: 3px solid var(--color-surface);
-  object-fit: contain;
-  box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
+  display: block;
 }
 .bcn-phome__id {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-200);
   padding-top: var(--spacing-400);
-  min-width: 0;
+  flex-direction: column;
   flex: 1;
+  min-width: 0;
+  display: flex;
 }
 .bcn-phome__idtop {
-  display: flex;
   align-items: center;
   gap: var(--spacing-300);
   flex-wrap: wrap;
+  display: flex;
 }
 .bcn-phome__name {
-  margin: 0;
-  font-family: var(--font-decorative, var(--font-display, var(--font-sans)));
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-600);
+  font-family: var(
+    --font-decorative,
+    var(--typography-font-family-display, var(--typography-font-family-sans))
+  );
+  font-weight: var(--typography-font-weight-bold);
+  font-size: var(--font-size-600);
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
-  color: var(--bcn-gray-1000, var(--color-text-primary));
+  color: var(--bcn-gray-1000, var(--color-content-default));
+  margin: 0;
 }
 .bcn-phome__eyebrow {
   margin: 0 0 var(--spacing-200);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-tertiary);
-}
-.bcn-status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-}
-.bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
+  font-size: var(--font-size-150);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-default-tertiary);
 }
 .esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
   height: var(--_icon-size);
-  line-height: 1;
   color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+  --_icon-size: var(--icon-size-lg, 24px);
 }
 .esa-icon--xl {
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
-  display: block;
   width: var(--_icon-size);
   height: var(--_icon-size);
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-button--lg {
-  --_ib-size: var(--form-height-lg, 48px);
-}
-.esa-icon-button:hover {
-  background: var(--_ib-bg-hover);
-}
-.esa-icon-button:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
+  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
+}
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
+}
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
 }
 ```
 
 ## Tokens
-- `--bcn-gray-1000`: #000000 _(component)_
+- `--bcn-content-muted`: #7c7c7c _(component)_
+- `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
-- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
-- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-danger`: #e5484d _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-muted`: #7c7c7c _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--focus-ring-offset`: 2px _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
+- `--bcn-helpbar-fg`: #ffffffeb _(component)_
+- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
+- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-display`: "DM Sans", sans-serif _(primitive)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-bold`: 650 _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--form-height-lg`: 44px _(component)_
-- `--form-height-md`: 36px _(component)_
-- `--form-height-sm`: 28px _(component)_
-- `--form-height-xs`: 24px _(component)_
-- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--icon-size-large`: 24px _(component)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--font-size-600`: clamp(1.375rem, 1.2rem + .88vw, 1.875rem) _(primitive)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-small`: 16px _(component)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--letter-spacing-tight`: -.01em _(primitive)_
 - `--line-height-tight`: 1.3 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
-- `--shadow-100`: 0 2px 12px 0 rgba(0, 0, 0, .04) _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
@@ -420,7 +377,8 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-600`: 2rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--type-size-600`: clamp(1.375rem, 1.2rem + .88vw, 1.875rem) _(primitive)_
+- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
+- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
+- `--typography-font-weight-bold`: 650 _(semantic)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

@@ -26,7 +26,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
     data-bcn-obsmap=""
     data-map-id="observations-full"
     data-interactive="true"
-    style="height: min(70vh, 620px); position: relative"
+    style="height: min(70vh, 620px)"
     role="region"
     aria-label="Observation map — no observations to show"
     data-bcn-obsmap-ready="true"
@@ -44,8 +44,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
           >
             <img
               alt=""
-              src="https://b.basemaps.cartocdn.com/light_all/14/2759/6470.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2759/6470?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -54,8 +54,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://c.basemaps.cartocdn.com/light_all/14/2760/6470.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2760/6470?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -64,8 +64,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://a.basemaps.cartocdn.com/light_all/14/2759/6469.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2759/6469?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -74,8 +74,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://b.basemaps.cartocdn.com/light_all/14/2760/6469.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2760/6469?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -84,8 +84,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://c.basemaps.cartocdn.com/light_all/14/2759/6471.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2759/6471?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -94,8 +94,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://d.basemaps.cartocdn.com/light_all/14/2760/6471.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2760/6471?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -104,8 +104,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://a.basemaps.cartocdn.com/light_all/14/2758/6470.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2758/6470?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -114,8 +114,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://d.basemaps.cartocdn.com/light_all/14/2761/6470.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2761/6470?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -124,8 +124,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://d.basemaps.cartocdn.com/light_all/14/2758/6469.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2758/6469?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -134,8 +134,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://c.basemaps.cartocdn.com/light_all/14/2761/6469.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2761/6469?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -144,8 +144,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://b.basemaps.cartocdn.com/light_all/14/2758/6471.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2758/6471?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -154,8 +154,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               "
             /><img
               alt=""
-              src="https://a.basemaps.cartocdn.com/light_all/14/2761/6471.png"
-              class="leaflet-tile leaflet-tile-loaded"
+              src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2761/6471?access_token=undefined"
+              class="leaflet-tile"
               style="
                 width: 256px;
                 height: 256px;
@@ -183,7 +183,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              fill="#e5484d"
+              fill="#ce2c31"
               fill-opacity="0.9"
               fill-rule="evenodd"
               d="M495,445a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
@@ -195,7 +195,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              fill="#e5484d"
+              fill="#ce2c31"
               fill-opacity="0.9"
               fill-rule="evenodd"
               d="M424,356a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
@@ -207,7 +207,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              fill="#e5484d"
+              fill="#ce2c31"
               fill-opacity="0.9"
               fill-rule="evenodd"
               d="M273,174a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
@@ -423,7 +423,9 @@ The same filtered observation set plotted geographically — BcnObservationMap a
             </svg>
             Leaflet</a
           >
-          <span aria-hidden="true">|</span> © OpenStreetMap © CARTO
+          <span aria-hidden="true">|</span> ©
+          <a href="https://www.mapbox.com/about/maps/">Mapbox</a> ©
+          <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>
         </div>
       </div>
     </div>
@@ -433,7 +435,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
   </script>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.CaGBcxyZ.js"
+    src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.V9eB__99.js"
   ></script>
 </div>
 ```
@@ -451,8 +453,8 @@ The same filtered observation set plotted geographically — BcnObservationMap a
 .leaflet-image-layer,
 .leaflet-layer {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
 }
 .leaflet-container {
   overflow: hidden;
@@ -466,15 +468,15 @@ The same filtered observation set plotted geographically — BcnObservationMap a
   -webkit-user-drag: none;
 }
 .leaflet-tile::selection {
-  background: transparent;
+  background: 0 0;
 }
 .leaflet-safari .leaflet-tile {
   image-rendering: -webkit-optimize-contrast;
 }
 .leaflet-safari .leaflet-tile-container {
+  -webkit-transform-origin: 0 0;
   width: 1600px;
   height: 1600px;
-  -webkit-transform-origin: 0 0;
 }
 .leaflet-container .leaflet-overlay-pane svg {
   max-width: none !important;
@@ -485,10 +487,10 @@ The same filtered observation set plotted geographically — BcnObservationMap a
 .leaflet-container .leaflet-tile-pane img,
 .leaflet-container img.leaflet-image-layer,
 .leaflet-container .leaflet-tile {
-  max-width: none !important;
-  max-height: none !important;
   width: auto;
   padding: 0;
+  max-width: none !important;
+  max-height: none !important;
 }
 .leaflet-container img.leaflet-tile {
   mix-blend-mode: plus-lighter;
@@ -510,7 +512,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
   -webkit-tap-highlight-color: transparent;
 }
 .leaflet-container a {
-  -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+  -webkit-tap-highlight-color: #33b5e566;
 }
 .leaflet-tile {
   filter: inherit;
@@ -550,16 +552,16 @@ The same filtered observation set plotted geographically — BcnObservationMap a
   z-index: 200;
 }
 .leaflet-control {
-  position: relative;
   z-index: 800;
   pointer-events: visiblePainted;
   pointer-events: auto;
+  position: relative;
 }
 .leaflet-top,
 .leaflet-bottom {
-  position: absolute;
   z-index: 1000;
   pointer-events: none;
+  position: absolute;
 }
 .leaflet-top {
   top: 0;
@@ -659,8 +661,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
   pointer-events: auto;
 }
 .leaflet-container {
-  background: #ddd;
   outline-offset: 1px;
+  background: #ddd;
 }
 .leaflet-container a {
   color: #0078a8;
@@ -671,28 +673,27 @@ svg.leaflet-image-layer.leaflet-interactive path {
     Arial,
     Helvetica,
     sans-serif;
-  font-size: 12px;
   font-size: 0.75rem;
   line-height: 1.5;
 }
 .leaflet-bar {
-  box-shadow: 0 1px 5px #000000a6;
   border-radius: 4px;
+  box-shadow: 0 1px 5px #000000a6;
 }
 .leaflet-bar a {
+  text-align: center;
+  color: #000;
   background-color: #fff;
   border-bottom: 1px solid #ccc;
   width: 26px;
   height: 26px;
   line-height: 26px;
-  display: block;
-  text-align: center;
   text-decoration: none;
-  color: #000;
+  display: block;
 }
 .leaflet-bar a,
 .leaflet-control-layers-toggle {
-  background-position: 50% 50%;
+  background-position: 50%;
   background-repeat: no-repeat;
   display: block;
 }
@@ -705,14 +706,14 @@ svg.leaflet-image-layer.leaflet-interactive path {
   border-top-right-radius: 4px;
 }
 .leaflet-bar a:last-child {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
   border-bottom: none;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 .leaflet-bar a.leaflet-disabled {
   cursor: default;
-  background-color: #f4f4f4;
   color: #bbb;
+  background-color: #f4f4f4;
 }
 .leaflet-touch .leaflet-bar a {
   width: 30px;
@@ -724,25 +725,25 @@ svg.leaflet-image-layer.leaflet-interactive path {
   border-top-right-radius: 2px;
 }
 .leaflet-touch .leaflet-bar a:last-child {
-  border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
 }
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
+  text-indent: 1px;
   font:
     700 18px Lucida Console,
     Monaco,
     monospace;
-  text-indent: 1px;
 }
 .leaflet-touch .leaflet-control-zoom-in,
 .leaflet-touch .leaflet-control-zoom-out {
   font-size: 22px;
 }
 .leaflet-control-layers {
-  box-shadow: 0 1px 5px #0006;
   background: #fff;
   border-radius: 5px;
+  box-shadow: 0 1px 5px #0006;
 }
 .leaflet-control-layers-toggle {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAACf0lEQVR4AY1UM3gkARTePdvdoTxXKc+qTl3aU5U6b2Kbkz3Gtq3Zw6ziLGNPzrYx7946Tr6/ee/XeCQ4D3ykPtL5tHno4n0d/h3+xfuWHGLX81cn7r0iTNzjr7LrlxCqPtkbTQEHeqOrTy4Yyt3VCi/IOB0v7rVC7q45Q3Gr5K6jt+3Gl5nCoDD4MtO+j96Wu8atmhGqcNGHObuf8OM/x3AMx38+4Z2sPqzCxRFK2aF2e5Jol56XTLyggAMTL56XOMoS1W4pOyjUcGGQdZxU6qRh7B9Zp+PfpOFlqt0zyDZckPi1ttmIp03jX8gyJ8a/PG2yutpS/Vol7peZIbZcKBAEEheEIAgFbDkz5H6Zrkm2hVWGiXKiF4Ycw0RWKdtC16Q7qe3X4iOMxruonzegJzWaXFrU9utOSsLUmrc0YjeWYjCW4PDMADElpJSSQ0vQvA1Tm6/JlKnqFs1EGyZiFCqnRZTEJJJiKRYzVYzJck2Rm6P4iH+cmSY0YzimYa8l0EtTODFWhcMIMVqdsI2uiTvKmTisIDHJ3od5GILVhBCarCfVRmo4uTjkhrhzkiBV7SsaqS+TzrzM1qpGGUFt28pIySQHR6h7F6KSwGWm97ay+Z+ZqMcEjEWebE7wxCSQwpkhJqoZA5ivCdZDjJepuJ9IQjGGUmuXJdBFUygxVqVsxFsLMbDe8ZbDYVCGKxs+W080max1hFCarCfV+C1KATwcnvE9gRRuMP2prdbWGowm1KB1y+zwMMENkM755cJ2yPDtqhTI6ED1M/82yIDtC/4j4BijjeObflpO9I9MwXTCsSX8jWAFeHr05WoLTJ5G8IQVS/7vwR6ohirYM7f6HzYpogfS3R2OAAAAAElFTkSuQmCC);
@@ -766,14 +767,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
   position: relative;
 }
 .leaflet-control-layers-expanded {
-  padding: 6px 10px 6px 6px;
   color: #333;
   background: #fff;
+  padding: 6px 10px 6px 6px;
 }
 .leaflet-control-layers-scrollbar {
-  overflow-y: scroll;
-  overflow-x: hidden;
   padding-right: 5px;
+  overflow: hidden scroll;
 }
 .leaflet-control-layers-selector {
   margin-top: 2px;
@@ -781,24 +781,22 @@ svg.leaflet-image-layer.leaflet-interactive path {
   top: 1px;
 }
 .leaflet-control-layers label {
-  display: block;
-  font-size: 13px;
   font-size: 1.08333em;
+  display: block;
 }
 .leaflet-control-layers-separator {
-  height: 0;
   border-top: 1px solid #ddd;
+  height: 0;
   margin: 5px -10px 5px -6px;
 }
 .leaflet-container .leaflet-control-attribution {
-  background: #fff;
   background: #fffc;
   margin: 0;
 }
 .leaflet-control-attribution,
 .leaflet-control-scale-line {
-  padding: 0 5px;
   color: #333;
+  padding: 0 5px;
   line-height: 1.4;
 }
 .leaflet-control-attribution a {
@@ -809,10 +807,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
   text-decoration: underline;
 }
 .leaflet-attribution-flag {
-  display: inline !important;
-  vertical-align: baseline !important;
   width: 1em;
   height: 0.6669em;
+  vertical-align: baseline !important;
+  display: inline !important;
 }
 .leaflet-left .leaflet-control-scale {
   margin-left: 5px;
@@ -821,15 +819,15 @@ svg.leaflet-image-layer.leaflet-interactive path {
   margin-bottom: 5px;
 }
 .leaflet-control-scale-line {
-  border: 2px solid #777;
-  border-top: none;
-  line-height: 1.1;
-  padding: 2px 5px 1px;
   white-space: nowrap;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: #fffc;
   text-shadow: 1px 1px #fff;
+  background: #fffc;
+  border: 2px solid #777;
+  border-top: none;
+  padding: 2px 5px 1px;
+  line-height: 1.1;
 }
 .leaflet-control-scale-line:not(:first-child) {
   border-top: 2px solid #777;
@@ -846,24 +844,24 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 .leaflet-touch .leaflet-control-layers,
 .leaflet-touch .leaflet-bar {
-  border: 2px solid rgba(0, 0, 0, 0.2);
   background-clip: padding-box;
+  border: 2px solid #0003;
 }
 .leaflet-container a.leaflet-popup-close-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: none;
   text-align: center;
+  color: #757575;
+  background: 0 0;
+  border: none;
   width: 24px;
   height: 24px;
   font:
     16px/24px Tahoma,
     Verdana,
     sans-serif;
-  color: #757575;
   text-decoration: none;
-  background: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .leaflet-container a.leaflet-popup-close-button:hover,
 .leaflet-container a.leaflet-popup-close-button:focus {
@@ -880,39 +878,42 @@ svg.leaflet-image-layer.leaflet-interactive path {
   pointer-events: auto;
 }
 .leaflet-container .leaflet-tooltip {
-  padding: 6px 12px;
-  font-family: var(--font-sans, inherit);
+  font-family: var(--typography-font-family-sans, inherit);
   font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold, 600);
-  line-height: 1.4;
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #dcdcdc);
+  font-weight: var(--typography-font-weight-semibold, 600);
+  color: var(--color-content-default, #3d3d3d);
+  background: var(--color-background-elevation-raised, #fff);
+  border: 1px solid var(--color-border-default, #dcdcdc);
   border-radius: var(--radius-100, 4px);
-  box-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  box-shadow: var(--elevation-4, 0 6px 24px -6px #00000012);
+  padding: 6px 12px;
+  line-height: 1.4;
 }
 .leaflet-container .leaflet-tooltip-top:before {
-  border-top-color: var(--color-surface, #ffffff);
+  border-top-color: var(--color-background-elevation-raised, #fff);
 }
 .leaflet-container .leaflet-tooltip-bottom:before {
-  border-bottom-color: var(--color-surface, #ffffff);
+  border-bottom-color: var(--color-background-elevation-raised, #fff);
 }
 .leaflet-container .leaflet-tooltip-left:before {
-  border-left-color: var(--color-surface, #ffffff);
+  border-left-color: var(--color-background-elevation-raised, #fff);
 }
 .leaflet-container .leaflet-tooltip-right:before {
-  border-right-color: var(--color-surface, #ffffff);
+  border-right-color: var(--color-background-elevation-raised, #fff);
 }
 .bcn-obsmap {
-  width: 100%;
   border-radius: var(--radius-200);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-background-elevation-sunken);
+  z-index: 0;
+  isolation: isolate;
+  width: 100%;
+  position: relative;
   overflow: hidden;
-  background: var(--color-surface-sunken);
 }
 .bcn-obsmap .leaflet-container {
-  font-family: var(--font-sans, inherit);
-  background: var(--color-surface-sunken);
+  font-family: var(--typography-font-family-sans, inherit);
+  background: var(--color-background-elevation-sunken);
 }
 .bcn-obsmap[data-interactive="false"] .leaflet-container {
   cursor: default;
@@ -923,12 +924,12 @@ svg.leaflet-image-layer.leaflet-interactive path {
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--elevation-4`: 0 6px 24px -6px #00000012 _(semantic)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--shadow-300`: 0 6px 24px -6px rgba(0, 0, 0, .07) _(primitive)_
+- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

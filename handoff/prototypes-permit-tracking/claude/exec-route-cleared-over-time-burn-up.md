@@ -42,6 +42,7 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
       <text x="515.9" y="272" class="bu-xlabel">Aug</text>
       <text x="633.9" y="272" class="bu-xlabel">Sep</text>
       <text x="748.0" y="272" class="bu-xlabel">Oct</text>
+      <text x="866.0" y="272" class="bu-xlabel">Nov</text>
       <line x1="44" y1="22.0" x2="866" y2="22.0" class="bu-target"></line>
       <polyline
         points="367.5,238.0 470.2,228.4 588.2,213.0 626.3,185.6 649.1,183.0 668.1,149.9 725.2,70.7 801.3,57.4 866.0,22.0"
@@ -82,9 +83,9 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
 ## Styles
 ```css
 .exec__burnup {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-300);
+  flex-direction: column;
+  display: flex;
 }
 .exec__burnup-chart {
   width: 100%;
@@ -96,25 +97,25 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
   overflow: visible;
 }
 .bu-grid {
-  stroke: var(--color-border-light);
-  stroke-width: 1;
+  stroke: var(--color-border-default-subtle);
+  stroke-width: 1px;
 }
 .bu-target {
-  stroke: var(--color-text-tertiary);
-  stroke-width: 1.5;
+  stroke: var(--color-content-default-tertiary);
+  stroke-width: 1.5px;
   stroke-dasharray: 2 3;
 }
 .bu-proj {
   fill: none;
   stroke: var(--st-cleared);
-  stroke-width: 2;
+  stroke-width: 2px;
   stroke-dasharray: 5 4;
   stroke-linejoin: round;
   opacity: 0.75;
 }
 .bu-today {
-  stroke: var(--color-primary);
-  stroke-width: 1;
+  stroke: var(--color-background-brand);
+  stroke-width: 1px;
   stroke-dasharray: 3 3;
   opacity: 0.6;
 }
@@ -125,59 +126,59 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
 .bu-actual {
   fill: none;
   stroke: var(--st-cleared);
-  stroke-width: 2.5;
+  stroke-width: 2.5px;
   stroke-linejoin: round;
   stroke-linecap: round;
 }
 .bu-dot {
   fill: var(--st-cleared);
-  stroke: var(--color-surface);
-  stroke-width: 1.5;
+  stroke: var(--color-background-elevation-raised);
+  stroke-width: 1.5px;
 }
 .bu-ylabel {
-  fill: var(--color-text-tertiary);
-  font-size: 12.5px;
+  fill: var(--color-content-default-tertiary);
   text-anchor: end;
   dominant-baseline: middle;
+  font-size: 12.5px;
 }
 .bu-xlabel {
-  fill: var(--color-text-tertiary);
-  font-size: 12.5px;
+  fill: var(--color-content-default-tertiary);
   text-anchor: middle;
+  font-size: 12.5px;
 }
 .bu-todaylabel {
-  fill: var(--color-primary);
+  fill: var(--color-background-brand);
+  text-anchor: middle;
   font-size: 13.5px;
   font-weight: 600;
-  text-anchor: middle;
 }
 .bu-nowlabel {
   fill: var(--st-cleared);
+  text-anchor: middle;
   font-size: 13.5px;
   font-weight: 700;
-  text-anchor: middle;
 }
 .exec__burnup-legend {
-  list-style: none;
+  gap: var(--spacing-200) var(--spacing-500);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
+  flex-wrap: wrap;
   margin: 0;
   padding: 0;
+  list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-200) var(--spacing-500);
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
 }
 .exec__burnup-legend li {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
+  display: flex;
 }
 .exec__burnup-key {
+  border-top-style: solid;
+  border-top-width: 2.5px;
+  flex-shrink: 0;
   width: 18px;
   height: 0;
-  border-top-width: 2.5px;
-  border-top-style: solid;
-  flex-shrink: 0;
 }
 .exec__burnup-key--actual {
   border-top-color: var(--st-cleared);
@@ -187,19 +188,18 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
   border-top-style: dashed;
 }
 .exec__burnup-key--target {
-  border-top-color: var(--color-text-tertiary);
+  border-top-color: var(--color-content-default-tertiary);
   border-top-style: dotted;
 }
 ```
 
 ## Tokens
-- `--color-border-light`: #efefef _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--st-cleared`: #1a9850 _(component)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_

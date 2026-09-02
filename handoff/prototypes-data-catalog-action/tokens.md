@@ -1,29 +1,74 @@
 # Token contract — prototypes-data-catalog-action
 
-The 102 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 119 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
-| `--color-accent` | `#f76b15` |
-| `--color-background` | `#fafafa` |
-| `--color-border` | `#dcdcdc` |
-| `--color-border-light` | `#efefef` |
-| `--color-primary` | `#005862` |
-| `--color-primary-hover` | `#00474f` |
-| `--color-primary-strong` | `#2a7e3b` |
-| `--color-secondary` | `#00918b` |
-| `--color-secondary-on-fill` | `#203c25` |
-| `--color-surface` | `#fcfcfc` |
-| `--color-surface-elevated` | `#fcfcfc` |
-| `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#fcfcfc` |
-| `--color-text-link` | `#005862` |
-| `--color-text-muted` | `#7c7c7c` |
-| `--color-text-primary` | `#3d3d3d` |
-| `--color-text-secondary` | `#525252` |
-| `--color-text-tertiary` | `#656565` |
+| `--animation-overlay-enter` | `.25s ease-out` |
+| `--border-width-default` | `1px` |
+| `--color-background-accent` | `#f76b15` |
+| `--color-background-brand-muted` | `#eef5f4` |
+| `--color-background-default` | `#fafafa` |
+| `--color-background-elevation-floating` | `#fcfcfc` |
+| `--color-background-elevation-raised` | `#fcfcfc` |
+| `--color-background-elevation-sunken` | `#efefef` |
+| `--color-background-overlay-backdrop` | `#00000080` |
+| `--color-border-default` | `#dcdcdc` |
+| `--color-border-default-subtle` | `#efefef` |
+| `--color-content-default` | `#3d3d3d` |
+| `--color-content-default-knockout` | `#fcfcfc` |
+| `--color-content-default-secondary` | `#525252` |
+| `--color-content-default-tertiary` | `#656565` |
+| `--color-content-on-brand-muted` | `#203c25` |
+| `--elevation-4` | `0 6px 24px -6px #00000012` |
+| `--elevation-5` | `0 8px 32px -8px #00000014` |
+| `--radius-chip` | `.25rem` |
+| `--radius-lg` | `.75rem` |
+| `--radius-md` | `.25rem` |
+| `--radius-sm` | `.25rem` |
+| `--transition-fast` | `.15s ease` |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-body-md-font-weight` | `350` |
+| `--typography-body-md-letter-spacing` | `.01em` |
+| `--typography-body-md-line-height` | `1.6` |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` |
+| `--typography-font-weight-bold` | `650` |
+| `--typography-font-weight-medium` | `500` |
+| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-semibold` | `550` |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-label-md-font-weight` | `500` |
+| `--typography-label-md-letter-spacing` | `.01em` |
+| `--typography-label-md-line-height` | `1.6` |
+| `--typography-label-sm-strong-font-family` | `"DM Sans", sans-serif` |
+| `--typography-label-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--typography-label-sm-strong-font-weight` | `550` |
+| `--typography-label-sm-strong-letter-spacing` | `.01em` |
+| `--typography-label-sm-strong-line-height` | `1.6` |
+| `--typography-microcopy-2xs-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-2xs-font-size` | `clamp(.5rem, .44rem + .3vw, .625rem)` |
+| `--typography-microcopy-2xs-font-weight` | `500` |
+| `--typography-microcopy-2xs-letter-spacing` | `.01em` |
+| `--typography-microcopy-2xs-line-height` | `1` |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-microcopy-md-font-weight` | `500` |
+| `--typography-microcopy-md-letter-spacing` | `.01em` |
+| `--typography-microcopy-md-line-height` | `1` |
+| `--typography-microcopy-sm-subtle-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-sm-subtle-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--typography-microcopy-sm-subtle-font-weight` | `350` |
+| `--typography-microcopy-sm-subtle-letter-spacing` | `.01em` |
+| `--typography-microcopy-sm-subtle-line-height` | `1` |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-microcopy-xs-strong-font-weight` | `550` |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` |
+| `--typography-microcopy-xs-strong-line-height` | `1` |
 
 ## Component
 
@@ -31,10 +76,7 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 |---|---|
 | `--ag-internal-hover-color` | `rgba(0, 0, 0, 0)` |
 | `--ag-internal-moving-color` | `rgba(0, 0, 0, 0)` |
-| `--badge-bg` | `#005862` |
-| `--badge-height-md` | `28px` |
-| `--badge-height-sm` | `22px` |
-| `--badge-radius` | `.25rem` |
+| `--badge-bg` | `#43608a` |
 | `--badge-text-color` | `#fcfcfc` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
@@ -48,50 +90,33 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-gray-600` | `#656565` |
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
-| `--bcn-helpbar-bg` | `rgba(23, 25, 27, .78)` |
+| `--bcn-helpbar-bg` | `#17191bc7` |
 | `--bcn-helpbar-bg-solid` | `#1f2224` |
-| `--bcn-helpbar-border` | `rgba(255, 255, 255, .12)` |
-| `--bcn-helpbar-divider` | `rgba(255, 255, 255, .16)` |
-| `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` |
-| `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` |
-| `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` |
-| `--collapsible-bg` | `#fcfcfc` |
-| `--collapsible-border-color` | `#dcdcdc` |
-| `--collapsible-padding-x` | `1rem` |
-| `--collapsible-radius` | `.5rem` |
-| `--collapsible-title-color` | `#3d3d3d` |
+| `--bcn-helpbar-border` | `#ffffff1f` |
+| `--bcn-helpbar-divider` | `#ffffff29` |
+| `--bcn-helpbar-fg` | `#ffffffeb` |
+| `--button-radius-md` | `.25rem` |
+| `--button-radius-xs` | `.25rem` |
 | `--color-commitment` | `#58508d` |
-| `--dialog-bg` | `#fcfcfc` |
-| `--dialog-border-color` | `#efefef` |
-| `--dialog-radius` | `.75rem` |
 | `--dialog-width` | `480px` |
 | `--dialog-width-lg` | `640px` |
+| `--file-list-row-padding-x` | `.75rem` |
+| `--file-list-row-padding-y` | `2px` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-border-width` | `1px` |
-| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--form-height-md` | `36px` |
-| `--form-height-xs` | `24px` |
 | `--form-label-color` | `#525252` |
-| `--form-padding-x-md` | `.75rem` |
-| `--form-radius-md` | `.25rem` |
-| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
-| `--icon-size-medium` | `20px` |
-| `--icon-size-small` | `16px` |
-| `--popover-bg` | `#fcfcfc` |
-| `--popover-border-color` | `#dcdcdc` |
-| `--popover-color` | `#3d3d3d` |
-| `--popover-radius` | `.5rem` |
+| `--side-dialog-inset` | `16px` |
 | `--side-dialog-width` | `400px` |
 
 ## Primitive
 
 | Token | Value |
 |---|---|
-| `--font-sans` | `"DM Sans", sans-serif` |
-| `--font-weight-bold` | `650` |
-| `--font-weight-medium` | `500` |
-| `--font-weight-regular` | `350` |
-| `--font-weight-semibold` | `550` |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--font-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
@@ -100,7 +125,6 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 | `--radius-300` | `.5rem` |
 | `--radius-400` | `.75rem` |
 | `--radius-full` | `9999px` |
-| `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` |
 | `--spacing-050` | `.125rem` |
 | `--spacing-100` | `.25rem` |
 | `--spacing-150` | `.375rem` |
@@ -111,13 +135,6 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 | `--spacing-500` | `1.5rem` |
 | `--spacing-600` | `2rem` |
 | `--spacing-700` | `3rem` |
-| `--transition-fast` | `.15s ease` |
-| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 
 ## Component-scoped
 
@@ -730,7 +747,11 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--ag-wrapper-background-color`
 - `--ag-wrapper-border`
 - `--ag-wrapper-border-radius`
-- `--dialog-footer-bg`
-- `--dialog-header-bg`
-- `--file-list-row-padding-x`
-- `--file-list-row-padding-y`
+- `--bcn-bottom-drawer-height`
+- `--bcn-bottom-drawer-inset`
+- `--bcn-bottom-drawer-width`
+- `--bcn-bottom-drawer-z`
+- `--color-background-brand`
+- `--color-background-brand-hover`
+- `--color-content-brand`
+- `--color-content-link`

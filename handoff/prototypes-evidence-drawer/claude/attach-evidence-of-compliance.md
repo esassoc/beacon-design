@@ -590,10 +590,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <section class="page-layout__title">
             <div class="page-layout__title-main">
               <h1>
-                <span class="esa-icon esa-icon--md" aria-hidden="true"
+                <span class="esa-icon esa-icon--lg" aria-hidden="true"
                   ><svg
-                    width="20"
-                    height="20"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -2240,7 +2240,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-breadewf=""
       ><span class="bcn-aldo-mark__glyph" data-astro-cid-breadewf=""
-        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-c7ivvrtd=""
+        ><span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-wcwfib5m=""
           ><svg
             width="14"
             height="14"
@@ -2251,7 +2251,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-c7ivvrtd=""
+            data-astro-cid-wcwfib5m=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -3961,8 +3961,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ><li data-astro-cid-qzg7vnux="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
-                      data-astro-cid-65ixjgm5=""
-                      ><span class="esa-pill__label" data-astro-cid-65ixjgm5=""></span
+                      data-astro-cid-xtwxlazl=""
+                      ><span class="esa-pill__label" data-astro-cid-xtwxlazl=""></span
                     ></span></li></template
                 ><!-- One draft file row, same bridge: <template> + clone, because Astro legos are
          compile-time and cannot be constructed from JS. --><template data-draft-file-row=""
@@ -3972,19 +3972,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-draft__fileremove" data-astro-cid-qzg7vnux=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this file from the evidence"
                           title="Remove this file from the evidence"
                           data-astro-cid-qzg7vnux="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -3995,7 +3995,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -9741,27 +9741,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="bcn-ev-attached__mark" hidden="" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                        data-astro-cid-sh7ulwla=""
-                        ><span class="esa-badge__text" data-astro-cid-sh7ulwla=""
+                        data-astro-cid-yahmuvtj=""
+                        ><span class="esa-badge__text" data-astro-cid-yahmuvtj=""
                           >Suggested</span
                         ></span
                       ></span
                     ><span class="bcn-ev-attached__remove" data-astro-cid-6zu5gb4v=""
                       ><span
                         class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                        data-astro-cid-4xhmycw5=""
+                        data-astro-cid-5nhxdd72=""
                         ><button
                           class="esa-button__native typography-microcopy-xs"
                           type="button"
                           aria-label="Remove this evidence from the action"
                           title="Remove this evidence from the action"
                           data-astro-cid-6zu5gb4v="true"
-                          data-astro-cid-4xhmycw5=""
+                          data-astro-cid-5nhxdd72=""
                         >
                           <span
                             class="esa-icon esa-icon--sm"
                             aria-hidden="true"
-                            data-astro-cid-c7ivvrtd=""
+                            data-astro-cid-wcwfib5m=""
                             ><svg
                               width="16"
                               height="16"
@@ -9772,7 +9772,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-c7ivvrtd=""
+                              data-astro-cid-wcwfib5m=""
                             >
                               <path d="M18 6 6 18"></path>
                               <path d="m6 6 12 12"></path></svg
@@ -9876,259 +9876,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-  background: 0 0;
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.bcn-ev-entries__lede {
-  margin: var(--spacing-200) 0 0;
-  max-width: 78ch;
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-entries__grid {
-  gap: var(--spacing-400);
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  align-items: start;
-  display: grid;
-}
-.bcn-ev-entry {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  height: 100%;
-  display: flex;
-}
-.bcn-ev-entry__blurb {
-  color: var(--color-content-default-secondary);
-  margin: 0;
-}
-.bcn-ev-entry__demo {
-  padding: var(--spacing-300);
-  border: 1px solid var(--color-border-default-subtle);
-  border-radius: var(--radius-200);
-  background: var(--color-background-default);
-  margin-top: auto;
-}
-.bcn-ev-entry__demo--quiet {
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-entry__demo--quiet p {
-  margin: 0;
-}
-.bcn-ev-entry__act {
-  margin-top: var(--spacing-100);
-}
-.bcn-ev-entry__mocklabel {
-  margin: 0 0 var(--spacing-200);
-  color: var(--color-content-default-tertiary);
-}
-.bcn-ev-entry__mocktitle {
-  align-items: baseline;
-  gap: var(--spacing-200);
-  font-size: var(--font-size-200, 0.9375rem);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-  margin: 0;
-  line-height: 1.35;
-  display: flex;
-}
-.bcn-ev-entry__mockmeta {
-  color: var(--color-content-default-secondary);
-  margin: 2px 0 0;
-}
-.bcn-ev-entry__mockact {
-  margin-top: var(--spacing-300);
-}
-.bcn-ev-entry__rows {
-  gap: var(--spacing-150);
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-ev-entry__row {
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-  font-size: var(--font-size-150, 0.875rem);
-  color: var(--color-content-default);
-  display: flex;
-}
-.bcn-ev-entry__check {
-  border-radius: var(--radius-100);
-  background: var(--color-background-brand);
-  width: 16px;
-  height: 16px;
-  color: var(--color-content-default-knockout);
-  flex: none;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.bcn-ev-entry__rowname {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-  overflow: hidden;
-}
-.bcn-ev-notes__lede {
-  margin: var(--spacing-200) 0 0;
-  max-width: 78ch;
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-notes__grid {
-  gap: var(--spacing-400);
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  align-items: start;
-  display: grid;
-}
-.bcn-ev-notes__text {
-  margin: 0 0 var(--spacing-300);
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-notes__layers {
-  border: 1px solid var(--color-border-default-subtle);
-  border-radius: var(--radius-200);
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  overflow: hidden;
-}
-.bcn-ev-notes__layer {
-  padding: var(--spacing-200) var(--spacing-300);
-  background: var(--color-background-elevation-raised);
-  flex-direction: column;
-  gap: 1px;
-  display: flex;
-}
-.bcn-ev-notes__layername {
-  font-size: var(--font-size-150, 0.875rem);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
-}
-.bcn-ev-notes__layernote {
-  font-size: var(--font-size-150, 0.875rem);
-  color: var(--color-content-default-secondary);
-}
-.bcn-ev-notes__layer + .bcn-ev-notes__layer {
-  border-top: 1px solid var(--color-border-default-subtle);
-}
-.bcn-ev-notes__layer[data-here] {
-  background: var(--color-background-brand-subtle, var(--color-background-default));
-}
-.bcn-ev-notes__caveat {
-  margin: var(--spacing-300) 0 0;
-  color: var(--color-content-default-tertiary);
-}
-.bcn-ev-notes__list {
-  gap: var(--spacing-250, 0.625rem);
-  flex-direction: column;
-  margin: 0;
-  padding-left: 1.15rem;
-  display: flex;
-}
-.bcn-ev-notes__item {
-  font-size: var(--font-size-150, 0.875rem);
-  color: var(--color-content-default-secondary);
-  line-height: 1.5;
-}
-.bcn-ev-notes__list--numbered {
-  padding-left: 1.35rem;
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
 .modern-layout {
   flex-direction: column;
@@ -11009,13 +10762,13 @@ html,
 }
 .page-layout__title-main {
   align-items: center;
-  gap: var(--spacing-200);
+  gap: var(--spacing-400);
   min-width: 0;
   display: flex;
 }
 .page-layout__title h1 {
   align-items: center;
-  gap: var(--spacing-200);
+  gap: var(--spacing-300);
   font-family: var(--font-decorative);
   font-weight: var(--typography-font-weight-bold);
   font-size: var(--font-size-500);
@@ -11038,12 +10791,75 @@ html,
   flex-direction: column;
   display: flex;
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
 }
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
@@ -11101,6 +10917,193 @@ html,
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.bcn-ev-entries__lede {
+  margin: var(--spacing-200) 0 0;
+  max-width: 78ch;
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-entries__grid {
+  gap: var(--spacing-400);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: start;
+  display: grid;
+}
+.bcn-ev-entry {
+  gap: var(--spacing-300);
+  flex-direction: column;
+  height: 100%;
+  display: flex;
+}
+.bcn-ev-entry__blurb {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-ev-entry__demo {
+  padding: var(--spacing-300);
+  border: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-200);
+  background: var(--color-background-default);
+  margin-top: auto;
+}
+.bcn-ev-entry__demo--quiet {
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-entry__demo--quiet p {
+  margin: 0;
+}
+.bcn-ev-entry__act {
+  margin-top: var(--spacing-100);
+}
+.bcn-ev-entry__mocklabel {
+  margin: 0 0 var(--spacing-200);
+  color: var(--color-content-default-tertiary);
+}
+.bcn-ev-entry__mocktitle {
+  align-items: baseline;
+  gap: var(--spacing-200);
+  font-size: var(--font-size-200, 0.9375rem);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
+  line-height: 1.35;
+  display: flex;
+}
+.bcn-ev-entry__mockmeta {
+  color: var(--color-content-default-secondary);
+  margin: 2px 0 0;
+}
+.bcn-ev-entry__mockact {
+  margin-top: var(--spacing-300);
+}
+.bcn-ev-entry__rows {
+  gap: var(--spacing-150);
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.bcn-ev-entry__row {
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+  font-size: var(--font-size-150, 0.875rem);
+  color: var(--color-content-default);
+  display: flex;
+}
+.bcn-ev-entry__check {
+  border-radius: var(--radius-100);
+  background: var(--color-background-brand);
+  width: 16px;
+  height: 16px;
+  color: var(--color-content-default-knockout);
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.bcn-ev-entry__rowname {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+}
+.bcn-ev-notes__lede {
+  margin: var(--spacing-200) 0 0;
+  max-width: 78ch;
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-notes__grid {
+  gap: var(--spacing-400);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: start;
+  display: grid;
+}
+.bcn-ev-notes__text {
+  margin: 0 0 var(--spacing-300);
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-notes__layers {
+  border: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-200);
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  overflow: hidden;
+}
+.bcn-ev-notes__layer {
+  padding: var(--spacing-200) var(--spacing-300);
+  background: var(--color-background-elevation-raised);
+  flex-direction: column;
+  gap: 1px;
+  display: flex;
+}
+.bcn-ev-notes__layername {
+  font-size: var(--font-size-150, 0.875rem);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.bcn-ev-notes__layernote {
+  font-size: var(--font-size-150, 0.875rem);
+  color: var(--color-content-default-secondary);
+}
+.bcn-ev-notes__layer + .bcn-ev-notes__layer {
+  border-top: 1px solid var(--color-border-default-subtle);
+}
+.bcn-ev-notes__layer[data-here] {
+  background: var(--color-background-brand-subtle, var(--color-background-default));
+}
+.bcn-ev-notes__caveat {
+  margin: var(--spacing-300) 0 0;
+  color: var(--color-content-default-tertiary);
+}
+.bcn-ev-notes__list {
+  gap: var(--spacing-250, 0.625rem);
+  flex-direction: column;
+  margin: 0;
+  padding-left: 1.15rem;
+  display: flex;
+}
+.bcn-ev-notes__item {
+  font-size: var(--font-size-150, 0.875rem);
+  color: var(--color-content-default-secondary);
+  line-height: 1.5;
+}
+.bcn-ev-notes__list--numbered {
+  padding-left: 1.35rem;
+}
 ```
 
 ## Tokens
@@ -11131,9 +11134,6 @@ html,
 | `--card-border-color` | `#dcdcdc` | component |
 | `--card-header-bg` | `transparent` | component |
 | `--color-background-accent` | `#f76b15` | semantic |
-| `--color-background-brand` | `#005862` | semantic |
-| `--color-background-brand-hover` | `#00474f` | semantic |
-| `--color-background-brand-subtle` | `#effefb` | semantic |
 | `--color-background-default` | `#fafafa` | semantic |
 | `--color-background-elevation-raised` | `#fcfcfc` | semantic |
 | `--color-background-elevation-sunken` | `#efefef` | semantic |
@@ -11141,12 +11141,10 @@ html,
 | `--color-border-default` | `#dcdcdc` | semantic |
 | `--color-border-default-subtle` | `#efefef` | semantic |
 | `--color-commitment` | `#58508d` | component |
-| `--color-content-brand` | `#2a7e3b` | semantic |
 | `--color-content-default` | `#3d3d3d` | semantic |
 | `--color-content-default-knockout` | `#fcfcfc` | semantic |
 | `--color-content-default-secondary` | `#525252` | semantic |
 | `--color-content-default-tertiary` | `#656565` | semantic |
-| `--color-content-link` | `#005862` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
 | `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
 | `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
@@ -11155,6 +11153,7 @@ html,
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-xs` | `14px` | primitive |

@@ -1,4 +1,4 @@
-# Construction compliance is complex.Beacon makes it clear.
+# Environmental compliance can be a knot.Beacon untangles it.
 
 Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
 names (`var(--…)`) so it stays themeable — the values below are the resolved
@@ -17,23 +17,26 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <div class="bcn-mkt-hero__inner">
     <div data-reveal="" data-reveal-bound="" class="is-visible">
       <h1 class="bcn-mkt-hero__headline">
-        Construction compliance is complex.<br />Beacon makes it clear.
+        Environmental compliance can be a knot.<br />Beacon untangles it.
       </h1>
       <p class="bcn-mkt-hero__sub">
-        Dozens of permits. Hundreds of commitments. Thousands of actions across years, phases,
-        species, and locations. Beacon brings structure to the compliance work that keeps
-        infrastructure projects on track.
+        Nobody should need a day and three spreadsheets to answer what's due next month. Beacon
+        keeps every requirement, the work behind it, and the evidence together — for as long as the
+        project runs.
       </p>
       <div class="bcn-mkt-hero__ctas">
-        <a href="#contact" class="bcn-mkt-hero__btn bcn-mkt-hero__btn--white"> Schedule a Demo </a>
-        <a href="#solution" class="bcn-mkt-hero__btn bcn-mkt-hero__btn--ghost">
-          See How It Works
-        </a>
+        <button
+          type="button"
+          data-bcn-demo-open=""
+          class="bcn-mkt-hero__btn bcn-mkt-hero__btn--white"
+        >
+          Schedule a Demo
+        </button>
       </div>
     </div>
     <div class="bcn-mkt-hero__badge is-visible" data-reveal="" data-reveal-bound="">
-      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-        <svg
+      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -47,10 +50,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <path
             d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
           ></path>
-          <path d="m9 12 2 2 4-4"></path>
-        </svg>
-      </span>
-      Built by ESA — 50+ years of environmental science
+          <path d="m9 12 2 2 4-4"></path></svg></span
+      >Built by ESA — 50+ years of environmental science
     </div>
   </div>
 </section>
@@ -59,103 +60,99 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
 .esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
   height: var(--_icon-size);
-  line-height: 1;
   color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon svg {
-  display: block;
   width: var(--_icon-size);
   height: var(--_icon-size);
+  display: block;
 }
 .esa-icon--xl {
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+  --_icon-size: var(--icon-size-lg, 24px);
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
 }
 .bcn-mkt-hero {
+  background-image:
+    linear-gradient(180deg, #002832d9 0%, #003c46b3 40%, #005862d9 100%), var(--_hero-image);
+  background-position: 50% 30%;
+  background-size: cover;
+  padding: 120px 0 96px;
   position: relative;
   overflow: hidden;
-  padding: 120px 0 96px;
-  background-image:
-    linear-gradient(180deg, #002832d9, #003c46b3 40%, #005862d9), var(--_hero-image);
-  background-size: cover;
-  background-position: center 30%;
 }
 .bcn-mkt-hero__inner {
   max-inline-size: 1600px;
-  margin-inline: auto;
   padding-inline: var(--spacing-500);
   text-align: center;
-  position: relative;
   z-index: 1;
+  margin-inline: auto;
+  position: relative;
 }
 .bcn-mkt-hero__headline {
   margin: 0 0 var(--spacing-500);
-  font-family: var(--font-decorative, var(--font-sans));
-  font-size: var(--type-size-1000);
-  font-weight: var(--font-weight-bold);
-  line-height: 1.15;
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-800);
+  font-weight: var(--typography-font-weight-bold);
   color: #fff;
+  line-height: 1.15;
 }
 .bcn-mkt-hero__sub {
   margin: 0 auto var(--spacing-600);
   max-inline-size: 840px;
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-400);
+  font-weight: var(--typography-font-weight-medium);
   color: #ffffffd9;
-  line-height: var(--line-height-relaxed, 1.75);
   text-wrap: pretty;
+  line-height: normal;
 }
 .bcn-mkt-hero__ctas {
-  display: flex;
   gap: var(--spacing-300);
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+  display: flex;
 }
 .bcn-mkt-hero__btn {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-200);
   padding: var(--spacing-400) var(--spacing-600);
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
+  font-family: inherit;
+  font-size: var(--font-size-300);
+  font-weight: var(--typography-font-weight-semibold);
   border-radius: var(--radius-200);
-  border: 1px solid transparent;
+  cursor: pointer;
+  border: 1px solid #0000;
   text-decoration: none;
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
+    background 0.15s,
+    border-color 0.15s;
+  display: inline-flex;
 }
 .bcn-mkt-hero__btn--white {
+  color: var(--color-background-brand);
   background: #fff;
-  color: var(--color-primary);
   border-color: #fff;
 }
-.bcn-mkt-hero__btn--ghost {
-  background: transparent;
-  color: #fff;
-  border-color: #fff6;
-}
 .bcn-mkt-hero__badge {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-200);
-  margin-block-start: var(--spacing-700);
-  font-size: var(--type-size-150);
+  font-size: var(--font-size-150);
   color: #fff9;
+  margin-block-start: var(--spacing-700);
+  display: inline-flex;
 }
 [data-reveal].is-visible {
   opacity: 1;
@@ -166,20 +163,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--color-primary` | `#005862` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-medium` | `500` | primitive |
-| `--font-weight-semibold` | `550` | primitive |
-| `--icon-size-large` | `24px` | component |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--font-size-800` | `clamp(2rem, 1.73rem + 1.35vw, 2.75rem)` | primitive |
 | `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
-| `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
-| `--icon-size-small` | `16px` | component |
 | `--icon-size-xl` | `28px` | primitive |
-| `--line-height-relaxed` | `1.8` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--spacing-200` | `.5rem` | primitive |
 | `--spacing-300` | `.75rem` | primitive |
@@ -187,10 +179,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--type-size-1000` | `clamp(3rem, 2.6rem + 2vw, 4rem)` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

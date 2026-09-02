@@ -4,14 +4,14 @@ One connected lineage spine leading the rail: the entity chain this requirement 
 
 ## Key decisions
 - A single <ol> renders all four nodes so they share the connecting line + circular icon chips — it must read as ONE spine, ported verbatim from the standard twin (data-catalog-requirement.astro) so the two workflows stay visually parallel.
-- The CURRENT node (this Requirement) gets the secondary-ring accent (border + text in --color-secondary) and a non-link name; ancestry nodes are links in the brand link color.
+- The CURRENT node (this Requirement) gets the secondary-ring accent (border + text in --color-background-brand-muted) and a non-link name; ancestry nodes are links in the brand link color.
 - Each node shows a "kind" caption (Project / Source Document / Commitment / Requirement) above the entity name. The Commitment node names both id and title (MM-BIO-2 — Nesting Birds and Raptors).
 - Lineage LEADS the rail (above Details / Timing / Notifications) — provenance first, config second. It replaced the removed "Track this Requirement" jump-off as the rail's opening module.
 
 ## Gotchas
 - The connecting line is a ::before on each node, hidden on :last-child — keep all nodes in the one <ol> or the line breaks.
 - This is composition glue shared across the catalog detail family (requirement / commitment / source-document), not an esa-* lego — the lego lookup found no ancestry-spine component. If Angular already has an entity-breadcrumb/lineage control, reuse it; otherwise this is a promotion candidate.
-- The current-node ring is --color-secondary here (the requirement family), whereas the source-document page fills the current dot with --color-primary — keep each page's family accent.
+- The current-node ring is --color-background-brand-muted here (the requirement family), whereas the source-document page fills the current dot with --color-background-brand — keep each page's family accent.
 
 ## Done when
 - One unbroken spine Project → Source Document → Commitment → Requirement, the Requirement node carrying the secondary ring and a non-link name; ancestry names link to their catalog targets.
@@ -21,8 +21,8 @@ One connected lineage spine leading the rail: the entity chain this requirement 
 <ol class="bcn-lineage">
   <li class="bcn-lineage__node">
     <span class="bcn-lineage__icon"
-      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-        <svg
+      ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -35,21 +35,18 @@ One connected lineage spine leading the rail: the entity chain this requirement 
         >
           <path
             d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
-          ></path>
-        </svg>
-      </span>
-    </span>
-    <span class="bcn-lineage__body">
-      <span class="bcn-lineage__kind">Project</span>
-      <a class="bcn-lineage__name" href="#data-catalog/projects/3600-alameda"
+          ></path></svg></span></span
+    ><span class="bcn-lineage__body"
+      ><span class="bcn-lineage__kind">Project</span
+      ><a class="bcn-lineage__name" href="#data-catalog/projects/3600-alameda"
         >3600 Alameda Avenue Project</a
-      >
-    </span>
+      ></span
+    >
   </li>
   <li class="bcn-lineage__node">
     <span class="bcn-lineage__icon"
-      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-        <svg
+      ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -64,21 +61,20 @@ One connected lineage spine leading the rail: the entity chain this requirement 
           <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
           <path d="M10 9H8"></path>
           <path d="M16 13H8"></path>
-          <path d="M16 17H8"></path>
-        </svg>
-      </span>
-    </span>
-    <span class="bcn-lineage__body">
-      <span class="bcn-lineage__kind">Source Document</span>
-      <a class="bcn-lineage__name" href="#data-catalog/source-documents/3600-alameda-feir"
+          <path d="M16 17H8"></path></svg></span></span
+    ><span class="bcn-lineage__body"
+      ><span class="bcn-lineage__kind">Source Document</span
+      ><a
+        class="bcn-lineage__name"
+        href="#data-catalog/source-documents/3600-alameda-feir"
         >3600 Alameda Avenue Project FEIR</a
-      >
-    </span>
+      ></span
+    >
   </li>
   <li class="bcn-lineage__node">
     <span class="bcn-lineage__icon"
-      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-        <svg
+      ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -94,23 +90,20 @@ One connected lineage spine leading the rail: the entity chain this requirement 
           <path d="M19 17V5a2 2 0 0 0-2-2H4"></path>
           <path
             d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"
-          ></path>
-        </svg>
-      </span>
-    </span>
-    <span class="bcn-lineage__body">
-      <span class="bcn-lineage__kind">Commitment</span>
-      <a
+          ></path></svg></span></span
+    ><span class="bcn-lineage__body"
+      ><span class="bcn-lineage__kind">Commitment</span
+      ><a
         class="bcn-lineage__name"
         href="/beacon-design/prototypes/data-catalog-commitment"
         >MM-BIO-2 — Nesting Birds and Raptors</a
-      >
-    </span>
+      ></span
+    >
   </li>
   <li class="bcn-lineage__node bcn-lineage__node--current">
     <span class="bcn-lineage__icon"
-      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-        <svg
+      ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -125,17 +118,14 @@ One connected lineage spine leading the rail: the entity chain this requirement 
           <path
             d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
           ></path>
-          <path d="m9 14 2 2 4-4"></path>
-        </svg>
-      </span>
-    </span>
-    <span class="bcn-lineage__body">
-      <span class="bcn-lineage__kind">Requirement</span>
-      <span class="bcn-lineage__name bcn-lineage__name--current"
+          <path d="m9 14 2 2 4-4"></path></svg></span></span
+    ><span class="bcn-lineage__body"
+      ><span class="bcn-lineage__kind">Requirement</span
+      ><span class="bcn-lineage__name bcn-lineage__name--current"
         >Pre-construction survey for nesting raptors and other migratory birds during
         nesting season</span
-      >
-    </span>
+      ></span
+    >
   </li>
 </ol>
 ```
@@ -143,8 +133,8 @@ One connected lineage spine leading the rail: the entity chain this requirement 
 ## Styles
 ```css
 .bcn-search-trigger .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -155,71 +145,86 @@ One connected lineage spine leading the rail: the entity chain this requirement 
   color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
 .bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-ev-targets__title .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
 .topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
 }
 .user-panel__item--danger .esa-icon {
-  color: var(--color-danger);
+  color: var(--color-background-utility-danger);
 }
 .project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-500);
+  flex-shrink: 0;
 }
 .nav-section__header:hover .esa-icon,
 .nav-section--active .nav-section__header,
 .nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+  color: var(--color-background-brand);
 }
 .nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+  flex-shrink: 0;
+  transition: color 0.15s;
 }
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
   flex-shrink: 0;
+  transition:
+    transform 0.15s,
+    opacity 0.2s ease-in-out;
 }
 .nav-section--collapsed .nav-section__header > .esa-icon:last-child {
   transform: rotate(-90deg);
 }
+.side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
 .bcn-lineage {
-  list-style: none;
+  flex-direction: column;
   margin: 0;
   padding: 0;
+  list-style: none;
   display: flex;
-  flex-direction: column;
 }
 .bcn-lineage__node {
-  position: relative;
-  display: flex;
   align-items: flex-start;
   gap: var(--spacing-300);
   padding-bottom: var(--spacing-400);
+  display: flex;
+  position: relative;
 }
 .bcn-lineage__node:before {
   content: "";
+  background: var(--color-border-default);
+  width: 2px;
   position: absolute;
-  left: 13px;
   top: 30px;
   bottom: 2px;
-  width: 2px;
-  background: var(--color-border);
+  left: 13px;
 }
 .bcn-lineage__node:last-child {
   padding-bottom: 0;
@@ -228,154 +233,71 @@ One connected lineage spine leading the rail: the entity chain this requirement 
   display: none;
 }
 .bcn-lineage__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   width: 28px;
   height: 28px;
-  flex-shrink: 0;
+  color: var(--color-content-default-secondary);
   border-radius: 50%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .bcn-lineage__icon .esa-icon {
   --_icon-size: 14px;
 }
 .bcn-lineage__node--current .bcn-lineage__icon {
-  border-color: var(--color-secondary);
-  color: var(--color-secondary);
+  border-color: var(--color-background-brand-muted);
+  color: var(--color-background-brand-muted);
 }
 .bcn-lineage__body {
-  display: flex;
   flex-direction: column;
   gap: 1px;
   min-width: 0;
   padding-top: 2px;
+  display: flex;
 }
 .bcn-lineage__kind {
+  color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
-  color: var(--color-text-tertiary);
 }
 .bcn-lineage__name {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-background-brand);
   line-height: 1.35;
-  color: var(--color-primary);
   text-decoration: none;
 }
 a.bcn-lineage__name:hover {
   text-decoration: underline;
 }
 .bcn-lineage__name--current {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
+  color: var(--color-content-default);
+  font-weight: var(--typography-font-weight-semibold);
 }
 .bcn-trigger-row .esa-icon {
-  color: var(--color-primary);
+  color: var(--color-background-brand);
   flex-shrink: 0;
 }
 .bcn-context__doc .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
 }
 .bcn-note .esa-icon {
-  color: var(--color-primary);
+  color: var(--color-background-brand);
   flex-shrink: 0;
   margin-top: 2px;
 }
 .bcn-ntoggle__title .esa-icon {
-  color: var(--color-text-primary);
+  color: var(--color-content-default);
 }
-.esa-icon-link {
-  --_il-font: var(--icon-link-font-size-md, 1rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--icon-link-gap, var(--spacing-150, 6px));
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: var(--_il-font);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.esa-icon-link--sm {
-  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
-}
-.esa-icon-link--regular {
-  font-weight: var(--font-weight-regular, 400);
-}
-.esa-icon-link--medium {
-  font-weight: var(--font-weight-medium, 500);
-}
-.esa-icon-link--semibold {
-  font-weight: var(--font-weight-semibold, 600);
-}
-.esa-icon-link:hover {
-  text-decoration: underline;
-}
-.esa-icon-link:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
-  border-radius: var(--radius-100, 4px);
-}
-.esa-icon-link.is-active {
-  font-weight: var(--font-weight-semibold, 600);
-}
-.esa-icon-link__label {
-  display: inline-block;
-}
-summary.esa-icon-link {
-  list-style: none;
-}
-summary.esa-icon-link::-webkit-details-marker {
-  display: none;
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-button--lg {
-  --_ib-size: var(--form-height-lg, 48px);
-}
-.esa-icon-button:hover {
-  background: var(--_ib-bg-hover);
-}
-.esa-icon-button:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
 }
 .bcn-reqref__key .esa-icon {
   --_icon-size: 11px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }
 .bcn-reqref__footer .esa-icon {
@@ -385,91 +307,66 @@ summary.esa-icon-link::-webkit-details-marker {
   --_icon-size: 12px;
   opacity: 0.75;
 }
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
-}
 .esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
   height: var(--_icon-size);
-  line-height: 1;
   color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+  --_icon-size: var(--icon-size-lg, 24px);
 }
 .esa-icon--xl {
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
-  display: block;
   width: var(--_icon-size);
   height: var(--_icon-size);
+  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```
 
 ## Tokens
-- `--bcn-gray-1000`: #000000 _(component)_
+- `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
-- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
-- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-danger`: #e5484d _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-secondary`: #00918b _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--focus-ring-offset`: 2px _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--form-height-lg`: 44px _(component)_
-- `--form-height-md`: 36px _(component)_
-- `--form-height-sm`: 28px _(component)_
-- `--form-height-xs`: 24px _(component)_
-- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--icon-link-font-size-md`: 1rem _(component)_
-- `--icon-link-font-size-sm`: .875rem _(component)_
-- `--icon-link-gap`: .375rem _(component)_
-- `--icon-size-large`: 24px _(component)_
+- `--bcn-helpbar-fg`: #ffffffeb _(component)_
+- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
+- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-small`: 16px _(component)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_

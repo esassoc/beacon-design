@@ -1,55 +1,68 @@
 # Token contract — prototypes-homepage
 
-The 61 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 66 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
-| `--color-border` | `#dcdcdc` |
-| `--color-danger` | `#e5484d` |
-| `--color-danger-border` | `#fdbdbe` |
-| `--color-danger-strong` | `#ce2c31` |
-| `--color-danger-subtle` | `#fff7f7` |
-| `--color-primary` | `#005862` |
-| `--color-primary-hover` | `#00474f` |
-| `--color-primary-strong` | `#2a7e3b` |
-| `--color-primary-subtle` | `#effefb` |
-| `--color-success` | `#2e7571` |
-| `--color-success-border` | `#c2da91` |
-| `--color-success-strong` | `#5c7c2f` |
-| `--color-success-subtle` | `#f8faf3` |
-| `--color-surface` | `#fcfcfc` |
-| `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#fcfcfc` |
-| `--color-text-link` | `#005862` |
-| `--color-text-primary` | `#3d3d3d` |
-| `--color-text-secondary` | `#525252` |
-| `--color-text-tertiary` | `#656565` |
+| `--border-width-default` | `1px` |
+| `--color-background-elevation-floating` | `#fcfcfc` |
+| `--color-background-elevation-raised` | `#fcfcfc` |
+| `--color-background-elevation-sunken` | `#efefef` |
+| `--color-background-utility-danger` | `#ce2c31` |
+| `--color-background-utility-danger-subtle` | `#fffcfc` |
+| `--color-background-utility-success` | `#2e7571` |
+| `--color-background-utility-success-subtle` | `#fbfefc` |
+| `--color-border-default` | `#dcdcdc` |
+| `--color-border-default-strong` | `#bdbdbd` |
+| `--color-border-default-subtle` | `#efefef` |
+| `--color-border-utility-danger` | `#fdbdbe` |
+| `--color-border-utility-success` | `#adddc0` |
+| `--color-content-default` | `#3d3d3d` |
+| `--color-content-default-knockout` | `#fcfcfc` |
+| `--color-content-default-secondary` | `#525252` |
+| `--color-content-default-tertiary` | `#656565` |
+| `--color-content-utility-danger` | `#ce2c31` |
+| `--color-content-utility-success` | `#218358` |
+| `--radius-lg` | `.75rem` |
+| `--transition-fast` | `.15s ease` |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-body-md-font-weight` | `350` |
+| `--typography-body-md-letter-spacing` | `.01em` |
+| `--typography-body-md-line-height` | `1.6` |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` |
+| `--typography-font-weight-bold` | `650` |
+| `--typography-font-weight-medium` | `500` |
+| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-semibold` | `550` |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-microcopy-md-font-weight` | `500` |
+| `--typography-microcopy-md-letter-spacing` | `.01em` |
+| `--typography-microcopy-md-line-height` | `1` |
 
 ## Component
 
 | Token | Value |
 |---|---|
+| `--button-radius-md` | `.25rem` |
+| `--dialog-width` | `480px` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--form-height-md` | `36px` |
-| `--form-padding-x-md` | `.75rem` |
-| `--form-radius-md` | `.25rem` |
-| `--icon-size-large` | `24px` |
-| `--icon-size-medium` | `20px` |
-| `--icon-size-small` | `16px` |
 
 ## Primitive
 
 | Token | Value |
 |---|---|
 | `--color-gray-2` | `#f9f9f9` |
-| `--font-sans` | `"DM Sans", sans-serif` |
-| `--font-weight-bold` | `650` |
-| `--font-weight-medium` | `500` |
-| `--font-weight-regular` | `350` |
-| `--font-weight-semibold` | `550` |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
+| `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
+| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` |
+| `--font-size-800` | `clamp(2rem, 1.73rem + 1.35vw, 2.75rem)` |
 | `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
@@ -69,12 +82,16 @@ The 61 design tokens this page actually uses, resolved to their final values for
 | `--spacing-500` | `1.5rem` |
 | `--spacing-600` | `2rem` |
 | `--spacing-700` | `3rem` |
-| `--transition-fast` | `.15s ease` |
-| `--type-size-1000` | `clamp(3rem, 2.6rem + 2vw, 4rem)` |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
-| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
-| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` |
 
+## Component-scoped
+
+Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
+
+- `--align`
+- `--color-background-brand`
+- `--color-background-brand-hover`
+- `--color-background-brand-subtle`
+- `--color-content-brand`
+- `--color-content-link`
+- `--gap`
+- `--justify`

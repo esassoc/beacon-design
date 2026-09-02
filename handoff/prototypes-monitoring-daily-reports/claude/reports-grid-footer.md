@@ -2540,7 +2540,7 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
             </div>
             <!--AG-FAKE-VERTICAL-SCROLL-->
             <div
-              class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+              class="ag-body-vertical-scroll ag-scrollbar-invisible"
               aria-hidden="true"
               style="width: 16px; max-width: 16px; min-width: 16px"
             >
@@ -2685,7 +2685,7 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
           </div>
           <!--AG-FAKE-HORIZONTAL-SCROLL-->
           <div
-            class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-invisible ag-invisible"
+            class="ag-body-horizontal-scroll ag-scrollbar-invisible ag-invisible"
             aria-hidden="true"
             style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
           >
@@ -3850,13 +3850,11 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
 ## Tokens
 - `--ag-internal-hover-color`: rgba(0, 0, 0, 0) _(component)_
 - `--ag-internal-moving-color`: rgba(0, 0, 0, 0) _(component)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_

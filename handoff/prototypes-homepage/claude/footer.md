@@ -19,13 +19,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
 .bcn-mkt-footer {
-  background: #292929;
   color: #989898;
   padding: var(--spacing-600) var(--spacing-500);
-  display: flex;
+  font-size: var(--font-size-150);
+  background: #292929;
   justify-content: space-between;
   align-items: center;
-  font-size: var(--type-size-150);
+  display: flex;
 }
 .bcn-mkt-footer a {
   color: #989898;
@@ -35,9 +35,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

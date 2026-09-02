@@ -1,31 +1,77 @@
 # Token contract — prototypes-fish-studies
 
-The 108 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 127 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
-| `--color-accent` | `#f76b15` |
-| `--color-border` | `#dcdcdc` |
-| `--color-border-light` | `#efefef` |
-| `--color-border-strong` | `#bdbdbd` |
-| `--color-primary` | `#005862` |
-| `--color-primary-border` | `#b9d6d2` |
-| `--color-primary-hover` | `#00474f` |
-| `--color-primary-strong` | `#2a7e3b` |
-| `--color-primary-subtle` | `#effefb` |
-| `--color-secondary` | `#00918b` |
-| `--color-surface` | `#fcfcfc` |
-| `--color-surface-elevated` | `#fcfcfc` |
-| `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#fcfcfc` |
-| `--color-text-link` | `#005862` |
-| `--color-text-muted` | `#7c7c7c` |
-| `--color-text-primary` | `#3d3d3d` |
-| `--color-text-secondary` | `#525252` |
-| `--color-text-tertiary` | `#656565` |
-| `--color-warning` | `#f59e0b` |
+| `--animation-overlay-enter` | `.25s ease-out` |
+| `--border-width-default` | `1px` |
+| `--color-background-accent` | `#f76b15` |
+| `--color-background-brand-muted` | `#eef5f4` |
+| `--color-background-elevation-floating` | `#fcfcfc` |
+| `--color-background-elevation-raised` | `#fcfcfc` |
+| `--color-background-elevation-sunken` | `#efefef` |
+| `--color-background-field` | `#0000` |
+| `--color-background-overlay-backdrop` | `#00000080` |
+| `--color-background-utility-warning` | `#f59e0b` |
+| `--color-border-brand` | `#b9d6d2` |
+| `--color-border-default` | `#dcdcdc` |
+| `--color-border-default-strong` | `#bdbdbd` |
+| `--color-border-default-subtle` | `#efefef` |
+| `--color-content-default` | `#3d3d3d` |
+| `--color-content-default-knockout` | `#fcfcfc` |
+| `--color-content-default-secondary` | `#525252` |
+| `--color-content-default-tertiary` | `#656565` |
+| `--color-content-utility-danger` | `#ce2c31` |
+| `--elevation-4` | `0 6px 24px -6px #00000012` |
+| `--elevation-5` | `0 8px 32px -8px #00000014` |
+| `--radius-lg` | `.75rem` |
+| `--radius-md` | `.25rem` |
+| `--radius-sm` | `.25rem` |
+| `--transition-fast` | `.15s ease` |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--typography-body-sm-font-weight` | `350` |
+| `--typography-body-sm-letter-spacing` | `.01em` |
+| `--typography-body-sm-line-height` | `1.6` |
+| `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` |
+| `--typography-font-weight-bold` | `650` |
+| `--typography-font-weight-medium` | `500` |
+| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-semibold` | `550` |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-label-md-font-weight` | `500` |
+| `--typography-label-md-letter-spacing` | `.01em` |
+| `--typography-label-md-line-height` | `1.6` |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-microcopy-md-font-weight` | `500` |
+| `--typography-microcopy-md-letter-spacing` | `.01em` |
+| `--typography-microcopy-md-line-height` | `1` |
+| `--typography-microcopy-md-strong-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-md-strong-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-microcopy-md-strong-font-weight` | `550` |
+| `--typography-microcopy-md-strong-letter-spacing` | `.01em` |
+| `--typography-microcopy-md-strong-line-height` | `1` |
+| `--typography-microcopy-md-subtle-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-md-subtle-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-microcopy-md-subtle-font-weight` | `350` |
+| `--typography-microcopy-md-subtle-letter-spacing` | `.01em` |
+| `--typography-microcopy-md-subtle-line-height` | `1` |
+| `--typography-microcopy-sm-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--typography-microcopy-sm-font-weight` | `500` |
+| `--typography-microcopy-sm-letter-spacing` | `.01em` |
+| `--typography-microcopy-sm-line-height` | `1` |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-microcopy-xs-font-weight` | `500` |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` |
+| `--typography-microcopy-xs-line-height` | `1` |
 
 ## Component
 
@@ -34,8 +80,9 @@ The 108 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
 | `--bcn-aldo-50` | `#e8f6f5` |
+| `--bcn-content-muted` | `#7c7c7c` |
 | `--bcn-gray-100` | `#efefef` |
-| `--bcn-gray-1000` | `#000000` |
+| `--bcn-gray-1000` | `#000` |
 | `--bcn-gray-200` | `#dcdcdc` |
 | `--bcn-gray-300` | `#bdbdbd` |
 | `--bcn-gray-400` | `#989898` |
@@ -44,59 +91,40 @@ The 108 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-gray-600` | `#656565` |
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
-| `--bcn-helpbar-bg` | `rgba(23, 25, 27, .78)` |
+| `--bcn-helpbar-bg` | `#17191bc7` |
 | `--bcn-helpbar-bg-solid` | `#1f2224` |
-| `--bcn-helpbar-border` | `rgba(255, 255, 255, .12)` |
-| `--bcn-helpbar-divider` | `rgba(255, 255, 255, .16)` |
-| `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` |
-| `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` |
-| `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` |
+| `--bcn-helpbar-border` | `#ffffff1f` |
+| `--bcn-helpbar-divider` | `#ffffff29` |
+| `--bcn-helpbar-fg` | `#ffffffeb` |
 | `--bcn-status-not-started` | `#bdbdbd` |
+| `--button-radius-md` | `.25rem` |
+| `--button-radius-sm` | `.25rem` |
 | `--color-commitment` | `#58508d` |
-| `--dialog-bg` | `#fcfcfc` |
-| `--dialog-border-color` | `#efefef` |
-| `--dialog-radius` | `.75rem` |
 | `--dialog-width` | `480px` |
-| `--filter-clear-color` | `#7c7c7c` |
-| `--filter-clear-color-hover` | `#ce2c31` |
+| `--filter-container-padding` | `0` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-bg` | `#fcfcfc` |
 | `--form-border-color` | `#dcdcdc` |
 | `--form-border-width` | `1px` |
-| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--form-height-md` | `36px` |
-| `--form-height-sm` | `28px` |
+| `--form-error-color` | `#ce2c31` |
+| `--form-help-color` | `#525252` |
 | `--form-label-color` | `#525252` |
-| `--form-padding-x-md` | `.75rem` |
-| `--form-padding-x-sm` | `.625rem` |
-| `--form-padding-y-md` | `.5rem` |
-| `--form-placeholder-color` | `#7c7c7c` |
-| `--form-radius-md` | `.25rem` |
-| `--form-radius-sm` | `.25rem` |
+| `--form-placeholder-color` | `#525252` |
 | `--form-text-color` | `#3d3d3d` |
-| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
-| `--icon-link-font-size-md` | `1rem` |
-| `--icon-link-font-size-sm` | `.875rem` |
-| `--icon-link-gap` | `.375rem` |
-| `--icon-size-medium` | `20px` |
-| `--icon-size-small` | `16px` |
-| `--popover-bg` | `#fcfcfc` |
-| `--popover-border-color` | `#dcdcdc` |
-| `--popover-color` | `#3d3d3d` |
-| `--popover-radius` | `.5rem` |
+| `--side-dialog-inset` | `16px` |
 | `--side-dialog-width` | `400px` |
 
 ## Primitive
 
 | Token | Value |
 |---|---|
-| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` |
-| `--font-sans` | `"DM Sans", sans-serif` |
-| `--font-weight-bold` | `650` |
-| `--font-weight-medium` | `500` |
-| `--font-weight-regular` | `350` |
-| `--font-weight-semibold` | `550` |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--font-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
+| `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
+| `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
@@ -105,7 +133,6 @@ The 108 design tokens this page actually uses, resolved to their final values fo
 | `--radius-300` | `.5rem` |
 | `--radius-400` | `.75rem` |
 | `--radius-full` | `9999px` |
-| `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` |
 | `--spacing-050` | `.125rem` |
 | `--spacing-100` | `.25rem` |
 | `--spacing-150` | `.375rem` |
@@ -116,14 +143,6 @@ The 108 design tokens this page actually uses, resolved to their final values fo
 | `--spacing-500` | `1.5rem` |
 | `--spacing-600` | `2rem` |
 | `--spacing-700` | `3rem` |
-| `--transition-fast` | `.15s ease` |
-| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
-| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 
 ## Component-scoped
 
@@ -731,5 +750,13 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--ag-wrapper-background-color`
 - `--ag-wrapper-border`
 - `--ag-wrapper-border-radius`
-- `--dialog-footer-bg`
-- `--dialog-header-bg`
+- `--bcn-bottom-drawer-height`
+- `--bcn-bottom-drawer-inset`
+- `--bcn-bottom-drawer-width`
+- `--bcn-bottom-drawer-z`
+- `--color-background-brand`
+- `--color-background-brand-hover`
+- `--color-background-brand-subtle`
+- `--color-content-brand`
+- `--color-content-link`
+- `--page-title-icon-color`

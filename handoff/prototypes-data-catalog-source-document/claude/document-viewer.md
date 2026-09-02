@@ -24,18 +24,16 @@ The source PDF shown in the family side-dialog (esa-side-dialog, lg / 66vw), ope
     --_width: 66vw;
     --z-modal: 1300;
     --z-modal-backdrop: 1250;
-    --backdrop-filter: blur(4px);
+    --side-dialog-backdrop-filter: blur(4px);
   "
   position="right"
->
-  <div class="bcn-source-pdf">
+  ><div class="bcn-source-pdf">
     <iframe
       class="bcn-source-pdf__frame"
       src="/beacon-design/source-docs/feir-sample.pdf#view=FitH&amp;navpanes=0&amp;pagemode=none"
       title="Source document — 3600 Alameda Avenue Project FEIR (sample)"
-    ></iframe>
-  </div>
-</esa-side-dialog>
+    ></iframe></div
+></esa-side-dialog>
 ```
 
 ## Styles
@@ -45,15 +43,15 @@ The source PDF shown in the family side-dialog (esa-side-dialog, lg / 66vw), ope
   min-height: 60vh;
 }
 .bcn-source-pdf__frame {
+  border-radius: var(--radius-200);
+  background: var(--color-background-elevation-sunken);
+  border: 0;
   width: 100%;
   height: 100%;
   min-height: 60vh;
-  border: 0;
-  border-radius: var(--radius-200);
-  background: var(--color-surface-sunken);
 }
 ```
 
 ## Tokens
-- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--radius-200`: .5rem _(primitive)_
