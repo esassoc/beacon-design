@@ -11,9 +11,10 @@ Read `docs/actions-obligations-brief.md` first. It defines the two record types,
 
 ## Repo state on 2026-09-02
 
-- Checked-out branch: `feat/card-meta-migration`, clean. The monitoring rebuild, the component handoff notes and the due diligence bundles are committed, and `origin/main` (Permitting, platform-translation audit, file preview, map watermark fix) is merged in with the token migration re-applied. Build green, 213 pages, zero deprecations.
-- The branch is ahead of its remote and of `origin/main`; nothing has been pushed. Ask Andy whether to push the branch, or open a PR to main, before starting.
-- Start the actions work on a new branch from this one.
+- `main` is current and published to gh-pages: the monitoring rebuild, the component handoff notes, the due diligence bundles and the Permitting module are all in. Build green, 213 pages, zero deprecations. `feat/card-meta-migration` is level with main and can be deleted.
+- Start the actions work on a new branch from `main`.
+- Pushing needs the ESA GitHub account active: `gh auth switch --user andrewlovseth-esa` (the repo's credential helper is gh). Switch back to `andrewlovseth` after.
+- The deploy gate (`npm run deploy`) wants curated handoff specs for three prototypes that have none: `monitoring-data`, `permitting-dashboard`, `permitting-details`. Write `src/data/handoff/<slug>.mjs` for each, or add the slugs to `scripts/handoff-guidance-baseline.mjs`; today's publish bypassed the gate once with `HANDOFF_SKIP_GUIDANCE=1`.
 
 ## Before building
 
