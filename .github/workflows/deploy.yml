@@ -64,9 +64,12 @@ jobs:
         working-directory: ecology
         run: npm run build:tokens
 
+      # `|| npm install`, as the hub step above: the spoke's lockfile resolves the
+      # file: link through whichever hub branch the contributor had checked out, so
+      # a strict `npm ci` against hub main can reject it for hub-side deps alone.
       - name: Install spoke dependencies
         working-directory: beacon-design
-        run: npm ci
+        run: npm ci || npm install
 
       - name: Install Chromium
         working-directory: ecology
