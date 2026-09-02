@@ -1,0 +1,91 @@
+---
+// Monitoring Portal → Data → [stream] — the GENERIC stream index page.
+//
+// One page for every data stream in the Data catalog (src/data/monitoring-streams.ts),
+// shaped like the prod index pages (Source Documents): title + the full AG Grid
+// list, nothing else. A tenant landing a new Fulcrum form through Databricks gets
+// this view with zero new UI. Streams whose records carry coordinates
+// (geospatial: true) adopt prod's View As pattern (Hybrid | Map | Grid — the map
+// BESIDE the grid, never stacked; Andy 2026-08-24). Pins join the observation's
+// work area to the site-clearance KMZ sites; a subset stream (observations WHERE
+// type = X) maps only its own rows.
+import AppShell from '../../../../layouts/AppShell.astro';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import BcnStreamRecords from '../../../../components/bcn/BcnStreamRecords.astro';
+import BcnObservationMap from '../../../../components/bcn/BcnObservationMap.astro';
+import { STREAMS, STREAM_ICON_PATHS, type MonitoringStream } from '../../../../data/monitoring-streams';
+import { FINDS, PROJECT_NAME, findStateMeta } from '../../../../data/monitoring';
+import { workAreas } from '../../../../data/geotech-fixture-simple';
+import { withBase } from '../../../../lib/base';
+
+export function getStaticPaths() {
+  return STREAMS.map((s) => ({ params: { id: s.id }, props: { stream: s } }));
+}
+
+interface Props {
+  stream: MonitoringStream;
+}
+const { stream } = Astro.props;
+
+// Observation pins: Find.workArea → the KMZ site's coordinates, offset a hair
+// per find (deterministic, by index) so co-located pins at one bore site fan out
+// instead of stacking. Finds with no recorded work area have no location — absent
+// from the map, present in the grid.
+const siteById = new Map(workAreas.map((w) => [w.id, w]));
+// A subset stream (subsetOf) maps only its own rows.
+const streamFinds = stream.subsetOf
+  ? FINDS.filter((f) => String(f[stream.subsetOf!.field as keyof typeof f] ?? '') === stream.subsetOf!.value)
+  : FINDS;
+const pins = stream.geospatial
+  ? streamFinds.flatMap((f, i) => {
+      const site = siteById.get(f.workArea);
+      if (!site) return [];
+      const meta = findStateMeta(f);
+      return [
+        {
+          id: f.id,
+          lat: site.lat + ((i % 5) - 2) * 0.0011,
+          lng: site.lng + ((Math.floor(i / 5) % 5) - 2) * 0.0013,
+          label: `${f.kind === 'concern' ? (f.title ?? f.species) : f.species} · ${meta.label}`,
+          hex: meta.hex,
+        },
+      ];
+    })
+  : [];
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - records index (View As hybrid/map/grid) -> bcn-stream-records
+    - map (geospatial streams, slotted)       -> bcn-observation-map
+-->
+
+<AppShell
+  title={`${stream.name} — Monitoring Data — ${PROJECT_NAME}`}
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="mp-data"
+  expandedSections={['monitoring']}
+>
+  <PageLayout
+    title={stream.name}
+    icon={stream.icon}
+    iconPaths={STREAM_ICON_PATHS[stream.icon]}
+    breadcrumbs={[
+      { label: 'Delta Conveyance', href: '#project' },
+      { label: 'Data', href: withBase('/prototypes/monitoring/data') },
+      { label: stream.name },
+    ]}
+  >
+    {stream.geospatial && pins.length > 0 ? (
+      <BcnStreamRecords stream={stream} withMap>
+        <div slot="map" style="position: absolute; inset: 0;">
+          <BcnObservationMap observations={pins} mapId={`stream-${stream.id}`} height="100%" interactive={true} />
+        </div>
+      </BcnStreamRecords>
+    ) : (
+      <BcnStreamRecords stream={stream} />
+    )}
+  </PageLayout>
+</AppShell>

@@ -1,0 +1,285 @@
+---
+// <BcnPreviewStage> — a neutral well that hosts a runtime clone of real DOM at its
+// true layout width, scaled to fit. The "see it before you commit" surface
+// (specimens/spec.md §10.2, §10.3): the Monitoring Portal's widget-config dialog
+// puts the actual widget in here at the actual grid width, so the size/color/shows
+// decision is made by LOOKING rather than by reading a control's label and
+// imagining the outcome.
+//
+// It takes NO props and knows nothing about widgets. It is a viewport plus scale
+// math, driven entirely by events, so any config surface whose result is visual can
+// use it: a report tile board, a project dashboard, a map layer panel.
+//
+// WHAT THE CONSUMER OWNS, NOT THIS COMPONENT
+//   The stage does NOT clone, and it does NOT make anything inert. The consumer
+//   does both BEFORE handing the node over — `src.cloneNode(true)`, `inert`, every
+//   focusable descendant dropped to `tabindex="-1"`, the tools group hidden. The
+//   stage receives a finished node and only positions and scales it.
+//   The consumer also owns the frame arithmetic (below) and any live mutation of
+//   the guest — setting `--_accent`, swapping a reflow class — because those are
+//   facts about the host grid and the host widget, not about a well.
+//
+// EVENT CONTRACT — all three dispatched ON THE ROOT, `[data-preview-stage]`
+//   'bcn-stage-show'    detail { node, frameWidth, minHeight, badge? }
+//       Clears the host, appends `node`, lays it out at `frameWidth` with
+//       `minHeight` as a floor, measures, scales, sizes the wrapper. Sets the
+//       badge when one is given.
+//   'bcn-stage-badge'   detail { badge }
+//       Updates the corner badge alone. The dialog calls this live while the size
+//       picker PROPOSES a footprint under the pointer, before anything commits.
+//   'bcn-stage-rescale' detail { frameWidth, minHeight? }
+//       Re-lays-out the node already mounted at a new frame width and re-scales.
+//       The width tabs use this so switching tabs does not re-clone. `minHeight`
+//       is an optional extra for the size picker, which moves both axes at once;
+//       omitting it keeps the height floor from the last show.
+//
+// THE SCALE FORMULA, AND WHY IT IS THE ONLY ARITHMETIC THAT LIVES HERE
+//
+//     scale = min(1, availableInnerWidth / frameWidth)
+//
+//   `availableInnerWidth` is the scroller's content-box width READ at call time,
+//   never a constant. The consumer's `frameWidth` comes from the host shell's own
+//   arithmetic — for the Monitoring dashboard, col = (1112 - 16 * 2) / 3 = 360,
+//   frameW(w) = 360 * w + 16 * (w - 1), giving 360 / 736 / 1112 — and 1112 is the
+//   dashboard's content width at a 1440 viewport (1440 minus a 264px sidenav minus
+//   32px of page padding each side). The preview is only honest because it uses
+//   the page's own numbers, so that constant belongs to the page and moves with the
+//   shell. A generic well that baked it in would lie the day the shell changed.
+//
+//   Two rules inside the formula, both from §10.3:
+//   • `minHeight` is a FLOOR, never a height. Same rule as the grid: the row unit
+//     is a minimum. The stage sets the floor, measures what the content actually
+//     took, and scales from the measurement.
+//   • Scale fits WIDTH ONLY. Height overflows into the well's scroll. Width is the
+//     axis the tabs choose, so it must always be fully visible; height is the axis
+//     the grid lets grow anyway. Fitting both axes made the dialog change height
+//     between tabs, which is what this replaced.
+//
+// bcn-lego-checked: no esa-* lego hosts or scales live cloned DOM — the closest are
+// esa-card and esa-empty-state, which are static content containers with no
+// measurement or transform behavior, and esa-dialog, which is the shell this sits
+// inside rather than the well itself. Checked Beacon prod (Beacon.Web/src/app/
+// shared/ui/components + src/scss): nothing previews a component at scale; the
+// dashboard there is fixed. bcn-preview-stage is the reusable home — spec §10.9
+// names it bespoke for exactly this reason.
+---
+
+<div class="bcn-preview-stage" data-preview-stage>
+  <span class="bcn-preview-stage__badge" data-stage-badge></span>
+
+  <div class="bcn-preview-stage__scroll" data-stage-scroll>
+    <div class="bcn-preview-stage__well" data-stage-well>
+      <div class="bcn-preview-stage__host" data-stage-host></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* A FIXED viewport. Its height does not react to the guest, which is what keeps
+     the dialog from resizing as the width tabs change what is inside. */
+  .bcn-preview-stage {
+    position: relative;
+    height: 520px;
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+  }
+
+  /* scrollbar-gutter keeps the content box a constant width whether or not the
+     guest overflows — without it, a scrollbar appearing changes availableInnerWidth,
+     which changes the scale, which can change whether it overflows. */
+  .bcn-preview-stage__scroll {
+    height: 100%;
+    overflow-y: auto;
+    padding: var(--spacing-500);
+    scrollbar-gutter: stable;
+  }
+
+  /* The soft bottom edge, only when the guest is taller than the well — it says
+     "there is more below", so it must not appear when there is not. */
+  .bcn-preview-stage[data-overflow='1']::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+    height: 40px;
+    background: linear-gradient(
+      to top,
+      var(--color-background-elevation-sunken),
+      color-mix(in srgb, var(--color-background-elevation-sunken) 0%, transparent)
+    );
+    pointer-events: none;
+    border-radius: 0 0 var(--radius-200) var(--radius-200);
+  }
+
+  /* The wrapper carries the SCALED box (a transform does not affect layout), so the
+     scroll length and the centering are computed against what is actually visible.
+     Width/height/margin-top are set by the script. */
+  .bcn-preview-stage__well {
+    position: relative;
+    margin: 0 auto;
+  }
+
+  /* The host carries the UNSCALED frame and the transform. Absolute so its own
+     unscaled height never contributes to the scroll length. */
+  .bcn-preview-stage__host {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+    display: flex;
+  }
+
+  /* The guest is injected by script, so scoped CSS cannot reach it — :global() is
+     required here (it stays anchored to this component's own host element).
+     The lift is what separates a card from the sunken well; a guest that already
+     carries its own resting shadow can null it with
+     `--bcn-stage-guest-shadow: none` on the stage. */
+  .bcn-preview-stage__host > :global(*) {
+    flex: 1;
+    min-width: 0;
+    box-shadow: var(--bcn-stage-guest-shadow, var(--elevation-2));
+  }
+
+  /* The one fact the picture cannot carry: you can see the width, but not the
+     declared row count. Hidden until the consumer sets it. */
+  .bcn-preview-stage__badge {
+    position: absolute;
+    top: var(--spacing-300);
+    right: var(--spacing-300);
+    z-index: 2;
+    padding: 1px var(--spacing-200);
+    font-size: var(--typography-label-sm-font-size);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default-secondary);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+  }
+  .bcn-preview-stage__badge:empty {
+    display: none;
+  }
+</style>
+
+<script>
+  // One hoisted module arms every [data-preview-stage] on the page.
+  type StageDetail = {
+    node?: HTMLElement;
+    frameWidth?: number;
+    minHeight?: number;
+    badge?: string;
+  };
+
+  type StageState = {
+    frameWidth: number;
+    minHeight: number;
+    scroll: HTMLElement;
+    well: HTMLElement;
+    host: HTMLElement;
+    badge: HTMLElement | null;
+    pending: number;
+  };
+
+  const stages = new WeakMap<HTMLElement, StageState>();
+
+  /** The scroller's content box — padding excluded, read fresh every time. */
+  function contentBox(el: HTMLElement) {
+    const cs = getComputedStyle(el);
+    return {
+      width: el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight),
+      height: el.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom),
+    };
+  }
+
+  function fit(root: HTMLElement) {
+    const s = stages.get(root);
+    if (!s || !s.host.firstElementChild || s.frameWidth <= 0) return;
+
+    const avail = contentBox(s.scroll);
+    // A stage inside a closed dialog measures zero. Keep the state and do nothing —
+    // the ResizeObserver fits it the moment the dialog gives it a size.
+    if (avail.width <= 0) return;
+
+    // Measure UNSCALED, with the declared footprint as a floor: min-height only,
+    // then let the content say how tall it really is.
+    s.host.style.transform = 'none';
+    s.host.style.width = `${s.frameWidth}px`;
+    s.host.style.height = 'auto';
+    s.host.style.minHeight = `${s.minHeight}px`;
+    const rendered = s.host.getBoundingClientRect().height;
+
+    // Width only. Height is free to overflow into the scroll.
+    const scale = Math.min(1, avail.width / s.frameWidth);
+    s.host.style.transform = `scale(${scale.toFixed(4)})`;
+
+    const scaledH = rendered * scale;
+    s.well.style.width = `${Math.round(s.frameWidth * scale)}px`;
+    s.well.style.height = `${Math.round(scaledH)}px`;
+    s.well.style.marginTop = `${Math.max(0, (avail.height - scaledH) / 2)}px`;
+    root.dataset.overflow = scaledH > avail.height ? '1' : '0';
+  }
+
+  /** Coalesce bursts (a dialog opening fires several resizes) into one fit. */
+  function scheduleFit(root: HTMLElement) {
+    const s = stages.get(root);
+    if (!s) return;
+    cancelAnimationFrame(s.pending);
+    s.pending = requestAnimationFrame(() => fit(root));
+  }
+
+  function setBadge(s: StageState, text: string) {
+    if (s.badge) s.badge.textContent = text;
+  }
+
+  function arm(root: HTMLElement) {
+    if (root.dataset.stageArmed === '1') return;
+    const scroll = root.querySelector<HTMLElement>('[data-stage-scroll]');
+    const well = root.querySelector<HTMLElement>('[data-stage-well]');
+    const host = root.querySelector<HTMLElement>('[data-stage-host]');
+    if (!scroll || !well || !host) return;
+    root.dataset.stageArmed = '1';
+
+    const s: StageState = {
+      frameWidth: 0,
+      minHeight: 0,
+      scroll,
+      well,
+      host,
+      badge: root.querySelector<HTMLElement>('[data-stage-badge]'),
+      pending: 0,
+    };
+    stages.set(root, s);
+
+    root.addEventListener('bcn-stage-show', (e) => {
+      const d = (e as CustomEvent<StageDetail>).detail ?? {};
+      if (!d.node || !d.frameWidth || d.frameWidth <= 0) return;
+      s.frameWidth = d.frameWidth;
+      s.minHeight = d.minHeight ?? 0;
+      host.replaceChildren(d.node);
+      if (typeof d.badge === 'string') setBadge(s, d.badge);
+      fit(root);
+    });
+
+    root.addEventListener('bcn-stage-badge', (e) => {
+      const d = (e as CustomEvent<StageDetail>).detail ?? {};
+      if (typeof d.badge === 'string') setBadge(s, d.badge);
+    });
+
+    root.addEventListener('bcn-stage-rescale', (e) => {
+      const d = (e as CustomEvent<StageDetail>).detail ?? {};
+      if (!d.frameWidth || d.frameWidth <= 0) return;
+      s.frameWidth = d.frameWidth;
+      if (typeof d.minHeight === 'number') s.minHeight = d.minHeight;
+      fit(root);
+    });
+
+    // The shell owns the well's width, so re-read it rather than assuming it held:
+    // this covers the dialog opening, the viewport changing, and a guest whose own
+    // content reflowed taller after mount.
+    new ResizeObserver(() => scheduleFit(root)).observe(scroll);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-preview-stage]').forEach(arm);
+</script>

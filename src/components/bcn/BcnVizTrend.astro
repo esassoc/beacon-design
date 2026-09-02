@@ -1,0 +1,160 @@
+---
+// <BcnVizTrend> — the daily-columns micro-viz for Monitoring Portal dashboard widgets:
+// miles per day, runtime minutes per day, concerns per day. One column per day, bottom-
+// aligned, each scaled against the window's own maximum, with the first and last dates
+// labelled under the ends of the strip.
+//
+// The idiom that makes it worth having as a component: a ZERO day renders a 2px quiet stub
+// rather than nothing. Collapsing an empty day to zero width would silently shorten the
+// window, so a day with no activity would read as a day that was never measured. The stub
+// keeps the day present and says "nothing happened here", which is a different fact.
+//
+// It is reinforcement, never the only carrier: the per-day numbers are deliberately NOT in
+// the DOM. The strip is a single role="img" whose label names the derivation, and the widget
+// beside it carries the summary stat as text. That is the accessibility contract the whole
+// dashboard micro-viz set follows — no offscreen data table per sparkline.
+//
+// Renders NOTHING with an empty `points` array. An axis with no strip over it is chrome
+// describing absent data, and the widget's own empty state is the right place for that.
+//
+// bcn-lego-checked: esa-chart is the only charting lego and it is the wrong instrument here
+// — an AG Charts wrapper (canvas, ~2.8MB dynamic peer dep) whose documented contract requires
+// a paired esa-grid inside an esa-collapsible beside every chart as the text alternative. For
+// a fourteen-column sparkline inside a 1x2 widget that blows the footprint apart and pays a
+// megabyte for fourteen divs; esa-chart is reserved for the stream index pages, where a real
+// analytical chart with interaction IS the content. esa-progress-bar is a single-value meter,
+// not a per-day series. Checked Beacon: the prod dashboard's trend columns are page-level SCSS
+// inside its widget templates, with no extractable ui-* component. bcn-viz-trend is the
+// reusable home, alongside its siblings bcn-viz-donut / bcn-viz-bars.
+
+interface DayPoint {
+  /** ISO date. Only the calendar day is read; any time part is ignored. */
+  date: string;
+  /** The day's measurement. Zero (or missing activity) renders the quiet stub. */
+  value: number;
+}
+
+interface Props {
+  /** One entry per day, in chronological order. Empty renders nothing. */
+  points: DayPoint[];
+  /** Strip height: 'md' (72px, the default) or 'sm' (44px, for a stat panel's understudy). */
+  height?: 'sm' | 'md';
+  /** Any CSS color for the fill. Absent inherits the host widget's `--_accent`. */
+  color?: string;
+  /** Names the derivation for screen readers, e.g. "Miles per day, Jun 4 to Jun 17". */
+  label: string;
+}
+
+const { points, height = 'md', color, label } = Astro.props;
+
+// The window scales to ITSELF — the tallest day in this strip is 100%. A shared scale across
+// widgets would be meaningless, since miles, minutes and counts share no unit.
+const max = Math.max(0, ...points.map((p) => p.value));
+
+const columns = points.map((p) => {
+  const zero = !(p.value > 0);
+  return {
+    zero,
+    // One decimal is past what a ~40px-wide column can resolve, but it keeps the tallest
+    // column landing on exactly 100% instead of a rounded 99%.
+    pct: zero || max <= 0 ? 0 : Math.round((p.value / max) * 1000) / 10,
+  };
+});
+
+const dateFormat = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: 'numeric',
+  // UTC on BOTH sides: the date is pinned to UTC midnight below, so formatting in the
+  // viewer's zone would render the previous day everywhere west of Greenwich.
+  timeZone: 'UTC',
+});
+
+function dayLabel(iso: string): string {
+  const parsed = new Date(`${iso.slice(0, 10)}T00:00:00Z`);
+  return Number.isNaN(parsed.getTime()) ? iso : dateFormat.format(parsed);
+}
+
+const first = points.length > 0 ? dayLabel(points[0].date) : '';
+const last = points.length > 1 ? dayLabel(points[points.length - 1].date) : '';
+---
+
+{
+  points.length > 0 && (
+    <div
+      class:list={['bcn-viztrend', height === 'sm' && 'bcn-viztrend--sm']}
+      style={color ? `--_accent:${color}` : undefined}
+    >
+      <div class="bcn-viztrend__strip" role="img" aria-label={label}>
+        {columns.map((col) => (
+          <span
+            class:list={['bcn-viztrend__col', col.zero && 'bcn-viztrend__col--zero']}
+            style={col.zero ? undefined : `height:${col.pct}%`}
+          />
+        ))}
+      </div>
+      <div class="bcn-viztrend__axis">
+        <span>{first}</span>
+        {last && <span>{last}</span>}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .bcn-viztrend {
+    /* 72px. Tall enough that a 20% day and a 30% day are distinguishable, short enough to sit
+       under a big stat inside a 3-row widget without pushing the footer out. */
+    --_trend-height: 72px;
+  }
+  /* The understudy: a trend riding along under a stat in a shared panel, where the number is
+     the content and the shape is a footnote to it. */
+  .bcn-viztrend--sm {
+    --_trend-height: 44px;
+  }
+
+  .bcn-viztrend__strip {
+    display: flex;
+    /* Columns grow UP from a common baseline — the whole reading of the strip. */
+    align-items: flex-end;
+    /* A hairline separator, deliberately below the spacing scale's 4px floor: at 4px a
+       14-column strip spends a third of its width on gaps and reads as a row of chips
+       rather than one shape. */
+    gap: 2px;
+    height: var(--_trend-height);
+  }
+
+  .bcn-viztrend__col {
+    flex: 1;
+    /* Keeps a 30-day window from collapsing its columns to slivers in a 1-wide widget. */
+    min-width: 2px;
+    /* A non-zero day must never render SHORTER than the absent-day stub, or the idiom
+       inverts and a real measurement reads as no data. Below ~4% of the max the percentage
+       height would do exactly that. */
+    min-height: 3px;
+    /* Inherits the host widget's accent (each dashboard widget sets --_accent on its
+       section); the `color` prop re-points it locally. The fallback is the quiet content
+       gray, so the strip is legible even with no accent anywhere in the cascade. */
+    background: var(--_accent, var(--color-content-default-secondary));
+    /* 1px, under --radius-xs (2px) on purpose: at 2px a narrow column becomes a lozenge. */
+    border-radius: 1px;
+  }
+
+  /* An empty day, present and readable as empty. Semantic border token, not the raw gray
+     ramp — same value, and it moves with the theme. */
+  .bcn-viztrend__col--zero {
+    height: 2px;
+    min-height: 0;
+    background: var(--color-border-default);
+  }
+
+  .bcn-viztrend__axis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-100);
+    /* 13px floor — the house minimum for the smallest text — scaling to 14px at full width.
+       The scale's own --font-size-100 bottoms out at 10px, which is under the floor. */
+    font-size: max(0.8125rem, var(--font-size-150));
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

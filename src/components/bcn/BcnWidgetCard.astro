@@ -1,0 +1,171 @@
+---
+// <BcnWidgetCard> — the pick card for ONE registered widget in the Monitoring
+// dashboard's "Add widget" dialog gallery (spec §11.4). Every widget always
+// renders; the ones already on the board render disabled with an `On dashboard`
+// badge, because "always show all" makes the gallery a stable map of what exists
+// rather than a shrinking list.
+//
+// Shares BcnStreamCard's visual language deliberately and shares NO code with it
+// (spec §11.4: right at n=2, a common tile base would be over-abstraction —
+// revisit if a third appears). That card is a link to a stream index; this one is
+// a <button> with a disabled state and a state badge.
+//
+// CUT, deliberately: the stream's record-count badge BcnStreamCard carries (it
+// counts the STREAM, not the widget — Commitment Compliance's stream holds 10
+// while the widget shows a 6-row subset, so the number would mislead) and the
+// w × h footprint chip (the size picker is one click away after placing).
+//
+// Owns NO click logic and NO storage. The page delegates clicks on
+// [data-widget-card] and flips data-on + disabled in place — every state below is
+// attribute-driven so a pick needs no re-render.
+//
+// bcn-lego-checked: esa-card is the shell (body-only — its `icon` prop can't take
+// a custom glyph, so the glyph renders in the body like BcnStreamCard and the
+// prod Data Catalog card), esa-icon the glyph, esa-badge the state label,
+// .repel/.stack the two rows. esa-card exposes no button/whole-card-press
+// affordance, so the <button> wrapper is the only bespoke part; both state
+// re-points move the card's OWN public knobs (--card-bg, --card-border-color),
+// never its internals. Checked Beacon: the prod Data Catalog card is a link, and
+// prod has no pick-a-widget gallery at all.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+
+interface Props {
+  /** WidgetDef.id — the page's handle, mirrored to data-widget-id on the root. */
+  id: string;
+  title: string;
+  /** Stream name. Rendered ONLY when it differs from `title` (compared here). */
+  streamName?: string;
+  iconName: string;
+  /** Inner SVG for a glyph outside esa-icon's registry (STREAM_ICON_PATHS). */
+  iconPaths?: string;
+  /** SSR initial placed-state. The page re-syncs it at runtime via data-on + disabled. */
+  on?: boolean;
+}
+const { id, title, streamName, iconName, iconPaths, on = false } = Astro.props;
+
+// Six of the ten widgets title-match their stream exactly, and a card that prints
+// one string twice is filler. The comparison lives here so a caller can pass the
+// stream name unconditionally; absence renders as absence.
+const showStream = !!streamName && streamName !== title;
+---
+
+<button
+  type="button"
+  class="bcn-widget-card"
+  data-widget-card
+  data-widget-id={id}
+  data-on={on ? '' : undefined}
+  disabled={on}
+>
+  <EsaCard>
+    <span class="bcn-widget-card__body stack" data-gap="md">
+      <span class="repel">
+        <EsaIcon name={iconName} paths={iconPaths} size="md" />
+        <span class="bcn-widget-card__state">
+          <EsaBadge value="On dashboard" size="sm" />
+        </span>
+      </span>
+      <span class="stack" data-gap="xs">
+        <span class="bcn-widget-card__title typography-label-md-strong">{title}</span>
+        {showStream && <span class="bcn-widget-card__stream">{streamName}</span>}
+      </span>
+    </span>
+  </EsaCard>
+</button>
+
+<style>
+  /* The wrapper is a pressable surface and nothing else — the card inside supplies
+     every visible edge, so the button resets its own UA chrome down to nothing. Its
+     radius exists only so the hover shadow follows the card's corners instead of
+     boxing them. height:100% carries the grid's stretch through to the card, which
+     is what keeps a row even when one card has a stream line and its neighbour
+     doesn't. */
+  .bcn-widget-card {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .bcn-widget-card > :global(.esa-card) {
+    block-size: 100%;
+  }
+
+  /* Guarded on [data-on] rather than :disabled — CSS :hover still matches a disabled
+     button, so without this the placed cards would answer the pointer. */
+  .bcn-widget-card:not([data-on]):hover {
+    --card-border-color: var(--color-border-default-strong);
+    box-shadow: var(--elevation-2);
+  }
+
+  .bcn-widget-card:focus-visible {
+    outline: 2px solid var(--color-background-brand);
+    outline-offset: 2px;
+  }
+
+  /* Placed — a STATE, not a wash. An opacity fade would take the title under
+     contrast for the exact cards whose names you still need to read, so the signal
+     is carried by the fill dropping to sunken and by the badge, while the title and
+     stream line stay at full contrast. The border is held at its resting value on
+     purpose: sinking the fill AND fading the edge reads as broken rather than
+     placed. */
+  .bcn-widget-card[data-on] {
+    --card-bg: var(--color-background-elevation-sunken);
+    --card-border-color: var(--color-border-default);
+    cursor: default;
+  }
+
+  /* Only the glyph inherits this — the title and stream line set their own colour
+     below, so the disabled re-point moves the glyph to tertiary and nothing else. */
+  .bcn-widget-card__body {
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-widget-card[data-on] .bcn-widget-card__body {
+    color: var(--color-content-default-tertiary);
+  }
+
+  /* --color-content-default, NOT --color-content-default-primary: that name is
+     undefined in @esa/tokens (the family is default / -secondary / -tertiary /
+     -muted / -knockout), so it silently resolves to nothing and the title falls
+     through to the body's secondary. BcnStreamCard still carries that dangling
+     reference — its stream name is a shade light as a result. */
+  .bcn-widget-card__title {
+    color: var(--color-content-default);
+  }
+
+  .bcn-widget-card__stream {
+    color: var(--color-content-default-secondary);
+    font-size: var(--font-size-100);
+  }
+
+  /* The badge is always in the DOM so the page can flip the card in place with no
+     re-render. Hidden through this wrapper, not the `hidden` attribute — esa-badge
+     declares display:inline-flex on itself, and an author declaration beats the UA
+     sheet's [hidden] every time. */
+  .bcn-widget-card__state {
+    display: none;
+  }
+
+  .bcn-widget-card[data-on] .bcn-widget-card__state {
+    display: inline-flex;
+  }
+
+  /* The tinted variant, never the solid brand fill: this is a label reporting a
+     state, not a control, and a saturated green chip on the one card you CAN'T
+     click reads as approval. Same rule that keeps the glyph off the mark colour —
+     the accent lives in the viz and only in the viz. */
+  .bcn-widget-card__state :global(.esa-badge) {
+    font-weight: var(--typography-font-weight-medium);
+  }
+</style>

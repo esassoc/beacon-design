@@ -1,0 +1,161 @@
+---
+// <BcnVizDonut> — the donut micro-viz for Monitoring Portal dashboard widgets.
+// A ring of proportional segments beside a legend that carries the same labels
+// and counts as text. It is a widget BODY part: no card chrome, no heading, no
+// background — the shell (BcnDashboardWidget) owns all three.
+//
+// Accessibility contract: the SVG is aria-hidden, because every number it
+// encodes is already in the DOM as legend text. That is a better result than a
+// chart library's offscreen data grid, at a fraction of the weight.
+//
+// Category color, not status color: segments take --bcn-mark-* hues from the
+// caller (or inherit the widget's --_accent). Never a --bcn-status-* token —
+// reusing a severity color for a category is the drift the status standard
+// exists to stop.
+//
+// bcn-lego-checked: esa-chart is the only esa-* lego that draws data, and it is
+// deliberately wrong here — an AG Charts canvas wrapper, ~2.8MB dynamic peer
+// dependency, whose documented contract requires a paired esa-grid inside an
+// esa-collapsible beside every chart as the text alternative. Inside a dashboard
+// widget that blows the footprint apart for a two-slice donut; reserve esa-chart
+// for a stream index page where a full analytical chart IS the content.
+// esa-progress-bar is a single linear bar, esa-badge/esa-pill are fixed-variant
+// chips. Checked Beacon prod (its dashboard donuts are bespoke SVG too).
+// bcn-viz-donut is the reusable home.
+
+export interface DonutSegment {
+  label: string;
+  value: number;
+  /** CSS color for the slice. Absent → the widget accent, var(--_accent). */
+  color?: string;
+}
+
+interface Props {
+  segments: DonutSegment[];
+  /** px box the svg renders into. The viewBox is fixed at 120; this scales it. */
+  size?: number;
+}
+
+const { segments, size = 96 } = Astro.props;
+
+// Ring geometry — r=42 inside a 120 box at stroke-width 18 leaves a 9px margin
+// on each side, so the stroke never clips.
+const RADIUS = 42;
+const CIRCUMFERENCE = 263.894;
+
+const total = segments.reduce((sum, s) => sum + s.value, 0);
+
+// Each segment is one full-circle <circle> masked to its arc: `dasharray` opens a
+// gap of exactly its share, and a negative `dashoffset` rotates that gap to sit
+// after everything drawn before it.
+// Each color is wrapped in a per-index override hook: `--_series-n` (set by the
+// widget config's series color choice, spec §10.6) wins over the stored category
+// color. Arc and legend dot read the SAME expression so they can never drift.
+let drawn = 0;
+const arcs = segments.map((segment, i) => {
+  const share = total > 0 ? (segment.value / total) * CIRCUMFERENCE : 0;
+  const arc = {
+    dash: `${share.toFixed(2)} ${(CIRCUMFERENCE - share).toFixed(2)}`,
+    offset: (-drawn).toFixed(2),
+    color: `var(--_series-${i + 1}, ${segment.color ?? 'var(--_accent, var(--color-content-default-secondary))'})`,
+  };
+  drawn += share;
+  return arc;
+});
+---
+
+<div class="bcn-viz-donut cluster" data-gap="md">
+  <svg
+    class="bcn-viz-donut__ring"
+    width={size}
+    height={size}
+    viewBox="0 0 120 120"
+    aria-hidden="true"
+  >
+    <circle
+      cx="60"
+      cy="60"
+      r={RADIUS}
+      fill="none"
+      stroke="var(--color-background-elevation-sunken)"
+      stroke-width="18"
+    />
+    {/* rotate(-90) starts the first segment at 12 o'clock rather than 3 */}
+    <g transform="rotate(-90 60 60)">
+      {arcs.map((arc) => (
+        <circle
+          cx="60"
+          cy="60"
+          r={RADIUS}
+          fill="none"
+          style={`stroke: ${arc.color};`}
+          stroke-width="18"
+          stroke-dasharray={arc.dash}
+          stroke-dashoffset={arc.offset}
+        />
+      ))}
+    </g>
+  </svg>
+
+  <ul class="bcn-viz-donut__legend stack" data-gap="xs">
+    {segments.map((segment, i) => (
+      <li class="bcn-viz-donut__row cluster">
+        <span
+          class="bcn-viz-donut__dot"
+          style={`--_c: ${arcs[i].color};`}
+        ></span>
+        <span class="bcn-viz-donut__label typography-body-md">{segment.label}</span>
+        <span class="bcn-viz-donut__value typography-label-md-strong">{segment.value}</span>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .bcn-viz-donut {
+    min-inline-size: 0;
+  }
+
+  .bcn-viz-donut__ring {
+    flex: none;
+  }
+
+  .bcn-viz-donut__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-inline-size: 0;
+    flex: 1 1 auto;
+  }
+
+  .bcn-viz-donut__row {
+    --gap: var(--spacing-250);
+    /* cluster wraps by default; a legend row must truncate its label instead,
+       so the count stays on the same line as the label it belongs to. */
+    flex-wrap: nowrap;
+  }
+
+  .bcn-viz-donut__dot {
+    inline-size: 10px;
+    block-size: 10px;
+    border-radius: var(--radius-full);
+    background: var(--_c);
+    flex: none;
+  }
+
+  /* Dense floor: 14px, darkened rather than grayed — the legend IS the data. */
+  .bcn-viz-donut__label {
+    color: var(--color-content-default);
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bcn-viz-donut__value {
+    margin-inline-start: auto;
+    color: var(--color-content-default);
+    font-variant-numeric: tabular-nums;
+    flex: none;
+  }
+</style>

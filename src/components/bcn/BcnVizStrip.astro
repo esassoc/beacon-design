@@ -1,0 +1,107 @@
+---
+// <BcnVizStrip> — the day-coverage strip (spec §4, the `.strip` primitive). One cell
+// per day across a short window, filled where the day has a record and outlined where
+// it does not, with the weekday initial beneath. Built for the Monitoring Portal's
+// Daily Monitoring Reports widget ("which of the last 7 days has a report"), but the
+// shape is generic: any stream with a per-day expectation can render its coverage.
+//
+// The graphic is reinforcement, never the only carrier — the widget beside it already
+// states the count in text. So the strip takes a single role="img" + aria-label naming
+// the derivation (spec §4, "Accessibility of the micro-viz"); the weekday initials are
+// presentational, and role="img" already replaces the subtree for assistive tech.
+//
+// bcn-lego-checked: no esa- lego renders per-day coverage cells — esa-progress-bar is a
+// single continuous bar and esa-chart is the AG Charts wrapper the spec rules out for
+// micro-viz (§8: ~2.8MB peer dep + a paired esa-grid alternative, absurd for 7 cells).
+// Checked Beacon prod (dashboard widget interiors carry counts, donuts and bars — no
+// coverage strip). bcn-viz-strip is the reusable home.
+
+export interface StripDay {
+  /** ISO date, `YYYY-MM-DD`. */
+  date: string;
+  /** True when a record exists for this day. */
+  filled: boolean;
+}
+
+interface Props {
+  days: StripDay[];
+  /** Names the derivation, e.g. "Reports filed by day, Jun 11 to Jun 17". */
+  label: string;
+}
+
+const { days, label } = Astro.props;
+
+const WEEKDAY = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: 'UTC' });
+
+// Sun/Tue/Thu/Sat keep a second letter so they stay distinct from Mon/Wed/Fri; the
+// en-US `narrow` weekday collapses all seven to S M T W T F S, which is unreadable.
+const INITIAL: Record<string, string> = {
+  Sun: 'Su', Mon: 'M', Tue: 'Tu', Wed: 'W', Thu: 'Th', Fri: 'F', Sat: 'Sa',
+};
+
+// Parsed as UTC on purpose: `new Date('2026-06-11')` is UTC midnight, so reading it
+// back with getDay() in a negative-offset zone reports the previous weekday.
+function utcDate(iso: string): Date | null {
+  const parts = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+  if (!parts) return null;
+  const d = new Date(Date.UTC(Number(parts[1]), Number(parts[2]) - 1, Number(parts[3])));
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+const cells = days.map((day) => {
+  const parsed = utcDate(day.date);
+  const short = parsed ? WEEKDAY.format(parsed) : '';
+  return { filled: day.filled, initial: INITIAL[short] ?? short };
+});
+---
+
+{cells.length > 0 && (
+  <div class="bcn-viz-strip" role="img" aria-label={label}>
+    {cells.map((cell) => (
+      <span class="bcn-viz-strip__day">
+        <span class:list={['bcn-viz-strip__cell', !cell.filled && 'bcn-viz-strip__cell--off']} />
+        <span class="bcn-viz-strip__initial">{cell.initial}</span>
+      </span>
+    ))}
+  </div>
+)}
+
+<style>
+  .bcn-viz-strip { display: flex; gap: var(--spacing-100); }
+
+  .bcn-viz-strip__day {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+
+  /* --bcn-viz-strip-cell-height is the one dimension the component owns outright (no
+     spacing token means "day-cell bar"); hosts re-point it the way esa-stat re-points
+     --stat-value-size. --_accent is the widget-level category color set on .w; the
+     fallback keeps a bare strip legible outside a widget. */
+  .bcn-viz-strip__cell {
+    box-sizing: border-box;
+    width: 100%;
+    height: var(--bcn-viz-strip-cell-height, 26px);
+    border-radius: var(--radius-xs);
+    background: var(--_accent, var(--color-content-default-secondary));
+  }
+
+  /* Sunken + hairline, not bare: an empty day must read as ABSENT (a day that exists
+     and has nothing) rather than missing. --color-background-elevation-sunken is the
+     semantic alias for the gray-100 the specimen names directly. */
+  .bcn-viz-strip__cell--off {
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
+  }
+
+  /* Floored at 13px: --font-size-100 clamps down to 10px, which fails the readability
+     minimum for a label carrying real meaning. */
+  .bcn-viz-strip__initial {
+    font-size: max(0.8125rem, var(--font-size-100));
+    line-height: 1;
+    color: var(--color-content-default-tertiary);
+  }
+</style>

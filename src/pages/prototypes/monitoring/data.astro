@@ -1,0 +1,49 @@
+---
+// Monitoring Portal → Data — the monitoring data catalog.
+//
+// The portal's scaling answer (2026-08 restructure): tenants land n data streams
+// from field-collection forms (Fulcrum / Survey123 / CASP) through Databricks —
+// observations, DMRs, surveys, mileage, runtimes, WEAP trainings, and whatever
+// a tenant brings next. A nav item per stream doesn't scale; a catalog does.
+// Card shape copies the prod Data Catalog (icon + name + count) — each opens the
+// generic stream index. The add-on registry is gone (Andy 2026-08-24): typed
+// observation subsets are streams in this catalog, and view configuration is
+// headed for global Settings.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnStreamCard from '../../../components/bcn/BcnStreamCard.astro';
+import { STREAMS, STREAM_ICON_PATHS } from '../../../data/monitoring-streams';
+import { PROJECT_NAME } from '../../../data/monitoring';
+import { withBase } from '../../../lib/base';
+---
+
+<!-- manifest:
+  layout: grid
+  sections:
+    - data streams -> bcn-stream-card
+-->
+
+<AppShell
+  title={`Monitoring Data — ${PROJECT_NAME}`}
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="mp-data"
+  expandedSections={['monitoring']}
+>
+  <PageLayout
+    title="Monitoring Data"
+    icon="database"
+    iconPaths={STREAM_ICON_PATHS['database']}
+    breadcrumbs={[
+      { label: 'Delta Conveyance', href: '#project' },
+      { label: 'Monitoring Portal', href: withBase('/prototypes/monitoring/dashboard') },
+      { label: 'Data' },
+    ]}
+  >
+    <div class="grid" data-gap="lg" style="--grid-min: 260px;">
+      {STREAMS.map((s) => (
+        <BcnStreamCard stream={s} href={withBase(`/prototypes/monitoring/stream/${s.id}`)} />
+      ))}
+    </div>
+  </PageLayout>
+</AppShell>

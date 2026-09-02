@@ -1,0 +1,297 @@
+---
+// <BcnDashboardWidget> — the shell every widget on the composable Monitoring Portal
+// dashboard is poured into: a card owning a FOOTPRINT on the page's 3-column grid.
+//
+// v2 (2026-08-24, remy's spec — specimens/spec.md §3): footprint is width 1|2|3 ×
+// height 2|3|4|5 row units; the page's grid-auto-rows floor (minmax(unit, auto))
+// lets a band grow to its tallest widget. Collapse is GONE — resize supersedes it.
+// The header carries the stream glyph in the stream's stored mark color, the title,
+// and the hover-revealed ⋯ menu (prod's affordance): Configure, width presets,
+// Remove widget, Customize dashboard. Every widget links through to its stream via
+// the card footer; the slack a stretched band creates lands between body and footer.
+//
+// The tools DISPATCH, the page DECIDES: BcnWidgetMenu's picks bubble up as
+// `bcn-widget-menu` / `bcn-size-change` events; the grip is the pointer path into
+// drag mode ([data-widget-grip], armed by the page). The dashboard page persists
+// everything to DASHBOARD_CONFIG_KEY and re-applies the layout. This shell owns no
+// storage. v3 (spec §10): the ⋯ is BcnWidgetMenu (esa-popover hosting controls),
+// the glyph is NEUTRAL (M1), and the shell carries the drag-mode chrome states
+// (§10.7) — the page only moves data-mode on the grid.
+//
+// bcn-lego-checked: the shell IS esa-card (header slot, footer slot), the glyph is
+// esa-icon, the menu is bcn-widget-menu (esa-popover — esa-dropdown-menu's items
+// contract cannot host the size picker). Checked Beacon: prod has no composable
+// widget dashboard to port. The CSS here is grid footprint + chrome states on the
+// card's PUBLIC knob (--card-border-color) only.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnWidgetMenu from './BcnWidgetMenu.astro';
+
+interface Props {
+  /** WidgetDef.id — the page's handle on this tile (data-widget-id). */
+  id: string;
+  title: string;
+  /** Columns of the 3-column grid. */
+  width: 1 | 2 | 3;
+  /** Row units (the page's grid-auto-rows floor). */
+  height: 2 | 3 | 4 | 5;
+  /** The stream's stored mark color — becomes --_accent for every viz inside. */
+  accent: string;
+  /** Lucide inner-SVG for the stream glyph (STREAM_ICON_PATHS). */
+  iconName: string;
+  iconPaths?: string;
+  /** The link-through: most widgets open their stream. OMIT BOTH to render no
+      footer at all — a widget that IS the whole feature (Commitment Compliance,
+      Andy round 5) has nowhere to link through to. */
+  footHref?: string;
+  footLabel?: string;
+}
+const { id, title, width, height, accent, iconName, iconPaths, footHref, footLabel } = Astro.props;
+const hasFoot = Boolean(footHref && footLabel);
+---
+
+{/* NO head-control slot (Andy round 5, rule for ALL widgets): tools/ui that
+    operate a widget live in its BODY — the header carries identity (glyph,
+    title) and the widget chrome (grip, ⋯) only.
+
+    The card is rendered in TWO branches because of the conditional-slot quirk:
+    `{cond && <a slot="footer">}` registers the slot even when falsy, so
+    esa-card's slots.has() gate would paint empty footer chrome. Branching the
+    whole card is the one shape that genuinely omits the slot. */}
+<section
+  class="bcn-dwidget"
+  data-widget-id={id}
+  data-w={width}
+  data-h={height}
+  style={`--_accent: ${accent};`}
+>
+  {hasFoot ? (
+    <EsaCard>
+      <div slot="header" class="repel bcn-dwidget__head" data-gap="sm">
+        <span class="cluster" data-gap="sm">
+          <span class="bcn-dwidget__glyph" aria-hidden="true">
+            <EsaIcon name={iconName} paths={iconPaths} size="sm" />
+          </span>
+          <h3 class="bcn-dwidget__title typography-title-sm-strong">{title}</h3>
+        </span>
+        <span class="bcn-dwidget__tools cluster" data-gap="xs">
+          <button type="button" class="bcn-dwidget__grip" data-widget-grip aria-label={`Move ${title}`}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+          </button>
+          <BcnWidgetMenu widgetTitle={title} />
+        </span>
+      </div>
+
+      <div class="bcn-dwidget__body stack" data-gap="md"><slot /></div>
+
+      <a slot="footer" class="bcn-dwidget__foot" href={footHref}>{footLabel} →</a>
+    </EsaCard>
+  ) : (
+    <EsaCard>
+      <div slot="header" class="repel bcn-dwidget__head" data-gap="sm">
+        <span class="cluster" data-gap="sm">
+          <span class="bcn-dwidget__glyph" aria-hidden="true">
+            <EsaIcon name={iconName} paths={iconPaths} size="sm" />
+          </span>
+          <h3 class="bcn-dwidget__title typography-title-sm-strong">{title}</h3>
+        </span>
+        <span class="bcn-dwidget__tools cluster" data-gap="xs">
+          <button type="button" class="bcn-dwidget__grip" data-widget-grip aria-label={`Move ${title}`}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+          </button>
+          <BcnWidgetMenu widgetTitle={title} />
+        </span>
+      </div>
+
+      <div class="bcn-dwidget__body stack" data-gap="md"><slot /></div>
+    </EsaCard>
+  )}
+</section>
+
+<style>
+  /* ── Grid footprint. The page owns the 3-column grid and the row-unit floor; the
+        widget owns its span, so a widget moves between dashboards without the page
+        knowing its size. ── */
+  .bcn-dwidget {
+    min-width: 0; /* grid children default to min-content — wide bodies would blow the column out */
+    display: flex; /* the card stretches to the band the grid gives it */
+    /* The widget is the QUERY CONTAINER for everything inside it (Andy round 4,
+       X1): panel bodies reflow against the width this footprint actually got,
+       not the viewport — so a squeezed widget stacks, and the config dialog's
+       clone (rendered at the real frame width) reflows honestly. Side effect:
+       inline-size containment makes every widget a stacking context, which is
+       why the open-menu rule below lifts the whole widget with z-index. */
+    container-type: inline-size;
+  }
+  .bcn-dwidget[hidden] {
+    display: none;
+  }
+  .bcn-dwidget[data-w='1'] { grid-column: span 1; }
+  .bcn-dwidget[data-w='2'] { grid-column: span 2; }
+  .bcn-dwidget[data-w='3'] { grid-column: span 3; }
+  .bcn-dwidget[data-h='2'] { grid-row: span 2; }
+  .bcn-dwidget[data-h='3'] { grid-row: span 3; }
+  .bcn-dwidget[data-h='4'] { grid-row: span 4; }
+  .bcn-dwidget[data-h='5'] { grid-row: span 5; }
+
+  /* Reflow with the page grid: at 2 columns a full-width widget spans both; at 1
+     column everything spans one. (Same breakpoints as the page's --_col steps.) */
+  @media (max-width: 1180px) {
+    .bcn-dwidget[data-w='3'] { grid-column: span 2; }
+  }
+  @media (max-width: 820px) {
+    .bcn-dwidget[data-w] { grid-column: span 1; }
+  }
+
+  /* ── The card fills the footprint; slack lands between body and footer. ── */
+  .bcn-dwidget :global(.esa-card) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    /* Header wears the footer's chrome (Andy round 4, X4): the sunken band via
+       the card's PUBLIC header-bg knob, and the shared hairline stepped to the
+       strong border token. --_card-header-border is a PRIVATE hook re-point (no
+       public knob exists — hub-ask candidate); it drives BOTH the header's
+       border-bottom and the footer's border-top, which is exactly the "same
+       treatment" X4 asks for. */
+    --card-header-bg: var(--color-background-elevation-sunken);
+    --_card-header-border: var(--color-border-default-strong);
+  }
+  .bcn-dwidget :global(.esa-card__body) {
+    flex: 1;
+  }
+
+  /* ── Hover chrome: border steps on the card's public knob, a quiet lift, and the
+        ⋯ button fades in. Focus keeps it visible for keyboard users. ── */
+  .bcn-dwidget :global(.esa-card) {
+    transition: box-shadow 120ms ease;
+  }
+  .bcn-dwidget:hover {
+    --card-border-color: var(--color-border-default-strong);
+  }
+  .bcn-dwidget:hover :global(.esa-card) {
+    box-shadow: var(--elevation-2);
+  }
+  .bcn-dwidget__tools {
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+  .bcn-dwidget:hover .bcn-dwidget__tools,
+  .bcn-dwidget:focus-within .bcn-dwidget__tools {
+    opacity: 1;
+  }
+
+  .bcn-dwidget__head {
+    inline-size: 100%;
+    min-block-size: 28px;
+    /* The WHOLE header is the drag target (Andy round 3, M8) — the page runs a
+       pointer drag from any header press; the grip stays as the visual
+       affordance and the keyboard path into move mode. touch-action so a touch
+       drag moves the widget, not the page. */
+    cursor: grab;
+    touch-action: none;
+  }
+
+  /* The menu panel must escape the card (esa-card clips at its rounded border —
+     `overflow: hidden` on the lego root) and must paint over LATER sibling
+     cards. Both only while a popover inside this widget is open, so the card's
+     corner clipping is intact the rest of the time. (Andy round 3, M4.) */
+  .bcn-dwidget:has(esa-popover[open]) {
+    z-index: 30;
+  }
+  .bcn-dwidget:has(esa-popover[open]) :global(.esa-card) {
+    overflow: visible;
+  }
+  /* Neutral on purpose (Andy 2026-08-24): a colored glyph competes with the viz.
+     --_accent still rides the section for the viz inside. */
+  .bcn-dwidget__glyph {
+    display: inline-flex;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-dwidget__title {
+    margin: 0;
+  }
+
+  /* The grip — the pointer path into drag mode (spec §10.7). Quiet beside the ⋯. */
+  .bcn-dwidget__grip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 28px;
+    block-size: 28px;
+    border: none;
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-content-default-secondary);
+    cursor: grab;
+  }
+  .bcn-dwidget__grip:hover {
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-primary);
+  }
+
+  /* ── Drag-mode chrome states (spec §10.7) — the page moves data-mode on the
+        grid; the shell owns how a card looks in each state. Cards flatten, bodies
+        and feet drop to 40% while HEADS stay full so widgets stay identifiable;
+        the origin footprint becomes a dashed hole. ── */
+  :global([data-mode='drag']) .bcn-dwidget :global(.esa-card) {
+    --card-border-color: var(--color-border-default);
+    box-shadow: none;
+  }
+  :global([data-mode='drag']) .bcn-dwidget .bcn-dwidget__tools {
+    opacity: 0;
+    pointer-events: none;
+  }
+  :global([data-mode='drag']) .bcn-dwidget .bcn-dwidget__body,
+  :global([data-mode='drag']) .bcn-dwidget .bcn-dwidget__foot {
+    opacity: 0.4;
+  }
+  :global([data-mode='drag']) .bcn-dwidget.is-drag-origin :global(.esa-card) {
+    border: 1.5px dashed var(--color-border-default-strong);
+    background: var(--color-background-elevation-sunken);
+  }
+  :global([data-mode='drag']) .bcn-dwidget.is-drag-origin .bcn-dwidget__head,
+  :global([data-mode='drag']) .bcn-dwidget.is-drag-origin .bcn-dwidget__body,
+  :global([data-mode='drag']) .bcn-dwidget.is-drag-origin .bcn-dwidget__foot {
+    opacity: 0.25;
+  }
+
+  /* ── The LIFTED widget (Andy round 5, pointer drag): the card in the user's
+        hand. The page pins the root fixed at its origin rect and steers it with
+        an inline translate3d; this class owns everything else — above the board,
+        inert to hit-testing (elementFromPoint must see the canvas under it), and
+        the card scales up under the transient-surface shadow so "held above the
+        canvas" reads. Full opacity on purpose: the drag-mode dims are for the
+        widgets still ON the board, never the one in hand. ── */
+  :global([data-mode='drag']) .bcn-dwidget.is-drag-lifted {
+    position: fixed;
+    z-index: 60;
+    margin: 0;
+    pointer-events: none;
+  }
+  :global([data-mode='drag']) .bcn-dwidget.is-drag-lifted :global(.esa-card) {
+    transform: scale(1.02);
+    box-shadow: var(--elevation-4);
+    --card-border-color: var(--color-border-default-strong);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  :global([data-mode='drag']) .bcn-dwidget.is-drag-lifted .bcn-dwidget__head,
+  :global([data-mode='drag']) .bcn-dwidget.is-drag-lifted .bcn-dwidget__body,
+  :global([data-mode='drag']) .bcn-dwidget.is-drag-lifted .bcn-dwidget__foot {
+    opacity: 1;
+  }
+
+  /* The link-through, named in the domain's words, pinned by the card footer.
+     content-link, not content-brand: Beacon's theme resolves the link role to
+     $primary teal-900 — the darker brand green Andy wants here (round 3, M2). */
+  .bcn-dwidget__foot {
+    color: var(--color-content-link);
+    text-decoration: none;
+    font-size: var(--font-size-150);
+    font-weight: 600;
+  }
+  .bcn-dwidget__foot:hover {
+    text-decoration: underline;
+  }
+</style>

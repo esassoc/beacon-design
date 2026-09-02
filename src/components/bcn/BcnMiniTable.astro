@@ -1,0 +1,103 @@
+---
+// <BcnMiniTable> — the labeled mini table inside Monitoring Portal dashboard
+// widgets (Outstanding Issues, latest daily reports, latest WEAP confirmations).
+//
+// A real <table> with a <thead>, REQUIRED by the adjacency rule (spec.md §6):
+// any run of two or more unlabeled facts is banned, so multi-fact rows carry
+// column headers rather than reading as stacked spans. Do not "simplify" this
+// back into divs.
+//
+// bcn-lego-checked: no esa-* mini-table lego exists (esa-grid is AG Grid, the
+// full analytical grid — disproportionate inside a widget; checked the catalog
+// ls). Beacon prod renders these as bespoke panel tables too. Status cells use
+// the caller's {label, hex} pairs via a quiet dot, matching BcnStatusChip's
+// vocabulary at mini-table density. bcn-mini-table is the reusable home.
+export interface MiniCell {
+  text: string;
+  href?: string;
+  /** With href: the link downloads a file under this name instead of navigating. */
+  download?: string;
+  /** Right-align + tabular figures (dates, counts, ages). */
+  num?: boolean;
+  /** Quiet status dot before the text (e.g. Draft/Final). */
+  status?: { label: string; hex: string };
+}
+
+interface Props {
+  columns: { label: string; align?: 'end' }[];
+  rows: MiniCell[][];
+}
+const { columns, rows } = Astro.props;
+---
+
+<table class="bcn-mt">
+  <thead>
+    <tr>
+      {columns.map((c) => (
+        <th class:list={[{ 'bcn-mt--end': c.align === 'end' }]} scope="col">{c.label}</th>
+      ))}
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map((cells) => (
+      <tr>
+        {cells.map((cell, i) => (
+          <td class:list={[{ 'bcn-mt--end': columns[i]?.align === 'end', 'bcn-mt--num': cell.num }]}>
+            {cell.status && <span class="bcn-mt__dot" style={`background: ${cell.status.hex};`} aria-hidden="true" />}
+            {cell.href ? <a href={cell.href} download={cell.download}>{cell.text}</a> : cell.text}
+          </td>
+        ))}
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+<style>
+  /* 14px dense floor, darkened not grayed; hairline row dividers only. */
+  .bcn-mt {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-150);
+  }
+  .bcn-mt th {
+    text-align: start;
+    font-weight: 600;
+    color: var(--color-content-default-secondary);
+    padding-block: var(--spacing-100);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+  .bcn-mt td {
+    padding-block: var(--spacing-150);
+    border-block-end: 1px solid var(--color-border-default);
+    color: var(--color-content-default-primary);
+  }
+  .bcn-mt tbody tr:last-child td {
+    border-block-end: none;
+  }
+  /* th needs the element in the selector: `.bcn-mt th { text-align: start }` is
+     (0,1,1) and outranks a bare class, leaving headers left over right-aligned
+     cells. */
+  .bcn-mt th.bcn-mt--end,
+  .bcn-mt td.bcn-mt--end {
+    text-align: end;
+  }
+  .bcn-mt--num {
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-mt td a {
+    color: var(--color-content-brand);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .bcn-mt td a:hover {
+    text-decoration: underline;
+  }
+  .bcn-mt__dot {
+    display: inline-block;
+    inline-size: 7px;
+    block-size: 7px;
+    border-radius: var(--radius-full);
+    margin-inline-end: var(--spacing-100);
+    vertical-align: 1px;
+  }
+</style>

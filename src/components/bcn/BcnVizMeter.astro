@@ -1,0 +1,137 @@
+---
+// <BcnVizMeter> — the stacked status meter from the Monitoring Portal dashboard
+// (spec §4, the `.meter` primitive). One 14px bar whose segments divide the whole
+// by share, ALWAYS paired with a legend carrying the same labels and counts as text.
+//
+// The bar is aria-hidden and the legend is the accessible content. That is the §4
+// rule for every micro-viz on the dashboard: the graphic is reinforcement, the
+// numbers it encodes are already in the DOM beside it, so a role="img" summary
+// would only re-announce what the legend already says.
+//
+// `color` is REQUIRED and caller-supplied because meter segments are STATUS colors
+// (Surveys: Final success / In QC warning / Draft gray) — the status system, not the
+// widget's category accent, so the component must not reach for --_accent. Every
+// other value in here is a token.
+//
+// bcn-lego-checked: esa-progress-bar is the only bar lego and it is single-fill —
+// one clamped 0–100 `value`, one variant color, one role="progressbar" with
+// aria-valuenow; N of them stacked would emit N progressbars and N tracks, which is
+// not a part-to-whole meter. esa-chart is ruled out by spec §8 (a ~2.8MB AG Charts
+// peer dep plus its paired esa-grid text alternative, for a 3-segment bar). Checked
+// Beacon prod (origin/develop shared/ui/components) — no meter, segmented bar, or
+// progress component exists there at all. bcn-viz-meter is the reusable home.
+
+interface Segment {
+  /** Names the count beside it — the legend row is a labeled pair, never a bare fact. */
+  label: string;
+  value: number;
+  /** Status color, passed by the caller. A token reference or a hex. */
+  color: string;
+}
+
+interface Props {
+  segments: Segment[];
+}
+
+const { segments } = Astro.props;
+
+// Zero total renders an empty track and a legend of zeros rather than dividing by it.
+const total = segments.reduce((sum, s) => sum + s.value, 0);
+const shareOf = (value: number) =>
+  total > 0 ? Math.round((value / total) * 10000) / 100 : 0;
+---
+
+<div class="bcn-viz-meter">
+  <div class="bcn-viz-meter__bar" aria-hidden="true">
+    {segments.map((segment) => (
+      <span style={`width:${shareOf(segment.value)}%;background:${segment.color}`}></span>
+    ))}
+  </div>
+  <div class="bcn-viz-meter__legend">
+    {segments.map((segment) => (
+      <div class="bcn-viz-meter__row">
+        <span class="bcn-viz-meter__dot" style={`background:${segment.color}`}></span>
+        {segment.label}
+        <span class="bcn-viz-meter__n">{segment.value.toLocaleString('en-US')}</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  /* The host widget body spaces its children at --spacing-300 (spec §3). Bar and
+     legend are two children there in the specimen and one child here, so the root
+     carries that gap itself and composed spacing is unchanged. */
+  .bcn-viz-meter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-width: 0;
+  }
+
+  /* 14px is the dense floor: below it the thinnest segment stops reading as an area
+     and starts reading as a rule. The track shows through wherever rounding leaves a
+     sub-pixel remainder, which is why it is a real surface and not transparent. */
+  .bcn-viz-meter__bar {
+    display: flex;
+    height: 14px;
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    background: var(--color-background-elevation-sunken);
+  }
+
+  .bcn-viz-meter__bar span {
+    display: block;
+    height: 100%;
+  }
+
+  .bcn-viz-meter__legend {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+
+  .bcn-viz-meter__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    font-size: var(--font-size-200);
+    color: var(--color-content-default);
+  }
+
+  .bcn-viz-meter__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    flex: none;
+  }
+
+  /* margin-left:auto right-aligns the counts into a column of their own, and
+     tabular-nums keeps that column from shifting as digit widths change. */
+  .bcn-viz-meter__n {
+    margin-left: auto;
+    font-weight: var(--typography-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* FORCED COLORS. Segments differ only by background, so all of them flatten to
+     Canvas and the bar reads as one undivided block. The legend still carries every
+     label and count as text, so nothing is lost — the segments just take an edge so
+     the proportions remain visible as proportions. */
+  @media (forced-colors: active) {
+    .bcn-viz-meter__bar {
+      border: 1px solid CanvasText;
+      background: Canvas;
+    }
+    .bcn-viz-meter__bar span {
+      border-right: 1px solid CanvasText;
+    }
+    .bcn-viz-meter__bar span:last-child {
+      border-right: 0;
+    }
+    .bcn-viz-meter__dot {
+      border: 1px solid CanvasText;
+    }
+  }
+</style>

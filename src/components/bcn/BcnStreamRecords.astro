@@ -1,0 +1,219 @@
+---
+// <BcnStreamRecords> — the generic full-index grid on a Monitoring Data stream
+// page (src/pages/prototypes/monitoring/stream/[id].astro).
+//
+// GENERIC on purpose: the portal's thesis is n data streams (observations, DMRs,
+// mileage, runtimes, WEAP trainings, whatever a tenant lands next), and every
+// stream gets this same index without anyone building a page. Columns DERIVE
+// from the stream's declared field schema — label from the form's question
+// label, alignment/filter from the field type — so a new stream is a registry
+// entry, zero new UI. Shape matches the prod index pages (Source Documents):
+// search + Clear Filters, the full-width grid, download + record-count footer.
+//
+// bcn-lego-checked: no esa-* data-grid lego exists (the hub's esa-grid is a doc
+// page); the spoke's ported prod AG Grid kit (src/lib/beacon-grid.ts) is the
+// house pattern — same lookup as BcnComponentGrid, which this pattern-matches.
+// Controls are bcn-grid-chrome / bcn-grid-footer; what is left below is
+// grid-host geometry only.
+import BcnGridChrome from './BcnGridChrome.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
+import type { MonitoringStream } from '../../data/monitoring-streams';
+
+interface Props {
+  stream: MonitoringStream;
+  /**
+   * Geospatial streams: the page passes the stream's map in slot="map" and the
+   * index adopts prod's View As pattern (Hybrid | Map | Grid — side-by-side,
+   * never stacked; Andy 2026-08-24).
+   */
+  withMap?: boolean;
+}
+const { stream, withMap = false } = Astro.props;
+
+const payload = { fields: stream.fields, rows: stream.sampleRecords, id: stream.id };
+---
+
+<section
+  class="bcn-sr stack"
+  data-gap="md"
+  data-sr
+  data-view={withMap ? 'hybrid' : 'grid'}
+  aria-label={`${stream.name} records`}
+>
+  <div class="repel" data-gap="md">
+    <div class="cluster" data-gap="md">
+      {withMap && <esa-button-toggle data-sr-view label="View as" size="sm"></esa-button-toggle>}
+      <BcnGridChrome prefix="sr" only="search" searchPlaceholder="Search grid…" />
+    </div>
+    <BcnGridChrome prefix="sr" only="clear-filters" />
+  </div>
+
+  <div class="bcn-sr__panes">
+    <div class="bcn-sr__gridpane stack" data-gap="md">
+      <div class="bcn-sr__host" data-sr-host></div>
+
+      <BcnGridFooter prefix="sr" total={stream.sampleRecords.length} />
+    </div>
+    {withMap && (
+      <div class="bcn-sr__mappane">
+        <slot name="map" />
+      </div>
+    )}
+  </div>
+
+  <script type="application/json" data-sr-data set:html={JSON.stringify(payload)}></script>
+</section>
+
+<script>
+  import type { ColDef, GridOptions } from 'ag-grid-community';
+  import { settingsTheme, mountBeaconGrid } from '../../lib/beacon-grid';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
+
+  // Prod's View As set (Observations index): Hybrid | Map | Grid. Lucide
+  // columns-2 / globe / list.
+  const VIEW_OPTIONS = [
+    {
+      label: 'Hybrid',
+      value: 'hybrid',
+      icon: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/>',
+    },
+    {
+      label: 'Map',
+      value: 'map',
+      icon: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+    },
+    {
+      label: 'Grid',
+      value: 'grid',
+      icon: '<path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/>',
+    },
+  ];
+
+  interface Field { name: string; label: string; type: 'text' | 'date' | 'number' | 'select' }
+  type Row = Record<string, string | number | null>;
+  interface Payload { fields: Field[]; rows: Row[]; id: string }
+
+  // The 14px dense floor, same step as the component index: the grid is the
+  // page's content and is read by scanning.
+  const streamGridTheme = settingsTheme.withParams({
+    dataFontSize: '14px',
+    headerFontSize: '14px',
+  });
+
+  const EN_DASH = '–';
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-sr]')) {
+    const data = mount.querySelector('[data-sr-data]');
+    if (!data) continue;
+    const { fields, rows, id }: Payload = JSON.parse(data.textContent || '{}');
+
+    // Columns derive from the stream's declared schema — no per-stream code.
+    const columnDefs: ColDef<Row>[] = fields.map((f) => {
+      const col: ColDef<Row> = {
+        field: f.name,
+        headerName: f.label,
+        valueFormatter: (p) => (p.value === null || p.value === undefined || p.value === '' ? EN_DASH : String(p.value)),
+      };
+      if (f.type === 'date') Object.assign(col, { width: 132 });
+      else if (f.type === 'number') Object.assign(col, { width: 132, filter: 'agNumberColumnFilter', cellClass: 'bcn-sr__num' });
+      else if (f.type === 'select') Object.assign(col, { width: 150 });
+      else Object.assign(col, { flex: 1, minWidth: 150 });
+      return col;
+    });
+
+    const gridOptions: GridOptions<Row> = {
+      theme: streamGridTheme,
+      rowData: rows,
+      columnDefs,
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: true,
+        suppressHeaderMenuButton: true,
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
+        tooltipValueGetter: (p) => p.value,
+      },
+      tooltipShowDelay: 0,
+      tooltipShowMode: 'whenTruncated',
+    };
+
+    mountBeaconGrid<Row>({
+      mount,
+      prefix: 'sr',
+      gridOptions,
+      csvName: `${id}-records.csv`,
+      totalRows: () => rows.length,
+    });
+
+    // View As — the toggle just moves data-view; the panes CSS does the rest.
+    const viewToggle = mount.querySelector<HTMLElement & { options: typeof VIEW_OPTIONS; value: string }>(
+      '[data-sr-view]',
+    );
+    if (viewToggle) {
+      viewToggle.options = VIEW_OPTIONS;
+      viewToggle.value = mount.dataset.view || 'hybrid';
+      viewToggle.addEventListener('change', (e) => {
+        const v = (e as CustomEvent<{ value?: string }>).detail?.value;
+        if (!v) return;
+        mount.dataset.view = v;
+        // Leaflet only re-measures on window resize; the pane just changed size.
+        requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+      });
+    }
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: grid-host geometry only — controls are bcn-grid-chrome /
+     bcn-grid-footer, the grid itself is the shared beacon-grid kit (see header). */
+
+  /* A fixed scrollport that holds through search/filter — the frame is stable,
+     the content compresses. Full-index height, matching the prod index pages. */
+  .bcn-sr__host {
+    inline-size: 100%;
+    block-size: min(60vh, 38rem);
+  }
+
+  /* View As panes (prod Observations index): Hybrid puts grid and map side by
+     side — never stacked; Map and Grid show one pane full width. data-view is
+     the single switch the toggle moves. */
+  .bcn-sr__panes {
+    display: flex;
+    align-items: stretch;
+    gap: var(--spacing-400);
+  }
+  .bcn-sr__gridpane {
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-sr__mappane {
+    display: none;
+    position: relative; /* the slotted map wrapper absolute-fills the pane */
+    min-width: 0;
+    min-block-size: min(60vh, 38rem);
+  }
+  [data-view='hybrid'] .bcn-sr__mappane {
+    display: block;
+    flex: 0 0 44%;
+  }
+  [data-view='map'] .bcn-sr__gridpane {
+    display: none;
+  }
+  [data-view='map'] .bcn-sr__mappane {
+    display: block;
+    flex: 1;
+  }
+  /* Two panes don't fit a narrow viewport, and stacking is banned — Hybrid
+     collapses to the grid alone. */
+  @media (max-width: 1024px) {
+    [data-view='hybrid'] .bcn-sr__mappane {
+      display: none;
+    }
+  }
+
+  .bcn-sr :global(.bcn-sr__num) {
+    font-variant-numeric: tabular-nums;
+  }
+</style>

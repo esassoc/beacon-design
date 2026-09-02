@@ -1,0 +1,214 @@
+---
+// <BcnColorField> — the constrained mark-ramp swatch row (spec §10.6). One row of the
+// eight `MarkKey` colors, single-select, used twice in the widget configure dialog:
+// once on its own for a `mono` widget's accent, and once PER REAL SERIES for a `series`
+// widget (donut, meter), where `label` carries the series name straight out of the data.
+//
+// The set is CLOSED and hardcoded here. That is the whole point of the component: a
+// widget accent that can be any hex breaks the ramp that makes the dashboard read as
+// one system (spec §10.6, §10.11 finding 2). Nothing about the eight is configurable,
+// and the colors are read as `var(--bcn-mark-<key>)` — never a literal hex — so the
+// theme file stays the one place the ramp is defined.
+//
+// `status` widgets have no Color control at all — the field is ABSENT, not disabled
+// (spec §10.6). That is the host's call; this component is never rendered for one.
+//
+// CONTRACT — the component owns its own paint; the consumer owns the value.
+//
+//   Emitted (from the root; bubbles + composed)
+//   ┌──────────────────────┬──────────────────────────────┬───────────────────────────┐
+//   │ bcn-color-change     │ { value: MarkKey,            │ a swatch was clicked —    │
+//   │                      │   seriesKey?: string }       │ committed. `seriesKey` is │
+//   │                      │                              │ echoed back so a host with│
+//   │                      │                              │ n series rows knows which │
+//   │                      │                              │ one fired.                │
+//   └──────────────────────┴──────────────────────────────┴───────────────────────────┘
+//
+//   Consumed (dispatch onto the root)
+//   ┌──────────────────────┬──────────────────────────────┬───────────────────────────┐
+//   │ bcn-color-set        │ { value: MarkKey | null }    │ paint the pressed state.  │
+//   │                      │                              │ `null` clears every       │
+//   │                      │                              │ swatch — the "no override"│
+//   │                      │                              │ state. Emits NOTHING, so  │
+//   │                      │                              │ a host can sync without   │
+//   │                      │                              │ an echo loop.             │
+//   └──────────────────────┴──────────────────────────────┴───────────────────────────┘
+//
+// Same silent-set idiom as <BcnSizePicker>'s `bcn-size-set`, and for the same reason —
+// the dialog opens by pushing the persisted `WidgetColor` into every control at once.
+//
+// bcn-lego-checked: esa-color-picker is the right lego and does not fit yet. Its
+// `swatches` array is exactly this, but the free `<input type="color">` well beside it
+// is MANDATORY — it renders unconditionally in `render()` and lives in the shadow root,
+// so a spoke cannot hide it — and a free hex picked from that well breaks the mark ramp
+// (spec §10.11 finding 2). The hub ask is a `swatches-only` boolean; it is filed, and
+// this is the interim home until the hub takes it, at which point this component is
+// deleted and its two call sites move to the lego. Nothing else in the catalog fits
+// either: esa-chip-group and esa-pillbox select text values, not color, and
+// esa-button-toggle is a labeled segmented control. Checked Beacon prod: the Angular
+// app has no color control at all — there is no composable dashboard to recolor.
+// bcn-color-field is the reusable home.
+import '@esa/tokens/type-roles.css';
+
+/** The mark ramp a widget accent may take — the closed set from spec §10.6. */
+export type MarkKey = 'orange' | 'amber' | 'moss' | 'emerald' | 'teal' | 'sky' | 'slate' | 'rust';
+
+/** Render order, fixed: warm through cool, then the two neutrals-adjacent ends. */
+const MARKS: readonly { key: MarkKey; name: string }[] = [
+  { key: 'orange', name: 'Orange' },
+  { key: 'amber', name: 'Amber' },
+  { key: 'moss', name: 'Moss' },
+  { key: 'emerald', name: 'Emerald' },
+  { key: 'teal', name: 'Teal' },
+  { key: 'sky', name: 'Sky' },
+  { key: 'slate', name: 'Slate' },
+  { key: 'rust', name: 'Rust' },
+];
+
+interface Props {
+  /**
+   * The series name, e.g. "Nesting Bird". Rendered above the row and used as the
+   * group's accessible name. Omitted for a widget's single mono row, where the
+   * host's own "Color" field label already names it.
+   */
+  label?: string;
+  /**
+   * Which series this row sets. Echoed on `bcn-color-change` so a host holding
+   * `Record<string, MarkKey>` can route the event without counting rows.
+   */
+  seriesKey?: string;
+  /**
+   * The pressed swatch at first paint, so a dialog that opens with a persisted
+   * value is never briefly blank. `bcn-color-set` remains the runtime path.
+   */
+  value?: MarkKey | null;
+}
+
+const { label, seriesKey, value = null } = Astro.props;
+---
+
+<div class="bcn-color-field" data-color-field data-series={seriesKey}>
+  {label && <span class="bcn-color-field__name typography-label-sm">{label}</span>}
+  <div class="bcn-color-field__swatches" role="group" aria-label={label ?? 'Color'}>
+    {
+      MARKS.map((mark) => (
+        <button
+          type="button"
+          class="bcn-color-field__swatch"
+          aria-pressed={String(mark.key === value)}
+          aria-label={mark.name}
+          data-color-swatch={mark.key}
+          style={`--_fill: var(--bcn-mark-${mark.key})`}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  // ONE controller for every color field on the page — Astro hoists and dedupes this
+  // module, so per-instance state lives in the DOM (aria-pressed) rather than a closure.
+  function armColorField(root: HTMLElement) {
+    const swatches = Array.from(
+      root.querySelectorAll<HTMLButtonElement>('[data-color-swatch]'),
+    );
+    if (!swatches.length) return;
+
+    // The one paint path. `null` clears every swatch — the "no override" state.
+    const paint = (next: string | null) => {
+      for (const swatch of swatches) {
+        swatch.setAttribute('aria-pressed', String(swatch.dataset.colorSwatch === next));
+      }
+    };
+
+    root.addEventListener('click', (event) => {
+      const swatch = (event.target as HTMLElement | null)?.closest<HTMLButtonElement>(
+        '[data-color-swatch]',
+      );
+      if (!swatch || !root.contains(swatch)) return;
+
+      const value = swatch.dataset.colorSwatch;
+      if (!value) return;
+
+      paint(value);
+      root.dispatchEvent(
+        new CustomEvent('bcn-color-change', {
+          detail: { value, seriesKey: root.dataset.series },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    });
+
+    // Host-driven sync. Deliberately silent — the dialog pushes the persisted
+    // WidgetColor into every row when it opens, and an echo would loop it.
+    root.addEventListener('bcn-color-set', (event) => {
+      const detail = (event as CustomEvent<{ value?: string | null }>).detail;
+      paint(detail?.value ?? null);
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-color-field]').forEach(armColorField);
+</script>
+
+<style>
+  .bcn-color-field {
+    /* One knob: the swatch edge. Kept private so a host can tune the row's density
+       in one place without reaching into the button rule. */
+    --_swatch: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  /* The series name is data (a category that exists in the stream), so it reads as
+     quiet secondary text at the label-sm role, not as an ornamental micro-label. */
+  .bcn-color-field__name {
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-color-field__swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+  }
+
+  /* 24px is the floor, not a preference: the selection ring adds 4px on every side,
+     so anything smaller would let two rings touch across the 8px gap. It is also
+     exactly WCAG 2.5.8's minimum target. */
+  .bcn-color-field__swatch {
+    width: var(--_swatch);
+    height: var(--_swatch);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: var(--_fill);
+    cursor: pointer;
+    /* An INSET hairline, not a border — the ramp's lighter steps need containment
+       against the raised dialog surface, and an opaque border token would read as a
+       gray edge over a saturated fill. Alpha black tints toward whatever it sits on. */
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
+  }
+
+  .bcn-color-field__swatch:hover {
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.14),
+      0 0 0 2px var(--color-background-elevation-raised),
+      0 0 0 3px var(--color-border-default-strong);
+  }
+
+  /* Selected is a RING, not a checkmark: the knockout gap keeps the ring legible
+     against the swatch's own fill, whatever hue it is. */
+  .bcn-color-field__swatch[aria-pressed='true'],
+  .bcn-color-field__swatch[aria-pressed='true']:hover {
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.14),
+      0 0 0 2px var(--color-background-elevation-raised),
+      0 0 0 4px var(--color-content-default);
+  }
+
+  .bcn-color-field__swatch:focus-visible {
+    outline: 2px solid var(--color-background-brand);
+    outline-offset: 3px;
+  }
+</style>

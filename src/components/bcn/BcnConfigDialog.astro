@@ -1,0 +1,147 @@
+---
+// <BcnConfigDialog> — the widget configure dialog (spec §10.3): preview left,
+// options right, in an extra-large esa-dialog. macOS/iOS widget-gallery model —
+// the LEFT column is the real widget (a runtime clone in BcnPreviewStage) with
+// 1/2/3-column tabs above it; the RIGHT column (348px) is Title / Shows /
+// Date range / Color, every control size="sm" (Andy round 3 C1 — the md
+// pass read too chunky for the space). Footer follows the Windows convention:
+// destructive far left, primary LEFT of Cancel.
+//
+// The column tabs are the ONLY size control (Andy round 5): the size-square
+// picker and the height axis are cut everywhere — width is the one dimension a
+// user sets; height stays the widget's stored footprint and rows stretch.
+//
+// DUMB SHELL by design: this component renders hooks (data-cfg-*) and arms only
+// its own static contract (the width-tab options). The dashboard page owns
+// open/fill/clone/preview/save — same split as the widget shell: the dialog
+// dispatches, the page decides. The stream-facts block from the old composer
+// rail is deleted outright (Andy C2).
+//
+// The series color rows are rendered at build time from the one series widget's
+// real data series (the observation-type breakdown) and shown only when the
+// open widget's colorMode is 'series' — labels are categories that exist in the
+// data, never invented palette names (spec §10.6).
+//
+// bcn-lego-checked: the shell is esa-dialog size="lg" with --dialog-width-lg
+// re-pointed (a documented public knob — a re-point, not a fork); tabs are
+// esa-button-toggle md; fields esa-text-field / esa-select md; footer buttons
+// esa-button; the stage is bcn-preview-stage and color is bcn-color-field. The
+// CSS below is the two-column body grid + footer arrangement only.
+import BcnPreviewStage from './BcnPreviewStage.astro';
+import BcnColorField from './BcnColorField.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { DASHBOARD } from '../../data/monitoring';
+
+const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
+---
+
+<esa-dialog
+  id="mp-config-dialog"
+  data-config-dialog
+  heading="Configure widget"
+  size="lg"
+  show-close-button
+  style="--dialog-width-lg: min(1140px, 94vw);"
+>
+  <div class="bcn-cfg">
+    <div class="bcn-cfg__preview stack" data-gap="md">
+      <esa-button-toggle data-cfg-tabs size="sm" aria-label="Preview width"></esa-button-toggle>
+      <BcnPreviewStage />
+    </div>
+
+    <div class="bcn-cfg__options stack" data-gap="lg">
+      <esa-text-field data-cfg-title label="Title" size="sm"></esa-text-field>
+
+      <div data-cfg-shows-field>
+        <esa-select data-cfg-shows label="Shows" size="sm"></esa-select>
+      </div>
+
+      <esa-select data-cfg-scope label="Date range" size="sm"></esa-select>
+
+      <div class="stack" data-gap="sm" data-cfg-color-mono>
+        <span class="bcn-cfg__label typography-label-md-strong">Color</span>
+        <BcnColorField />
+      </div>
+
+      <div class="stack" data-gap="sm" data-cfg-color-series hidden>
+        <span class="bcn-cfg__label typography-label-md-strong">Color</span>
+        {seriesLabels.map((label) => <BcnColorField label={label} seriesKey={label} />)}
+      </div>
+    </div>
+  </div>
+
+  <div slot="footer" class="repel bcn-cfg__foot" data-gap="md">
+    <span data-cfg-remove><EsaButton variant="danger" appearance="soft" size="sm">Remove widget</EsaButton></span>
+    <span class="cluster" data-gap="sm">
+      <span data-cfg-save><EsaButton variant="primary" size="sm">Save widget</EsaButton></span>
+      <span data-cfg-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+    </span>
+  </div>
+</esa-dialog>
+
+<script>
+  // The dialog's own static contract only — the page fills everything dynamic.
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-button-toggle';
+
+  interface Option {
+    label: string;
+    value: string;
+    /** Raw lucide inner-SVG — esa-button-toggle renders it inside its own <svg>. */
+    icon?: string;
+  }
+
+  customElements.whenDefined('esa-button-toggle').then(() => {
+    const tabs = document.querySelector<HTMLElement & { options: Option[] }>('[data-cfg-tabs]');
+    if (tabs) {
+      // Lucide widths-as-shapes (Andy round 3 C2): rectangle-vertical / columns-2 /
+      // columns-3 — the toggle takes raw inner-SVG paths, same contract as
+      // BcnStreamRecords' view toggle.
+      tabs.options = [
+        { label: '1 Column', value: '1', icon: '<rect width="12" height="20" x="6" y="2" rx="2"/>' },
+        {
+          label: '2 Columns',
+          value: '2',
+          icon: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/>',
+        },
+        {
+          label: '3 Columns',
+          value: '3',
+          icon: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="M15 3v18"/>',
+        },
+      ];
+    }
+  });
+</script>
+
+<style>
+  /* Composition glue only: the §10.3 body grid (preview 1fr, options 348px) and
+     the footer repel. Everything inside the columns is a component. */
+  .bcn-cfg {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 348px;
+    gap: var(--spacing-500);
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .bcn-cfg {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .bcn-cfg__label {
+    color: var(--color-content-default-primary);
+  }
+
+  /* .stack's display:flex would out-cascade the UA [hidden] rule — restate it
+     for the show/hide groups the page toggles. */
+  .bcn-cfg [hidden] {
+    display: none;
+  }
+
+  .bcn-cfg__foot {
+    inline-size: 100%;
+  }
+</style>

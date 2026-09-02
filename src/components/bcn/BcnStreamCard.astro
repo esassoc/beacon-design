@@ -1,0 +1,75 @@
+---
+// <BcnStreamCard> — the catalog card for ONE monitoring data stream, used by the
+// Data page. Shape copies the prod Data Catalog card exactly (2026-08-24, Andy:
+// "simple, like the Data Catalog"): the type glyph, then the stream name with
+// its record-count badge. Nothing else — connection detail lives on the stream's
+// own index page, not the catalog.
+//
+// bcn-lego-checked: esa-card is the shell (body-only — its `icon` prop can't
+// take a custom glyph, so the glyph renders in the body like the prod card),
+// esa-icon the glyph, esa-badge the count. esa-card has no href/whole-card-link
+// affordance, so the link wrapper is the only bespoke part; hover moves the
+// card's OWN public knob (--card-border-color), never its internals.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { STREAM_ICON_PATHS, type MonitoringStream } from '../../data/monitoring-streams';
+
+interface Props {
+  stream: MonitoringStream;
+  /** The stream's index page — the card's single link target. */
+  href: string;
+}
+const { stream, href } = Astro.props;
+---
+
+<a class="bcn-stream-card" href={href} aria-label={stream.name}>
+  <EsaCard>
+    <div class="bcn-stream-card__body stack" data-gap="md">
+      <EsaIcon name={stream.icon} paths={STREAM_ICON_PATHS[stream.icon]} size="md" />
+      <span class="cluster" data-gap="sm">
+        <span class="bcn-stream-card__name typography-label-md-strong">{stream.name}</span>
+        <EsaBadge value={stream.recordCount.toLocaleString('en-US')} />
+      </span>
+    </div>
+  </EsaCard>
+</a>
+
+<style>
+  /* The wrapper is a link and nothing else — the card inside supplies every
+     surface. Its radius only exists so the hover shadow follows the card's
+     corners instead of boxing them. */
+  .bcn-stream-card {
+    display: block;
+    border-radius: var(--radius-md);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .bcn-stream-card:hover {
+    --card-border-color: var(--color-border-default-strong);
+    box-shadow: var(--elevation-2);
+  }
+
+  .bcn-stream-card:focus-visible {
+    outline: 2px solid var(--color-background-brand);
+    outline-offset: 2px;
+  }
+
+  .bcn-stream-card__body {
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-stream-card__name {
+    color: var(--color-content-default-primary);
+  }
+
+  /* The count is a quiet neutral chip like the prod Data Catalog's, not a brand
+     fill — re-pointed through esa-badge's public hooks (same treatment as
+     BcnTriageCounts). */
+  .bcn-stream-card :global(.esa-badge) {
+    --badge-bg: var(--color-background-elevation-sunken);
+    --badge-text-color: var(--color-content-default-secondary);
+    font-weight: var(--typography-font-weight-medium);
+  }
+</style>

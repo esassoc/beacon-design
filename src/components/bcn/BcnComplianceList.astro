@@ -1,0 +1,466 @@
+---
+// <BcnComplianceList> — the BODY of the Commitment Compliance widget on the
+// Monitoring Portal dashboard (spec.md §11.2, reworked Andy round 5). Prod's
+// `commitment-compliance-section` / `observation-compliance-card` ported to
+// widget scale: an observation-first list in two lanes (compliance concerns
+// first, because the widget's job is triage), where repeated rows collapse into
+// one sheet-stacked card.
+//
+// THE WIDGET IS THE WHOLE FEATURE (Andy round 5): there is no
+// commitment-compliance page. Rows do not link anywhere — clicking an
+// observation EXPANDS it in place, opening the per-row dossier (the field-log
+// description and the relevant commitments, the Find.commitments join). A
+// stack head still opens its member list; each member then expands like any
+// other row.
+//
+// TWO PANES, BOTH SERVER-RENDERED. `Needs action` and `All` are both built here
+// and the root's data-show attribute picks which one paints. There is no client
+// re-render — the Show control only writes an attribute. The control lives IN
+// THIS BODY (Andy round 5, rule for all widgets: tools/ui belong in the card
+// body, never the header).
+//
+// bcn-lego-checked: esa-card is NOT the row shell — a 40px disclosure row is not
+// a card, and nesting 9 cards inside the widget's own esa-card reads as debris.
+// esa-button-toggle carries the Show control, esa-badge the species code and the
+// lane counts, esa-icon the chevrons/alert glyph, BcnStatusChip the value-driven
+// status. Checked Beacon prod: this IS prod's observation-compliance-card, and
+// the only bespoke CSS is the row line, the expanded dossier panel, and the
+// pt-activity__bundle sheet geometry, all ported from it.
+// bcn-compliance-list is the reusable home.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import { FINDS, findStateMeta, findNeedsAction, type Find } from '../../data/monitoring';
+
+// prod's classifyObservation(), in the two derivations we need from it.
+const primaryName = (f: Find) => (f.kind === 'concern' ? (f.title ?? f.species) : f.species);
+const dateVerb = (f: Find) => (f.kind === 'concern' ? 'raised' : 'observed');
+
+interface Stack {
+  members: Find[];
+}
+interface Lane {
+  id: 'concern' | 'observation';
+  label: string;
+  /** The TRUE record count for this view — NOT the visual row count, which a
+      stack collapses. A badge reading the row count over a stacked list is the
+      bug §11.2 refuses to ship. */
+  count: number;
+  /** The noun the stacked-row id slot counts in, per lane. */
+  noun: string;
+  stacks: Stack[];
+}
+
+// Stack key = (lane, primaryName, statusLabel). Species alone is not enough:
+// this fixture holds one Swainson's Hawk that is Active and two that are
+// Tracking, and keying on species would collapse two different states into one
+// chip — a claim the row cannot support.
+const buildLanes = (finds: Find[]): Lane[] =>
+  (
+    [
+      { id: 'concern', label: 'Compliance concerns', noun: 'concerns' },
+      { id: 'observation', label: 'Species observations', noun: 'observations' },
+    ] as const
+  )
+    .map(({ id, label, noun }) => {
+      const members = finds.filter((f) => (id === 'concern' ? f.kind === 'concern' : f.kind !== 'concern'));
+      const byKey = new Map<string, Stack>();
+      const stacks: Stack[] = [];
+      for (const f of members) {
+        const key = `${primaryName(f)}|${findStateMeta(f).label}`;
+        let stack = byKey.get(key);
+        if (!stack) {
+          stack = { members: [] };
+          byKey.set(key, stack);
+          stacks.push(stack);
+        }
+        stack.members.push(f);
+      }
+      return { id, label, count: members.length, noun, stacks };
+    })
+    .filter((lane) => lane.count > 0);
+
+const VIEWS = [
+  { pane: 'needs', lanes: buildLanes(FINDS.filter(findNeedsAction)) },
+  { pane: 'all', lanes: buildLanes(FINDS) },
+] as const;
+
+/** Meta for a single row: the date it happened, plus the work area when recorded. */
+const rowMeta = (f: Find) => `${dateVerb(f)} ${f.observedDate}${f.workArea ? ` · ${f.workArea}` : ''}`;
+
+// Meta for a stack. The date is the member RANGE, not one date: unlike a bulk
+// permit move these are N separate moments, and a single date would be a lie
+// about N-1 of them. The work area follows prod's `sharedFromName` guard — shown
+// only when every member shares one, omitted entirely otherwise.
+const stackMeta = (members: Find[]) => {
+  const dates = members.map((m) => m.observedDate).sort();
+  const first = dates[0];
+  const last = dates[dates.length - 1];
+  const when = first === last ? first : `${first} – ${last}`;
+  const areas = new Set(members.map((m) => m.workArea));
+  const shared = areas.size === 1 ? members[0].workArea : '';
+  return `${dateVerb(members[0])} ${when}${shared ? ` · ${shared}` : ''}`;
+};
+---
+
+<div class="bcn-cc" data-cc data-show="needs">
+  {/* Triage vs census is what the widget is FOR — the Show control rides the
+      body's top edge, in-body per the round-5 rule. */}
+  <esa-button-toggle class="bcn-cc__show" data-cc-show size="sm" label="Show"></esa-button-toggle>
+
+  {VIEWS.map((view) => (
+    <div class="bcn-cc__pane" data-cc-pane={view.pane}>
+      {view.lanes.map((lane) => (
+        <section class="bcn-cc__lane">
+          <h4 class="bcn-cc__lane-head">
+            <span>{lane.label}</span>
+            <EsaBadge value={lane.count} size="sm" />
+          </h4>
+
+          <div class="bcn-cc__rows">
+            {lane.stacks.map((stack) => {
+              const lead = stack.members[0];
+              const meta = findStateMeta(lead);
+
+              if (stack.members.length < 2) {
+                return (
+                  <div class="bcn-cc__item" data-cc-item>
+                    <button type="button" class="bcn-cc__row" data-cc-row aria-expanded="false">
+                      {lane.id === 'concern' ? (
+                        <span class="bcn-cc__alert"><EsaIcon name="triangle-alert" size="sm" /></span>
+                      ) : (
+                        <EsaBadge value={lead.speciesCode} size="sm" />
+                      )}
+                      <span class="bcn-cc__name">{primaryName(lead)}</span>
+                      <span class="bcn-cc__id">{lead.shortId}</span>
+                      <span class="bcn-cc__meta">{rowMeta(lead)}</span>
+                      <BcnStatusChip status={lead.state} label={meta.label} hex={meta.hex} />
+                      <span class="bcn-cc__chev"><EsaIcon name="chevron-down" size="sm" /></span>
+                    </button>
+                    <div class="bcn-cc__detail">
+                      <p class="bcn-cc__desc">{lead.description}</p>
+                      {lead.commitments.length > 0 && (
+                        <div class="bcn-cc__cmts">
+                          {lead.commitments.map((c) => (
+                            <div class="bcn-cc__cmt">
+                              <EsaBadge value={c.code} size="sm" />
+                              <span class="bcn-cc__cmt-title">{c.title}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <div class="bcn-cc__stack" data-cc-stack>
+                  <button type="button" class="bcn-cc__row bcn-cc__row--head" data-cc-stack-head aria-expanded="false">
+                    {lane.id === 'concern' ? (
+                      <span class="bcn-cc__alert"><EsaIcon name="triangle-alert" size="sm" /></span>
+                    ) : (
+                      <EsaBadge value={lead.speciesCode} size="sm" />
+                    )}
+                    <span class="bcn-cc__name">{primaryName(lead)}</span>
+                    <span class="bcn-cc__id">{stack.members.length} {lane.noun}</span>
+                    <span class="bcn-cc__meta">{stackMeta(stack.members)}</span>
+                    <BcnStatusChip status={lead.state} label={meta.label} hex={meta.hex} />
+                    <span class="bcn-cc__chev"><EsaIcon name="chevron-down" size="sm" /></span>
+                  </button>
+
+                  <div class="bcn-cc__members">
+                    {stack.members.map((member) => {
+                      const memberMeta = findStateMeta(member);
+                      return (
+                        <div class="bcn-cc__item" data-cc-item>
+                          <button type="button" class="bcn-cc__row" data-cc-row aria-expanded="false">
+                            {lane.id === 'concern' ? (
+                              <span class="bcn-cc__alert"><EsaIcon name="triangle-alert" size="sm" /></span>
+                            ) : (
+                              <EsaBadge value={member.speciesCode} size="sm" />
+                            )}
+                            <span class="bcn-cc__name">{primaryName(member)}</span>
+                            <span class="bcn-cc__id">{member.shortId}</span>
+                            <span class="bcn-cc__meta">{rowMeta(member)}</span>
+                            <BcnStatusChip status={member.state} label={memberMeta.label} hex={memberMeta.hex} />
+                            <span class="bcn-cc__chev"><EsaIcon name="chevron-down" size="sm" /></span>
+                          </button>
+                          <div class="bcn-cc__detail">
+                            <p class="bcn-cc__desc">{member.description}</p>
+                            {member.commitments.length > 0 && (
+                              <div class="bcn-cc__cmts">
+                                {member.commitments.map((c) => (
+                                  <div class="bcn-cc__cmt">
+                                    <EsaBadge value={c.code} size="sm" />
+                                    <span class="bcn-cc__cmt-title">{c.title}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </div>
+  ))}
+</div>
+
+<style>
+  .bcn-cc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+
+  .bcn-cc__show {
+    align-self: flex-start;
+  }
+
+  /* Both panes are in the DOM; the root attribute picks the one that paints. */
+  .bcn-cc[data-show='needs'] [data-cc-pane='all'],
+  .bcn-cc[data-show='all'] [data-cc-pane='needs'] {
+    display: none;
+  }
+
+  .bcn-cc__pane,
+  .bcn-cc__lane {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  /* Plain secondary text + a count badge. NOT an uppercase letter-spaced
+     micro-label — that ornament is banned, and the lane already reads as a lane
+     from the break above it. */
+  .bcn-cc__lane-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-cc__rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+
+  .bcn-cc__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+    min-block-size: 40px;
+    padding-block: var(--spacing-150);
+    padding-inline: var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+    color: var(--color-content-default-primary);
+    font: inherit;
+    text-align: start;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .bcn-cc__row:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+
+  .bcn-cc__alert {
+    display: inline-flex;
+    color: var(--color-background-utility-danger);
+  }
+
+  .bcn-cc__name {
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    white-space: nowrap;
+  }
+  .bcn-cc__id {
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+  /* The meta IS the spacer — it grows into the gap and truncates rather than
+     pushing the status chip off the row. */
+  .bcn-cc__meta {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* One chevron per row; open rotates it. Down-then-up because every row is a
+     DISCLOSURE now — a right-pointing chevron would promise a navigation this
+     widget no longer performs. */
+  .bcn-cc__chev {
+    display: inline-flex;
+    color: var(--color-content-default-tertiary);
+    transition: transform 120ms ease;
+  }
+  .bcn-cc__item.is-open > .bcn-cc__row .bcn-cc__chev,
+  .bcn-cc__stack.is-open > .bcn-cc__row--head .bcn-cc__chev {
+    transform: rotate(180deg);
+  }
+
+  /* ── The expanded dossier: the row and its panel read as ONE opened card —
+        the row squares its bottom corners, the panel continues the same border. ── */
+  .bcn-cc__detail {
+    display: none;
+  }
+  .bcn-cc__item.is-open > .bcn-cc__row {
+    background: var(--color-background-elevation-sunken);
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .bcn-cc__item.is-open > .bcn-cc__detail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+    padding: var(--spacing-250) var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-block-start: 0;
+    border-end-start-radius: var(--radius-200);
+    border-end-end-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-cc__desc {
+    margin: 0;
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-cc__cmts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-cc__cmt {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+  }
+  .bcn-cc__cmt-title {
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-primary);
+  }
+
+  /* ── The stack — pt-activity__bundle geometry, verbatim ──────────────────
+     Two sheets, each stepping 4px in per side and showing a 4px band below the
+     layer above it, so "many, not one" reads before the text does. Prod's note:
+     tighter and the edges read as one thick smudge rather than separate sheets;
+     drop the horizontal step and it reads as a double underline rather than a
+     stack.
+     ALL THREE LAYERS POSITIVE AND EXPLICIT. A negative z-index paints behind
+     the opaque page background and the sheets vanish outright; sharing one
+     level puts the far sheet over the near one and erases its border. */
+  .bcn-cc__stack {
+    position: relative;
+    isolation: isolate;
+    /* The sheets take no layout space, so the collapsed stack reserves their
+       overhang itself or the next row crowds them. */
+    margin-block-end: var(--spacing-200);
+  }
+  .bcn-cc__stack::before,
+  .bcn-cc__stack::after {
+    content: '';
+    position: absolute;
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-cc__stack::before {
+    inset: 0 4px -4px 4px;
+    z-index: 2;
+  }
+  .bcn-cc__stack::after {
+    inset: 0 8px -8px 8px;
+    z-index: 1;
+  }
+  .bcn-cc__row--head {
+    position: relative;
+    z-index: 3;
+  }
+
+  /* Open, the sheets HAVE BECOME the member list — drawing them too would claim
+     the members are still hidden. */
+  .bcn-cc__stack.is-open {
+    margin-block-end: 0;
+  }
+  .bcn-cc__stack.is-open::before,
+  .bcn-cc__stack.is-open::after {
+    content: none;
+  }
+
+  .bcn-cc__members {
+    display: none;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    margin-block-start: var(--spacing-150);
+  }
+  .bcn-cc__stack.is-open .bcn-cc__members {
+    display: flex;
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+
+  interface ToggleOption {
+    label: string;
+    value: string;
+  }
+  type ToggleEl = HTMLElement & { options: ToggleOption[]; value: string };
+
+  const SHOW_OPTIONS: ToggleOption[] = [
+    { label: 'Needs action', value: 'needs' },
+    { label: 'All', value: 'all' },
+  ];
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-cc]')) {
+    // Every row discloses in place (Andy round 5): a stack head opens its member
+    // list; any other row opens its dossier. One delegated listener covers both.
+    root.addEventListener('click', (event) => {
+      const target = event.target as Element | null;
+      const head = target?.closest<HTMLElement>('[data-cc-stack-head]');
+      if (head) {
+        const stack = head.closest<HTMLElement>('[data-cc-stack]');
+        if (stack) head.setAttribute('aria-expanded', String(stack.classList.toggle('is-open')));
+        return;
+      }
+      const row = target?.closest<HTMLElement>('[data-cc-row]');
+      if (row) {
+        const item = row.closest<HTMLElement>('[data-cc-item]');
+        if (item) row.setAttribute('aria-expanded', String(item.classList.toggle('is-open')));
+      }
+    });
+
+    // The Show control lives IN this body now (round-5 rule) — arm it directly.
+    const toggle = root.querySelector<ToggleEl>('[data-cc-show]');
+    if (!toggle) continue;
+
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      // `options` is an array: a property, never an attribute.
+      toggle.options = SHOW_OPTIONS;
+      toggle.value = root.dataset.show ?? 'needs';
+    });
+
+    toggle.addEventListener('change', (event) => {
+      const value = (event as CustomEvent<{ value: string }>).detail?.value;
+      if (value) root.dataset.show = value;
+    });
+  }
+</script>

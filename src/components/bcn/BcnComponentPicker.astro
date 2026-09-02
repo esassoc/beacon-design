@@ -1,0 +1,239 @@
+---
+// <BcnComponentPicker> — the project-component switcher that sits beside a page's
+// serif H1 (spec §11.1). Chromeless/ghost: a text label and a chevron, no field
+// chrome, no visible "Component" micro-label.
+//
+// ANATOMY (in PageLayout's slot="title-badge", inline after the H1):
+//   Monitoring   2024-2029 Geotechnical Activities ⌄
+//   └ serif H1 ┘ └───── this component ──────────┘
+//                       ↓ open
+//                 ┌ esa-dropdown-menu panel, below-start ┐
+//                 │ 2024-2029 Geotechnical Activities    │
+//                 │ 2027 Geotechnical Activities - …     │  ← plain option list,
+//                 │ AEM Surveys - Fall 2026              │    no glyphs: icons mark
+//                 │ Compensatory Mitigation 1 - I-5 Ponds│    structure, never items
+//                 └──────────────────────────────────────┘
+//
+// The precedent is site-clearance-bio.astro's inline picker and it is inherited
+// whole — trigger anatomy, the `--font-size-200` panel scoping, the items shape.
+// The one deliberate change is `min-height: 28px` on the trigger: Andy asked for
+// "small to medium", so the TYPE stays at 14px (16px would compete with the serif
+// H1 beside it) and the PRESENCE steps up, giving the hover surface the footprint
+// of a real control.
+//
+// CONTRACT — the picker owns the CHOICE; the host page owns what the choice MEANS.
+// That split is the whole reason this is reusable: Monitoring re-scopes widgets,
+// Tracking and Reporting will re-scope something else, and this file never learns
+// the difference.
+//
+//   OUT  'bcn:component-change'  { component }
+//        Dispatched on `document`, bubbling. Fired on every user selection — and
+//        once at mount when the restored storage value disagrees with the
+//        server-rendered default. That mount emit is not optional: this component
+//        owns the storage read, so without it the host would paint the default
+//        scope under a trigger label naming a different component. When storage
+//        agrees with the default (the common case) nothing is emitted, because
+//        nothing changed.
+//
+//   Storage: localStorage[storageKey], default 'beacon.activeComponent' — ONE key
+//   shared across surfaces, not per-page. The active component is a property of the
+//   user's session in the project, not of the page, so the choice travels between
+//   Monitoring, Tracking and Reporting. Every read and write is try/caught; in
+//   private mode the picker still works, it just does not persist.
+//
+// bcn-lego-checked: the lookup is the precedent's, already settled and recorded in
+// site-clearance-bio.astro — esa-select and esa-combobox were both checked and
+// rejected because "both render as form fields, wrong chrome for a title-adjacent
+// switcher", and esa-filter-dropdown is not a candidate either (a filter chip in a
+// filter bar is a different object from a title switcher). esa-dropdown-menu is the
+// carrier: it owns the panel, the keyboard model, the outside-click and Esc, and it
+// takes its trigger through the DEFAULT slot — so the trigger chrome below is the
+// consumer's BY DESIGN, not a reinvention. Checked Beacon prod: the Angular app
+// scopes by component through a route, not a control, so there is no ui-* pattern
+// to port. bcn-component-picker is the reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Props {
+  /** The component register to offer. Rendered in the order given. */
+  components: readonly string[];
+  /** Falls back to components[0] when storage is empty or holds an unknown value. */
+  active?: string;
+  storageKey?: string;
+}
+
+const { components, active, storageKey = 'beacon.activeComponent' } = Astro.props;
+
+// `chevron-down` ships in the hub registry; the paths are passed anyway as the
+// documented fallback for a spoke whose registry is behind.
+const CHEVRON_DOWN = '<path d="m6 9 6 6 6-6"/>';
+
+// What the server paints. The client re-resolves this against storage on mount and
+// emits only if the two disagree, so the pre-hydration label is never a lie about
+// anything except a stored preference it cannot see.
+const seeded = active && components.includes(active) ? active : (components[0] ?? '');
+---
+
+<span
+  class="bcn-component-picker"
+  data-component-picker
+  data-components={JSON.stringify(components)}
+  data-storage-key={storageKey}
+  data-default={seeded}
+>
+  {/* The lego takes its trigger via the DEFAULT slot; `items` is set as a property
+      in the controller below, never as an attribute. */}
+  <esa-dropdown-menu position="below-start" data-component-picker-menu>
+    <button type="button" class="bcn-component-picker__trigger" aria-label="Switch component">
+      <span class="bcn-component-picker__label" data-component-picker-label>{seeded}</span>
+      <EsaIcon name="chevron-down" size="sm" paths={CHEVRON_DOWN} />
+    </button>
+  </esa-dropdown-menu>
+</span>
+
+<script>
+  // ONE controller for every picker on the page — Astro hoists and dedupes this
+  // module. Props arrive as data-* attributes on each root, so a second instance on
+  // the same site needs nothing here.
+  import '@esa/ecology/esa-dropdown-menu';
+
+  type MenuEl = HTMLElement & { items: { label: string; action: string }[] };
+
+  const DEFAULT_STORAGE_KEY = 'beacon.activeComponent';
+
+  function parseComponents(raw: string | undefined): string[] {
+    try {
+      const parsed: unknown = JSON.parse(raw ?? '[]');
+      return Array.isArray(parsed) ? parsed.filter((c): c is string => typeof c === 'string') : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function readStored(key: string, components: string[]): string | null {
+    try {
+      const saved = localStorage.getItem(key);
+      // A stored value the caller no longer offers is stale, not a selection.
+      return saved && components.includes(saved) ? saved : null;
+    } catch {
+      /* storage unavailable (private mode) — fall through to the default */
+      return null;
+    }
+  }
+
+  function setupComponentPicker(root: HTMLElement): void {
+    const menu = root.querySelector<MenuEl>('[data-component-picker-menu]');
+    const label = root.querySelector<HTMLElement>('[data-component-picker-label]');
+    if (!menu || !label) return;
+
+    const components = parseComponents(root.dataset.components);
+    if (!components.length) return;
+
+    const storageKey = root.dataset.storageKey || DEFAULT_STORAGE_KEY;
+    const seeded = root.dataset.default ?? '';
+    let activeComponent = components.includes(seeded) ? seeded : components[0];
+
+    menu.items = components.map((c) => ({ label: c, action: c }));
+
+    // ONE path for both the mount restore and a user selection. The equality guard
+    // is what makes that safe: a restore that agrees with the server-rendered
+    // default falls out here and emits nothing, so the page hears an event only
+    // when the scope genuinely differs from what it painted.
+    const apply = (next: string): void => {
+      if (!components.includes(next) || next === activeComponent) return;
+      activeComponent = next;
+      label.textContent = next;
+      try {
+        localStorage.setItem(storageKey, next);
+      } catch {
+        /* storage unavailable — the selection just won't persist */
+      }
+      document.dispatchEvent(
+        new CustomEvent('bcn:component-change', { detail: { component: next }, bubbles: true }),
+      );
+    };
+
+    const restored = readStored(storageKey, components);
+    if (restored) apply(restored);
+
+    menu.addEventListener('menu-action', (ev) => {
+      // The lego sends the action STRING as `detail` (esa-dropdown-menu.ts:236), not
+      // a `{ action }` object — site-clearance-bio's copy of this handler reads
+      // `detail.action` and is dead against this version. Both shapes are accepted
+      // here so a hub change in either direction cannot silently mute the picker.
+      const detail: unknown = (ev as CustomEvent).detail;
+      const next =
+        typeof detail === 'string'
+          ? detail
+          : ((detail as { action?: string } | null)?.action ?? '');
+      if (next) apply(next);
+    });
+  }
+
+  // Gated on BOTH the lego's upgrade (so `items` lands on a real reactive property)
+  // and DOMContentLoaded. The second half is what the mount emit depends on: every
+  // hoisted module — including the host page's listener for 'bcn:component-change' —
+  // has executed by then, so a restore fired here cannot outrun its audience.
+  const domReady =
+    document.readyState === 'loading'
+      ? new Promise<void>((resolve) =>
+          document.addEventListener('DOMContentLoaded', () => resolve(), { once: true }),
+        )
+      : Promise.resolve();
+
+  void Promise.all([customElements.whenDefined('esa-dropdown-menu'), domReady]).then(() => {
+    document
+      .querySelectorAll<HTMLElement>('[data-component-picker]')
+      .forEach((root) => setupComponentPicker(root));
+  });
+</script>
+
+<style>
+  /* ── The picker sits in the title row; flex-centred against the H1's cap height. ── */
+  .bcn-component-picker {
+    display: inline-flex;
+    align-items: center;
+    align-self: center;
+    min-width: 0;
+  }
+  .bcn-component-picker esa-dropdown-menu {
+    display: inline-flex;
+    align-items: center;
+    /* The panel items carry `typography-body-md`, which resolves to --font-size-200
+       — step it down one notch here so the open list matches the trigger's quieter
+       scale. A custom property crosses the shadow boundary; a class does not, so
+       this is the only reach into the lego's type there is, and the one it intends. */
+    --font-size-200: 0.875rem;
+  }
+
+  /* ── The trigger. Chromeless by design: the lego slots it, so the chrome is ours,
+        and "ghost" is the whole of it — transparent until hover, no border, no field
+        affordance. The literal 0.875rem is inherited from the precedent on purpose:
+        every font-size token on the scale is a viewport clamp, and the trigger and
+        the panel have to land on the SAME number or the open list jumps a size. ── */
+  .bcn-component-picker__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    min-height: 28px;
+    margin: 0;
+    padding: var(--spacing-100) var(--spacing-200);
+    border: 0;
+    border-radius: var(--radius-200);
+    background: transparent;
+    font: inherit;
+    font-size: 0.875rem;
+    line-height: 1.3;
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .bcn-component-picker__trigger:hover {
+    background: var(--color-background-elevation-sunken, var(--color-background-default));
+    color: var(--color-content-default);
+  }
+  .bcn-component-picker__trigger :global(.esa-icon) {
+    color: var(--color-content-default-tertiary);
+    flex-shrink: 0;
+  }
+</style>

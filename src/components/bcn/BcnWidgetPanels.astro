@@ -1,0 +1,129 @@
+---
+// <BcnWidgetPanels> — the multi-panel widget BODY for the composable Monitoring
+// Portal dashboard. It renders INSIDE <BcnDashboardWidget>'s slot and carries no
+// card chrome of its own: it is a track set and two reflows, nothing more.
+//
+// The wide banner widgets (Daily Monitoring Reports, Vehicle Mileage, Equipment
+// Runtime, WEAP Trainings) all read the same way — a narrow stat column on the
+// left, then one or two flexible columns of viz beside it, split by hairlines.
+// This owns that split so each banner does not re-derive it.
+//
+// Contract is slots only:
+//   a — the first (narrow) panel, the stat column
+//   b — the second panel
+//   c — optional third panel; passing it switches the body to 3 columns
+// Slot `c` is detected with Astro.slots.has('c'). CALLER WARNING: Astro registers
+// a slot even when a `{cond && <El slot="c">}` expression is falsy, so a caller
+// that wants 2 panels must OMIT the slot="c" element entirely, not guard it.
+//
+// Panel headings: slotted content carries the caller's style scope, so the one
+// treatment this component publishes globally is `.bcn-panel-label` — the
+// specimen's `.panel__h`, which is the `typography-label-sm` role in the
+// secondary content color. Put it on the label inside slot b or c.
+//
+// bcn-lego-checked: no esa-* lego is a divided multi-panel body — esa-card is the
+// chrome these panels sit INSIDE, esa-collapsible is a disclosure, esa-container is
+// page width. The @esa/tokens layout primitives were checked and are used where they
+// fit: each panel IS `.stack` (tuned to the specimen's --spacing-250 rhythm via the
+// primitive's own --gap knob). The outer track set is deliberately NOT `.sidebar`
+// (its aside grows from a flex-basis and wraps intrinsically — this needs a hard
+// 220px/190px stat column that never grows) and NOT `.switcher` (equal columns; here
+// the first is narrower on purpose), and neither primitive can do the 3→2→1 track
+// reflow that has to stay in step with the widget grid's own 1180/820 breakpoints.
+// Checked Beacon prod: its project pages are fixed tab layouts, no paneled widget to
+// port. bcn-widget-panels is the reusable home; the only CSS here is the track set
+// and the two reflows.
+const hasThird = Astro.slots.has('c');
+---
+
+<div class="bcn-widget-panels" data-panels={hasThird ? '3' : '2'}>
+  <div class="bcn-widget-panels__panel stack"><slot name="a" /></div>
+  <div class="bcn-widget-panels__panel stack"><slot name="b" /></div>
+  {hasThird && <div class="bcn-widget-panels__panel stack"><slot name="c" /></div>}
+</div>
+
+<style>
+  /* ── Track set. The first column is a hard width, not a fraction: it holds the
+        widget's figure, and a stat column that grows with the viewport starts
+        competing with the viz beside it for the eye. ── */
+  .bcn-widget-panels {
+    display: grid;
+    gap: var(--spacing-400);
+    grid-template-columns: 220px 1fr;
+    min-inline-size: 0;
+    flex: 1; /* the widget body is a flex column — fill the height a stretched band gives it */
+  }
+
+  .bcn-widget-panels[data-panels='3'] {
+    grid-template-columns: 190px 1fr 1fr;
+  }
+
+  /* ── Panel. `.stack` is the layout primitive; only its gap knob and the divider
+        are set here. min-inline-size:0 because grid children default to min-content,
+        and a wide table or trend row inside would otherwise blow the track out. ── */
+  .bcn-widget-panels__panel {
+    --gap: var(--spacing-250);
+    min-inline-size: 0;
+  }
+
+  /* The divider belongs to the panel that FOLLOWS it, so the first panel needs no
+     reset and adding a panel never means re-tuning the one before it. */
+  .bcn-widget-panels__panel + .bcn-widget-panels__panel {
+    padding-inline-start: var(--spacing-400);
+    border-inline-start: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* ── Reflows are CONTAINER queries against the widget shell, not viewport media
+        queries (Andy round 4, X1). What matters is the width THIS body actually
+        got — a 3-panel body squeezed into a 1-column widget must stack no matter
+        how wide the viewport is, and the config dialog's live clone (rendered at
+        the real 1/2/3-column frame width) reflows honestly for the same reason.
+        Thresholds in real widths: a 3-column widget is ~1128px at the reference
+        viewport, 2-column ~746, 1-column ~365. ── */
+
+  /* Reflow 1 — a 3-panel body under ~900px keeps two tracks; the third panel
+     takes a full-width row and its divider rotates to a top hairline. */
+  @container (max-width: 900px) {
+    .bcn-widget-panels[data-panels='3'] {
+      grid-template-columns: 170px 1fr;
+    }
+
+    .bcn-widget-panels[data-panels='3'] > .bcn-widget-panels__panel:last-child {
+      grid-column: 1 / -1;
+      padding-inline-start: 0;
+      border-inline-start: 0;
+      padding-block-start: var(--spacing-300);
+      border-block-start: 1px solid var(--color-border-default-subtle);
+    }
+  }
+
+  /* Reflow 2 — under ~560px (a 1-column widget) everything stacks. The divider
+     rotates rather than disappearing: it is what separates one panel's reading
+     from the next, and a bare gap does not carry that at a single column width.
+     Written on [data-panels] so it ties the block above on specificity and wins
+     on source order — matching the 3-panel rules it has to override. */
+  @container (max-width: 560px) {
+    .bcn-widget-panels[data-panels] {
+      grid-template-columns: 1fr;
+    }
+
+    .bcn-widget-panels[data-panels] > .bcn-widget-panels__panel + .bcn-widget-panels__panel {
+      padding-inline-start: 0;
+      border-inline-start: 0;
+      padding-block-start: var(--spacing-300);
+      border-block-start: 1px solid var(--color-border-default-subtle);
+    }
+  }
+
+  /* ── Panel heading. Global because slotted content carries the CALLER's scope, so
+        a scoped rule would never reach it. This is the typography-label-sm role,
+        not a bespoke size. ── */
+  .bcn-widget-panels :global(.bcn-panel-label) {
+    font-family: var(--typography-label-sm-font-family);
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: var(--typography-label-sm-font-weight);
+    line-height: var(--typography-label-sm-line-height);
+    letter-spacing: var(--typography-label-sm-letter-spacing);
+    color: var(--color-content-default-secondary);
+  }
+</style>

@@ -1,0 +1,288 @@
+---
+// <BcnWidgetMenu> — the per-widget ⋯ menu on the composable Monitoring Portal
+// dashboard (remy's spec §10.4, specimen `mp-widget-config.html`, state "Widget menu").
+//
+// ANATOMY (256px panel, top to bottom):
+//   Width
+//   [1|2|3]              esa-button-toggle — the ONLY size control
+//   ── rule ──
+//   ⚙ Configure          32px row
+//   🗑 Remove widget      32px row, danger
+//
+// The size-square picker, its readout, and the height axis are CUT (Andy
+// round 5): width is the one dimension a user sets — height stays the widget's
+// stored footprint, and rows stretch. The toggle still emits the full
+// {width, height} pair, height carried from the committed value the page seeds.
+//
+// No Move row (Andy round 3, M7): moving happens from the widget card header —
+// the whole header drags, and the grip is the keyboard path into move mode.
+//
+// There is deliberately NO "Customize dashboard" row: the composer page it pointed
+// at is withdrawn (§10 preamble).
+//
+// EVENT CONTRACT — the menu DISPATCHES, the page DECIDES. This component owns no
+// storage and never mutates the widget.
+//
+//   OUT  'bcn-widget-menu'  { action: 'configure' | 'move' | 'remove' }
+//        Bubbling + composed, from the <esa-popover> root. The popover closes itself
+//        immediately after; the page does the work.
+//   OUT  'bcn-size-change'  { width, height }
+//        Bubbling + composed, from the root, when the WIDTH TOGGLE commits a change.
+//   IN   'bcn-size-set'     { width, height }
+//        Dispatched BY THE PAGE at the root to seed/re-sync the menu. Syncs the
+//        toggle and the carried height, and emits NOTHING — an init that echoed
+//        back would look like a user edit.
+//
+// bcn-lego-checked: esa-dropdown-menu is the obvious lego and it CANNOT carry this —
+// its API is an `items` array of label/action rows, so a segmented width control has
+// nowhere to live in it (that constraint is what killed the first pass's inline width
+// segment, spec §10.4). esa-popover is therefore the carrier and the CONTENT is
+// legitimately bespoke: the trigger is a slotted button, the panel is
+// `slot="content"`. Everything inside it that a lego does cover uses one —
+// esa-button-toggle for width, esa-icon for every glyph. Checked Beacon: prod has
+// no composable widget dashboard, so there is no `ui-*` pattern to port. The CSS below
+// is the panel's own anatomy plus the kebab chrome lifted verbatim from
+// BcnDashboardWidget's `.bcn-dwidget__kebab`, which this replaces.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Props {
+  /** The widget's title — names the trigger ("Options for Nesting Birds"). */
+  widgetTitle: string;
+}
+const { widgetTitle } = Astro.props;
+
+// Glyphs the hub's icon-registry does not ship (only `trash-2` is registered), passed
+// through esa-icon's `paths` escape hatch rather than forking the component. The dots
+// need an explicit fill/stroke because esa-icon's <svg> is `fill="none"`.
+const MORE_HORIZONTAL =
+  '<circle cx="5" cy="12" r="1.7" fill="currentColor" stroke="none"/>' +
+  '<circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/>' +
+  '<circle cx="19" cy="12" r="1.7" fill="currentColor" stroke="none"/>';
+const SETTINGS_2 =
+  '<path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/>';
+---
+
+{/* has-arrow="false" because the panel is END-ALIGNED by the shim below, and a
+    centre-anchored arrow would point at empty card. */}
+<esa-popover
+  class="bcn-widget-menu"
+  data-widget-menu
+  trigger="click"
+  position="bottom"
+  label="Widget options"
+  has-arrow="false"
+>
+  <button type="button" class="bcn-widget-menu__kebab" aria-label={`Options for ${widgetTitle}`}>
+    <EsaIcon name="more-horizontal" paths={MORE_HORIZONTAL} size="xs" />
+  </button>
+
+  <div slot="content" class="bcn-widget-menu__panel">
+    {/* `options` is an array — set as a property in the script, never an attribute.
+        The lego's own `label` names its inner radiogroup; a light-DOM <span> could
+        not, because an IDREF never crosses the shadow boundary. */}
+    <esa-button-toggle class="bcn-widget-menu__width" size="xs" label="Width" data-menu-width
+    ></esa-button-toggle>
+
+    <div class="bcn-widget-menu__rule" role="separator"></div>
+
+    <button type="button" class="bcn-widget-menu__item" data-menu-action="configure">
+      <EsaIcon name="settings-2" paths={SETTINGS_2} size="xs" />
+      Configure
+    </button>
+    <button type="button" class="bcn-widget-menu__item bcn-widget-menu__item--danger" data-menu-action="remove">
+      <EsaIcon name="trash-2" size="xs" />
+      Remove widget
+    </button>
+  </div>
+</esa-popover>
+
+<script>
+  // ONE controller for every menu on the page — Astro hoists and dedupes this module.
+  import '@esa/ecology/esa-popover';
+  import '@esa/ecology/esa-button-toggle';
+
+  type Size = { width: number; height: number };
+  type ToggleOption = { label: string; value: string };
+  type Popover = HTMLElement & { open: boolean };
+
+  const WIDTH_OPTIONS: ToggleOption[] = [
+    { label: '1', value: '1' },
+    { label: '2', value: '2' },
+    { label: '3', value: '3' },
+  ];
+
+  function setupWidgetMenu(root: Popover): void {
+    const panel = root.querySelector<HTMLElement>('.bcn-widget-menu__panel');
+    if (!panel) return;
+
+    const toggle = panel.querySelector<HTMLElement & { options: ToggleOption[]; value: string }>('[data-menu-width]');
+
+    if (toggle) toggle.options = WIDTH_OPTIONS;
+
+    // The committed footprint. Height has no control here (cut, Andy round 5) but
+    // still rides every emission — the page's size record is a {width, height}
+    // pair, and the carried height is what keeps a width change from resetting it.
+    let committed: Size = { width: 1, height: 2 };
+
+    const sync = (s: Size) => {
+      committed = s;
+      if (toggle) toggle.value = String(s.width);
+    };
+    const emit = (name: string, detail: unknown) => {
+      root.dispatchEvent(new CustomEvent(name, { detail, bubbles: true, composed: true }));
+    };
+
+    // ── Menu items: dispatch, then close. The page does the work. ──
+    //
+    // The trigger is focused BEFORE the close, and that is not optional. esa-popover's
+    // hide() — which restores focus — is private, and `open` is just a reactive
+    // property, so a programmatic close performs no focus restore at all: focus would
+    // sit on a button that stops rendering and fall to <body>, losing the user's place.
+    // (The document listeners hide() also unbinds stay bound, which is benign — they
+    // are stable per-instance refs, so they dedupe on the next open and both guard on
+    // `this.open`.)
+    const trigger = root.querySelector<HTMLElement>('.bcn-widget-menu__kebab');
+    panel.querySelectorAll<HTMLElement>('[data-menu-action]').forEach((item) => {
+      item.addEventListener('click', () => {
+        emit('bcn-widget-menu', { action: item.dataset.menuAction });
+        trigger?.focus();
+        root.open = false;
+      });
+    });
+
+    // ── Width toggle commits. Height is carried over from the committed value —
+    //    a width change must never reset the widget's stored height. ──
+    toggle?.addEventListener('change', (ev) => {
+      const value = Number((ev as CustomEvent<{ value: string }>).detail?.value);
+      if (!Number.isFinite(value) || value === committed.width) return;
+      const next: Size = { width: value, height: committed.height };
+      sync(next);
+      emit('bcn-size-change', next);
+    });
+
+    // ── Init/re-sync from the page. Emits nothing — an init that echoed back would
+    //    look like a user edit. The `target` check is defensive: only an event aimed at
+    //    THIS root is an instruction, so a `bcn-size-set` that reached us any other way
+    //    is not one to act on. ──
+    root.addEventListener('bcn-size-set', (ev) => {
+      if (ev.target !== root) return;
+      const detail = (ev as CustomEvent<Size>).detail;
+      if (detail) sync(detail);
+    });
+
+    // TEMPORARY SHIM over a named hub gap — esa-popover needs position="bottom-end"
+    // (spec §10.11 finding 1, hub ask queued). Its `bottom` position is
+    // `left: 50%; transform: translateX(-50%)`, so a 256px panel centred on a 28px ⋯
+    // hangs ~114px past the card's right edge and runs off the page in the grid's
+    // rightmost column. The panel lives in the lego's shadow root with no position
+    // knob and no exported part, so there is nowhere else to reach it from.
+    // Inline styles on the lego's shadow panel are otherwise BANNED; delete this
+    // block when the hub lands the position.
+    const alignEnd = () => {
+      const shadowPanel = root.shadowRoot?.querySelector<HTMLElement>('.esa-popover');
+      if (!shadowPanel) return;
+      shadowPanel.style.left = 'auto';
+      shadowPanel.style.right = '0';
+      shadowPanel.style.transform = 'none';
+    };
+    // Watching the reflected `open` attribute rather than the trigger's click covers
+    // every open path — pointer, Enter on the button, and a programmatic `.open = true`.
+    new MutationObserver(() => {
+      if (root.hasAttribute('open')) requestAnimationFrame(alignEnd);
+    }).observe(root, { attributes: true, attributeFilter: ['open'] });
+  }
+
+  customElements.whenDefined('esa-popover').then(() => {
+    document
+      .querySelectorAll<Popover>('esa-popover.bcn-widget-menu')
+      .forEach((root) => setupWidgetMenu(root));
+  });
+</script>
+
+<style>
+  /* ── The trigger. Chrome lifted verbatim from BcnDashboardWidget's
+        `.bcn-dwidget__kebab`, which this component replaces, so swapping the menu in
+        changes nothing about the head's silhouette. esa-icon-button is DEPRECATED
+        (it now shims to <EsaButton variant="chrome" iconOnly>), and neither it nor
+        esa-button can carry this glyph: they forward `icon` to esa-icon as a NAME
+        only, and `more-horizontal` is not in the hub's registry — the button would
+        render an empty 24×24 svg. A native button with esa-icon's `paths` hatch is
+        the honest form. ── */
+  .bcn-widget-menu__kebab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 28px;
+    block-size: 28px;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-full);
+    background: var(--color-background-elevation-base);
+    color: var(--color-content-default-secondary);
+    line-height: 1;
+    cursor: pointer;
+  }
+  .bcn-widget-menu__kebab:hover,
+  .bcn-widget-menu[open] .bcn-widget-menu__kebab {
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default);
+  }
+
+  /* ── The panel. Width is set on OUR content, not on the lego's shell: the shell
+        sizes to its content plus its own padding, so 256px outer = 256 minus that
+        padding on each side. Expressed against the token the popover actually reads
+        (--_popover-padding resolves to --spacing-300) so the arithmetic tracks the
+        hub rather than freezing a number. ── */
+  .bcn-widget-menu__panel {
+    inline-size: calc(256px - 2 * var(--spacing-300));
+  }
+
+  /* The width toggle — the panel's one size control. The lego stacks its own
+     label above the track; a light inset of the panel's padding keeps it off
+     the action rows below. */
+  .bcn-widget-menu__width {
+    padding-inline: var(--spacing-250);
+    padding-block-start: var(--spacing-100);
+  }
+
+  .bcn-widget-menu__rule {
+    block-size: 1px;
+    background: var(--color-border-default-subtle);
+    margin-block: var(--spacing-250);
+  }
+
+  /* ── The three items. "Smaller type, heavier presence" (§10.4): the type came down
+        a rung, the weight went up, and the glyphs came up from tertiary to secondary. ── */
+  .bcn-widget-menu__item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    inline-size: 100%;
+    block-size: 32px;
+    padding-inline: var(--spacing-250);
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: none;
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
+    text-align: start;
+    cursor: pointer;
+  }
+  .bcn-widget-menu__item:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-widget-menu__item :global(.esa-icon) {
+    color: var(--color-content-default-secondary);
+    flex: none;
+  }
+  /* The CONTENT danger token, not the background one the specimen's CSS reached for —
+     this is text and a stroke, and the content layer is what the token contract pairs
+     with them. The hover tint is derived from it so the two can never drift. */
+  .bcn-widget-menu__item--danger,
+  .bcn-widget-menu__item--danger :global(.esa-icon) {
+    color: var(--color-content-utility-danger);
+  }
+  .bcn-widget-menu__item--danger:hover {
+    background: color-mix(in srgb, var(--color-content-utility-danger) 8%, transparent);
+  }
+</style>
