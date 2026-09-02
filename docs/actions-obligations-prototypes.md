@@ -11,9 +11,9 @@ Read `docs/actions-obligations-brief.md` first. It defines the two record types,
 
 ## Repo state on 2026-09-02
 
-- Checked-out branch: `feat/card-meta-migration`, level with its remote, with uncommitted changes in 15 files and four untracked handoff folders. That is prior work; do not stash, reset or check out over it without asking.
-- `origin/main` is 11 commits ahead of the branch point (Permitting module, platform-translation audit, map watermark fix). Four of the dirty files are also changed on main: `BcnObservationMap.astro`, `prototypes.ts`, `AppShell.astro`, `PageLayout.astro`.
-- First move of the session: ask Andy whether to commit or stash the branch work, then start a new branch from `origin/main`.
+- Checked-out branch: `feat/card-meta-migration`, clean. The monitoring rebuild, the component handoff notes and the due diligence bundles are committed, and `origin/main` (Permitting, platform-translation audit, file preview, map watermark fix) is merged in with the token migration re-applied. Build green, 213 pages, zero deprecations.
+- The branch is ahead of its remote and of `origin/main`; nothing has been pushed. Ask Andy whether to push the branch, or open a PR to main, before starting.
+- Start the actions work on a new branch from this one.
 
 ## Before building
 
