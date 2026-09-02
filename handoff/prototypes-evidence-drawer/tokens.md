@@ -1,27 +1,86 @@
 # Token contract — prototypes-evidence-drawer
 
-The 101 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 127 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
-| `--color-accent` | `#f76b15` |
-| `--color-background` | `#fafafa` |
-| `--color-border` | `#dcdcdc` |
-| `--color-border-light` | `#efefef` |
-| `--color-primary` | `#005862` |
-| `--color-primary-hover` | `#00474f` |
-| `--color-primary-strong` | `#2a7e3b` |
-| `--color-primary-subtle` | `#effefb` |
-| `--color-secondary` | `#00918b` |
-| `--color-surface` | `#fcfcfc` |
-| `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#fcfcfc` |
-| `--color-text-link` | `#005862` |
-| `--color-text-primary` | `#3d3d3d` |
-| `--color-text-secondary` | `#525252` |
-| `--color-text-tertiary` | `#656565` |
+| `--animation-overlay-enter` | `.25s ease-out` |
+| `--border-width-default` | `1px` |
+| `--color-background-accent` | `#f76b15` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
+| `--color-background-brand-muted` | `#00918b` |
+| `--color-background-brand-subtle` | `#effefb` |
+| `--color-background-default` | `#fafafa` |
+| `--color-background-elevation-raised` | `#fcfcfc` |
+| `--color-background-elevation-sunken` | `#efefef` |
+| `--color-background-overlay-backdrop` | `#00000080` |
+| `--color-border-default` | `#dcdcdc` |
+| `--color-border-default-subtle` | `#efefef` |
+| `--color-content-brand` | `#2a7e3b` |
+| `--color-content-default` | `#3d3d3d` |
+| `--color-content-default-knockout` | `#fcfcfc` |
+| `--color-content-default-secondary` | `#525252` |
+| `--color-content-default-tertiary` | `#656565` |
+| `--color-content-link` | `#005862` |
+| `--elevation-4` | `0 6px 24px -6px #00000012` |
+| `--elevation-5` | `0 8px 32px -8px #00000014` |
+| `--radius-md` | `.25rem` |
+| `--transition-fast` | `.15s ease` |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-body-md-font-weight` | `350` |
+| `--typography-body-md-letter-spacing` | `.01em` |
+| `--typography-body-md-line-height` | `1.6` |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--typography-body-sm-font-weight` | `350` |
+| `--typography-body-sm-letter-spacing` | `.01em` |
+| `--typography-body-sm-line-height` | `1.6` |
+| `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` |
+| `--typography-font-weight-bold` | `650` |
+| `--typography-font-weight-medium` | `500` |
+| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-semibold` | `550` |
+| `--typography-heading-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-heading-md-font-size` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
+| `--typography-heading-md-font-weight` | `550` |
+| `--typography-heading-md-letter-spacing` | `-.01em` |
+| `--typography-heading-md-line-height` | `1.3` |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-label-md-font-weight` | `500` |
+| `--typography-label-md-letter-spacing` | `.01em` |
+| `--typography-label-md-line-height` | `1.6` |
+| `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--typography-meta-font-family` | `"DM Sans", sans-serif` |
+| `--typography-meta-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-meta-font-weight` | `350` |
+| `--typography-meta-letter-spacing` | `.01em` |
+| `--typography-meta-line-height` | `1.6` |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-microcopy-md-font-weight` | `500` |
+| `--typography-microcopy-md-letter-spacing` | `.01em` |
+| `--typography-microcopy-md-line-height` | `1` |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-microcopy-xs-font-weight` | `500` |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` |
+| `--typography-microcopy-xs-line-height` | `1` |
+| `--typography-title-font-family` | `"DM Sans", sans-serif` |
+| `--typography-title-font-size` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
+| `--typography-title-font-weight` | `500` |
+| `--typography-title-letter-spacing` | `.01em` |
+| `--typography-title-line-height` | `1.6` |
+| `--typography-title-sm-strong-font-family` | `"DM Sans", sans-serif` |
+| `--typography-title-sm-strong-font-size` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
+| `--typography-title-sm-strong-font-weight` | `550` |
+| `--typography-title-sm-strong-letter-spacing` | `.01em` |
+| `--typography-title-sm-strong-line-height` | `1.6` |
 
 ## Component
 
@@ -31,7 +90,7 @@ The 101 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-aldo-100` | `#cfeceb` |
 | `--bcn-aldo-50` | `#e8f6f5` |
 | `--bcn-gray-100` | `#efefef` |
-| `--bcn-gray-1000` | `#000000` |
+| `--bcn-gray-1000` | `#000` |
 | `--bcn-gray-200` | `#dcdcdc` |
 | `--bcn-gray-300` | `#bdbdbd` |
 | `--bcn-gray-400` | `#989898` |
@@ -40,65 +99,40 @@ The 101 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-gray-600` | `#656565` |
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
-| `--bcn-helpbar-bg` | `rgba(23, 25, 27, .78)` |
+| `--bcn-helpbar-bg` | `#17191bc7` |
 | `--bcn-helpbar-bg-solid` | `#1f2224` |
-| `--bcn-helpbar-border` | `rgba(255, 255, 255, .12)` |
-| `--bcn-helpbar-divider` | `rgba(255, 255, 255, .16)` |
-| `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` |
-| `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` |
-| `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` |
+| `--bcn-helpbar-border` | `#ffffff1f` |
+| `--bcn-helpbar-divider` | `#ffffff29` |
+| `--bcn-helpbar-fg` | `#ffffffeb` |
+| `--button-radius-md` | `.25rem` |
+| `--button-radius-sm` | `.25rem` |
 | `--card-bg` | `#fcfcfc` |
 | `--card-border-color` | `#dcdcdc` |
 | `--card-header-bg` | `transparent` |
-| `--card-header-border-color` | `#efefef` |
-| `--card-header-color` | `#3d3d3d` |
-| `--card-padding` | `1.5rem` |
-| `--card-radius` | `.5rem` |
 | `--color-commitment` | `#58508d` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--form-height-md` | `36px` |
-| `--form-height-sm` | `28px` |
-| `--form-padding-x-md` | `.75rem` |
-| `--form-padding-x-sm` | `.625rem` |
-| `--form-radius-md` | `.25rem` |
-| `--form-radius-sm` | `.25rem` |
-| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
-| `--icon-size-medium` | `20px` |
-| `--icon-size-small` | `16px` |
-| `--popover-bg` | `#fcfcfc` |
-| `--popover-border-color` | `#dcdcdc` |
-| `--popover-color` | `#3d3d3d` |
-| `--popover-radius` | `.5rem` |
+| `--side-dialog-inset` | `16px` |
 | `--side-dialog-width` | `400px` |
 
 ## Primitive
 
 | Token | Value |
 |---|---|
-| `--color-backdrop` | `rgba(0, 0, 0, .5)` |
-| `--font-display` | `"DM Sans", sans-serif` |
-| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` |
-| `--font-sans` | `"DM Sans", sans-serif` |
-| `--font-weight-bold` | `650` |
-| `--font-weight-medium` | `500` |
-| `--font-weight-regular` | `350` |
-| `--font-weight-semibold` | `550` |
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--font-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
+| `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
-| `--letter-spacing-normal` | `.01em` |
-| `--letter-spacing-tight` | `-.01em` |
-| `--line-height-normal` | `1.6` |
-| `--line-height-relaxed` | `1.8` |
-| `--line-height-tight` | `1.3` |
 | `--radius-100` | `.25rem` |
 | `--radius-200` | `.5rem` |
 | `--radius-300` | `.5rem` |
 | `--radius-400` | `.75rem` |
 | `--radius-full` | `9999px` |
-| `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` |
 | `--spacing-050` | `.125rem` |
 | `--spacing-100` | `.25rem` |
 | `--spacing-150` | `.375rem` |
@@ -109,14 +143,6 @@ The 101 design tokens this page actually uses, resolved to their final values fo
 | `--spacing-500` | `1.5rem` |
 | `--spacing-600` | `2rem` |
 | `--spacing-700` | `3rem` |
-| `--transition-fast` | `.15s ease` |
-| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
-| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 
 ## Component-scoped
 
@@ -127,3 +153,4 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-width`
 - `--bcn-bottom-drawer-z`
 - `--gap`
+- `--page-title-icon-color`

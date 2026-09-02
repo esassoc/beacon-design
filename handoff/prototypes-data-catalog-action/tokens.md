@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-action
 
-The 114 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 102 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -67,19 +67,13 @@ The 114 design tokens this page actually uses, resolved to their final values fo
 | `--dialog-width` | `480px` |
 | `--dialog-width-lg` | `640px` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-bg` | `#fcfcfc` |
-| `--form-border-color` | `#dcdcdc` |
 | `--form-border-width` | `1px` |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--form-height-md` | `36px` |
 | `--form-height-xs` | `24px` |
 | `--form-label-color` | `#525252` |
-| `--form-label-font-weight` | `500` |
 | `--form-padding-x-md` | `.75rem` |
-| `--form-padding-y-md` | `.5rem` |
-| `--form-placeholder-color` | `#7c7c7c` |
 | `--form-radius-md` | `.25rem` |
-| `--form-text-color` | `#3d3d3d` |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
@@ -88,17 +82,11 @@ The 114 design tokens this page actually uses, resolved to their final values fo
 | `--popover-color` | `#3d3d3d` |
 | `--popover-radius` | `.5rem` |
 | `--side-dialog-width` | `400px` |
-| `--tab-layout-border-color` | `#dcdcdc` |
-| `--tab-layout-color` | `#525252` |
-| `--tab-layout-color-active` | `#005862` |
-| `--tab-layout-height-md` | `44px` |
-| `--tab-layout-indicator-color` | `#005862` |
 
 ## Primitive
 
 | Token | Value |
 |---|---|
-| `--color-backdrop` | `rgba(0, 0, 0, .5)` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
 | `--font-weight-medium` | `500` |
@@ -742,12 +730,7 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--ag-wrapper-background-color`
 - `--ag-wrapper-border`
 - `--ag-wrapper-border-radius`
-- `--bcn-bottom-drawer-height`
-- `--bcn-bottom-drawer-inset`
-- `--bcn-bottom-drawer-width`
-- `--bcn-bottom-drawer-z`
 - `--dialog-footer-bg`
 - `--dialog-header-bg`
 - `--file-list-row-padding-x`
 - `--file-list-row-padding-y`
-- `--form-label-font-size`

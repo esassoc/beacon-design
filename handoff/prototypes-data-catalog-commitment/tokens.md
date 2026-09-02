@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-commitment
 
-The 126 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 122 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -17,7 +17,6 @@ The 126 design tokens this page actually uses, resolved to their final values fo
 | `--color-primary-hover` | `#00474f` |
 | `--color-primary-strong` | `#2a7e3b` |
 | `--color-primary-subtle` | `#effefb` |
-| `--color-secondary` | `#00918b` |
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-elevated` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
@@ -78,7 +77,6 @@ The 126 design tokens this page actually uses, resolved to their final values fo
 | `--form-height-md` | `36px` |
 | `--form-height-sm` | `28px` |
 | `--form-label-color` | `#525252` |
-| `--form-label-font-weight` | `500` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-padding-x-sm` | `.625rem` |
 | `--form-padding-y-md` | `.5rem` |
@@ -90,7 +88,6 @@ The 126 design tokens this page actually uses, resolved to their final values fo
 | `--icon-link-font-size-md` | `1rem` |
 | `--icon-link-font-size-sm` | `.875rem` |
 | `--icon-link-gap` | `.375rem` |
-| `--icon-size-large` | `24px` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 | `--pill-bg` | `#efefef` |
@@ -110,7 +107,6 @@ The 126 design tokens this page actually uses, resolved to their final values fo
 
 | Token | Value |
 |---|---|
-| `--color-backdrop` | `rgba(0, 0, 0, .5)` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
 | `--font-weight-medium` | `500` |
@@ -147,12 +143,7 @@ The 126 design tokens this page actually uses, resolved to their final values fo
 
 Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
 
-- `--bcn-bottom-drawer-height`
-- `--bcn-bottom-drawer-inset`
-- `--bcn-bottom-drawer-width`
-- `--bcn-bottom-drawer-z`
 - `--dialog-footer-bg`
 - `--dialog-header-bg`
 - `--file-list-row-padding-x`
 - `--file-list-row-padding-y`
-- `--form-label-font-size`

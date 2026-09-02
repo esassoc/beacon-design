@@ -783,7 +783,7 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                     >
                       <span
                         class="bcn-grid-chip"
-                        style="--_chip: var(--color-text-tertiary)"
+                        style="--_chip: var(--color-content-default-tertiary)"
                         ><span class="bcn-grid-chip__dot"></span>Draft</span
                       >
                     </div>
@@ -872,7 +872,7 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                     >
                       <span
                         class="bcn-grid-chip"
-                        style="--_chip: var(--color-text-tertiary)"
+                        style="--_chip: var(--color-content-default-tertiary)"
                         ><span class="bcn-grid-chip__dot"></span>Draft</span
                       >
                     </div>
@@ -961,7 +961,7 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                     >
                       <span
                         class="bcn-grid-chip"
-                        style="--_chip: var(--color-text-tertiary)"
+                        style="--_chip: var(--color-content-default-tertiary)"
                         ><span class="bcn-grid-chip__dot"></span>Draft</span
                       >
                     </div>
@@ -1048,7 +1048,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-info)"
                         ><span class="bcn-grid-chip__dot"></span>In Review</span
                       >
                     </div>
@@ -1135,7 +1137,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-info)"
                         ><span class="bcn-grid-chip__dot"></span>In Review</span
                       >
                     </div>
@@ -1222,7 +1226,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-warning)"
                         ><span class="bcn-grid-chip__dot"></span>In Progress</span
                       >
                     </div>
@@ -1309,7 +1315,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-warning)"
                         ><span class="bcn-grid-chip__dot"></span>In Progress</span
                       >
                     </div>
@@ -1396,7 +1404,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -1483,7 +1493,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-warning)"
                         ><span class="bcn-grid-chip__dot"></span>In Progress</span
                       >
                     </div>
@@ -1570,7 +1582,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -1657,7 +1671,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -1744,7 +1760,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -1831,7 +1849,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -1918,7 +1938,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -2005,7 +2027,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -2092,7 +2116,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -2179,7 +2205,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -2266,7 +2294,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -2353,7 +2383,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -2440,7 +2472,9 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
                       aria-colindex="3"
                       style="left: 280px; width: 130px"
                     >
-                      <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                      <span
+                        class="bcn-grid-chip"
+                        style="--_chip: var(--color-background-utility-success)"
                         ><span class="bcn-grid-chip__dot"></span>Final</span
                       >
                     </div>
@@ -2506,7 +2540,7 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
             </div>
             <!--AG-FAKE-VERTICAL-SCROLL-->
             <div
-              class="ag-body-vertical-scroll ag-scrollbar-invisible"
+              class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible"
               aria-hidden="true"
               style="width: 16px; max-width: 16px; min-width: 16px"
             >
@@ -2651,7 +2685,7 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
           </div>
           <!--AG-FAKE-HORIZONTAL-SCROLL-->
           <div
-            class="ag-body-horizontal-scroll ag-scrollbar-invisible ag-invisible"
+            class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-invisible ag-invisible"
             aria-hidden="true"
             style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
           >
@@ -3804,27 +3838,27 @@ One row per site visit — the shared AG Grid kit (beacon-grid.ts) already used 
 :where(.ag-ltr) .ag-set-filter-add-group-indent{margin-left:calc(var(--ag-icon-size) + var(--ag-widget-container-horizontal-padding))}
 :where(.ag-ltr) .ag-filter-apply-panel-button{margin-left:calc(var(--ag-spacing)*2)}
 .dr-grid{width:100%;height:calc(100vh - 360px);min-height:480px}
-.ag-cell.bcn-grid-status-cell{display:flex;align-items:center}
-.bcn-grid-chip{display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.8125rem;line-height:1.5;font-weight:var(--font-weight-semibold);white-space:nowrap;background:color-mix(in srgb,var(--_chip) 16%,transparent);color:color-mix(in srgb,var(--_chip) 70%,var(--color-text-primary))}
-.bcn-grid-chip__dot{width:7px;height:7px;border-radius:50%;background:var(--_chip);flex-shrink:0}
-.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
-.bcn-grid-name:hover{color:var(--color-primary-hover)}
-.bcn-grid-download-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--color-border);border-radius:var(--radius-100);background:var(--color-surface);color:var(--color-text-secondary);cursor:pointer;padding:0}
-.bcn-grid-download-btn:hover{background:var(--color-surface-sunken);color:var(--color-text-primary)}
+.ag-cell.bcn-grid-status-cell{align-items:center;display:flex}
+.bcn-grid-chip{align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.8125rem;line-height:1.5;font-weight:var(--typography-font-weight-semibold);white-space:nowrap;background:color-mix(in srgb, var(--_chip) 16%, transparent);color:color-mix(in srgb, var(--_chip) 70%, var(--color-content-default));display:inline-flex}
+.bcn-grid-chip__dot{background:var(--_chip);border-radius:50%;flex-shrink:0;width:7px;height:7px}
+.bcn-grid-name{color:var(--color-content-link);font-weight:var(--typography-font-weight-regular);text-decoration:underline}
+.bcn-grid-name:hover{color:var(--color-background-brand-hover)}
+.bcn-grid-download-btn{border:1px solid var(--color-border-default);border-radius:var(--radius-100);background:var(--color-background-elevation-raised);width:30px;height:30px;color:var(--color-content-default-secondary);cursor:pointer;justify-content:center;align-items:center;padding:0;display:inline-flex}
+.bcn-grid-download-btn:hover{background:var(--color-background-elevation-sunken);color:var(--color-content-default)}
 ```
 
 ## Tokens
 - `--ag-internal-hover-color`: rgba(0, 0, 0, 0) _(component)_
 - `--ag-internal-moving-color`: rgba(0, 0, 0, 0) _(component)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-link`: #005862 _(semantic)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--typography-font-weight-regular`: 350 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

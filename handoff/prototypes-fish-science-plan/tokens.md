@@ -1,6 +1,6 @@
 # Token contract — prototypes-fish-science-plan
 
-The 116 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 102 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -13,13 +13,11 @@ The 116 design tokens this page actually uses, resolved to their final values fo
 | `--color-info` | `#228be6` |
 | `--color-primary` | `#005862` |
 | `--color-primary-strong` | `#2a7e3b` |
-| `--color-secondary` | `#00918b` |
 | `--color-success` | `#2e7571` |
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#005862` |
-| `--color-text-muted` | `#7c7c7c` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |
@@ -64,21 +62,10 @@ The 116 design tokens this page actually uses, resolved to their final values fo
 | `--filter-clear-color` | `#7c7c7c` |
 | `--filter-clear-color-hover` | `#ce2c31` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-bg` | `#fcfcfc` |
 | `--form-border-color` | `#dcdcdc` |
-| `--form-border-width` | `1px` |
-| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--form-height-md` | `36px` |
-| `--form-height-sm` | `28px` |
-| `--form-padding-x-md` | `.75rem` |
-| `--form-padding-x-sm` | `.625rem` |
-| `--form-padding-y-md` | `.5rem` |
-| `--form-padding-y-sm` | `.375rem` |
-| `--form-placeholder-color` | `#7c7c7c` |
 | `--form-radius-md` | `.25rem` |
-| `--form-radius-sm` | `.25rem` |
-| `--form-text-color` | `#3d3d3d` |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
@@ -98,7 +85,6 @@ The 116 design tokens this page actually uses, resolved to their final values fo
 
 | Token | Value |
 |---|---|
-| `--color-backdrop` | `rgba(0, 0, 0, .5)` |
 | `--font-mono` | `"Roboto Mono", ui-monospace, monospace` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
@@ -133,11 +119,3 @@ The 116 design tokens this page actually uses, resolved to their final values fo
 | `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 
-## Component-scoped
-
-Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
-
-- `--bcn-bottom-drawer-height`
-- `--bcn-bottom-drawer-inset`
-- `--bcn-bottom-drawer-width`
-- `--bcn-bottom-drawer-z`

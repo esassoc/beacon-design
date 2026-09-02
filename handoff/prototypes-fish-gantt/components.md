@@ -4,13 +4,10 @@ The component blocks composing this page. Hub (`esa-*`) components are the share
 
 | Component | Origin | Source |
 |---|---|---|
-| `esa-alert-box` | hub | — |
-| `esa-badge` | hub | — |
-| `esa-button` | hub | — |
-| `esa-card` | hub | — |
-| `esa-empty-state` | hub | — |
-| `esa-filter-clear-button` | hub | — |
-| `esa-icon` | hub | — |
-| `esa-icon-button` | hub | — |
-| `esa-loading-spinner` | hub | — |
-| `esa-pill` | hub | — |
+| `esa-badge` | hub | src/components/esa-badge.astro |
+| `esa-button` | hub | src/components/esa-button.astro |
+| `esa-card` | hub | src/components/esa-card.astro |
+| `esa-filter-clear-button` | hub | src/components/esa-filter-clear-button.astro |
+| `esa-icon` | hub | src/components/esa-icon.astro |
+| `esa-icon-button` | hub | src/components/esa-icon-button.astro |
+| `esa-pill` | hub | src/components/esa-pill.astro |

@@ -1,6 +1,6 @@
 # Token contract — prototypes-settings-terminology
 
-The 95 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 93 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -10,7 +10,6 @@ The 95 design tokens this page actually uses, resolved to their final values for
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
 | `--color-primary` | `#005862` |
-| `--color-secondary` | `#00918b` |
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
@@ -75,7 +74,6 @@ The 95 design tokens this page actually uses, resolved to their final values for
 
 | Token | Value |
 |---|---|
-| `--color-backdrop` | `rgba(0, 0, 0, .5)` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
 | `--font-weight-medium` | `500` |
@@ -116,9 +114,5 @@ The 95 design tokens this page actually uses, resolved to their final values for
 
 Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
 
-- `--bcn-bottom-drawer-height`
-- `--bcn-bottom-drawer-inset`
-- `--bcn-bottom-drawer-width`
-- `--bcn-bottom-drawer-z`
 - `--gap`
 - `--sidebar-content-min`
