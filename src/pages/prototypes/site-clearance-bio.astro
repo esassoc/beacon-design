@@ -662,6 +662,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
   import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
   import type { GridApi, GridOptions, ColDef, IRowNode, ICellRendererParams } from 'ag-grid-community';
   import { beaconTheme, makeStatusRenderer } from '../../lib/beacon-grid';
+  import { BASEMAP_TILE_URL, BASEMAP_ATTRIBUTION } from '../../lib/basemap';
   import '@esa/ecology/esa-tab-layout';
   import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-dialog';
@@ -1029,11 +1030,7 @@ const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
     map = L.map('gc-map', { zoomControl: true, attributionControl: true, zoomSnap: 0.25 });
     // Map/Satellite base layers — the Component Buffer overlay is a
     // satellite-mode analysis tool (BCN-1454), so the imagery base ships too.
-    const baseMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      subdomains: 'abcd',
-      maxZoom: 20,
-    }).addTo(map);
+    const baseMap = L.tileLayer(BASEMAP_TILE_URL, { attribution: BASEMAP_ATTRIBUTION, maxZoom: 20 }).addTo(map);
     const baseSat = L.tileLayer(
       'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
       { attribution: '&copy; Esri', maxZoom: 19 }

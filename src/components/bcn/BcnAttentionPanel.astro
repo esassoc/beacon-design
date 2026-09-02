@@ -89,7 +89,7 @@ const payload = { outstanding, fileBase: exportFileBase };
        reads as the aside. -->
   <div class="bcn-apanel__body sidebar" data-gap="lg" data-side="end">
     <div class="bcn-apanel__inset stack" data-gap="xs">
-      <h4 class="bcn-apanel__heading typography-label">Active issue locations</h4>
+      <h4 class="bcn-apanel__heading typography-label-xs">Active issue locations</h4>
       <BcnObservationMap
         observations={mapPins}
         mapId="attention-panel"
@@ -99,7 +99,7 @@ const payload = { outstanding, fileBase: exportFileBase };
     </div>
 
     <section class="bcn-apanel__outstanding stack" data-gap="sm">
-      <h4 class="bcn-apanel__heading typography-label">Outstanding items ({outstanding.length})</h4>
+      <h4 class="bcn-apanel__heading typography-label-xs">Outstanding items ({outstanding.length})</h4>
       {outstanding.length === 0 ? (
         <EsaEmptyState
           size="sm"

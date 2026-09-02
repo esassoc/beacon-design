@@ -84,7 +84,7 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
       {block.zones.map(({ zone, pages }) => (
         <div class="bcn-settings-nav__group">
           <h3
-            class="typography-label bcn-settings-nav__zone"
+            class="typography-label-xs bcn-settings-nav__zone"
             id={`settings-zone-${block.id}-${zone.id}`}
           >
             {zone.title}
@@ -231,7 +231,7 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     padding-inline: var(--spacing-300, 0.75rem);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    /* Bold, not the typography-label role's default weight (Andy, 2026-07-30) — at eyebrow
+    /* Bold, not the typography-label-xs role's default weight (Andy, 2026-07-30) — at eyebrow
        size the extra weight is what keeps the label legible against its tracking. */
     font-weight: var(--typography-font-weight-bold, 700);
     color: var(--color-content-default-tertiary);

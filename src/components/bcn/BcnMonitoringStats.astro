@@ -78,7 +78,7 @@ const barWidth = (value: number, items: { value: number }[]) => {
 
       <!-- Outstanding Issues mini-panel -->
       <section class="bcn-mstats__issues stack" data-gap="sm">
-        <h4 class="bcn-mstats__issues-title typography-label">
+        <h4 class="bcn-mstats__issues-title typography-label-xs">
           Outstanding Issues ({outstandingIssues.length})
         </h4>
         <ul class="stack" data-gap="2xs">
@@ -110,7 +110,7 @@ const barWidth = (value: number, items: { value: number }[]) => {
               <span class="bcn-mstats__bar-track">
                 <span class="bcn-mstats__bar-fill" style={`--_c: ${s.hex}; width: ${barWidth(s.value, stats.nestingBirds.species)};`}></span>
               </span>
-              <span class="bcn-mstats__bar-value typography-label">{s.value}</span>
+              <span class="bcn-mstats__bar-value typography-label-xs">{s.value}</span>
             </li>
           ))}
         </ul>
@@ -141,7 +141,7 @@ const barWidth = (value: number, items: { value: number }[]) => {
               <span class="bcn-mstats__bar-track">
                 <span class="bcn-mstats__bar-fill" style={`--_c: ${item.hex}; width: ${barWidth(item.value, stats.biologicalResources.items)};`}></span>
               </span>
-              <span class="bcn-mstats__bar-value typography-label">{item.value}</span>
+              <span class="bcn-mstats__bar-value typography-label-xs">{item.value}</span>
             </li>
           ))}
         </ul>

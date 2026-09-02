@@ -24,7 +24,7 @@
 // rule for the whole surface — nothing is attached until a person approves it — whether the
 // proposal came from the matching utility or from the person themselves.
 //
-// Composes: esa-file-list, esa-collapsible, esa-dialog, esa-text-field, esa-icon-button,
+// Composes: bcn-file-row, bcn-file-preview, esa-collapsible, esa-dialog, esa-button-toggle, esa-text-field, esa-icon-button,
 // esa-button, esa-badge, esa-icon, esa-empty-state, esa-card, bcn-commitment-badge.
 // Behavior lives in ./triage.ts.
 //
@@ -38,10 +38,11 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIconButton from '@esa/ecology/esa-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
-import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnFileRow from './BcnFileRow.astro';
+import BcnFilePreview from './BcnFilePreview.astro';
 import {
   TRIAGE_ITEMS,
   suggestionsForItem,
@@ -73,11 +74,7 @@ const FILE_PLUS =
        by hand. Nothing on this surface can say "this is not evidence", so a record that is
        genuinely junk has no exit; if that becomes a real case, this is where it would go. -->
   <div class="bcn-triage-review__prompt" data-triage-prompt>
-    <EsaEmptyState
-      title="Select a record to review"
-      description="Each one shows the actions proposed for it. Approve a suggestion, or attach the record to an action you pick yourself."
-      size="sm"
-    />
+    <p class="bcn-triage-review__invite">Select a record to review</p>
   </div>
 
   {
@@ -131,9 +128,14 @@ const FILE_PLUS =
                 iconPaths={scopeIcon('evidence')}
                 flush
               >
-                <esa-file-list
-                  data-triage-files={JSON.stringify(item.files.map((f) => ({ name: f.name })))}
-                />
+                {/* bcn-file-row rather than esa-file-list: the lego renders in a closed
+                    shadow root with exactly two actions (download, remove), so a preview
+                    button cannot be added to its rows from outside. See BcnFileRow. */}
+                <div class="bcn-triage-review__filelist">
+                  {item.files.map((f) => (
+                    <BcnFileRow name={f.name} size={f.size} previewId={f.name} />
+                  ))}
+                </div>
               </EsaCollapsible>
             </div>
           </header>
@@ -193,6 +195,23 @@ const FILE_PLUS =
                           </div>
 
                           <div class="bcn-triage-sug__act" data-triage-sug-act>
+                            <span class="bcn-triage-sug__complete">
+                              {/* Its own question, answered on the same row as the decision it
+                                  qualifies. Approving says the evidence belongs to the action;
+                                  this says the action is DONE — a bigger claim, so it is asked
+                                  rather than inferred, and it defaults to No. The lego's own
+                                  label is used so the words stay bound to the radiogroup. */}
+                              <esa-button-toggle
+                                data-triage-sug-complete
+                                size="xs"
+                                value="no"
+                                label="Mark complete?"
+                                data-options={JSON.stringify([
+                                  { value: 'yes', label: 'Yes' },
+                                  { value: 'no', label: 'No' },
+                                ])}
+                              />
+                            </span>
                             <EsaButton size="sm" variant="primary" data-triage-sug-approve>
                               Approve
                             </EsaButton>
@@ -204,6 +223,11 @@ const FILE_PLUS =
                           <div class="bcn-triage-sug__done" data-triage-sug-done hidden>
                             <span data-triage-sug-verdict>
                               <EsaBadge value="Attached" variant="success" size="sm" />
+                            </span>
+                            {/* Only ever shown alongside Attached — "complete" is a claim about
+                                the action, and a dismissed proposal never made one. */}
+                            <span data-triage-sug-completemark hidden>
+                              <EsaBadge value="Marked complete" size="sm" />
                             </span>
                             <EsaButton size="sm" variant="ghost" data-triage-sug-undo>
                               Undo
@@ -227,6 +251,9 @@ const FILE_PLUS =
     })
   }
 
+  {/* The stand-in document viewer, mounted once for every file on every record. */}
+  <BcnFilePreview />
+
   {/* ONE dialog for the whole pane, not one per record: the controller remembers which record
       opened it. Sixteen copies of a modal is sixteen focus traps waiting to disagree.
       esa-dialog brings Esc, the focus trap and focus restore with it. */}
@@ -234,10 +261,12 @@ const FILE_PLUS =
     <div class="bcn-triage-add">
       <p class="bcn-triage-add__scope" data-triage-add-scope></p>
 
-      {/* esa-combobox in autocomplete + multiple mode IS this control: an input that opens a
-          filtered dropdown, keeps its picks as chips, and brings keyboard nav, outside-click
-          close and Escape with it. The hand-rolled search + result list + staged strip this
-          replaces was all of that, reimplemented worse. */}
+      {/* esa-combobox in autocomplete mode is the FINDER: an input that opens a filtered
+          dropdown with match highlighting, and brings keyboard nav, outside-click close and
+          Escape with it. Single-select on purpose — each pick moves straight into the list
+          below and the field clears, so it is always ready for the next search rather than
+          accumulating chips inside itself. Options already picked, or already on the record,
+          come back disabled. */}
       <span
         hidden
         data-triage-action-meta={JSON.stringify(
@@ -253,13 +282,20 @@ const FILE_PLUS =
       <esa-combobox
         data-triage-add-combo
         mode="autocomplete"
-        multiple
         size="md"
         placeholder="Search actions by name or commitment code…"
         data-options={JSON.stringify(
           ACTIONS.map((a) => ({ value: a.id, label: `${a.code} — ${a.name}` }))
         )}
       />
+
+      {/* Picked actions collect HERE rather than as chips in the field. The field is a finder
+          — it empties after every pick so the next search starts clean — and this is the
+          list of what you are about to add, which is the thing worth seeing. */}
+      <div class="bcn-triage-add__staged" data-triage-add-staged hidden>
+        <p class="bcn-triage-add__stagedlabel" data-triage-add-stagedlabel></p>
+        <ul class="bcn-triage-add__stagedlist" data-triage-add-stagedlist></ul>
+      </div>
     </div>
 
     <div slot="footer" class="bcn-triage-add__actions">
@@ -267,6 +303,16 @@ const FILE_PLUS =
       <EsaButton size="md" variant="ghost" data-triage-add-cancel>Cancel</EsaButton>
     </div>
   </esa-dialog>
+
+  {/* A staged row, cloned per pick — legos rather than strings, same as the card below. */}
+  <template data-triage-staged-template>
+    <li class="bcn-triage-add__stagedrow">
+      <span class="bcn-triage-add__stagedname" data-tpl-name></span>
+      <span data-tpl-remove>
+        <EsaIconButton variant="chrome" iconOnly icon="x" label="Remove from selection" size="sm" />
+      </span>
+    </li>
+  </template>
 
   {/* The card the controller clones for a manual addition. Astro's legos are compile-time, so
       a template is how a runtime-built card still gets real esa-card / esa-badge markup
@@ -287,6 +333,18 @@ const FILE_PLUS =
           </div>
 
           <div class="bcn-triage-sug__act" data-triage-sug-act>
+            <span class="bcn-triage-sug__complete">
+              <esa-button-toggle
+                data-triage-sug-complete
+                size="xs"
+                value="no"
+                label="Mark complete?"
+                data-options={JSON.stringify([
+                  { value: 'yes', label: 'Yes' },
+                  { value: 'no', label: 'No' },
+                ])}
+              />
+            </span>
             <EsaButton size="sm" variant="primary" data-triage-sug-approve>Approve</EsaButton>
             <EsaButton size="sm" variant="danger" appearance="outline" data-triage-sug-dismiss>
               Dismiss
@@ -295,6 +353,7 @@ const FILE_PLUS =
 
           <div class="bcn-triage-sug__done" data-triage-sug-done hidden>
             <span data-triage-sug-verdict><EsaBadge value="Attached" variant="success" size="sm" /></span>
+            <span data-triage-sug-completemark hidden><EsaBadge value="Marked complete" size="sm" /></span>
             <EsaButton size="sm" variant="ghost" data-triage-sug-undo>Undo</EsaButton>
           </div>
         </div>
@@ -304,8 +363,8 @@ const FILE_PLUS =
 </div>
 
 <script>
-  import '@esa/ecology/esa-file-list';
   import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-button-toggle';
   import '@esa/ecology/esa-combobox';
 </script>
 
@@ -323,13 +382,40 @@ const FILE_PLUS =
 
   /* With nothing selected the pane has no content to size to, so the prompt supplies the
      height itself rather than centring inside a collapsed box. */
+  /* While nothing is selected the pane drops its own chrome: the dashed invitation IS the
+     edge, and the solid border around it read as two boxes. The pane takes its border back
+     the moment a record fills it. */
+  .bcn-triage-review:has([data-triage-prompt]:not([hidden])) {
+    border: 0;
+    background: none;
+  }
+
   .bcn-triage-review__prompt {
+    display: flex;
+    flex: 1;
+    align-items: stretch;
+    min-height: 22rem;
+  }
+
+  /* The platform's waiting-for-something pattern, as bcn-ev-row__hint draws it in the drawer:
+     a dashed edge, NO fill, centred, muted and italic — an instruction about what to do with
+     the empty space rather than a label for something that is there.
+     Not esa-empty-state: that lego is for "this collection is empty", with a title and a
+     description. This is "you have not picked one yet", which the drawer already models as a
+     dashed zone, and it wants one quiet line rather than a headline. */
+  .bcn-triage-review__invite {
     display: flex;
     flex: 1;
     align-items: center;
     justify-content: center;
-    min-height: 22rem;
-    padding: var(--spacing-700) var(--spacing-500);
+    margin: 0;
+    padding: var(--spacing-500);
+    border: 1px dashed var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: none;
+    font-size: 0.8125rem;
+    font-style: italic;
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-triage-review__prompt[hidden] {
@@ -441,7 +527,7 @@ const FILE_PLUS =
   .bcn-triage-review__facts dd[data-warn] {
     font-weight: var(--typography-font-weight-regular, 400);
     font-style: italic;
-    color: var(--bcn-content-muted);
+    color: var(--color-content-default-secondary);
   }
 
   /* The files disclosure closes out the record block, divided by a rule rather than given a
@@ -456,6 +542,13 @@ const FILE_PLUS =
      dividing the record from its files rather than floating between two equal gaps. */
   .bcn-triage-review__files :global(.esa-collapsible__summary) {
     padding-block: var(--spacing-300) var(--spacing-150);
+  }
+
+  /* The rows stack with the gap esa-file-list used, so the swap is invisible. */
+  .bcn-triage-review__filelist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
   }
 
   /* Air between the summary and the list when open, so the first file is not welded to it. */
@@ -516,7 +609,7 @@ const FILE_PLUS =
   .bcn-triage-review__legend :global(.esa-icon),
   .bcn-triage-review__files :global(.esa-collapsible__summary .esa-icon) {
     flex: none;
-    color: var(--bcn-content-muted);
+    color: var(--color-content-default-secondary);
   }
 
   /* Sits a little away from the label so it reads as a count OF the section rather than a
@@ -561,7 +654,7 @@ const FILE_PLUS =
     font-style: italic;
     line-height: 1.45;
     text-align: center;
-    color: var(--bcn-content-muted);
+    color: var(--color-content-default-secondary);
   }
 
   /* The whole block steps in from the panel edge — header and contents together — while the
@@ -607,7 +700,7 @@ const FILE_PLUS =
      legend, so a blue border was sitting around a grey glyph.
      Change the one --triage-add-ink value to recolour both. */
   .bcn-triage-review__add :global(.esa-icon-button) {
-    --triage-add-ink: var(--bcn-content-muted);
+    --triage-add-ink: var(--color-content-default-secondary);
     border: 1px solid currentColor;
     border-radius: var(--radius-100);
     background: transparent;
@@ -642,6 +735,50 @@ const FILE_PLUS =
     color: var(--color-content-default-secondary);
   }
 
+  .bcn-triage-add__staged[hidden] {
+    display: none;
+  }
+
+  .bcn-triage-add__staged {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  .bcn-triage-add__stagedlabel {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+
+  .bcn-triage-add__stagedlist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bcn-triage-add__stagedrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-250);
+    padding: var(--spacing-150) var(--spacing-250);
+    background: var(--color-background-utility-info-subtle);
+    border: 1px solid color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+    border-radius: var(--radius-100);
+  }
+
+  .bcn-triage-add__stagedname {
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+  }
+
   /* Windows order: the primary sits LEFT of the secondary within a right-aligned group. */
   .bcn-triage-add__actions {
     display: flex;
@@ -670,19 +807,6 @@ const FILE_PLUS =
     --card-bg: var(--color-background-elevation-raised);
     --card-border-color: color-mix(in srgb, var(--color-background-utility-info) 45%, transparent);
     --card-radius: var(--radius-100);
-  }
-
-  /* THEME GAP, patched locally. esa-button's outline appearance takes its LABEL colour from
-     --color-content-brand (the hub: "step 11 = colored text on surfaces… Override in your
-     theme when changing the primary ramp"). theme-beacon.css re-points --color-background-brand to
-     teal-900 but never overrode *-strong, so it is still the hub's GRASS green — which is why
-     a primary-outline button renders a teal border around a green label.
-     Scoped here rather than fixed in the theme because the same token also drives
-     --color-link, the filter-pill text and the active sidenav link across every page;
-     re-pointing it spoke-wide is right, but it is a deliberate site-wide change. */
-  .bcn-triage-review,
-  .bcn-triage-sug {
-    --color-content-brand: var(--color-background-brand);
   }
 
   .bcn-triage-sug[data-state='dismissed'] {
@@ -746,10 +870,30 @@ const FILE_PLUS =
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    /* The footer now carries a question AND two buttons, which together just fit the panel's
+       width. Wrapping is the insurance: a narrower pane drops the buttons to their own line
+       instead of pushing them out of the card. */
+    flex-wrap: wrap;
     gap: var(--spacing-200);
     margin-top: var(--spacing-250);
     padding-top: var(--spacing-200);
     border-top: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* The question is not part of the action group: it goes hard left and lets the buttons keep
+     the right edge they share with every other footer on the surface. */
+  .bcn-triage-sug__complete {
+    margin-right: auto;
+    min-width: 0;
+  }
+
+  /* The lego stacks its label ABOVE the options (:host is a column) — right for a form field,
+     wrong for a footer row, where it would double the card's footer height. Flipping the host
+     to a row keeps the label bound to the radiogroup (aria-labelledby) while reading inline. */
+  .bcn-triage-sug__complete :global(esa-button-toggle) {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-200);
   }
 
   .bcn-triage-sug__act[hidden],

@@ -17,6 +17,11 @@
 //
 // Slots:
 //   lead    — optional; a labelled control group at the top-left (label via `leadLabel`).
+//   sort    — optional; a labelled group on the FILTERS band, after the dropdowns (label
+//             via `sortLabel`) — it shapes the list the way a facet does. Sort is
+//             its own slot rather than more markup in `lead` because the LABEL is the bar's
+//             to style — a page cannot carry its own CSS in this spoke, so a host stacking
+//             two groups into one slot would have no way to label the second one to match.
 //   search  — optional; the search control, pushed right on the top band.
 //   default — the filter dropdowns; wrapped in esa-filter-container (the lego) for you.
 //   actions — optional; the clear-all, pinned right on the bottom band.
@@ -34,12 +39,15 @@ import FilterContainer from '@esa/ecology/esa-filter-container.astro';
 interface Props {
   /** Label beside the lead slot, e.g. "View". Omitted renders no label. */
   leadLabel?: string;
+  /** Label beside the sort slot. Omitted renders no label. */
+  sortLabel?: string;
   /** Label for the filters band. */
   filtersLabel?: string;
 }
-const { leadLabel, filtersLabel = 'Filters' } = Astro.props;
+const { leadLabel, sortLabel, filtersLabel = 'Filters' } = Astro.props;
 
 const hasLead = Astro.slots.has('lead');
+const hasSort = Astro.slots.has('sort');
 const hasSearch = Astro.slots.has('search');
 const hasTop = hasLead || hasSearch;
 const hasActions = Astro.slots.has('actions');
@@ -71,6 +79,14 @@ const hasActions = Astro.slots.has('actions');
     <FilterContainer>
       <slot />
     </FilterContainer>
+    {/* Sort rides the filters band rather than the top one: it is the same kind of control
+        as a facet — it shapes the list — and it leaves the top band to the search. */}
+    {hasSort && (
+      <div class="bcn-filterbar__group bcn-filterbar__sort">
+        {sortLabel && <span class="bcn-filterbar__label">{sortLabel}</span>}
+        <slot name="sort" />
+      </div>
+    )}
     {
       hasActions && (
         <span class="bcn-filterbar__clear">
@@ -129,7 +145,7 @@ const hasActions = Astro.slots.has('actions');
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-150);
-    min-width: 300px;
+    min-width: 380px;
   }
   .bcn-filterbar__search :global(esa-text-field) {
     flex: 1;
@@ -140,6 +156,28 @@ const hasActions = Astro.slots.has('actions');
   .bcn-filterbar__search--alone {
     margin-left: 0;
     flex: 1;
+  }
+
+  /* Its own group, set apart from the facets — without the extra room it reads as one more
+     dropdown in the filter row. */
+  .bcn-filterbar__sort {
+    margin-left: var(--spacing-600);
+
+    /* Sibling controls must match exactly, and here they cannot by size name alone:
+       esa-filter-dropdown HARDCODES its heights (sm = 32px) instead of reading the
+       --form-height-* tokens, so a "sm" facet is 32px while every other sm control in this
+       theme is 28px, and a "md" select is 36px. Re-pointing the semantic form tokens, scoped
+       to this group, lands a md select (md padding, md radius) at exactly the facets' height
+       and type size. Worth a /request-lego: the dropdown should read the form tokens like
+       every other control. */
+    --form-height-md: 32px;
+    --typography-label-md-font-size: 14px;
+  }
+
+  /* A select is a block-level field and would take the whole band; a two-option sort needs
+     about as much room as the facet triggers beside it. */
+  .bcn-filterbar__sort :global(esa-select) {
+    width: 9rem;
   }
 
   .bcn-filterbar__clear {

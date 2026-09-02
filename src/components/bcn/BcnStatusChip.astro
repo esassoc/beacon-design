@@ -33,7 +33,16 @@ const varKey = status === 'issued' ? 'cleared' : status;
   <span class="bcn-status-chip__label">{label}</span>
 </span>
 
-<style>
+<!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. -->
+<style is:global>
   .bcn-status-chip {
     display: inline-flex;
     align-items: center;

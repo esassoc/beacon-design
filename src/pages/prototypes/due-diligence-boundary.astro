@@ -9,9 +9,11 @@ import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnBoundaryDrawMap from '../../components/bcn/BcnBoundaryDrawMap.astro';
 import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
 import { PROJECT, advancedCandidate } from '../../data/due-diligence-fixture';
 import { withBase } from '../../lib/base';
 import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+import { PROJECT_PHASES } from '../../lib/project-phases';
 
 const candidate = advancedCandidate();
 
@@ -58,6 +60,9 @@ const seedRing: [number, number][] = [
       { label: 'Project Boundary' },
     ]}
   >
+    <div slot="title-badge">
+      <BcnStatusChip status="phase" label={PROJECT_PHASES['due-diligence'].label} hex={PROJECT_PHASES['due-diligence'].hex} />
+    </div>
     <div slot="utilities">
       <a href={withBase('/prototypes/due-diligence-siting')}><EsaButton variant="ghost" appearance="outline">Cancel</EsaButton></a>
       <span id="bd-continue"><EsaButton variant="primary" icon="arrow-right">Run constraints check</EsaButton></span>
@@ -113,6 +118,7 @@ const seedRing: [number, number][] = [
 
 <script>
   import '@esa/ecology/esa-text-field';
+  import { withBase } from '../../lib/base';
 
   interface BoundaryDetail {
     vertices: number;
@@ -151,7 +157,6 @@ const seedRing: [number, number][] = [
   });
 
   document.getElementById('bd-continue')?.addEventListener('click', () => {
-    const base = document.body.dataset.baseUrl ?? '';
-    window.location.href = `${base}/prototypes/due-diligence-constraints`;
+    window.location.href = withBase('/prototypes/due-diligence-constraints');
   });
 </script>

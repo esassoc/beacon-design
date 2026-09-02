@@ -12,9 +12,11 @@ import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
 import BcnDueDiligenceSteps from '../../components/bcn/BcnDueDiligenceSteps.astro';
 import type { DueDiligenceStep } from '../../components/bcn/BcnDueDiligenceSteps.astro';
 import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
 import { PROJECT, CRITICAL_ISSUES, GIS_LAYERS, ACTIVITY, RISK_HEX, type Risk } from '../../data/due-diligence-fixture';
 import { withBase } from '../../lib/base';
 import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+import { PROJECT_PHASES } from '../../lib/project-phases';
 
 const RISK_ORDER: Risk[] = ['high', 'medium', 'low', 'none'];
 const RISK_LABEL: Record<Risk, string> = { high: 'High', medium: 'Medium', low: 'Low', none: 'None' };
@@ -76,16 +78,24 @@ const steps: DueDiligenceStep[] = [
 <!-- manifest:
   layout: stack(xl)
   sections:
-    - workflow steps  -> bcn-due-diligence-steps
+    - workflow steps  -> bcn-due-diligence-steps      # the 4 due-diligence stages
     - project facts    -> esa-card             # BcnKeyValue rows
     - team              -> esa-card            # esa-avatar rows
     - critical issues     -> esa-card          # bullet list
-    - findings by severity -> esa-card         # esa-progress-bar gauges
+    - findings by severity -> esa-card         # esa-progress-bar gauges + esa-badge count
     - activity              -> esa-card        # date/time-stamped event list
 -->
 
-<!-- bcn-lego-checked: composed from bcn-due-diligence-steps, esa-card, BcnKeyValue,
-     esa-avatar, esa-progress-bar, esa-badge. The activity feed mixes relative ("2 hr
+<!-- bcn-lego-checked: composed from bcn-due-diligence-steps (the 4 due-diligence
+     stages — the project-lifecycle stepper this page also carried was removed,
+     design review 2026-08-27: redundant now that Permitting is its own module with
+     its own dashboard, and the title-badge phase chip already answers "what phase is
+     this"), esa-card, BcnKeyValue, BcnStatusChip (the title-badge "current phase"
+     chip — the SAME mechanism BcnProjectHeader already uses for a project's phase,
+     reused here rather than esa-badge, which has no value-driven color and was
+     rendering empty), esa-avatar, esa-progress-bar, esa-badge (also fixed to pass its
+     count through the `value` prop — the same empty-pill bug the title-badge chip
+     had, since esa-badge only renders `value`, never slotted children). The activity feed mixes relative ("2 hr
      ago") and absolute timestamps the way the source desktop-review log did, which
      does not fit BcnChangeLog's DATE-GROUPED shape (checked — its days/events
      contract assumes every entry resolves to a calendar day, not a live relative
@@ -108,7 +118,7 @@ const steps: DueDiligenceStep[] = [
     ]}
   >
     <div slot="title-badge">
-      <EsaBadge variant="info">Due Diligence</EsaBadge>
+      <BcnStatusChip status="phase" label={PROJECT_PHASES['due-diligence'].label} hex={PROJECT_PHASES['due-diligence'].hex} />
     </div>
     <div slot="utilities">
       <span id="ov-export"><EsaButton variant="ghost" appearance="outline" icon="download">Export</EsaButton></span>
@@ -167,8 +177,8 @@ const steps: DueDiligenceStep[] = [
               {findingsBySeverity.map((f) => (
                 <div class="stack" data-gap="xs">
                   <div class="cluster" data-gap="xs">
-                    <EsaBadge variant={f.risk === 'high' ? 'danger' : f.risk === 'medium' ? 'warning' : f.risk === 'low' ? 'info' : 'secondary'}>{f.label}</EsaBadge>
-                    <strong>{f.count}</strong>
+                    <EsaBadge value={f.count} variant={f.risk === 'high' ? 'danger' : f.risk === 'medium' ? 'warning' : f.risk === 'low' ? 'info' : 'secondary'} size="sm" />
+                    <span class="typography-body-sm" style="font-weight: var(--typography-font-weight-semibold); color: var(--color-content-default);">{f.label}</span>
                   </div>
                   <EsaProgressBar
                     value={(f.count / maxCount) * 100}

@@ -1,0 +1,230 @@
+---
+// Permitting — Permit Dashboard. The Permitting module's landing page: summary
+// metrics only (permits outstanding, expected permitting completion, what needs attention,
+// approved-to-date, and a by-status breakdown) — no lifecycle stepper (redundant
+// now that Permitting is its own module with its own dashboard) and no permit
+// grid (that's Permit Details, this page's sibling). Mirrors how Due Diligence
+// splits its Overview from its Permit Matrix.
+//
+// The numbers below are the SSR baseline (computeStats over the fixture's
+// TRACKED_PERMITS, no edits applied) — the client script re-derives them over
+// TRACKED_PERMITS + src/lib/permitting-store.ts's saved overrides and repaints the
+// same DOM hooks, so a Save on Permit Details is what a visitor actually sees here.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
+import { PROJECT } from '../../data/due-diligence-fixture';
+import { TRACKED_PERMITS, TODAY, formatDate, computeStats } from '../../data/permitting-fixture';
+import { withBase } from '../../lib/base';
+import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+import { PROJECT_PHASES } from '../../lib/project-phases';
+
+const stats = computeStats(TRACKED_PERMITS);
+---
+
+<!-- manifest:
+  layout: stack(lg)
+  sections:
+    - stats strip     -> esa-card   # outstanding · approved · expected permitting completion
+    - needs attention  -> esa-card  # list of permits due within 45 days
+    - by status         -> esa-card # bcn-status-chip + count per tracking status
+-->
+
+<!-- bcn-lego-checked: composed from esa-card, esa-button, and bcn-status-chip — the
+     title-badge "current phase" chip AND the by-status breakdown rows both reuse it
+     (the same mechanism BcnProjectHeader already uses for a project's phase; here it
+     doubles as the status-ladder dot+label, matching the color each status already
+     carries on the Permit Details grid). Checked esa- for a KPI-tile lego (none —
+     due-diligence-overview.astro's own stat cards are the same plain esa-card +
+     type-role pattern, reused here) and for an attention/watchlist lego (none — the
+     due-diligence-overview.astro "Critical issues" list is the precedent this
+     follows). No page CSS beyond the two list rows, which no lego models. -->
+<AppShell
+  title="Permit Dashboard — Almond — Beale"
+  tenantName="Beale"
+  projectName={PROJECT.name}
+  activeNavId="permitting-dashboard"
+  navSections={dueDiligenceNavSections({ showProject: true })}
+>
+  <PageLayout
+    title="Permit Dashboard"
+    icon="layout-dashboard"
+    breadcrumbs={[
+      { label: 'Almond', href: withBase('/prototypes/due-diligence-overview') },
+      { label: 'Permit Dashboard' },
+    ]}
+  >
+    <div slot="title-badge">
+      <BcnStatusChip status="phase" label={PROJECT_PHASES.permitting.label} hex={PROJECT_PHASES.permitting.hex} />
+    </div>
+    <div slot="utilities">
+      <a href={withBase('/prototypes/permitting-details')}><EsaButton variant="primary" icon="arrow-right">View Permit Details</EsaButton></a>
+    </div>
+
+    <div class="stack" data-gap="lg">
+      <div class="grid" data-gap="md" style="--grid-min: 14rem;">
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="typography-body-sm">Permits outstanding</span>
+            <span class="typography-heading-lg" id="pd-outstanding">{stats.outstandingCount}</span>
+            <span class="typography-body-sm">Not yet Approved</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="typography-body-sm">Approved</span>
+            <span class="typography-heading-lg" id="pd-approved" style="color: var(--color-background-utility-success);">{stats.approvedCount}</span>
+            <span class="typography-body-sm">Cleared to date</span>
+          </div>
+        </EsaCard>
+        <EsaCard>
+          <div class="stack" data-gap="xs">
+            <span class="typography-body-sm">Expected permitting completion</span>
+            <span class="typography-heading-lg" id="pd-completion">{stats.latestTargetDate ? formatDate(stats.latestTargetDate) : 'TBD'}</span>
+            <span class="typography-body-sm">Latest dated permit · as of {formatDate(TODAY)}</span>
+          </div>
+        </EsaCard>
+      </div>
+
+      <div class="grid" data-gap="md" style="--grid-min: 22rem;">
+        <EsaCard title="Needs Attention" subtitle="Due within 45 days">
+          <Fragment slot="actions">
+            <a href={withBase('/prototypes/permitting-details')}><EsaButton variant="ghost" size="sm">View all permits</EsaButton></a>
+          </Fragment>
+          <div id="pd-attention-body">
+            {
+              stats.attentionList.length === 0 ? (
+                <p class="typography-body-sm" style="color: var(--color-content-default-tertiary);">Nothing due in the next 45 days.</p>
+              ) : (
+                <ul class="pd-attention">
+                  {stats.attentionList.map((p) => (
+                    <li>
+                      <div class="stack" data-gap="none">
+                        <span class="pd-attention__name">{p.name}</span>
+                        <span class="typography-body-sm" style="color: var(--color-content-default-tertiary);">{p.agency}</span>
+                      </div>
+                      <span class="pd-attention__date">{p.targetDate ? formatDate(p.targetDate) : '—'}</span>
+                    </li>
+                  ))}
+                </ul>
+              )
+            }
+          </div>
+        </EsaCard>
+
+        <EsaCard title="By Status" subtitle="Every tracked permit, one status each">
+          <ul class="pd-status" id="pd-status-list">
+            {stats.statusBreakdown.map((s) => (
+              <li>
+                <BcnStatusChip status={s.status} label={s.label} hex={s.hex} />
+                <span class="pd-status__count">{s.count}</span>
+              </li>
+            ))}
+          </ul>
+        </EsaCard>
+      </div>
+    </div>
+  </PageLayout>
+</AppShell>
+
+<script>
+  import { TRACKED_PERMITS, formatDate, computeStats, type TrackedPermit } from '../../data/permitting-fixture';
+  import { loadOverrides, applyOverrides } from '../../lib/permitting-store';
+
+  // Re-derive the same stats the frontmatter computed at build time, now with any
+  // saved Permit Details edit layered on top — this is the whole mechanism that
+  // makes a Save there show up here (see permitting-store.ts's header comment).
+  const rows: TrackedPermit[] = applyOverrides(TRACKED_PERMITS, loadOverrides());
+  const stats = computeStats(rows);
+
+  // Agency/name are edited as free text on Permit Details — escape before this
+  // page's innerHTML rebuild, the same way any other user-entered text would need
+  // to be before landing in markup rather than a text node.
+  function escapeHtml(s: string): string {
+    return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] as string);
+  }
+
+  const setText = (id: string, text: string) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  };
+  setText('pd-outstanding', String(stats.outstandingCount));
+  setText('pd-approved', String(stats.approvedCount));
+  setText('pd-completion', stats.latestTargetDate ? formatDate(stats.latestTargetDate) : 'TBD');
+
+  const attentionBody = document.getElementById('pd-attention-body');
+  if (attentionBody) {
+    attentionBody.innerHTML =
+      stats.attentionList.length === 0
+        ? `<p class="typography-body-sm" style="color: var(--color-content-default-tertiary);">Nothing due in the next 45 days.</p>`
+        : `<ul class="pd-attention">${stats.attentionList
+            .map(
+              (p) =>
+                `<li><div class="stack" data-gap="none"><span class="pd-attention__name">${escapeHtml(p.name)}</span><span class="typography-body-sm" style="color: var(--color-content-default-tertiary);">${escapeHtml(p.agency)}</span></div><span class="pd-attention__date">${p.targetDate ? formatDate(p.targetDate) : '—'}</span></li>`,
+            )
+            .join('')}</ul>`;
+  }
+
+  const statusList = document.getElementById('pd-status-list');
+  if (statusList) {
+    statusList.innerHTML = stats.statusBreakdown
+      .map(
+        (s) =>
+          `<li><span class="bcn-status-chip" data-status="${s.status}" style="--_chip: var(--st-${s.status}, ${s.hex});"><span class="bcn-status-chip__dot"></span><span class="bcn-status-chip__label">${s.label}</span></span><span class="pd-status__count">${s.count}</span></li>`,
+      )
+      .join('');
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: the attention list row (name/agency stack + trailing date) and
+     the status-breakdown row (chip + trailing count) — plain list content inside a
+     card, not a section of its own, so no new component is warranted for a handful
+     of rows (same reasoning due-diligence-overview.astro's activity feed documents).
+
+     :global() throughout: the client script rebuilds BOTH lists' innerHTML after
+     applying saved overrides (see this page's <script>), so on any load with a saved
+     edit these rows are NOT elements Astro rendered — they're missing the build-hashed
+     data-astro-cid-* attribute Astro's scoped CSS keys off, and a scoped rule would
+     silently stop matching them the moment JS repaints. Same reasoning bcn-status-chip
+     itself now documents for the identical reason. */
+  :global(.pd-attention),
+  :global(.pd-status) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  :global(.pd-attention li),
+  :global(.pd-status li) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    padding: var(--spacing-250) 0;
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  :global(.pd-attention li:last-child),
+  :global(.pd-status li:last-child) {
+    border-bottom: none;
+  }
+  :global(.pd-attention__name) {
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
+  }
+  :global(.pd-attention__date) {
+    flex-shrink: 0;
+    font-size: var(--font-size-150);
+    color: var(--color-background-utility-warning);
+    font-weight: var(--typography-font-weight-semibold);
+    white-space: nowrap;
+  }
+  :global(.pd-status__count) {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+  }
+</style>

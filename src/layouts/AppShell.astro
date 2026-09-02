@@ -195,7 +195,9 @@ if (expandedSections) {
 // Per-page nav highlight — activeNavId beats the static defaults (Dashboard).
 if (activeNavId) {
   for (const section of navSections) {
-    let hit = false;
+    // A `link` section (Site Screening, Permitting, …) has no items of its own — it
+    // IS the target, so its own id is what activeNavId matches against.
+    let hit = section.id === activeNavId;
     for (const item of section.items ?? []) {
       item.active = item.id === activeNavId;
       if (item.active) hit = true;

@@ -40,6 +40,21 @@
   --color-background-brand-muted:       var(--bcn-teal-500);   /* $secondary = teal-500 #00918b */
   --color-background-brand-muted-hover: var(--bcn-teal-800);   /* teal-800 #0a6562 */
 
+  /* ===== BRAND — the tier esa-button (and most solid-fill hub components:
+     esa-tab-layout, esa-progress-bar, esa-switch-toggle, esa-back-to-top,
+     esa-header-nav, filter pills) ACTUALLY read. --color-background-brand* above is a
+     legacy pre-rename tier esa-button no longer consumes — re-pointing only
+     that left every one of those components rendering the hub's default
+     green (--color-grass-9 #46a758) instead of Beacon teal. Logged in
+     docs/system-improvement-ledger.md (2026-08-24). */
+  --color-background-brand:             var(--color-background-brand);        /* teal-900 #005862 */
+  --color-background-brand-hover:       var(--color-background-brand-hover);  /* #00474f */
+  --color-background-brand-active:      var(--color-background-brand-active); /* #003940 */
+  --color-background-brand-subtle:      var(--color-background-brand-subtle); /* teal-50 */
+  --color-background-brand-muted:       var(--bcn-teal-100);         /* #eef5f4 */
+  --color-background-brand-muted-hover: var(--bcn-teal-200);         /* #b9d6d2 */
+  --color-content-brand:                var(--color-background-brand);        /* teal-900 — brand text/link/outline-label */
+
   /* ===== FEEDBACK + AI — match Beacon's ui-button palette =====
      Re-point the hub's semantic feedback tokens to the exact colors Beacon's
      <ui-button> renders ($button-colors map in ui-button.scss). VALUES INLINED

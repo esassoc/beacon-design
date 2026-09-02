@@ -137,7 +137,7 @@ const segments = severityBreakdown.map((slice) => {
               <a class="bcn-ohero__legend-row" href={s.href}>
                 <span class="bcn-ohero__dot" style={`--_c: ${s.hex};`}></span>
                 <span class="bcn-ohero__legend-label typography-body-sm">{s.label}</span>
-                <span class="bcn-ohero__legend-value typography-label">{s.value}</span>
+                <span class="bcn-ohero__legend-value typography-label-xs">{s.value}</span>
               </a>
             </li>
           ))}
@@ -153,7 +153,7 @@ const segments = severityBreakdown.map((slice) => {
           {needsAttentionCategories.map((c) => (
             <li class="bcn-ohero__count-row">
               <span class="bcn-ohero__count-label typography-body-sm">{c.category}</span>
-              <span class="bcn-ohero__count-value typography-label">{c.value}</span>
+              <span class="bcn-ohero__count-value typography-label-xs">{c.value}</span>
             </li>
           ))}
         </ul>
@@ -165,7 +165,7 @@ const segments = severityBreakdown.map((slice) => {
           {nonComplianceCategories.map((c) => (
             <li class="bcn-ohero__count-row">
               <span class="bcn-ohero__count-label typography-body-sm">{c.category}</span>
-              <span class="bcn-ohero__count-value typography-label">{c.value}</span>
+              <span class="bcn-ohero__count-value typography-label-xs">{c.value}</span>
             </li>
           ))}
         </ul>
@@ -183,7 +183,7 @@ const segments = severityBreakdown.map((slice) => {
     min-inline-size: 0;
   }
   /* Shared by the donut's own heading and the two count-list headings — one
-     step up from .typography-label so all three sections read with equal weight. */
+     step up from .typography-label-xs so all three sections read with equal weight. */
   .bcn-ohero__section-title {
     margin: 0;
     color: var(--color-content-default);

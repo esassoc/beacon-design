@@ -12,10 +12,12 @@ import BcnFilterBar from '../../components/bcn/BcnFilterBar.astro';
 import BcnGisLayerPanel from '../../components/bcn/BcnGisLayerPanel.astro';
 import BcnFindingList from '../../components/bcn/BcnFindingList.astro';
 import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
 import '../../styles/beacon-map.css';
 import { PROJECT, GIS_LAYERS, RISK_HEX } from '../../data/due-diligence-fixture';
 import { withBase } from '../../lib/base';
 import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+import { PROJECT_PHASES } from '../../lib/project-phases';
 
 const gisLayerRows = GIS_LAYERS.map((l) => ({
   id: l.id,
@@ -82,6 +84,9 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
       { label: 'Constraints' },
     ]}
   >
+    <div slot="title-badge">
+      <BcnStatusChip status="phase" label={PROJECT_PHASES['due-diligence'].label} hex={PROJECT_PHASES['due-diligence'].hex} />
+    </div>
     <div slot="utilities">
       <span id="cx-rerun"><EsaButton variant="ghost" appearance="outline" icon="rotate-ccw">Re-run</EsaButton></span>
       <a href={withBase('/prototypes/due-diligence-report')}><EsaButton variant="primary" icon="file-text">View report</EsaButton></a>
@@ -192,6 +197,7 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
 <script>
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
+  import { BASEMAP_TILE_URL, BASEMAP_ATTRIBUTION } from '../../lib/basemap';
   import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-select';
 
@@ -233,7 +239,7 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
   const CENTER: [number, number] = [35.0516, -118.176];
   const map = L.map('cx-map', { zoomControl: true }).setView(CENTER, 15);
   const basemaps = {
-    streets: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19 }),
+    streets: L.tileLayer(BASEMAP_TILE_URL, { attribution: BASEMAP_ATTRIBUTION, maxZoom: 19 }),
     satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; Esri World Imagery', maxZoom: 19 }),
   };
   basemaps.satellite.addTo(map);
@@ -376,10 +382,30 @@ const highRiskCount = GIS_LAYERS.filter((l) => l.risk === 'high').length;
     const next = document.getElementById('cx-d-next');
     if (next) next.innerHTML = l.nextSteps.map((s) => `<li>${s}</li>`).join('');
 
+    resetDrawerAction('cx-d-flag', 'Flag for permit matrix');
+    resetDrawerAction('cx-d-add', 'Add to report');
+
     const dialog = document.getElementById('cx-drawer') as (HTMLElement & { open?: boolean; show?: () => void }) | null;
     if (dialog?.show) dialog.show();
     else if (dialog) dialog.open = true;
   }
+
+  function resetDrawerAction(spanId: string, label: string) {
+    const btn = document.getElementById(spanId)?.querySelector('button');
+    if (!btn) return;
+    btn.disabled = false;
+    (btn.querySelector('.esa-button__label') ?? btn).textContent = label;
+  }
+
+  function completeDrawerAction(spanId: string, doneLabel: string) {
+    const btn = document.getElementById(spanId)?.querySelector('button');
+    if (!btn) return;
+    btn.disabled = true;
+    (btn.querySelector('.esa-button__label') ?? btn).textContent = doneLabel;
+  }
+
+  document.getElementById('cx-d-flag')?.addEventListener('click', () => completeDrawerAction('cx-d-flag', 'Flagged'));
+  document.getElementById('cx-d-add')?.addEventListener('click', () => completeDrawerAction('cx-d-add', 'Added to report'));
 </script>
 
 <style>

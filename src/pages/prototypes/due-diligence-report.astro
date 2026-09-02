@@ -8,6 +8,8 @@ import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnCiaReport from '../../components/bcn/BcnCiaReport.astro';
 import type { CiaPermitRow } from '../../components/bcn/BcnCiaReport.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
+import { PROJECT_PHASES } from '../../lib/project-phases';
 import {
   PROJECT,
   CRITICAL_ISSUES,
@@ -48,10 +50,11 @@ const permitRows: CiaPermitRow[] = PERMITS.map((p) => ({
     - CIA document -> bcn-cia-report
 -->
 
-<!-- bcn-lego-checked: composed entirely from esa-alert-box (intro) and bcn-cia-report
+<!-- bcn-lego-checked: composed entirely from esa-alert-box (intro), bcn-cia-report
      (the document itself, already justified in its own header — no esa-* lego renders
-     a sectioned document with a TOC). This page owns zero CSS: it is a data-assembly +
-     composition shim over the component. -->
+     a sectioned document with a TOC), and bcn-status-chip (the title-badge "current
+     phase" chip — same mechanism BcnProjectHeader already uses). This page owns zero
+     CSS: it is a data-assembly + composition shim over the component. -->
 <AppShell
   title="CIA Report — Almond — Beale"
   tenantName="Beale"
@@ -68,6 +71,9 @@ const permitRows: CiaPermitRow[] = PERMITS.map((p) => ({
       { label: 'CIA Report' },
     ]}
   >
+    <div slot="title-badge">
+      <BcnStatusChip status="phase" label={PROJECT_PHASES['due-diligence'].label} hex={PROJECT_PHASES['due-diligence'].hex} />
+    </div>
     <div class="stack" data-gap="lg">
       <EsaAlertBox variant="info" title="Auto-assembled from your project data">
         This CIA is composed from the boundary, constraint findings, and permit matrix
@@ -126,18 +132,9 @@ const permitRows: CiaPermitRow[] = PERMITS.map((p) => ({
         liveMatrixHref={withBase('/prototypes/due-diligence-permits')}
       >
         <Fragment slot="actions">
-          <span id="cia-advance"><EsaButton variant="primary" icon="arrow-right">Advance to Planning &amp; Permitting</EsaButton></span>
+          <a href={withBase('/prototypes/permitting-dashboard')}><EsaButton variant="primary" icon="arrow-right">Advance to Permitting</EsaButton></a>
         </Fragment>
       </BcnCiaReport>
     </div>
   </PageLayout>
 </AppShell>
-
-<script>
-  document.getElementById('cia-advance')?.addEventListener('click', () => {
-    // Prototype only — the next module isn't built yet, so this just returns to Due Diligence.
-    window.location.href = document.body.dataset.baseUrl
-      ? `${document.body.dataset.baseUrl}/prototypes/due-diligence-siting`
-      : '/prototypes/due-diligence-siting';
-  });
-</script>

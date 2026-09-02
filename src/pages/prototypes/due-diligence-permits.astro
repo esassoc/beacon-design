@@ -9,9 +9,11 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnGridChrome from '../../components/bcn/BcnGridChrome.astro';
 import BcnGridFooter from '../../components/bcn/BcnGridFooter.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
 import { PROJECT, PERMITS, CEQA_RESOURCES, AHJ_NOTES } from '../../data/due-diligence-fixture';
 import { withBase } from '../../lib/base';
 import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
+import { PROJECT_PHASES } from '../../lib/project-phases';
 ---
 
 <!-- manifest:
@@ -54,8 +56,11 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
       { label: 'Permit Matrix' },
     ]}
   >
+    <div slot="title-badge">
+      <BcnStatusChip status="phase" label={PROJECT_PHASES['due-diligence'].label} hex={PROJECT_PHASES['due-diligence'].hex} />
+    </div>
     <div slot="utilities">
-      <span id="pm-excel"><EsaButton variant="ghost" appearance="outline" icon="download">Export to Excel</EsaButton></span>
+      <span id="pm-excel"><EsaButton variant="ghost" appearance="outline" icon="download">Download as Spreadsheet</EsaButton></span>
       <a href={withBase('/prototypes/due-diligence-report')}><EsaButton variant="primary" icon="arrow-right">View report</EsaButton></a>
     </div>
 
@@ -315,7 +320,18 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
         r.id,
         r.reviewStatus === 'confirmed' ? [{ text: 'Reviewed and confirmed', by: REVIEWER, when: '2026-08-15' }] : [],
       );
-      commentsById.set(r.id, []);
+      commentsById.set(
+        r.id,
+        r.id === 'section-404'
+          ? [
+              {
+                text: 'Field delineation confirms the on-site wash connects to a downstream tributary with an indicator of relatively permanent flow, so it is jurisdictional post-Sackett. Marked applicable — a Section 404 permit will be required.',
+                by: REVIEWER,
+                when: '2026-08-22',
+              },
+            ]
+          : [],
+      );
     }
     const displayRows = rows.map(toDisplayRow);
 
@@ -469,7 +485,7 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
     padding-block: var(--spacing-200) !important;
   }
   :global(.dd-chip) {
-    --_tone: var(--bcn-content-muted, #8a9099);
+    --_tone: var(--color-content-default-secondary, #8a9099);
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-150);
@@ -493,12 +509,12 @@ import { dueDiligenceNavSections } from '../../lib/due-diligence-nav';
   :global(.dd-chip[data-tone='applicable'])     { --_tone: var(--color-background-utility-warning, #f59e0b); }
   :global(.dd-chip[data-tone='potentially'])    { --_tone: var(--color-background-utility-info, #228be6); }
   :global(.dd-chip[data-tone='not-likely'])     { --_tone: var(--color-background-utility-success, #2e7571); }
-  :global(.dd-chip[data-tone='not-applicable']) { --_tone: var(--bcn-content-muted, #8a9099); }
+  :global(.dd-chip[data-tone='not-applicable']) { --_tone: var(--color-content-default-secondary, #8a9099); }
   :global(.dd-chip[data-tone='High'])           { --_tone: var(--color-background-utility-danger, #e5484d); }
   :global(.dd-chip[data-tone='Med'])            { --_tone: var(--color-background-utility-warning, #f59e0b); }
   :global(.dd-chip[data-tone='Low'])            { --_tone: var(--color-background-utility-info, #228be6); }
-  :global(.dd-chip[data-tone='—'])              { --_tone: var(--bcn-content-muted, #8a9099); }
-  :global(.dd-chip[data-tone='preliminary'])    { --_tone: var(--bcn-content-muted, #8a9099); }
+  :global(.dd-chip[data-tone='—'])              { --_tone: var(--color-content-default-secondary, #8a9099); }
+  :global(.dd-chip[data-tone='preliminary'])    { --_tone: var(--color-content-default-secondary, #8a9099); }
   :global(.dd-chip[data-tone='confirmed'])      { --_tone: var(--color-background-utility-success, #2e7571); }
 
   /* Permit editor drawer — read-only details, and the two log lists (activity +
