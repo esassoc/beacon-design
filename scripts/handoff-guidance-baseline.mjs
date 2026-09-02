@@ -45,6 +45,12 @@ export default [
   'monitoring-data',
   'permitting-dashboard',
   'permitting-details',
+  // Added 2026-09-02: the June spec curated the observation-first Commitment
+  // Compliance dossier, which the 2026-08-24 composable widget-grid rebuild
+  // replaced; its click steps time out on the new page. The old spec is kept at
+  // src/data/handoff-archive/monitoring-dashboard-2026-06-25.mjs for the intent it
+  // records. Remove this entry when a spec for the widget grid exists.
+  'monitoring-dashboard',
   // Added as a stopgap (2026-08-24) to unblock deploy for the Beale due-diligence
   // flow (siting -> boundary -> overview -> constraints -> permits -> report).
   // Real curated specs (sections with selector + intent/decisions/gotchas/

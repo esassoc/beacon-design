@@ -1,3 +1,9 @@
+// ARCHIVED 2026-09-02. This spec described the observation-first Commitment
+// Compliance dossier on the Monitoring Portal dashboard. The 2026-08-24 rebuild
+// replaced that page with a composable widget grid, so the selectors and click
+// steps below no longer match. Kept for the design intent it records; not read
+// by scripts/gen-handoff.mjs or scripts/check-guidance.mjs.
+//
 // Handoff spec for the /prototypes/monitoring/dashboard prototype — the authored
 // counterpart to the auto-derived capture. It declares which regions are
 // inspectable sections (by selector), plus the design intent, decisions, gotchas,
