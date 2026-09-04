@@ -1,0 +1,107 @@
+---
+// Data Catalog — Obligation detail. One static route per obligation (402 of them), so
+// every row in the catalog grid opens something real rather than one realized exemplar.
+//
+// The page renders the TEN fields the registry actually carries. The brief's field list
+// also names in-effect conditions, responsibility, evidence source and scope — the
+// extracted data has none of those, so they are absent here rather than invented. That
+// gap is recorded in the handoff spec; it is a finding about the data, not a page bug.
+//
+// There is no status, no evidence list and no implementations section. The team dropped
+// the obligation status model on 2026-09-03, the registry carries no evidence records,
+// and whether obligations have scope rows at all is an open data-model question that a
+// prototype should not pre-answer.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnObligationHeader from '../../../components/bcn/BcnObligationHeader.astro';
+import BcnObligationFacets from '../../../components/bcn/BcnObligationFacets.astro';
+import { OBLIGATIONS, type Obligation } from '../../../data/obligations';
+import { withBase } from '../../../lib/base';
+
+export async function getStaticPaths() {
+  const { OBLIGATIONS } = await import('../../../data/obligations');
+  return OBLIGATIONS.map((o) => ({ params: { id: o.id }, props: { obligation: o } }));
+}
+
+interface Props {
+  obligation: Obligation;
+}
+const { obligation: o } = Astro.props;
+
+const dataCatalogNav = [
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'dc-projects', label: 'Projects' },
+      { id: 'dc-source-documents', label: 'Source Documents' },
+      { id: 'dc-commitments', label: 'Commitments' },
+      { id: 'dc-requirements', label: 'Requirements' },
+      { id: 'dc-actions', label: 'Actions' },
+      { id: 'dc-obligations', label: 'Obligations', active: true },
+      { id: 'dc-components', label: 'Components' },
+      { id: 'dc-evidence', label: 'Evidence of Compliance' },
+    ],
+  },
+];
+
+const listHref = withBase('/prototypes/data-catalog-obligations');
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > sidebar(end)     # the Beacon page spine; record left, facets right
+  sections:
+    - identity header -> bcn-obligation-header     # class chip, title (noun phrase), id, gate / installed-control flags
+    - standard        -> esa-card                  # the requirement text: what the duty says
+    - condition       -> esa-card                  # the non-compliance a monitor observes; this is what a field form offers
+    - parameters      -> esa-card                  # where sources disagree, kept with both values
+    - facets rail     -> bcn-obligation-facets     # class, the three category axes, and the commitments that state it
+-->
+
+<AppShell
+  title={`${o.title} — Data Catalog`}
+  tenantName="DWR"
+  projectName="Select a Project"
+  navSections={dataCatalogNav}
+>
+  <PageLayout
+    hideTitleRow
+    breadcrumbs={[
+      { label: 'Data Catalog', href: '#data-catalog' },
+      { label: 'Obligations', href: listHref },
+      { label: o.title },
+    ]}
+  >
+    {/* In `.sidebar` the FIRST child is the aside and the LAST is the fluid main;
+        data-side="end" moves the aside to the right. So the facets rail leads in
+        source order and the record column follows — same arrangement as the project
+        dashboard. */}
+    <div class="sidebar" data-side="end" data-gap="xl">
+      <BcnObligationFacets obligation={o} />
+
+      <div class="stack bcn-orecord" data-gap="lg">
+        <BcnObligationHeader obligation={o} />
+
+        <EsaCard title="Standard" padding="compact">
+          <p class="type-body">{o.standard}</p>
+        </EsaCard>
+
+        <EsaCard title="Condition" padding="compact">
+          <p class="type-body">{o.condition}</p>
+        </EsaCard>
+
+        {
+          o.parameters && (
+            <EsaCard title="Parameters" padding="compact">
+              <p class="type-body">{o.parameters}</p>
+            </EsaCard>
+          )
+        }
+      </div>
+    </div>
+  </PageLayout>
+</AppShell>

@@ -89,6 +89,33 @@ export function allPrototypeEfforts(): PrototypeEffort[] {
 
 export const prototypeGroups: PrototypeGroup[] = [
   {
+    slug: 'actions-obligations',
+    tenant: 'dcp',
+    title: 'Actions and Obligations',
+    description:
+      'The second tracking record type. Actions are countable work that closes; obligations are standing duties in effect while their conditions apply — speed limits, buffers, work windows, daily inspections, take notices, training records. Built on the real 402-obligation registry, on three category axes, with no compliance-status model.',
+    pages: [
+      {
+        slug: 'data-catalog-obligations',
+        title: 'Obligations list (Data Catalog)',
+        description:
+          'The flat catalog of all 402 obligations — the filing cabinet, deliberately not the registry tree. Sortable and filterable on class and the three category axes (subject, activity, species) plus the commitments that state each duty, with CSV export. No status column: the status model was dropped, and catalog surfaces carry configuration rather than tracking data.',
+        route: '/prototypes/data-catalog-obligations',
+        createdAt: '2026-09-03',
+        status: 'in-progress',
+      },
+      {
+        slug: 'data-catalog-obligation',
+        title: 'Obligation detail (Data Catalog)',
+        description:
+          'The record itself, one static route per obligation: standard, condition and parameters as the reading column; class, the three category axes, and the commitments that state it in the rail. The exemplar route is the speed-limit record, which carries a live source conflict (10 mph in one document, 15 in two others) and the fourteen commitments that collapse into it.',
+        route: '/prototypes/data-catalog-obligation/1-087',
+        createdAt: '2026-09-03',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'marketing-site',
     tenant: 'platform',
     title: 'Marketing Site',

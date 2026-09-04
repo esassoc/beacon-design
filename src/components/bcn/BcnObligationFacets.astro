@@ -1,0 +1,94 @@
+---
+// <BcnObligationFacets> — the rail on an obligation detail page: the three category
+// axes, the commitments that state the duty, and the record's own small facts.
+//
+// WHY THE AXES ARE PILLS AND NOT A TREE. An obligation belongs to every category that
+// fits, on three independent axes (subject / activity / species) — so its categories are
+// a SET, not a path. The hierarchy is real but it belongs to the registry, which is a
+// different surface; reproducing a tree here would imply this record sits at one place in
+// it, which is exactly what the registry's "enter from any axis" rule denies.
+//
+// WHY COMMITMENTS ARE A FLAT SET TOO. This is the normalization payoff made visible: one
+// obligation is stated by many commitments across many source documents — the speed-limit
+// record carries fourteen. It is tempting to render that as a lineage spine, but
+// bcn-detail-lineage draws a strictly linear ol (Program → Study → Sub-study → Task) and
+// an obligation's ancestry FANS OUT at both levels. Fourteen siblings pushed through a
+// linear rail would read as fourteen tiers, which is a lie about the shape of the data.
+// So: a labelled set, honestly.
+//
+// The registry carries no source-document mapping for a commitment id, so these are NOT
+// grouped by source. Grouping them would mean inferring the source from the id prefix,
+// which is invention. See the handoff spec for the field gap.
+//
+// bcn-lego-checked: composes esa-collapsible for each rail section, esa-pill for every
+// category and commitment reference, and bcn-key-value for the small facts. Checked
+// Ecology for a taxonomy/facet-display lego — esa-chip-group is the INTERACTIVE
+// selectable-chip control (Lit, options set from JS) where these are static references,
+// esa-filter-pills is the removable applied-filter row, and esa-pillbox is an input.
+// Checked Beacon: its detail rails are esa-collapsible sections of key-values, which is
+// what this follows. bcn-obligation-facets is the reusable home; it adds no CSS beyond
+// the pill row's wrap and gap.
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import { AXES, CLASS_META, itemNames, type Obligation } from '../../data/obligations';
+
+interface Props {
+  obligation: Obligation;
+}
+const { obligation: o } = Astro.props;
+const meta = CLASS_META[o.cls];
+
+// Only axes this obligation actually sits on. An empty axis renders nothing rather than
+// an empty section — 178 of 402 carry no species, and a blank "Species" heading would
+// read as missing data rather than as inapplicable.
+const axes = AXES.map((a) => ({ axis: a, names: itemNames(o, a.id) })).filter(
+  (x) => x.names.length > 0,
+);
+---
+
+<div class="stack bcn-ofacets" data-gap="md">
+  <EsaCollapsible title="Class" icon="shapes" open>
+    <BcnKeyValue label={meta.label} value={meta.definition} />
+    {o.window && <BcnKeyValue label="Notice window" value={o.window} />}
+  </EsaCollapsible>
+
+  {
+    axes.map(({ axis, names }) => (
+      <EsaCollapsible title={axis.name} open>
+        <ul class="cluster bcn-ofacets__pills" data-gap="xs">
+          {names.map((n) => (
+            <li>
+              <EsaPill label={n} size="sm" removable={false} category={axis.id} />
+            </li>
+          ))}
+        </ul>
+      </EsaCollapsible>
+    ))
+  }
+
+  <EsaCollapsible title={`Stated by (${o.commitments.length})`} icon="git-branch" open>
+    <ul class="cluster bcn-ofacets__pills" data-gap="xs">
+      {
+        o.commitments.map((c) => (
+          <li>
+            <EsaPill label={c} size="sm" removable={false} category="commitment" />
+          </li>
+        ))
+      }
+    </ul>
+  </EsaCollapsible>
+</div>
+
+<style>
+  /* bcn-lego-checked: the pill row's list reset and wrap. Every control here is a lego
+     (esa-collapsible, esa-pill) or an existing bcn component (bcn-key-value); the
+     stacking is the `stack` and `cluster` primitives. */
+
+  .bcn-ofacets__pills {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+</style>

@@ -1,0 +1,84 @@
+---
+// <BcnObligationHeader> — the identity band on an obligation detail page.
+//
+// The obligation's title is a NOUN PHRASE naming the thing governed and never the value
+// ("Speed limits on non-public roads and sites", not "10 mph"). That is a deliberate rule
+// from the brief, and it is why the title alone is the identity here: the value lives in
+// Parameters, where sources can disagree with each other.
+//
+// Class sits beside the title as a neutral chip. It is a categorical facet driving the
+// evidence shape — not a status — so it carries no status color. There IS no obligation
+// status: the team dropped that model on 2026-09-03, so this band renders no verdict and
+// has no state to show.
+//
+// The two flags are the only badges here, and both are structural facts about the record
+// rather than judgments about compliance: `gate` means the duty waits on an approved
+// action before it takes effect (17 of 402), `installed control` means it is satisfied by
+// a physical thing — fencing, signage, screens, kits (46 of 402). They render only when
+// true; an absent flag says nothing and so shows nothing.
+//
+// bcn-lego-checked: composes esa-pill for the flags and esa-icon for their glyphs.
+// Checked Ecology for a record-identity lego — esa-page-header is the PAGE title row
+// (breadcrumbs + title + actions, already supplied by PageLayout above this) and
+// esa-card is a box; neither models an entity identity band with a type chip and record
+// flags. Checked Beacon: its detail pages carry this band as page markup
+// (data-catalog-action.astro builds one by hand). bcn-obligation-header is the reusable
+// home; its own CSS is the band's type scale and the chip's shape.
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import { CLASS_META, type Obligation } from '../../data/obligations';
+
+interface Props {
+  obligation: Obligation;
+}
+const { obligation: o } = Astro.props;
+const meta = CLASS_META[o.cls];
+---
+
+<header class="stack bcn-ohead" data-gap="sm">
+  <div class="cluster bcn-ohead__meta" data-gap="sm">
+    <span class="bcn-ohead__cls" title={meta.definition}>{meta.label}</span>
+    <span class="bcn-ohead__id">{o.id}</span>
+    {o.gate && <EsaPill label="Waits on an approved action" variant="info" size="sm" removable={false} />}
+    {o.installedControl && <EsaPill label="Installed control" variant="default" size="sm" removable={false} />}
+  </div>
+
+  <h1 class="type-page-title bcn-ohead__title">{o.title}</h1>
+</header>
+
+<style>
+  /* bcn-lego-checked: the band's own type scale and the class chip's shape. The flags
+     are esa-pill; the layout is the `stack` and `cluster` primitives. Nothing here
+     restates a lego. */
+
+  .bcn-ohead {
+    padding-block-end: var(--spacing-400);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+
+  .bcn-ohead__title {
+    margin: 0;
+  }
+
+  /* The house quiet chip — hairline border, sunken fill, 4px corner. Matches the class
+     cell in the catalog grid so one obligation reads the same in both places. */
+  .bcn-ohead__cls {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px var(--spacing-200);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: var(--typography-font-weight-medium);
+    white-space: nowrap;
+  }
+
+  /* The registry id is a reference you quote, not a thing you read — tabular so a
+     column of them lines up, muted so it never competes with the title. */
+  .bcn-ohead__id {
+    color: var(--bcn-content-muted);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.875rem;
+  }
+</style>
