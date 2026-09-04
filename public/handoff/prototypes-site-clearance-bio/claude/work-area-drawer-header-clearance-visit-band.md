@@ -19,8 +19,8 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
 ```html
 <div class="band" id="wa-band">
   <div class="bcn-key-value">
-    <span class="bcn-key-value__key">Clearance visit</span>
-    <span class="wa__kv-val" id="wa-d-visit">May 18, 2026</span>
+    <span class="bcn-key-value__key">Clearance visit</span
+    ><span class="wa__kv-val" id="wa-d-visit">May 18, 2026</span>
   </div>
 </div>
 ```
@@ -28,50 +28,50 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
 ## Styles
 ```css
 .band {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-200) var(--spacing-300);
   margin: calc(-1 * var(--spacing-500, 1.5rem)) calc(-1 * var(--spacing-500, 1.5rem)) 0;
   padding: var(--spacing-250) var(--spacing-500, 1.5rem);
-  background: var(--color-background);
-  border-bottom: 1px solid var(--color-border);
+  background: var(--color-background-default);
+  border-bottom: 1px solid var(--color-border-default);
+  grid-template-columns: repeat(3, 1fr);
+  display: grid;
 }
 .wa__kv-val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .bcn-key-value {
-  display: flex;
   flex-direction: column;
   gap: 2px;
+  display: flex;
 }
 .bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
   color: var(--form-label-color);
 }
 .bcn-key-value__val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .bcn-key-value__hint {
+  color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
-  color: var(--color-text-tertiary);
 }
 ```
 
 ## Tokens
-- `--color-background`: #fafafa _(semantic)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--color-background-default`: #fafafa _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--form-label-color`: #525252 _(component)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_

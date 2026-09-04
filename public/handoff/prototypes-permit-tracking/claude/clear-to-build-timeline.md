@@ -29,7 +29,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
       ><span class="ctb-tick" style="left: 39.8693%">Aug</span
       ><span class="ctb-tick" style="left: 60.1307%">Sep</span
       ><span class="ctb-tick" style="left: 79.7386%">Oct</span
-      ><span class="ctb-tick ctb-tick--today" style="left: 42.9466%">Today</span>
+      ><span class="ctb-tick ctb-tick--today" style="left: 61.9009%">Today</span>
     </div>
     <span></span>
   </div>
@@ -43,7 +43,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 0.4629629629629629%;
-            width: 42.48366013071896%;
+            width: 61.43790849673202%;
             background: var(--st-cleared);
           "
         ></span>
@@ -63,7 +63,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 0.4629629629629629%;
-            width: 42.48366013071896%;
+            width: 61.43790849673202%;
             background: var(--st-cleared);
           "
         ></span>
@@ -83,7 +83,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 0.4629629629629629%;
-            width: 42.48366013071896%;
+            width: 61.43790849673202%;
             background: var(--st-cleared);
           "
         ></span>
@@ -103,7 +103,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 31.835511982570807%;
-            width: 11.111111111111114%;
+            width: 30.065359477124176%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -122,8 +122,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 9.15032679738561%;
+            left: 52.09694989106753%;
+            width: 9.803921568627452%;
             background: var(--st-under-review);
           "
         ></span>
@@ -142,8 +142,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 15.686274509803916%;
+            left: 58.63289760348584%;
+            width: 3.267973856209146%;
             background: var(--st-under-review);
           "
         ></span>
@@ -162,8 +162,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 15.686274509803916%;
+            left: 58.63289760348584%;
+            width: 3.267973856209146%;
             background: var(--st-under-review);
           "
         ></span>
@@ -182,8 +182,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 19.607843137254903%;
+            left: 61.90087145969498%;
+            width: 0.653594771241842%;
             background: var(--st-submitted);
           "
         ></span>
@@ -202,8 +202,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 22.875816993464056%;
+            left: 61.90087145969498%;
+            width: 3.921568627450995%;
             background: var(--st-submitted);
           "
         ></span>
@@ -222,8 +222,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 22.875816993464056%;
+            left: 61.90087145969498%;
+            width: 3.921568627450995%;
             background: var(--st-submitted);
           "
         ></span>
@@ -242,8 +242,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 32.6797385620915%;
+            left: 61.90087145969498%;
+            width: 13.72549019607844%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -262,8 +262,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 32.6797385620915%;
+            left: 61.90087145969498%;
+            width: 13.72549019607844%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -282,8 +282,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 32.6797385620915%;
+            left: 61.90087145969498%;
+            width: 13.72549019607844%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -302,8 +302,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 45.7516339869281%;
+            left: 61.90087145969498%;
+            width: 26.797385620915037%;
             background: var(--st-not-started);
           "
         ></span>
@@ -322,8 +322,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 45.7516339869281%;
+            left: 61.90087145969498%;
+            width: 26.797385620915037%;
             background: var(--st-not-started);
           "
         ></span>
@@ -342,8 +342,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 45.7516339869281%;
+            left: 61.90087145969498%;
+            width: 26.797385620915037%;
             background: var(--st-not-started);
           "
         ></span>
@@ -362,8 +362,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 56.86274509803921%;
+            left: 61.90087145969498%;
+            width: 37.90849673202615%;
             background: var(--st-not-started);
           "
         ></span>
@@ -382,8 +382,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 56.86274509803921%;
+            left: 61.90087145969498%;
+            width: 37.90849673202615%;
             background: var(--st-not-started);
           "
         ></span>
@@ -402,8 +402,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 42.94662309368192%;
-            width: 56.86274509803921%;
+            left: 61.90087145969498%;
+            width: 37.90849673202615%;
             background: var(--st-not-started);
           "
         ></span>
@@ -421,138 +421,137 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
 ## Styles
 ```css
 .ctb {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-200);
   margin-top: var(--spacing-400);
   padding: var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-300);
+  flex-direction: column;
+  display: flex;
 }
 .ctb__head {
-  display: flex;
-  align-items: baseline;
   justify-content: space-between;
+  align-items: baseline;
   gap: var(--spacing-300);
   flex-wrap: wrap;
+  display: flex;
 }
 .ctb__title {
-  margin: 0;
   font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
 }
 .ctb__sub {
+  color: var(--color-content-default-tertiary);
   margin: 0;
   font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
 }
 .ctb__axisrow {
-  display: grid;
-  grid-template-columns: 190px 1fr 260px;
   gap: var(--spacing-400);
+  grid-template-columns: 190px 1fr 260px;
+  display: grid;
 }
 .ctb__axis {
-  position: relative;
   height: 18px;
+  position: relative;
 }
 .ctb-tick {
+  color: var(--color-content-default-tertiary);
+  white-space: nowrap;
+  font-size: 0.75rem;
   position: absolute;
   top: 0;
   transform: translate(-50%);
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
 }
 .ctb-tick--today {
-  color: var(--color-primary);
-  font-weight: var(--font-weight-semibold);
+  color: var(--color-background-brand);
+  font-weight: var(--typography-font-weight-semibold);
 }
 .ctb__rows {
-  list-style: none;
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 .ctb-row {
-  display: grid;
-  grid-template-columns: 190px 1fr 260px;
   gap: var(--spacing-400);
-  align-items: center;
   padding: var(--spacing-200) 0;
-  border-top: 1px solid var(--color-border-light);
+  border-top: 1px solid var(--color-border-default-subtle);
   cursor: pointer;
+  grid-template-columns: 190px 1fr 260px;
+  align-items: center;
+  display: grid;
 }
 .ctb-row:hover {
   background: var(--grid-row-bg-hover);
 }
 .ctb-row__name {
-  display: flex;
+  font-size: 0.875rem;
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
   flex-direction: column;
   gap: 1px;
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  display: flex;
 }
 .ctb-row__sub {
   font-size: 0.75rem;
-  font-weight: var(--font-weight-regular);
-  color: var(--color-text-tertiary);
+  font-weight: var(--typography-font-weight-regular);
+  color: var(--color-content-default-tertiary);
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 .ctb-row__track {
-  position: relative;
-  height: 12px;
   border-radius: var(--radius-full);
   background: var(--bcn-gray-100);
+  height: 12px;
+  position: relative;
 }
 .ctb-row__bar {
+  border-radius: var(--radius-full);
+  opacity: 0.55;
+  height: 4px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 4px;
-  border-radius: var(--radius-full);
-  opacity: 0.55;
 }
 .ctb-row__dot {
+  border: 2px solid var(--color-background-elevation-raised);
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid var(--color-surface);
   box-shadow: 0 0 0 1px #0000001f;
 }
 .ctb-row__meta {
-  display: flex;
+  text-align: right;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  font-variant-numeric: tabular-nums;
   flex-direction: column;
   align-items: flex-end;
   gap: 1px;
-  min-width: 0;
-  text-align: right;
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  font-variant-numeric: tabular-nums;
+  display: flex;
 }
 ```
 
 ## Tokens
 - `--bcn-gray-100`: #efefef _(component)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-light`: #efefef _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--grid-row-bg-hover`: #f0f0f0 _(component)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--grid-row-bg-hover`: #efefef _(component)_
 - `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
+- `--typography-font-weight-regular`: 350 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

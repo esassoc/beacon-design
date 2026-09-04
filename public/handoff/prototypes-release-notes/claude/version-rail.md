@@ -32,24 +32,22 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
         href="#v1-33-0"
         data-release-link="v1-33-0"
         aria-current="true"
+        ><span class="bcn-release-nav__version"
+          >1.33.0<span class="bcn-release-nav__latest">Latest</span></span
+        ><span class="bcn-release-nav__date">Jun 2</span></a
       >
-        <span class="bcn-release-nav__version">
-          1.33.0 <span class="bcn-release-nav__latest">Latest</span>
-        </span>
-        <span class="bcn-release-nav__date">Jun 2</span>
-      </a>
     </li>
     <li class="bcn-release-nav__item">
-      <a class="bcn-release-nav__link" href="#v1-32-0" data-release-link="v1-32-0">
-        <span class="bcn-release-nav__version"> 1.32.0 </span>
-        <span class="bcn-release-nav__date">May 21</span>
-      </a>
+      <a class="bcn-release-nav__link" href="#v1-32-0" data-release-link="v1-32-0"
+        ><span class="bcn-release-nav__version">1.32.0</span
+        ><span class="bcn-release-nav__date">May 21</span></a
+      >
     </li>
     <li class="bcn-release-nav__item">
-      <a class="bcn-release-nav__link" href="#v1-31-0" data-release-link="v1-31-0">
-        <span class="bcn-release-nav__version"> 1.31.0 </span>
-        <span class="bcn-release-nav__date">May 12</span>
-      </a>
+      <a class="bcn-release-nav__link" href="#v1-31-0" data-release-link="v1-31-0"
+        ><span class="bcn-release-nav__version">1.31.0</span
+        ><span class="bcn-release-nav__date">May 12</span></a
+      >
     </li>
   </ol>
 </nav>
@@ -58,107 +56,102 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
 ## Styles
 ```css
 .bcn-omni-rail__item.is-active {
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  font-weight: var(--font-weight-semibold);
+  background: var(--color-background-brand);
+  color: var(--color-content-default-knockout);
+  font-weight: var(--typography-font-weight-semibold);
 }
 .bcn-omni-row.is-active {
-  background: var(--color-surface-sunken);
+  background: var(--color-background-elevation-sunken);
 }
 .bcn-release-nav {
-  position: sticky;
   top: var(--spacing-500, 1.5rem);
-  align-self: start;
   max-block-size: calc(100vh - var(--spacing-900, 6rem));
-  overflow-y: auto;
   overscroll-behavior: contain;
+  align-self: start;
+  position: sticky;
+  overflow-y: auto;
 }
 .bcn-release-nav__heading {
   margin: 0 0 var(--spacing-200, 0.5rem);
   padding-inline: var(--spacing-300, 0.75rem);
   font-size: 1rem;
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-text-primary);
+  font-weight: var(--typography-font-weight-semibold, 600);
+  color: var(--color-content-default);
   line-height: 1.3;
 }
 .bcn-release-nav__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
   flex-direction: column;
   gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
 }
 .bcn-release-nav__link {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
   padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
   border-radius: var(--radius-200, 0.5rem);
-  color: var(--color-text-secondary);
+  color: var(--color-content-default-secondary);
+  flex-direction: column;
+  gap: 2px;
   text-decoration: none;
   transition:
-    background 0.1s ease,
-    color 0.1s ease;
+    background 0.1s,
+    color 0.1s;
+  display: flex;
 }
 .bcn-release-nav__link:hover {
-  background: var(--color-surface-sunken);
+  background: var(--color-background-elevation-sunken);
 }
 .bcn-release-nav__link:hover .bcn-release-nav__version {
-  color: var(--color-text-primary);
+  color: var(--color-content-default);
 }
 .bcn-release-nav__link:focus-visible {
   outline: var(--focus-ring-width, 2px) solid
-    var(--focus-ring-color, var(--color-text-link, #005862));
+    var(--focus-ring-color, var(--color-content-link, #005862));
   outline-offset: 2px;
 }
 .bcn-release-nav__link.is-active .bcn-release-nav__version {
-  color: var(--color-text-primary);
+  color: var(--color-content-default);
   font-weight: 600;
 }
 .bcn-release-nav__version {
-  display: inline-flex;
   align-items: baseline;
   gap: var(--spacing-200, 0.5rem);
   font-family: var(--font-decorative);
+  color: var(--color-content-default-tertiary);
   font-size: 1rem;
   font-weight: 500;
-  color: var(--color-text-tertiary);
   line-height: 1.3;
-  transition: color 0.1s ease;
+  transition: color 0.1s;
+  display: inline-flex;
 }
 .bcn-release-nav__latest {
-  flex: none;
-  font-family: var(--font-sans, "DM Sans", sans-serif);
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
   font-size: 12px;
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--color-text-tertiary);
-  background: var(--color-surface-sunken);
+  font-weight: var(--typography-font-weight-medium, 500);
+  color: var(--color-content-default-tertiary);
+  background: var(--color-background-elevation-sunken);
   padding: 1px var(--spacing-150, 0.375rem);
   border-radius: var(--radius-100, 0.25rem);
+  flex: none;
   line-height: 1.5;
 }
 .bcn-release-nav__date {
+  color: var(--color-content-default-tertiary);
   font-size: 0.875rem;
-  color: var(--color-text-tertiary);
   line-height: 1.35;
 }
 ```
 
 ## Tokens
-- `--color-primary`: #005862 _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--focus-ring-color`: #65ba74 _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-knockout`: #fcfcfc _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--focus-ring-color`: #3e9b4f _(component)_
+- `--focus-ring-width`: 2px _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -166,3 +159,6 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-900`: 6rem _(primitive)_
+- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

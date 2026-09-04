@@ -4,7 +4,7 @@ The global-search command palette — a fixed overlay centered both vertically a
 
 ## Key decisions
 - NULL STATE shows a centered "Search Beacon" landing only (no recents); the scope rail is PRESENT but DISABLED with no counts until a query is typed, at which point its facets enable, show counts, and the active scope highlights.
-- Scope facets are a left VERTICAL RAIL (not tabs); the active facet is solid --color-primary with white text.
+- Scope facets are a left VERTICAL RAIL (not tabs); the active facet is solid --color-background-brand with white text.
 - Inline ghost-text typeahead: a grey predicted completion sits after the caret (a transparent pad span occupies the typed text so the grey suffix lands exactly at the caret); Tab or → accepts it.
 - Hit highlighting is highlighter-yellow (#fde047), dark text — louder than a tinted-primary mark.
 - Result rows carry NO leading scope icon and NO subtitle. Commitments + requirements show a purple commitment-ID badge (--color-commitment) before the title; the body match renders as a one-line serif (--font-decorative) snippet of the matched document text.
@@ -23,8 +23,8 @@ The global-search command palette — a fixed overlay centered both vertically a
 ```html
 <div class="bcn-omni__panel" role="dialog" aria-modal="true" aria-label="Global search">
   <div class="bcn-omni__searchrow">
-    <span class="bcn-omni__searchicon" aria-hidden="true">
-      <svg
+    <span class="bcn-omni__searchicon" aria-hidden="true"
+      ><svg
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -33,14 +33,11 @@ The global-search command palette — a fixed overlay centered both vertically a
         stroke-linejoin="round"
       >
         <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.3-4.3"></path>
-      </svg>
-    </span>
-    <span class="bcn-omni__inputwrap">
-      <span class="bcn-omni__ghost" data-omni-ghost="" aria-hidden="true" data-suffix="s"
+        <path d="m21 21-4.3-4.3"></path></svg></span
+    ><span class="bcn-omni__inputwrap"
+      ><span class="bcn-omni__ghost" data-omni-ghost="" aria-hidden="true" data-suffix="s"
         ><span class="bcn-omni__ghost-pad">biologist</span>s</span
-      >
-      <input
+      ><input
         class="bcn-omni__input"
         data-omni-input=""
         type="text"
@@ -48,10 +45,8 @@ The global-search command palette — a fixed overlay centered both vertically a
         autocomplete="off"
         autocapitalize="off"
         spellcheck="false"
-        aria-label="Search"
-      />
-    </span>
-    <button
+        aria-label="Search" /></span
+    ><button
       class="bcn-omni__clear"
       data-omni-clear=""
       type="button"
@@ -69,9 +64,8 @@ The global-search command palette — a fixed overlay centered both vertically a
       >
         <path d="M18 6 6 18"></path>
         <path d="m6 6 12 12"></path>
-      </svg>
-    </button>
-    <kbd>Esc</kbd>
+      </svg></button
+    ><kbd>Esc</kbd>
   </div>
   <div class="bcn-omni__split">
     <nav
@@ -2373,8 +2367,8 @@ The global-search command palette — a fixed overlay centered both vertically a
     </div>
   </div>
   <button class="bcn-omni__showall" data-omni-showall="" type="button">
-    <span data-omni-showall-label="">See all 147 results for “biologist”</span>
-    <svg
+    <span data-omni-showall-label="">See all 147 results for “biologist”</span
+    ><svg
       viewBox="0 0 24 24"
       width="18"
       height="18"
@@ -2388,324 +2382,324 @@ The global-search command palette — a fixed overlay centered both vertically a
     </svg>
   </button>
   <div class="bcn-omni__footer">
-    <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span> <span><kbd>↵</kbd> Select</span>
-    <span><kbd>Tab</kbd> Complete</span> <span><kbd>Esc</kbd> Close</span>
+    <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Select</span
+    ><span><kbd>Tab</kbd> Complete</span><span><kbd>Esc</kbd> Close</span>
   </div>
 </div>
 ```
 
 ## Styles
 ```css
-.bcn-omni-rail__item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  width: 100%;
-  padding: var(--spacing-150) var(--spacing-250);
-  border: 0;
-  border-radius: var(--radius-200);
-  background: transparent;
-  color: var(--color-text-secondary);
-  font-family: inherit;
-  font-size: var(--type-size-150);
-  text-align: left;
-  cursor: pointer;
-  transition:
-    background 0.1s,
-    color 0.1s;
-}
-.bcn-omni-rail__item:not(:disabled):hover {
-  background: var(--color-surface-sunken);
-  color: var(--color-text-primary);
-}
-.bcn-omni-rail__item.is-active {
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-omni-rail__item:disabled {
-  color: var(--color-text-tertiary);
-  cursor: default;
-}
-.bcn-omni-rail__label {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.bcn-omni-rail__c {
-  flex: none;
-  font-size: 11px;
-  font-variant-numeric: tabular-nums;
-  opacity: 0.8;
-}
-.bcn-omni-group__head {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  padding: var(--spacing-200) var(--spacing-400) var(--spacing-100);
-}
-.bcn-omni-group__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-omni-group__count {
-  font-size: var(--type-size-100);
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text-secondary);
-  background: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  padding: 0 6px;
-  line-height: 1.5;
-}
-.bcn-omni-row {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: var(--spacing-250) var(--spacing-400);
-  border: 0;
-  background: transparent;
-  color: var(--color-text-primary);
-  font-family: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.bcn-omni-row.is-active {
-  background: var(--color-surface-sunken);
-}
-.bcn-omni-row__text {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.bcn-omni-row__titlerow {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  min-width: 0;
-}
-.bcn-omni-row__code {
-  flex: none;
-  padding: 1px 6px;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  white-space: nowrap;
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
-.bcn-omni-row__title {
-  flex: 0 1 auto;
-  min-width: 0;
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.bcn-omni-row__snippet {
-  margin-top: 2px;
-  font-family: var(--font-decorative);
-  font-size: var(--type-size-150);
-  color: var(--color-text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.bcn-omni-row mark,
-.bcn-omni-empty mark {
-  background: #fde047;
-  color: var(--color-text-primary);
-  border-radius: 2px;
-  padding: 0 1px;
-}
 .bcn-omni__panel {
-  position: relative;
   z-index: 1;
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-400, 12px);
+  flex-direction: column;
   width: 860px;
   max-width: 100%;
   height: min(680px, 84vh);
+  animation: 0.14s ease-out bcn-omni-enter;
   display: flex;
-  flex-direction: column;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-400, 12px);
+  position: relative;
   overflow: hidden;
   box-shadow: 0 24px 64px #141e2852;
-  animation: bcn-omni-enter 0.14s ease-out;
 }
 .bcn-omni__searchrow {
-  display: flex;
   align-items: center;
   gap: var(--spacing-300);
-  flex: none;
   padding: var(--spacing-300) var(--spacing-500);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border-default);
+  flex: none;
+  display: flex;
 }
 .bcn-omni__searchicon {
-  display: inline-flex;
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
+  display: inline-flex;
 }
 .bcn-omni__searchicon svg {
   width: 22px;
   height: 22px;
 }
 .bcn-omni__inputwrap {
-  position: relative;
   flex: 1;
+  align-items: center;
   min-width: 0;
   display: flex;
-  align-items: center;
+  position: relative;
 }
 .bcn-omni__input {
-  position: relative;
   z-index: 1;
   width: 100%;
   min-width: 0;
-  margin: 0;
-  padding: 0;
+  font-family: inherit;
+  font-size: var(--font-size-400, 1.25rem);
+  color: var(--color-content-default);
+  background: 0 0;
   border: 0;
   outline: 0;
-  background: transparent;
-  font-family: inherit;
-  font-size: var(--type-size-400, 1.25rem);
+  margin: 0;
+  padding: 0;
   line-height: 1.4;
-  color: var(--color-text-primary);
+  position: relative;
 }
 .bcn-omni__input::placeholder {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
 }
 .bcn-omni__ghost {
+  z-index: 0;
+  font-family: inherit;
+  font-size: var(--font-size-400, 1.25rem);
+  color: var(--color-content-default-tertiary);
+  white-space: pre;
+  pointer-events: none;
+  align-items: center;
+  line-height: 1.4;
+  display: flex;
   position: absolute;
   inset: 0;
-  z-index: 0;
-  display: flex;
-  align-items: center;
-  font-family: inherit;
-  font-size: var(--type-size-400, 1.25rem);
-  line-height: 1.4;
-  color: var(--color-text-tertiary);
-  white-space: pre;
   overflow: hidden;
-  pointer-events: none;
 }
 .bcn-omni__ghost-pad {
-  color: transparent;
+  color: #0000;
   white-space: pre;
 }
 .bcn-omni__clear {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: var(--radius-full);
+  background: var(--color-background-elevation-sunken);
   width: 26px;
   height: 26px;
-  flex: none;
-  border: 0;
-  border-radius: var(--radius-full);
-  background: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
+  color: var(--color-content-default-secondary);
   cursor: pointer;
+  border: 0;
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .bcn-omni__clear[hidden] {
   display: none;
 }
 .bcn-omni__clear:hover {
-  background: var(--color-border);
+  background: var(--color-border-default);
 }
 .bcn-omni__split {
-  display: flex;
-  flex: 1 1 auto;
+  flex: auto;
   min-height: 0;
+  display: flex;
 }
 .bcn-omni__rail {
   box-sizing: border-box;
-  flex: none;
   width: 208px;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
   padding: var(--spacing-200);
-  border-right: 1px solid var(--color-border);
-  overflow-y: auto;
+  border-right: 1px solid var(--color-border-default);
   scrollbar-width: none;
+  flex-direction: column;
+  flex: none;
+  gap: 1px;
+  display: flex;
+  overflow-y: auto;
 }
 .bcn-omni__rail::-webkit-scrollbar {
   display: none;
 }
 .bcn-omni__body {
-  flex: 1 1 auto;
   min-width: 0;
-  overflow-y: auto;
   padding: var(--spacing-200) 0;
+  flex: auto;
+  overflow-y: auto;
 }
 .bcn-omni__body.is-landing {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: var(--spacing-400);
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 .bcn-omni__showall {
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: var(--spacing-200);
-  flex: none;
   width: 100%;
   padding: var(--spacing-300);
-  border: 0;
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
+  background: var(--color-background-brand);
+  color: var(--color-content-default-knockout);
   font-family: inherit;
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-200);
+  font-weight: var(--typography-font-weight-semibold);
   cursor: pointer;
+  border: 0;
+  flex: none;
+  display: flex;
 }
 .bcn-omni__showall[hidden] {
   display: none;
 }
 .bcn-omni__showall:hover {
-  background: var(--color-primary-hover, var(--color-primary));
+  background: var(--color-background-brand-hover, var(--color-background-brand));
   filter: brightness(0.96);
 }
 .bcn-omni__footer {
-  display: flex;
-  flex-wrap: wrap;
   gap: var(--spacing-400);
-  flex: none;
   padding: var(--spacing-250) var(--spacing-500);
-  border-top: 1px solid var(--color-border);
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
+  border-top: 1px solid var(--color-border-default);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-tertiary);
+  flex-wrap: wrap;
+  flex: none;
+  display: flex;
 }
 .bcn-omni__footer span {
-  display: inline-flex;
   align-items: center;
   gap: 6px;
+  display: inline-flex;
+}
+.bcn-omni-rail__item {
+  align-items: center;
+  gap: var(--spacing-200);
+  width: 100%;
+  padding: var(--spacing-150) var(--spacing-250);
+  border-radius: var(--radius-200);
+  color: var(--color-content-default-secondary);
+  font-family: inherit;
+  font-size: var(--font-size-150);
+  text-align: left;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  transition:
+    background 0.1s,
+    color 0.1s;
+  display: flex;
+}
+.bcn-omni-rail__item:not(:disabled):hover {
+  background: var(--color-background-elevation-sunken);
+  color: var(--color-content-default);
+}
+.bcn-omni-rail__item.is-active {
+  background: var(--color-background-brand);
+  color: var(--color-content-default-knockout);
+  font-weight: var(--typography-font-weight-semibold);
+}
+.bcn-omni-rail__item:disabled {
+  color: var(--color-content-default-tertiary);
+  cursor: default;
+}
+.bcn-omni-rail__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+.bcn-omni-rail__c {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+  flex: none;
+  font-size: 11px;
+}
+.bcn-omni-group__head {
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-200) var(--spacing-400) var(--spacing-100);
+  display: flex;
+}
+.bcn-omni-group__label {
+  font-size: var(--font-size-150);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+}
+.bcn-omni-group__count {
+  font-size: var(--font-size-100);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-content-default-secondary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  background: 0 0;
+  padding: 0 6px;
+  line-height: 1.5;
+}
+.bcn-omni-row {
+  width: 100%;
+  padding: var(--spacing-250) var(--spacing-400);
+  color: var(--color-content-default);
+  text-align: left;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  align-items: center;
+  font-family: inherit;
+  display: flex;
+}
+.bcn-omni-row.is-active {
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-omni-row__text {
+  flex-direction: column;
+  flex: 1;
+  gap: 3px;
+  min-width: 0;
+  display: flex;
+}
+.bcn-omni-row__titlerow {
+  align-items: center;
+  gap: var(--spacing-150);
+  min-width: 0;
+  display: flex;
+}
+.bcn-omni-row__code {
+  border-radius: var(--radius-100);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  flex: none;
+  padding: 1px 6px;
+  line-height: 1.4;
+}
+.bcn-omni-row__title {
+  min-width: 0;
+  font-size: var(--font-size-150);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-default);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 0 auto;
+  overflow: hidden;
+}
+.bcn-omni-row__snippet {
+  font-family: var(--font-decorative);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+  overflow: hidden;
+}
+.bcn-omni-row mark,
+.bcn-omni-empty mark {
+  color: var(--color-content-default);
+  background: #fde047;
+  border-radius: 2px;
+  padding: 0 1px;
 }
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-knockout`: #fcfcfc _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--font-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-400`: .75rem _(primitive)_
@@ -2717,7 +2711,5 @@ The global-search command palette — a fixed overlay centered both vertically a
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

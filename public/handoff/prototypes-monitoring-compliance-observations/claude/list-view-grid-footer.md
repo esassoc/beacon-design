@@ -1410,7 +1410,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-danger)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-danger)"
                           ><span class="bcn-grid-chip__dot"></span>Non-Compliance</span
                         >
                       </div>
@@ -1423,7 +1425,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -1491,7 +1495,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-danger)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-danger)"
                           ><span class="bcn-grid-chip__dot"></span>Non-Compliance</span
                         >
                       </div>
@@ -1504,7 +1510,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -1572,7 +1580,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-danger)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-danger)"
                           ><span class="bcn-grid-chip__dot"></span>Non-Compliance</span
                         >
                       </div>
@@ -1585,7 +1595,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -1653,7 +1665,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-warning)"
                           ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
@@ -1666,7 +1680,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -1734,7 +1750,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-warning)"
                           ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
@@ -1747,7 +1765,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -1815,7 +1835,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-warning)"
                           ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
@@ -1828,7 +1850,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -1896,7 +1920,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-warning)"
                           ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
@@ -1909,7 +1935,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -1977,7 +2005,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-warning)"
                           ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
@@ -1990,7 +2020,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -2058,7 +2090,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-warning)"
                           ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
@@ -2071,7 +2105,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -2139,7 +2175,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-warning)"
                           ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
@@ -2152,7 +2190,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -2220,7 +2260,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-success)"
                           ><span class="bcn-grid-chip__dot"></span>In Compliance</span
                         >
                       </div>
@@ -2233,7 +2275,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -2301,7 +2345,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-success)"
                           ><span class="bcn-grid-chip__dot"></span>In Compliance</span
                         >
                       </div>
@@ -2314,7 +2360,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -2382,7 +2430,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-success)"
                           ><span class="bcn-grid-chip__dot"></span>In Compliance</span
                         >
                       </div>
@@ -2395,7 +2445,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -2463,7 +2515,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-success)"
                           ><span class="bcn-grid-chip__dot"></span>In Compliance</span
                         >
                       </div>
@@ -2476,7 +2530,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -2544,7 +2600,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-success)"
                           ><span class="bcn-grid-chip__dot"></span>In Compliance</span
                         >
                       </div>
@@ -2557,7 +2615,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -2625,7 +2685,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="3"
                         style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-success)"
                           ><span class="bcn-grid-chip__dot"></span>In Compliance</span
                         >
                       </div>
@@ -2638,7 +2700,9 @@ The default view: the observation set in the shared AG Grid kit already used by 
                         aria-colindex="4"
                         style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                        <span
+                          class="bcn-grid-chip"
+                          style="--_chip: var(--color-background-utility-info)"
                           ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
@@ -3037,11 +3101,10 @@ The default view: the observation set in the shared AG Grid kit already used by 
   <div class="table-footer">
     <span id="ov-download"
       ><span
-        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-      >
-        <button class="esa-button__native" type="button">
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
+        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+        ><button class="esa-button__native typography-microcopy-xs" type="button">
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -3054,16 +3117,14 @@ The default view: the observation set in the shared AG Grid kit already used by 
             >
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" x2="12" y1="15" y2="3"></line>
-            </svg>
-          </span>
-          <span class="esa-button__label"> Download as CSV </span>
-        </button>
-      </span>
-    </span>
+              <line x1="12" x2="12" y1="15" y2="3"></line></svg></span
+          ><span class="esa-button__label">Download as CSV</span>
+        </button></span
+      ></span
+    >
     <div class="row-count-data">
-      Total Records: <span id="ov-total">28</span>
-      <span id="ov-filtered" class="filtered-rows-count">Filtered Records: 16</span>
+      Total Records: <span id="ov-total">28</span
+      ><span id="ov-filtered" class="filtered-rows-count">Filtered Records: 16</span>
     </div>
   </div>
 </div>
@@ -4035,164 +4096,182 @@ The default view: the observation set in the shared AG Grid kit already used by 
 :where(.ag-ltr) .ag-filter-condition-operator-or{margin-left:calc(var(--ag-spacing)*2)}
 :where(.ag-ltr) .ag-set-filter-add-group-indent{margin-left:calc(var(--ag-icon-size) + var(--ag-widget-container-horizontal-padding))}
 :where(.ag-ltr) .ag-filter-apply-panel-button{margin-left:calc(var(--ag-spacing)*2)}
-.esa-button{--_btn-height: var(--form-height-md, 40px);--_btn-padding-x: var(--form-padding-x-md, 16px);--_btn-font-size: var(--form-font-size-md, 14px);--_btn-radius: var(--form-radius-md, 6px);--_accent: var(--color-primary, #46a758);--_accent-hover: var(--color-primary-hover, #3e9b4f);--_on: var(--color-text-inverse, #ffffff);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
-.esa-button--xs{--_btn-height: var(--form-height-xs, 28px);--_btn-padding-x: var(--form-padding-x-xs, 8px);--_btn-font-size: var(--form-font-size-xs, 11px);--_btn-radius: var(--form-radius-xs, 4px)}
-.esa-button--sm{--_btn-height: var(--form-height-sm, 32px);--_btn-padding-x: var(--form-padding-x-sm, 12px);--_btn-font-size: var(--form-font-size-sm, 12px);--_btn-radius: var(--form-radius-sm, 4px)}
-.esa-button--lg{--_btn-height: var(--form-height-lg, 48px);--_btn-padding-x: var(--form-padding-x-lg, 20px);--_btn-font-size: var(--form-font-size-lg, 16px);--_btn-radius: var(--form-radius-lg, 8px)}
-.esa-button--sm .esa-button__native{height:auto;padding-block:var(--spacing-150, 6px)}
-.esa-button--sm.esa-button--icon-only .esa-button__native{height:var(--form-height-sm, 32px);padding-block:0}
-.esa-button--color-primary{--_accent-text: var(--color-primary-strong)}
-.esa-button--color-secondary{--_accent: var(--color-secondary);--_accent-hover: var(--color-secondary-hover);--_on: var(--color-secondary-on-fill, var(--color-gray-12));--_accent-text: var(--color-secondary-strong)}
-.esa-button--color-danger{--_accent: var(--color-danger);--_accent-hover: var(--color-danger-hover);--_accent-text: var(--color-danger-strong)}
-.esa-button--color-success{--_accent: var(--color-success);--_accent-hover: var(--color-success-hover);--_on: var(--color-success-on-fill);--_accent-text: var(--color-success-strong)}
-.esa-button--color-warning{--_accent: var(--color-warning);--_accent-hover: var(--color-warning-hover);--_on: var(--button-on-warning, var(--color-gray-12));--_accent-text: var(--color-warning-strong)}
-.esa-button--color-info{--_accent: var(--color-info);--_accent-hover: var(--color-info-hover);--_accent-text: var(--color-info-strong)}
-.esa-button--color-ai{--_accent: var(--color-ai);--_accent-hover: var(--color-ai-hover);--_accent-text: var(--color-ai-strong)}
-.esa-button--appearance-fill .esa-button__native{background:var(--_accent);color:var(--_on);border-color:transparent}
-.esa-button--appearance-fill .esa-button__native:hover:not(:disabled){background:var(--_accent-hover)}
-.esa-button--appearance-fill.esa-button--active .esa-button__native{background:var(--_accent-hover)}
-.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.bcn-search-trigger .esa-icon{color:var(--color-content-default-tertiary);flex:none}
+.bcn-help-bar .esa-icon-button{color:var(--bcn-helpbar-fg-muted);--icon-button-bg-hover:var(--bcn-helpbar-hover-bg)}
+.bcn-help-bar .esa-icon-button:hover,.bcn-help-bar .esa-icon-button:focus-visible{color:var(--bcn-helpbar-fg)}
+.bcn-gd__label .esa-icon{color:var(--color-content-default-tertiary);flex:none}
+.bcn-gd-row .esa-icon{color:var(--color-content-default-tertiary);flex:none}
+.bcn-disclosure .esa-icon{transition:transform .15s}
+.bcn-disclosure[aria-expanded=false] .esa-icon{transform:rotate(-90deg)}
+.bcn-ev-staging__title .esa-icon{color:var(--color-content-default-tertiary);flex:none}
+.bcn-ev-targets__title .esa-icon{color:var(--color-content-default-tertiary);flex:none}
+.topbar__right .esa-icon-button{color:var(--color-content-default-secondary)}
+.user-panel__item .esa-icon{color:var(--bcn-gray-500)}
+.user-panel__item--danger .esa-icon{color:var(--color-background-utility-danger)}
+.project-switcher__trigger>.esa-icon:first-child{color:var(--bcn-gray-500);flex-shrink:0}
+.nav-section__header:hover .esa-icon,.nav-section--active .nav-section__header,.nav-section--active .nav-section__header .esa-icon{color:var(--color-background-brand)}
+.nav-section__header>.esa-icon:first-child{color:var(--bcn-gray-950);flex-shrink:0;transition:color .15s}
+.nav-section__header>.esa-icon:last-child{color:var(--bcn-gray-400);flex-shrink:0;transition:transform .15s,opacity .2s ease-in-out}
+.nav-section--collapsed .nav-section__header>.esa-icon:last-child{transform:rotate(-90deg)}
+.side-nav.collapsed .nav-section__title,.side-nav.collapsed .nav-section__header>.esa-icon:last-child{display:none}
+.esa-button{--_btn-pad-y:var(--spacing-300,.75rem);--_btn-padding-x:var(--spacing-300,.75rem);--_btn-radius:var(--button-radius-md,.5rem);--_accent:var(--color-background-brand,#46a758);--_accent-hover:var(--color-background-brand-hover,#3e9b4f);--_on:var(--color-content-default-knockout,#fcfcfc);--_accent-text:var(--_accent);--_btn-tint-hover:color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active:color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
+.esa-button--xs{--_btn-pad-y:var(--spacing-200,.5rem);--_btn-padding-x:var(--spacing-200,.5rem);--_btn-radius:var(--button-radius-xs,4px)}
+.esa-button--sm{--_btn-pad-y:var(--spacing-250,.625rem);--_btn-padding-x:var(--spacing-250,.625rem);--_btn-radius:var(--button-radius-sm,4px)}
+.esa-button--lg{--_btn-pad-y:var(--spacing-400,1rem);--_btn-padding-x:var(--spacing-400,1rem);--_btn-radius:var(--button-radius-lg,8px)}
+.esa-button--variant-primary{--_accent-text:var(--color-content-brand)}
+.esa-button--variant-secondary{--_accent:var(--color-background-brand-muted);--_accent-hover:var(--color-background-brand-muted-hover);--_on:var(--color-content-on-brand-muted,var(--color-content-default));--_accent-text:var(--color-content-brand);--_accent-border:var(--color-border-default-strong,#bbb)}
+.esa-button--variant-danger{--_accent:var(--color-background-utility-danger);--_accent-hover:var(--color-background-utility-danger-hover);--_accent-text:var(--color-content-utility-danger)}
+.esa-button--variant-success{--_accent:var(--color-background-utility-success);--_accent-hover:var(--color-background-utility-success-hover);--_on:var(--color-content-on-utility-success);--_accent-text:var(--color-content-utility-success)}
+.esa-button--variant-warning{--_accent:var(--color-background-utility-warning);--_accent-hover:var(--color-background-utility-warning-hover);--_on:var(--button-on-warning,var(--color-content-on-utility-warning,#4f3422));--_accent-text:var(--color-content-utility-warning)}
+.esa-button--variant-info{--_accent:var(--color-background-utility-info);--_accent-hover:var(--color-background-utility-info-hover);--_accent-text:var(--color-content-utility-info)}
+.esa-button--variant-ai{--_accent:var(--color-background-ai);--_accent-hover:var(--color-background-ai-hover);--_accent-text:var(--color-content-ai)}
+.esa-button--appearance-fill .esa-button__native{background:var(--_accent);color:var(--_on);border-color:var(--_accent-border,transparent)}
+.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),.esa-button--appearance-fill.esa-button--active .esa-button__native{background:var(--_accent-hover)}
+.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{color:var(--_accent-text);border-color:var(--_accent);background:0 0}
 .esa-button--appearance-dashed .esa-button__native{border-style:dashed}
 .esa-button--appearance-outline .esa-button__native:hover:not(:disabled),.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled){background:var(--_btn-tint-hover)}
 .esa-button--appearance-outline.esa-button--active .esa-button__native,.esa-button--appearance-dashed.esa-button--active .esa-button__native{background:var(--_btn-tint-active)}
-.esa-button--appearance-soft .esa-button__native{background:color-mix(in srgb,var(--color-surface-sunken, #efefef) 45%,var(--color-surface, #fff));color:var(--_accent-text);border-color:var(--color-border-strong, #d4d4d4)}
+.esa-button--appearance-soft .esa-button__native{background:color-mix(in srgb, var(--color-background-elevation-sunken,#f0f0f0) 45%, var(--color-background-elevation-raised,#fcfcfc));color:var(--_accent-text);border-color:var(--color-border-default-strong,#bbb)}
 .esa-button--appearance-soft .esa-button__native:hover:not(:disabled),.esa-button--appearance-soft.esa-button--active .esa-button__native{background:var(--_accent);color:var(--_on);border-color:var(--_accent)}
-.esa-button--color-ghost .esa-button__native{background:transparent;color:var(--color-text-primary, #171717);border-color:transparent}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border, #e5e5e5)}
-.esa-button--color-ghost .esa-button__native:hover:not(:disabled),.esa-button--color-ghost.esa-button--active .esa-button__native{background:var(--color-surface-sunken, #efefef)}
-.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;height:var(--_btn-height);padding-inline:var(--_btn-padding-x);border:1px solid transparent;border-radius:var(--_btn-radius);font-size:var(--_btn-font-size);font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.esa-button__native:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring-color);outline-offset:var(--focus-ring-offset, 2px)}
+.esa-button--variant-ghost .esa-button__native{color:var(--color-content-default,#202020);background:0 0;border-color:#0000}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border-default,#cecece)}
+.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),.esa-button--variant-ghost.esa-button--active .esa-button__native{background:var(--color-background-elevation-sunken,#f0f0f0)}
+.esa-button--variant-chrome .esa-button__native{color:inherit;background:0 0;border-color:#0000}
+.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),.esa-button--variant-chrome.esa-button--active .esa-button__native,.esa-button--variant-chrome.esa-button--current .esa-button__native{background:var(--button-chrome-bg-hover,color-mix(in srgb, currentColor 14%, transparent))}
+.esa-button--variant-chrome .esa-button__native:focus-visible{outline-color:currentColor}
+.esa-button__native{justify-content:center;align-items:center;gap:var(--spacing-200,8px);width:100%;padding-block:var(--_btn-pad-y);padding-inline:var(--_btn-padding-x);border:var(--border-width-default,1px) solid transparent;border-radius:var(--_btn-radius);cursor:pointer;transition:background var(--transition-fast,.15s ease), border-color var(--transition-fast,.15s ease);-webkit-appearance:none;appearance:none;text-decoration:none;display:inline-flex}
+.esa-button__native:focus-visible{outline:var(--focus-ring-width,2px) solid var(--focus-ring-color,#3e9b4f);outline-offset:var(--focus-ring-offset,2px)}
 .esa-button--disabled{opacity:.5;cursor:not-allowed;pointer-events:none}
-.esa-button--icon-only .esa-button__native{padding-inline:0;width:var(--_btn-height)}
+.esa-button--icon-only .esa-button__native{padding-inline:var(--_btn-pad-y);aspect-ratio:1}
+summary.esa-button{cursor:pointer;list-style:none}
+summary.esa-button::-webkit-details-marker{display:none}
+summary.esa-button:focus-visible{outline:var(--focus-ring-width,2px) solid var(--focus-ring-color,#3e9b4f);outline-offset:var(--focus-ring-offset,2px);border-radius:var(--_btn-radius)}
+summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 .esa-button__label{white-space:nowrap}
-.esa-button__label--hidden{visibility:hidden;width:0;overflow:hidden}
-.esa-button__spinner{display:inline-block;width:1em;height:1em;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:esa-button-spin .6s linear infinite}
-.bcn-search-trigger .esa-icon{flex:none;color:var(--color-text-tertiary)}
-.bcn-help-bar .esa-icon-button{color:var(--bcn-helpbar-fg-muted);--icon-button-bg-hover: var(--bcn-helpbar-hover-bg)}
-.bcn-help-bar .esa-icon-button:hover,.bcn-help-bar .esa-icon-button:focus-visible{color:var(--bcn-helpbar-fg)}
-.bcn-gd__label .esa-icon{color:var(--color-text-tertiary);flex:none}
-.bcn-gd-row .esa-icon{color:var(--color-text-tertiary);flex:none}
-.bcn-disclosure .esa-icon{transition:transform .15s ease}
-.bcn-disclosure[aria-expanded=false] .esa-icon{transform:rotate(-90deg)}
-.bcn-ev-staging__title .esa-icon{flex:none;color:var(--color-text-tertiary)}
-.bcn-ev-targets__title .esa-icon{flex:none;color:var(--color-text-tertiary)}
-.topbar__right .esa-icon-button{color:var(--color-text-secondary)}
-.user-panel__item .esa-icon{color:var(--bcn-gray-500)}
-.user-panel__item--danger .esa-icon{color:var(--color-danger)}
-.project-switcher__trigger>.esa-icon:first-child{flex-shrink:0;color:var(--bcn-gray-500)}
-.nav-section__header:hover .esa-icon,.nav-section--active .nav-section__header,.nav-section--active .nav-section__header .esa-icon{color:var(--color-primary)}
-.nav-section__header>.esa-icon:first-child{flex-shrink:0;color:var(--bcn-gray-950);transition:color .15s ease}
-.nav-section__header>.esa-icon:last-child{color:var(--bcn-gray-400);transition:transform .15s ease,opacity .2s ease-in-out;flex-shrink:0}
-.nav-section--collapsed .nav-section__header>.esa-icon:last-child{transform:rotate(-90deg)}
-.side-nav.collapsed .nav-section__header>.esa-icon:last-child{display:none}
+.esa-button__label--hidden{clip-path:inset(50%);white-space:nowrap;width:1px;height:1px;position:absolute;overflow:hidden}
+.esa-button__spinner{width:1em;height:1em;animation:esa-button-spin var(--animation-spin,.75s linear infinite);border:2px solid;border-right-color:#0000;border-radius:50%;display:inline-block}
+.typography-microcopy-xs{font-family:var(--typography-microcopy-xs-font-family);font-size:var(--typography-microcopy-xs-font-size);font-weight:var(--typography-microcopy-xs-font-weight);line-height:var(--typography-microcopy-xs-line-height);letter-spacing:var(--typography-microcopy-xs-letter-spacing)}
+.typography-microcopy-xs-subtle{font-family:var(--typography-microcopy-xs-subtle-font-family);font-size:var(--typography-microcopy-xs-subtle-font-size);font-weight:var(--typography-microcopy-xs-subtle-font-weight);line-height:var(--typography-microcopy-xs-subtle-line-height);letter-spacing:var(--typography-microcopy-xs-subtle-letter-spacing)}
+.typography-microcopy-xs-strong{font-family:var(--typography-microcopy-xs-strong-font-family);font-size:var(--typography-microcopy-xs-strong-font-size);font-weight:var(--typography-microcopy-xs-strong-font-weight);line-height:var(--typography-microcopy-xs-strong-line-height);letter-spacing:var(--typography-microcopy-xs-strong-letter-spacing)}
 .ov-grid{width:100%;height:calc(100vh - 460px);min-height:480px}
-.table-footer{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background);border:1px solid var(--color-border);border-top:0;border-radius:0 0 var(--radius-100) var(--radius-100)}
-.row-count-data{display:flex;align-items:center;gap:var(--spacing-400);font-size:var(--type-size-100);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
-.filtered-rows-count{color:var(--color-text-tertiary)}
+.table-footer{justify-content:space-between;align-items:center;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background-default);border:1px solid var(--color-border-default);border-radius:0 0 var(--radius-100) var(--radius-100);border-top:0;display:flex}
+.row-count-data{align-items:center;gap:var(--spacing-400);font-size:var(--font-size-100);color:var(--color-content-default-secondary);font-variant-numeric:tabular-nums;display:flex}
+.filtered-rows-count{color:var(--color-content-default-tertiary)}
 .filtered-rows-count[hidden]{display:none}
-.ag-cell.bcn-grid-status-cell{display:flex;align-items:center}
-.bcn-grid-chip{display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.8125rem;line-height:1.5;font-weight:var(--font-weight-semibold);white-space:nowrap;background:color-mix(in srgb,var(--_chip) 16%,transparent);color:color-mix(in srgb,var(--_chip) 70%,var(--color-text-primary))}
-.bcn-grid-chip__dot{width:7px;height:7px;border-radius:50%;background:var(--_chip);flex-shrink:0}
-.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
-.bcn-grid-name:hover{color:var(--color-primary-hover)}
-.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
-.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
-.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
-.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
-.esa-icon--lg{--_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px))}
-.esa-icon--xl{--_icon-size: var(--icon-size-xl, 28px)}
-.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
-.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.esa-icon-button--xs{--_ib-size: var(--form-height-xs, 28px)}
-.esa-icon-button--sm{--_ib-size: var(--form-height-sm, 32px)}
-.esa-icon-button--lg{--_ib-size: var(--form-height-lg, 48px)}
-.esa-icon-button:hover{background:var(--_ib-bg-hover)}
-.esa-icon-button:focus-visible{outline:var(--focus-ring-width) solid currentColor;outline-offset:var(--focus-ring-offset, 2px)}
+.ag-cell.bcn-grid-status-cell{align-items:center;display:flex}
+.bcn-grid-chip{align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.8125rem;line-height:1.5;font-weight:var(--typography-font-weight-semibold);white-space:nowrap;background:color-mix(in srgb, var(--_chip) 16%, transparent);color:color-mix(in srgb, var(--_chip) 70%, var(--color-content-default));display:inline-flex}
+.bcn-grid-chip__dot{background:var(--_chip);border-radius:50%;flex-shrink:0;width:7px;height:7px}
+.bcn-grid-name{color:var(--color-content-link);font-weight:var(--typography-font-weight-regular);text-decoration:underline}
+.bcn-grid-name:hover{color:var(--color-background-brand-hover)}
+.esa-icon{--_icon-size:var(--icon-size-md,20px);width:var(--_icon-size);height:var(--_icon-size);color:inherit;justify-content:center;align-items:center;display:inline-flex}
+.esa-icon--xs{--_icon-size:var(--icon-size-xs,14px)}
+.esa-icon--sm{--_icon-size:var(--icon-size-sm,16px)}
+.esa-icon--md{--_icon-size:var(--icon-size-md,20px)}
+.esa-icon--lg{--_icon-size:var(--icon-size-lg,24px)}
+.esa-icon--xl{--_icon-size:var(--icon-size-xl,28px)}
+.esa-icon svg{width:var(--_icon-size);height:var(--_icon-size);display:block}
 .breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
+.page-layout__title h1 .esa-icon{color:var(--page-title-icon-color,var(--bcn-gray-1000));flex-shrink:0}
 ```
 
 ## Tokens
 - `--ag-internal-hover-color`: rgba(0, 0, 0, 0) _(component)_
 - `--ag-internal-moving-color`: rgba(0, 0, 0, 0) _(component)_
-- `--bcn-gray-1000`: #000000 _(component)_
+- `--animation-spin`: .75s linear infinite _(semantic)_
+- `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
-- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
-- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--button-on-warning`: #ffffff _(component)_
-- `--color-ai`: #699cc6 _(semantic)_
-- `--color-ai-hover`: #4c75a9 _(semantic)_
-- `--color-ai-strong`: #7d5e54 _(semantic)_
-- `--color-background`: #fafafa _(semantic)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-strong`: #bdbdbd _(semantic)_
-- `--color-danger`: #e5484d _(semantic)_
-- `--color-danger-hover`: #dc3e42 _(semantic)_
-- `--color-danger-strong`: #ce2c31 _(semantic)_
-- `--color-gray-12`: #202020 _(primitive)_
-- `--color-info`: #228be6 _(semantic)_
-- `--color-info-hover`: #0588f0 _(semantic)_
-- `--color-info-strong`: #0d74ce _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-primary-strong`: #2a7e3b _(semantic)_
-- `--color-secondary`: #00918b _(semantic)_
-- `--color-secondary-hover`: #0a6562 _(semantic)_
-- `--color-secondary-on-fill`: #203c25 _(semantic)_
-- `--color-secondary-strong`: #2a7e3b _(semantic)_
-- `--color-success`: #2e7571 _(semantic)_
-- `--color-success-hover`: #b0e64c _(semantic)_
-- `--color-success-on-fill`: #37401c _(semantic)_
-- `--color-success-strong`: #5c7c2f _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--color-warning`: #f59e0b _(semantic)_
-- `--color-warning-hover`: #ffba18 _(semantic)_
-- `--color-warning-strong`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #65ba74 _(primitive)_
-- `--focus-ring-offset`: 2px _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--form-font-size-lg`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(component)_
-- `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--form-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
-- `--form-height-lg`: 44px _(component)_
-- `--form-height-md`: 36px _(component)_
-- `--form-height-sm`: 28px _(component)_
-- `--form-height-xs`: 24px _(component)_
-- `--form-padding-x-lg`: 1rem _(component)_
-- `--form-padding-x-md`: .75rem _(component)_
-- `--form-padding-x-sm`: .625rem _(component)_
-- `--form-padding-x-xs`: .5rem _(component)_
-- `--form-radius-lg`: .25rem _(component)_
-- `--form-radius-md`: .25rem _(component)_
-- `--form-radius-sm`: .25rem _(component)_
-- `--form-radius-xs`: .25rem _(component)_
-- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--icon-size-large`: 24px _(component)_
+- `--bcn-helpbar-fg`: #ffffffeb _(component)_
+- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
+- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--border-width-default`: 1px _(semantic)_
+- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--button-on-warning`: #fff _(component)_
+- `--button-radius-lg`: .25rem _(component)_
+- `--button-radius-md`: .25rem _(component)_
+- `--button-radius-sm`: .25rem _(component)_
+- `--button-radius-xs`: .25rem _(component)_
+- `--color-background-ai`: #699cc6 _(semantic)_
+- `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
+- `--color-background-default`: #fafafa _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-background-utility-danger-hover`: #641723 _(semantic)_
+- `--color-background-utility-info`: #228be6 _(semantic)_
+- `--color-background-utility-info-hover`: #113264 _(semantic)_
+- `--color-background-utility-success`: #2e7571 _(semantic)_
+- `--color-background-utility-success-hover`: #193b2d _(semantic)_
+- `--color-background-utility-warning`: #f59e0b _(semantic)_
+- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-strong`: #bdbdbd _(semantic)_
+- `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-knockout`: #fcfcfc _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-on-brand-muted`: #203c25 _(semantic)_
+- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
+- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-utility-danger`: #ce2c31 _(semantic)_
+- `--color-content-utility-info`: #0d74ce _(semantic)_
+- `--color-content-utility-success`: #218358 _(semantic)_
+- `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--focus-ring-color`: #3e9b4f _(component)_
+- `--focus-ring-offset`: 2px _(component)_
+- `--focus-ring-width`: 2px _(component)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-small`: 16px _(component)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--spacing-250`: .625rem _(primitive)_
+- `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--transition-fast`: .15s ease _(semantic)_
+- `--typography-font-weight-regular`: 350 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

@@ -53,39 +53,39 @@ The long tail of each release — small fixes and improvements — collapsed beh
 .bcn-release__fixes-summary {
   cursor: pointer;
   font-size: 0.9375rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-default-secondary);
   list-style-position: inside;
 }
 .bcn-release__fixes-summary:hover {
-  color: var(--color-text-primary);
+  color: var(--color-content-default);
 }
 .bcn-release__fixes-list {
   margin: var(--spacing-300) 0 0;
-  padding-inline-start: var(--spacing-500);
-  max-inline-size: 42rem;
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-200);
+  flex-direction: column;
+  max-inline-size: 42rem;
+  padding-inline-start: var(--spacing-500);
+  display: flex;
 }
 .bcn-release__fix {
   font-size: 0.875rem;
   line-height: var(--line-height-normal);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
 }
 .bcn-release__fix::marker {
-  color: var(--color-border-strong);
+  color: var(--color-border-default-strong);
 }
 ```
 
 ## Tokens
-- `--color-border-strong`: #bdbdbd _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-medium`: 500 _(primitive)_
+- `--color-border-default-strong`: #bdbdbd _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--line-height-normal`: 1.6 _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-600`: 2rem _(primitive)_
+- `--typography-font-weight-medium`: 500 _(semantic)_

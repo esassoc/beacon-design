@@ -20,15 +20,15 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 ```html
 <nav class="side-nav" id="side-nav">
   <div class="sidebar-header">
-    <a href="#home" class="site-logo" aria-label="Beacon home">
-      <img src="/beacon-design/beacon-icon.svg" alt="Beacon" class="site-logo__img" />
-    </a>
+    <a href="#home" class="site-logo" aria-label="Beacon home"
+      ><img src="/beacon-design/beacon-icon.svg" alt="Beacon" class="site-logo__img"
+    /></a>
   </div>
   <!-- project-switcher (ported from project-switcher.component) -->
   <div class="project-switcher-container">
     <button type="button" class="project-switcher__trigger">
-      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-        <svg
+      <span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -43,12 +43,10 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
           <path d="m18 15 4-4"></path>
           <path
             d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"
-          ></path>
-        </svg>
-      </span>
-      <span class="project-switcher__name">3600 Alameda</span>
-      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-        <svg
+          ></path></svg></span
+      ><span class="project-switcher__name">3600 Alameda</span
+      ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+        ><svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -59,16 +57,15 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
           stroke-linejoin="round"
           focusable="false"
         >
-          <path d="m6 9 6 6 6-6"></path>
-        </svg>
-      </span>
+          <path d="m6 9 6 6 6-6"></path></svg
+      ></span>
     </button>
   </div>
   <div class="main-nav">
     <div class="nav-section">
-      <a href="#setup-wizard" class="nav-section__header nav-section__header--link">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+      <a href="#setup-wizard" class="nav-section__header nav-section__header--link"
+        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -82,16 +79,14 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
             ></path>
-            <circle cx="12" cy="12" r="10"></circle>
-          </svg>
-        </span>
-        <span class="nav-section__title">Setup Wizard</span>
-      </a>
+            <circle cx="12" cy="12" r="10"></circle></svg></span
+        ><span class="nav-section__title">Setup Wizard</span></a
+      >
     </div>
     <div class="nav-section nav-section--collapsed">
       <button type="button" class="nav-section__header" aria-expanded="false">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -105,12 +100,10 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             <rect width="7" height="9" x="3" y="3" rx="1"></rect>
             <rect width="7" height="5" x="14" y="3" rx="1"></rect>
             <rect width="7" height="9" x="14" y="12" rx="1"></rect>
-            <rect width="7" height="5" x="3" y="16" rx="1"></rect>
-          </svg>
-        </span>
-        <span class="nav-section__title">Project</span>
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+            <rect width="7" height="5" x="3" y="16" rx="1"></rect></svg></span
+        ><span class="nav-section__title">Project</span
+        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -121,19 +114,18 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             stroke-linejoin="round"
             focusable="false"
           >
-            <path d="m6 9 6 6 6-6"></path>
-          </svg>
-        </span>
+            <path d="m6 9 6 6 6-6"></path></svg
+        ></span>
       </button>
       <ul class="nav-section__items">
-        <li class="nav-item"><a href="#dashboard" class="nav-sublink"> Dashboard </a></li>
+        <li class="nav-item"><a href="#dashboard" class="nav-sublink">Dashboard</a></li>
       </ul>
     </div>
     <hr class="nav-divider" aria-hidden="true" />
     <div class="nav-section nav-section--active">
       <button type="button" class="nav-section__header" aria-expanded="true">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -151,12 +143,10 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             <path d="M12 18h.01"></path>
             <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
             <circle cx="12" cy="12" r="2"></circle>
-            <path d="m13.41 10.59 5.66-5.66"></path>
-          </svg>
-        </span>
-        <span class="nav-section__title">Tracking</span>
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+            <path d="m13.41 10.59 5.66-5.66"></path></svg></span
+        ><span class="nav-section__title">Tracking</span
+        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -167,20 +157,19 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             stroke-linejoin="round"
             focusable="false"
           >
-            <path d="m6 9 6 6 6-6"></path>
-          </svg>
-        </span>
+            <path d="m6 9 6 6 6-6"></path></svg
+        ></span>
       </button>
       <ul class="nav-section__items">
         <li class="nav-item">
-          <a href="#project-tracking" class="nav-sublink active"> Project Tracking </a>
+          <a href="#project-tracking" class="nav-sublink active">Project Tracking</a>
         </li>
       </ul>
     </div>
     <div class="nav-section nav-section--collapsed">
       <button type="button" class="nav-section__header" aria-expanded="false">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -197,12 +186,10 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             <circle cx="12" cy="8" r="2"></circle>
             <path
               d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
-            ></path>
-          </svg>
-        </span>
-        <span class="nav-section__title">Monitoring</span>
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+            ></path></svg></span
+        ><span class="nav-section__title">Monitoring</span
+        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -213,20 +200,19 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             stroke-linejoin="round"
             focusable="false"
           >
-            <path d="m6 9 6 6 6-6"></path>
-          </svg>
-        </span>
+            <path d="m6 9 6 6 6-6"></path></svg
+        ></span>
       </button>
       <ul class="nav-section__items">
         <li class="nav-item">
-          <a href="#monitoring-portal" class="nav-sublink"> Monitoring Portal </a>
+          <a href="#monitoring-portal" class="nav-sublink">Monitoring Portal</a>
         </li>
       </ul>
     </div>
     <div class="nav-section nav-section--collapsed">
       <button type="button" class="nav-section__header" aria-expanded="false">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -244,12 +230,10 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             <path d="M12 11h4"></path>
             <path d="M12 16h4"></path>
             <path d="M8 11h.01"></path>
-            <path d="M8 16h.01"></path>
-          </svg>
-        </span>
-        <span class="nav-section__title">Reporting</span>
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+            <path d="M8 16h.01"></path></svg></span
+        ><span class="nav-section__title">Reporting</span
+        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -260,21 +244,20 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             stroke-linejoin="round"
             focusable="false"
           >
-            <path d="m6 9 6 6 6-6"></path>
-          </svg>
-        </span>
+            <path d="m6 9 6 6 6-6"></path></svg
+        ></span>
       </button>
       <ul class="nav-section__items">
         <li class="nav-item">
-          <a href="#report-center" class="nav-sublink"> Report Center </a>
+          <a href="#report-center" class="nav-sublink">Report Center</a>
         </li>
       </ul>
     </div>
     <hr class="nav-divider" aria-hidden="true" />
     <div class="nav-section nav-section--collapsed">
       <button type="button" class="nav-section__header" aria-expanded="false">
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+        <span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -287,12 +270,10 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
           >
             <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
             <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
-            <path d="M3 12A9 3 0 0 0 21 12"></path>
-          </svg>
-        </span>
-        <span class="nav-section__title">Data Catalog</span>
-        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-          <svg
+            <path d="M3 12A9 3 0 0 0 21 12"></path></svg></span
+        ><span class="nav-section__title">Data Catalog</span
+        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+          ><svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
@@ -303,28 +284,24 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
             stroke-linejoin="round"
             focusable="false"
           >
-            <path d="m6 9 6 6 6-6"></path>
-          </svg>
-        </span>
+            <path d="m6 9 6 6 6-6"></path></svg
+        ></span>
       </button>
       <ul class="nav-section__items">
         <li class="nav-item">
-          <a href="#dc-source-documents" class="nav-sublink"> Source Documents </a>
+          <a href="#dc-source-documents" class="nav-sublink">Source Documents</a>
         </li>
         <li class="nav-item">
-          <a href="#dc-commitments" class="nav-sublink"> Commitments </a>
+          <a href="#dc-commitments" class="nav-sublink">Commitments</a>
         </li>
         <li class="nav-item">
           <a
             href="/beacon-design/prototypes/data-catalog-requirements-streamlined"
             class="nav-sublink"
+            >Requirements</a
           >
-            Requirements
-          </a>
         </li>
-        <li class="nav-item">
-          <a href="#dc-all-data" class="nav-sublink"> All Data </a>
-        </li>
+        <li class="nav-item"><a href="#dc-all-data" class="nav-sublink">All Data</a></li>
       </ul>
     </div>
   </div>
@@ -334,8 +311,8 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 ## Styles
 ```css
 .bcn-search-trigger .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -346,131 +323,144 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
 .bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-ev-targets__title .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
 .topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
 }
 .user-panel__item--danger .esa-icon {
-  color: var(--color-danger);
+  color: var(--color-background-utility-danger);
 }
 .side-nav {
+  background-color: var(--bcn-gray-50);
+  border-right: 1px solid var(--bcn-gray-200);
+  flex-direction: column;
+  flex-shrink: 0;
   width: 280px;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bcn-gray-50);
   font-size: 0.875rem;
-  overflow: visible;
   transition: width 0.2s ease-in-out;
-  border-right: 1px solid var(--bcn-gray-200);
-  flex-shrink: 0;
+  display: flex;
+  overflow: visible;
 }
 .side-nav.collapsed {
   width: 72px;
   max-width: 72px;
 }
 .sidebar-header {
-  flex-shrink: 0;
   padding: var(--spacing-300) var(--spacing-400);
+  flex-shrink: 0;
   transition: padding 0.2s ease-in-out;
 }
 .side-nav.collapsed .sidebar-header {
   padding: var(--spacing-300) var(--spacing-200);
 }
 .site-logo {
-  display: inline-flex;
-  align-items: center;
   padding: var(--spacing-200);
   border-radius: var(--spacing-050);
+  align-items: center;
   text-decoration: none;
-  transition: background 0.15s ease;
+  transition: background 0.15s;
+  display: inline-flex;
 }
 .site-logo:hover {
   background: #0000000a;
 }
 .site-logo__img {
   width: var(--spacing-700);
-  height: 3.75rem;
   object-fit: contain;
   object-position: left center;
+  height: 3.75rem;
   transition: all 0.2s ease-in-out;
 }
 .side-nav.collapsed .site-logo__img {
-  width: 40px;
-  height: 40px;
   object-fit: contain;
   object-position: left center;
+  width: 40px;
+  height: 40px;
 }
 .project-switcher-container {
-  flex-shrink: 0;
   padding: 0 var(--spacing-400) var(--spacing-300);
-  transition: padding 0.2s ease-in-out;
+  flex-shrink: 0;
   min-width: 0;
+  transition: padding 0.2s ease-in-out;
 }
 .side-nav.collapsed .project-switcher-container {
   padding: 0 var(--spacing-200);
 }
 .project-switcher__trigger {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
+  box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  box-sizing: border-box;
   padding: var(--spacing-200) var(--spacing-300);
-  background: var(--color-surface);
+  background: var(--color-background-elevation-raised);
   border: 1px solid var(--bcn-gray-200);
   border-radius: var(--spacing-200);
   cursor: pointer;
-  transition: all 0.15s ease;
   color: var(--bcn-gray-950);
   font-size: 0.875rem;
   font-weight: 500;
+  transition: all 0.15s;
+  display: flex;
 }
 .project-switcher__trigger:hover {
   border-color: var(--bcn-gray-300);
   background: var(--bcn-gray-0);
 }
 .project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-500);
+  flex-shrink: 0;
 }
 .project-switcher__name {
-  flex: 1;
-  min-width: 0;
   text-align: left;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 .side-nav.collapsed .project-switcher__trigger {
-  justify-content: center;
   padding: var(--spacing-200);
+  justify-content: center;
 }
 .side-nav.collapsed .project-switcher__name,
 .side-nav.collapsed .project-switcher__chevron {
   display: none;
 }
 .main-nav {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: visible;
   padding: 0 var(--spacing-400);
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-050);
-  transition: padding 0.2s ease-in-out;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  flex-direction: column;
+  flex: 1;
+  transition: padding 0.2s ease-in-out;
+  display: flex;
+  overflow: visible auto;
 }
 .main-nav::-webkit-scrollbar {
   display: none;
@@ -479,94 +469,92 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   padding: 0 var(--spacing-200);
 }
 .nav-section {
-  display: flex;
   flex-direction: column;
+  display: flex;
   position: relative;
 }
 .nav-divider {
-  flex-shrink: 0;
   height: 1px;
   margin: var(--spacing-200) 0;
-  border: 0;
   background: var(--bcn-gray-200);
+  border: 0;
+  flex-shrink: 0;
 }
 .nav-section__header {
-  display: flex;
   align-items: center;
   gap: var(--spacing-300);
   padding: var(--spacing-250) var(--spacing-200);
   color: var(--bcn-gray-950);
-  font-size: 0.9375rem;
-  font-weight: 550;
-  border: none;
-  background: transparent;
   border-radius: var(--spacing-050);
-  transition: all 0.15s ease;
   white-space: nowrap;
-  width: 100%;
   text-align: left;
   cursor: pointer;
+  background: 0 0;
+  border: none;
+  width: 100%;
+  font-size: 0.9375rem;
+  font-weight: 550;
   text-decoration: none;
+  transition: all 0.15s;
+  display: flex;
 }
 .nav-section__header--link {
-  text-decoration: none;
   color: var(--bcn-gray-950);
+  text-decoration: none;
 }
 .nav-section__header:hover {
+  color: var(--color-background-brand);
   background: #0000000a;
-  color: var(--color-primary);
 }
 .nav-section__header:hover .esa-icon,
 .nav-section--active .nav-section__header,
 .nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+  color: var(--color-background-brand);
 }
 .nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+  flex-shrink: 0;
+  transition: color 0.15s;
 }
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
   flex-shrink: 0;
+  transition:
+    transform 0.15s,
+    opacity 0.2s ease-in-out;
 }
 .nav-section--collapsed .nav-section__header > .esa-icon:last-child {
   transform: rotate(-90deg);
 }
 .nav-section__title {
   flex: 1;
-  overflow: hidden;
   transition: opacity 0.2s ease-in-out;
+  overflow: hidden;
 }
-.side-nav.collapsed .nav-section__title {
-  display: none;
-}
+.side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
 .side-nav.collapsed .nav-section__header {
-  justify-content: center;
   padding: var(--spacing-250) var(--spacing-200);
+  justify-content: center;
 }
 .nav-section__items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  max-height: 500px;
   opacity: 1;
+  flex-direction: column;
+  max-height: 500px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   transition:
     max-height 0.2s ease-in-out,
     opacity 0.2s ease-in-out;
+  display: flex;
+  overflow: hidden;
 }
 .nav-section--collapsed .nav-section__items {
-  max-height: 0;
   opacity: 0;
+  max-height: 0;
 }
 .side-nav.collapsed .nav-section__items {
   display: none;
@@ -578,25 +566,25 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   margin-top: var(--spacing-050);
 }
 .nav-sublink {
-  display: block;
   padding: var(--spacing-200);
   color: var(--bcn-gray-950);
-  text-decoration: none;
   border-radius: var(--spacing-050);
   font-size: 0.8125rem;
-  transition: all 0.15s ease;
   line-height: 1.2;
+  text-decoration: none;
+  transition: all 0.15s;
+  display: block;
 }
 .nav-sublink:hover {
   background: #0000000a;
 }
 .nav-sublink.active {
+  color: var(--color-background-brand);
   background: #0000000a;
-  color: var(--color-primary);
 }
 .bcn-disc__head .esa-icon {
+  color: var(--color-content-default-secondary);
   flex-shrink: 0;
-  color: var(--color-text-secondary);
 }
 .bcn-disc__actions .esa-icon-button {
   width: 26px;
@@ -607,9 +595,9 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   height: 15px;
 }
 .bcn-evidence-card__lead .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex-shrink: 0;
-  color: var(--color-text-tertiary);
-  transition: transform 0.15s ease;
+  transition: transform 0.15s;
 }
 .bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
   transform: rotate(90deg);
@@ -622,50 +610,16 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   width: 15px;
   height: 15px;
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--color-secondary) !important;
-}
 .bcn-list-link .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+.page-layout__title h1 .esa-icon {
+  color: var(--color-background-brand-muted) !important;
 }
 .bcn-reqref__key .esa-icon {
   --_icon-size: 11px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex-shrink: 0;
 }
 .bcn-reqref__footer .esa-icon {
@@ -675,149 +629,73 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   --_icon-size: 12px;
   opacity: 0.75;
 }
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
+.esa-collapsible__summary .esa-icon {
+  color: var(--color-content-default-secondary, #646464);
+  flex-shrink: 0;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
   justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-button--lg {
-  --_ib-size: var(--form-height-lg, 48px);
-}
-.esa-icon-button:hover {
-  background: var(--_ib-bg-hover);
-}
-.esa-icon-button:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-icon-link {
-  --_il-font: var(--icon-link-font-size-md, 1rem);
-  display: inline-flex;
   align-items: center;
-  gap: var(--icon-link-gap, var(--spacing-150, 6px));
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: var(--_il-font);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
+  display: inline-flex;
 }
-.esa-icon-link--sm {
-  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
 }
-.esa-icon-link--regular {
-  font-weight: var(--font-weight-regular, 400);
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
 }
-.esa-icon-link--medium {
-  font-weight: var(--font-weight-medium, 500);
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
 }
-.esa-icon-link--semibold {
-  font-weight: var(--font-weight-semibold, 600);
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
 }
-.esa-icon-link:hover {
-  text-decoration: underline;
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
 }
-.esa-icon-link:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
-  border-radius: var(--radius-100, 4px);
-}
-.esa-icon-link.is-active {
-  font-weight: var(--font-weight-semibold, 600);
-}
-.esa-icon-link__label {
-  display: inline-block;
-}
-summary.esa-icon-link {
-  list-style: none;
-}
-summary.esa-icon-link::-webkit-details-marker {
-  display: none;
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```
 
 ## Tokens
-- `--bcn-gray-0`: #ffffff _(component)_
-- `--bcn-gray-1000`: #000000 _(component)_
+- `--bcn-gray-0`: #fff _(component)_
+- `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-200`: #dcdcdc _(component)_
 - `--bcn-gray-300`: #bdbdbd _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-50`: #fafafa _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
-- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
-- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--color-danger`: #e5484d _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-secondary`: #00918b _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--focus-ring-offset`: 2px _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--form-height-lg`: 44px _(component)_
-- `--form-height-md`: 36px _(component)_
-- `--form-height-sm`: 28px _(component)_
-- `--form-height-xs`: 24px _(component)_
-- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--icon-link-font-size-md`: 1rem _(component)_
-- `--icon-link-font-size-sm`: .875rem _(component)_
-- `--icon-link-gap`: .375rem _(component)_
-- `--icon-size-large`: 24px _(component)_
+- `--bcn-helpbar-fg`: #ffffffeb _(component)_
+- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
+- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-small`: 16px _(component)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
-- `--radius-100`: .25rem _(primitive)_
-- `--radius-200`: .5rem _(primitive)_
 - `--spacing-050`: .125rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_

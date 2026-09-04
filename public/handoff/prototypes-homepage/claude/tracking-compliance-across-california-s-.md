@@ -7478,8 +7478,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <div class="bcn-dot-map__cards">
           <div class="bcn-dot-map__card">
             <div class="bcn-dot-map__card-header">
-              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span>
-              <span class="bcn-dot-map__name">Delta Conveyance</span>
+              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span
+              ><span class="bcn-dot-map__name">Delta Conveyance</span>
             </div>
             <div class="bcn-dot-map__tagline">
               Tunnel boring and intake construction for 27M Californians' water supply — tracking
@@ -7488,8 +7488,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <div class="bcn-dot-map__card">
             <div class="bcn-dot-map__card-header">
-              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span>
-              <span class="bcn-dot-map__name">Sites Reservoir</span>
+              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span
+              ><span class="bcn-dot-map__name">Sites Reservoir</span>
             </div>
             <div class="bcn-dot-map__tagline">
               Off-stream dam and canal construction — monitoring giant garter snake avoidance,
@@ -7498,8 +7498,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <div class="bcn-dot-map__card">
             <div class="bcn-dot-map__card-header">
-              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span>
-              <span class="bcn-dot-map__name">SFO Shoreline Protection</span>
+              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span
+              ><span class="bcn-dot-map__name">SFO Shoreline Protection</span>
             </div>
             <div class="bcn-dot-map__tagline">
               Levee construction and tidal marsh restoration defending airport infrastructure from
@@ -7508,8 +7508,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </div>
           <div class="bcn-dot-map__card">
             <div class="bcn-dot-map__card-header">
-              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span>
-              <span class="bcn-dot-map__name">Lake Tahoe Basin Restoration</span>
+              <span class="bcn-dot-map__dot" style="background: #4ade80; color: #4ade80"></span
+              ><span class="bcn-dot-map__name">Lake Tahoe Basin Restoration</span>
             </div>
             <div class="bcn-dot-map__tagline">
               Watershed erosion control and stream restoration to preserve lake clarity — Lahontan
@@ -7520,7 +7520,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnCaDotMap.astro_astro_type_script_index_0_lang.DecQEEMA.js"
+        src="/beacon-design/_astro/BcnCaDotMap.astro_astro_type_script_index_0_lang.Dl3URql9.js"
       ></script>
     </div>
   </div>
@@ -7534,51 +7534,51 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   padding-block: var(--_section-pad);
 }
 .bcn-mkt-section--white {
-  background: var(--color-surface);
+  background: var(--color-background-elevation-raised);
 }
 .bcn-mkt-section__inner {
   max-inline-size: 1100px;
-  margin-inline: auto;
   padding-inline: var(--spacing-500);
+  margin-inline: auto;
 }
 .bcn-section-intro {
   margin-block-end: var(--spacing-700);
 }
 .bcn-section-intro__eyebrow {
-  display: block;
   font-size: 12px;
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--typography-font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   margin-block-end: var(--spacing-300);
+  display: block;
 }
 .bcn-section-intro__headline {
   margin: 0 0 var(--spacing-400);
-  font-family: var(--font-decorative, var(--font-sans));
-  font-size: var(--type-size-700);
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-700);
+  font-weight: var(--typography-font-weight-bold);
   line-height: var(--line-height-tight, 1.25);
-  color: var(--color-text-primary);
+  color: var(--color-content-default);
   text-wrap: balance;
 }
 .bcn-section-intro__accent {
-  inline-size: 48px;
-  block-size: 4px;
-  background: var(--color-primary);
+  background: var(--color-background-brand);
   border-radius: var(--radius-full, 9999px);
+  block-size: 4px;
+  inline-size: 48px;
   margin-block-end: var(--spacing-400);
 }
 .bcn-section-intro__subtext {
-  margin: 0;
-  font-size: var(--type-size-300);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-300);
+  color: var(--color-content-default-secondary);
   max-inline-size: 820px;
   line-height: var(--line-height-relaxed, 1.75);
   text-wrap: balance;
+  margin: 0;
 }
 .bcn-mkt-section--light {
-  background: var(--color-surface-sunken, var(--color-gray-2));
+  background: var(--color-background-elevation-sunken, var(--color-gray-2));
 }
 .bcn-section-intro--center {
   text-align: center;
@@ -7592,7 +7592,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-mkt-section--forest {
   color: #fff;
   background:
-    linear-gradient(160deg, #02140af0, #052312eb 40%, #08321ce6),
+    linear-gradient(160deg, #02140af0 0%, #052312eb 40%, #08321ce6 100%),
     var(--_forest-image) center / cover no-repeat;
 }
 .bcn-section-intro--on-dark .bcn-section-intro__eyebrow {
@@ -7608,59 +7608,59 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   color: #fffc;
 }
 .bcn-dot-map {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-700);
+  grid-template-columns: 1fr 1fr;
   align-items: center;
+  display: grid;
 }
 .bcn-dot-map__canvas {
-  position: relative;
-  display: flex;
   justify-content: center;
+  display: flex;
+  position: relative;
 }
 .bcn-dot-map__canvas svg {
-  display: block;
+  cursor: crosshair;
+  transform-origin: 50%;
+  block-size: auto;
   inline-size: 100%;
   max-inline-size: 550px;
-  block-size: auto;
-  cursor: crosshair;
+  display: block;
   transform: scale(1.2);
-  transform-origin: center center;
 }
 .bcn-dot-map__cards {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-400);
+  flex-direction: column;
+  display: flex;
 }
 .bcn-dot-map__card {
-  background: #ffffff0f;
-  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-200);
   padding: var(--spacing-400) var(--spacing-500);
-  transition: background 0.15s ease;
+  background: #ffffff0f;
+  border: 1px solid #ffffff1f;
+  transition: background 0.15s;
 }
 .bcn-dot-map__card-header {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
   margin-block-end: var(--spacing-100);
+  display: flex;
 }
 .bcn-dot-map__dot {
-  inline-size: 10px;
-  block-size: 10px;
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 0 6px currentColor;
+  block-size: 10px;
+  inline-size: 10px;
+  box-shadow: 0 0 6px;
 }
 .bcn-dot-map__name {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-150);
+  font-weight: var(--typography-font-weight-semibold);
   color: #fff;
 }
 .bcn-dot-map__tagline {
-  font-size: var(--type-size-150);
-  font-weight: 300;
+  font-size: var(--font-size-150);
   color: #fff9;
+  font-weight: 300;
   line-height: var(--line-height-normal, 1.5);
 }
 ```
@@ -7668,17 +7668,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
 | `--color-gray-2` | `#f9f9f9` | primitive |
-| `--color-primary` | `#005862` | semantic |
-| `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-sunken` | `#efefef` | semantic |
-| `--color-text-primary` | `#3d3d3d` | semantic |
-| `--color-text-secondary` | `#525252` | semantic |
-| `--color-text-tertiary` | `#656565` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-semibold` | `550` | primitive |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
+| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
 | `--line-height-normal` | `1.6` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
 | `--line-height-tight` | `1.3` | primitive |
@@ -7690,9 +7689,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--spacing-400` | `1rem` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

@@ -11,8 +11,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Markup (de-scoped, framework-free)
 ```html
 <nav class="bcn-mkt-nav">
-  <a href="/beacon-design/prototypes/homepage/" class="bcn-mkt-nav__logo" aria-label="Beacon home">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 96" fill="none" aria-hidden="true">
+  <a href="/beacon-design/prototypes/homepage/" class="bcn-mkt-nav__logo" aria-label="Beacon home"
+    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 96" fill="none" aria-hidden="true">
       <path
         d="M59.3 68.3V79.2L65.1 81.5V68.3C65.1 60.2 62.7 52.4 58.1 45.7C53.5 39 47.1 33.9 39.6 31L24.1 24.9V31.2L37.5 36.4C50.7 41.6 59.3 54.1 59.3 68.3Z"
         fill="rgba(255,255,255,0.6)"
@@ -32,76 +32,74 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       <path
         d="M36.9 70.4L42.8 72.7V71.3C42.8 61.4 36.8 52.6 27.6 49L24.1 47.6V53.9L25.4 54.4C32.1 57 36.5 63.3 36.9 70.4Z"
         fill="rgba(255,255,255,0.6)"
-      ></path>
-    </svg>
-    <span class="bcn-mkt-nav__wordmark">Beacon</span>
-  </a>
-  <a href="#" class="bcn-mkt-nav__login">Log In</a>
+      ></path></svg
+    ><span class="bcn-mkt-nav__wordmark">Beacon</span></a
+  ><a href="#" class="bcn-mkt-nav__login">Log In</a>
 </nav>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
 .bcn-mkt-nav {
+  z-index: 100;
+  block-size: 56px;
+  padding-inline: var(--spacing-500);
+  border-radius: var(--radius-200);
+  background: #ffffff0d;
+  border: 1px solid #ffffff1a;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
   position: absolute;
   top: 16px;
   left: 16px;
   right: 16px;
-  z-index: 100;
-  block-size: 56px;
-  padding-inline: var(--spacing-500);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff0d;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-200);
 }
 .bcn-mkt-nav__logo {
-  display: flex;
   align-items: center;
   gap: var(--spacing-250);
   text-decoration: none;
+  display: flex;
 }
 .bcn-mkt-nav__logo svg {
-  inline-size: 22px;
   block-size: 32px;
+  inline-size: 22px;
 }
 .bcn-mkt-nav__wordmark {
   font-size: 1.1rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--typography-font-weight-bold);
   letter-spacing: -0.02em;
   color: #fff;
 }
 .bcn-mkt-nav__login {
-  display: inline-flex;
-  align-items: center;
   padding: var(--spacing-150) var(--spacing-400);
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-200);
+  font-weight: var(--typography-font-weight-medium);
   color: #fff;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius-100);
+  background: 0 0;
+  border: 1px solid #fff6;
+  align-items: center;
   text-decoration: none;
   transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
+    background 0.15s,
+    border-color 0.15s;
+  display: inline-flex;
 }
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-medium` | `500` | primitive |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
 | `--spacing-250` | `.625rem` | primitive |
 | `--spacing-400` | `1rem` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-medium` | `500` | semantic |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

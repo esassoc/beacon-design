@@ -120,40 +120,40 @@ The left insight card: a census of permits grouped by permitting-ladder status (
 ## Styles
 ```css
 .ins-card {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-200);
   padding: var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-300);
+  flex-direction: column;
+  display: flex;
 }
 .ins-card__title {
-  margin: 0;
   font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
 }
 .ins-card__sub {
   margin: calc(-1 * var(--spacing-100)) 0 0;
+  color: var(--color-content-default-tertiary);
   font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
 }
 .ins-list {
-  list-style: none;
+  flex-direction: column;
   margin: 0;
   padding: 0;
+  list-style: none;
   display: flex;
-  flex-direction: column;
 }
 .ins-row {
-  display: flex;
   align-items: center;
   gap: var(--spacing-250);
   padding: var(--spacing-200) 0;
+  display: flex;
 }
 .ins-row + .ins-row {
-  border-top: 1px solid var(--color-border-light);
+  border-top: 1px solid var(--color-border-default-subtle);
 }
 .ins-row[data-ins-permit] {
   cursor: pointer;
@@ -165,53 +165,52 @@ The left insight card: a census of permits grouped by permitting-ladder status (
   background: var(--grid-row-bg-hover);
 }
 .ins-dot {
-  width: 9px;
-  height: 9px;
   border-radius: 50%;
   flex-shrink: 0;
+  width: 9px;
+  height: 9px;
 }
 .ins-row__label {
-  flex: 1;
   min-width: 0;
-  display: flex;
+  color: var(--color-content-default);
   flex-direction: column;
+  flex: 1;
   gap: 1px;
   font-size: 0.875rem;
-  color: var(--color-text-primary);
+  display: flex;
 }
 .ins-row__sub {
+  color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
-  color: var(--color-text-tertiary);
 }
 .ins-row__val {
-  display: flex;
+  font-size: 0.875rem;
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
   flex-direction: column;
   align-items: flex-end;
   gap: 1px;
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+  display: flex;
 }
 .ins-bar {
-  flex: 0 0 72px;
-  height: 6px;
   border-radius: var(--radius-full);
   background: var(--bcn-gray-100);
+  flex: 0 0 72px;
+  height: 6px;
   overflow: hidden;
 }
 ```
 
 ## Tokens
 - `--bcn-gray-100`: #efefef _(component)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-light`: #efefef _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--grid-row-bg-hover`: #f0f0f0 _(component)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--grid-row-bg-hover`: #efefef _(component)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
@@ -219,3 +218,4 @@ The left insight card: a census of permits grouped by permitting-ladder status (
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
