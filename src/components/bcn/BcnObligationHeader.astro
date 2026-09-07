@@ -42,7 +42,10 @@ const meta = CLASS_META[o.cls];
     {o.installedControl && <EsaPill label="Installed control" variant="default" size="sm" removable={false} />}
   </div>
 
-  <h1 class="type-page-title bcn-ohead__title">{o.title}</h1>
+  <div class="repel bcn-ohead__row" data-gap="md">
+    <h1 class="type-page-title bcn-ohead__title">{o.title}</h1>
+    <slot name="actions" />
+  </div>
 </header>
 
 <style>
@@ -55,8 +58,14 @@ const meta = CLASS_META[o.cls];
     border-block-end: 1px solid var(--color-border-default);
   }
 
+  /* The title takes the room it needs and the actions hold the far edge — `repel` is the
+     primitive for that, so this block only stops the h1 wrapping under the button. */
+  .bcn-ohead__row {
+    align-items: flex-start;
+  }
   .bcn-ohead__title {
     margin: 0;
+    min-inline-size: 0;
   }
 
   /* The house quiet chip — hairline border, sunken fill, 4px corner. Matches the class

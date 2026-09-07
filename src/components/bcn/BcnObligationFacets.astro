@@ -1,94 +1,221 @@
 ---
-// <BcnObligationFacets> — the rail on an obligation detail page: the three category
-// axes, the commitments that state the duty, and the record's own small facts.
+// <BcnObligationFacets> — the rail on an obligation detail page, built as the SIBLING of
+// the Action detail rail: a stack of esa-collapsible sections, all open, each one a small
+// list rather than a wall of badges.
 //
-// WHY THE AXES ARE PILLS AND NOT A TREE. An obligation belongs to every category that
-// fits, on three independent axes (subject / activity / species) — so its categories are
-// a SET, not a path. The hierarchy is real but it belongs to the registry, which is a
-// different surface; reproducing a tree here would imply this record sits at one place in
-// it, which is exactly what the registry's "enter from any axis" rule denies.
+// Four deliberate departures from the badge-heavy first pass (team review, 2026-09-06):
 //
-// WHY COMMITMENTS ARE A FLAT SET TOO. This is the normalization payoff made visible: one
-// obligation is stated by many commitments across many source documents — the speed-limit
-// record carries fourteen. It is tempting to render that as a lineage spine, but
-// bcn-detail-lineage draws a strictly linear ol (Program → Study → Sub-study → Task) and
-// an obligation's ancestry FANS OUT at both levels. Fourteen siblings pushed through a
-// linear rail would read as fourteen tiers, which is a lie about the shape of the data.
-// So: a labelled set, honestly.
+//  1. SUBJECTS ARE NESTED, major → minors, using the data-catalog LINEAGE treatment rather
+//     than a flat pill row. An obligation belongs to every category that fits, so this is a
+//     small forest (several majors, each with the minors this record sits under), not a
+//     path — the lineage rail's child-node variant is exactly that shape.
+//  2. ACTIVITIES ARE A BULLETED LIST, and named "Construction activities" to match what the
+//     Action side calls them (prod models this as ActionProjectConstructionActivity).
+//  3. COMMITMENTS CARRY THEIR TITLES and group under the SOURCE DOCUMENT that states them.
+//     The registry stores ids only; src/data/dcp-commitments.json resolves 90% of them to a
+//     title and a real source document. This is where the normalization payoff becomes
+//     legible — the speed-limit record is stated four times in the BiOp, four in the EIR,
+//     four in the ITP and once in the Amendment.
+//  4. An id that does not resolve keeps its code and sits under "Source not recorded". It is
+//     never guessed from the id's prefix.
 //
-// The registry carries no source-document mapping for a commitment id, so these are NOT
-// grouped by source. Grouping them would mean inferring the source from the id prefix,
-// which is invention. See the handoff spec for the field gap.
+// Sections whose field is absent render nothing at all rather than an empty heading — 42% of
+// obligations carry no parameters, 44% no species, and only the Notify class has a window.
 //
-// bcn-lego-checked: composes esa-collapsible for each rail section, esa-pill for every
-// category and commitment reference, and bcn-key-value for the small facts. Checked
-// Ecology for a taxonomy/facet-display lego — esa-chip-group is the INTERACTIVE
-// selectable-chip control (Lit, options set from JS) where these are static references,
-// esa-filter-pills is the removable applied-filter row, and esa-pillbox is an input.
-// Checked Beacon: its detail rails are esa-collapsible sections of key-values, which is
-// what this follows. bcn-obligation-facets is the reusable home; it adds no CSS beyond
-// the pill row's wrap and gap.
+// bcn-lego-checked: composes esa-collapsible for each section and bcn-key-value for the
+// small facts. Checked Ecology for a taxonomy-display lego — esa-chip-group is the
+// INTERACTIVE selectable-chip control (Lit, options set from JS) where these are static
+// references, esa-filter-pills is the removable applied-filter row, and esa-pillbox is an
+// input. Checked Beacon: its detail rails are esa-collapsible sections of key-values and
+// link lists, which is what this follows. bcn-obligation-facets is the reusable home; its
+// own CSS is the nested-list indent and the commitment row's two-line shape, neither of
+// which any lego owns.
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
-import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnKeyValue from './BcnKeyValue.astro';
-import { AXES, CLASS_META, itemNames, type Obligation } from '../../data/obligations';
+import {
+  CLASS_META,
+  commitmentsBySource,
+  itemNames,
+  subjectTree,
+  type Obligation,
+} from '../../data/obligations';
 
 interface Props {
   obligation: Obligation;
+  /** Where a commitment row links. The prototype has no commitment route per id. */
+  commitmentHref?: string;
 }
-const { obligation: o } = Astro.props;
-const meta = CLASS_META[o.cls];
+const { obligation: o, commitmentHref = '#data-catalog/commitments' } = Astro.props;
 
-// Only axes this obligation actually sits on. An empty axis renders nothing rather than
-// an empty section — 178 of 402 carry no species, and a blank "Species" heading would
-// read as missing data rather than as inapplicable.
-const axes = AXES.map((a) => ({ axis: a, names: itemNames(o, a.id) })).filter(
-  (x) => x.names.length > 0,
-);
+const meta = CLASS_META[o.cls];
+const subjects = subjectTree(o);
+const activities = itemNames(o, 'activity');
+const species = itemNames(o, 'species');
+const sources = commitmentsBySource(o);
+
+// Lucide inner markup for the glyphs esa-icon's registry does not carry.
+const GIT_BRANCH =
+  '<line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>';
+const HARD_HAT =
+  '<path d="M10 10V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><path d="M14 6a6 6 0 0 1 6 6v3"/><rect width="20" height="4" x="2" y="15" rx="1"/>';
+const LEAF =
+  '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>';
 ---
 
 <div class="stack bcn-ofacets" data-gap="md">
-  <EsaCollapsible title="Class" icon="shapes" open>
-    <BcnKeyValue label={meta.label} value={meta.definition} />
+  <EsaCollapsible icon="info" title="Details" open>
+    <BcnKeyValue label="Class" value={meta.label} hint={meta.definition} />
     {o.window && <BcnKeyValue label="Notice window" value={o.window} />}
+    {o.gate && <BcnKeyValue label="Takes effect" value="Once its action is approved" />}
+    {o.installedControl && <BcnKeyValue label="Satisfied by" value="An installed control" />}
   </EsaCollapsible>
 
   {
-    axes.map(({ axis, names }) => (
-      <EsaCollapsible title={axis.name} open>
-        <ul class="cluster bcn-ofacets__pills" data-gap="xs">
-          {names.map((n) => (
-            <li>
-              <EsaPill label={n} size="sm" removable={false} category={axis.id} />
+    subjects.length > 0 && (
+      <EsaCollapsible icon="git-branch" iconPaths={GIT_BRANCH} title="Subjects" open>
+        <ol class="bcn-ofacets__tree">
+          {subjects.map((b) => (
+            <li class="bcn-ofacets__major">
+              <span class="bcn-ofacets__major-name">{b.major}</span>
+              <ul class="bcn-ofacets__minors">
+                {b.minors.map((m) => (
+                  <li class="bcn-ofacets__minor">{m}</li>
+                ))}
+              </ul>
             </li>
+          ))}
+        </ol>
+      </EsaCollapsible>
+    )
+  }
+
+  {
+    activities.length > 0 && (
+      <EsaCollapsible icon="hard-hat" iconPaths={HARD_HAT} title="Construction activities" open>
+        <ul class="bcn-ofacets__bullets">
+          {activities.map((a) => (
+            <li>{a}</li>
           ))}
         </ul>
       </EsaCollapsible>
-    ))
+    )
   }
 
-  <EsaCollapsible title={`Stated by (${o.commitments.length})`} icon="git-branch" open>
-    <ul class="cluster bcn-ofacets__pills" data-gap="xs">
+  {
+    species.length > 0 && (
+      <EsaCollapsible icon="leaf" iconPaths={LEAF} title="Species" open>
+        <ul class="bcn-ofacets__bullets">
+          {species.map((s) => (
+            <li>{s}</li>
+          ))}
+        </ul>
+      </EsaCollapsible>
+    )
+  }
+
+  <EsaCollapsible icon="file-text" title="Related commitments" open>
+    <Fragment slot="title-badge"><EsaBadge variant="secondary" size="sm" value={o.commitments.length} /></Fragment>
+    <div class="stack bcn-ofacets__sources" data-gap="sm">
       {
-        o.commitments.map((c) => (
-          <li>
-            <EsaPill label={c} size="sm" removable={false} category="commitment" />
-          </li>
+        sources.map((g) => (
+          <section>
+            <h4 class="bcn-ofacets__source">{g.source}</h4>
+            <ul class="bcn-ofacets__commits">
+              {g.refs.map((r) => (
+                <li class="bcn-ofacets__commit">
+                  <a class="bcn-ofacets__commit-code" href={commitmentHref}>{r.code}</a>
+                  <span class="bcn-ofacets__commit-title">
+                    {r.resolved ? r.title : 'Title not in the commitment library'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
         ))
       }
-    </ul>
+    </div>
   </EsaCollapsible>
 </div>
 
 <style>
-  /* bcn-lego-checked: the pill row's list reset and wrap. Every control here is a lego
-     (esa-collapsible, esa-pill) or an existing bcn component (bcn-key-value); the
-     stacking is the `stack` and `cluster` primitives. */
+  /* bcn-lego-checked: the nested subject indent and the commitment row's code-over-title
+     shape. Every control here is a lego (esa-collapsible, esa-badge) or an existing bcn
+     component (bcn-key-value); the stacking is the `stack` primitive. Checked Ecology for a
+     nested-taxonomy or definition-list lego — none exists. */
 
-  .bcn-ofacets__pills {
+  /* ── nested subjects: major, then its minors indented under a hairline ─────── */
+  .bcn-ofacets__tree {
     list-style: none;
     margin: 0;
     padding: 0;
-    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+  .bcn-ofacets__major-name {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-ofacets__minors {
+    list-style: none;
+    margin: var(--spacing-100) 0 0;
+    padding-inline-start: var(--spacing-300);
+    border-inline-start: 1px solid var(--color-border-default);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .bcn-ofacets__minor {
+    font-size: 0.875rem;
+    color: var(--color-content-default-secondary);
+  }
+
+  /* ── bulleted lists: activities and species ────────────────────────────────── */
+  .bcn-ofacets__bullets {
+    margin: 0;
+    padding-inline-start: var(--spacing-400);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-size: 0.875rem;
+    color: var(--color-content-default-secondary);
+  }
+
+  /* ── commitments, grouped by the document that states them ─────────────────── */
+  .bcn-ofacets__source {
+    margin: 0 0 var(--spacing-100);
+    font-size: 0.75rem;
+    font-weight: var(--typography-font-weight-semibold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--bcn-content-muted);
+  }
+  .bcn-ofacets__commits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  /* Code above title, not beside it: the titles run long (60+ characters) and a
+     two-column row would either clip them or leave the code column mostly empty. */
+  .bcn-ofacets__commit {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .bcn-ofacets__commit-code {
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-link);
+  }
+  .bcn-ofacets__commit-title {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--color-content-default);
   }
 </style>

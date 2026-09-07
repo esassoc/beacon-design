@@ -217,6 +217,135 @@ export const CATALOG_ROWS: ObligationRow[] = OBLIGATIONS.map((o) => ({
   commitments: join(o.commitments),
 })).sort((a, b) => a.title.localeCompare(b.title));
 
+// --- the commitment join ----------------------------------------------------------
+
+// The registry stores commitment IDS only. src/data/dcp-commitments.json carries the
+// title, category and SOURCE DOCUMENT for each — 298 of our 312 ids resolve — so the
+// detail page can list commitments by name and group them by the document that states
+// them, rather than showing bare codes. An id that does not resolve keeps its code and
+// falls under "Source not recorded"; it is never guessed from the id's prefix.
+import commitmentData from './dcp-commitments.json';
+
+interface RawCommitment {
+  code: string;
+  title: string;
+  category: string;
+  sourceDoc: string;
+}
+
+const COMMITMENT_BY_CODE = new Map(
+  (commitmentData as unknown as RawCommitment[]).map((c) => [c.code, c]),
+);
+
+export interface CommitmentRef {
+  code: string;
+  /** Resolved title, or the code again when the join misses. */
+  title: string;
+  category: string | null;
+  sourceDoc: string;
+  /** False when the code had no match — the page says so rather than inventing one. */
+  resolved: boolean;
+}
+
+const UNKNOWN_SOURCE = 'Source not recorded';
+
+/** One obligation's commitments, resolved and alphabetical within each source. */
+export const commitmentsFor = (o: Obligation): CommitmentRef[] =>
+  o.commitments
+    .map((code) => {
+      const hit = COMMITMENT_BY_CODE.get(code);
+      return {
+        code,
+        title: hit?.title ?? code,
+        category: hit?.category ?? null,
+        sourceDoc: hit?.sourceDoc ?? UNKNOWN_SOURCE,
+        resolved: Boolean(hit),
+      };
+    })
+    .sort((a, b) => a.sourceDoc.localeCompare(b.sourceDoc) || a.title.localeCompare(b.title));
+
+/** The same set grouped by the document that states them — the lineage the rail shows. */
+export const commitmentsBySource = (o: Obligation): { source: string; refs: CommitmentRef[] }[] => {
+  const groups = new Map<string, CommitmentRef[]>();
+  for (const ref of commitmentsFor(o)) {
+    const list = groups.get(ref.sourceDoc) ?? [];
+    list.push(ref);
+    groups.set(ref.sourceDoc, list);
+  }
+  // Named documents first, the unresolved bucket last wherever it falls.
+  return [...groups.entries()]
+    .map(([source, refs]) => ({ source, refs }))
+    .sort((a, b) =>
+      a.source === UNKNOWN_SOURCE ? 1 : b.source === UNKNOWN_SOURCE ? -1 : b.refs.length - a.refs.length,
+    );
+};
+
+// --- the nested subject tree --------------------------------------------------------
+
+/**
+ * Subjects nested major → minors, the way the data-catalog lineage rail renders a
+ * hierarchy. An obligation belongs to every category that fits, so this is a small
+ * forest rather than a path: several majors, each with the minors this record sits under.
+ */
+export interface SubjectBranch {
+  major: string;
+  minors: string[];
+}
+
+export const subjectTree = (o: Obligation): SubjectBranch[] => {
+  const branches = new Map<string, Set<string>>();
+  for (const id of o.subjects) {
+    const entry = ITEM_INDEX.subject.get(id);
+    if (!entry) continue;
+    const set = branches.get(entry.group.name) ?? new Set<string>();
+    set.add(entry.item.name);
+    branches.set(entry.group.name, set);
+  }
+  return [...branches.entries()]
+    .map(([major, minors]) => ({ major, minors: [...minors].sort((a, b) => a.localeCompare(b)) }))
+    .sort((a, b) => a.major.localeCompare(b.major));
+};
+
+// --- where an obligation is in force ------------------------------------------------
+
+// EXAMPLE SCOPE. The registry carries no scope, and whether obligations get scope rows
+// at all is an open model question — an obligation's instances are not enumerable, so a
+// scope row is an applicability assertion, not an "implementation" in the Action sense.
+// These rows are derived deterministically from the obligation id (no Math.random, no
+// Date.now) purely so the detail page can show the shape of that table.
+export interface ScopeRow {
+  component: string;
+  type: string;
+  /** How the obligation reaches this component: the activity that carries it. */
+  via: string;
+  evidence: number;
+}
+
+const hash = (s: string) => {
+  let h = 0;
+  for (let i = 0; i < s.length; i += 1) h = (h * 31 + s.charCodeAt(i)) % 100000;
+  return h;
+};
+
+export const scopeFor = (o: Obligation, components: { name: string; type: string }[]): ScopeRow[] => {
+  if (!components.length) return [];
+  const h = hash(o.id);
+  const take = 2 + (h % 3); // 2–4 components, stable per obligation
+  const activities = itemNames(o, 'activity');
+  // Stride of 1, deliberately. A larger stride collides whenever it shares a factor with
+  // components.length — a stride of 7 over a 7-component fixture picked the same component
+  // every time, which is how this shipped a table of duplicate rows the first time.
+  return Array.from({ length: Math.min(take, components.length) }, (_, i) => {
+    const c = components[(h + i) % components.length];
+    return {
+      component: c.name,
+      type: c.type,
+      via: activities[(h + i) % Math.max(1, activities.length)] ?? '—',
+      evidence: (hash(o.id + c.name) % 9),
+    };
+  });
+};
+
 // --- counts the pages quote -------------------------------------------------------
 
 /** Derived, never hard-coded — the registry is the only source for any total. */
