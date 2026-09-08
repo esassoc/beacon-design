@@ -1,0 +1,351 @@
+---
+// <BcnInboxThread> — the right pane: one trigger, and every obligation it raised.
+//
+// WHY EVERY THREAD IS RENDERED AT BUILD TIME. Astro components are compile-time, so a panel
+// invented at runtime would have to be assembled from a JavaScript template literal — which
+// bypasses the design system entirely and no gate can see it (component-first is explicit
+// about this). So all eight threads render as real markup and inbox.ts only toggles which
+// one is visible. Same rule the evidence inbox's review panel follows.
+//
+// THE THREAD ANSWERS ONE QUESTION: you saw an owl — now what? So it splits into
+//   NEEDS A NOTICE NOW — the duties with a clock running, loudest, with the deadline
+//   ALSO RAISED       — everything else the event brought into effect, quiet reference
+// and every row carries WHAT IS DRIVING IT: the commitment codes and titles, linked out, so
+// "why am I being told this" is answerable without leaving the page. That is the whole point
+// of threading by trigger rather than listing obligations.
+//
+// The CONDITION is the row's headline, not the title — it is the observable phrased the way
+// a monitor would see it ("Burrowing owl seen on or near site and not reported"), which is
+// what makes the list read as instructions rather than as a catalogue.
+//
+// bcn-lego-checked: composes esa-badge, esa-icon, esa-button and esa-empty-state. Checked
+// Ecology for a threaded-detail lego — esa-card is a box, esa-collapsible is one disclosure,
+// esa-tab-layout swaps panels rather than grouping records, and nothing models an event with
+// dependent records. Checked Beacon: its list/detail panes inline this glue per page, and
+// bcn-triage-review is this component's sibling for evidence. bcn-inbox-thread is the
+// reusable home; its own CSS is the thread header, the two group headings, and the
+// obligation row's four-line shape.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { KIND_META, type RaisedObligation, type Trigger } from '../../data/obligation-triggers';
+
+interface Props {
+  trigger: Trigger;
+  /** Only one thread is visible at a time; inbox.ts toggles the rest. */
+  active?: boolean;
+  /** Where an obligation row links. */
+  obligationBase: string;
+  commitmentHref?: string;
+}
+const {
+  trigger: t,
+  active = false,
+  obligationBase,
+  commitmentHref = '#data-catalog/commitments',
+} = Astro.props;
+
+const kind = KIND_META[t.kind];
+const nowRows = t.raised.filter((r) => r.urgency === 'now');
+const restRows = t.raised.filter((r) => r.urgency !== 'now');
+
+const row = (r: RaisedObligation) => r;
+---
+
+<section
+  class="bcn-inbox-thread"
+  data-inbox-thread={t.id}
+  hidden={!active}
+  aria-label={t.what}
+>
+  <header class="bcn-inbox-thread__head">
+    <p class="bcn-inbox-thread__kind">
+      <span class="bcn-inbox-thread__kind-icon"><EsaIcon name={kind.icon} paths={kind.paths} size="sm" /></span>
+      {kind.label} · {t.when}
+    </p>
+    <h2 class="bcn-inbox-thread__what">{t.what}</h2>
+    <dl class="bcn-inbox-thread__facts">
+      {t.where && (
+        <div>
+          <dt>Where</dt>
+          <dd>{t.where}</dd>
+        </div>
+      )}
+      {t.reportedBy && (
+        <div>
+          <dt>Reported by</dt>
+          <dd>{t.reportedBy}</dd>
+        </div>
+      )}
+      <div>
+        <dt>Raised</dt>
+        <dd>{t.raised.length} obligations</dd>
+      </div>
+    </dl>
+  </header>
+
+  <div class="bcn-inbox-thread__scroll">
+    <section class="bcn-inbox-thread__group">
+      <h3 class="bcn-inbox-thread__grouphead">
+        Needs a notice now
+        <EsaBadge value={nowRows.length} variant={nowRows.length ? 'danger' : 'secondary'} size="sm" />
+      </h3>
+      {
+        nowRows.length > 0 ? (
+          <ul class="bcn-inbox-obs">
+            {nowRows.map((r) => (
+              <li class="bcn-inbox-ob" data-urgency="now">
+                <p class="bcn-inbox-ob__cond">{row(r).obligation.condition}</p>
+                <p class="bcn-inbox-ob__why">
+                  {r.deadline && <span class="bcn-inbox-ob__clock">{r.deadline}</span>}
+                  {r.why}
+                </p>
+                <ul class="bcn-inbox-ob__drivers">
+                  {r.commitments.map((c) => (
+                    <li>
+                      <a class="bcn-inbox-ob__code" href={commitmentHref}>{c.code}</a>
+                      <span class="bcn-inbox-ob__ctitle">{c.resolved ? c.title : 'Title not in the commitment library'}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p class="bcn-inbox-ob__acts">
+                  <a class="bcn-inbox-ob__link" href={`${obligationBase}/${r.obligation.id}`}>
+                    Open the obligation
+                  </a>
+                  <span class="bcn-inbox-ob__id">{r.obligation.id}</span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="bcn-inbox-thread__none">
+            Nothing here is owed on a clock. The obligations below are in effect as
+            background.
+          </p>
+        )
+      }
+    </section>
+
+    <section class="bcn-inbox-thread__group">
+      <h3 class="bcn-inbox-thread__grouphead">
+        Also raised
+        <EsaBadge value={restRows.length} variant="secondary" size="sm" />
+      </h3>
+      <ul class="bcn-inbox-obs">
+        {
+          restRows.map((r) => (
+            <li class="bcn-inbox-ob" data-urgency={r.urgency}>
+              <p class="bcn-inbox-ob__cond">{r.obligation.condition}</p>
+              <p class="bcn-inbox-ob__why">
+                {r.deadline && <span class="bcn-inbox-ob__clock">{r.deadline}</span>}
+                {r.why}
+              </p>
+              <p class="bcn-inbox-ob__acts">
+                <a class="bcn-inbox-ob__link" href={`${obligationBase}/${r.obligation.id}`}>
+                  Open the obligation
+                </a>
+                <span class="bcn-inbox-ob__id">
+                  {r.commitments.map((c) => c.code).join(' · ')}
+                </span>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+
+  <footer class="bcn-inbox-thread__foot">
+    {/* Dismissal belongs HERE, not on the queue row: you acknowledge the thread after
+        reading why it was raised. The obligations stay in force — only the notice goes. */}
+    <EsaButton variant="primary" data-inbox-dismiss={t.id}>Mark as seen</EsaButton>
+    <span class="bcn-inbox-thread__footnote">
+      The obligations stay in force. Only this notice leaves the inbox.
+    </span>
+  </footer>
+</section>
+
+<style>
+  /* bcn-lego-checked: the thread header, the two group headings and the obligation row's
+     four-line shape. Controls are legos (esa-badge, esa-button, esa-icon); see the header
+     note. Semantic tokens only. */
+
+  .bcn-inbox-thread {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+    block-size: 100%;
+  }
+
+  /* ── the event ─────────────────────────────────────────────────────────────── */
+  .bcn-inbox-thread__head {
+    padding: var(--spacing-300);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+  .bcn-inbox-thread__kind {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    margin: 0 0 var(--spacing-150);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--bcn-content-muted);
+  }
+  .bcn-inbox-thread__what {
+    margin: 0 0 var(--spacing-250);
+    font-size: 1.25rem;
+    line-height: 1.25;
+    font-weight: var(--typography-font-weight-semibold);
+    text-wrap: balance;
+  }
+  .bcn-inbox-thread__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200) var(--spacing-500);
+    margin: 0;
+  }
+  .bcn-inbox-thread__facts dt {
+    font-size: 0.75rem;
+    color: var(--bcn-content-muted);
+  }
+  .bcn-inbox-thread__facts dd {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  /* ── the two groups ────────────────────────────────────────────────────────── */
+  .bcn-inbox-thread__scroll {
+    flex: 1;
+    min-block-size: 0;
+    overflow-y: auto;
+    padding: var(--spacing-300);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+  .bcn-inbox-thread__grouphead {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0 0 var(--spacing-200);
+    font-size: 0.9375rem;
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-inbox-thread__none {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--bcn-content-muted);
+  }
+
+  .bcn-inbox-obs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  /* An open clock earns a filled ground; everything else is a hairline row. Fill and weight
+     carry the tier, never a colored left border. */
+  .bcn-inbox-ob {
+    padding: var(--spacing-250);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+  }
+  .bcn-inbox-ob[data-urgency='now'] {
+    background: var(--color-background-utility-danger-subtle, #fbeceb);
+    border-color: var(--color-border-utility-danger, #e8bdb8);
+  }
+  .bcn-inbox-ob[data-urgency='aware'] {
+    border-color: var(--color-border-subtle, var(--color-border-default));
+  }
+
+  .bcn-inbox-ob__cond {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+  .bcn-inbox-ob[data-urgency='now'] .bcn-inbox-ob__cond {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-inbox-ob[data-urgency='aware'] .bcn-inbox-ob__cond {
+    font-size: 0.875rem;
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-inbox-ob__why {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+    margin: var(--spacing-100) 0 0;
+    font-size: 0.8125rem;
+    color: var(--bcn-content-muted);
+  }
+  .bcn-inbox-ob__clock {
+    padding: 1px var(--spacing-150);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised, #fff);
+    border: 1px solid var(--color-border-utility-danger, #e8bdb8);
+    color: var(--color-content-utility-danger, #a8342a);
+    font-weight: var(--typography-font-weight-medium);
+    font-size: 0.75rem;
+  }
+
+  /* What is driving this — the commitments, code over title, so a long title can wrap. */
+  .bcn-inbox-ob__drivers {
+    list-style: none;
+    margin: var(--spacing-200) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .bcn-inbox-ob__drivers li {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .bcn-inbox-ob__code {
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-link);
+  }
+  .bcn-inbox-ob__ctitle {
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-inbox-ob__acts {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    margin: var(--spacing-200) 0 0;
+  }
+  .bcn-inbox-ob__link {
+    font-size: 0.8125rem;
+    color: var(--color-content-link);
+  }
+  .bcn-inbox-ob__id {
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--bcn-content-muted);
+  }
+
+  /* ── the verb ──────────────────────────────────────────────────────────────── */
+  .bcn-inbox-thread__foot {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-250) var(--spacing-300);
+    border-block-start: 1px solid var(--color-border-default);
+  }
+  .bcn-inbox-thread__footnote {
+    font-size: 0.8125rem;
+    color: var(--bcn-content-muted);
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+// <BcnInboxWorkspace> — the two-pane frame the obligations queue and its threads live in.
+// The direct sibling of bcn-triage-workspace, and it exists for the same one reason the
+// panes cannot own themselves: the FRAME.
+//
+// An inbox is a major work surface, so it holds a generous FIXED footprint that never
+// resizes on interaction — selecting a trigger must not make the page jump, and a thread
+// with fifty raised obligations must not grow the viewport. Each pane scrolls inside its own
+// half instead, so the queue keeps its place while a long thread is read.
+//
+// EVERY THREAD IS RENDERED HERE, all but the first hidden, because Astro is compile-time:
+// building a panel from a JavaScript template literal at runtime would bypass the design
+// system and no gate could see it. inbox.ts only ever toggles which one is visible.
+//
+// It carries no heading of its own — the PAGE title names the area once.
+//
+// bcn-lego-checked: no esa-* lego is a list-plus-detail work frame — esa-app-shell is the
+// whole page chrome (already supplied by AppShell), esa-container is a max-width wrapper
+// with no panes, and esa-tab-layout swaps panels rather than showing two at once. The
+// .sidebar PRIMITIVE is composed here rather than reimplemented; what this adds is the fixed
+// frame and the two independent scroll regions. Checked Beacon (its list/detail surfaces
+// inline this same glue per page). bcn-inbox-workspace is the reusable home.
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnInboxQueue from './BcnInboxQueue.astro';
+import BcnInboxThread from './BcnInboxThread.astro';
+import { TRIGGERS } from '../../data/obligation-triggers';
+
+interface Props {
+  /** Route base for an obligation detail link; the trigger id is not part of it. */
+  obligationBase: string;
+}
+const { obligationBase } = Astro.props;
+---
+
+<div class="bcn-inbox-workspace">
+  <div class="bcn-inbox-workspace__panes sidebar" data-gap="md">
+    <div class="bcn-inbox-workspace__queue">
+      <BcnInboxQueue />
+      {/* Always rendered, hidden until the last trigger is dismissed — the controller only
+          reveals, it never builds. */}
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="queue" hidden>
+        <EsaEmptyState
+          icon="inbox"
+          title="Inbox clear"
+          description="Every trigger has been seen. New ones arrive as the field reports them."
+        />
+      </div>
+    </div>
+    <div class="bcn-inbox-workspace__thread">
+      {
+        TRIGGERS.map((t, i) => (
+          <BcnInboxThread trigger={t} active={i === 0} obligationBase={obligationBase} />
+        ))
+      }
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="thread" hidden>
+        <EsaEmptyState
+          icon="check"
+          title="Nothing selected"
+          description="The obligations these triggers raised are all still in force — the registry has them."
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import './inbox';
+</script>
+
+<style>
+  /* bcn-lego-checked: the fixed frame and the two scroll regions, which is the whole reason
+     this component exists. The geometry composes the `.sidebar` hub primitive rather than
+     hand-rolling flex; see the header note for the lego lookup. */
+
+  /* A FIXED footprint. The panes scroll internally so neither selection nor a fifty-row
+     thread can resize the page. */
+  .bcn-inbox-workspace {
+    --_frame: 44rem;
+  }
+  .bcn-inbox-workspace__panes {
+    --sidebar-width: 24rem;
+    --sidebar-content-min: 52%;
+    align-items: stretch;
+  }
+  .bcn-inbox-workspace__queue,
+  .bcn-inbox-workspace__thread {
+    block-size: var(--_frame);
+    min-block-size: 0;
+    background: var(--color-background-elevation-raised, #fff);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+  }
+
+  /* The cleared state fills the pane it replaces rather than sitting at the top of it. */
+  .bcn-inbox-workspace__empty {
+    display: grid;
+    place-items: center;
+    block-size: 100%;
+    padding: var(--spacing-500);
+  }
+
+  /* Below the breakpoint the primitive stacks the panes; a fixed height then traps the
+     thread in a short box, so the frame releases and the page scrolls instead. */
+  @media (max-width: 60rem) {
+    .bcn-inbox-workspace__queue,
+    .bcn-inbox-workspace__thread {
+      block-size: auto;
+      max-block-size: 34rem;
+    }
+  }
+</style>

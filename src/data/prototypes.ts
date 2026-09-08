@@ -96,6 +96,15 @@ export const prototypeGroups: PrototypeGroup[] = [
       'The second tracking record type. Actions are countable work that closes; obligations are standing duties in effect while their conditions apply — speed limits, buffers, work windows, daily inspections, take notices, training records. Built on the real 402-obligation registry, on three category axes, with no compliance-status model.',
     pages: [
       {
+        slug: 'obligations-inbox',
+        title: 'Obligations Inbox',
+        description:
+          'The awareness surface, threaded like mail: a TRIGGER is the parent and the obligations it raises are its children. One owl sighting raises thirty duties, five owed on a clock — so the event is the row and the duties are the thread, which makes "why am I seeing this" the structure of the page rather than a sentence. Priority is derived from the registry (a strict notice deadline, or take and injury) and decays with the age of the event. Every raised obligation links to the commitments driving it.',
+        route: '/prototypes/obligations-inbox',
+        createdAt: '2026-09-08',
+        status: 'in-progress',
+      },
+      {
         slug: 'data-catalog-obligations',
         title: 'Obligations list (Data Catalog)',
         description:

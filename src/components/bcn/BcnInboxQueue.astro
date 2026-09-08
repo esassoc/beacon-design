@@ -1,0 +1,221 @@
+---
+// <BcnInboxQueue> — the left pane of the obligations inbox: every trigger that has fired,
+// grouped by how recently it arrived.
+//
+// A TRIGGER IS THE ROW, NOT AN OBLIGATION. One owl sighting raises thirty duties; listing
+// those thirty separately is how an inbox becomes a registry with a different heading. The
+// event is the conversation and the obligations are the messages in it, so the row states
+// what happened and how much it raised, and the thread pane says what to do.
+//
+// THE ROW REPORTS, IT DOES NOT ACT — the rule the evidence inbox set and the reason it has no
+// inline Approve. Nothing here can be dismissed or filed from the list: a one-click clear off
+// a queue is the fastest possible way to close something without reading why it was raised,
+// which is the one thing this surface exists to prevent. Verbs live in the thread.
+//
+// URGENCY IS DERIVED AND IT DECAYS. Nearly every thread contains some Notify row with a
+// strict window, so ranking a trigger by its loudest obligation made all eight rank "now".
+// What matters is whether the clock is still running for THIS event — see triggerUrgency in
+// src/data/obligation-triggers.ts.
+//
+// bcn-lego-checked: no esa-* lego is a grouped, selectable inbox list — esa-card is a single
+// box, esa-link-column is a card of bare links, esa-collapsible is one disclosure, and
+// esa-sidebar-nav is navigation rather than records. Beacon's own lists are AG Grid, the
+// wrong instrument for rows carrying prose. This is the direct sibling of bcn-triage-queue,
+// which made the same call for the evidence inbox; the row's classed <button> is the same
+// pattern, chosen because the whole row is the target and esa-button would impose its own
+// chrome, label and padding on a two-line record. Every other CONTROL here is a lego
+// (esa-badge, esa-icon).
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { BUCKETS, KIND_META, TOTALS } from '../../data/obligation-triggers';
+
+const URGENCY_LABEL: Record<string, string> = {
+  now: 'Notice owed',
+  soon: 'Recent',
+  aware: 'Background',
+};
+---
+
+<div class="bcn-inbox-queue">
+  <div class="bcn-inbox-queue__head">
+    <p class="bcn-inbox-queue__lede">
+      {TOTALS.triggers} triggers · {TOTALS.obligations} of {TOTALS.registry} obligations in play
+    </p>
+  </div>
+
+  <div class="bcn-inbox-queue__scroll">
+    {
+      BUCKETS.map((bucket) => (
+        <section class="bcn-inbox-queue__group">
+          <h3 class="bcn-inbox-queue__bucket">{bucket.label}</h3>
+          <ul class="bcn-inbox-queue__list">
+            {bucket.triggers.map((t) => (
+              <li class="bcn-inbox-row" data-inbox-row={t.id} data-urgency={t.urgency}>
+                <button
+                  type="button"
+                  class="bcn-inbox-row__body"
+                  data-inbox-open={t.id}
+                  aria-label={`Open ${t.what}`}
+                >
+                  <span class="bcn-inbox-row__line">
+                    <span class="bcn-inbox-row__kind">
+                      <EsaIcon name={KIND_META[t.kind].icon} paths={KIND_META[t.kind].paths} size="sm" />
+                    </span>
+                    <span class="bcn-inbox-row__what">{t.what}</span>
+                    {/* The bucket heading says "Today", so the row carries its own time —
+                        the way a mail list puts a timestamp on every message. */}
+                    <span class="bcn-inbox-row__when">{t.when}</span>
+                  </span>
+                  <span class="bcn-inbox-row__meta">
+                    {t.where ?? KIND_META[t.kind].label}
+                  </span>
+                  <span class="bcn-inbox-row__foot">
+                    {t.counts.now > 0 && (
+                      <EsaBadge
+                        value={`${t.counts.now} notice${t.counts.now === 1 ? '' : 's'} owed`}
+                        variant="danger"
+                        size="sm"
+                      />
+                    )}
+                    <span class="bcn-inbox-row__raised">{t.raised.length} obligations raised</span>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  /* bcn-lego-checked: the pane's own scroll region, the bucket headings, and the row's
+     three-line shape. Every control is a lego (esa-badge, esa-icon); see the header note for
+     the full lookup. Semantic tokens only. */
+
+  .bcn-inbox-queue {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+    block-size: 100%;
+  }
+
+  .bcn-inbox-queue__head {
+    padding: var(--spacing-200) var(--spacing-300);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+  .bcn-inbox-queue__lede {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--bcn-content-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* The pane scrolls inside its own half so the queue keeps its place while a long thread
+     is read — the frame never resizes on selection. */
+  .bcn-inbox-queue__scroll {
+    flex: 1;
+    min-block-size: 0;
+    overflow-y: auto;
+  }
+
+  .bcn-inbox-queue__bucket {
+    position: sticky;
+    inset-block-start: 0;
+    margin: 0;
+    padding: var(--spacing-150) var(--spacing-300);
+    background: var(--color-background-elevation-sunken);
+    border-block-end: 1px solid var(--color-border-default);
+    font-size: 0.75rem;
+    font-weight: var(--typography-font-weight-semibold);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--bcn-content-muted);
+    z-index: 1;
+  }
+
+  .bcn-inbox-queue__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bcn-inbox-row {
+    border-block-end: 1px solid var(--color-border-subtle, var(--color-border-default));
+  }
+
+  /* The whole row is the target. */
+  .bcn-inbox-row__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    inline-size: 100%;
+    padding: var(--spacing-250) var(--spacing-300);
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .bcn-inbox-row__body:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-inbox-row__body:focus-visible {
+    outline: 2px solid var(--color-background-brand-muted);
+    outline-offset: -2px;
+  }
+  /* Selection is a filled row, not a colored left border — the house principles ban that
+     as a status device, and here it would compete with the urgency marker. */
+  .bcn-inbox-row[aria-current='true'] .bcn-inbox-row__body {
+    background: var(--color-background-brand-subtle);
+  }
+
+  .bcn-inbox-row__line {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+  }
+  .bcn-inbox-row__kind {
+    color: var(--bcn-content-muted);
+    flex-shrink: 0;
+    transform: translateY(2px);
+  }
+  .bcn-inbox-row__what {
+    flex: 1;
+    min-inline-size: 0;
+    font-size: 0.9375rem;
+    line-height: 1.35;
+    font-weight: var(--typography-font-weight-medium);
+  }
+  /* An open clock earns the heavier title; everything else reads at normal weight. */
+  .bcn-inbox-row[data-urgency='now'] .bcn-inbox-row__what {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-inbox-row__when {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: var(--bcn-content-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-inbox-row__meta {
+    padding-inline-start: calc(var(--spacing-200) + 16px);
+    font-size: 0.8125rem;
+    color: var(--bcn-content-muted);
+  }
+
+  .bcn-inbox-row__foot {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding-inline-start: calc(var(--spacing-200) + 16px);
+    margin-block-start: var(--spacing-100);
+  }
+  .bcn-inbox-row__raised {
+    font-size: 0.75rem;
+    color: var(--bcn-content-muted);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

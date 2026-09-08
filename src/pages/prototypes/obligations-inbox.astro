@@ -1,0 +1,88 @@
+---
+// Obligations Inbox — the awareness surface for the Obligation record type.
+//
+// WHY AN INBOX AND NOT A DASHBOARD. Five earlier dashboard variants all failed the same way:
+// they arranged 402 obligations, and arranging a registry is not the same as telling somebody
+// what happened. The team's own framing (2026-09-06) was the fix — make it work like the
+// Evidence Inbox: a queue of things that arrived, threaded, with the reason each one is in
+// front of you.
+//
+// THE THREADING IS THE IDEA. A TRIGGER is the parent and the obligations it raises are its
+// children. Someone sees a burrowing owl; that one event raises thirty duties, five of them
+// owed on a clock. Listing those thirty as separate rows is how an inbox turns back into a
+// registry, so the event is the row and the duties are the thread. "Why am I seeing this"
+// stops being a sentence someone wrote and becomes the structure of the page.
+//
+// PRIORITY IS DERIVED FROM THE REGISTRY, from the two signals the team named: a strict
+// deadline (26 of the 50 Notify rows are owed in a day or less) and take or injury (20 rows).
+// A trigger inherits the strongest signal among the obligations it raised — and it DECAYS
+// with the age of the event, because a 24-hour notice on an owl seen 40 minutes ago is open
+// while the same duty on a season that started last week is background. Without the decay all
+// eight triggers ranked "now" and the signal said nothing.
+//
+// WHAT IS REAL: every obligation a trigger raises is matched out of the 402-row registry by a
+// real predicate, and the conditions, classes, notice windows, commitment codes and
+// commitment titles are all registry data — including the drivers each row links to, which is
+// what answers "what is making me do this".
+//
+// WHAT IS EXAMPLE, and said so on the page: which triggers fired, when, where and who
+// reported them. The registry carries no in-effect conditions and no observations, so the
+// events themselves are authored. Nothing uses Date.now() — see NOW in the data module.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnInboxWorkspace from '../../components/bcn/BcnInboxWorkspace.astro';
+import { TOTALS } from '../../data/obligation-triggers';
+import { withBase } from '../../lib/base';
+
+const projectNav = [
+  {
+    id: 'tracking',
+    title: 'Tracking',
+    icon: 'radar',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'tr-actions', label: 'Actions' },
+      { id: 'tr-obligations', label: 'Obligations', active: true },
+      { id: 'tr-evidence', label: 'Evidence Inbox' },
+    ],
+  },
+];
+
+const obligationBase = withBase('/prototypes/data-catalog-obligation');
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(md)          # SPINE
+  sections:
+    - inbox workspace -> bcn-inbox-workspace         # fixed two-pane frame; every thread server-rendered
+        - queue       -> bcn-inbox-queue             #   left: triggers in relative date buckets, urgency-sorted
+        - thread      -> bcn-inbox-thread            #   right: one trigger, the obligations it raised, their drivers
+  title-badge: esa-badge                             # notices owed right now
+-->
+
+<AppShell
+  title="Obligations Inbox — Beacon"
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  navSections={projectNav}
+>
+  <PageLayout
+    title="Obligations Inbox"
+    icon="inbox"
+    breadcrumbs={[{ label: 'Tracking', href: '#tracking' }, { label: 'Obligations Inbox' }]}
+  >
+    {/* The count rides the page title so the area is named once. It counts what is OWED,
+        not what is queued — the number a person acts on. */}
+    <Fragment slot="title-badge">
+      <EsaBadge
+        value={`${TOTALS.needNow} notices owed`}
+        variant={TOTALS.needNow ? 'danger' : 'secondary'}
+        size="sm"
+      />
+    </Fragment>
+
+    <BcnInboxWorkspace obligationBase={obligationBase} />
+  </PageLayout>
+</AppShell>
