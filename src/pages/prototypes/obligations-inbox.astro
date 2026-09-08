@@ -76,11 +76,15 @@ const obligationBase = withBase('/prototypes/data-catalog-obligation');
     {/* The count rides the page title so the area is named once. It counts what is OWED,
         not what is queued — the number a person acts on. */}
     <Fragment slot="title-badge">
-      <EsaBadge
-        value={`${TOTALS.needNow} notices owed`}
-        variant={TOTALS.needNow ? 'danger' : 'secondary'}
-        size="sm"
-      />
+      {/* data-inbox-total is the controller's hook: it re-labels this as notices are filed,
+          so the headline number and the queue can never look like they disagree. */}
+      <span data-inbox-total>
+        <EsaBadge
+          value={`${TOTALS.needNow} notices owed`}
+          variant={TOTALS.needNow ? 'danger' : 'secondary'}
+          size="sm"
+        />
+      </span>
     </Fragment>
 
     <BcnInboxWorkspace obligationBase={obligationBase} />

@@ -88,7 +88,9 @@ const row = (r: RaisedObligation) => r;
     <section class="bcn-inbox-thread__group">
       <h3 class="bcn-inbox-thread__grouphead">
         Needs a notice now
-        <EsaBadge value={nowRows.length} variant={nowRows.length ? 'danger' : 'secondary'} size="sm" />
+        <span data-inbox-owedbadge={t.id}>
+          <EsaBadge value={nowRows.length} variant={nowRows.length ? 'danger' : 'secondary'} size="sm" />
+        </span>
       </h3>
       {
         nowRows.length > 0 ? (
@@ -112,6 +114,20 @@ const row = (r: RaisedObligation) => r;
                   <a class="bcn-inbox-ob__link" href={`${obligationBase}/${r.obligation.id}`}>
                     Open the obligation
                   </a>
+                  {/* A thread can hold five open notices with different deadlines, so they
+                      clear ONE AT A TIME. Marking the whole trigger seen without filing them
+                      individually is possible, but then the count says so. */}
+                  <span class="bcn-inbox-ob__verb">
+                    {/* The button is wrapped in an element WE own. Toggling `hidden` on
+                        esa-button itself cannot work: the lego declares its own display, and
+                        an author display rule outranks the UA's [hidden] rule. */}
+                    <span class="bcn-inbox-ob__filewrap" data-inbox-filewrap>
+                      <EsaButton variant="ghost" appearance="outline" size="sm" data-inbox-file={r.obligation.id}>
+                        Mark filed
+                      </EsaButton>
+                    </span>
+                    <span class="bcn-inbox-ob__filed" data-inbox-filedmark hidden>Filed</span>
+                  </span>
                   <span class="bcn-inbox-ob__id">{r.obligation.id}</span>
                 </p>
               </li>
@@ -321,10 +337,43 @@ const row = (r: RaisedObligation) => r;
 
   .bcn-inbox-ob__acts {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: var(--spacing-300);
     margin: var(--spacing-200) 0 0;
+  }
+  .bcn-inbox-ob__verb {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-inline-start: auto;
+  }
+  .bcn-inbox-ob__filewrap:not([hidden]) {
+    display: inline-flex;
+  }
+  .bcn-inbox-ob__filed {
+    font-size: 0.75rem;
+    padding: 1px var(--spacing-150);
+    border-radius: var(--radius-100);
+    background: var(--color-background-utility-success-subtle, #eef5f4);
+    color: var(--color-content-utility-success, #2e7571);
+    font-weight: var(--typography-font-weight-medium);
+  }
+
+  /* A filed notice stops shouting: the tint drops and the condition lightens, so the group
+     visibly empties as the work is done rather than staying the same size. */
+  .bcn-inbox-ob[data-filed='1'] {
+    background: none;
+    border-color: var(--color-border-default);
+  }
+  .bcn-inbox-ob[data-filed='1'] .bcn-inbox-ob__cond {
+    font-weight: var(--typography-font-weight-regular);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-inbox-ob[data-filed='1'] .bcn-inbox-ob__clock {
+    background: var(--color-background-elevation-sunken);
+    border-color: var(--color-border-default);
+    color: var(--bcn-content-muted);
   }
   .bcn-inbox-ob__link {
     font-size: 0.8125rem;

@@ -8,9 +8,14 @@
 // what happened and how much it raised, and the thread pane says what to do.
 //
 // THE ROW REPORTS, IT DOES NOT ACT — the rule the evidence inbox set and the reason it has no
-// inline Approve. Nothing here can be dismissed or filed from the list: a one-click clear off
-// a queue is the fastest possible way to close something without reading why it was raised,
-// which is the one thing this surface exists to prevent. Verbs live in the thread.
+// inline Approve. Nothing can be dismissed or filed from this list: a one-click clear off a
+// queue is the fastest possible way to close something without reading why it was raised,
+// which is the one thing this surface exists to prevent. Marking a trigger seen happens in
+// the thread, after the reasons.
+//
+// The ONE verb that lives here is "Move back to open", and only in the Seen view. Undoing a
+// filing is not deciding anything, and the alternative — making someone open a thread to
+// restore it — punishes the person who mis-clicked.
 //
 // URGENCY IS DERIVED AND IT DECAYS. Nearly every thread contains some Notify row with a
 // strict window, so ranking a trigger by its loudest obligation made all eight rank "now".
@@ -26,6 +31,7 @@
 // chrome, label and padding on a two-line record. Every other CONTROL here is a lego
 // (esa-badge, esa-icon).
 import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { BUCKETS, KIND_META, TOTALS } from '../../data/obligation-triggers';
 
@@ -38,8 +44,18 @@ const URGENCY_LABEL: Record<string, string> = {
 
 <div class="bcn-inbox-queue">
   <div class="bcn-inbox-queue__head">
+    {/* Open / Seen is a two-way PIVOT, not a facet: it is the shape of the work, and the
+        split a person actually moves along. Seen is where a dismissed trigger goes, so
+        nothing ever leaves without somewhere to find it again. */}
+    <esa-button-toggle data-inbox-view value="open" size="sm"></esa-button-toggle>
     <p class="bcn-inbox-queue__lede">
-      {TOTALS.triggers} triggers · {TOTALS.obligations} of {TOTALS.registry} obligations in play
+      <span data-inbox-count="triggers">{TOTALS.triggers}</span> open ·
+      <span data-inbox-count="obligations">{TOTALS.obligations}</span> of {TOTALS.registry} obligations in play
+    </p>
+    {/* The shortcuts are worth naming: an inbox nobody knows is keyboard-navigable is an
+        inbox nobody navigates with the keyboard. */}
+    <p class="bcn-inbox-queue__keys">
+      <kbd>↑</kbd><kbd>↓</kbd> move · <kbd>e</kbd> mark seen
     </p>
   </div>
 
@@ -50,7 +66,14 @@ const URGENCY_LABEL: Record<string, string> = {
           <h3 class="bcn-inbox-queue__bucket">{bucket.label}</h3>
           <ul class="bcn-inbox-queue__list">
             {bucket.triggers.map((t) => (
-              <li class="bcn-inbox-row" data-inbox-row={t.id} data-urgency={t.urgency}>
+              <li
+                class="bcn-inbox-row"
+                data-inbox-row={t.id}
+                data-urgency={t.urgency}
+                data-seen="0"
+                data-owed={t.counts.now}
+                data-raised={t.raised.length}
+              >
                 <button
                   type="button"
                   class="bcn-inbox-row__body"
@@ -78,8 +101,16 @@ const URGENCY_LABEL: Record<string, string> = {
                       />
                     )}
                     <span class="bcn-inbox-row__raised">{t.raised.length} obligations raised</span>
+                    {/* Rendered always, revealed only in the Seen view. The controller never
+                        builds markup, so the marker and the verb have to exist up front. */}
+                    <span class="bcn-inbox-row__seen" data-inbox-seenmark hidden>Seen</span>
                   </span>
                 </button>
+                <span class="bcn-inbox-row__restore" data-inbox-restorewrap hidden>
+                  <EsaButton variant="ghost" appearance="outline" size="sm" data-inbox-restore={t.id}>
+                    Move back to open
+                  </EsaButton>
+                </span>
               </li>
             ))}
           </ul>
@@ -102,7 +133,11 @@ const URGENCY_LABEL: Record<string, string> = {
   }
 
   .bcn-inbox-queue__head {
-    padding: var(--spacing-200) var(--spacing-300);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    align-items: flex-start;
+    padding: var(--spacing-250) var(--spacing-300);
     border-block-end: 1px solid var(--color-border-default);
   }
   .bcn-inbox-queue__lede {
@@ -110,6 +145,23 @@ const URGENCY_LABEL: Record<string, string> = {
     font-size: 0.8125rem;
     color: var(--bcn-content-muted);
     font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-inbox-queue__keys {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--bcn-content-muted);
+  }
+  .bcn-inbox-queue__keys kbd {
+    font-family: var(--typography-font-family-mono);
+    font-size: 0.6875rem;
+    padding: 0 var(--spacing-100);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
   }
 
   /* The pane scrolls inside its own half so the queue keeps its place while a long thread
@@ -217,5 +269,30 @@ const URGENCY_LABEL: Record<string, string> = {
     font-size: 0.75rem;
     color: var(--bcn-content-muted);
     font-variant-numeric: tabular-nums;
+  }
+
+  /* A seen row reads as done: the marker states it and the whole row recedes, so the Seen
+     view is legible as history rather than as a second queue of work. */
+  .bcn-inbox-row__seen {
+    font-size: 0.75rem;
+    padding: 1px var(--spacing-150);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+    color: var(--bcn-content-muted);
+  }
+  .bcn-inbox-row[data-seen='1'] .bcn-inbox-row__what {
+    font-weight: var(--typography-font-weight-regular);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* The restore verb only exists in the Seen view, and it sits under the row rather than
+     inside the button — a control nested in a button is not clickable.
+     :not([hidden]) IS LOAD-BEARING. An author `display` rule outranks the UA's
+     `[hidden] { display: none }`, so declaring display unguarded made the attribute useless
+     and every row showed its restore button in the Open view. */
+  .bcn-inbox-row__restore:not([hidden]) {
+    display: block;
+    padding: 0 var(--spacing-300) var(--spacing-250)
+      calc(var(--spacing-300) + var(--spacing-200) + 16px);
   }
 </style>

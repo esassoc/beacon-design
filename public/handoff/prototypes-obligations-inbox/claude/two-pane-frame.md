@@ -21,7 +21,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
     <div class="bcn-inbox-workspace__queue">
       <div class="bcn-inbox-queue">
         <div class="bcn-inbox-queue__head">
-          <p class="bcn-inbox-queue__lede">8 triggers · 180 of 402 obligations in play</p>
+          <esa-button-toggle
+            data-inbox-view="true"
+            value="open"
+            size="sm"
+          ></esa-button-toggle>
+          <p class="bcn-inbox-queue__lede">
+            <span data-inbox-count="triggers">8</span> open ·<span
+              data-inbox-count="obligations"
+              >180</span
+            >
+            of 402 obligations in play
+          </p>
+          <p class="bcn-inbox-queue__keys">
+            <kbd>↑</kbd><kbd>↓</kbd> move · <kbd>e</kbd> mark seen
+          </p>
         </div>
         <div class="bcn-inbox-queue__scroll">
           <section class="bcn-inbox-queue__group">
@@ -31,6 +45,9 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                 class="bcn-inbox-row"
                 data-inbox-row="obs-owl"
                 data-urgency="now"
+                data-seen="0"
+                data-owed="5"
+                data-raised="30"
                 aria-current="true"
               >
                 <button
@@ -66,13 +83,32 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     ><span
                       class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">5 notices owed</span></span
-                    ><span class="bcn-inbox-row__raised"
-                      >30 obligations raised</span
+                    ><span class="bcn-inbox-row__raised">30 obligations raised</span
+                    ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                      >Seen</span
                     ></span
-                  >
-                </button>
+                  ></button
+                ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+                  ><span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button
+                      class="esa-button__native typography-microcopy-xs"
+                      type="button"
+                      data-inbox-restore="obs-owl"
+                    >
+                      <span class="esa-button__label">Move back to open</span>
+                    </button></span
+                  ></span
+                >
               </li>
-              <li class="bcn-inbox-row" data-inbox-row="obs-hawk" data-urgency="now">
+              <li
+                class="bcn-inbox-row"
+                data-inbox-row="obs-hawk"
+                data-urgency="now"
+                data-seen="0"
+                data-owed="6"
+                data-raised="51"
+              >
                 <button
                   type="button"
                   class="bcn-inbox-row__body"
@@ -105,13 +141,32 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     ><span
                       class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">6 notices owed</span></span
-                    ><span class="bcn-inbox-row__raised"
-                      >51 obligations raised</span
+                    ><span class="bcn-inbox-row__raised">51 obligations raised</span
+                    ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                      >Seen</span
                     ></span
-                  >
-                </button>
+                  ></button
+                ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+                  ><span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button
+                      class="esa-button__native typography-microcopy-xs"
+                      type="button"
+                      data-inbox-restore="obs-hawk"
+                    >
+                      <span class="esa-button__label">Move back to open</span>
+                    </button></span
+                  ></span
+                >
               </li>
-              <li class="bcn-inbox-row" data-inbox-row="obs-barge" data-urgency="now">
+              <li
+                class="bcn-inbox-row"
+                data-inbox-row="obs-barge"
+                data-urgency="now"
+                data-seen="0"
+                data-owed="2"
+                data-raised="16"
+              >
                 <button
                   type="button"
                   class="bcn-inbox-row__body"
@@ -144,18 +199,37 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     ><span
                       class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">2 notices owed</span></span
-                    ><span class="bcn-inbox-row__raised"
-                      >16 obligations raised</span
+                    ><span class="bcn-inbox-row__raised">16 obligations raised</span
+                    ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                      >Seen</span
                     ></span
-                  >
-                </button>
+                  ></button
+                ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+                  ><span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button
+                      class="esa-button__native typography-microcopy-xs"
+                      type="button"
+                      data-inbox-restore="obs-barge"
+                    >
+                      <span class="esa-button__label">Move back to open</span>
+                    </button></span
+                  ></span
+                >
               </li>
             </ul>
           </section>
           <section class="bcn-inbox-queue__group">
             <h3 class="bcn-inbox-queue__bucket">Yesterday</h3>
             <ul class="bcn-inbox-queue__list">
-              <li class="bcn-inbox-row" data-inbox-row="mil-pile" data-urgency="soon">
+              <li
+                class="bcn-inbox-row"
+                data-inbox-row="mil-pile"
+                data-urgency="soon"
+                data-seen="0"
+                data-owed="2"
+                data-raised="16"
+              >
                 <button
                   type="button"
                   class="bcn-inbox-row__body"
@@ -187,18 +261,37 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     ><span
                       class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">2 notices owed</span></span
-                    ><span class="bcn-inbox-row__raised"
-                      >16 obligations raised</span
+                    ><span class="bcn-inbox-row__raised">16 obligations raised</span
+                    ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                      >Seen</span
                     ></span
-                  >
-                </button>
+                  ></button
+                ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+                  ><span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button
+                      class="esa-button__native typography-microcopy-xs"
+                      type="button"
+                      data-inbox-restore="mil-pile"
+                    >
+                      <span class="esa-button__label">Move back to open</span>
+                    </button></span
+                  ></span
+                >
               </li>
             </ul>
           </section>
           <section class="bcn-inbox-queue__group">
             <h3 class="bcn-inbox-queue__bucket">Earlier this week</h3>
             <ul class="bcn-inbox-queue__list">
-              <li class="bcn-inbox-row" data-inbox-row="obs-turbid" data-urgency="soon">
+              <li
+                class="bcn-inbox-row"
+                data-inbox-row="obs-turbid"
+                data-urgency="soon"
+                data-seen="0"
+                data-owed="1"
+                data-raised="20"
+              >
                 <button
                   type="button"
                   class="bcn-inbox-row__body"
@@ -232,18 +325,37 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     ><span
                       class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">1 notice owed</span></span
-                    ><span class="bcn-inbox-row__raised"
-                      >20 obligations raised</span
+                    ><span class="bcn-inbox-row__raised">20 obligations raised</span
+                    ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                      >Seen</span
                     ></span
-                  >
-                </button>
+                  ></button
+                ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+                  ><span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button
+                      class="esa-button__native typography-microcopy-xs"
+                      type="button"
+                      data-inbox-restore="obs-turbid"
+                    >
+                      <span class="esa-button__label">Move back to open</span>
+                    </button></span
+                  ></span
+                >
               </li>
             </ul>
           </section>
           <section class="bcn-inbox-queue__group">
             <h3 class="bcn-inbox-queue__bucket">Older</h3>
             <ul class="bcn-inbox-queue__list">
-              <li class="bcn-inbox-row" data-inbox-row="sea-nesting" data-urgency="aware">
+              <li
+                class="bcn-inbox-row"
+                data-inbox-row="sea-nesting"
+                data-urgency="aware"
+                data-seen="0"
+                data-owed="3"
+                data-raised="40"
+              >
                 <button
                   type="button"
                   class="bcn-inbox-row__body"
@@ -275,13 +387,32 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     ><span
                       class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">3 notices owed</span></span
-                    ><span class="bcn-inbox-row__raised"
-                      >40 obligations raised</span
+                    ><span class="bcn-inbox-row__raised">40 obligations raised</span
+                    ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                      >Seen</span
                     ></span
-                  >
-                </button>
+                  ></button
+                ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+                  ><span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button
+                      class="esa-button__native typography-microcopy-xs"
+                      type="button"
+                      data-inbox-restore="sea-nesting"
+                    >
+                      <span class="esa-button__label">Move back to open</span>
+                    </button></span
+                  ></span
+                >
               </li>
-              <li class="bcn-inbox-row" data-inbox-row="mil-dewater" data-urgency="aware">
+              <li
+                class="bcn-inbox-row"
+                data-inbox-row="mil-dewater"
+                data-urgency="aware"
+                data-seen="0"
+                data-owed="2"
+                data-raised="19"
+              >
                 <button
                   type="button"
                   class="bcn-inbox-row__body"
@@ -314,13 +445,32 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     ><span
                       class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">2 notices owed</span></span
-                    ><span class="bcn-inbox-row__raised"
-                      >19 obligations raised</span
+                    ><span class="bcn-inbox-row__raised">19 obligations raised</span
+                    ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                      >Seen</span
                     ></span
-                  >
-                </button>
+                  ></button
+                ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+                  ><span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button
+                      class="esa-button__native typography-microcopy-xs"
+                      type="button"
+                      data-inbox-restore="mil-dewater"
+                    >
+                      <span class="esa-button__label">Move back to open</span>
+                    </button></span
+                  ></span
+                >
               </li>
-              <li class="bcn-inbox-row" data-inbox-row="sea-inwater" data-urgency="aware">
+              <li
+                class="bcn-inbox-row"
+                data-inbox-row="sea-inwater"
+                data-urgency="aware"
+                data-seen="0"
+                data-owed="2"
+                data-raised="57"
+              >
                 <button
                   type="button"
                   class="bcn-inbox-row__body"
@@ -353,21 +503,44 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     ><span
                       class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                       ><span class="esa-badge__text">2 notices owed</span></span
-                    ><span class="bcn-inbox-row__raised"
-                      >57 obligations raised</span
+                    ><span class="bcn-inbox-row__raised">57 obligations raised</span
+                    ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                      >Seen</span
                     ></span
-                  >
-                </button>
+                  ></button
+                ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+                  ><span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button
+                      class="esa-button__native typography-microcopy-xs"
+                      type="button"
+                      data-inbox-restore="sea-inwater"
+                    >
+                      <span class="esa-button__label">Move back to open</span>
+                    </button></span
+                  ></span
+                >
               </li>
             </ul>
           </section>
         </div>
       </div>
-      <div class="bcn-inbox-workspace__empty" data-inbox-empty="queue" hidden="">
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="queue-open" hidden="">
         <div class="esa-empty-state esa-empty-state--md">
           <h3 class="esa-empty-state__title typography-label-md-strong">Inbox clear</h3>
           <p class="esa-empty-state__description typography-body-sm">
             Every trigger has been seen. New ones arrive as the field reports them.
+          </p>
+          <div class="esa-empty-state__actions typography-label-md"></div>
+        </div>
+      </div>
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="queue-seen" hidden="">
+        <div class="esa-empty-state esa-empty-state--md">
+          <h3 class="esa-empty-state__title typography-label-md-strong">
+            Nothing filed yet
+          </h3>
+          <p class="esa-empty-state__description typography-body-sm">
+            Triggers you mark as seen collect here, and can be moved back to Open.
           </p>
           <div class="esa-empty-state__actions typography-label-md"></div>
         </div>
@@ -419,9 +592,11 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
         <div class="bcn-inbox-thread__scroll">
           <section class="bcn-inbox-thread__group">
             <h3 class="bcn-inbox-thread__grouphead">
-              Needs a notice now<span
-                class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">5</span></span
+              Needs a notice now<span data-inbox-owedbadge="obs-owl"
+                ><span
+                  class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+                  ><span class="esa-badge__text">5</span></span
+                ></span
               >
             </h3>
             <ul class="bcn-inbox-obs">
@@ -445,6 +620,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-026"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-026"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-026</span>
                 </p>
               </li>
@@ -487,6 +677,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-012"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-012"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-012</span>
                 </p>
               </li>
@@ -510,6 +715,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-021"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-021"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-021</span>
                 </p>
               </li>
@@ -547,6 +767,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-027"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-027"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-027</span>
                 </p>
               </li>
@@ -587,6 +822,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-003"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-003"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-003</span>
                 </p>
               </li>
@@ -1013,9 +1263,11 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
         <div class="bcn-inbox-thread__scroll">
           <section class="bcn-inbox-thread__group">
             <h3 class="bcn-inbox-thread__grouphead">
-              Needs a notice now<span
-                class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">6</span></span
+              Needs a notice now<span data-inbox-owedbadge="obs-hawk"
+                ><span
+                  class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+                  ><span class="esa-badge__text">6</span></span
+                ></span
               >
             </h3>
             <ul class="bcn-inbox-obs">
@@ -1046,6 +1298,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-002"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-002"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-002</span>
                 </p>
               </li>
@@ -1086,6 +1353,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-007"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-007"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-007</span>
                 </p>
               </li>
@@ -1128,6 +1410,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-012"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-012"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-012</span>
                 </p>
               </li>
@@ -1162,6 +1459,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-006"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-006"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-006</span>
                 </p>
               </li>
@@ -1203,6 +1515,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-001"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-001"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-001</span>
                 </p>
               </li>
@@ -1243,6 +1570,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-003"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-003"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-003</span>
                 </p>
               </li>
@@ -1945,9 +2287,11 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
         <div class="bcn-inbox-thread__scroll">
           <section class="bcn-inbox-thread__group">
             <h3 class="bcn-inbox-thread__grouphead">
-              Needs a notice now<span
-                class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">2</span></span
+              Needs a notice now<span data-inbox-owedbadge="obs-barge"
+                ><span
+                  class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+                  ><span class="esa-badge__text">2</span></span
+                ></span
               >
             </h3>
             <ul class="bcn-inbox-obs">
@@ -1985,6 +2329,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-016"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-016"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-016</span>
                 </p>
               </li>
@@ -2008,6 +2367,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-033"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-033"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-033</span>
                 </p>
               </li>
@@ -2262,9 +2636,11 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
         <div class="bcn-inbox-thread__scroll">
           <section class="bcn-inbox-thread__group">
             <h3 class="bcn-inbox-thread__grouphead">
-              Needs a notice now<span
-                class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">2</span></span
+              Needs a notice now<span data-inbox-owedbadge="mil-pile"
+                ><span
+                  class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+                  ><span class="esa-badge__text">2</span></span
+                ></span
               >
             </h3>
             <ul class="bcn-inbox-obs">
@@ -2290,6 +2666,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-018"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-018"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-018</span>
                 </p>
               </li>
@@ -2330,6 +2721,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-007"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-007"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-007</span>
                 </p>
               </li>
@@ -2623,9 +3029,11 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
         <div class="bcn-inbox-thread__scroll">
           <section class="bcn-inbox-thread__group">
             <h3 class="bcn-inbox-thread__grouphead">
-              Needs a notice now<span
-                class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">1</span></span
+              Needs a notice now<span data-inbox-owedbadge="obs-turbid"
+                ><span
+                  class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+                  ><span class="esa-badge__text">1</span></span
+                ></span
               >
             </h3>
             <ul class="bcn-inbox-obs">
@@ -2651,6 +3059,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-018"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-018"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-018</span>
                 </p>
               </li>
@@ -2997,9 +3420,11 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
         <div class="bcn-inbox-thread__scroll">
           <section class="bcn-inbox-thread__group">
             <h3 class="bcn-inbox-thread__grouphead">
-              Needs a notice now<span
-                class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">3</span></span
+              Needs a notice now<span data-inbox-owedbadge="sea-nesting"
+                ><span
+                  class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+                  ><span class="esa-badge__text">3</span></span
+                ></span
               >
             </h3>
             <ul class="bcn-inbox-obs">
@@ -3035,6 +3460,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-028"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-028"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-028</span>
                 </p>
               </li>
@@ -3077,6 +3517,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-012"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-012"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-012</span>
                 </p>
               </li>
@@ -3114,6 +3569,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-027"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-027"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-027</span>
                 </p>
               </li>
@@ -3684,9 +4154,11 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
         <div class="bcn-inbox-thread__scroll">
           <section class="bcn-inbox-thread__group">
             <h3 class="bcn-inbox-thread__grouphead">
-              Needs a notice now<span
-                class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">2</span></span
+              Needs a notice now<span data-inbox-owedbadge="mil-dewater"
+                ><span
+                  class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+                  ><span class="esa-badge__text">2</span></span
+                ></span
               >
             </h3>
             <ul class="bcn-inbox-obs">
@@ -3725,6 +4197,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-038"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-038"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-038</span>
                 </p>
               </li>
@@ -3765,6 +4252,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-007"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-007"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-007</span>
                 </p>
               </li>
@@ -4092,9 +4594,11 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
         <div class="bcn-inbox-thread__scroll">
           <section class="bcn-inbox-thread__group">
             <h3 class="bcn-inbox-thread__grouphead">
-              Needs a notice now<span
-                class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-                ><span class="esa-badge__text">2</span></span
+              Needs a notice now<span data-inbox-owedbadge="sea-inwater"
+                ><span
+                  class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+                  ><span class="esa-badge__text">2</span></span
+                ></span
               >
             </h3>
             <ul class="bcn-inbox-obs">
@@ -4133,6 +4637,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-038"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-038"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-038</span>
                 </p>
               </li>
@@ -4173,6 +4692,21 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
                     class="bcn-inbox-ob__link"
                     href="/beacon-design/prototypes/data-catalog-obligation/4-007"
                     >Open the obligation</a
+                  ><span class="bcn-inbox-ob__verb"
+                    ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                      ><span
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          data-inbox-file="4-007"
+                        >
+                          <span class="esa-button__label">Mark filed</span>
+                        </button></span
+                      ></span
+                    ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                      >Filed</span
+                    ></span
                   ><span class="bcn-inbox-ob__id">4-007</span>
                 </p>
               </li>
@@ -4935,14 +5469,25 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
           >
         </footer>
       </section>
-      <div class="bcn-inbox-workspace__empty" data-inbox-empty="thread" hidden="">
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="thread-open" hidden="">
         <div class="esa-empty-state esa-empty-state--md">
           <h3 class="esa-empty-state__title typography-label-md-strong">
-            Nothing selected
+            Nothing left to read
           </h3>
           <p class="esa-empty-state__description typography-body-sm">
             The obligations these triggers raised are all still in force — the registry
             has them.
+          </p>
+          <div class="esa-empty-state__actions typography-label-md"></div>
+        </div>
+      </div>
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="thread-seen" hidden="">
+        <div class="esa-empty-state esa-empty-state--md">
+          <h3 class="esa-empty-state__title typography-label-md-strong">
+            No filed triggers
+          </h3>
+          <p class="esa-empty-state__description typography-body-sm">
+            Mark a trigger as seen and it appears here with everything it raised.
           </p>
           <div class="esa-empty-state__actions typography-label-md"></div>
         </div>
@@ -4975,12 +5520,26 @@ The fixed frame the two panes live in — the direct sibling of bcn-triage-works
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
   font-weight: var(--typography-microcopy-md-font-weight);
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
 .typography-microcopy-md-subtle {
   font-family: var(--typography-microcopy-md-subtle-font-family);
@@ -5354,14 +5913,34 @@ summary.esa-button--variant-chrome:focus-visible {
   display: flex;
 }
 .bcn-inbox-queue__head {
-  padding: var(--spacing-200) var(--spacing-300);
+  gap: var(--spacing-200);
+  padding: var(--spacing-250) var(--spacing-300);
   border-block-end: 1px solid var(--color-border-default);
+  flex-direction: column;
+  align-items: flex-start;
+  display: flex;
 }
 .bcn-inbox-queue__lede {
   color: var(--bcn-content-muted);
   font-variant-numeric: tabular-nums;
   margin: 0;
   font-size: 0.8125rem;
+}
+.bcn-inbox-queue__keys {
+  align-items: center;
+  gap: var(--spacing-100);
+  color: var(--bcn-content-muted);
+  margin: 0;
+  font-size: 0.75rem;
+  display: flex;
+}
+.bcn-inbox-queue__keys kbd {
+  font-family: var(--typography-font-family-mono);
+  padding: 0 var(--spacing-100);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-sunken);
+  font-size: 0.6875rem;
 }
 .bcn-inbox-queue__scroll {
   flex: 1;
@@ -5455,6 +6034,22 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--bcn-content-muted);
   font-variant-numeric: tabular-nums;
   font-size: 0.75rem;
+}
+.bcn-inbox-row__seen {
+  padding: 1px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-sunken);
+  color: var(--bcn-content-muted);
+  font-size: 0.75rem;
+}
+.bcn-inbox-row[data-seen="1"] .bcn-inbox-row__what {
+  font-weight: var(--typography-font-weight-regular);
+  color: var(--color-content-default-secondary);
+}
+.bcn-inbox-row__restore:not([hidden]) {
+  padding: 0 var(--spacing-300) var(--spacing-250)
+    calc(var(--spacing-300) + var(--spacing-200) + 16px);
+  display: block;
 }
 .bcn-inbox-thread {
   flex-direction: column;
@@ -5594,10 +6189,40 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-inbox-ob__acts {
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: var(--spacing-300);
   margin: var(--spacing-200) 0 0;
   display: flex;
+}
+.bcn-inbox-ob__verb {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-inline-start: auto;
+  display: flex;
+}
+.bcn-inbox-ob__filewrap:not([hidden]) {
+  display: inline-flex;
+}
+.bcn-inbox-ob__filed {
+  padding: 1px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-utility-success-subtle, #eef5f4);
+  color: var(--color-content-utility-success, #2e7571);
+  font-size: 0.75rem;
+  font-weight: var(--typography-font-weight-medium);
+}
+.bcn-inbox-ob[data-filed="1"] {
+  border-color: var(--color-border-default);
+  background: 0 0;
+}
+.bcn-inbox-ob[data-filed="1"] .bcn-inbox-ob__cond {
+  font-weight: var(--typography-font-weight-regular);
+  color: var(--color-content-default-secondary);
+}
+.bcn-inbox-ob[data-filed="1"] .bcn-inbox-ob__clock {
+  background: var(--color-background-elevation-sunken);
+  border-color: var(--color-border-default);
+  color: var(--bcn-content-muted);
 }
 .bcn-inbox-ob__link {
   color: var(--color-content-link);
@@ -5636,7 +6261,7 @@ summary.esa-button--variant-chrome:focus-visible {
   min-block-size: 0;
   overflow: hidden;
 }
-.bcn-inbox-workspace__empty {
+.bcn-inbox-workspace__empty:not([hidden]) {
   block-size: 100%;
   padding: var(--spacing-500);
   place-items: center;
@@ -5663,12 +6288,26 @@ summary.esa-button--variant-chrome:focus-visible {
   line-height: var(--typography-label-md-strong-line-height);
   letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
   font-weight: var(--typography-microcopy-md-font-weight);
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
 .typography-microcopy-md-subtle {
   font-family: var(--typography-microcopy-md-subtle-font-family);
@@ -5925,6 +6564,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
 - `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
+- `--color-background-utility-success-subtle`: #fbfefc _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
@@ -5981,7 +6621,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-body-sm-font-weight`: 350 _(semantic)_
 - `--typography-body-sm-letter-spacing`: .01em _(semantic)_
 - `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-regular`: 350 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
@@ -6008,8 +6650,18 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
 - `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

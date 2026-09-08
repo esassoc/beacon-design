@@ -10,6 +10,9 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
 - Bucket headings are sticky so the date context survives scrolling, and a bucket hides with its last row rather than leaving a heading floating over nothing.
 
 ## Gotchas
+- THE OPEN / SEEN PIVOT AND THE RESTORE VERB. Seen is where a trigger goes when it is marked as seen, so nothing ever leaves without somewhere to find it again. "Move back to open" is the one verb allowed on a row, and only in the Seen view: undoing a filing decides nothing, and forcing someone to open a thread to undo a mis-click punishes the mistake.
+- BOTH EMPTY STATES ARE VIEW-AWARE and both are server-rendered. An empty Open list means the work is done; an empty Seen list means nothing has been filed yet. Sharing one message told people "every trigger has been seen" while the inbox was still full.
+- KEYBOARD: ArrowUp/ArrowDown (and j/k) move between rows, e marks the open thread seen, and the shortcuts are printed in the queue head because an inbox nobody knows is keyboard-navigable is one nobody navigates with the keyboard. Two traps here — the event target is NOT always an Element (a keypress with nothing focused targets the document, and calling closest() on it throws, which silently kills every shortcut), and excluding the view toggle from the handler killed navigation permanently after any pivot click, because focus stays inside that control. Only TEXT ENTRY is excluded.
 - Three kinds of trigger — observation, season, milestone — and only observations have a reporter and a place. The row falls back to the kind label when there is no location, rather than rendering an empty line.
 - The counts are per trigger, not per obligation: "5 notices owed · 30 obligations raised" on the owl means five of its thirty children have a clock. Summing the badges across rows double-counts, because one obligation can be raised by more than one trigger.
 
@@ -22,7 +25,17 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
 ```html
 <div class="bcn-inbox-queue">
   <div class="bcn-inbox-queue__head">
-    <p class="bcn-inbox-queue__lede">8 triggers · 180 of 402 obligations in play</p>
+    <esa-button-toggle data-inbox-view="true" value="open" size="sm"></esa-button-toggle>
+    <p class="bcn-inbox-queue__lede">
+      <span data-inbox-count="triggers">8</span> open ·<span
+        data-inbox-count="obligations"
+        >180</span
+      >
+      of 402 obligations in play
+    </p>
+    <p class="bcn-inbox-queue__keys">
+      <kbd>↑</kbd><kbd>↓</kbd> move · <kbd>e</kbd> mark seen
+    </p>
   </div>
   <div class="bcn-inbox-queue__scroll">
     <section class="bcn-inbox-queue__group">
@@ -32,6 +45,9 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
           class="bcn-inbox-row"
           data-inbox-row="obs-owl"
           data-urgency="now"
+          data-seen="0"
+          data-owed="5"
+          data-raised="30"
           aria-current="true"
         >
           <button
@@ -66,11 +82,32 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
               ><span
                 class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                 ><span class="esa-badge__text">5 notices owed</span></span
-              ><span class="bcn-inbox-row__raised">30 obligations raised</span></span
-            >
-          </button>
+              ><span class="bcn-inbox-row__raised">30 obligations raised</span
+              ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                >Seen</span
+              ></span
+            ></button
+          ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-inbox-restore="obs-owl"
+              >
+                <span class="esa-button__label">Move back to open</span>
+              </button></span
+            ></span
+          >
         </li>
-        <li class="bcn-inbox-row" data-inbox-row="obs-hawk" data-urgency="now">
+        <li
+          class="bcn-inbox-row"
+          data-inbox-row="obs-hawk"
+          data-urgency="now"
+          data-seen="0"
+          data-owed="6"
+          data-raised="51"
+        >
           <button
             type="button"
             class="bcn-inbox-row__body"
@@ -103,11 +140,32 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
               ><span
                 class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                 ><span class="esa-badge__text">6 notices owed</span></span
-              ><span class="bcn-inbox-row__raised">51 obligations raised</span></span
-            >
-          </button>
+              ><span class="bcn-inbox-row__raised">51 obligations raised</span
+              ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                >Seen</span
+              ></span
+            ></button
+          ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-inbox-restore="obs-hawk"
+              >
+                <span class="esa-button__label">Move back to open</span>
+              </button></span
+            ></span
+          >
         </li>
-        <li class="bcn-inbox-row" data-inbox-row="obs-barge" data-urgency="now">
+        <li
+          class="bcn-inbox-row"
+          data-inbox-row="obs-barge"
+          data-urgency="now"
+          data-seen="0"
+          data-owed="2"
+          data-raised="16"
+        >
           <button
             type="button"
             class="bcn-inbox-row__body"
@@ -140,16 +198,37 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
               ><span
                 class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                 ><span class="esa-badge__text">2 notices owed</span></span
-              ><span class="bcn-inbox-row__raised">16 obligations raised</span></span
-            >
-          </button>
+              ><span class="bcn-inbox-row__raised">16 obligations raised</span
+              ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                >Seen</span
+              ></span
+            ></button
+          ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-inbox-restore="obs-barge"
+              >
+                <span class="esa-button__label">Move back to open</span>
+              </button></span
+            ></span
+          >
         </li>
       </ul>
     </section>
     <section class="bcn-inbox-queue__group">
       <h3 class="bcn-inbox-queue__bucket">Yesterday</h3>
       <ul class="bcn-inbox-queue__list">
-        <li class="bcn-inbox-row" data-inbox-row="mil-pile" data-urgency="soon">
+        <li
+          class="bcn-inbox-row"
+          data-inbox-row="mil-pile"
+          data-urgency="soon"
+          data-seen="0"
+          data-owed="2"
+          data-raised="16"
+        >
           <button
             type="button"
             class="bcn-inbox-row__body"
@@ -181,16 +260,37 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
               ><span
                 class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                 ><span class="esa-badge__text">2 notices owed</span></span
-              ><span class="bcn-inbox-row__raised">16 obligations raised</span></span
-            >
-          </button>
+              ><span class="bcn-inbox-row__raised">16 obligations raised</span
+              ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                >Seen</span
+              ></span
+            ></button
+          ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-inbox-restore="mil-pile"
+              >
+                <span class="esa-button__label">Move back to open</span>
+              </button></span
+            ></span
+          >
         </li>
       </ul>
     </section>
     <section class="bcn-inbox-queue__group">
       <h3 class="bcn-inbox-queue__bucket">Earlier this week</h3>
       <ul class="bcn-inbox-queue__list">
-        <li class="bcn-inbox-row" data-inbox-row="obs-turbid" data-urgency="soon">
+        <li
+          class="bcn-inbox-row"
+          data-inbox-row="obs-turbid"
+          data-urgency="soon"
+          data-seen="0"
+          data-owed="1"
+          data-raised="20"
+        >
           <button
             type="button"
             class="bcn-inbox-row__body"
@@ -223,16 +323,37 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
               ><span
                 class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                 ><span class="esa-badge__text">1 notice owed</span></span
-              ><span class="bcn-inbox-row__raised">20 obligations raised</span></span
-            >
-          </button>
+              ><span class="bcn-inbox-row__raised">20 obligations raised</span
+              ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                >Seen</span
+              ></span
+            ></button
+          ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-inbox-restore="obs-turbid"
+              >
+                <span class="esa-button__label">Move back to open</span>
+              </button></span
+            ></span
+          >
         </li>
       </ul>
     </section>
     <section class="bcn-inbox-queue__group">
       <h3 class="bcn-inbox-queue__bucket">Older</h3>
       <ul class="bcn-inbox-queue__list">
-        <li class="bcn-inbox-row" data-inbox-row="sea-nesting" data-urgency="aware">
+        <li
+          class="bcn-inbox-row"
+          data-inbox-row="sea-nesting"
+          data-urgency="aware"
+          data-seen="0"
+          data-owed="3"
+          data-raised="40"
+        >
           <button
             type="button"
             class="bcn-inbox-row__body"
@@ -264,11 +385,32 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
               ><span
                 class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                 ><span class="esa-badge__text">3 notices owed</span></span
-              ><span class="bcn-inbox-row__raised">40 obligations raised</span></span
-            >
-          </button>
+              ><span class="bcn-inbox-row__raised">40 obligations raised</span
+              ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                >Seen</span
+              ></span
+            ></button
+          ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-inbox-restore="sea-nesting"
+              >
+                <span class="esa-button__label">Move back to open</span>
+              </button></span
+            ></span
+          >
         </li>
-        <li class="bcn-inbox-row" data-inbox-row="mil-dewater" data-urgency="aware">
+        <li
+          class="bcn-inbox-row"
+          data-inbox-row="mil-dewater"
+          data-urgency="aware"
+          data-seen="0"
+          data-owed="2"
+          data-raised="19"
+        >
           <button
             type="button"
             class="bcn-inbox-row__body"
@@ -301,11 +443,32 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
               ><span
                 class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                 ><span class="esa-badge__text">2 notices owed</span></span
-              ><span class="bcn-inbox-row__raised">19 obligations raised</span></span
-            >
-          </button>
+              ><span class="bcn-inbox-row__raised">19 obligations raised</span
+              ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                >Seen</span
+              ></span
+            ></button
+          ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-inbox-restore="mil-dewater"
+              >
+                <span class="esa-button__label">Move back to open</span>
+              </button></span
+            ></span
+          >
         </li>
-        <li class="bcn-inbox-row" data-inbox-row="sea-inwater" data-urgency="aware">
+        <li
+          class="bcn-inbox-row"
+          data-inbox-row="sea-inwater"
+          data-urgency="aware"
+          data-seen="0"
+          data-owed="2"
+          data-raised="57"
+        >
           <button
             type="button"
             class="bcn-inbox-row__body"
@@ -338,9 +501,23 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
               ><span
                 class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
                 ><span class="esa-badge__text">2 notices owed</span></span
-              ><span class="bcn-inbox-row__raised">57 obligations raised</span></span
-            >
-          </button>
+              ><span class="bcn-inbox-row__raised">57 obligations raised</span
+              ><span class="bcn-inbox-row__seen" data-inbox-seenmark="" hidden=""
+                >Seen</span
+              ></span
+            ></button
+          ><span class="bcn-inbox-row__restore" data-inbox-restorewrap="" hidden=""
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button
+                class="esa-button__native typography-microcopy-xs"
+                type="button"
+                data-inbox-restore="sea-inwater"
+              >
+                <span class="esa-button__label">Move back to open</span>
+              </button></span
+            ></span
+          >
         </li>
       </ul>
     </section>
@@ -350,6 +527,20 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
 
 ## Styles
 ```css
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
   font-size: var(--typography-microcopy-xs-strong-font-size);
@@ -463,6 +654,206 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--xs {
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
+}
+.esa-button--lg {
+  --_btn-pad-y: var(--spacing-400, 1rem);
+  --_btn-padding-x: var(--spacing-400, 1rem);
+  --_btn-radius: var(--button-radius-lg, 8px);
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--variant-secondary {
+  --_accent: var(--color-background-brand-muted);
+  --_accent-hover: var(--color-background-brand-muted-hover);
+  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
+  --_accent-text: var(--color-content-brand);
+  --_accent-border: var(--color-border-default-strong, #bbb);
+}
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
+}
+.esa-button--variant-success {
+  --_accent: var(--color-background-utility-success);
+  --_accent-hover: var(--color-background-utility-success-hover);
+  --_on: var(--color-content-on-utility-success);
+  --_accent-text: var(--color-content-utility-success);
+}
+.esa-button--variant-warning {
+  --_accent: var(--color-background-utility-warning);
+  --_accent-hover: var(--color-background-utility-warning-hover);
+  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
+  --_accent-text: var(--color-content-utility-warning);
+}
+.esa-button--variant-info {
+  --_accent: var(--color-background-utility-info);
+  --_accent-hover: var(--color-background-utility-info-hover);
+  --_accent-text: var(--color-content-utility-info);
+}
+.esa-button--variant-ai {
+  --_accent: var(--color-background-ai);
+  --_accent-hover: var(--color-background-ai-hover);
+  --_accent-text: var(--color-content-ai);
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-fill.esa-button--active .esa-button__native {
+  background: var(--_accent-hover);
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--appearance-dashed .esa-button__native {
+  border-style: dashed;
+}
+.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {
+  background: var(--_btn-tint-hover);
+}
+.esa-button--appearance-outline.esa-button--active .esa-button__native,
+.esa-button--appearance-dashed.esa-button--active .esa-button__native {
+  background: var(--_btn-tint-active);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-default-strong, #bbb);
+}
+.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-soft.esa-button--active .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent);
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),
+.esa-button--variant-ghost.esa-button--active .esa-button__native {
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
+.esa-button--variant-chrome.esa-button--active .esa-button__native,
+.esa-button--variant-chrome.esa-button--current .esa-button__native {
+  background: var(
+    --button-chrome-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+}
+.esa-button--variant-chrome .esa-button__native:focus-visible {
+  outline-color: currentColor;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button__native:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+summary.esa-button {
+  cursor: pointer;
+  list-style: none;
+}
+summary.esa-button::-webkit-details-marker {
+  display: none;
+}
+summary.esa-button:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: var(--_btn-radius);
+}
+summary.esa-button--variant-chrome:focus-visible {
+  outline-color: currentColor;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button__label--hidden {
+  clip-path: inset(50%);
+  white-space: nowrap;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  overflow: hidden;
+}
+.esa-button__spinner {
+  width: 1em;
+  height: 1em;
+  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
+  border: 2px solid;
+  border-right-color: #0000;
+  border-radius: 50%;
+  display: inline-block;
+}
 .bcn-inbox-queue {
   flex-direction: column;
   block-size: 100%;
@@ -470,14 +861,34 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
   display: flex;
 }
 .bcn-inbox-queue__head {
-  padding: var(--spacing-200) var(--spacing-300);
+  gap: var(--spacing-200);
+  padding: var(--spacing-250) var(--spacing-300);
   border-block-end: 1px solid var(--color-border-default);
+  flex-direction: column;
+  align-items: flex-start;
+  display: flex;
 }
 .bcn-inbox-queue__lede {
   color: var(--bcn-content-muted);
   font-variant-numeric: tabular-nums;
   margin: 0;
   font-size: 0.8125rem;
+}
+.bcn-inbox-queue__keys {
+  align-items: center;
+  gap: var(--spacing-100);
+  color: var(--bcn-content-muted);
+  margin: 0;
+  font-size: 0.75rem;
+  display: flex;
+}
+.bcn-inbox-queue__keys kbd {
+  font-family: var(--typography-font-family-mono);
+  padding: 0 var(--spacing-100);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-sunken);
+  font-size: 0.6875rem;
 }
 .bcn-inbox-queue__scroll {
   flex: 1;
@@ -571,6 +982,36 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
   color: var(--bcn-content-muted);
   font-variant-numeric: tabular-nums;
   font-size: 0.75rem;
+}
+.bcn-inbox-row__seen {
+  padding: 1px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-sunken);
+  color: var(--bcn-content-muted);
+  font-size: 0.75rem;
+}
+.bcn-inbox-row[data-seen="1"] .bcn-inbox-row__what {
+  font-weight: var(--typography-font-weight-regular);
+  color: var(--color-content-default-secondary);
+}
+.bcn-inbox-row__restore:not([hidden]) {
+  padding: 0 var(--spacing-300) var(--spacing-250)
+    calc(var(--spacing-300) + var(--spacing-200) + 16px);
+  display: block;
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
 .typography-microcopy-xs-strong {
   font-family: var(--typography-microcopy-xs-strong-font-family);
@@ -707,6 +1148,7 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
 ```
 
 ## Tokens
+- `--animation-spin`: .75s linear infinite _(semantic)_
 - `--badge-bg`: #43608a _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-content-muted`: #7c7c7c _(component)_
@@ -719,7 +1161,17 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--border-width-default`: 1px _(semantic)_
+- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--button-on-warning`: #fff _(component)_
+- `--button-radius-lg`: .25rem _(component)_
+- `--button-radius-md`: .25rem _(component)_
+- `--button-radius-sm`: .25rem _(component)_
+- `--button-radius-xs`: .25rem _(component)_
+- `--color-background-ai`: #699cc6 _(semantic)_
+- `--color-background-ai-hover`: #4c75a9 _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -729,30 +1181,40 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
 - `--color-background-utility-info-hover`: #113264 _(semantic)_
 - `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
 - `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
+- `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
 - `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
+- `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-subtle`: #efefef _(component)_
 - `--color-border-utility-danger`: #fdbdbe _(semantic)_
 - `--color-border-utility-info`: #acd8fc _(semantic)_
 - `--color-border-utility-success`: #adddc0 _(semantic)_
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
+- `--color-content-ai`: #7d5e54 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
+- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
+- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
 - `--color-content-utility-danger`: #ce2c31 _(semantic)_
 - `--color-content-utility-info`: #0d74ce _(semantic)_
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--focus-ring-color`: #3e9b4f _(component)_
+- `--focus-ring-offset`: 2px _(component)_
+- `--focus-ring-width`: 2px _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
+- `--radius-100`: .25rem _(primitive)_
 - `--radius-chip`: .25rem _(semantic)_
 - `--radius-full`: 9999px _(primitive)_
 - `--radius-pill`: 9999px _(semantic)_
@@ -762,10 +1224,24 @@ The left pane: every trigger that has fired, grouped into relative date buckets 
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
+- `--spacing-400`: 1rem _(primitive)_
+- `--transition-fast`: .15s ease _(semantic)_
+- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-regular`: 350 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
 - `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

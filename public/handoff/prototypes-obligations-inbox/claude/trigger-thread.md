@@ -68,9 +68,11 @@ The right pane: one trigger and every obligation it raised, split into "Needs a 
   <div class="bcn-inbox-thread__scroll">
     <section class="bcn-inbox-thread__group">
       <h3 class="bcn-inbox-thread__grouphead">
-        Needs a notice now<span
-          class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
-          ><span class="esa-badge__text">5</span></span
+        Needs a notice now<span data-inbox-owedbadge="obs-owl"
+          ><span
+            class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+            ><span class="esa-badge__text">5</span></span
+          ></span
         >
       </h3>
       <ul class="bcn-inbox-obs">
@@ -93,6 +95,21 @@ The right pane: one trigger and every obligation it raised, split into "Needs a 
               class="bcn-inbox-ob__link"
               href="/beacon-design/prototypes/data-catalog-obligation/4-026"
               >Open the obligation</a
+            ><span class="bcn-inbox-ob__verb"
+              ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-inbox-file="4-026"
+                  >
+                    <span class="esa-button__label">Mark filed</span>
+                  </button></span
+                ></span
+              ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                >Filed</span
+              ></span
             ><span class="bcn-inbox-ob__id">4-026</span>
           </p>
         </li>
@@ -132,6 +149,21 @@ The right pane: one trigger and every obligation it raised, split into "Needs a 
               class="bcn-inbox-ob__link"
               href="/beacon-design/prototypes/data-catalog-obligation/4-012"
               >Open the obligation</a
+            ><span class="bcn-inbox-ob__verb"
+              ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-inbox-file="4-012"
+                  >
+                    <span class="esa-button__label">Mark filed</span>
+                  </button></span
+                ></span
+              ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                >Filed</span
+              ></span
             ><span class="bcn-inbox-ob__id">4-012</span>
           </p>
         </li>
@@ -154,6 +186,21 @@ The right pane: one trigger and every obligation it raised, split into "Needs a 
               class="bcn-inbox-ob__link"
               href="/beacon-design/prototypes/data-catalog-obligation/4-021"
               >Open the obligation</a
+            ><span class="bcn-inbox-ob__verb"
+              ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-inbox-file="4-021"
+                  >
+                    <span class="esa-button__label">Mark filed</span>
+                  </button></span
+                ></span
+              ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                >Filed</span
+              ></span
             ><span class="bcn-inbox-ob__id">4-021</span>
           </p>
         </li>
@@ -185,6 +232,21 @@ The right pane: one trigger and every obligation it raised, split into "Needs a 
               class="bcn-inbox-ob__link"
               href="/beacon-design/prototypes/data-catalog-obligation/4-027"
               >Open the obligation</a
+            ><span class="bcn-inbox-ob__verb"
+              ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-inbox-file="4-027"
+                  >
+                    <span class="esa-button__label">Mark filed</span>
+                  </button></span
+                ></span
+              ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                >Filed</span
+              ></span
             ><span class="bcn-inbox-ob__id">4-027</span>
           </p>
         </li>
@@ -221,6 +283,21 @@ The right pane: one trigger and every obligation it raised, split into "Needs a 
               class="bcn-inbox-ob__link"
               href="/beacon-design/prototypes/data-catalog-obligation/4-003"
               >Open the obligation</a
+            ><span class="bcn-inbox-ob__verb"
+              ><span class="bcn-inbox-ob__filewrap" data-inbox-filewrap=""
+                ><span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-inbox-file="4-003"
+                  >
+                    <span class="esa-button__label">Mark filed</span>
+                  </button></span
+                ></span
+              ><span class="bcn-inbox-ob__filed" data-inbox-filedmark="" hidden=""
+                >Filed</span
+              ></span
             ><span class="bcn-inbox-ob__id">4-003</span>
           </p>
         </li>
@@ -594,12 +671,26 @@ The right pane: one trigger and every obligation it raised, split into "Needs a 
 
 ## Styles
 ```css
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
   font-weight: var(--typography-microcopy-md-font-weight);
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
 .typography-microcopy-md-subtle {
   font-family: var(--typography-microcopy-md-subtle-font-family);
@@ -1066,10 +1157,40 @@ summary.esa-button--variant-chrome:focus-visible {
 }
 .bcn-inbox-ob__acts {
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: var(--spacing-300);
   margin: var(--spacing-200) 0 0;
   display: flex;
+}
+.bcn-inbox-ob__verb {
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-inline-start: auto;
+  display: flex;
+}
+.bcn-inbox-ob__filewrap:not([hidden]) {
+  display: inline-flex;
+}
+.bcn-inbox-ob__filed {
+  padding: 1px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-utility-success-subtle, #eef5f4);
+  color: var(--color-content-utility-success, #2e7571);
+  font-size: 0.75rem;
+  font-weight: var(--typography-font-weight-medium);
+}
+.bcn-inbox-ob[data-filed="1"] {
+  border-color: var(--color-border-default);
+  background: 0 0;
+}
+.bcn-inbox-ob[data-filed="1"] .bcn-inbox-ob__cond {
+  font-weight: var(--typography-font-weight-regular);
+  color: var(--color-content-default-secondary);
+}
+.bcn-inbox-ob[data-filed="1"] .bcn-inbox-ob__clock {
+  background: var(--color-background-elevation-sunken);
+  border-color: var(--color-border-default);
+  color: var(--bcn-content-muted);
 }
 .bcn-inbox-ob__link {
   color: var(--color-content-link);
@@ -1091,12 +1212,26 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--bcn-content-muted);
   font-size: 0.8125rem;
 }
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
   font-weight: var(--typography-microcopy-md-font-weight);
   line-height: var(--typography-microcopy-md-line-height);
   letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
 .typography-microcopy-md-subtle {
   font-family: var(--typography-microcopy-md-subtle-font-family);
@@ -1284,6 +1419,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-background-utility-success`: #2e7571 _(semantic)_
 - `--color-background-utility-success-hover`: #193b2d _(semantic)_
 - `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
+- `--color-background-utility-success-subtle`: #fbfefc _(semantic)_
 - `--color-background-utility-warning`: #f59e0b _(semantic)_
 - `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
 - `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
@@ -1328,6 +1464,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-regular`: 350 _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
 - `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
@@ -1344,8 +1481,18 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
 - `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
 - `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
 - `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
 - `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
 - `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_

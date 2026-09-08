@@ -39,6 +39,9 @@ export default {
         'Bucket headings are sticky so the date context survives scrolling, and a bucket hides with its last row rather than leaving a heading floating over nothing.',
       ],
       gotchas: [
+        'THE OPEN / SEEN PIVOT AND THE RESTORE VERB. Seen is where a trigger goes when it is marked as seen, so nothing ever leaves without somewhere to find it again. "Move back to open" is the one verb allowed on a row, and only in the Seen view: undoing a filing decides nothing, and forcing someone to open a thread to undo a mis-click punishes the mistake.',
+        'BOTH EMPTY STATES ARE VIEW-AWARE and both are server-rendered. An empty Open list means the work is done; an empty Seen list means nothing has been filed yet. Sharing one message told people "every trigger has been seen" while the inbox was still full.',
+        'KEYBOARD: ArrowUp/ArrowDown (and j/k) move between rows, e marks the open thread seen, and the shortcuts are printed in the queue head because an inbox nobody knows is keyboard-navigable is one nobody navigates with the keyboard. Two traps here — the event target is NOT always an Element (a keypress with nothing focused targets the document, and calling closest() on it throws, which silently kills every shortcut), and excluding the view toggle from the handler killed navigation permanently after any pivot click, because focus stays inside that control. Only TEXT ENTRY is excluded.',
         'Three kinds of trigger — observation, season, milestone — and only observations have a reporter and a place. The row falls back to the kind label when there is no location, rather than rendering an empty line.',
         'The counts are per trigger, not per obligation: "5 notices owed · 30 obligations raised" on the owl means five of its thirty children have a clock. Summing the badges across rows double-counts, because one obligation can be raised by more than one trigger.',
       ],

@@ -36,13 +36,22 @@ const { obligationBase } = Astro.props;
   <div class="bcn-inbox-workspace__panes sidebar" data-gap="md">
     <div class="bcn-inbox-workspace__queue">
       <BcnInboxQueue />
-      {/* Always rendered, hidden until the last trigger is dismissed — the controller only
-          reveals, it never builds. */}
-      <div class="bcn-inbox-workspace__empty" data-inbox-empty="queue" hidden>
+      {/* Both variants are rendered and hidden. The controller only reveals, it never
+          builds — and the two views need DIFFERENT words: an empty Open list means the work
+          is done, an empty Seen list means nothing has been filed yet. One message doing
+          both jobs told people "every trigger has been seen" on a full inbox. */}
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="queue-open" hidden>
         <EsaEmptyState
           icon="inbox"
           title="Inbox clear"
           description="Every trigger has been seen. New ones arrive as the field reports them."
+        />
+      </div>
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="queue-seen" hidden>
+        <EsaEmptyState
+          icon="archive"
+          title="Nothing filed yet"
+          description="Triggers you mark as seen collect here, and can be moved back to Open."
         />
       </div>
     </div>
@@ -52,11 +61,18 @@ const { obligationBase } = Astro.props;
           <BcnInboxThread trigger={t} active={i === 0} obligationBase={obligationBase} />
         ))
       }
-      <div class="bcn-inbox-workspace__empty" data-inbox-empty="thread" hidden>
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="thread-open" hidden>
         <EsaEmptyState
           icon="check"
-          title="Nothing selected"
+          title="Nothing left to read"
           description="The obligations these triggers raised are all still in force — the registry has them."
+        />
+      </div>
+      <div class="bcn-inbox-workspace__empty" data-inbox-empty="thread-seen" hidden>
+        <EsaEmptyState
+          icon="archive"
+          title="No filed triggers"
+          description="Mark a trigger as seen and it appears here with everything it raised."
         />
       </div>
     </div>
@@ -92,8 +108,10 @@ const { obligationBase } = Astro.props;
     overflow: hidden;
   }
 
-  /* The cleared state fills the pane it replaces rather than sitting at the top of it. */
-  .bcn-inbox-workspace__empty {
+  /* The cleared state fills the pane it replaces rather than sitting at the top of it.
+     :not([hidden]) is load-bearing — see the note in bcn-inbox-queue: an author `display`
+     beats the UA `[hidden]` rule, so without it these panes never hide. */
+  .bcn-inbox-workspace__empty:not([hidden]) {
     display: grid;
     place-items: center;
     block-size: 100%;
