@@ -96,6 +96,33 @@ export const prototypeGroups: PrototypeGroup[] = [
       'The second tracking record type. Actions are countable work that closes; obligations are standing duties in effect while their conditions apply — speed limits, buffers, work windows, daily inspections, take notices, training records. Built on the real 402-obligation registry, on three category axes, with no compliance-status model.',
     pages: [
       {
+        slug: 'setup-obligations',
+        title: 'Project setup — Obligations (step 5)',
+        description:
+          'Where the 402 standing duties get scoped to a project. The registry lives inside setup rather than on a page of its own, organised as the hierarchical view the flat catalog deliberately is not: 17 subject areas over 69 headings. The reviewer is deciding APPLICABILITY, not correctness, so everything starts included and the job is confirming an area or marking what does not apply. Subject is the spine because activity cannot be — construction activities in Beacon are per-project and hand-authored, and they group the registry without narrowing it (excluding all in-water work drops 34 of 402). The registry renders as a nested tree (17 areas > 69 headings > 402 duties, each opening in place to its record) from ONE configurable component: `review` here, `browse` read-only for the full-registry page expected later. Selection is a selection, not a decision — select all/none/several, then Approve or Not applicable, matching prod’s approve-all. 188 duties are filed under more than one area, so a decision is held on the duty and syncs everywhere it appears.',
+        route: '/prototypes/setup-obligations',
+        createdAt: '2026-09-08',
+        status: 'in-progress',
+      },
+      {
+        slug: 'obligations-registry',
+        title: 'Obligations Registry (read-only)',
+        description:
+          'The hierarchical registry outside setup — 17 subject areas over 69 headings over 402 duties, each opening in place to its record. Same component as setup step 5 with mode="browse": no selectors, no verbs, nothing to decide. It exists to prove the tree is one configurable component rather than two surfaces that drift. Distinct from the data catalog’s obligations list, which is deliberately flat.',
+        route: '/prototypes/obligations-registry',
+        createdAt: '2026-09-08',
+        status: 'in-progress',
+      },
+      {
+        slug: 'setup-obligations-panes',
+        title: 'Project setup — Obligations (two-pane alternative)',
+        description:
+          'The same step 5 argument in prod’s other setup geometry: setup-wizard-sidebar picking one subject area, a main pane reviewing its duties. Kept beside the tree as an alternative look — the tree shows the whole registry’s shape at once, this shows one area at a time with more room for it.',
+        route: '/prototypes/setup-obligations-panes',
+        createdAt: '2026-09-08',
+        status: 'in-progress',
+      },
+      {
         slug: 'obligations-inbox',
         title: 'Obligations Inbox',
         description:

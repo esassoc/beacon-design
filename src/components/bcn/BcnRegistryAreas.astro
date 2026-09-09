@@ -1,0 +1,176 @@
+---
+// <BcnRegistryAreas> — the left pane of setup step 5: the 17 subject areas of the
+// registry, as the list you work down.
+//
+// IT IS A PORT OF PROD'S SETUP-WIZARD SIDEBAR, not a new idea. Every step of Beacon's
+// project setup has the same shape — `setup-wizard-sidebar` on the left picking the
+// record you are working through, the step's work in the main pane — and this is that
+// component's contract: a count line over a list of items, each carrying its name, its
+// size, and its state. Source Documents picks a document, Commitments picks a
+// commitment, Requirements picks a commitment; Obligations picks a subject area.
+//
+// THE ROW IS THE SPOKE'S ESTABLISHED QUEUE ROW. Same anatomy as bcn-inbox-queue and
+// bcn-triage-queue: a classed <button> filling the row, a lead line, a meta line, and a
+// foot line for state. That is deliberate — this pane does the same job those two do,
+// and a third invented row shape would read as a different product.
+//
+// THE ROW REPORTS AND SELECTS; IT DOES NOT CONFIRM. Confirming an area happens in the
+// main pane, after its duties are on screen. A one-click confirm off a list is the
+// fastest possible way to approve 74 duties without reading any of them, which is the
+// one thing this step exists to prevent. The rule is inherited from the evidence inbox,
+// not re-litigated here.
+//
+// bcn-lego-checked: esa-badge is the confirmed marker and the count, esa-icon the
+// glyph. The classed <button> row is the same call bcn-inbox-queue documented and made:
+// the whole row is the target, and esa-button would impose its own chrome, label and
+// padding on a three-line record. esa-sidebar-nav is site NAVIGATION (routes, not
+// records) and esa-link-column is a card of bare links, so neither fits. Checked
+// Beacon — this IS prod's setup-wizard-sidebar list, ported.
+// bcn-registry-areas is the reusable home.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { REGISTRY_TREE, REGISTRY_TOTALS } from '../../data/obligation-registry';
+
+interface Props {
+  id?: string;
+}
+const { id = 'bcn-registry-areas' } = Astro.props;
+---
+
+<div class="bcn-registry-areas" id={id}>
+  <div class="bcn-registry-areas__head">
+    {/* The step's own count line, exactly as prod's sidebar carries it. */}
+    <p class="bcn-registry-areas__lede typography-body-sm">
+      <span data-areas-count>0</span>{` of ${REGISTRY_TOTALS.branches} subject areas confirmed · ${REGISTRY_TOTALS.duties} duties`}
+    </p>
+  </div>
+
+  <div class="bcn-registry-areas__scroll">
+    <ul class="bcn-registry-areas__list">
+      {
+        REGISTRY_TREE.map((major, i) => (
+          <li class="bcn-registry-area" data-area-row={major.key}>
+            <button
+              type="button"
+              class="bcn-registry-area__body"
+              data-area-open={major.key}
+              aria-label={`Review ${major.name}`}
+              aria-current={i === 0 ? 'true' : undefined}
+            >
+              <span class="bcn-registry-area__line">
+                <span class="bcn-registry-area__name">{major.name}</span>
+                <span class="bcn-registry-area__n" data-area-row-count>
+                  {major.count}
+                </span>
+              </span>
+              <span class="bcn-registry-area__meta">
+                {`${major.minors.length} ${major.minors.length === 1 ? 'heading' : 'headings'}`}
+              </span>
+              <span class="bcn-registry-area__foot">
+                {/* Rendered always, revealed by the controller — it never builds markup. */}
+                <span class="bcn-registry-area__state" data-area-row-state hidden>
+                  <EsaBadge value="Confirmed" variant="success" size="sm" />
+                </span>
+                <span class="bcn-registry-area__excluded" data-area-row-excluded hidden />
+              </span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  /* bcn-lego-checked: the pane's scroll region and the row's three-line shape — the same
+     geometry bcn-inbox-queue owns for the same reason. Every control is a lego
+     (esa-badge). Semantic tokens only. */
+
+  .bcn-registry-areas {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+    block-size: 100%;
+  }
+
+  .bcn-registry-areas__head {
+    padding: var(--spacing-250) var(--spacing-300);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+  .bcn-registry-areas__lede {
+    margin: 0;
+    color: var(--bcn-content-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-registry-areas__scroll {
+    flex: 1;
+    min-block-size: 0;
+    overflow-y: auto;
+  }
+
+  .bcn-registry-areas__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bcn-registry-area + .bcn-registry-area {
+    border-block-start: 1px solid var(--color-border-subtle, var(--color-border-default));
+  }
+
+  .bcn-registry-area__body {
+    inline-size: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    padding: var(--spacing-200) var(--spacing-300);
+    background: none;
+    border: 0;
+    text-align: start;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+  }
+  .bcn-registry-area__body:hover {
+    background: var(--color-background-elevation-sunken, var(--color-background-default));
+  }
+  /* Selection is a filled row, never a coloured left border — that is a banned status
+     device house-wide, and here it would also compete with the confirmed marker. */
+  .bcn-registry-area__body[aria-current='true'] {
+    background: var(--color-background-elevation-sunken, var(--color-background-default));
+  }
+
+  .bcn-registry-area__line {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+  }
+  .bcn-registry-area__name {
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-registry-area__n {
+    margin-inline-start: auto;
+    color: var(--bcn-content-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-registry-area__meta,
+  .bcn-registry-area__excluded {
+    color: var(--bcn-content-muted);
+    font-size: var(--typography-body-sm-font-size);
+  }
+
+  .bcn-registry-area__foot {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  /* An author display rule beats the UA `[hidden]` rule, so the :not() guard is
+     load-bearing on anything this controller toggles. */
+  .bcn-registry-area__state:not([hidden]),
+  .bcn-registry-area__excluded:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+  }
+</style>

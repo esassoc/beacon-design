@@ -1,0 +1,118 @@
+---
+// <BcnRegistryProgress> — the lead band of setup step 5: how much of the registry has
+// been decided, and the two numbers that would otherwise look like a bug.
+//
+// WHAT IT COUNTS AND WHY. It mirrors prod's own setup-step header, which reads
+// "{total} commitments · {confirmed} confirmed · {pending} pending review". Same three
+// figures here, because the unit of work is the DUTY: a duty is pending until somebody
+// approves it or marks it not applicable, and progress is how much of the registry has
+// been decided either way. An earlier pass counted subject areas confirmed, which stopped
+// meaning anything once approval moved onto the duty.
+//
+// THE TWO NUMBERS THAT DISAGREE ON PURPOSE. The branch counts in the tree below sum to
+// 613 while the registry holds 402 duties, because 188 of them are filed under more
+// than one subject. Left unexplained that reads as a broken count, so this band states
+// it in a line rather than leaving someone to discover it. It is the same discipline
+// BcnSetupWorkspace applies to its segment counts: a figure and the list under it may
+// never appear to disagree.
+//
+// EVERY FIGURE IS RE-LABELLED BY THE CONTROLLER, off the rendered branches, so the
+// headline can never drift from the tree. Note the relabel goes through the badge's
+// inner .esa-badge__text — writing to the badge root replaces that span with a bare
+// text node and silently destroys the lego's structure.
+//
+// bcn-lego-checked: esa-stat is each figure, esa-progress-bar the confirmed share, and
+// esa-badge the excluded count — the same lead-band composition BcnSetupWorkspace uses
+// for its three figures. Checked Beacon: its equivalent is a dashboard panel of raw
+// <div> counters, not portable. bcn-registry-progress is the reusable home for the
+// band's own three-up geometry, which no esa-* lego provides.
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import { REGISTRY_TOTALS } from '../../data/obligation-registry';
+
+interface Props {
+  id?: string;
+}
+const { id = 'bcn-registry-progress' } = Astro.props;
+const T = REGISTRY_TOTALS;
+---
+
+<section class="bcn-rp" id={id} aria-label="Registry review progress">
+  {/* One instruction, not an explanation of the page. It names the two gestures the
+      surface supports and stops — the registry below states what it is. */}
+  <p class="bcn-rp__instruction typography-body-md">
+    Approve the duties that apply to this project, and mark the ones that do not. Select
+    several to decide them together, or approve a whole subject area at once.
+  </p>
+
+  <div class="bcn-rp__figures">
+    <div class="bcn-rp__figure">
+      <span data-rp-approved><EsaStat value={0} label="Approved" /></span>
+    </div>
+    <div class="bcn-rp__figure">
+      <span data-rp-excluded><EsaStat value={0} label="Not applicable" /></span>
+    </div>
+    <div class="bcn-rp__figure bcn-rp__figure--progress">
+      <span data-rp-decided>
+        <EsaStat value={`0 of ${T.duties}`} label="Decided" />
+      </span>
+      <div class="bcn-rp__bar" data-rp-bar>
+        <EsaProgressBar value={0} size="sm" showValue label="" />
+      </div>
+    </div>
+  </div>
+
+  {/* The multi-filing note. Not editorial commentary about the page — it is the only
+      thing that reconciles 613 branch placements against 402 duties, and without it
+      the tree's own counts look wrong. */}
+  <p class="bcn-rp__reconcile typography-body-sm">
+    {T.multiFiled} duties are filed under more than one subject, so the counts on the areas
+    below add up to {T.placements} rather than {T.duties}. Deciding one decides it everywhere it
+    appears.
+  </p>
+</section>
+
+<style>
+  /* bcn-lego-checked: the band's three-up geometry and the reconciliation line. Every
+     figure is a lego (esa-stat, esa-progress-bar). Semantic tokens only. */
+
+  .bcn-rp {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    background: var(--color-background-elevation-raised);
+  }
+
+  .bcn-rp__figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: var(--spacing-300);
+    align-items: start;
+  }
+
+  .bcn-rp__figure--progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+
+  .bcn-rp__bar {
+    inline-size: 100%;
+    max-inline-size: 18rem;
+  }
+
+  .bcn-rp__instruction {
+    margin: 0;
+  }
+
+  .bcn-rp__reconcile {
+    margin: 0;
+    padding-block-start: var(--spacing-200);
+    border-block-start: 1px solid var(--color-border-subtle, var(--color-border-default));
+    color: var(--bcn-content-muted);
+    font-variant-numeric: tabular-nums;
+  }
+</style>
