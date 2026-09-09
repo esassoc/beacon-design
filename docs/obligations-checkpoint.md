@@ -591,3 +591,12 @@ Headlines:
   already AI-proposes Actions from approved requirements. If obligations follow that path
   they arrive as drafts needing approval, which contradicts step 5's
   "everything starts included" premise.
+
+**Second round, same day** — the entity deliberation continued into the shape/feed
+relationship and is recorded as `# Revision — 2026-09-09 (second round)` in the same file.
+Headline: every obligation field either makes a feed row appear (**mechanics**) or describes
+it (**content**), only four things are mechanics, and the two that matter — the state and
+event halves of the in-effect conditions — are absent from all 402 rows. Kim settled that
+in-effect conditions are an OR list with location deferred, and that a **direct
+obligation-to-season link** is wanted (prod already has `ProjectSeason` and
+`ProjectSeasonProjectConstructionActivity`).
