@@ -559,3 +559,35 @@ it argues the Seen pivot and filing verbs should go, that Trigger is a view over
 existing `Observation` entity rather than something new, and that the surface should carry
 four views (All / Important / To-do / Standing). The registry section should slot into
 whatever shape that produces, so harden the entity before reshaping the page.
+
+## 12. Session addendum — 2026-09-09 (entity deliberation)
+
+The entity thread from §11 was worked at length. **All of it is recorded in the
+`# Revision — 2026-09-09` section of `docs/obligation-entity-definition.md`** — read that,
+not this summary. Nothing was built.
+
+Headlines:
+
+- **Three prod claims verified**, and the observation-to-commitment link turns out to be
+  shipped already (`ObservationCommitment` + explicit Fulcrum links + the BCN-913 species
+  bridge), including the parent/children shape the inbox thought it invented.
+- **The brief is wrong about Action status.** Prod is Draft/Published on the Action and
+  NotStarted/InProgress/Completed on the *instance*. So Actions have no status either — the
+  divergence is that an Action spawns enumerable instances and an Obligation spawns none.
+- **`ActionSchedule` already tried to be an Obligation.** Its Ongoing (2 columns) and
+  AsNeeded (1 prose column) modes are the state-based and event-based obligation, and are
+  exactly where the schema gave up. An Obligation is an Action with the schedule and
+  implementation satellites replaced.
+- **The condition-points-at-an-observation-type idea is retracted** — it was inference, the
+  loop already closes through commitments, and all 402 conditions are distinct so it is not
+  a vocabulary.
+- **Kim settled four things**: no status model; Important is per-user; the feed shows
+  Obligations (linking to an Action if one exists); location and weather are not real yet.
+  The feed is **a timeline, or an inventory for Standing** — which is what replaces status.
+- **Provenance answered**: the 402 are one analyst's hand reading of five permits, embedded
+  in the specimen HTML. Not Beacon data. Only the commitment lineage is real (90% against
+  `dcp-commitments.json`).
+- **The live question**: nothing says how obligations get created in the product, and prod
+  already AI-proposes Actions from approved requirements. If obligations follow that path
+  they arrive as drafts needing approval, which contradicts step 5's
+  "everything starts included" premise.

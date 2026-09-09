@@ -290,3 +290,219 @@ status model.
    survives someone leaving.
 7. **Have the 402 been checked against a real Beacon project?** They came from permits,
    not from the database, and the gap has never been measured.
+
+---
+
+# Revision — 2026-09-09
+
+**This session interrogated the notes above against `origin/develop` and the source docs.
+Most of it holds. Three things are corrected, one is retracted outright, and four questions
+were settled by Kim.** Nothing was built.
+
+## A. Verified against prod
+
+| Claim above | Verdict |
+|---|---|
+| `Observation` is real and carries species, place, time, a concern flag | **Confirmed** — and stronger than claimed, see below |
+| Evidence can attach with nothing to close | **Confirmed** — `RequirementEvidenceOfCompliance` |
+| `ProjectSeason`, milestones, construction activities model the in-effect parts | **Confirmed** — `ProjectSeason` carries StartDay/Month, EndDay/Month, a `Tracked` flag |
+
+**The observation-to-commitment link is further along than §3 says.** `ObservationCommitment`
+exists, and `Observation.ListWithRelevantCommitmentsForProjectAsync` already returns each
+observation *with the commitments it triggers*, by two mechanisms: **explicit links entered
+in Fulcrum by the monitor** (BCN-911) and a **species bridge** (BCN-913 — the observation's
+`ProjectSpecies` is targeted by a commitment's requirement, scoped to commitments applicable
+to the observation's Component). `ObservationComplianceDto`'s own comment describes it as
+"a single species observation or compliance concern (**the parent**) together with the
+commitments it triggers (**the children**)" — which is the inbox's thread model, already
+shipped.
+
+## B. Corrections
+
+**1. The "as needed" story in §2 is wrong in its mechanism, right in its conclusion.**
+As-needed does not silently make nothing forever: `CreateAsNeededImplementation` /
+`DeleteAsNeededImplementation` let a user hand-create instances, and `AsNeededEventTrigger`
+is **required and validated on publish** (`ActionPublishValidator:143`, `ActionPutValidator:166`),
+stored on `ActionSchedule`, displayed back. What is true is that **no code branches on its
+content** — Beacon makes people write down the trigger and then cannot fire on it, while
+`Observation` + `ObservationCommitment`, the machinery that could, sits one join away.
+Worse for Beacon, better for the argument.
+
+**2. The brief is wrong about Action status, and it changes the entity argument.**
+The brief says Actions run *Not started / In progress / Submitted / Approved / Done*. Prod has
+`ActionImplementationStatus` = **NotStarted / InProgress / Completed** — three values, on the
+**instance**. `Action.ActionStatusID` is **Draft / Published**, an authoring lifecycle.
+
+So "Obligations have no status" is **not** the divergence — *Actions have no status either*.
+An Action is a template; status is a property of the instances it spawns. The correct
+statement: **an Action spawns enumerable instances and status lives on them; an Obligation
+spawns none, so there is nowhere for status to live.** Same conclusion the team reached on
+2026-09-03, now resting on the schema rather than on taste.
+
+**3. `ActionSchedule` already tried to be an Obligation, and the schema shows where it gave up.**
+Action is three tables: `Action` (identity, evidence, scope, responsibility — **no dates, no
+progress**), `ActionSchedule` (1:1, a `FrequencyID` discriminator over four mutually-exclusive
+column groups), `ActionImplementation` (1:N — where every date lives). By column count:
+
+| Frequency | Columns modelling it |
+|---|---|
+| Onetime | 5 — milestone, offset, unit, direction, isRange |
+| Recurring | 5 — interval, unit, start/end milestone, day-of-month |
+| **Ongoing** | **2** — start milestone, end milestone |
+| **AsNeeded** | **1** — `AsNeededEventTrigger VARCHAR(MAX)`, prose |
+
+Ongoing and AsNeeded *are* the state-based and event-based obligation. They are the two modes
+that do not work and the two the schema barely models. **That is the case for a separate
+entity, in one table.**
+
+**So: an Obligation is an Action with the two satellites replaced.** The `Action` table itself
+— name, standard text, expected evidence, scope, responsibility, requirement links — transfers
+nearly wholesale. What diverges is *when* (a schedule producing dates becomes an in-effect
+predicate producing a boolean over time) and *instances* (countable and closable becomes none;
+evidence attaches directly, the 6th anchor in an existing join-per-anchor pattern).
+
+## C. Retracted — condition should NOT point at an observation type
+
+§4 above argued a `condition` should point at a kind of observation so the field loop closes
+itself. **That was an inference, not something the docs asked for, and it does not survive.**
+
+The docs say only that condition is *"the non-compliance a monitor observes … which is what
+the monitoring form dropdown shows."* The observation-type pointer was added on top.
+
+It is not needed: **the loop already closes through commitments.** Explicit Fulcrum links and
+the species bridge connect observation to commitment, the 402 carry commitment codes (90%
+resolvable), so observation → commitment → obligation runs end to end today. Neither path uses
+`ObservationType` — it is a raw string the backend deliberately leaves unclassified.
+
+The one problem the idea would have addressed is fan-out:
+
+| Path | Obligations raised per observation |
+|---|---|
+| Explicit commitment link | mean **4.07**, median 3, max 27; 25% of commitments raise exactly 1 |
+| Species match | mean **18**, top species 58 (Giant garter snake, California tiger salamander) |
+
+But **the in-effect predicate narrows that better and is needed anyway** — of a snake's 58
+duties the right filter is *which are on right now*, not *which sentence resembles the sighting*.
+Building a second matcher for a job the predicate already does is the wrong order.
+
+**A finding that complicates the docs' own claim:** all **402 conditions are distinct** — 402
+unique sentences, no repeats. That is not a dropdown. It could become one grouped by minor
+subject (69 groups, ~6 each), but as authored it is prose per row, and nobody has scoped the
+normalization.
+
+**What condition is actually for:** the feed **row label** — the only field written in the
+monitor's voice, and far more useful than permit text for saying what to look for — and the
+**Fulcrum form-generation** story, which is a different surface and should not be smuggled
+into this entity.
+
+## D. Settled by Kim, 2026-09-09
+
+1. **No status model, and no appetite for one.** The registry applies and views obligations;
+   the feed displays them. If a status turns out to be wanted later, that is its own effort.
+2. **"Important" is a per-user view.** Nothing lands on the entity — it is a saved slice over
+   the registry axes intersected with what is in force.
+3. **The feed shows Obligations, not Actions.** A To-do row may *link* to an Action if one was
+   created, but the surface is fundamentally about Obligations.
+4. **Location and weather are not real yet** and need their own discussion. Noted against the
+   data: over the 1,806 stated duties the specimen counts triggers as Activity 552, **Event 465,
+   Location 306**, Season 223, Weather 61 — so location is the third-largest trigger and larger
+   than season. Deferring it is a choice with a cost, not a footnote.
+
+### The feed, restated in Kim's own framing
+
+**"A timeline, or an inventory in the case of Standing."** That is what replaces status:
+
+- **All / Important / To-do are a timeline** — rows are *events*, each carrying the obligations
+  it switched on. **The Obligation holds no time; the event does.**
+- **Standing is an inventory** — obligations in force because of a *state* (season, phase,
+  activity, an approved gate). No event, no time, nothing to order by. Just what is on.
+
+No verdict and no status field is required. What is required is the predicate, and its two
+halves land in two different views.
+
+## E. What the source docs say about the Notify handoff (worked chain D)
+
+The specimen's chain **D. Notification of Take or Injury** splits into both entities:
+
+| Record | Kind | Key fields |
+|---|---|---|
+| **O3** Written incident report to CDFW | Obligation, Class Notify | Satisfies **R3**. *In effect: Event: take, injury or carcass found.* Window: two business days |
+| **A1** Written incident report | Action | Satisfies **R3**. Timing: two business days after each event. **Scope: Per event. Spawned by: O3** |
+
+Both satisfy the **same requirement**. The obligation is the standing duty; the Action is the
+concrete firing. `Spawned by` is an explicit field on the Action. Consequences:
+
+- **Window is a duration, not a date.** O3 holds "two business days", the event supplies the
+  anchor, A1 holds the absolute due date. The only time-shaped field on an Obligation is relative.
+- **One event fires several obligations.** O1, O2 and O3 share the identical
+  `In effect: Event: take, injury or carcass found` — the feed's parent/children thread model
+  is in the source docs, not invented by the prototype.
+- Rather than inventing an occurrence table, the model borrows Action's existing machinery to
+  make a firing countable.
+
+## F. Where the 402 actually come from — and the gap this exposes
+
+**They are not Beacon app data.** They are one analyst's hand-authored reading of five permit
+documents, embedded as a `<script id="registry-data">` JSON block inside
+`actions-obligations-2026-09-02.html`; `scripts/extract-obligations.mjs` copies that block out
+verbatim and fails if the counts move. The chain that produced them: 5 source documents to 391
+commitments, reading yields **1,806 stated duties**, collapsing repeats (the same duty restated
+by ~4.5 commitments) yields **402 unique obligations**.
+
+The only part touching real Beacon data is the lineage: the commitment codes resolve **90%
+(1,138 / 1,270)** against `src/data/dcp-commitments.json`, which is the real DCP commitment
+register (real source-document filenames, committed as "real data").
+
+**Neither source doc says how obligations get created in the product.** The brief's open
+question 5 covers only *migration* of existing field-type actions. This is a genuine hole.
+
+**But prod has an exact precedent nobody has connected to obligations.** Beacon already derives
+Actions from Requirements with an LLM:
+
+```
+source document
+  -> RequirementExtractionService (AI)   [RequirementExtractionStatus: NotStarted/InProgress/Completed/Failed]
+  -> Requirements  -> human approves
+  -> ActionExtractionService (AI): "group a filtered set of approved Requirements into proposed Actions"
+  -> Action rows: IsAIProposed = true, ActionStatusID = Draft
+  -> human reviews and publishes
+```
+
+Details worth keeping: proposals land as **Draft + AI-proposed, never published directly**;
+`ActionRequirement` join rows record which requirements each proposal covers; "Suggest Another"
+**accumulates rather than replaces** and re-running the same extraction is idempotent; every
+creation writes `ActionAudit` rows.
+
+### The tension this creates with step 5 — unresolved
+
+The built step-5 surface rests on **"everything starts included, because the registry is
+authoritative and the job is finding what does not apply."** That premise came from treating
+the 402 as given truth.
+
+If obligations are instead **AI-proposed from approved requirements**, the same way Actions
+are, then they arrive as **drafts needing approval**, and step 5 is the obligation sibling of
+the AI-draft review board rather than an applicability filter over authoritative rows. Those
+are different defaults and different surfaces.
+
+**Which it is has never been decided.** It is now the most consequential open question in this
+work, because it determines whether the registry is curated content or model output.
+
+## G. Open, carried forward
+
+- **How are obligations populated in the product?** (§F — the live question.) AI-proposed from
+  requirements like Actions? Authored by a curator? Imported per tenant?
+- **Where do in-effect conditions get authored?** They exist on the five hand-worked chain
+  examples and on **none of the 402 registry rows**. The specimen reports aggregate trigger
+  counts but the field is per-row absent. This is why the inbox had to invent triggers, and it
+  is the main obstacle to prototyping the feed on real data.
+- **Is `Spawned by` the relationship we want?** It makes Notify the only class that hands its
+  work to the other entity. (Held at Kim's request, 2026-09-09.)
+- **Do Condition and Parameters belong on the entity at all?** The worked chains include
+  neither; the registry has condition on 402 and parameters on 232. They may belong to the
+  monitoring form and the conflict-resolution surface. (Held at Kim's request, 2026-09-09.)
+- **Monitor obligations need an expected evidence cadence** — the brief asserts "in compliance
+  while data arrives on cadence" but lists no cadence field. Without it the Monitor class
+  produces no feed signal.
+- **Severity has no field.** Currently derived by regex over standard text (20 rows mentioning
+  take/injury/mortality). If severity orders the feed, that ordering rests on string matching.
+- Location and weather (§D.4).
