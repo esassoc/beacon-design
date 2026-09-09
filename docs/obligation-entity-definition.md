@@ -506,3 +506,209 @@ work, because it determines whether the registry is curated content or model out
 - **Severity has no field.** Currently derived by regex over standard text (20 rows mentioning
   take/injury/mortality). If severity orders the feed, that ordering rests on string matching.
 - Location and weather (§D.4).
+
+---
+
+# Revision — 2026-09-09 (second round): the shape, worked against the rows
+
+**Kim redirected this session away from data archaeology and toward the entity's shape and
+its relationship to the feed. This section records that work.** Nothing was built.
+
+**Terminology note.** An earlier draft of this discussion invented the word "switches" for
+what the brief already calls **in-effect conditions**. Use the brief's term. Nothing new was
+being named.
+
+## H. The two kinds of field
+
+Every field on an obligation does one of two jobs:
+
+- **Feed mechanics** — decides whether a row appears, where, and when.
+- **Row content** — describes the duty once it is there.
+
+Only four things are mechanics:
+
+| Mechanic | View it serves | State in the registry |
+|---|---|---|
+| In-effect conditions, state half | Standing | **absent** |
+| In-effect conditions, event half | All, To-do | **absent** |
+| Notice window | To-do | on 50 rows, but heterogeneous free text |
+| Registry axes (subject / species / activity) | Important | solid, all 402 |
+
+Everything else — title, standard, class, condition, parameters, species, commitments, gate,
+installed control — is content. **The entity's most load-bearing field is the one field the
+registry does not have.** The 402 rows are rich in content and empty of mechanics.
+
+### What could actually produce a feed row today
+
+| Class | n | Needs | Available? |
+|---|---|---|---|
+| Notify, reactive | 40 | an event | **partly** — prod observations link via commitments |
+| Notify, advance | 9 | a planned date to count back from | no |
+| Adhere | 225 | state conditions | no |
+| Roster | 24 | state conditions | no |
+| Monitor | 103 | an evidence cadence | **no such field exists anywhere** |
+
+## I. Findings from the rows themselves
+
+### 1. Title is the feed row label, not condition
+
+An earlier draft of this discussion claimed condition made the best row label. **Wrong.**
+Read the two fields on the same row:
+
+```
+TITLE:     Active work and staging area fencing or flagging
+CONDITION: Active work area unfenced or unflagged
+
+TITLE:     Active nest and colony monitoring until fledging
+CONDITION: Work near an active nest without monitoring until fledging
+```
+
+The title names the duty; the condition names what it looks like when broken, because it is
+an option on a monitoring form. A Standing inventory labelled with conditions reads as a list
+of accusations rather than a list of duties in force. **Title labels the row. Condition
+belongs to the form.**
+
+**The monitoring form is Fulcrum, and it is really wired to Beacon:**
+`FulcrumCategoryController` serves `api/public/commitment-categories/{id}.json`, authenticated
+by `FulcrumApiKeyAttribute`, reading `CommitmentCategoryMap` (which carries its own `ApiKey`
+column). Fulcrum pulls its category list from Beacon. The claim that condition *is* the form's
+dropdown option is **the brief's**, not an inference added here.
+
+### 2. `gate` records that an in-effect condition exists, never which one
+
+`gate` is a registry field whose value is the literal `true` on 17 rows and absent on the
+other 385. All 17 are "duty X does not start until approval Y exists":
+
+Barge Operations Plan approval before operations · Dewatering and fish salvage plan approval ·
+Exclusion Activities Plan approval before owl exclusion · Phase Authorization before Phase
+Covered Activities · Restoration Plan approval before temporary-impact activities · Sound
+abatement plan approval before in-water work · Survey protocol approval before surveys ·
+Pre-season approval for work in GGS habitat · Replacement roost before bat eviction ·
+Pesticide, herbicide and fertilizer approval · Approval and perpetual management of mitigation
+projects · CDFW consultation before work resumes after distress · CDFW approval of Designated
+Biologists and Monitors · CDFW consultation on an unmet buffer or season · In-water maintenance
+notice and approval from CDFW · Written approval before a new off-site route · Written approval
+before nest tree removal
+
+This is a real in-effect condition — an approval gate — captured as a boolean with the
+referent thrown away.
+
+### 3. The condition text carries in-effect information for well under half the rows
+
+**151 rows carry a usable clue; 251 do not.**
+
+With a clue:
+- *"GGS habitat disturbed outside the May 1 to Oct 1 window"* — names a season
+- *"Activity within 1,300 ft of an active TRBL colony in nesting season"* — a season and a distance
+- *"In-water work outside the approved work window"* — a kind of work
+
+Without any:
+- *"Active work area unfenced or unflagged"*
+- *"Protocol survey run by an unapproved or unpermitted surveyor"*
+- *"Vessel operates without the approved plan aboard"*
+- *"Trash uncovered, unsecured, or not removed weekly"*
+
+Nothing in the second group says *when* the duty applies — always? only during certain work?
+only in some places? The sentence does not say, so neither can the feed.
+
+**Correction to §C above:** that section reported 153 rows without a clue. The correct figure
+is **251**; the earlier probe inflated the "has a clue" side by treating words like *site*,
+*habitat* and *near* as location markers. The conclusion is unchanged and strengthened —
+deriving in-effect conditions from condition prose is extraction-then-approval, not parsing.
+
+### 4. The nine advance notices need foreknowledge, which no obligation field provides
+
+Splitting the 50 Notify windows by direction gives **40 reactive, 9 advance, 1 cadence**
+("Weekly multilingual road work notices"). The nine:
+
+| Window | Duty |
+|---|---|
+| 14 calendar days before | Start-of-work notice to CDFW |
+| 60 days before | In-water maintenance notice and approval from CDFW |
+| 48 hours before | Eviction notice to CDFW before one-way doors |
+| At least 5 days before construction | Survey results to CDFW before construction |
+| 7 days before | Fish isolation notice and rescue results |
+| Before removal | Written approval before nest tree removal |
+| Before construction of the route | Written approval before a new off-site route |
+| Before activities begin | Waterway agency notice and marina postings |
+| Before the breach | CDFW consultation on an unmet buffer or season |
+
+**Nothing triggers these** — you cannot react to something that has not happened. Sending a
+notice 60 days early requires already knowing the work is coming, so the trigger is a *plan*,
+not an event.
+
+Worked comparison, "Start-of-work notice to CDFW, 14 calendar days before":
+
+- **As an Obligation** — in-effect condition: nothing. Window: 14 days before something the
+  entity has no field to name.
+- **As an Action** — Frequency `Onetime`, DeadlineMilestone = construction start,
+  DeadlineOffset = 14, DeadlineOffsetUnit = days, DeadlineDirection = before. **That is
+  `ActionSchedule`'s Onetime column group filled in exactly, with nothing left over.**
+
+But the nine are not uniform. **Two** (start-of-work notice, waterway agency notice) happen
+once per project and are cleanly Actions. The other **seven** happen once per nest tree, per
+route, per salvage, per eviction — not listable up front, so obligations by the brief's rule,
+yet each occurrence still needs a lead time counted back from planned work.
+
+**The finding: advance notices need to know about planned work, and no obligation field points
+at planned work.** Beacon has the pieces — construction activities, milestones, work areas —
+but nothing connects an obligation to them.
+
+### 5. Monitor needs two new things, not one — evidence has no period
+
+`EvidenceOfCompliance` holds `Title`, `Notes`, `EvidenceOfComplianceTypeID` and `CreateDate`.
+**There is no date the evidence covers, no period it belongs to, and no expected date.**
+
+So Beacon can say when a file was uploaded and never that one is missing. For the 103 Monitor
+obligations that is fatal: their only possible feed signal is absence, and absence is currently
+unobservable. Making Monitor work requires **an expected cadence on the obligation** *and*
+**a period on the evidence** so arrivals can be matched against expectations. That is its own
+piece of work, not a field.
+
+## J. The shape this argues for
+
+**Mechanics — the part that must be added:**
+
+- **In-effect conditions**: a list, each entry naming one reason the duty is live, using
+  entities Beacon already has — `ProjectSeason` · project milestone (phase) ·
+  `ProjectConstructionActivity` · an Action's approval (the 17 gate rows) · an Observation
+  (event). An obligation with no event entry is a Standing duty; that one derivation gives the
+  Standing view for free.
+- **Notice window**: a duration **plus a direction** (after an event / before a planned
+  anchor), not free text.
+- **Expected evidence cadence**: for Monitor — paired with a period on evidence (§I.5).
+
+**Content — transfers almost wholesale from the `Action` table:** Title, Standard, Class,
+Parameter (value + unit + source, conflicts retained), Responsibility, Scope, ExpectedEvidence,
+lineage to requirements/commitments/source documents, and the three registry axes.
+
+**Absent by design:** status, due date, completion date, sequence number.
+
+## K. What the shape demands of the feed (the reverse direction)
+
+- **Standing should not scroll like a news feed.** Seasons and phases change slowly, so a
+  reverse-chronological Standing view would barely move. It is a reference inventory, better
+  grouped — by subject, or by whatever put each duty in force.
+- **All must group by event.** One sighting switches on several duties (chain D's O1/O2/O3
+  share an identical trigger), so a flat list would repeat the same event once per duty. Prod's
+  `ObservationComplianceDto` already returns this parent/children shape.
+- **To-do cannot run purely on events**, or the nine advance notices never appear anywhere.
+
+## L. Settled by Kim in this round
+
+1. **An obligation can carry several in-effect conditions, and any one being true is enough**
+   (an OR list). **Location is deferred** — what "place" means has not been worked out, so
+   some duties will be less precise than they could be.
+2. **A direct obligation-to-season relationship is wanted.** Kim's observation: subjects and
+   activities influence where a row lands in the feed, but indirectly, via seasons — which
+   relate to species and construction activities. Prod supports this today: `ProjectSeason` is
+   real, and `ProjectSeasonProjectConstructionActivity` already joins seasons to activities.
+   **A direct obligation-to-season link is the simplest useful version of "when is this on"** —
+   one join table over an existing entity, and it makes Standing real for the seasonal duties
+   immediately.
+3. **The nine advance notices look like Actions.** Comparison recorded in §I.4; the two
+   once-per-project ones are clean Actions, the seven per-occurrence ones are the hard case.
+4. **Monitor and evidence need their own discussion.** Kim: there is no existing mechanism for
+   an obligation to be aware of evidence being submitted. Confirmed against the schema (§I.5).
+5. **Keep all 402 rows for now** rather than hand-authoring in-effect conditions for a small
+   slice.
