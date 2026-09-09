@@ -309,3 +309,253 @@ thinking, not proposals.
   `@esa/tokens/a11y-styles.js`.
 - Beacon prod is at `C:\git\sitkatech\Beacon`; local `develop` is ~370 commits stale, so
   read prod with `git show origin/develop:<path>`.
+
+---
+
+## 10. Session addendum — 2026-09-08 (later)
+
+**Status change: §9's step-5 mechanism is falsified. The reasoning behind it is not.**
+Do not build step 5 from §9 as written. Nothing was built this session; no code changed.
+
+### What still stands from §9
+
+The premise — *the user is not reviewing correctness, they are deciding
+**applicability**, which is inherited from the work* — survives, and is stronger than
+§9 claimed. `ComponentCommitment.IsApplicable` is the only applicability bit Beacon
+has, and `BcnSetupWorkspace` already implements this exact job for
+commitments-on-components (bulk + one-at-a-time, with a preview of what a decision
+will *do*). Step 5 is that workspace's sibling. The Model A vs. Model B argument
+settled on 2026-08-14 does not need re-running.
+
+### What broke it — construction activities are not a menu
+
+**`ProjectConstructionActivity` is per-project and hand-authored.** Free-text `Name`
++ `Description`, `SortOrder`, drag to reorder, placeholder *"Ex. Inspection"* — see
+`Beacon.Web/src/app/pages/project-construction-activities/`. Each project writes its
+own list. There is **no fixed taxonomy to tick**, so §9's input question — *"which of
+these 34 activities does this project do?"* — cannot be asked.
+
+**The 34 activity slugs in `obligations-registry.json` are extraction artifacts from
+the specimen, not app entities.** They were being treated as if they were the real
+thing. Any activity-led surface needs a fixture mapping them onto a plausible
+project-authored list first.
+
+**By step 5 the activity list already exists** — authoring it is its own earlier setup
+page. So step 5 does not *collect* activities; at most it *uses* them.
+
+### The link §9 wanted does exist, one level over
+
+§4's "commitments are not associated to construction activities" is true and remains
+true. But:
+
+| Join table | What it means |
+|---|---|
+| `RequirementConstructionActivity` | **Requirements ↔ activities.** Populated from staging in BCN-1052 (Kim's own migration) |
+| `ActionProjectConstructionActivity` | Actions ↔ activities — an obligation↔activity link would be this pattern's sibling |
+| `ProjectSeasonProjectConstructionActivity` | Activities ↔ **seasons** — an in-effect condition §3 lists as existing nowhere. It exists in prod, just not in the specimen |
+
+That last row is worth a second look independently of step 5: §3 names in-effect
+conditions as the most important missing field, and season↔activity is one of them,
+already modelled.
+
+### Measurements taken (don't re-run)
+
+Against the registry's own slugs — so these describe the *extraction*, not the app,
+but the shape holds for any mapping onto it:
+
+- Activity tags are broad and overlapping: **2.2 per obligation** (89 carry one, 210
+  two, 100 three, 3 four). Disjunctive semantics, so an obligation survives if *any*
+  of its activities happen.
+- **Deselecting an activity mostly removes nothing.** Zero exclusive reach for
+  in-water-work (30 tagged), excavation (17), pile-driving (16), demolition (8),
+  helicopter (1). Best single checkbox is `diversions` at 14. `ground-disturbance`
+  drops 6 of the 96 it touches.
+- Killing all 11 marine/aerial/hazmat activities drops **34 of 402**. A pure-bio
+  project (4 activities) still keeps **200**.
+- **Conclusion: activity groups the registry, it does not narrow it.** True whatever
+  the mapping.
+
+Leverage on the other axes, for comparison:
+
+- **Commitment cascades hard** — AMM-14 → 27 obligations, EC-14 → 25, CM 6.3.2.6 → 24.
+  Top 20 commitments reach 123 obligations; **top 50 reach 202** (half the registry).
+  78 commitments yield exactly one obligation — the tail nobody would review by hand.
+- **Species eliminates cleanly but partially** — 35 distinct, 87 obligations tied to
+  exactly one, so "no burrowing owl" genuinely removes rows. But **178 obligations
+  carry no species at all** and can never be addressed this way.
+
+### Also corrected
+
+- §9's exception queue is mis-sized: *"the 17 gated rows, the 232 with parameters"* —
+  **232 is 58% of the registry**, which is not an exception queue. The 17 gated rows
+  are a real exception set; the parameters count needs a different rule or dropping.
+- §5 says four commits; there are **five** under the checkpoint commit (`d690bfd0`,
+  `28ea04a8`, `93fd580b`, `e1c19d32`, `bb8da013`), plus `9771a0a0` for the checkpoint
+  itself. Still unpushed.
+
+### The open question — ANSWERED, and step 5 is built
+
+**Subject is the spine** (Kim, 2026-09-08). 17 majors over 69 minors, none bigger than
+74 rows — the only grouping that fits in a person's head. Activity was ruled out on the
+two grounds above; commitment is already step 2's job.
+
+Kim also settled a point §4.3 had stated too strongly: **a full-registry page IS expected
+eventually.** It just isn't what step 5 is. When it lands it should reuse
+`BcnRegistryTree` without the confirm layer.
+
+**Built and verified** (`/prototypes/setup-obligations`, 618 pages, build green,
+`handoff:check — ok. 52 routes, 19 curated`):
+
+| File | What |
+|---|---|
+| `src/data/obligation-registry.ts` | The tree — majors → minors → rows, with the measurements in its header |
+| `BcnRegistryTree.astro` | **The registry tree — ONE component, two modes** (`review` / `browse`) |
+| `registry-tree.ts` | Its controller — selection, three approval scopes, expand/collapse |
+| `BcnRegistryProgress.astro` | Lead band: approved / not applicable / decided + the 613-vs-402 line |
+| `BcnRegistryWorkspace/Areas/Area.astro` + `registry-review.ts` | The two-pane **alternative**, kept |
+| `src/data/handoff/setup-obligations.mjs` | Curated handoff spec, 2 sections |
+
+**The model that came out of it:**
+
+- **Everything starts included.** The registry is authoritative; the job is finding what
+  does NOT apply. Undecided-by-default would be 402 empty checkboxes calling itself a queue.
+- **Confirming an area is the unit of work** — 17 decisions, and confirming is what records
+  that a human looked.
+- **The decision is on the DUTY, never the placement.** Verified in the browser: unchecking
+  2-094 under Agency reporting also unchecks it under Mitigation and restoration, drops both
+  confirm buttons by one, and moves the headline by exactly one.
+- **Changing an area un-confirms it** — the person confirmed a set, and it is no longer
+  that set.
+
+**Three pages, one tree component.** `BcnRegistryTree` takes a `mode`:
+
+| Route | Mode | What it is |
+|---|---|---|
+| `/prototypes/setup-obligations` | `review` | **Step 5.** Selectors, bulk verbs, per-area and registry-wide approval |
+| `/prototypes/obligations-registry` | `browse` | The read-only registry — same tree, same records, nothing to decide |
+| `/prototypes/setup-obligations-panes` | — | The two-pane alternative look, kept for comparison |
+
+**Selection is a selection, not a decision** (Kim, 2026-09-08 — "configurable to have the
+functionality of selecting all or none or multiple obligations, and approving them similar
+to the other approval processes"). That is prod's model and `BcnSetupWorkspace`'s: a duty
+is **pending** until somebody acts, the checkbox marks it for a bulk act, and **Approve** /
+**Not applicable** are the acts. An earlier pass made the checkbox itself mean "applies",
+which left select-all with nothing to mean.
+
+Three approval scopes, mirroring prod's `Approve all (N)`: **the selection**, **one subject
+area**, **the whole registry**. The registry-wide button hides while a selection is live so
+the toolbar never offers two competing approvals. **Select-all takes what is visible** — a
+control that reaches into a collapsed branch is a trap — so collapsing recomputes the
+toolbar (`toggle` does not bubble; listen in capture).
+
+Verified in the browser: with everything collapsed select-all takes 0; opening one heading
+takes exactly its 16; approving those 16 paints **34** row badges (they are filed twice) but
+moves the figure by **16**.
+
+**The view went through two wrong passes before landing. Do not repeat either.**
+
+1. **Card-per-area with three stacked lines per duty.** At 402 rows that is a wall.
+2. **A copy of the specimen's own HTML** — a three-level `<details>` tree with hand-rolled
+   carets, hand-rolled disclosure summaries and a hand-rolled definition-list grid. Kim's
+   call (2026-09-08): *"the styling on this looks broken and looks very unaligned with our
+   established UI patterns… make sure we're refraining from doing custom rolls where UI
+   primitives and patterns exist."* Correct. **`actions-obligations-2026-09-02.html` is a
+   CONTENT source, not a UI pattern source.** Take its structure — subject area → heading →
+   duty, compact rows, detail on demand — and express it in the design system.
+
+**What it is now: prod's setup-step shape, ported.** Every step of Beacon's project setup
+renders `setup-wizard-sidebar` beside a main pane (`project-setup-layout`); the sidebar
+picks the record you work through and the main pane does the step's work on it. Source
+Documents picks a document, Commitments picks a commitment, Requirements picks a
+commitment — **Obligations picks a subject area.** The main pane follows
+`commitments-step` / `requirements-step`: a header for the selected record (title + counts
+line) over a list of its children.
+
+In the spoke that makes it the **third instance of an existing frame**, not a new one —
+`BcnRegistryWorkspace` is the direct sibling of `BcnInboxWorkspace` and
+`BcnTriageWorkspace`, and the area rows use `BcnInboxQueue`'s row anatomy.
+
+**Everything is composed, nothing rebuilt:** `esa-collapsible` for each heading *and* each
+duty's Details, `BcnKeyValue` for every field in the record, `BcnCommitmentBadge` for
+commitment codes, `esa-checkbox` / `esa-badge` / `esa-button`, and the `.sidebar` layout
+primitive for the two-pane geometry. What remains as CSS is composition glue only.
+
+Prod files worth not re-finding: `Beacon.Web/src/app/pages/project-setup/` (the whole
+flow) and `…/shared/components/project-setup/setup-wizard-sidebar/` (the generic
+config-driven sidebar, which already does parent/child expansion).
+
+**§9's "exception queue" is dead and should not come back.** Neither flag is a decision:
+`gate` (17) is a dependency on an approved action, `parameters` (232) is a source conflict.
+Both are shown in the duty's opened record; neither is asked about. There is no natural exception queue in
+this data.
+
+### Still open after this
+
+- §8.6 — what "approve generically" means was answered *for this surface* (per subject
+  area), but not for the data model. Nothing persists yet.
+- Whether an area confirm should also be undoable directly, rather than only by changing a
+  row inside it.
+- The 232 contested rows need a home — resolving a source conflict is real work with no
+  surface. Not step 5's job.
+
+**Kim raised a possible pivot earlier in the session, then chose to proceed with this. The
+work is live.**
+
+---
+
+## 11. Session addendum — 2026-09-09
+
+Recovered after the previous session exited unexpectedly. Two decisions existed only in
+conversation and are recorded here before they are lost again. **Nothing was rebuilt** —
+§10's work is intact and is now committed.
+
+### The inbox is renamed: Obligations Inbox → the Obligation Tracking page
+
+Kim, 2026-09-09. The awareness surface is not a mail metaphor with a name borrowed from
+one; it is where obligations are tracked. **The rename is not yet applied anywhere** — as
+of this writing "Obligations Inbox" is still the page title, the route
+(`/prototypes/obligations-inbox`), the breadcrumb (`Tracking › Obligations Inbox`), the
+handoff spec (`src/data/handoff/obligations-inbox.mjs`), and the component family
+(`BcnInboxQueue` / `BcnInboxThread` / `BcnInboxWorkspace`, `inbox.ts`,
+`obligation-triggers.ts`).
+
+**Do not apply the rename as a find-and-replace yet.** §12 below reshapes that surface,
+and renaming the components before their shape is settled just churns the same files
+twice.
+
+### The registry's second home is a SECTION, not a page
+
+§10 built `BcnRegistryTree` as one component with two modes, which is correct and is what
+Kim asked for. But it homed `mode="browse"` on a standalone page
+(`/prototypes/obligations-registry`), framed as proof the component is configurable.
+
+**The real second consumer is a read-only section on the Obligation Tracking page.** The
+component and both modes transfer unchanged — this is a re-homing, not a rebuild. The two
+consumers are therefore:
+
+| Consumer | Mode | Approval layer |
+|---|---|---|
+| Project setup step 5 | `review` | Yes — selection, per-area and registry-wide, appropriate to that work process |
+| Obligation Tracking page (a section) | `browse` | None — read-only |
+
+Whether the standalone `/prototypes/obligations-registry` route survives as its own page is
+open. §10 recorded that a full-registry page is expected eventually; it may simply be that
+page, or it may collapse into the tracking-page section.
+
+### Committed this session
+
+The whole of §10's build was untracked and six commits sat unpushed. Now committed on
+`proto/obligations`: the registry components and their three pages, `obligation-registry.ts`,
+the three handoff bundles, the `prototypes.ts` entries, §10, this section, and
+`docs/obligation-entity-definition.md` (see §12). `package-lock.json` is still dirty from
+the Astro 5 → 7.2.6 bump and is still deliberately uncommitted. **Still nothing pushed.**
+
+### The entity work is upstream of the tracking page — sequence it first
+
+`docs/obligation-entity-definition.md` was written at the very end of the previous session
+(16:54, ~3 hours after the step-5 build) and is referenced by nothing. It is the thread to
+pick up next, and it is **upstream** of the tracking-page work rather than parallel to it:
+it argues the Seen pivot and filing verbs should go, that Trigger is a view over the
+existing `Observation` entity rather than something new, and that the surface should carry
+four views (All / Important / To-do / Standing). The registry section should slot into
+whatever shape that produces, so harden the entity before reshaping the page.
