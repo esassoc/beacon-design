@@ -7,6 +7,23 @@
 // column headers rather than reading as stacked spans. Do not "simplify" this
 // back into divs.
 //
+// LAYOUT IS CSS GRID, ELEMENTS STAY TABULAR (2026-09-08). `gap` does not apply to
+// table layout, so column separation could only be faked with padding inside each
+// cell — which works but has to be taken out of a column rather than added between
+// them. The rows are now grids so `column-gap` is real.
+//
+// The rule above still holds: the markup is unchanged (table/thead/tbody/tr/th/td,
+// th[scope=col]), and because changing `display` on table elements drops their
+// semantics in the accessibility tree — Safari most notably — every element carries
+// an EXPLICIT ARIA role to put them back. Roles are not decoration here; without
+// them this is a pile of divs to a screen reader and the adjacency rule is broken.
+//
+// Each ROW is its own grid sharing one template (published as --_tracks on the
+// root), rather than the whole table being one grid with `display: contents` rows.
+// That is deliberate: contents rows have no box, so there is nothing to hang the
+// row separator on, and per-cell borders would break into dashes at every gap.
+// A row box keeps the hairline continuous underneath the gaps.
+//
 // bcn-lego-checked: no esa-* mini-table lego exists (esa-grid is AG Grid, the
 // full analytical grid — disproportionate inside a widget; checked the catalog
 // ls). Beacon prod renders these as bespoke panel tables too. Status cells use
@@ -21,6 +38,22 @@ export interface MiniCell {
   num?: boolean;
   /** Quiet status dot before the text (e.g. Draft/Final). */
   status?: { label: string; hex: string };
+  /**
+   * Clip to one line with an ellipsis and expose the full string via `title` on
+   * hover. For free-text columns whose length is not controlled by the data model —
+   * a concern's issue text can be a sentence, and letting it set the column width
+   * squeezes every other column in the row.
+   *
+   * The clip is RESPONSIVE: the cell takes whatever width the table's auto layout
+   * leaves it and the text is clipped to that, so the ellipsis moves when the
+   * widget's column count changes. No fixed width to maintain.
+   *
+   * ACCESSIBILITY: nothing is hidden from assistive tech. The complete text stays
+   * in the DOM and is what a screen reader announces; the ellipsis is visual only.
+   * `title` is a mouse-only nicety on top (it is not keyboard-reachable and its
+   * announcement is inconsistent), which is why it is never the ONLY carrier here.
+   */
+  truncate?: boolean;
 }
 
 interface Props {
@@ -28,21 +61,38 @@ interface Props {
   rows: MiniCell[][];
 }
 const { columns, rows } = Astro.props;
+
+// One explicit track per column. A truncating column is the flexible one —
+// minmax(0, 1fr) gives it a DEFINITE size, which is what lets its cell clip; `auto`
+// would size to content and never ellipsis.
+const truncateAt = new Set(
+  rows.flatMap((cells) => cells.map((c, i) => (c.truncate ? i : -1))).filter((i) => i >= 0),
+);
+const tracks = columns.map((_, i) => (truncateAt.has(i) ? 'minmax(0, 1fr)' : 'auto')).join(' ');
+
+// With no flexible track the auto tracks sum to less than the full width, and the
+// old auto table-layout spread them across it. space-between reproduces that, and
+// keeps a trailing right-aligned column pinned to the panel edge.
+const fill = truncateAt.size === 0;
 ---
 
-<table class="bcn-mt">
-  <thead>
-    <tr>
+<table class="bcn-mt" role="table" data-fill={fill ? '' : undefined} style={`--_tracks: ${tracks};`}>
+  <thead role="rowgroup">
+    <tr role="row">
       {columns.map((c) => (
-        <th class:list={[{ 'bcn-mt--end': c.align === 'end' }]} scope="col">{c.label}</th>
+        <th class:list={[{ 'bcn-mt--end': c.align === 'end' }]} scope="col" role="columnheader">{c.label}</th>
       ))}
     </tr>
   </thead>
-  <tbody>
+  <tbody role="rowgroup">
     {rows.map((cells) => (
-      <tr>
+      <tr role="row">
         {cells.map((cell, i) => (
-          <td class:list={[{ 'bcn-mt--end': columns[i]?.align === 'end', 'bcn-mt--num': cell.num }]}>
+          <td
+            class:list={[{ 'bcn-mt--end': columns[i]?.align === 'end', 'bcn-mt--num': cell.num, 'bcn-mt--truncate': cell.truncate }]}
+            title={cell.truncate ? cell.text : undefined}
+            role="cell"
+          >
             {cell.status && <span class="bcn-mt__dot" style={`background: ${cell.status.hex};`} aria-hidden="true" />}
             {cell.href ? <a href={cell.href} download={cell.download}>{cell.text}</a> : cell.text}
           </td>
@@ -54,25 +104,63 @@ const { columns, rows } = Astro.props;
 
 <style>
   /* 14px dense floor, darkened not grayed; hairline row dividers only. */
+  /* The TABLE owns the tracks and the gap; each row is a SUBGRID of it. Both parts
+     matter and they are why the obvious two designs both fail:
+       - rows as independent grids: each row sizes its own `auto` tracks to its own
+         content, so the header stops lining up with the body (measured: all 8
+         tables misaligned).
+       - rows as `display: contents`: tracks are shared, but a contents row has no
+         box, so there is nothing to draw the separator on and per-cell borders
+         break into a dash at every column gap.
+     subgrid gives shared tracks AND a real row box. Requires Chrome 117+ /
+     Safari 16+ / Firefox 71+; this is a prototype on a modern browser. */
   .bcn-mt {
+    display: grid;
+    grid-template-columns: var(--_tracks);
+    column-gap: var(--bcn-mt-column-gap, var(--spacing-300));
     inline-size: 100%;
-    border-collapse: collapse;
     font-size: var(--font-size-150);
+  }
+
+  /* contents, so the rows become direct grid items of the table and only ONE
+     subgrid level is needed. The role attributes in the markup are what keep these
+     announced as row groups once display no longer says so. */
+  .bcn-mt thead,
+  .bcn-mt tbody {
+    display: contents;
+  }
+
+  .bcn-mt tr {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: baseline;
+  }
+
+  /* No flexible track: spread the auto tracks across the full width the way the old
+     auto table-layout did. On the PARENT grid, so every subgrid row inherits the
+     same track positions — putting it on the rows would let each row distribute
+     its own slack and reintroduce the misalignment. */
+  .bcn-mt[data-fill] {
+    justify-content: space-between;
+  }
+  /* Separators live on the ROW, not the cells: a per-cell border would break into
+     a dash at every column gap. */
+  .bcn-mt thead tr,
+  .bcn-mt tbody tr:not(:last-child) {
+    border-block-end: 1px solid var(--color-border-default);
   }
   .bcn-mt th {
     text-align: start;
     font-weight: 600;
     color: var(--color-content-default-secondary);
     padding-block: var(--spacing-100);
-    border-block-end: 1px solid var(--color-border-default);
+    min-inline-size: 0;
   }
   .bcn-mt td {
     padding-block: var(--spacing-150);
-    border-block-end: 1px solid var(--color-border-default);
     color: var(--color-content-default-primary);
-  }
-  .bcn-mt tbody tr:last-child td {
-    border-block-end: none;
+    min-inline-size: 0;
   }
   /* th needs the element in the selector: `.bcn-mt th { text-align: start }` is
      (0,1,1) and outranks a bare class, leaving headers left over right-aligned
@@ -99,5 +187,18 @@ const { columns, rows } = Astro.props;
     border-radius: var(--radius-full);
     margin-inline-end: var(--spacing-100);
     vertical-align: 1px;
+  }
+
+  /* Truncate to the space the COLUMN actually gets. The cell's track is
+     minmax(0, 1fr) — a definite size — so overflow + ellipsis clip against
+     whatever width the row hands it, and re-flowing the widget re-truncates by
+     itself. No fixed ceiling to keep in sync: a 24ch version was tried first and
+     clipped in the same place however much room the column had. (Under the old
+     table layout this also needed `max-inline-size: 0` to force a bounded box;
+     the grid track makes that unnecessary.) */
+  .bcn-mt--truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>

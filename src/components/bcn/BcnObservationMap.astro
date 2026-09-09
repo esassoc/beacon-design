@@ -213,7 +213,18 @@ const label =
     requestAnimationFrame(() => map.invalidateSize());
   }
 
-  document.querySelectorAll<ObsMapHost>('[data-bcn-obsmap]').forEach(build);
+  // Scanning is re-runnable, not once-at-load: the monitoring dashboard CLONES
+  // widgets to place a second instance, and a cloned host arrives already carrying
+  // data-bcn-obsmap-ready="true" (build() is idempotent per host, so it self-skips).
+  // The cloner clears that flag and fires `bcn-obsmap-scan`; without this hook a
+  // cloned map would render an empty well forever. readPins() looks the payload up
+  // by mapId with querySelector, so a clone sharing its origin's mapId still finds
+  // identical pin data — no payload duplication needed.
+  const scanAll = () => document.querySelectorAll<ObsMapHost>('[data-bcn-obsmap]').forEach(build);
+
+  scanAll();
+  document.addEventListener('astro:page-load', scanAll);
+  document.addEventListener('bcn-obsmap-scan', scanAll);
 </script>
 
 <style>

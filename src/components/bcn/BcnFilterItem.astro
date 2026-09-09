@@ -1,0 +1,60 @@
+---
+// <BcnFilterItem> — one labelled facet in a filter row: a lucide glyph, a title,
+// and the control beneath. Faithful port of Beacon's shared `filter-item`
+// (shared/components, used by the monitoring dashboard's observation-filters).
+//
+// bcn-lego-checked: esa-form-field is the near miss and does NOT fit — its `label`
+// is a plain string prop with no icon affordance, and prod's filter-item is
+// icon + title (the glyph is what makes a dense filter row scannable). No other
+// esa-* lego pairs an icon-titled label with a control slot: esa-filter-container
+// is the flex ROW these sit in (composed by the caller, not reimplemented here),
+// esa-filter-dropdown is a stateful dropdown facet with its own trigger label, and
+// esa-filter-pills renders applied values. Checked the spoke: BcnFilterBar is the
+// two-band tracking-page filter CARD (six pages) with a "Filters" band label, a
+// different pattern from prod's per-item icon+title. bcn-filter-item is the
+// reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Props {
+  /** The facet's title, e.g. "Observation Types". */
+  title: string;
+  /** Lucide icon name (decorative — the title carries the meaning). */
+  icon: string;
+  /** Inner Lucide SVG when the icon is not in esa-icon's registry. */
+  iconPaths?: string;
+}
+
+const { title, icon, iconPaths } = Astro.props;
+---
+
+<div class="bcn-filter-item">
+  {/* aria-hidden: the glyph repeats the title beside it, so announcing it would
+      just duplicate the label. */}
+  <span class="bcn-filter-item__label cluster" data-gap="2xs">
+    <span class="bcn-filter-item__icon" aria-hidden="true">
+      <EsaIcon name={icon} paths={iconPaths} size="xs" />
+    </span>
+    <span class="typography-label-sm">{title}</span>
+  </span>
+  <slot />
+</div>
+
+<style>
+  .bcn-filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    min-inline-size: 0;
+  }
+
+  /* Normal case at the label role's size — NOT the uppercase micro-label the
+     design principles ban. The glyph is subordinate to the text (xs beside sm). */
+  .bcn-filter-item__label {
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-filter-item__icon {
+    display: inline-flex;
+    color: var(--color-content-default-tertiary);
+  }
+</style>

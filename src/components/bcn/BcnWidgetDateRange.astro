@@ -1,0 +1,143 @@
+---
+// <BcnWidgetDateRange> — a widget's own date-range picker, so a viewer can re-window
+// ONE tile without touching the rest of the board.
+//
+// PLACEMENT TRIAL (2026-09-08). This is deliberately INERT: it renders the control
+// and its real scope options, and changing it does nothing. It exists so the
+// placement can be judged before the behaviour is built. The eventual contract is
+// the widget's stored `scope` becoming a per-instance runtime override that
+// refreshes only that widget's data, with the configure dialog's own "Date range"
+// field renamed to "Default date range" — the value a widget opens on.
+//
+// It sits in the WIDGET BODY, right-justified, as the body's first child — which is
+// where Andy round 5 puts ui that operates a widget ("tools/ui belong in the card
+// body, never the header"; BcnComplianceList applies the same rule to its Show
+// control). It was trialled in the header twice and returned here both times.
+// It right-aligns itself with align-self, so it expects a flex-column parent: the
+// widget body is `.stack`, which means the component places itself and the page
+// needs no CSS.
+//
+// Labels match the dashboard controller's SCOPE_LABEL exactly, because the two will
+// drive the same value once this is live and drifting vocabulary between the widget
+// control and the configure form would read as two different settings.
+//
+// bcn-lego-checked: the control IS esa-select. A scope picker is a one-of-N choice
+// from a short closed list, and the list will GROW past the four rolling windows —
+// which is what rules out esa-button-toggle: segments are shorter and wider, but
+// they do not scale, and a segmented control with six windows would dominate the
+// widget. (It was trialled on 2026-09-08 and reverted for exactly that reason.)
+// Also rejected: esa-filter-dropdown (a stateful multi-select facet with an
+// applied-pill vocabulary — wrong shape for one stored value) and esa-dropdown-menu
+// (an action menu; its items are commands, not values).
+//
+// HEIGHT — a documented private re-point, not a fork. Since the hub removed fixed
+// heights on 2026-08-14 the select is content-driven, and its `sm` floor measures
+// 46px — taller than the 32px its own source comment still claims, and too tall for
+// a control that sits above a widget's content. There is no public knob: `xs` is
+// deliberately clamped to `sm` ("a select is a click target with a popup — at 28px
+// the trigger and its chevron are below a comfortable tap size") and no ::part is
+// exposed. So the padding token the lego sets in :host([size='sm']) is re-pointed
+// from out here — legal because outer-document rules beat :host rules on the same
+// element, and the same class of override BcnDashboardWidget already documents for
+// esa-card's --_card-header-border. HUB-ASK: a `density` variant, or restoring a
+// height knob, retires this. Two things to know if the lego changes: the name is
+// private (--_field-padding-y) so it can move without notice, and the tap-target
+// reasoning above is real — do not compact this below ~32px.
+
+export type WidgetScope = '7d' | '14d' | '30d' | '90d';
+
+interface Props {
+  /** Scopes this widget offers — WidgetDef.scopes, first entry is its default. */
+  scopes: WidgetScope[];
+  /** Instance id, so the eventual controller can tell the tiles apart. */
+  widgetId: string;
+}
+
+const { scopes, widgetId } = Astro.props;
+
+const SCOPE_LABEL: Record<WidgetScope, string> = {
+  '7d': 'Past 7 days',
+  '14d': 'Past 14 days',
+  '30d': 'Past 30 days',
+  '90d': 'Past 90 days',
+};
+
+const options = scopes.map((s) => ({ label: SCOPE_LABEL[s], value: s }));
+---
+
+<span class="bcn-wdate cluster" data-gap="sm">
+  {/* The label is a SIBLING, not the control's own `label` prop: the lego renders a
+      field label ABOVE its control, and this row wants it inline to the left.
+      aria-label repeats the visible text verbatim rather than paraphrasing, so the
+      spoken name and the visible name cannot disagree. */}
+  <span class="bcn-wdate__label typography-label-sm">Date Range</span>
+  <esa-select
+    data-widget-daterange={widgetId}
+    size="sm"
+    aria-label="Date Range"
+    data-options={JSON.stringify(options)}
+    data-selected={scopes[0]}
+  ></esa-select>
+</span>
+
+<script>
+  // esa-select takes `options` as a PROPERTY (an array), never an attribute —
+  // the same server-to-client handoff BcnObservationFilters and BcnComplianceList use.
+  import '@esa/ecology/esa-select';
+
+  type SelectEl = HTMLElement & { options: unknown[]; value: string };
+
+  function initWidgetDateRanges() {
+    document.querySelectorAll<SelectEl>('[data-widget-daterange]').forEach((el) => {
+      if (el.dataset.wdateReady === 'true') return;
+      el.dataset.wdateReady = 'true';
+      el.options = JSON.parse(el.dataset.options || '[]');
+      el.value = el.dataset.selected || '';
+    });
+  }
+
+  initWidgetDateRanges();
+  document.addEventListener('astro:page-load', initWidgetDateRanges);
+  // Cloned widget instances arrive un-hydrated; the dashboard fires this after
+  // ensureEl() the same way it re-scans cloned maps.
+  document.addEventListener('bcn-wdate-scan', initWidgetDateRanges);
+</script>
+
+<style>
+  /* `.cluster` owns the inline row (display/align/gap); this adds only the two
+     facts the primitive cannot know: where it sits in its parent, and that the
+     label must not wrap off its control.
+     No surface, bleed or divider of its own — the full-width band treatment was
+     tried and cut along with the header placement it belonged to.
+     The control's own height and width are set at the bottom of this block. */
+  .bcn-wdate {
+    min-inline-size: 0;
+    /* Top-right of the body: first in the stack's order, pushed to the trailing
+       edge. align-self (not margin auto) so the control keeps its natural width
+       rather than stretching across the body the way a stack child otherwise would. */
+    align-self: flex-end;
+    flex-wrap: nowrap;
+  }
+
+  /* The label is the `typography-label-sm` COMPOSITE class in the markup — the hub
+     ships real typography composites again (48 of them), so family/size/weight/
+     line-height come from one named role instead of four hand-picked declarations.
+     label-sm is a step down from the form-label scale, which was resolving to 15px
+     and reading too large beside the control.
+     Two deliberate departures from the role: semibold, so it reads as a heading for
+     the control beside it; and the default content color, a dark gray rather than
+     the label role's lighter secondary. */
+  .bcn-wdate__label {
+    font-weight: var(--typography-font-weight-semibold, 600);
+    color: var(--color-content-default);
+    white-space: nowrap;
+  }
+
+  /* Height compaction + width clamp. See the HEIGHT note in the header for why the
+     private token is re-pointed and why ~32px is the floor. The width clamp stops
+     the select stretching to its longest option label ("Past 90 days"). */
+  .bcn-wdate esa-select {
+    --_field-padding-y: var(--spacing-100);
+    inline-size: var(--bcn-wdate-width, 9.5rem);
+  }
+</style>

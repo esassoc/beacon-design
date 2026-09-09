@@ -28,8 +28,17 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnWidgetMenu from './BcnWidgetMenu.astro';
 
 interface Props {
-  /** WidgetDef.id — the page's handle on this tile (data-widget-id). */
+  /**
+   * INSTANCE id — the page's handle on this tile (data-widget-id). For the first
+   * instance of a widget this equals the WidgetDef.id; added copies carry a
+   * suffix (`obs-active~2`), which is why identity and type are separate props.
+   */
   id: string;
+  /**
+   * WidgetDef.id this tile renders. Defaults to `id` (the first instance case).
+   * Cloned instances need it to look up their sections, charts and scopes.
+   */
+  type?: string;
   title: string;
   /** Columns of the 3-column grid. */
   width: 1 | 2 | 3;
@@ -46,13 +55,21 @@ interface Props {
   footHref?: string;
   footLabel?: string;
 }
-const { id, title, width, height, accent, iconName, iconPaths, footHref, footLabel } = Astro.props;
+const { id, type, title, width, height, accent, iconName, iconPaths, footHref, footLabel } = Astro.props;
+const widgetType = type ?? id;
 const hasFoot = Boolean(footHref && footLabel);
 ---
 
 {/* NO head-control slot (Andy round 5, rule for ALL widgets): tools/ui that
     operate a widget live in its BODY — the header carries identity (glyph,
-    title) and the widget chrome (grip, ⋯) only.
+    title) and the widget chrome (grip, ⋯) only. BcnComplianceList states the same
+    rule independently for its own Show control, which is why it reads as a general
+    ruling rather than a note about one widget.
+    The per-widget date range was trialled in this header twice on 2026-09-08 and
+    returned to the body both times, deliberately, on that rule. Don't re-add a
+    header slot without checking the ruling still stands — note that the rule
+    predates the chrome becoming permanently visible, so its original premise may
+    have been the hover-reveal.
 
     The card is rendered in TWO branches because of the conditional-slot quirk:
     `{cond && <a slot="footer">}` registers the slot even when falsy, so
@@ -61,6 +78,7 @@ const hasFoot = Boolean(footHref && footLabel);
 <section
   class="bcn-dwidget"
   data-widget-id={id}
+  data-widget-type={widgetType}
   data-w={width}
   data-h={height}
   style={`--_accent: ${accent};`}
@@ -158,8 +176,82 @@ const hasFoot = Boolean(footHref && footLabel);
     --card-header-bg: var(--color-background-elevation-sunken);
     --_card-header-border: var(--color-border-default-strong);
   }
+
+  /* Body top padding is tightened (2026-09-08). esa-card's --card-padding is a
+     single public knob for all four sides, and the other three are right — only the
+     TOP needed to come in, because the header's own padding already separates the
+     title from the content and the two stacked together read as a gap. Applied at
+     the shell so all widgets agree; a per-widget version would make the tops
+     visibly uneven across the board.
+
+     History, because the value has moved several times: 24px (the --card-padding
+     default) → 12px → 0px BY ACCIDENT → 12px. The 0px was a real bug: this read
+     `var(--bcn-dwidget-body-pad-top)` after the token that defined it was deleted,
+     and an undefined var is invalid at computed-value time, which for a
+     non-inherited property like padding falls back to the INITIAL value (0) rather
+     than to the 24px anyone would assume. Hence a literal token here, not a var
+     indirection that can be orphaned again. */
   .bcn-dwidget :global(.esa-card__body) {
     flex: 1;
+    padding-block-start: var(--spacing-300);
+  }
+
+  /* Header vertical padding tightened (2026-09-08) for the stacked header + filter
+     bar look: the two bands sit closer so they read as one chrome block above the
+     content rule. esa-card fixes the header's block padding at --spacing-400 with
+     no knob for it (the inline axis is --card-padding), so only the block axis is
+     overridden here. */
+  .bcn-dwidget :global(.esa-card__header) {
+    /* min-height is the REASON the padding change looked like nothing: esa-card
+       hardcodes `min-height: 56px` on its header with no knob, so trimming the
+       padding just moved slack around inside a fixed 56px band. Zeroing the floor
+       is what actually lets the header shrink; the 28px content row (title, grip,
+       ⋯) plus this padding now sets the height. Another missing theming hook, same
+       family as the header border — a --card-header-min-height knob would retire it. */
+    min-height: 0;
+    padding-block: var(--spacing-200);
+  }
+
+  /* A switched-off SECTION must actually disappear. `hidden` alone is not enough:
+     the UA's `[hidden] { display: none }` loses to ANY author display declaration,
+     and a section is frequently also a layout primitive (`data-section="outstanding"`
+     is a `.stack`, which sets display:flex) — so the section stayed visible while
+     its hidden property read true. Caught in review 2026-09-08; the property was
+     right and the render was wrong, which is exactly the failure a `.hidden` check
+     cannot see. This selector outweighs the primitive classes without !important. */
+  .bcn-dwidget :global([data-section][hidden]) {
+    display: none;
+  }
+
+  /* ── Count displays: label ABOVE the value, in the value's own color ────────
+     Applied at the SHELL so every stat on the dashboard agrees — a label that
+     sits above the number on three widgets and below it on six would read as a
+     bug, and each stat is an esa-stat inside a widget.
+
+     `order` is a MISSING THEMING HOOK, not a token re-point: esa-stat renders
+     value → label → sub with no labelPosition prop and no order knob, so flipping
+     it means reaching into .esa-stat__label. That is the same class of override
+     (and the same hub-ask candidate) as --_card-header-border above; a
+     `labelPosition` prop or --stat-label-order on the lego is what would retire
+     it. The sub is left alone, so it stays under the value where it belongs.
+
+     Color follows --stat-value-color rather than restating a literal, so a widget
+     that re-points its value (Compliance Concerns tints its count with the danger
+     token) gets a matching label for free instead of drifting. Weight is NOT
+     matched: same color at the value's 650 would read as a second heading and
+     compete with the widget title. */
+  .bcn-dwidget :global(.esa-stat__label) {
+    order: -1;
+    color: var(--stat-value-color, var(--color-text-primary, #171717));
+  }
+
+  /* The number centres under its title. text-align (not align-items) so every line
+     shares ONE centre axis — the title is the widest line, so centring the box of
+     each child would give the same result here but drift the moment a sub line runs
+     longer than the title. Also a missing hook: esa-stat has no alignment prop, so
+     this rides along with the order override above and retires with it. */
+  .bcn-dwidget :global(.esa-stat) {
+    text-align: center;
   }
 
   /* ── Hover chrome: border steps on the card's public knob, a quiet lift, and the
@@ -173,13 +265,15 @@ const hasFoot = Boolean(footHref && footLabel);
   .bcn-dwidget:hover :global(.esa-card) {
     box-shadow: var(--elevation-2);
   }
+  /* Controls are ALWAYS visible (2026-09-08). They were hover-revealed, which was
+     defensible while the header held only chrome — but the date range now sits in
+     this group, and a data control that appears on hover is a control most people
+     never find. It also removed the reason the group could not be shared: the row
+     no longer changes width when the pointer enters, so nothing shifts.
+     The drag-mode rule further down still hides them while a widget is being
+     moved — that is transient state, not resting state. */
   .bcn-dwidget__tools {
-    opacity: 0;
     transition: opacity 120ms ease;
-  }
-  .bcn-dwidget:hover .bcn-dwidget__tools,
-  .bcn-dwidget:focus-within .bcn-dwidget__tools {
-    opacity: 1;
   }
 
   .bcn-dwidget__head {

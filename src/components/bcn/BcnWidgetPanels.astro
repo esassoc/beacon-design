@@ -21,6 +21,26 @@
 // specimen's `.panel__h`, which is the `typography-label-sm` role in the
 // secondary content color. Put it on the label inside slot b or c.
 //
+// THE WIDGET-BODY LAYOUT RULES (derived from Vehicle Mileage / WEAP, 2026-09-08).
+// These are LAYOUT rules only — they say nothing about which content belongs in a
+// widget, only how whatever is there gets arranged:
+//
+//   L1  The headline figure takes the narrow FIXED rail (slot a, 220px / 190px).
+//       Charts and tables take the FLEXIBLE tracks (slots b, c). A chart placed in
+//       the rail is capped at rail width no matter how much room the widget has.
+//
+//   L2  Content SPREADS to the space available. The same panels occupy one, two or
+//       three tracks depending on the widget's width — a chart in a 1-column widget
+//       is perfectly fine, it simply gets the whole column; give the widget more
+//       width and the panels spread out rather than the first one growing.
+//
+//   L3  Every non-rail panel carries a title (`.bcn-panel-label`, or the caller's
+//       own `typography-label-md-strong`) naming its derivation.
+//
+//   L4  Reflow is measured on the WIDGET, not the viewport (the container queries
+//       below). Narrowing a widget stacks its panels and each one keeps full width,
+//       instead of three tracks crushing together.
+//
 // bcn-lego-checked: no esa-* lego is a divided multi-panel body — esa-card is the
 // chrome these panels sit INSIDE, esa-collapsible is a disclosure, esa-container is
 // page width. The @esa/tokens layout primitives were checked and are used where they

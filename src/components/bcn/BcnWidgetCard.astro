@@ -1,9 +1,10 @@
 ---
 // <BcnWidgetCard> — the pick card for ONE registered widget in the Monitoring
 // dashboard's "Add widget" dialog gallery (spec §11.4). Every widget always
-// renders; the ones already on the board render disabled with an `On dashboard`
-// badge, because "always show all" makes the gallery a stable map of what exists
-// rather than a shrinking list.
+// renders; the ones already on the board carry an `On dashboard` badge, because
+// "always show all" makes the gallery a stable map of what exists rather than a
+// shrinking list. A placed card is NOT disabled (changed 2026-09-08): widgets are
+// instanceable, so picking one again adds another copy.
 //
 // Shares BcnStreamCard's visual language deliberately and shares NO code with it
 // (spec §11.4: right at n=2, a common tile base would be over-abstraction —
@@ -16,7 +17,7 @@
 // w × h footprint chip (the size picker is one click away after placing).
 //
 // Owns NO click logic and NO storage. The page delegates clicks on
-// [data-widget-card] and flips data-on + disabled in place — every state below is
+// [data-widget-card] and flips data-on in place — every state below is
 // attribute-driven so a pick needs no re-render.
 //
 // bcn-lego-checked: esa-card is the shell (body-only — its `icon` prop can't take
@@ -40,7 +41,11 @@ interface Props {
   iconName: string;
   /** Inner SVG for a glyph outside esa-icon's registry (STREAM_ICON_PATHS). */
   iconPaths?: string;
-  /** SSR initial placed-state. The page re-syncs it at runtime via data-on + disabled. */
+  /**
+   * SSR initial placed-state — drives the `On dashboard` badge only. NOT disabled:
+   * since 2026-09-08 a widget may be placed more than once, so being on the board
+   * is information, not a reason to block the pick. The page re-syncs data-on.
+   */
   on?: boolean;
 }
 const { id, title, streamName, iconName, iconPaths, on = false } = Astro.props;
@@ -57,7 +62,6 @@ const showStream = !!streamName && streamName !== title;
   data-widget-card
   data-widget-id={id}
   data-on={on ? '' : undefined}
-  disabled={on}
 >
   <EsaCard>
     <span class="bcn-widget-card__body stack" data-gap="md">

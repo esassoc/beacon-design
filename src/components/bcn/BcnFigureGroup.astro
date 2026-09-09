@@ -1,0 +1,116 @@
+---
+// <BcnFigureGroup> — a widget's headline figures banded together inside ONE border,
+// split by a hairline rule: the count and its chart read as a single grouped
+// statement rather than two loose blocks on the card.
+//
+// Replaces the earlier per-element panel experiment (2026-09-07). That version gave
+// every element its own bordered box on a toned-down card; this keeps the card WHITE
+// (the default widget surface) and draws one border around the pair, which is the
+// distinction between "four objects in a trough" and "one grouped figure".
+//
+// Direction is a CONTAINER query against the widget, not the viewport — the same
+// mechanism and the same 560px threshold BcnWidgetPanels uses, so the two agree on
+// when a widget is too narrow for side-by-side. Above it: a row with a VERTICAL
+// separator. Below it (a 1-column widget, ~365px): a column, and the separator
+// rotates to a horizontal rule rather than disappearing, because it is what
+// separates one reading from the next.
+//
+// bcn-lego-checked: esa-card is the WIDGET's chrome (header/footer slots, hover
+// elevation, drag states) — nesting one per figure group would duplicate card
+// semantics for what is a border and a rule. Checked BcnWidgetPanels, the existing
+// body splitter: it divides with hairlines but draws NO enclosing border and pins a
+// hard 220px stat column for the wide banner widgets, so it is the right tool there
+// and the wrong one for an enclosed pair in a 1-column widget. Checked Beacon prod:
+// project-monitoring-dashboard's .observation-panels are flat sections sharing the
+// card face, with no enclosing border. bcn-figure-group is the reusable home.
+
+interface Props {
+  /**
+   * Give the FIRST figure a fixed width instead of an equal share, for a pair whose
+   * second half needs the room (a wide chart beside a narrow count). Any CSS length.
+   * Ignored once the group stacks.
+   */
+  leadWidth?: string;
+}
+
+const { leadWidth } = Astro.props;
+---
+
+<div class="bcn-figure-group" style={leadWidth ? `--_lead: ${leadWidth};` : undefined}>
+  <slot />
+</div>
+
+<style>
+  /* No border and no background of its own: the group sits directly on the widget
+     card. The only chrome it draws is the RULE between figures — the enclosing
+     border was tried (2026-09-07) and cut, because on a white card it read as a
+     second card inside the card. */
+  .bcn-figure-group {
+    display: flex;
+    min-inline-size: 0;
+  }
+
+  /* Padding exists only to give the RULE air, so it is applied on the inner edges
+     and zeroed on the outer ones — the figures stay flush with the card's own
+     content box instead of sitting in a nested indent.
+     :global is REQUIRED, not stylistic — the figures arrive through <slot>, so they
+     carry the CALLER's astro scope id and a scoped `> *` never matches them (the
+     same reason BcnWidgetPanels globals its .bcn-panel-label). Every rule below
+     that targets a slotted child needs it; the rules targeting .bcn-figure-group
+     itself do not, because that element is ours. */
+  .bcn-figure-group :global(> *) {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    padding-inline: var(--spacing-400);
+  }
+
+  .bcn-figure-group :global(> :first-child) {
+    padding-inline-start: 0;
+  }
+
+  .bcn-figure-group :global(> :last-child) {
+    padding-inline-end: 0;
+  }
+
+  .bcn-figure-group[style*='--_lead'] :global(> :first-child) {
+    flex: 0 0 var(--_lead);
+  }
+
+  /* The rule belongs to the figure that FOLLOWS it — so the first needs no reset
+     and adding a third figure never means re-tuning the second. Subtle weight, not
+     the enclosing border's: it divides, it does not enclose. */
+  .bcn-figure-group :global(> * + *) {
+    border-inline-start: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* Under ~560px the widget is a single column (~365px at the reference viewport):
+     stack, and rotate the rule. Matches BcnWidgetPanels' threshold so a page never
+     shows one component stacked beside another still in a row. */
+  @container (max-width: 560px) {
+    .bcn-figure-group {
+      flex-direction: column;
+    }
+
+    /* Padding rotates with the axis: the inner edges are now top/bottom, so the
+       inline padding is dropped entirely (it would indent the figures from the
+       card) and the block padding takes over giving the rule its air. */
+    .bcn-figure-group :global(> *) {
+      flex: 1 1 auto;
+      padding-inline: 0;
+      padding-block: var(--spacing-300);
+    }
+
+    .bcn-figure-group :global(> :first-child) {
+      padding-block-start: 0;
+    }
+
+    .bcn-figure-group :global(> :last-child) {
+      padding-block-end: 0;
+    }
+
+    .bcn-figure-group :global(> * + *) {
+      border-inline-start: 0;
+      border-block-start: 1px solid var(--color-border-default-subtle);
+    }
+  }
+</style>

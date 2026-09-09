@@ -19,6 +19,7 @@
 // confirmations for field workers, NOT seepage readings (corrected 2026-08-24).
 
 import { FINDS, SURVEYS, TODAY, findStateMeta } from './monitoring';
+import { SEASON_GROUPS } from './project-data';
 
 export { TODAY };
 
@@ -128,6 +129,68 @@ const surveySample: SampleRecord[] = [...SURVEYS]
     workArea: s.workArea,
     status: s.status,
   }));
+
+// ── Season windows ───────────────────────────────────────────────────────────
+// SEASON_GROUPS stores seasons as recurring month/day pairs (the ProjectSeason
+// DTO's StartMonth/StartDay/EndMonth/EndDay). A timeline needs CONCRETE dates, so
+// each row is materialized into the occurrences that overlap the dashboard's
+// forward window. Wrap-year seasons (e.g. Nov 1 – Mar 31) end in the FOLLOWING
+// calendar year — the same rule BcnSeasonCard's wrapsYear math encodes.
+export interface SeasonWindow {
+  id: string;
+  name: string;
+  group: string;
+  /** Concrete ISO start of this occurrence. */
+  start: string;
+  /** Concrete ISO end of this occurrence. */
+  end: string;
+}
+
+const iso = (y: number, m: number, d: number) =>
+  new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);
+
+// Widened past any widget scope (max 90d forward) so the component, not the
+// fixture, decides what is in frame.
+const WINDOW_BACK_DAYS = 7;
+const WINDOW_FORWARD_DAYS = 120;
+
+export const SEASON_WINDOWS: SeasonWindow[] = (() => {
+  const todayMs = Date.parse(TODAY);
+  const fromMs = todayMs - WINDOW_BACK_DAYS * 86_400_000;
+  const toMs = todayMs + WINDOW_FORWARD_DAYS * 86_400_000;
+  const baseYear = new Date(todayMs).getUTCFullYear();
+  const out: SeasonWindow[] = [];
+
+  SEASON_GROUPS.forEach((group) => {
+    group.seasons.forEach((s, si) => {
+      // A season can wrap the year boundary, so the occurrence that overlaps the
+      // window may have started in the PRIOR calendar year — check y-1 too.
+      [baseYear - 1, baseYear, baseYear + 1].forEach((year) => {
+        const wraps =
+          s.endMonth < s.startMonth || (s.endMonth === s.startMonth && s.endDay < s.startDay);
+        const start = iso(year, s.startMonth, s.startDay);
+        const end = iso(wraps ? year + 1 : year, s.endMonth, s.endDay);
+        if (Date.parse(end) < fromMs || Date.parse(start) > toMs) return;
+        out.push({
+          id: `season-${group.group.replace(/\s+/g, '-').toLowerCase()}-${si}-${year}`,
+          name: s.name,
+          group: group.group,
+          start,
+          end,
+        });
+      });
+    });
+  });
+
+  return out.sort((a, b) => (a.start < b.start ? -1 : 1));
+})();
+
+const seasonSample: SampleRecord[] = SEASON_WINDOWS.map((s) => ({
+  name: s.name,
+  seasonType: s.group,
+  startDate: s.start,
+  endDate: s.end,
+}));
 
 export const STREAMS: MonitoringStream[] = [
   {
@@ -405,6 +468,32 @@ export const STREAMS: MonitoringStream[] = [
       { trainingDate: '2026-06-02', worker: 'T. Reyes', company: 'Bayline Drilling', trade: 'Support driver', trainer: 'Christy Pierce' },
     ],
   },
+  {
+    id: 'seasons',
+    name: 'Season Windows',
+    icon: 'calendar-range',
+    markColor: 'var(--bcn-mark-green)',
+    description:
+      'Biological and regulatory season windows in effect for the project — nesting seasons, in-water work windows, and species activity periods, with the source authority for each.',
+    // Not a field-collected stream: seasons are authored against source documents
+    // in the Commitment Library, which is why the source form/system name that
+    // surface rather than a Fulcrum form.
+    sourceForm: 'Project Seasons (Commitment Library)',
+    sourceSystem: 'Beacon',
+    table: 'dbo.ProjectSeason',
+    status: 'active',
+    recordCount: SEASON_WINDOWS.length,
+    lastSync: '2026-06-17 06:10',
+    firstRecord: SEASON_WINDOWS[0]?.start ?? '',
+    syncCadence: 'On change',
+    fields: [
+      { name: 'name', label: 'Season', type: 'text' },
+      { name: 'seasonType', label: 'Season type', type: 'select' },
+      { name: 'startDate', label: 'Start', type: 'date' },
+      { name: 'endDate', label: 'End', type: 'date' },
+    ],
+    sampleRecords: seasonSample,
+  },
 ];
 
 export const streamById = (id: string): MonitoringStream | undefined => STREAMS.find((s) => s.id === id);
@@ -430,6 +519,8 @@ export const STREAM_ICON_PATHS: Record<string, string> = {
   leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
   'clipboard-check':
     '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+  'calendar-range':
+    '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M3 10h18"/><path d="M8 2v4"/><path d="M17 14h-6"/><path d="M13 18H7"/><path d="M7 14h.01"/><path d="M17 18h.01"/>',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -442,7 +533,7 @@ export const STREAM_ICON_PATHS: Record<string, string> = {
 export type WidgetWidth = 1 | 2 | 3;
 export type WidgetHeight = 2 | 3 | 4 | 5;
 /** Visualization primitives a widget can render. First entry = default. */
-export type WidgetChart = 'donut' | 'bars' | 'trend' | 'list' | 'stat' | 'meter';
+export type WidgetChart = 'donut' | 'bars' | 'trend' | 'list' | 'stat' | 'meter' | 'seasons';
 export type WidgetScope = '7d' | '14d' | '30d' | '90d';
 
 // ── Widget color (spec §10.6) ────────────────────────────────────────────────
@@ -458,6 +549,26 @@ export type MarkKey = 'orange' | 'amber' | 'moss' | 'emerald' | 'teal' | 'sky' |
 export type WidgetColor =
   | { mode: 'mono'; color: MarkKey }
   | { mode: 'series'; series: Record<string, MarkKey> };
+
+/**
+ * A toggleable PART of a widget (2026-09-08). The dashboard is configurable at two
+ * levels: which widgets are on the page, and which sections are on inside each
+ * widget — so "Active Observations" is not one fixed block but a stats figure, a
+ * map, and an outstanding-issues list a viewer can turn on independently.
+ *
+ * Declared ONLY by widgets that genuinely have parts. A single-figure widget
+ * (Surveys, Biological Resources) omits `sections` entirely and its configure form
+ * shows no section toggles — a control whose only possible value is "on" is a dead
+ * control, not a uniform model.
+ */
+export interface WidgetSection {
+  /** Matches a `data-section` value in the widget's markup. */
+  id: string;
+  /** Label in the configure form. */
+  label: string;
+  /** On when an instance is first created. */
+  on: boolean;
+}
 
 export interface WidgetDef {
   id: string;
@@ -475,22 +586,49 @@ export interface WidgetDef {
       accent swatch row; series = one row per data series; status = none. */
   colorMode: 'mono' | 'series' | 'status';
   defaultOn: boolean;
+  /** Toggleable parts. Omitted = the widget is one indivisible block. */
+  sections?: WidgetSection[];
+  /**
+   * True when the widget's headline figure is a QUANTITY ACCUMULATED OVER A PERIOD,
+   * which is the only kind a date range can honestly re-derive (2026-09-08). Drives
+   * two things together: whether the widget renders a date-range control, and
+   * whether its configure form offers "Default date range". They must not diverge —
+   * a form field setting a window the widget cannot apply is a dead control.
+   */
+  windowed?: boolean;
 }
 
 // Registry order IS the default layout (spec.md §2: bands A–F).
 export const WIDGETS: WidgetDef[] = [
-  { id: 'obs-active', streamId: 'observations', title: 'Active Observations', width: 2, height: 5, charts: ['donut'], scopes: ['30d', '7d'], colorMode: 'series', defaultOn: true },
-  { id: 'obs-nesting-birds', streamId: 'nesting-birds', title: 'Nesting Birds', width: 1, height: 3, charts: ['bars', 'trend'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
-  { id: 'obs-concerns', streamId: 'compliance-concerns', title: 'Compliance Concerns', width: 1, height: 2, charts: ['trend'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
+  // The worked example of the section model: three real parts, each one a reading a
+  // viewer may or may not want on the page. Turning the map off here is exactly how
+  // someone would use the standalone Dashboard Map widget instead.
+  {
+    id: 'obs-active', streamId: 'observations', title: 'Active Observations', width: 2, height: 5,
+    charts: ['donut'], scopes: ['30d', '7d'], colorMode: 'series', defaultOn: true,
+    sections: [
+      { id: 'stats', label: 'Count and breakdown', on: true },
+      { id: 'activity', label: 'Activity over time', on: true },
+      { id: 'map', label: 'Observation map', on: true },
+      { id: 'latest', label: 'Latest observations', on: true },
+      { id: 'outstanding', label: 'Outstanding observations', on: true },
+    ],
+  },
+  { id: 'obs-nesting-birds', streamId: 'nesting-birds', title: 'Nesting Birds', width: 2, height: 3, charts: ['bars', 'trend'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
+  { id: 'obs-concerns', streamId: 'compliance-concerns', title: 'Compliance Concerns', width: 2, height: 3, charts: ['trend'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
   { id: 'dmr-recent', streamId: 'daily-monitoring-reports', title: 'Daily Monitoring Reports', width: 2, height: 3, charts: ['list', 'trend'], scopes: ['7d', '30d'], colorMode: 'mono', defaultOn: true },
-  { id: 'obs-bio', streamId: 'biological-resources', title: 'Biological Resources', width: 1, height: 3, charts: ['bars'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
+  { id: 'obs-bio', streamId: 'biological-resources', title: 'Biological Resources', width: 2, height: 3, charts: ['bars'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
   // Status widget (spec §11.2): severity is encoded end to end, so no Color
   // control, and the list is the only rendering — prod's section IS the design.
   { id: 'commitment-compliance', streamId: 'observations', title: 'Commitment Compliance', width: 3, height: 3, charts: ['list'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
-  { id: 'mileage-total', streamId: 'mileage', title: 'Vehicle Mileage', width: 3, height: 3, charts: ['trend', 'bars', 'stat'], scopes: ['14d', '7d', '30d', '90d'], colorMode: 'mono', defaultOn: true },
-  { id: 'runtime-total', streamId: 'runtime', title: 'Equipment Runtime', width: 2, height: 3, charts: ['trend', 'bars'], scopes: ['14d', '7d', '30d'], colorMode: 'mono', defaultOn: true },
-  { id: 'surveys-qc', streamId: 'surveys', title: 'Surveys', width: 1, height: 3, charts: ['meter'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
-  { id: 'weap-trained', streamId: 'weap', title: 'WEAP Trainings', width: 3, height: 3, charts: ['bars', 'stat'], scopes: ['30d', '90d'], colorMode: 'mono', defaultOn: true },
+  { id: 'mileage-total', windowed: true, streamId: 'mileage', title: 'Vehicle Mileage', width: 3, height: 3, charts: ['trend', 'bars', 'stat'], scopes: ['14d', '7d', '30d', '90d'], colorMode: 'mono', defaultOn: true },
+  { id: 'runtime-total', windowed: true, streamId: 'runtime', title: 'Equipment Runtime', width: 2, height: 3, charts: ['trend', 'bars'], scopes: ['14d', '7d', '30d'], colorMode: 'mono', defaultOn: true },
+  { id: 'surveys-qc', streamId: 'surveys', title: 'Surveys', width: 2, height: 3, charts: ['meter'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
+  { id: 'weap-trained', windowed: true, streamId: 'weap', title: 'WEAP Trainings', width: 3, height: 3, charts: ['bars', 'stat'], scopes: ['30d', '90d'], colorMode: 'mono', defaultOn: true },
+  // Season lane: full 3-column width because a date axis compressed into one
+  // column cannot resolve a multi-month window. 90d default — season windows are
+  // months long, so a 7d or 14d scope would show every bar clipped at both edges.
+  { id: 'seasons-window', streamId: 'seasons', title: 'Season Windows', width: 3, height: 3, charts: ['seasons'], scopes: ['90d', '30d'], colorMode: 'mono', defaultOn: true },
 ];
 
 export const widgetById = (id: string): WidgetDef | undefined => WIDGETS.find((w) => w.id === id);
@@ -567,18 +705,70 @@ export interface WidgetConfig {
   color?: WidgetColor;
 }
 
-export interface DashboardConfig {
-  /** Render order (widget ids). Ids missing from the list append in registry order. */
-  order: string[];
-  widgets: Record<string, WidgetConfig>;
+/**
+ * A PLACED widget — one tile on the board (2026-09-08). Instances exist because the
+ * same widget may be added more than once: with sections toggleable, two Active
+ * Observations tiles are a real thing to want (one showing just the map, one just
+ * the outstanding list), so identity had to move off the widget id.
+ *
+ * `type` is the WidgetDef.id this renders; the RECORD KEY is the instance id. The
+ * first instance of a type keeps the bare type id as its instance id, so the default
+ * board reads the way it always did and only added copies carry a suffix.
+ */
+export interface WidgetInstance extends WidgetConfig {
+  type: string;
+  /**
+   * Section id → on. Absent keys fall back to the section's registry default, so a
+   * widget gaining a new section does not have every saved layout hide it.
+   */
+  sections?: Record<string, boolean>;
 }
+
+export interface DashboardConfig {
+  /** Render order (INSTANCE ids). Ids missing from the list append in registry order. */
+  order: string[];
+  widgets: Record<string, WidgetInstance>;
+}
+
+/** Instance id for an added copy — `obs-active~2`. The separator is one a widget id never contains. */
+export const INSTANCE_SEP = '~';
+export const instanceType = (instanceId: string): string => instanceId.split(INSTANCE_SEP)[0];
+
+/** Next free instance id for a type, given the ids already placed. */
+export const nextInstanceId = (type: string, taken: Iterable<string>): string => {
+  const used = new Set(taken);
+  if (!used.has(type)) return type;
+  for (let n = 2; ; n++) {
+    const id = `${type}${INSTANCE_SEP}${n}`;
+    if (!used.has(id)) return id;
+  }
+};
+
+/** Section defaults for a type, as a plain map. */
+export const defaultSections = (type: string): Record<string, boolean> =>
+  Object.fromEntries((widgetById(type)?.sections ?? []).map((s) => [s.id, s.on]));
 
 export const defaultDashboardConfig = (): DashboardConfig => ({
   order: WIDGETS.map((w) => w.id),
   widgets: Object.fromEntries(
-    WIDGETS.map((w) => [w.id, { on: w.defaultOn, width: w.width, height: w.height, chart: w.charts[0], scope: w.scopes[0] }]),
+    WIDGETS.map((w) => [
+      w.id,
+      {
+        type: w.id,
+        on: w.defaultOn,
+        width: w.width,
+        height: w.height,
+        chart: w.charts[0],
+        scope: w.scopes[0],
+        sections: defaultSections(w.id),
+      },
+    ]),
   ),
 });
 
 /** localStorage key for the composer's saved layout. */
-export const DASHBOARD_CONFIG_KEY = 'bcn-mpdash-layout-v3';
+// v4: the widgets record is keyed by INSTANCE id and each entry carries `type` +
+// `sections`. The key is bumped rather than migrated — a v3 record has no `type`,
+// so reading one would produce instances that render nothing. Bumping drops stale
+// layouts back to defaults, which is the honest outcome for a prototype.
+export const DASHBOARD_CONFIG_KEY = 'bcn-mpdash-layout-v4';

@@ -78,11 +78,19 @@
   /* A FIXED viewport. Its height does not react to the guest, which is what keeps
      the dialog from resizing as the width tabs change what is inside. */
   .bcn-preview-stage {
+    /* The well's own chrome is RE-POINTABLE, because "a sunken framed well" is one
+       presentation of a stage, not the only one: the widget-config dialog now puts
+       the guest straight onto a tinted column with no frame at all. Consumers move
+       these three; nothing here is edited. --_bg is read by the overflow gradient
+       below too, so the fade always matches whatever surface it fades into. */
+    --_bg: var(--bcn-preview-stage-bg, var(--color-background-elevation-sunken));
+    --_border: var(--bcn-preview-stage-border, 1px solid var(--color-border-default));
+    --_radius: var(--bcn-preview-stage-radius, var(--radius-200));
     position: relative;
-    height: 520px;
-    background: var(--color-background-elevation-sunken);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-200);
+    height: var(--bcn-preview-stage-height, 520px);
+    background: var(--_bg);
+    border: var(--_border);
+    border-radius: var(--_radius);
     overflow: hidden;
   }
 
@@ -92,7 +100,7 @@
   .bcn-preview-stage__scroll {
     height: 100%;
     overflow-y: auto;
-    padding: var(--spacing-500);
+    padding: var(--bcn-preview-stage-padding, var(--spacing-500));
     scrollbar-gutter: stable;
   }
 
@@ -105,13 +113,9 @@
     right: 1px;
     bottom: 1px;
     height: 40px;
-    background: linear-gradient(
-      to top,
-      var(--color-background-elevation-sunken),
-      color-mix(in srgb, var(--color-background-elevation-sunken) 0%, transparent)
-    );
+    background: linear-gradient(to top, var(--_bg), color-mix(in srgb, var(--_bg) 0%, transparent));
     pointer-events: none;
-    border-radius: 0 0 var(--radius-200) var(--radius-200);
+    border-radius: 0 0 var(--_radius) var(--_radius);
   }
 
   /* The wrapper carries the SCALED box (a transform does not affect layout), so the
