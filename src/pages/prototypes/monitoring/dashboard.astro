@@ -1694,12 +1694,16 @@ const addCards = WIDGETS.map((w) => {
         setExpanded(caret, body, checked);
       }
 
-      // Re-section the preview so the switch shows its own consequence, then move
-      // the bar between the on/off groups.
+      // Re-section the preview so the switch shows its own consequence.
+      //
+      // The bar deliberately does NOT move (Jamie, 2026-09-10). It used to jump
+      // between the on and off groups on every flip, which meant the row you just
+      // clicked left under the pointer — and turning two sections off in a row moved
+      // the second one before you reached it. The partition is applied when the list
+      // is BUILT (setSectionFields, i.e. on open) and by the board on save; between
+      // those, the list holds still. orderedSections() is still the single rule, so
+      // nothing diverges — this only changes WHEN it is applied.
       if (clone && openType) applySections(clone, openType, draft.sections);
-      const info = openType ? infoById.get(openType) : undefined;
-      const list = row.closest<HTMLElement>('[data-cfgsec-list]');
-      if (info && list) reorderSectionRows(list, info, draft.sections);
       reframe();
     } else if (el.hasAttribute('data-cfgsec-setting')) {
       const row = el.closest<HTMLElement>('[data-cfgsec]');

@@ -42,7 +42,7 @@ import { WIDGETS } from '../../data/monitoring-streams';
 {/* One block per widget type; the page unhides the open one. */}
 {
   WIDGETS.filter((w) => (w.sections?.length ?? 0) > 0).map((w) => (
-    <div class="bcn-cfgsec-list stack" data-gap="xs" data-cfgsec-list={w.id} hidden>
+    <div class="bcn-cfgsec-list stack" data-cfgsec-list={w.id} hidden>
       {(w.sections ?? []).map((s) => (
         <div class="bcn-cfgsec" data-cfgsec={s.id}>
           <div class="bcn-cfgsec__bar">
@@ -134,16 +134,36 @@ import { WIDGETS } from '../../data/monitoring-streams';
 </script>
 
 <style>
-  /* ── The bar. Full width, so a row reads as one band per section rather than as a
-        switch with a name trailing off it. ── */
-  .bcn-cfgsec {
+  /* ── [hidden] HAS TO BE RESTATED HERE, and this cost real time to find. Both the
+        per-widget lists and the settings bodies carry `.stack`, which is
+        `display: flex` from @esa/tokens/layouts.css — and a class beats the UA's
+        `[hidden] { display: none }`, so `hidden` painted anyway. Symptoms: every
+        widget's section list showed at once (all 11, 32 bars) and the expand caret
+        appeared dead because the body was never hidden to begin with.
+        BcnConfigDialog already carries a `.bcn-cfg [hidden]` rule for exactly this
+        trap — but Astro scopes it to the DIALOG's cid, so it cannot reach elements
+        this component rendered. A scoped fix does not cross a component boundary;
+        each component that uses a layout primitive plus `hidden` needs its own. ── */
+  [hidden] {
+    display: none !important;
+  }
+
+  /* ── A STACKED ROW LIST, not a stack of cards (Jamie, 2026-09-10). One continuous
+        band per widget: full-width rows sharing a single hairline between neighbours,
+        so the list reads as one object with parts rather than as N floating chips.
+        The border lives on the row that FOLLOWS, so the first row needs no reset and
+        adding a row never means re-tuning the one above it. ── */
+  .bcn-cfgsec-list {
     border: 1px solid var(--color-border-default-subtle);
     border-radius: var(--radius-md);
-    /* -raised, not -base: `--color-background-elevation-base` is UNDEFINED in this
-       app (three other places in the spoke reference it and get nothing, which is
-       invisible because an invalid background just falls back to transparent). The
-       defined set is raised / floating / sunken. */
-    background: var(--color-background-elevation-raised);
+    overflow: hidden;
+    /* The rows ARE the list; no gap between them, or the divider reads as a gap with
+       a line in it. */
+    gap: 0;
+  }
+
+  .bcn-cfgsec + .bcn-cfgsec {
+    border-block-start: 1px solid var(--color-border-default-subtle);
   }
 
   /* Dragging lifts the bar out of the flow visually; the page owns the class. */
@@ -208,10 +228,20 @@ import { WIDGETS } from '../../data/monitoring-streams';
     border-radius: var(--radius-xs);
   }
 
-  /* The settings sit INSIDE the bar's border, indented past the grip so they read as
-     belonging to the section above them rather than as the next row. */
+  /* The settings are indented well past the grip so they read as belonging to the
+     row above them rather than as the next row, and sit on the sunken surface so the
+     disclosure has a visible extent even when it holds one small field. */
   .bcn-cfgsec__body {
-    padding-inline: var(--spacing-400) var(--spacing-200);
-    padding-block-end: var(--spacing-250);
+    padding-inline: var(--spacing-600) var(--spacing-300);
+    padding-block: var(--spacing-200) var(--spacing-300);
+    background: var(--color-background-elevation-sunken);
+  }
+
+  /* A count field asks for one digit. esa-select has no size below `sm` (its own
+     note: an xs block inverted the height ramp, so sm is the floor by decision), so
+     "smaller" here is WIDTH — a 1–7 picker spanning the whole column reads as a
+     text input for something long. */
+  .bcn-cfgsec__body [data-kind='count'] {
+    inline-size: 6rem;
   }
 </style>

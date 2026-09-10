@@ -22,6 +22,12 @@
 // open widget's colorMode is 'series' — labels are categories that exist in the
 // data, never invented palette names (spec §10.6).
 //
+// SIZE: esa-dialog offers xs|sm|md|lg|fullscreen, so `lg` IS the largest bounded
+// option — the width below is a spoke override on top of it (lg's own default is
+// 640px). Only `fullscreen` is larger, and it is deliberately not used: 100vw/100vh
+// with no radius turns a form into a page, and on a wide monitor it puts the two
+// columns an arm's length apart. Widen the override instead when this needs room.
+//
 // bcn-lego-checked: the shell is esa-dialog size="lg" with --dialog-width-lg
 // re-pointed (a documented public knob — a re-point, not a fork); tabs are
 // esa-button-toggle md; fields esa-text-field / esa-select md; footer buttons
@@ -42,7 +48,7 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
   heading="Configure widget"
   size="lg"
   show-close-button
-  style="--dialog-width-lg: min(1140px, 94vw);"
+  style="--dialog-width-lg: min(1320px, 94vw);"
 >
   <div class="bcn-cfg">
     <div class="bcn-cfg__preview">
@@ -166,7 +172,12 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
   .bcn-cfg {
     --_bleed: var(--spacing-500);
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 348px;
+    /* 396px, up from 348 (2026-09-10). The options column now carries the section
+       BARS — grip, switch, name, caret on one line — and 348 left the longer names
+       ("Outstanding issues needing attention") wrapping against the caret. The
+       preview keeps the remaining 1fr, which the wider dialog grew rather than
+       shrank. */
+    grid-template-columns: minmax(0, 1fr) 396px;
     gap: 0;
     align-items: stretch;
     margin: calc(-1 * var(--_bleed));
