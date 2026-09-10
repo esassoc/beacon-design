@@ -154,11 +154,12 @@ import { WIDGETS } from '../../data/monitoring-streams';
         The border lives on the row that FOLLOWS, so the first row needs no reset and
         adding a row never means re-tuning the one above it. ── */
   .bcn-cfgsec-list {
-    border: 1px solid var(--color-border-default-subtle);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    /* The rows ARE the list; no gap between them, or the divider reads as a gap with
-       a line in it. */
+    /* NO enclosing border (Jamie, 2026-09-10). The rows sit directly on the panel:
+       a box around them made the list a card inside a card, competing with the
+       dialog's own surface for the same job. The hairlines between rows carry the
+       structure on their own.
+       No gap either — the rows ARE the list, and a gap would turn each divider into
+       a trough with a line in it. */
     gap: 0;
   }
 
@@ -175,8 +176,12 @@ import { WIDGETS } from '../../data/monitoring-streams';
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
-    padding-inline: var(--spacing-200);
-    padding-block: var(--spacing-150);
+    /* Flush to the panel: with no box around the list, an inline pad would indent
+       the rows from the fields above them for no reason the eye can see. */
+    padding-inline: 0;
+    /* 12px, up from 6 — a row carrying a grip, a switch and a caret needs the height
+       to read as a band rather than as three controls on a line. */
+    padding-block: var(--spacing-300);
   }
 
   /* The switch takes the slack so the caret sits at the trailing edge and every bar
@@ -232,7 +237,7 @@ import { WIDGETS } from '../../data/monitoring-streams';
      row above them rather than as the next row, and sit on the sunken surface so the
      disclosure has a visible extent even when it holds one small field. */
   .bcn-cfgsec__body {
-    padding-inline: var(--spacing-600) var(--spacing-300);
+    padding-inline: var(--spacing-500) 0;
     padding-block: var(--spacing-200) var(--spacing-300);
     background: var(--color-background-elevation-sunken);
   }
