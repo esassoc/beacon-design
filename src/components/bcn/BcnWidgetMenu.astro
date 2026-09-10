@@ -10,7 +10,7 @@
 //   🗑 Remove widget      32px row, danger
 //
 // The size-square picker, its readout, and the height axis are CUT (Andy
-// round 5): width is the one dimension a user sets — height stays the widget's
+// round 5): width is the one dimension a user sets — height is the widget's
 // stored footprint, and rows stretch. The toggle still emits the full
 // {width, height} pair, height carried from the committed value the page seeds.
 //
@@ -101,7 +101,7 @@ const SETTINGS_2 =
   import '@esa/ecology/esa-popover';
   import '@esa/ecology/esa-button-toggle';
 
-  type Size = { width: number; height: number };
+  type Size = { width: number };
   type ToggleOption = { label: string; value: string };
   type Popover = HTMLElement & { open: boolean };
 
@@ -122,7 +122,7 @@ const SETTINGS_2 =
     // The committed footprint. Height has no control here (cut, Andy round 5) but
     // still rides every emission — the page's size record is a {width, height}
     // pair, and the carried height is what keeps a width change from resetting it.
-    let committed: Size = { width: 1, height: 2 };
+    let committed: Size = { width: 1 };
 
     const sync = (s: Size) => {
       committed = s;
@@ -155,7 +155,7 @@ const SETTINGS_2 =
     toggle?.addEventListener('change', (ev) => {
       const value = Number((ev as CustomEvent<{ value: string }>).detail?.value);
       if (!Number.isFinite(value) || value === committed.width) return;
-      const next: Size = { width: value, height: committed.height };
+      const next: Size = { width: value };
       sync(next);
       emit('bcn-size-change', next);
     });

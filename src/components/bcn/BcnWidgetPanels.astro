@@ -5,8 +5,25 @@
 //
 // The wide banner widgets (Daily Monitoring Reports, Vehicle Mileage, Equipment
 // Runtime, WEAP Trainings) all read the same way — a narrow stat column on the
-// left, then one or two flexible columns of viz beside it, split by hairlines.
-// This owns that split so each banner does not re-derive it.
+// left, then one or two flexible columns of viz beside it. This owns that split so
+// each banner does not re-derive it.
+//
+// A DIVIDER BETWEEN SIDE-BY-SIDE PANELS, CENTRED IN THE TROUGH (Jamie, 2026-09-09).
+// Vertical only: stacked sections read in sequence down the card, so a line across
+// them describes an order the reading order already gives away.
+//
+// HOW IT IS CENTRED, because the obvious way is not. Put the border on the second
+// panel's leading edge with the grid's column-gap to its left and matching padding to
+// its right, and the maths says centred — 24px of air each side. It does not LOOK
+// centred, because the panel to its left is a fixed 190/220px rail whose content
+// (a short figure) does not reach the column edge: the eye measures from the text, so
+// the line reads as shoved up against the panel on its right.
+//
+// So the trough is built from PADDING instead, and the column gap is zero. Every
+// panel carries 12px on both inline sides — cleared at the card's own edges — which
+// makes the boundary between two columns exactly 12px + 12px with the border sitting
+// on it. The line is then at the true midpoint of the space between two COLUMNS,
+// which is a position that does not move when the content inside them changes.
 //
 // Contract is slots only:
 //   a — the first (narrow) panel, the stat column
@@ -68,7 +85,12 @@ const hasThird = Astro.slots.has('c');
         competing with the viz beside it for the eye. ── */
   .bcn-widget-panels {
     display: grid;
-    gap: var(--spacing-400);
+    /* Column gap ZERO — the horizontal trough is made of the panels' own 12px
+       padding, so the divider can sit exactly on the column boundary (see the note
+       above). Rows keep the 24px gap: nothing is drawn between stacked sections, so
+       there space is the whole separator. */
+    column-gap: 0;
+    row-gap: var(--spacing-500);
     grid-template-columns: 220px 1fr;
     min-inline-size: 0;
     flex: 1; /* the widget body is a flex column — fill the height a stretched band gives it */
@@ -84,12 +106,23 @@ const hasThird = Astro.slots.has('c');
   .bcn-widget-panels__panel {
     --gap: var(--spacing-250);
     min-inline-size: 0;
+    /* Half the trough on each side; the two halves meet at the column boundary the
+       divider is drawn on. */
+    padding-inline: var(--spacing-300);
   }
 
-  /* The divider belongs to the panel that FOLLOWS it, so the first panel needs no
-     reset and adding a panel never means re-tuning the one before it. */
+  /* The card's own edges are not a boundary between panels — no half-trough there. */
+  .bcn-widget-panels__panel:first-child {
+    padding-inline-start: 0;
+  }
+  .bcn-widget-panels__panel:last-child {
+    padding-inline-end: 0;
+  }
+
   .bcn-widget-panels__panel + .bcn-widget-panels__panel {
-    padding-inline-start: var(--spacing-400);
+    /* The LIGHTEST hairline in the set (Jamie): this line separates two sections of
+       one card, which is a quieter job than the table rules and the chart axes that
+       take --color-border-default. */
     border-inline-start: 1px solid var(--color-border-default-subtle);
   }
 
@@ -101,8 +134,8 @@ const hasThird = Astro.slots.has('c');
         Thresholds in real widths: a 3-column widget is ~1128px at the reference
         viewport, 2-column ~746, 1-column ~365. ── */
 
-  /* Reflow 1 — a 3-panel body under ~900px keeps two tracks; the third panel
-     takes a full-width row and its divider rotates to a top hairline. */
+  /* Reflow 1 — a 3-panel body under ~900px keeps two tracks; the third panel takes
+     a full-width row. The row gap separates it from the two above. */
   @container (max-width: 900px) {
     .bcn-widget-panels[data-panels='3'] {
       grid-template-columns: 170px 1fr;
@@ -110,28 +143,24 @@ const hasThird = Astro.slots.has('c');
 
     .bcn-widget-panels[data-panels='3'] > .bcn-widget-panels__panel:last-child {
       grid-column: 1 / -1;
-      padding-inline-start: 0;
+      /* No longer beside anything — the rule goes and the half-trough with it; the
+         row gap separates it. */
+      padding-inline: 0;
       border-inline-start: 0;
-      padding-block-start: var(--spacing-300);
-      border-block-start: 1px solid var(--color-border-default-subtle);
     }
   }
 
-  /* Reflow 2 — under ~560px (a 1-column widget) everything stacks. The divider
-     rotates rather than disappearing: it is what separates one panel's reading
-     from the next, and a bare gap does not carry that at a single column width.
-     Written on [data-panels] so it ties the block above on specificity and wins
-     on source order — matching the 3-panel rules it has to override. */
+  /* Reflow 2 — under ~560px (a 1-column widget) everything stacks, separated by the
+     grid's own row gap. Written on [data-panels] so it ties the block above on
+     specificity and wins on source order — matching the 3-panel rules it overrides. */
   @container (max-width: 560px) {
     .bcn-widget-panels[data-panels] {
       grid-template-columns: 1fr;
     }
 
-    .bcn-widget-panels[data-panels] > .bcn-widget-panels__panel + .bcn-widget-panels__panel {
-      padding-inline-start: 0;
+    .bcn-widget-panels[data-panels] > .bcn-widget-panels__panel {
+      padding-inline: 0;
       border-inline-start: 0;
-      padding-block-start: var(--spacing-300);
-      border-block-start: 1px solid var(--color-border-default-subtle);
     }
   }
 

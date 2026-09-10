@@ -531,7 +531,6 @@ export const STREAM_ICON_PATHS: Record<string, string> = {
 // grid order: reordering in the composer is reordering `order`.
 // ─────────────────────────────────────────────────────────────────────────────
 export type WidgetWidth = 1 | 2 | 3;
-export type WidgetHeight = 2 | 3 | 4 | 5;
 /** Visualization primitives a widget can render. First entry = default. */
 export type WidgetChart = 'donut' | 'bars' | 'trend' | 'list' | 'stat' | 'meter' | 'seasons';
 export type WidgetScope = '7d' | '14d' | '30d' | '90d';
@@ -575,7 +574,6 @@ export interface WidgetDef {
   streamId: string;
   title: string;
   width: WidgetWidth;
-  height: WidgetHeight;
   /** Chart variants the composer may switch between (first = default). */
   charts: WidgetChart[];
   /** Rolling date windows the composer may switch between (first = default).
@@ -604,7 +602,7 @@ export const WIDGETS: WidgetDef[] = [
   // viewer may or may not want on the page. Turning the map off here is exactly how
   // someone would use the standalone Dashboard Map widget instead.
   {
-    id: 'obs-active', streamId: 'observations', title: 'Active Observations', width: 2, height: 5,
+    id: 'obs-active', streamId: 'observations', title: 'Active Observations', width: 2,
     charts: ['donut'], scopes: ['30d', '7d'], colorMode: 'series', defaultOn: true,
     sections: [
       { id: 'stats', label: 'Count and breakdown', on: true },
@@ -614,21 +612,21 @@ export const WIDGETS: WidgetDef[] = [
       { id: 'outstanding', label: 'Outstanding observations', on: true },
     ],
   },
-  { id: 'obs-nesting-birds', streamId: 'nesting-birds', title: 'Nesting Birds', width: 2, height: 3, charts: ['bars', 'trend'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
-  { id: 'obs-concerns', streamId: 'compliance-concerns', title: 'Compliance Concerns', width: 2, height: 3, charts: ['trend'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
-  { id: 'dmr-recent', streamId: 'daily-monitoring-reports', title: 'Daily Monitoring Reports', width: 2, height: 3, charts: ['list', 'trend'], scopes: ['7d', '30d'], colorMode: 'mono', defaultOn: true },
-  { id: 'obs-bio', streamId: 'biological-resources', title: 'Biological Resources', width: 2, height: 3, charts: ['bars'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
+  { id: 'obs-nesting-birds', streamId: 'nesting-birds', title: 'Nesting Birds', width: 1, charts: ['bars', 'trend'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
+  { id: 'obs-concerns', streamId: 'compliance-concerns', title: 'Compliance Concerns', width: 1, charts: ['trend'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
+  { id: 'dmr-recent', streamId: 'daily-monitoring-reports', title: 'Daily Monitoring Reports', width: 2, charts: ['list', 'trend'], scopes: ['7d', '30d'], colorMode: 'mono', defaultOn: true },
+  { id: 'obs-bio', streamId: 'biological-resources', title: 'Biological Resources', width: 1, charts: ['bars'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
   // Status widget (spec §11.2): severity is encoded end to end, so no Color
   // control, and the list is the only rendering — prod's section IS the design.
-  { id: 'commitment-compliance', streamId: 'observations', title: 'Commitment Compliance', width: 3, height: 3, charts: ['list'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
-  { id: 'mileage-total', windowed: true, streamId: 'mileage', title: 'Vehicle Mileage', width: 3, height: 3, charts: ['trend', 'bars', 'stat'], scopes: ['14d', '7d', '30d', '90d'], colorMode: 'mono', defaultOn: true },
-  { id: 'runtime-total', windowed: true, streamId: 'runtime', title: 'Equipment Runtime', width: 2, height: 3, charts: ['trend', 'bars'], scopes: ['14d', '7d', '30d'], colorMode: 'mono', defaultOn: true },
-  { id: 'surveys-qc', streamId: 'surveys', title: 'Surveys', width: 2, height: 3, charts: ['meter'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
-  { id: 'weap-trained', windowed: true, streamId: 'weap', title: 'WEAP Trainings', width: 3, height: 3, charts: ['bars', 'stat'], scopes: ['30d', '90d'], colorMode: 'mono', defaultOn: true },
+  { id: 'commitment-compliance', streamId: 'observations', title: 'Commitment Compliance', width: 3, charts: ['list'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
+  { id: 'mileage-total', windowed: true, streamId: 'mileage', title: 'Vehicle Mileage', width: 3, charts: ['trend', 'bars', 'stat'], scopes: ['14d', '7d', '30d', '90d'], colorMode: 'mono', defaultOn: true },
+  { id: 'runtime-total', windowed: true, streamId: 'runtime', title: 'Equipment Runtime', width: 2, charts: ['trend', 'bars'], scopes: ['14d', '7d', '30d'], colorMode: 'mono', defaultOn: true },
+  { id: 'surveys-qc', streamId: 'surveys', title: 'Surveys', width: 1, charts: ['donut'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
+  { id: 'weap-trained', windowed: true, streamId: 'weap', title: 'WEAP Trainings', width: 3, charts: ['bars', 'stat'], scopes: ['30d', '90d'], colorMode: 'mono', defaultOn: true },
   // Season lane: full 3-column width because a date axis compressed into one
   // column cannot resolve a multi-month window. 90d default — season windows are
   // months long, so a 7d or 14d scope would show every bar clipped at both edges.
-  { id: 'seasons-window', streamId: 'seasons', title: 'Season Windows', width: 3, height: 3, charts: ['seasons'], scopes: ['90d', '30d'], colorMode: 'mono', defaultOn: true },
+  { id: 'seasons-window', streamId: 'seasons', title: 'Season Windows', width: 3, charts: ['seasons'], scopes: ['90d', '30d'], colorMode: 'mono', defaultOn: true },
 ];
 
 export const widgetById = (id: string): WidgetDef | undefined => WIDGETS.find((w) => w.id === id);
@@ -654,7 +652,48 @@ export const MILEAGE_ROLLUP = {
   /** sum(totalMileage), past 14 days. */
   miles14d: 3284,
   trips14d: 96,
-  perDay: daysEndingToday([286, 331, 62, 0, 348, 302, 274, 336, 295, 88, 41, 318, 361, 242]),
+  /**
+   * NINETY DAYS, not fourteen (2026-09-09). The widget offers a 90d scope and the
+   * bucketing exists to serve it, but the fixture only ever held 14 points — so
+   * bucketSeries always chose 'day' and the coarsening never actually ran on the
+   * board. At 90 days it picks WEEK (ceil(90/7) = 13 columns, inside the 31 ceiling),
+   * so this widget is the proof: the strip draws 13 weekly totals and its label reads
+   * "per week" without anything else changing.
+   *
+   * The LAST 14 values are the original series, untouched, so miles14d (3,284) and
+   * the 14d scope figure still agree with it. The 76 before them carry a weekday
+   * rhythm — Sundays at zero, occasional Saturdays — so the weekly buckets are made
+   * of something with shape rather than a flat line. Deterministic literals, not a
+   * generator: a fixture you cannot read is a fixture you cannot review.
+   */
+  perDay: daysEndingToday([
+    // Fri Mar 20
+    297, 0, 0,
+    // Mon Mar 23
+    311, 275, 352, 286, 243, 74, 0,
+    // Mon Mar 30
+    297, 264, 338, 311, 275, 0, 0,
+    // Mon Apr 06
+    243, 329, 304, 297, 264, 91, 0,
+    // Mon Apr 13
+    275, 352, 286, 243, 329, 0, 0,
+    // Mon Apr 20
+    264, 338, 311, 275, 352, 74, 0,
+    // Mon Apr 27
+    329, 304, 297, 264, 338, 0, 0,
+    // Mon May 04
+    352, 286, 243, 329, 304, 91, 0,
+    // Mon May 11
+    338, 311, 275, 352, 286, 0, 0,
+    // Mon May 18
+    304, 297, 264, 338, 311, 74, 0,
+    // Mon May 25
+    286, 243, 329, 304, 297, 0, 0,
+    // Mon Jun 01
+    311, 275, 352,
+    // ── the original 14-day series ends here, Thu Jun 04 -> Wed Jun 17 ──
+    286, 331, 62, 0, 348, 302, 274, 336, 295, 88, 41, 318, 361, 242,
+  ]),
   byVehicle: [
     { name: 'Subaru Crosstrek', value: 1046 },
     { name: 'Ford F-150', value: 742 },
@@ -676,6 +715,61 @@ export const RUNTIME_ROLLUP = {
     { name: 'Generator', value: 46 },
     { name: 'Dewatering pump', value: 27 },
   ] as BarRow[],
+};
+
+export const CONCERNS_ROLLUP = {
+  /**
+   * Concerns raised per day, past 30 days, split by the state they are in TODAY
+   * (2026-09-09). Added because the widget's chart was reading off FINDS, which
+   * holds exactly ONE compliance concern — so 29 of 30 columns were zero and every
+   * popup said "Concerns raised: 0". A trend with one mark in it is not a trend.
+   *
+   * SPLIT BY CURRENT STATE, not by what happened on the day. A column's grey part
+   * is "raised then, closed since"; the red part is "raised then, still open". That
+   * is the reading a compliance lead wants — where is the unresolved work — and it
+   * is why open sits at the BOTTOM of the stack, on the axis, rather than floating
+   * on top of the grey.
+   *
+   * The shape follows the older concerns: closed clusters early (they have had time
+   * to be resolved) and open clusters late. Weekends are zero, like the DMR rollup —
+   * concerns are raised by monitors on field days. 2026-06-16 carries an open one
+   * because that is the date of CC-1042, the single real record in FINDS, so the
+   * sample and the aggregate agree about at least that day.
+   *
+   * 9 closed + 7 open = 16 raised in the window; DASHBOARD.complianceConcerns is set
+   * from those same two figures.
+   */
+  perDay: daysEndingToday([
+    // CLOSED per day. Tue 05-19 -> Sun 05-24
+    1, 0, 1, 0, 0, 0,
+    // Mon 05-25 -> Sun 05-31
+    2, 0, 1, 0, 1, 0, 0,
+    // Mon 06-01 -> Sun 06-07
+    1, 0, 1, 0, 0, 0, 0,
+    // Mon 06-08 -> Sun 06-14
+    1, 1, 0, 0, 0, 0, 0,
+    // Mon 06-15 -> Wed 06-17
+    1, 0, 0,
+  ]).map((p, i) => ({
+    date: p.date,
+    values: {
+      closed: p.value,
+      // OPEN per day, same 30 dates. Three days (06-09, 06-15 and the 05-29 pair)
+      // carry BOTH, which is the point of stacking them: a day that raised two
+      // concerns and resolved only one is the case a single count cannot show.
+      open: [
+        0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 1, 0, 0,
+        0, 1, 0, 0, 1, 0, 0,
+        0, 1, 0, 1, 0, 0, 0,
+        1, 1, 1,
+      ][i],
+    },
+  })),
+  /** Open now, and total raised in the window — the two figures the stat and the
+   *  dashboard's own summary read. */
+  open: 8,
+  raised30d: 19,
 };
 
 export const DMR_ROLLUP = {
@@ -731,7 +825,6 @@ export const WEAP_ROLLUP = {
 export interface WidgetConfig {
   on: boolean;
   width: WidgetWidth;
-  height: WidgetHeight;
   chart: WidgetChart;
   scope: WidgetScope;
   /** Admin-set title override; absent = the registry title. */
@@ -792,7 +885,6 @@ export const defaultDashboardConfig = (): DashboardConfig => ({
         type: w.id,
         on: w.defaultOn,
         width: w.width,
-        height: w.height,
         chart: w.charts[0],
         scope: w.scopes[0],
         sections: defaultSections(w.id),
@@ -802,8 +894,16 @@ export const defaultDashboardConfig = (): DashboardConfig => ({
 });
 
 /** localStorage key for the composer's saved layout. */
+// v5: `height` is GONE from the record. A widget's vertical footprint is now
+// measured from its own content (the page's measureSpans), so a stored height is a
+// number nothing reads. Bumped rather than ignored, because the stored WIDTHS matter
+// too: they were chosen when a widget's footprint was authored on both axes, and the
+// new defaults use width to say which widgets pack beside a tall one. Reading a v4
+// record would keep widths picked for the old model and show a board that cannot
+// pack. Bumping drops stale layouts back to defaults — the honest outcome for a
+// prototype.
+//
 // v4: the widgets record is keyed by INSTANCE id and each entry carries `type` +
-// `sections`. The key is bumped rather than migrated — a v3 record has no `type`,
-// so reading one would produce instances that render nothing. Bumping drops stale
-// layouts back to defaults, which is the honest outcome for a prototype.
-export const DASHBOARD_CONFIG_KEY = 'bcn-mpdash-layout-v4';
+// `sections`. Bumped rather than migrated — a v3 record has no `type`, so reading
+// one would produce instances that render nothing.
+export const DASHBOARD_CONFIG_KEY = 'bcn-mpdash-layout-v5';

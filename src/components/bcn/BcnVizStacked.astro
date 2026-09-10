@@ -94,6 +94,16 @@ const max = Math.max(1, ...points.map(totalOf));
  */
 const STRIP_PX = height === 'sm' ? 60 : 96;
 
+/**
+ * THE MIDDLE TICK IS CONDITIONAL. Three labels want roughly 3 line-heights plus air;
+ * below ~64px of strip they collide and the axis reads as a smudge rather than a
+ * scale, so short strips show only the bounds. Also skipped when max < 2, where a
+ * midpoint would either repeat a bound or invent a fraction of a countable thing.
+ */
+const MID_TICK_MIN_PX = 64;
+const showMid = STRIP_PX >= MID_TICK_MIN_PX && max >= 2;
+const midValue = Math.round(max / 2);
+
 const columns = points.map((p) => {
   const total = totalOf(p);
   const segments = series
@@ -139,6 +149,16 @@ const legend = series;
           middle of the dashboard's tab order. If per-period detail needs keyboard
           parity, the right fix is a visually-hidden table beside the strip, not tab
           stops on the bars. */}
+      {/* The y-axis: the tallest column's TOTAL at the top, zero on the baseline.
+          The total is the right number to name because that is what the column
+          height encodes here — a segment is a share of it, and the popup breaks
+          the parts down one period at a time. Two labels only; intermediate ticks
+          would need gridlines behind a 96px strip. */}
+      <div class="bcn-vizstack__yaxis" aria-hidden="true" style={`block-size:${STRIP_PX}px`}>
+        <span>{max.toLocaleString('en-US')}</span>
+        {showMid && <span>{midValue.toLocaleString('en-US')}</span>}
+        <span>0</span>
+      </div>
       <div class="bcn-vizstack__strip" role="img" aria-label={label} style={`--_stack-height:${STRIP_PX}px`}>
         {columns.map((col) => (
           <span class="bcn-vizstack__slot">
@@ -186,14 +206,55 @@ const legend = series;
 }
 
 <style>
+  /* A 2-column grid: the y-axis gutter, then the strip. The axis and legend rows
+     below are placed in the strip's column so their ends line up with the first and
+     last COLUMNS rather than with the gutter's edge. */
   .bcn-vizstack {
     /* Taller than BcnVizTrend's 72px: a stack has to resolve into parts, and at 72px
        a two-count segment inside a nine-count column is a sliver. */
     --_stack-height: 96px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    /* 8px right of the axis line — see BcnVizTrend's note. */
+    column-gap: var(--spacing-200);
+    row-gap: var(--spacing-200);
+    min-inline-size: 0;
+  }
+
+  /* The axis line rides the gutter's trailing edge — see BcnVizTrend's note. */
+  .bcn-vizstack__yaxis {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-200);
-    min-inline-size: 0;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-inline-end: var(--spacing-100);
+    border-inline-end: 1px solid var(--color-border-default);
+    /* 12px, BELOW the house 13px floor, and deliberate (Jamie). The floor governs
+       the smallest text a reader has to READ; an axis tick is a reference mark
+       consulted against the bar beside it, and at 13px these numbers competed with
+       the x-axis dates and the chart's own title for a strip 72px tall. The x-axis
+       stays at 13 — it names the window, which is read rather than referenced.
+       Written with a max() floor because --font-size-100 is fluid and bottoms out
+       near 10px; 12px is the intended size, not an accident of the viewport. */
+    font-size: max(0.75rem, var(--font-size-100));
+    color: var(--color-content-default-tertiary);
+    /* TABULAR-NUMS IS INERT HERE, and that is worth knowing before anyone chases the
+       alignment (measured 2026-09-09). DM Sans ships no `tnum` feature: forcing the
+       property on and off produces identical advances (0 = 10.94, 1 = 4.88, 2 = 9.22
+       at 12px), so the figures are proportional whatever we ask for. The labels are
+       right-aligned and their right edges match to 0.00px — but a lone "0" is the
+       WIDEST digit in the face, so its left edge sits ~1px outside a "2" and ~4px
+       outside a "1". No alignment fixes that; only uniform digit advances would, and
+       the only faces here that have them are monospace, which the house rules keep
+       out of chrome. The declaration stays because the intent is right and it starts
+       working the day the family gains the feature. */
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .bcn-vizstack__axis,
+  .bcn-vizstack__legend {
+    grid-column: 2; /* under the strip, not under the gutter */
   }
 
   .bcn-vizstack--sm {

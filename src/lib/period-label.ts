@@ -20,22 +20,15 @@ import type { BucketUnit } from './bucket-series';
  *  rule the bucketing module parses by. */
 const TZ = 'UTC';
 
-/* The weekday is in here on purpose (2026-09-09). It costs one word and it settles the
-   question a daily strip otherwise leaves open: whether a zero column is a QUIET DAY or a
-   day nothing was DUE. The Daily Monitoring Reports strip is the case that forced it —
-   reports are a weekday expectation, so its Sat/Sun columns are zero by design, and
-   "Saturday, June 13, 2026" says that where "June 13, 2026" makes the reader count back
-   from the axis. It reads the same way on every other chart, so it is not a special case. */
+/* NO WEEKDAY, and it was tried (2026-09-09). "Saturday, June 13, 2026" answers a real
+   question on a daily strip — whether a zero column is a quiet day or a day nothing was
+   DUE — but it made the panel 214px wide, and esa-popover centres its panel on the mark
+   with no collision handling. On the last column of a third-column widget the anchor sits
+   ~82px from the shell scroller's edge, so anything over ~164px gets cut: measured, the
+   right 25px was clipped, which is where the figure was. The month name and the year are
+   what the label was asked for; the weekday was an addition, so the weekday is what goes.
+   (A real fix is collision-aware positioning in esa-popover — hub work, not spoke work.) */
 const FULL_DAY = new Intl.DateTimeFormat('en-US', {
-  weekday: 'long',
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-  timeZone: TZ,
-});
-/* The week label drops the weekday — "Week of Monday, June 8" is noise, since an ISO week
-   starts on a Monday by definition. */
-const WEEK_START = new Intl.DateTimeFormat('en-US', {
   month: 'long',
   day: 'numeric',
   year: 'numeric',
@@ -57,7 +50,7 @@ function utc(isoDate: string): Date | null {
 /**
  * The period starting at `isoDate`, said in full.
  *
- *   day     → "Tuesday, September 8, 2026"
+ *   day     → "September 8, 2026"
  *   week    → "Week of September 8, 2026"
  *   month   → "September 2026"
  *   quarter → "Q3 2026"
@@ -75,7 +68,7 @@ export function periodLabel(isoDate: string, unit: BucketUnit = 'day'): string {
     case 'week':
       // "Week of" rather than a computed span: the end day is derivable and saying
       // it doubles the label's width inside a popup that is mostly numbers.
-      return `Week of ${WEEK_START.format(d)}`;
+      return `Week of ${FULL_DAY.format(d)}`;
     case 'month':
       return MONTH_YEAR.format(d);
     case 'quarter':

@@ -26,7 +26,6 @@ import BcnVizDonut from '../../../components/bcn/BcnVizDonut.astro';
 import BcnVizStacked from '../../../components/bcn/BcnVizStacked.astro';
 import BcnVizBars from '../../../components/bcn/BcnVizBars.astro';
 import BcnVizTrend from '../../../components/bcn/BcnVizTrend.astro';
-import BcnVizMeter from '../../../components/bcn/BcnVizMeter.astro';
 import BcnWidgetPanels from '../../../components/bcn/BcnWidgetPanels.astro';
 import BcnMiniTable from '../../../components/bcn/BcnMiniTable.astro';
 import BcnObservationMap from '../../../components/bcn/BcnObservationMap.astro';
@@ -35,7 +34,6 @@ import BcnComponentPicker from '../../../components/bcn/BcnComponentPicker.astro
 import BcnComplianceList from '../../../components/bcn/BcnComplianceList.astro';
 import BcnWidgetCard from '../../../components/bcn/BcnWidgetCard.astro';
 import BcnVizSeasons from '../../../components/bcn/BcnVizSeasons.astro';
-import BcnFigureGroup from '../../../components/bcn/BcnFigureGroup.astro';
 import BcnObservationFilters from '../../../components/bcn/BcnObservationFilters.astro';
 import BcnWidgetDateRange from '../../../components/bcn/BcnWidgetDateRange.astro';
 import { COMPONENTS, GEOTECH_COMPONENT } from '../../../data/geotech-fixture-bio';
@@ -43,6 +41,7 @@ import {
   WIDGETS,
   streamById,
   STREAM_ICON_PATHS,
+  CONCERNS_ROLLUP,
   DMR_ROLLUP,
   MILEAGE_ROLLUP,
   RUNTIME_ROLLUP,
@@ -116,15 +115,30 @@ const obsPins = FINDS.flatMap((f, i) => {
   ];
 });
 
-// ── Compliance Concerns: concerns raised per day, past 30 days ───────────────
-const concernDates = new Map<string, number>();
-for (const f of FINDS.filter((x) => x.kind === 'concern')) {
-  concernDates.set(f.observedDate, (concernDates.get(f.observedDate) ?? 0) + 1);
-}
-const concernTrend = Array.from({ length: 30 }, (_, i) => {
-  const d = new Date(Date.parse(TODAY) - (29 - i) * 86_400_000).toISOString().slice(0, 10);
-  return { date: d, value: concernDates.get(d) ?? 0 };
-});
+// ── Compliance Concerns: raised per day, past 30 days, split open vs closed ──
+// Two series rather than one (2026-09-09). A single "concerns raised" count could
+// not answer the question the widget exists for — how much is still UNRESOLVED —
+// and reading it off FINDS gave 29 zero columns and one mark, because FINDS holds a
+// single concern record. CONCERNS_ROLLUP is the stream's aggregate, the same
+// relationship the mileage and runtime widgets already have with their samples.
+//
+// STACK ORDER: closed first, so it sits on the axis and OPEN RIDES ON TOP (Jamie,
+// 2026-09-09). `series` is bottom-first — BcnVizStacked reverses the column with
+// flex-direction: column-reverse — so the array reads closed, open and the legend,
+// which follows the same array, reads the same way.
+//
+// THE GREY. --color-border-default-strong (#bdbdbd), picked by measurement rather
+// than eye: against the open red it separates at 2.77:1, where the darker
+// --color-content-default-tertiary managed only 1.12:1 — near-identical in
+// lightness, so the two series were told apart by HUE alone and would collapse into
+// each other for a red-blind reader. Lighter also matches what grey means everywhere
+// else on this board: resolved, quiet, not the thing to look at. It is a fill, never
+// text, which is the only reason a value this light is legitimate.
+const CONCERN_SERIES = [
+  { key: 'closed', label: 'Closed', color: 'var(--color-border-default-strong)' },
+  { key: 'open', label: 'Open', color: 'var(--color-background-utility-danger)' },
+];
+const concernActivity = bucketStacked(CONCERNS_ROLLUP.perDay);
 const openConcerns = DASHBOARD.complianceConcerns.active;
 
 // ── Daily Monitoring Reports ─────────────────────────────────────────────────
@@ -177,9 +191,13 @@ const latestBio = [...FINDS]
   .filter((f) => f.type === 'Biological Resource')
   .sort((a, b) => (a.observedDate < b.observedDate ? 1 : -1))[0];
 
-// ── Surveys: QC meter + latest ───────────────────────────────────────────────
+// ── Surveys: status donut + latest ───────────────────────────────────────────
+// A donut rather than the one-bar proportion meter (Jamie, 2026-09-09). Same
+// part-to-whole reading, and the ring gives three statuses more room to be told
+// apart than three segments of a 14px bar do. The order is deliberate — final, in
+// QC, draft is the pipeline's own direction, so the ring reads as progress.
 const surveyOrder = ['final', 'qc', 'draft'] as const;
-const surveyMeter = surveyOrder.map((s) => ({
+const surveyStatuses = surveyOrder.map((s) => ({
   label: SURVEY_STATUS_META[s].label,
   value: SURVEYS.filter((d) => d.status === s).length,
   color: SURVEY_STATUS_META[s].hex,
@@ -215,7 +233,6 @@ const cfgPayload = WIDGETS.map((w) => ({
   sections: w.sections ?? [],
   windowed: w.windowed === true,
   width: w.width,
-  height: w.height,
 }));
 
 // ── Observation activity over time, stacked by type (2026-09-08) ─────────────
@@ -265,9 +282,29 @@ const obsActivity = bucketStacked(obsDays);
 // — in each column's popup, which names its own period in full ("Week of June 8, 2026").
 // perLabel is still interpolated into the aria-label, because a screen-reader summary of
 // the whole strip has nowhere else to name the derivation.
-const concernBuckets = bucketSeries(concernTrend);
-const mileageBuckets = bucketSeries(MILEAGE_ROLLUP.perDay);
-const runtimeBuckets = bucketSeries(RUNTIME_ROLLUP.perDayMinutes);
+/**
+ * ONE BUCKETED SERIES PER SCOPE (2026-09-09). The date-range control persists
+ * `scope` and apply() re-derives the headline figure from it — but the chart was
+ * built once from the WHOLE series and nothing re-rendered it, so picking 7d moved
+ * the number and left the strip alone.
+ *
+ * Pre-rendered rather than re-derived on the client, and that is the deliberate
+ * choice: a trend is server-rendered markup — a column per period, each wrapped in
+ * its own popover with its own period label — so rebuilding it in JS would mean
+ * reimplementing the component in the page script and losing the Astro-rendered
+ * popups. Rendering each window once and toggling which is visible costs some DOM
+ * and keeps every column, popup, axis label and y-axis max correct per scope, with
+ * no second implementation to keep in step.
+ *
+ * The window is filtered BEFORE bucketing, so each scope picks its own unit: on
+ * mileage's 90 days of data 7d and 30d come out daily and 90d comes out weekly.
+ */
+const scopedSeries = (rows: { date: string; value: number }[], scopes: readonly string[]) =>
+  scopes.map((scope) => {
+    const windowed = rows.filter((r) => inWindow(r.date, scope));
+    return { scope, ...bucketSeries(windowed) };
+  });
+
 
 // ── "Latest" tables (2026-09-08) ─────────────────────────────────────────────
 // Same shape the Surveys and Biological Resources widgets already use: a
@@ -326,24 +363,33 @@ const latestConcernRows = newest(
 // Those widgets get a data-density-over-time segment instead — a separate piece of
 // work, not yet built.
 //
-// HONEST LIMIT: the mileage and runtime series are 14 points, so their 30d and 90d
-// windows both return everything available and read identically. That is what real
-// data does for a young project, but it does mean two of mileage's four windows are
-// indistinguishable until the fixture is extended.
+// HONEST LIMIT: runtime and weap are still 14-point series, so their 30d and 90d
+// windows return everything available and read identically. Mileage is the one that
+// now carries 90 days (see MILEAGE_ROLLUP), so it is where the windows — and the
+// bucketing they drive — actually differ.
+//
+// OFF BY ONE, FIXED (2026-09-09). The window was `date >= TODAY - days`, which
+// includes BOTH endpoints and so covers days+1 days: a "14d" scope summed Jun 3
+// through Jun 17, fifteen dates. It went unnoticed because the fixtures started
+// exactly at the window edge — there was no Jun 3 datum to over-count. Extending
+// mileage to 90 days put one there, and the 14d figure jumped to 3,636 against the
+// stored miles14d of 3,284. A 14-day window ending Jun 17 begins Jun 4, hence
+// days - 1.
 const dayMs = 86_400_000;
 const scopeDays = (sc: string): number => Number(sc.replace('d', ''));
-const inWindow = (iso: string, sc: string): boolean =>
-  Date.parse(iso) >= Date.parse(TODAY) - scopeDays(sc) * dayMs;
+/** The window's first day: TODAY counts as one of the N. */
+const windowStart = (sc: string): number => Date.parse(TODAY) - (scopeDays(sc) - 1) * dayMs;
+const inWindow = (iso: string, sc: string): boolean => Date.parse(iso) >= windowStart(sc);
 
 /** Sum a {date,value} series over a window. */
 const sumSeries = (rows: { date: string; value: number }[], sc: string): number =>
   rows.filter((r) => inWindow(r.date, sc)).reduce((n, r) => n + r.value, 0);
 
-/** The window's first day, as the widget states it: "since June 3".
-    Uses TODAY - days, matching inWindow()'s boundary exactly, so the date named and
-    the records counted cannot disagree. */
+/** The window's first day, as the widget states it: "since June 4". Reads the SAME
+    windowStart() the sum filters on, so the date named and the records counted cannot
+    disagree — including through the off-by-one fix above. */
 const sinceLabel = (sc: string): string =>
-  `since ${fmtLongMonth(new Date(Date.parse(TODAY) - scopeDays(sc) * dayMs).toISOString().slice(0, 10))}`;
+  `since ${fmtLongMonth(new Date(windowStart(sc)).toISOString().slice(0, 10))}`;
 
 /** The headline figure for one widget in one window, plus the window it covers. */
 const scopeFigures = (widgetId: string, sc: string): { value: string; sub: string } | null => {
@@ -368,6 +414,10 @@ const scopeFigures = (widgetId: string, sc: string): { value: string; sub: strin
 
 /** widgetId -> its registry scopes, for the markup. */
 const WIDGET_SCOPES = Object.fromEntries(WIDGETS.map((w) => [w.id, w.scopes]));
+
+// Placed AFTER WIDGET_SCOPES, which it reads — `const` is not hoisted.
+const mileageScoped = scopedSeries(MILEAGE_ROLLUP.perDay, WIDGET_SCOPES['mileage-total']);
+const runtimeScoped = scopedSeries(RUNTIME_ROLLUP.perDayMinutes, WIDGET_SCOPES['runtime-total']);
 
 /** widgetId -> scope -> figure, serialized for the controller. */
 const SCOPE_DATA = Object.fromEntries(
@@ -439,7 +489,6 @@ const addCards = WIDGETS.map((w) => {
         id="obs-active"
         title="Active Observations"
         width={2}
-        height={5}
         accent={st('observations').markColor}
         iconName={st('observations').icon}
         iconPaths={STREAM_ICON_PATHS[st('observations').icon]}
@@ -512,7 +561,6 @@ const addCards = WIDGETS.map((w) => {
         id="obs-nesting-birds"
         title="Nesting Birds"
         width={2}
-        height={3}
         accent={st('nesting-birds').markColor}
         iconName={st('nesting-birds').icon}
         iconPaths={STREAM_ICON_PATHS[st('nesting-birds').icon]}
@@ -527,7 +575,6 @@ const addCards = WIDGETS.map((w) => {
             <span class="typography-label-md-strong">Observations by species</span>
             <BcnVizBars
               variant="code"
-              measure="Observations"
               rows={DASHBOARD.nestingBirds.species.map((sp) => ({ name: sp.label, value: sp.value, color: sp.hex }))}
             />
           </div>
@@ -545,7 +592,6 @@ const addCards = WIDGETS.map((w) => {
         id="obs-concerns"
         title="Compliance Concerns"
         width={2}
-        height={3}
         accent={st('compliance-concerns').markColor}
         iconName={st('compliance-concerns').icon}
         iconPaths={STREAM_ICON_PATHS[st('compliance-concerns').icon]}
@@ -560,13 +606,14 @@ const addCards = WIDGETS.map((w) => {
           </div>
           <div slot="b" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Concerns raised over time</span>
-            <BcnVizTrend
-              points={concernBuckets.points}
-              unit={concernBuckets.unit}
-              measure="Concerns raised"
-              height="sm"
-              color="var(--color-background-utility-danger)"
-              label={`Concerns raised ${concernBuckets.perLabel}, ${fmtShort(concernBuckets.points[0].date)} to ${fmtShort(TODAY)}`}
+            <BcnVizStacked
+              points={concernActivity.points}
+              series={CONCERN_SERIES}
+              unit={concernActivity.unit}
+              emptyLabel="No concerns raised"
+              axisStart={fmtShort(concernActivity.points[0].date)}
+              axisEnd={fmtShort(TODAY)}
+              label={`Concerns raised ${concernActivity.perLabel}, open and closed, ${fmtShort(concernActivity.points[0].date)} to ${fmtShort(TODAY)}`}
             />
           </div>
           <div slot="c" class="stack" data-gap="sm">
@@ -584,7 +631,6 @@ const addCards = WIDGETS.map((w) => {
         id="dmr-recent"
         title="Daily Monitoring Reports"
         width={2}
-        height={3}
         accent={dmr.markColor}
         iconName={dmr.icon}
         iconPaths={STREAM_ICON_PATHS[dmr.icon]}
@@ -606,7 +652,6 @@ const addCards = WIDGETS.map((w) => {
                   moved — and it moved without anything else moving with it. sm also matches
                   Compliance Concerns, the other 2x3 stat+trend+table widget, so the two
                   widgets of the same shape are the same height again. */}
-              height="sm"
               label={`Reports filed ${dmrBuckets.perLabel}, ${fmtShort(dmrBuckets.points[0].date)} to ${fmtShort(TODAY)}`}
             />
           </div>
@@ -624,7 +669,6 @@ const addCards = WIDGETS.map((w) => {
         id="obs-bio"
         title="Biological Resources"
         width={2}
-        height={3}
         accent={st('biological-resources').markColor}
         iconName={st('biological-resources').icon}
         iconPaths={STREAM_ICON_PATHS[st('biological-resources').icon]}
@@ -637,10 +681,7 @@ const addCards = WIDGETS.map((w) => {
           </div>
           <div slot="b" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Observations by species</span>
-            <BcnVizBars
-              measure="Observations"
-              rows={DASHBOARD.biologicalResources.items.map((b) => ({ name: b.label, value: b.value, color: b.hex }))}
-            />
+            <BcnVizBars rows={DASHBOARD.biologicalResources.items.map((b) => ({ name: b.label, value: b.value, color: b.hex }))} />
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Latest observations</span>
@@ -660,7 +701,6 @@ const addCards = WIDGETS.map((w) => {
         id="commitment-compliance"
         title="Commitment Compliance"
         width={3}
-        height={3}
         accent={st('observations').markColor}
         iconName="clipboard-check"
         iconPaths={STREAM_ICON_PATHS['clipboard-check']}
@@ -673,7 +713,6 @@ const addCards = WIDGETS.map((w) => {
         id="mileage-total"
         title="Vehicle Mileage"
         width={3}
-        height={3}
         accent={st('mileage').markColor}
         iconName={st('mileage').icon}
         iconPaths={STREAM_ICON_PATHS[st('mileage').icon]}
@@ -691,16 +730,20 @@ const addCards = WIDGETS.map((w) => {
           </div>
           <div slot="b" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Miles over time</span>
-            <BcnVizTrend
-              points={mileageBuckets.points}
-              unit={mileageBuckets.unit}
-              measure="Miles"
-              label={`Miles ${mileageBuckets.perLabel}, ${fmtShort(mileageBuckets.points[0].date)} to ${fmtShort(TODAY)}`}
-            />
+            {mileageScoped.map((s) => (
+              <div data-scope-chart={s.scope} hidden={s.scope !== WIDGET_SCOPES['mileage-total'][0]}>
+                <BcnVizTrend
+                  points={s.points}
+                  unit={s.unit}
+                  measure="Miles"
+                  label={`Miles ${s.perLabel}, ${fmtShort(s.points[0].date)} to ${fmtShort(TODAY)}`}
+                />
+              </div>
+            ))}
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Miles by vehicle</span>
-            <BcnVizBars measure="Miles" rows={MILEAGE_ROLLUP.byVehicle.map((v) => ({ name: v.name, value: v.value }))} />
+            <BcnVizBars rows={MILEAGE_ROLLUP.byVehicle.map((v) => ({ name: v.name, value: v.value }))} />
           </div>
         </BcnWidgetPanels>
       </BcnDashboardWidget>
@@ -710,7 +753,6 @@ const addCards = WIDGETS.map((w) => {
         id="runtime-total"
         title="Equipment Runtime"
         width={2}
-        height={3}
         accent={st('runtime').markColor}
         iconName={st('runtime').icon}
         iconPaths={STREAM_ICON_PATHS[st('runtime').icon]}
@@ -724,17 +766,20 @@ const addCards = WIDGETS.map((w) => {
           </div>
           <div slot="b" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Runtime minutes over time</span>
-            <BcnVizTrend
-              points={runtimeBuckets.points}
-              unit={runtimeBuckets.unit}
-              measure="Runtime minutes"
-              height="sm"
-              label={`Runtime minutes ${runtimeBuckets.perLabel}, ${fmtShort(runtimeBuckets.points[0].date)} to ${fmtShort(TODAY)}`}
-            />
+            {runtimeScoped.map((s) => (
+              <div data-scope-chart={s.scope} hidden={s.scope !== WIDGET_SCOPES['runtime-total'][0]}>
+                <BcnVizTrend
+                  points={s.points}
+                  unit={s.unit}
+                  measure="Runtime minutes"
+                      label={`Runtime minutes ${s.perLabel}, ${fmtShort(s.points[0].date)} to ${fmtShort(TODAY)}`}
+                />
+              </div>
+            ))}
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Hours by equipment class</span>
-            <BcnVizBars measure="Hours" rows={RUNTIME_ROLLUP.byClassHours.map((c) => ({ name: c.name, value: c.value }))} />
+            <BcnVizBars rows={RUNTIME_ROLLUP.byClassHours.map((c) => ({ name: c.name, value: c.value }))} />
           </div>
         </BcnWidgetPanels>
       </BcnDashboardWidget>
@@ -743,7 +788,6 @@ const addCards = WIDGETS.map((w) => {
         id="surveys-qc"
         title="Surveys"
         width={2}
-        height={3}
         accent={st('surveys').markColor}
         iconName={st('surveys').icon}
         iconPaths={STREAM_ICON_PATHS[st('surveys').icon]}
@@ -756,7 +800,7 @@ const addCards = WIDGETS.map((w) => {
           </div>
           <div slot="b" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Documents by status</span>
-            <BcnVizMeter measure="Documents" segments={surveyMeter} />
+            <BcnVizDonut measure="Documents" segments={surveyStatuses} />
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Latest surveys</span>
@@ -773,21 +817,19 @@ const addCards = WIDGETS.map((w) => {
         id="weap-trained"
         title="WEAP Trainings"
         width={3}
-        height={3}
         accent={weap.markColor}
         iconName={weap.icon}
         iconPaths={STREAM_ICON_PATHS[weap.icon]}
         footHref={streamHref('weap')}
         footLabel="All WEAP trainings"
       >
-        <BcnWidgetDateRange widgetId="weap-trained" scopes={WIDGET_SCOPES['weap-trained']} />
         <BcnWidgetPanels>
           <div slot="a">
             <EsaStat value={WEAP_ROLLUP.confirmations30d} label="Training confirmations" sub={sinceLabel(WIDGET_SCOPES['weap-trained'][0])} />
           </div>
           <div slot="b" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Workers by company</span>
-            <BcnVizBars measure="Workers" rows={WEAP_ROLLUP.byCompany.map((c) => ({ name: c.name, value: c.value }))} />
+            <BcnVizBars rows={WEAP_ROLLUP.byCompany.map((c) => ({ name: c.name, value: c.value }))} />
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Latest confirmations</span>
@@ -801,7 +843,6 @@ const addCards = WIDGETS.map((w) => {
         id="seasons-window"
         title="Season Windows"
         width={3}
-        height={3}
         accent={st('seasons').markColor}
         iconName={st('seasons').icon}
         iconPaths={STREAM_ICON_PATHS[st('seasons').icon]}
@@ -869,7 +910,6 @@ const addCards = WIDGETS.map((w) => {
     sections: { id: string; label: string; on: boolean }[];
     windowed: boolean;
     width: 1 | 2 | 3;
-    height: 2 | 3 | 4 | 5;
     series: string[];
     stream: string;
   }
@@ -879,7 +919,6 @@ const addCards = WIDGETS.map((w) => {
   }
   interface SizeDetail {
     width: number;
-    height: number;
   }
 
   const CHART_LABEL: Record<string, string> = {
@@ -899,6 +938,8 @@ const addCards = WIDGETS.map((w) => {
   };
 
   const grid = document.querySelector<HTMLElement>('[data-mpdash]');
+  /** Set once the span observer exists; ensureEl enrols later-created widgets. */
+  let spanObserver: ResizeObserver | null = null;
   const payloadEl = document.querySelector('[data-mpd-payload]');
   const INFO: CfgInfo[] = payloadEl ? JSON.parse(payloadEl.textContent || '[]') : [];
   const infoById = new Map(INFO.map((i) => [i.id, i]));
@@ -933,6 +974,12 @@ const addCards = WIDGETS.map((w) => {
     // Drag chrome is transient state, never part of a new instance.
     el.classList.remove('is-drag-origin', 'is-drag-lifted');
     el.removeAttribute('inert');
+    // A clone carries the template's measured span; drop it so this instance is
+    // measured from its own content (its sections may differ) rather than inheriting
+    // a footprint that was right for a different widget.
+    delete el.dataset.span;
+    el.style.gridRowEnd = '';
+    spanObserver?.observe(el);
 
     // Leaflet hosts carry a per-host "already built" flag and a DOM id. Clear the
     // flag and re-key the id, then ask the map component to rescan — otherwise the
@@ -999,6 +1046,26 @@ const addCards = WIDGETS.map((w) => {
     scopesEl ? JSON.parse(scopesEl.textContent || '{}') : {};
 
   /** Re-derive one widget's headline figure for a window. */
+  /**
+   * Show the pre-rendered chart for this scope (see scopedSeries). Every window is
+   * already in the DOM; this picks one.
+   *
+   * Falls back to the FIRST chart if the saved scope has none — a stored layout can
+   * name a scope the widget no longer offers, and a widget showing no chart at all is
+   * a worse outcome than one showing its default window.
+   */
+  const applyScopeChart = (el: HTMLElement, scope: string): void => {
+    const charts = el.querySelectorAll<HTMLElement>('[data-scope-chart]');
+    if (!charts.length) return; // most widgets have one chart and no windows
+    let shown = false;
+    for (const c of charts) {
+      const on = c.dataset.scopeChart === scope;
+      c.hidden = !on;
+      shown = shown || on;
+    }
+    if (!shown) charts[0].hidden = false;
+  };
+
   const applyScopeFigure = (el: HTMLElement, type: string, scope: string): void => {
     const fig = SCOPE_DATA[type]?.[scope];
     if (!fig) return; // only the three windowed widgets have a figure to re-derive
@@ -1023,11 +1090,11 @@ const addCards = WIDGETS.map((w) => {
       grid.appendChild(el); // append in order — DOM order is grid order
       el.hidden = !c.on;
       el.dataset.w = String(c.width);
-      el.dataset.h = String(c.height);
       const h = el.querySelector('.bcn-dwidget__title');
       if (h) h.textContent = c.title ?? infoById.get(type)?.title ?? '';
       applySections(el, type, c.sections);
       applyScopeFigure(el, type, c.scope);
+      applyScopeChart(el, c.scope);
       // Keep the widget's own control in step with the saved value — the configure
       // dialog writes the same key, so a default changed there must show up here.
       const dr = el.querySelector<HTMLElement & { value: string }>('[data-widget-daterange]');
@@ -1037,7 +1104,7 @@ const addCards = WIDGETS.map((w) => {
       const menu = el.querySelector('[data-widget-menu]');
       if (menu) {
         requestAnimationFrame(() =>
-          menu.dispatchEvent(new CustomEvent('bcn-size-set', { detail: { width: c.width, height: c.height } })),
+          menu.dispatchEvent(new CustomEvent('bcn-size-set', { detail: { width: c.width } })),
         );
       }
     }
@@ -1056,7 +1123,70 @@ const addCards = WIDGETS.map((w) => {
     }
     const addTile = grid.querySelector('.mpd-add');
     if (addTile) grid.appendChild(addTile); // the add tile always trails
+    measureSpans();
   };
+
+  /**
+   * ── THE ONLY LAYOUT ARITHMETIC ON THE BOARD ──
+   *
+   * Convert each card's own height into a row span over the page's 8px unit. That is
+   * the whole mechanism by which two cards in one visual row can be different
+   * heights: in a row-aligned grid every item in a row shares that row's height, so
+   * the only way out is for each item to span a different number of much smaller
+   * rows.
+   *
+   * WHY THIS IS SAFE where a computed span generally is not. The span is a pure
+   * function of the card's OWN content: ceil((its height + gap) / unit). It does not
+   * depend on what packed beside it, so there is no policy to get wrong, nothing to
+   * simulate, and no convergence to worry about. The one thing that could feed back —
+   * a card whose height depends on its span — cannot happen, because `align-self:
+   * start` means the card is never sized by its grid area. Height depends on WIDTH
+   * (text wraps), and width comes from the column span, which this never touches.
+   *
+   * Floored at the old 84px minimum so a nearly-empty widget still reads as a card
+   * rather than a strip.
+   */
+  const ROW_UNIT = 8;
+  const MIN_SPAN = Math.ceil(84 / ROW_UNIT);
+
+  const spanOf = (el: HTMLElement): number => {
+    const gap = parseFloat(getComputedStyle(el).marginBlockEnd) || 0;
+    // offsetHeight excludes the margin, which is why the gap is added back rather
+    // than measured — the margin IS the row spacing (see .mpdash's row-gap note).
+    const h = el.offsetHeight;
+    return Math.max(MIN_SPAN, Math.ceil((h + gap) / ROW_UNIT));
+  };
+
+  const measureSpans = (): void => {
+    if (!grid) return;
+    for (const el of grid.querySelectorAll<HTMLElement>('.bcn-dwidget')) {
+      if (el.hidden) continue;
+      // A lifted card is position: fixed at a pinned height — measuring it would
+      // record the drag, not the content. Its span is left alone until it lands.
+      if (el.classList.contains('is-drag-lifted')) continue;
+      const span = String(spanOf(el));
+      if (el.dataset.span !== span) {
+        el.dataset.span = span;
+        el.style.gridRowEnd = `span ${span}`;
+      }
+    }
+  };
+
+  /**
+   * Re-measure when a card's own height changes — a section toggled, a scope
+   * re-derived, a font loaded, the column count changing at a breakpoint (which
+   * changes width, which re-wraps text, which changes height). One observer for the
+   * whole board rather than one per card: the callback is cheap and the entries are
+   * only used as a "something moved" signal.
+   */
+  if (grid && 'ResizeObserver' in window) {
+    const ro = new ResizeObserver(() => measureSpans());
+    ro.observe(grid);
+    for (const el of grid.querySelectorAll<HTMLElement>('.bcn-dwidget')) ro.observe(el);
+    // Widgets added later (a copy placed from the picker) join the observer when
+    // they are created — see ensureEl.
+    spanObserver = ro;
+  }
 
   apply(readConfig());
 
@@ -1098,7 +1228,7 @@ const addCards = WIDGETS.map((w) => {
   // picker bubbles the same event — the dialog handler below stops it there.)
   document.addEventListener('bcn-size-change', (event) => {
     if ((event.target as Element | null)?.closest('[data-config-dialog]')) return;
-    const { width, height } = (event as CustomEvent<SizeDetail>).detail;
+    const { width } = (event as CustomEvent<SizeDetail>).detail;
     const id = (event.target as Element | null)?.closest<HTMLElement>('.bcn-dwidget')?.dataset.widgetId;
     if (!id) return;
     mutate(
@@ -1107,7 +1237,6 @@ const addCards = WIDGETS.map((w) => {
           ...c.widgets[id],
           type: c.widgets[id]?.type ?? typeOf(id),
           width: width as WidgetConfig['width'],
-          height: height as WidgetConfig['height'],
         }),
     );
   });
@@ -1146,7 +1275,11 @@ const addCards = WIDGETS.map((w) => {
     const col = grid ? (grid.clientWidth - gap * 2) / 3 : 360;
     return {
       frameW: (w: number) => col * w + gap * (w - 1),
-      minH: (h: number) => 84 * h + gap * (h - 1),
+      /* A FLOOR, not a height — the stage measures what the clone actually takes and
+         scales from that. It used to be derived from the authored row span; with
+         heights measured from content there is no span to derive from, and the honest
+         floor is the one a card has anyway. */
+      minH: 84,
     };
   };
 
@@ -1154,7 +1287,9 @@ const addCards = WIDGETS.map((w) => {
     stage?.dispatchEvent(new CustomEvent(name, { detail }));
   };
 
-  const badgeOf = (w: number, h: number) => `${w} × ${h}`;
+  /** Columns only: width is the one axis a user chooses, and the other is now
+      whatever the content needs. */
+  const badgeOf = (w: number) => (w === 1 ? '1 column' : `${w} columns`);
 
   // One esa-switch-toggle per declared section. Hidden entirely when the widget has
   // none, so a single-block widget shows no dead control.
@@ -1203,7 +1338,6 @@ const addCards = WIDGETS.map((w) => {
       ? {
           on: true,
           width: info.width ?? 2,
-          height: info.height ?? 3,
           chart: info.charts[0],
           scope: info.scopes[0],
           sections: Object.fromEntries((info.sections ?? []).map((x) => [x.id, x.on])),
@@ -1231,8 +1365,8 @@ const addCards = WIDGETS.map((w) => {
     stageEvent('bcn-stage-show', {
       node: clone,
       frameWidth: frameW(draft.width),
-      minHeight: minH(draft.height),
-      badge: badgeOf(draft.width, draft.height),
+      minHeight: minH,
+      badge: badgeOf(draft.width),
     });
 
     if (dialog) dialog.setAttribute('heading', adding ? `Add ${info.title}` : 'Configure widget');
@@ -1273,8 +1407,8 @@ const addCards = WIDGETS.map((w) => {
     stageEvent('bcn-stage-show', {
       node: clone,
       frameWidth: frameW(draft.width),
-      minHeight: minH(draft.height),
-      badge: badgeOf(draft.width, draft.height),
+      minHeight: minH,
+      badge: badgeOf(draft.width),
     });
   };
 
@@ -1363,12 +1497,16 @@ const addCards = WIDGETS.map((w) => {
   const visibleOrder = (): HTMLElement[] =>
     Array.from(grid?.querySelectorAll<HTMLElement>('.bcn-dwidget:not([hidden])') ?? []);
 
-  const makeSlot = (w: string, h: string): HTMLElement => {
+  /** The reflowing placeholder, at the dragged widget's real footprint. Its row span
+      is the MEASURED span the card is carrying, so the hole is exactly the size of
+      the card that will land in it. The badge reads columns, since that is the only
+      part of the footprint the user chose. */
+  const makeSlot = (w: string, span: string): HTMLElement => {
     const slot = document.createElement('div');
     slot.className = 'mpd-slot';
     slot.style.gridColumn = `span ${w}`;
-    slot.style.gridRow = `span ${h}`;
-    slot.dataset.size = `${w} × ${h}`;
+    slot.style.gridRowEnd = `span ${span}`;
+    slot.dataset.size = w === '1' ? '1 column' : `${w} columns`;
     return slot;
   };
 
@@ -1422,6 +1560,8 @@ const addCards = WIDGETS.map((w) => {
 
   const endDrag = (): void => {
     if (!grid) return;
+    dragScrollTarget()?.removeEventListener('scroll', onDragScroll);
+    stopEdgeScroll();
     delete grid.dataset.mode;
     slotEl?.remove();
     slotEl = null;
@@ -1451,12 +1591,114 @@ const addCards = WIDGETS.map((w) => {
   }
   let ptrDrag: DragState | null = null;
 
+  /**
+   * ── EDGE AUTO-SCROLL, and why it needs the scroller rather than the window ──
+   *
+   * This board does NOT scroll the document: the app shell puts the page inside an
+   * `overflow-y: auto` container, so `window.scrollBy` moves nothing and
+   * `scrollingElement.scrollTop` stays 0 forever. Measured on this page: the
+   * document reports no overflow at all while the shell's content div is 4464px of
+   * scrollHeight in a 1198px viewport. So the scroller is DISCOVERED from the DOM,
+   * not assumed — and discovered rather than hardcoded to the shell's class name,
+   * because that class belongs to @esa/ecology and is free to change.
+   */
+  const scrollerOf = (from: HTMLElement): HTMLElement => {
+    for (let p: HTMLElement | null = from; p; p = p.parentElement) {
+      const cs = getComputedStyle(p);
+      if (/(auto|scroll|overlay)/.test(cs.overflowY) && p.scrollHeight > p.clientHeight + 1) {
+        return p;
+      }
+    }
+    return (document.scrollingElement as HTMLElement | null) ?? document.body;
+  };
+
+  /** Distance from the scroller's edge at which auto-scroll starts, and the speed at
+   *  the very edge (px per frame). 72px is about a card header, so the zone is
+   *  reachable without leaving the board; 18px/frame is ~1000px/s, fast enough to
+   *  cross this board in a couple of seconds without overshooting a target. */
+  const EDGE_ZONE = 72;
+  const EDGE_SPEED = 18;
+
+  let dragScroller: HTMLElement | null = null;
+  let edgeRaf = 0;
+
+  /** Ramped so the speed is proportional to how far into the zone the pointer is —
+   *  a hard on/off at the boundary makes the board feel like it lurches. */
+  const edgeSpeed = (depth: number): number =>
+    Math.min(EDGE_SPEED, (EDGE_SPEED * depth) / EDGE_ZONE);
+
+  const edgeScrollStep = (): void => {
+    edgeRaf = 0;
+    if (!ptrDrag?.lifted || !dragScroller) return;
+
+    const y = ptrDrag.lastY;
+    // The zone is measured against the SCROLLER's box, not the viewport: its top
+    // sits below the app bar, and scrolling should start when the pointer nears the
+    // edge of the scrolling region the user can actually see into.
+    const box =
+      dragScroller === document.scrollingElement || dragScroller === document.body
+        ? { top: 0, bottom: window.innerHeight }
+        : dragScroller.getBoundingClientRect();
+
+    let dy = 0;
+    if (y < box.top + EDGE_ZONE) dy = -edgeSpeed(box.top + EDGE_ZONE - y);
+    else if (y > box.bottom - EDGE_ZONE) dy = edgeSpeed(y - (box.bottom - EDGE_ZONE));
+
+    if (dy !== 0) {
+      const before = dragScroller.scrollTop;
+      dragScroller.scrollTop = before + dy;
+      // The pointer held still but the content moved under it, so the drop target
+      // is not the one it was a frame ago. Without this the placeholder stays put
+      // while the board slides past — the drag appears to stop tracking.
+      if (dragScroller.scrollTop !== before) {
+        placeSlotBefore(insertionRefAt(ptrDrag.lastX, y));
+      }
+    }
+
+    // Keep the loop alive for the whole lift: the pointer can sit motionless in the
+    // zone and must keep scrolling, which a pointermove-driven version cannot do.
+    edgeRaf = requestAnimationFrame(edgeScrollStep);
+  };
+
+  const startEdgeScroll = (): void => {
+    if (!grid) return;
+    dragScroller = scrollerOf(grid);
+    if (!edgeRaf) edgeRaf = requestAnimationFrame(edgeScrollStep);
+  };
+
+  const stopEdgeScroll = (): void => {
+    if (edgeRaf) cancelAnimationFrame(edgeRaf);
+    edgeRaf = 0;
+    dragScroller = null;
+  };
+
+  /** Manual scrolling during a drag — wheel or trackpad — moves the board under a
+      stationary pointer, so the placeholder has to be re-derived for the same reason
+      the auto-scroll does. This also fires (harmlessly) for the auto-scroll's own
+      writes; the placement call is idempotent, and having one path rather than a
+      "was that me?" flag is worth one extra rect read per frame. */
+  const onDragScroll = (): void => {
+    if (!ptrDrag?.lifted) return;
+    placeSlotBefore(insertionRefAt(ptrDrag.lastX, ptrDrag.lastY));
+  };
+
+  /** Where to listen for that scroll. A scrolling ELEMENT emits on itself, but the
+   *  document's scroll emits on window — not on <html> — so the two cases need
+   *  different targets. Wrong target here means the manual-scroll case silently does
+   *  nothing on a page whose shell does not use an inner scroller. */
+  const dragScrollTarget = (): EventTarget | null =>
+    !dragScroller
+      ? null
+      : dragScroller === document.scrollingElement || dragScroller === document.body
+        ? window
+        : dragScroller;
+
   const lift = (): void => {
     if (!grid || !ptrDrag) return;
     const { el, originRect: r } = ptrDrag;
     dragId = ptrDrag.id;
     grid.dataset.mode = 'drag';
-    slotEl = makeSlot(el.dataset.w || '1', el.dataset.h || '2');
+    slotEl = makeSlot(el.dataset.w || '1', el.dataset.span || String(MIN_SPAN));
     grid.insertBefore(slotEl, el);
     // Pin the root at its origin rect; the shell's .is-drag-lifted owns the
     // rest (fixed, z-index, pointer-events none, card scale + shadow).
@@ -1466,6 +1708,8 @@ const addCards = WIDGETS.map((w) => {
     el.style.height = `${r.height}px`;
     el.classList.add('is-drag-lifted');
     document.body.classList.add('is-widget-drag');
+    startEdgeScroll();
+    dragScrollTarget()?.addEventListener('scroll', onDragScroll, { passive: true });
   };
 
   const paintDrag = (): void => {
@@ -1771,11 +2015,27 @@ const addCards = WIDGETS.map((w) => {
   .mpdash {
     --_col: 3;
     --_gap: var(--spacing-400);
+    /* THE ROW UNIT (2026-09-09). 8px, not a widget-sized band. Each widget spans
+       however many of these its OWN content needs (computed in the script, see
+       measureSpans), which is what lets two cards in the same visual row have
+       different heights — impossible in a row-aligned grid, where every item in a
+       row shares that row's height.
+       8px is the quantisation error: a card's footprint rounds up to at most 8px
+       more than its content. Finer costs more rows for the browser to lay out;
+       coarser starts to show as inconsistent gaps. */
+    --_row: 8px;
     position: relative; /* the drag tracks are an absolute underlay */
     display: grid;
     grid-template-columns: repeat(var(--_col), minmax(0, 1fr));
-    grid-auto-rows: minmax(84px, auto);
-    gap: var(--_gap);
+    grid-auto-rows: var(--_row);
+    /* ROW GAP IS ZERO and each widget carries its own bottom margin instead. With a
+       row gap, a span of N rows measures N*unit + (N-1)*gap, so converting a pixel
+       height into a span means solving for N against the gap as well — and every
+       rounding error lands in the gaps, which then read as uneven. Margin keeps the
+       arithmetic to one division and puts the spacing INSIDE the footprint being
+       measured. */
+    row-gap: 0;
+    column-gap: var(--_gap);
   }
   /* Widgets sit over the tracks. (Every widget is already a stacking context
      via container-type; the explicit index just orders it above the underlay.)
@@ -1790,6 +2050,8 @@ const addCards = WIDGETS.map((w) => {
   /* The add tile — full-width dashed affordance after the last band (§10.8). */
   .mpd-add {
     grid-column: 1 / -1;
+    /* Its own row-gap replacement — see the row-gap note on .mpdash. */
+    margin-block-end: var(--_gap);
     min-block-size: 64px;
     display: flex;
     align-items: center;
@@ -1851,6 +2113,8 @@ const addCards = WIDGETS.map((w) => {
      scope attribute Astro stamps on template elements. */
   .mpdash :global(.mpd-slot) {
     position: relative;
+    /* Matches the widgets' own row spacing — see .mpdash's row-gap note. */
+    margin-block-end: var(--_gap);
     border: 2px dashed var(--color-background-brand);
     border-radius: var(--radius-200);
     background: var(--bcn-teal-100, var(--color-background-brand-subtle));

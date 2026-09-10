@@ -89,6 +89,16 @@ const max = Math.max(0, ...points.map((p) => p.value));
  */
 const STRIP_PX = height === 'sm' ? 44 : 72;
 
+/**
+ * THE MIDDLE TICK IS CONDITIONAL. Three labels want roughly 3 line-heights plus air;
+ * below ~64px of strip they collide and the axis reads as a smudge rather than a
+ * scale, so short strips show only the bounds. Also skipped when max < 2, where a
+ * midpoint would either repeat a bound or invent a fraction of a countable thing.
+ */
+const MID_TICK_MIN_PX = 64;
+const showMid = STRIP_PX >= MID_TICK_MIN_PX && max >= 2;
+const midValue = Math.round(max / 2);
+
 const columns = points.map((p) => {
   const zero = !(p.value > 0);
   return {
@@ -124,6 +134,16 @@ const last = points.length > 1 ? dayLabel(points[points.length - 1].date) : '';
       class="bcn-viztrend"
       style={color ? `--_accent:${color}` : undefined}
     >
+      {/* The y-axis, deliberately two labels: the MAX at the top and the zero
+          baseline. A strip with no scale asks the reader to guess whether a tall
+          column is 40 or 4,000, and the popup only answers it one column at a time.
+          Two numbers bound the whole strip, which is the smallest honest scale —
+          intermediate ticks would need gridlines and this is a 72px sparkline. */}
+      <div class="bcn-viztrend__yaxis" aria-hidden="true" style={`block-size:${STRIP_PX}px`}>
+        <span>{max.toLocaleString('en-US')}</span>
+        {showMid && <span>{midValue.toLocaleString('en-US')}</span>}
+        <span>0</span>
+      </div>
       <div
         class="bcn-viztrend__strip"
         role="img"
@@ -161,6 +181,55 @@ const last = points.length > 1 ? dayLabel(points[points.length - 1].date) : '';
 }
 
 <style>
+  /* Two columns: the y-axis gutter, then the strip. The x-axis label row is placed in
+     the strip's column so the first and last dates line up with the first and last
+     COLUMNS rather than with the gutter's edge. */
+  .bcn-viztrend {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    /* 8px right of the axis line, up from 4px (Jamie): the line needs to read as the
+       chart's edge rather than as part of the first column. The 4px on the LEFT of
+       the line stays — that side only separates the line from its own labels. */
+    column-gap: var(--spacing-200);
+  }
+
+  /* max on top, 0 on the baseline, and the gutter is exactly the strip's height so
+     the two labels sit on the lines they name. */
+  /* The axis LINE lives on the gutter's trailing edge, so it runs the exact height of
+     the strip beside it — a separate element would have to be kept in step with
+     --_trend-height by hand. The padding is what keeps the first column off it. */
+  .bcn-viztrend__yaxis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-inline-end: var(--spacing-100);
+    border-inline-end: 1px solid var(--color-border-default);
+    /* 12px, BELOW the house 13px floor, and deliberate (Jamie). The floor governs
+       the smallest text a reader has to READ; an axis tick is a reference mark
+       consulted against the bar beside it, and at 13px these numbers competed with
+       the x-axis dates and the chart's own title for a strip 72px tall. The x-axis
+       stays at 13 — it names the window, which is read rather than referenced.
+       Written with a max() floor because --font-size-100 is fluid and bottoms out
+       near 10px; 12px is the intended size, not an accident of the viewport. */
+    font-size: max(0.75rem, var(--font-size-100));
+    color: var(--color-content-default-tertiary);
+    /* TABULAR-NUMS IS INERT HERE, and that is worth knowing before anyone chases the
+       alignment (measured 2026-09-09). DM Sans ships no `tnum` feature: forcing the
+       property on and off produces identical advances (0 = 10.94, 1 = 4.88, 2 = 9.22
+       at 12px), so the figures are proportional whatever we ask for. The labels are
+       right-aligned and their right edges match to 0.00px — but a lone "0" is the
+       WIDEST digit in the face, so its left edge sits ~1px outside a "2" and ~4px
+       outside a "1". No alignment fixes that; only uniform digit advances would, and
+       the only faces here that have them are monospace, which the house rules keep
+       out of chrome. The declaration stays because the intent is right and it starts
+       working the day the family gains the feature. */
+    font-variant-numeric: tabular-nums;
+    /* The labels are captions on the scale, not data — they must never widen the
+       gutter enough to squeeze the strip on a 1-column widget. */
+    line-height: 1;
+  }
+
   /* --_trend-height is set INLINE from STRIP_PX, deliberately with no default here. The
      column heights are now computed in pixels from that same constant, so a CSS copy of the
      number would be a second source of truth for the one value the whole strip's arithmetic
@@ -247,12 +316,13 @@ const last = points.length > 1 ? dayLabel(points[points.length - 1].date) : '';
   }
 
   .bcn-viztrend__axis {
+    grid-column: 2; /* under the strip, not under the gutter */
     display: flex;
     justify-content: space-between;
     margin-top: var(--spacing-100);
-    /* 13px floor — the house minimum for the smallest text — scaling to 14px at full width.
-       The scale's own --font-size-100 bottoms out at 10px, which is under the floor. */
-    font-size: max(0.8125rem, var(--font-size-150));
+    /* Same 13px as the y ticks: both axes label the same chart, so a different size
+       on each reads as an accident rather than a hierarchy. */
+    font-size: max(0.8125rem, var(--font-size-100));
     color: var(--color-content-default-secondary);
     font-variant-numeric: tabular-nums;
   }

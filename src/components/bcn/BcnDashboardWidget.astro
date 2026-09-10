@@ -2,9 +2,23 @@
 // <BcnDashboardWidget> — the shell every widget on the composable Monitoring Portal
 // dashboard is poured into: a card owning a FOOTPRINT on the page's 3-column grid.
 //
-// v2 (2026-08-24, remy's spec — specimens/spec.md §3): footprint is width 1|2|3 ×
-// height 2|3|4|5 row units; the page's grid-auto-rows floor (minmax(unit, auto))
-// lets a band grow to its tallest widget. Collapse is GONE — resize supersedes it.
+// v3 (2026-09-09): footprint is width 1|2|3 columns; HEIGHT IS NOT AUTHORED. The card
+// is sized by its own content and the page converts that height into a row span over a
+// fine 8px row unit (see measureSpans). So two cards in the same visual row can be
+// different heights, short widgets pack into the space beside a tall one — two or three
+// of them, whichever fits — and no number has to be kept in agreement with anything.
+//
+// WHY THE AUTHORED SPAN WENT AWAY. It was width 1|2|3 x height 2|3|4|5 "row units",
+// which paired a FIXED span with an ELASTIC unit — grid-auto-rows was
+// minmax(84px, auto), so a row sized to whatever content crossed it. Measured on one
+// board, the same `height: 3` came out 620px, 849px and 674px depending on which rows
+// it landed on. Two bugs followed, both reported: card bottoms aligned only when the
+// spans in one column happened to sum to the span beside them, and a card stretched to
+// a footprint bigger than its content carried interior whitespace with no visible
+// cause. Registry defaults and users' saved layouts then drifted apart, because the
+// number had to agree with a layout maintained separately from it.
+//
+// Collapse is GONE — resize supersedes it.
 // The header carries the stream glyph in the stream's stored mark color, the title,
 // and the hover-revealed ⋯ menu (prod's affordance): Configure, width presets,
 // Remove widget, Customize dashboard. Every widget links through to its stream via
@@ -42,8 +56,6 @@ interface Props {
   title: string;
   /** Columns of the 3-column grid. */
   width: 1 | 2 | 3;
-  /** Row units (the page's grid-auto-rows floor). */
-  height: 2 | 3 | 4 | 5;
   /** The stream's stored mark color — becomes --_accent for every viz inside. */
   accent: string;
   /** Lucide inner-SVG for the stream glyph (STREAM_ICON_PATHS). */
@@ -55,7 +67,7 @@ interface Props {
   footHref?: string;
   footLabel?: string;
 }
-const { id, type, title, width, height, accent, iconName, iconPaths, footHref, footLabel } = Astro.props;
+const { id, type, title, width, accent, iconName, iconPaths, footHref, footLabel } = Astro.props;
 const widgetType = type ?? id;
 const hasFoot = Boolean(footHref && footLabel);
 ---
@@ -80,7 +92,6 @@ const hasFoot = Boolean(footHref && footLabel);
   data-widget-id={id}
   data-widget-type={widgetType}
   data-w={width}
-  data-h={height}
   style={`--_accent: ${accent};`}
 >
   {hasFoot ? (
@@ -127,12 +138,28 @@ const hasFoot = Boolean(footHref && footLabel);
 </section>
 
 <style>
-  /* ── Grid footprint. The page owns the 3-column grid and the row-unit floor; the
-        widget owns its span, so a widget moves between dashboards without the page
-        knowing its size. ── */
+  /* ── Grid footprint. The page owns the 3-column grid and the 8px row unit; the
+        widget owns its column span, and its ROW span is measured from this card's
+        own content by the page (measureSpans) rather than declared anywhere. ── */
   .bcn-dwidget {
     min-width: 0; /* grid children default to min-content — wide bodies would blow the column out */
-    display: flex; /* the card stretches to the band the grid gives it */
+    display: flex;
+    /* NEVER STRETCH, and this is load-bearing rather than cosmetic. Removed as an
+       experiment (2026-09-09) and the whole board collapsed: every card fell to the
+       88px span floor with a 72px box while its body was still 1128px, so the content
+       painted straight out of the card and the board went from 4213px to 712px of
+       overlapping widgets.
+       The reason is a feedback loop. Stretching makes a card's height its GRID AREA,
+       which is the thing measureSpans is trying to compute — so the pass reads the
+       area, derives a span from it, which resizes the area, and the two chase each
+       other down to the floor and stabilise there (stable, and wrong: the spans stop
+       moving, which is why it looks fine until you measure the board). With
+       align-self: start the card is never sized by its area, so height depends only
+       on content and width, and the measurement has a fixed point. */
+    align-self: start;
+    /* The page zeroes row-gap and spaces rows with this instead, so the gap is part
+       of the footprint being converted into a span. See .mpdash's row-gap note. */
+    margin-block-end: var(--_gap);
     /* The widget is the QUERY CONTAINER for everything inside it (Andy round 4,
        X1): panel bodies reflow against the width this footprint actually got,
        not the viewport — so a squeezed widget stacks, and the config dialog's
@@ -144,13 +171,13 @@ const hasFoot = Boolean(footHref && footLabel);
   .bcn-dwidget[hidden] {
     display: none;
   }
+
   .bcn-dwidget[data-w='1'] { grid-column: span 1; }
   .bcn-dwidget[data-w='2'] { grid-column: span 2; }
   .bcn-dwidget[data-w='3'] { grid-column: span 3; }
-  .bcn-dwidget[data-h='2'] { grid-row: span 2; }
-  .bcn-dwidget[data-h='3'] { grid-row: span 3; }
-  .bcn-dwidget[data-h='4'] { grid-row: span 4; }
-  .bcn-dwidget[data-h='5'] { grid-row: span 5; }
+  /* No grid-row rule: the span is written inline by the page's measure pass, from
+     this card's own height. The [data-h] rules that used to be here are what made
+     card bottoms miss each other and short cards stretch. */
 
   /* Reflow with the page grid: at 2 columns a full-width widget spans both; at 1
      column everything spans one. (Same breakpoints as the page's --_col steps.) */
@@ -235,14 +262,18 @@ const hasFoot = Boolean(footHref && footLabel);
      `labelPosition` prop or --stat-label-order on the lego is what would retire
      it. The sub is left alone, so it stays under the value where it belongs.
 
-     Color follows --stat-value-color rather than restating a literal, so a widget
-     that re-points its value (Compliance Concerns tints its count with the danger
-     token) gets a matching label for free instead of drifting. Weight is NOT
-     matched: same color at the value's 650 would read as a second heading and
-     compete with the widget title. */
+     COLOR NO LONGER FOLLOWS THE VALUE (Jamie, 2026-09-09). It used to read
+     --stat-value-color so a widget that re-points its count got a matching label
+     "for free" — but the only widget that re-points is Compliance Concerns, tinting
+     its count with the danger token, and the result was a red LABEL as well as a red
+     number. That spends the alarm colour on the words "Open compliance concerns",
+     which are not the alarming part and say the same thing whatever the count is.
+     The number carries the state; the label just names it, so the label stays in
+     default ink and only the figure goes red. Weight is not matched either: the
+     value's 650 would read as a second heading and compete with the widget title. */
   .bcn-dwidget :global(.esa-stat__label) {
     order: -1;
-    color: var(--stat-value-color, var(--color-text-primary, #171717));
+    color: var(--color-content-default);
   }
 
   /* The number centres under its title. text-align (not align-items) so every line

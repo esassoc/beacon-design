@@ -18,17 +18,13 @@
 //     high-contrast element and the label is secondary — the legend's hierarchy
 //     deliberately inverted (a legend is scanned for identity, a popup for
 //     magnitude).
-//  2. THE VALUE CARRIES THE COLOUR, and it is the only coloured thing in the row
-//     (Jamie, 2026-09-09). There is no separate key: a stroke or a swatch in front
-//     of the label was reading as a hyphen — punctuation the row did not ask for —
-//     and it was spending a second piece of ink on identity the label already
-//     states. Colouring the number instead ties the series to the figure directly
-//     and leaves the row as two words and a number.
-//
-//     This departs from the house dataviz rule that text wears text tokens and
-//     never a series colour. It is deliberate and it is scoped to the popup, where
-//     the coloured thing is a NUMBER rather than prose and the label beside it
-//     stays in secondary ink. Legends elsewhere keep their swatches.
+//  2. THE KEY IS A CHIP AT THE FAR LEFT, then `label: value` (Jamie, 2026-09-09).
+//     A chip matching the legend's own swatch, so the same shape means the same
+//     thing in both places and a reader moving between them has nothing to relearn.
+//     The row was briefly a coloured NUMBER with no chip — that put a series colour
+//     on text, against the house rule that text wears text tokens, and it lost the
+//     legend's visual rhyme. Both are back the way they were: colour identifies via
+//     the chip, and every word and figure in the row is in ink.
 //
 // THE HIT TARGET IS WHATEVER THE CONSUMER SLOTS, and that is a rule with teeth:
 // esa-popover's hover listeners live on its ANCHOR, which wraps the slotted trigger
@@ -54,8 +50,8 @@ export interface VizTipRow {
   label: string;
   /** Already formatted by the caller — this component never localises a number. */
   value: string | number;
-  /** Series color. Tints the VALUE, which is the row's only coloured element. Absent
-   *  leaves the number in default ink. */
+  /** Series color, drawn as the chip at the row's left edge. Absent renders no chip
+   *  — right for a single-series tip, where there is no identity to disambiguate. */
   color?: string;
   /** A second reading after the value, e.g. a share: "48%". */
   note?: string;
@@ -84,10 +80,11 @@ const { title, rows = [], empty, position = 'top' } = Astro.props;
     {
       rows.map((row) => (
         <span class="bcn-viztip__row">
-          <span class="bcn-viztip__label">{row.label}</span>
-          <span class="bcn-viztip__value" style={row.color ? `--_c:${row.color}` : undefined}>
-            {row.value}
-          </span>
+          {row.color && (
+            <span class="bcn-viztip__key" style={`background:${row.color}`} aria-hidden="true" />
+          )}
+          <span class="bcn-viztip__label">{row.label}:</span>
+          <span class="bcn-viztip__value">{row.value}</span>
           {row.note && <span class="bcn-viztip__note">{row.note}</span>}
         </span>
       ))
@@ -156,21 +153,34 @@ const { title, rows = [], empty, position = 'top' } = Astro.props;
 
   .bcn-viztip__row {
     display: flex;
-    /* baseline, not center: the number sits next to its label as part of the same
-       sentence now, so the two have to share a baseline rather than a box. */
-    align-items: baseline;
+    /* center, not baseline: the chip is a box with no text baseline of its own, so
+       it has to align to the middle of the line it keys. */
+    align-items: center;
     gap: var(--spacing-100);
+  }
+
+  /* The key: the legend's own chip, at the row's left edge. */
+  .bcn-viztip__key {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: var(--radius-xs);
+    flex: none;
   }
 
   .bcn-viztip__label {
     color: var(--color-content-default-secondary);
   }
 
-  /* The value reads immediately after its label and carries the series colour (see
-     rule 2 in the header). --_c is set inline per row; the fallback keeps the number
-     legible for a tip whose caller passed no colour. */
+  /* Left-aligned, immediately after the label and its colon (Jamie, 2026-09-09).
+     It used to take `margin-inline-start: auto` so a multi-row panel read down a
+     column of figures — which looked tidy and cost the panel its whole width in
+     free space, pushing the number to the far right edge. On a chart in the third
+     column that edge is the one the scroller clips, so the FIGURE was the part that
+     got cut off: the row read "Concerns raised:" with nothing after it. A value that
+     sits next to its label is both narrower and unclippable-by-accident.
+     Ink, never the series colour — the chip on the left already carries identity. */
   .bcn-viztip__value {
-    color: var(--_c, var(--color-content-default));
+    color: var(--color-content-default);
     font-variant-numeric: tabular-nums;
     font-weight: var(--typography-font-weight-semibold, 600);
   }
