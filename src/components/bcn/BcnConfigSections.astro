@@ -233,20 +233,27 @@ import { WIDGETS } from '../../data/monitoring-streams';
     border-radius: var(--radius-xs);
   }
 
-  /* The settings are indented well past the grip so they read as belonging to the
-     row above them rather than as the next row, and sit on the sunken surface so the
-     disclosure has a visible extent even when it holds one small field. */
+  /* The indent is the ONLY thing that ties the settings to the row above them
+     (Jamie, 2026-09-10): the sunken background is gone, so nothing else marks the
+     disclosure as subordinate. 32px clears the grip and the switch, which is what
+     makes it read as "under this row" rather than as the next row. */
   .bcn-cfgsec__body {
-    padding-inline: var(--spacing-500) 0;
+    padding-inline: var(--spacing-600) 0;
     padding-block: var(--spacing-200) var(--spacing-300);
-    background: var(--color-background-elevation-sunken);
   }
 
-  /* A count field asks for one digit. esa-select has no size below `sm` (its own
-     note: an xs block inverted the height ramp, so sm is the floor by decision), so
-     "smaller" here is WIDTH — a 1–7 picker spanning the whole column reads as a
-     text input for something long. */
-  .bcn-cfgsec__body [data-kind='count'] {
-    inline-size: 6rem;
+  /* ── DENSER, NOT NARROWER (Jamie, 2026-09-10). The field spans the column — a
+        6rem box next to a full-width text field above it read as a different KIND of
+        control rather than a smaller one. What a settings row wants is less HEIGHT.
+        esa-select has no size under `sm` (its own note: an xs block inverted the
+        height ramp, so sm is the floor by decision), and that decision is about the
+        size ATTRIBUTE ramp, not about local density — so the padding comes down here
+        instead. --_field-padding-y is PRIVATE to the lego: an outer-tree declaration
+        on the host wins over the shadow tree's :host rule regardless of specificity,
+        which is why this reaches. If the hub renames the var this silently reverts to
+        the sm height, which is a safe failure but a real one — a public density knob
+        on esa-select is the durable fix. ── */
+  .bcn-cfgsec__body [data-cfgsec-setting] {
+    --_field-padding-y: var(--spacing-150);
   }
 </style>
