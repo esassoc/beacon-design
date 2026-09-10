@@ -189,8 +189,22 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
     background: var(--color-background-elevation-sunken);
     padding: var(--_bleed);
     min-inline-size: 0;
-    /* The stage keeps its scale math and its scroll, but drops its frame — the card
-       now sits straight on this column instead of inside a well. */
+    /* ── ONE SCROLLER FOR THE WHOLE DIALOG (Jamie, 2026-09-10). The stage defaults
+          to a fixed 520px well with its own overflow, so a tall widget scrolled
+          INSIDE the preview column while the options column sat still — two scroll
+          contexts side by side, and the widget's own footer unreachable without
+          finding the inner one first. Height `auto` lets the stage size to the
+          scaled clone, which makes esa-dialog's body (`overflow-y: auto`, capped at
+          85vh) the only scroller, so both columns move together.
+          The stage's scale math is unaffected: it fits WIDTH against the scroller's
+          content box and lets height overflow. Its "more below" gradient needed a
+          fix to go with this — it was derived from a height comparison that still
+          reported an overflow here; it now asks the scroller whether it can scroll,
+          which under `auto` it cannot. ── */
+    --bcn-preview-stage-height: auto;
+    --bcn-preview-stage-overflow: visible;
+    /* The stage keeps its scale math, but drops its frame — the card now sits
+       straight on this column instead of inside a well. */
     --bcn-preview-stage-bg: transparent;
     --bcn-preview-stage-border: 0;
     --bcn-preview-stage-radius: 0;
