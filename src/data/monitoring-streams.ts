@@ -642,7 +642,7 @@ export const WIDGETS: WidgetDef[] = [
       { id: 'breakdown', label: 'Observation type breakdown donut', on: true },
       { id: 'activity', label: 'Observations over time by type', on: true },
       { id: 'map', label: 'Observation locations on a map', on: true },
-      { id: 'latest', label: 'Latest observations logged', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+      { id: 'latest', label: 'Latest observations logged', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
       { id: 'outstanding', label: 'Outstanding issues needing attention', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
     ],
   },
@@ -658,7 +658,7 @@ export const WIDGETS: WidgetDef[] = [
     sections: [
       { id: 'count', label: 'Total nesting-bird observation count', on: true },
       { id: 'species', label: 'Observation counts by species code', on: true },
-      { id: 'latest', label: 'Latest nesting-bird observations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+      { id: 'latest', label: 'Latest nesting-bird observations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   {
@@ -673,7 +673,7 @@ export const WIDGETS: WidgetDef[] = [
     sections: [
       { id: 'count', label: 'Open compliance concern count', on: true },
       { id: 'activity', label: 'Concerns raised over time', on: true },
-      { id: 'latest', label: 'Latest open compliance concerns', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+      { id: 'latest', label: 'Latest open compliance concerns', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   {
@@ -688,7 +688,7 @@ export const WIDGETS: WidgetDef[] = [
     sections: [
       { id: 'count', label: 'Total daily monitoring reports', on: true },
       { id: 'activity', label: 'Reports filed over time', on: true },
-      { id: 'latest', label: 'Latest daily monitoring reports', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+      { id: 'latest', label: 'Latest daily monitoring reports', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   {
@@ -703,7 +703,7 @@ export const WIDGETS: WidgetDef[] = [
     sections: [
       { id: 'count', label: 'Total biological resource observations', on: true },
       { id: 'species', label: 'Observation counts by species', on: true },
-      { id: 'latest', label: 'Latest biological resource observations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+      { id: 'latest', label: 'Latest biological resource observations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   // Status widget (spec §11.2): severity is encoded end to end, so no Color
@@ -765,7 +765,7 @@ export const WIDGETS: WidgetDef[] = [
     sections: [
       { id: 'count', label: 'Total survey document count', on: true },
       { id: 'status', label: 'Documents by review status', on: true },
-      { id: 'latest', label: 'Latest survey documents', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+      { id: 'latest', label: 'Latest survey documents', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   {
@@ -781,7 +781,7 @@ export const WIDGETS: WidgetDef[] = [
     sections: [
       { id: 'count', label: 'Training confirmations for the window', on: true },
       { id: 'companies', label: 'Workers trained by company', on: true },
-      { id: 'latest', label: 'Latest training confirmations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+      { id: 'latest', label: 'Latest training confirmations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   // Season lane: full 3-column width because a date axis compressed into one
