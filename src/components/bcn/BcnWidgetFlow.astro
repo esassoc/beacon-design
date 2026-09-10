@@ -57,14 +57,16 @@
 <div class="bcn-widget-flow"><slot /></div>
 
 <style>
-  /* ── The flow. The two axes are NOT the same gap (Jamie, 2026-09-10): 32px across,
+  /* ── The flow. The two axes are NOT the same gap (Jamie, 2026-09-10): 40px across,
         24px down. They are doing different jobs. Horizontally the gap has to hold a
         divider AND read as air on both sides of it, and two charts butted 24px apart
         with a line up the middle left 12px a side — enough to separate them, not
-        enough to look deliberate. Vertically there is no line to accommodate and the
-        sections' own titles already announce each one, so 24px stays. ── */
+        enough to look deliberate. 40px gives the line 20px of clear space either way,
+        which is the point at which two charts read as two figures rather than one
+        wide one. Vertically there is no line to accommodate and the sections' own
+        titles already announce each one, so 24px stays. ── */
   .bcn-widget-flow {
-    --_gap-x: var(--spacing-600);
+    --_gap-x: var(--spacing-650);
     --_gap-y: var(--spacing-500);
     display: flex;
     flex-wrap: wrap;
@@ -104,9 +106,9 @@
      not a width: flex line-breaking measures hypothetical main size, so an item that
      would fall under it wraps to the next row instead of being crushed.
      360px is measured, not picked: at the 870px two-column card it is what decides
-     that a figure sits beside ONE chart (143 + 360 + 360 + two 32px gaps = 927, so
+     that a figure sits beside ONE chart (143 + 360 + 360 + two 40px gaps = 943, so
      the second chart drops to its own full-width row) while the 1337px banner fits a
-     figure and two (916). Below it a stacked trend loses its y-axis gutter to its
+     figure and two (932). Below it a stacked trend loses its y-axis gutter to its
      columns. */
   .bcn-widget-flow > :global([data-flow='chart']) {
     flex: 1 1 var(--bcn-flow-chart-min, 360px);
