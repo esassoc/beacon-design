@@ -8,6 +8,20 @@
 // encodes is already in the DOM as legend text. That is a better result than a
 // chart library's offscreen data grid, at a fraction of the weight.
 //
+// EACH LEGEND ROW CARRIES A POPUP (2026-09-09, BcnVizTip) giving the segment's
+// SHARE — the one reading a donut exists for and the only one not already in the
+// DOM, since the legend carries the label and the count but not the percentage.
+//
+// ON THE LEGEND AND NOT THE RING, and this is a platform constraint rather than a
+// preference: esa-popover is a custom element, and a custom element inside an
+// <svg> is in the SVG namespace, where the browser treats an unknown tag as an
+// unrenderable container — it would not upgrade, not lay out, and not paint. The
+// arcs therefore cannot BE triggers without leaving SVG behind (an HTML overlay of
+// clip-path wedges), which is a large amount of geometry to maintain for a second
+// route to a number the legend row already answers. The legend sits immediately
+// beside the ring and is where a reader's pointer goes to resolve a colour anyway,
+// so it is the honest hover target here, not a consolation one.
+//
 // Category color, not status color: segments take --bcn-mark-* hues from the
 // caller (or inherit the widget's --_accent). Never a --bcn-status-* token —
 // reusing a severity color for a category is the drift the status standard
@@ -23,6 +37,8 @@
 // chips. Checked Beacon prod (its dashboard donuts are bespoke SVG too).
 // bcn-viz-donut is the reusable home.
 
+import BcnVizTip from './BcnVizTip.astro';
+
 export interface DonutSegment {
   label: string;
   value: number;
@@ -34,9 +50,12 @@ interface Props {
   segments: DonutSegment[];
   /** px box the svg renders into. The viewBox is fixed at 120; this scales it. */
   size?: number;
+  /** What the popup's number IS, e.g. "Observations". The chart title says it once for the
+   *  whole ring; the popup has to say it again per segment. */
+  measure?: string;
 }
 
-const { segments, size = 96 } = Astro.props;
+const { segments, size = 96, measure = 'Count' } = Astro.props;
 
 // Ring geometry — r=42 inside a 120 box at stroke-width 18 leaves a 9px margin
 // on each side, so the stroke never clips.
@@ -44,6 +63,12 @@ const RADIUS = 42;
 const CIRCUMFERENCE = 263.894;
 
 const total = segments.reduce((sum, s) => sum + s.value, 0);
+
+// The popup's share, off the SAME total the arcs are drawn from — so the number in the
+// popup and the angle on screen can never disagree. Whole percents: a donut segment is
+// read to the nearest few degrees, and a decimal implies a precision the shape has not got.
+const shareOf = (value: number): string =>
+  total > 0 ? `${Math.round((value / total) * 100)}%` : '—';
 
 // Each segment is one full-circle <circle> masked to its arc: `dasharray` opens a
 // gap of exactly its share, and a negative `dashoffset` rotates that gap to sit
@@ -99,13 +124,24 @@ const arcs = segments.map((segment, i) => {
 
   <ul class="bcn-viz-donut__legend stack" data-gap="xs">
     {segments.map((segment, i) => (
-      <li class="bcn-viz-donut__row cluster">
-        <span
-          class="bcn-viz-donut__dot"
-          style={`--_c: ${arcs[i].color};`}
-        ></span>
-        <span class="bcn-viz-donut__label typography-body-md">{segment.label}</span>
-        <span class="bcn-viz-donut__value typography-label-md-strong">{segment.value}</span>
+      <li class="bcn-viz-donut__slot">
+        <BcnVizTip
+          title={segment.label}
+          rows={[
+            {
+              label: measure,
+              value: segment.value.toLocaleString('en-US'),
+              color: arcs[i].color,
+              note: shareOf(segment.value),
+            },
+          ]}
+        >
+          <span class="bcn-viz-donut__row cluster">
+            <span class="bcn-viz-donut__dot" style={`--_c: ${arcs[i].color};`} />
+            <span class="bcn-viz-donut__label typography-body-md">{segment.label}</span>
+            <span class="bcn-viz-donut__value typography-label-md-strong">{segment.value}</span>
+          </span>
+        </BcnVizTip>
       </li>
     ))}
   </ul>
@@ -128,11 +164,29 @@ const arcs = segments.map((segment, i) => {
     flex: 1 1 auto;
   }
 
+  /* One segment's CELL — the whole legend row is the popup's hit target, not the 10px dot.
+     The inline padding is cancelled by an equal negative margin, so the hover wash has room
+     to breathe WITHOUT the legend text shifting off the alignment it has today. */
+  .bcn-viz-donut__slot {
+    display: grid;
+    min-inline-size: 0;
+    padding-inline: var(--spacing-100);
+    margin-inline: calc(var(--spacing-100) * -1);
+    border-radius: var(--radius-xs);
+  }
+
+  .bcn-viz-donut__slot:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+
   .bcn-viz-donut__row {
     --gap: var(--spacing-250);
     /* cluster wraps by default; a legend row must truncate its label instead,
        so the count stays on the same line as the label it belongs to. */
     flex-wrap: nowrap;
+    /* The row is nested inside the popover's anchor now rather than being the list item
+       itself, so it takes its width from the cell. */
+    inline-size: 100%;
   }
 
   .bcn-viz-donut__dot {

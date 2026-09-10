@@ -28,7 +28,9 @@
 // proportion bar, BcnVizStrip is per-day presence/absence. Checked Beacon prod: its
 // dashboard has a pie by type and no time series at all. bcn-viz-stacked is the
 // reusable home.
-import type { StackPoint } from '../../lib/bucket-series';
+import type { BucketUnit, StackPoint } from '../../lib/bucket-series';
+import { periodLabel } from '../../lib/period-label';
+import BcnVizTip from './BcnVizTip.astro';
 
 export interface StackSeries {
   /** Matches a key in StackPoint.values. */
@@ -51,9 +53,29 @@ interface Props {
   /** First/last axis labels, already formatted by the caller. */
   axisStart?: string;
   axisEnd?: string;
+  /**
+   * The unit `points` were bucketed into — pass `bucketStacked()`'s own `unit`
+   * straight through. It exists ONLY for the popup title: a bucketed point carries
+   * its first day and nothing else, so without the unit a week's bar would be
+   * labelled as a single day and the popup would misstate the figure by seven.
+   * Defaults to 'day', which is what an unbucketed series is.
+   */
+  unit?: BucketUnit;
+  /** The popup's reading for a period with no records. Names the RECORD, since the
+   *  chart is generic: "No observations", "No reports". */
+  emptyLabel?: string;
 }
 
-const { points, series, label, height = 'md', axisStart, axisEnd } = Astro.props;
+const {
+  points,
+  series,
+  label,
+  height = 'md',
+  axisStart,
+  axisEnd,
+  unit = 'day',
+  emptyLabel = 'No records',
+} = Astro.props;
 
 const totalOf = (p: StackPoint): number =>
   series.reduce((n, s) => n + (p.values[s.key] ?? 0), 0);
@@ -63,24 +85,14 @@ const max = Math.max(1, ...points.map(totalOf));
 /**
  * Strip height in PIXELS, not a percentage.
  *
- * The bars are wrapped in esa-tooltip, whose host is `display: inline-block` around
- * a shadow-DOM anchor with auto height. A percentage height on the bar would have to
- * resolve against that anchor, which has no definite height and is unreachable from
- * outside — so the bars would collapse. Computing the height here removes the
- * dependency on any ancestor's height, and the CSS reads the same number so the two
- * cannot drift.
+ * The bars are wrapped in BcnVizTip, i.e. in esa-popover, whose host is a wrapper
+ * around a shadow-DOM anchor with auto height. A percentage height on the bar would
+ * have to resolve against that anchor, which has no definite height and is
+ * unreachable from outside — so the bars would collapse. Computing the height here
+ * removes the dependency on any ancestor's height, and the CSS reads the same number
+ * so the two cannot drift.
  */
 const STRIP_PX = height === 'sm' ? 60 : 96;
-
-const MONTH_DAY = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
-/** UTC-parsed: a bare YYYY-MM-DD is UTC midnight, so a negative-offset zone would
-    otherwise report the previous day. Same rule as the bucketing module. */
-const dayLabel = (iso: string): string => {
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
-  if (!m) return iso;
-  const d = new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])));
-  return Number.isNaN(d.getTime()) ? iso : MONTH_DAY.format(d);
-};
 
 const columns = points.map((p) => {
   const total = totalOf(p);
@@ -88,10 +100,9 @@ const columns = points.map((p) => {
     .map((sr) => ({ key: sr.key, label: sr.label, color: sr.color, value: p.values[sr.key] ?? 0 }))
     .filter((seg) => seg.value > 0);
 
-  // The popup gets STRUCTURE rather than a joined string: a date line, then one
-  // line per type. esa-popover takes markup in slot="content", so the rows can be
-  // real elements with their own swatch — which also means the colour that
-  // identifies a segment in the chart identifies it in the popup too.
+  // The popup gets STRUCTURE rather than a joined string: a period line, then one
+  // line per type, each keyed with the SAME colour that identifies it in the chart.
+  // BcnVizTip owns that shape now (and four sibling charts share it).
 
   return {
     date: p.date,
@@ -103,7 +114,13 @@ const columns = points.map((p) => {
     // flex-grow per segment, so the browser does the within-column proportions and
     // rounding cannot make the parts disagree with the whole.
     segments,
-    dateLabel: dayLabel(p.date),
+    // The full period, spelled out: "September 8, 2026" rather than "Sep 8"
+    // (2026-09-09). The axis under the strip is where an abbreviation belongs —
+    // it has two labels and no room — but a popup is opened deliberately, one
+    // period at a time, and there the year is part of the answer rather than
+    // noise. periodLabel says the bucket in its own shape, so a coarsened series
+    // reads "Week of September 8, 2026" or "September 2026".
+    periodLabel: periodLabel(p.date, unit),
   };
 });
 
@@ -124,35 +141,28 @@ const legend = series;
           stops on the bars. */}
       <div class="bcn-vizstack__strip" role="img" aria-label={label} style={`--_stack-height:${STRIP_PX}px`}>
         {columns.map((col) => (
-          <esa-popover class="bcn-vizstack__slot" trigger="hover" position="top">
-            {col.zero ? (
-              <span class="bcn-vizstack__col bcn-vizstack__col--zero" />
-            ) : (
-              <span class="bcn-vizstack__col" style={`block-size:${col.heightPx}px`}>
-                {col.segments.map((seg) => (
-                  <span
-                    class="bcn-vizstack__seg"
-                    style={`flex:${seg.value};background:${seg.color}`}
-                  />
-                ))}
-              </span>
-            )}
-
-            <div slot="content" class="bcn-vizstack__tip">
-              <span class="bcn-vizstack__tip-date">{col.dateLabel}</span>
-              {col.zero ? (
-                <span class="bcn-vizstack__tip-empty">No observations</span>
-              ) : (
-                col.segments.map((seg) => (
-                  <span class="bcn-vizstack__tip-row">
-                    <span class="bcn-vizstack__swatch" style={`background:${seg.color}`} aria-hidden="true" />
-                    <span class="bcn-vizstack__tip-label">{seg.label}:</span>
-                    <span class="bcn-vizstack__tip-value">{seg.value}</span>
+          <span class="bcn-vizstack__slot">
+            <BcnVizTip
+              title={col.periodLabel}
+              rows={col.segments.map((seg) => ({ label: seg.label, value: seg.value, color: seg.color }))}
+              empty={emptyLabel}
+            >
+              <span class="bcn-vizstack__cell" style={`block-size:${STRIP_PX}px`}>
+                {col.zero ? (
+                  <span class="bcn-vizstack__col bcn-vizstack__col--zero" />
+                ) : (
+                  <span class="bcn-vizstack__col" style={`block-size:${col.heightPx}px`}>
+                    {col.segments.map((seg) => (
+                      <span
+                        class="bcn-vizstack__seg"
+                        style={`flex:${seg.value};background:${seg.color}`}
+                      />
+                    ))}
                   </span>
-                ))
-              )}
-            </div>
-          </esa-popover>
+                )}
+              </span>
+            </BcnVizTip>
+          </span>
         ))}
       </div>
 
@@ -174,16 +184,6 @@ const legend = series;
     </div>
   )
 }
-
-<script>
-  // esa-popover owns the hover behaviour, the panel and its positioning — composed,
-  // not reimplemented. It is a Lit custom element, so the module has to be
-  // registered. Chosen over esa-tooltip because a tooltip's `text` is a single
-  // string: this popup needs a line per type, which means real markup in
-  // slot="content". Its reflected `open` attribute is also what lets the widget
-  // shell un-clip the card (see the CLIPPING note in the styles below).
-  import '@esa/ecology/esa-popover';
-</script>
 
 <style>
   .bcn-vizstack {
@@ -209,30 +209,44 @@ const legend = series;
     block-size: var(--_stack-height);
   }
 
-  /* The slot IS the esa-tooltip host. Overriding its `:host { display: inline-block }`
-     from out here is legal — outer-document rules beat :host on the same element —
-     and is what lets the host behave as a flex item in the strip. The bar inside
-     carries its own pixel height, so nothing depends on the shadow anchor's size. */
-  /* CLIPPING: esa-card sets `overflow: hidden`, so a popup anchored inside a widget
+  /* One column's CELL, and the cell is the hit target — not the bar. It fills the
+     strip's full height, so a 3px column is hovered anywhere in its column of space
+     rather than only on its three painted pixels (dataviz: the hit target is bigger
+     than the mark). BcnVizTip's own styles carry the grid and percentage traps that
+     make this work, and __cell below is the piece that makes it true.
+
+     CLIPPING: esa-card sets `overflow: hidden`, so a popup anchored inside a widget
      would be cut off at the card edge. Nothing is needed here to fix it —
      BcnDashboardWidget already carries
      `.bcn-dwidget:has(esa-popover[open]) .esa-card { overflow: visible }` plus a
-     z-index lift, keyed on esa-popover's REFLECTED `open` attribute. So choosing
-     esa-popover (rather than a hand-rolled panel) is what buys the overflow — one
-     more reason it is the right lego here. */
+     z-index lift, keyed on esa-popover's REFLECTED `open` attribute. So composing
+     the lego (rather than hand-rolling a panel) is what buys the overflow. */
   .bcn-vizstack__slot {
     flex: 1;
     min-inline-size: 2px;
-    /* GRID, not flex, and this is load-bearing. The tooltip's anchor lives in its
-       shadow root and cannot be selected from out here, so the only way to size it
-       is via the layout its host imposes. As a flex container the host stretched the
-       anchor vertically but left its width content-driven — and the bar's
-       `inline-size: 100%` then resolved against an auto width, i.e. against itself,
-       collapsing to ZERO. The bars had height and no width: present, invisible.
-       In grid, `justify-items` defaults to stretch, so the single child fills the
-       host on BOTH axes and the percentage has something real to resolve against. */
     display: grid;
-    align-items: end;
+    /* The strip is `align-items: flex-end`, which would otherwise shrink this to its own
+       bar's height. Stretched back so the popup host gets the full strip height; __cell
+       below is what turns that height into a hover target. */
+    align-self: stretch;
+  }
+
+  /* THE TRIGGER. esa-popover listens on the anchor wrapping whatever is slotted into it, so
+     the slotted thing must BE the full-height cell — otherwise a 3px bar is still only a
+     3px hover target however tall the host is. Transparent, full strip height, bar
+     bottom-aligned inside. Pixel height for the same reason the bar has one: a percentage
+     would resolve against the anchor, which has no definite height. */
+  .bcn-vizstack__cell {
+    display: flex;
+    align-items: flex-end;
+    inline-size: 100%;
+  }
+
+  /* The hovered mark responds, so the reader can see WHICH period the popup is
+     reading out — brightness rather than a color, because every segment carries a
+     different caller-supplied hue and there is no one outline that suits them all. */
+  .bcn-vizstack__cell:hover .bcn-vizstack__col {
+    filter: brightness(1.08);
   }
 
   .bcn-vizstack__col {
@@ -288,37 +302,8 @@ const legend = series;
     min-inline-size: 0;
   }
 
-  /* The popup: one line per type, so it is a stack rather than a sentence. */
-  .bcn-vizstack__tip {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-050);
-    white-space: nowrap;
-  }
-
-  .bcn-vizstack__tip-date {
-    font-weight: var(--typography-font-weight-semibold, 600);
-  }
-
-  .bcn-vizstack__tip-row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-100);
-  }
-
-  /* The count is pushed to the right edge so a multi-row popup reads as a small
-     table rather than ragged text. */
-  .bcn-vizstack__tip-value {
-    margin-inline-start: auto;
-    font-variant-numeric: tabular-nums;
-    font-weight: var(--typography-font-weight-semibold, 600);
-  }
-
-  .bcn-vizstack__tip-empty,
-  .bcn-vizstack__tip-label {
-    color: inherit;
-  }
-
+  /* The LEGEND's key stays a filled box: there the swatch is the identity being
+     scanned for. The popup's key is a stroke instead — see BcnVizTip. */
   .bcn-vizstack__swatch {
     inline-size: 8px;
     block-size: 8px;

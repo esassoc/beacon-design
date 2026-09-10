@@ -13,6 +13,13 @@
 // value as real DOM text, so the track is aria-hidden and no offscreen table is
 // needed — the spec's accessibility position for the micro-viz set.
 //
+// EACH ROW CARRIES A POPUP (2026-09-09, BcnVizTip). What it adds is the one thing this
+// primitive is built to hide: the FULL category name. The name column ellipsises by design
+// so a long label can never push the number out of the widget, which means "Chevrolet
+// Silverado 2500" reads as "Chevrolet Silverad…" and the popup is where the rest of it
+// lives. Deliberately NO share percentage: `rows` is frequently a caller's top-N slice, and
+// a percentage of a partial set is a wrong number rather than a missing one.
+//
 // bcn-lego-checked: esa-progress-bar is the only bar lego and it is the wrong
 // primitive twice over — it renders role="progressbar" with aria-valuenow (a
 // completion semantic, not a magnitude comparison between categories), and its fill
@@ -23,6 +30,8 @@
 // mandatory paired esa-grid text alternative, for five bars in a 1x3 widget).
 // Checked Beacon: prod's per-species bars are bespoke SCSS in the dashboard widget,
 // not a shared ui-* component. bcn-viz-bars is the reusable home.
+
+import BcnVizTip from './BcnVizTip.astro';
 
 export interface BarRow {
   name: string;
@@ -37,9 +46,12 @@ interface Props {
   variant?: 'code';
   /** Denominator override. Default: the largest value in `rows`. */
   max?: number;
+  /** What the popup's number IS, e.g. "Miles", "Observations". The chart title says it once
+   *  for the whole set; the popup has to say it again per row. */
+  measure?: string;
 }
 
-const { rows, variant, max } = Astro.props;
+const { rows, variant, max, measure = 'Count' } = Astro.props;
 
 // A caller-supplied max lets sibling widgets share a scale; otherwise the tallest
 // bar fills the track. Guard the all-zero and empty cases so no row divides by 0.
@@ -53,16 +65,32 @@ const pct = (value: number) =>
 <div class:list={['bcn-viz-bars', variant === 'code' && 'bcn-viz-bars--code']}>
   {
     rows.map((row) => (
-      <div class="bcn-viz-bars__row">
-        <span class="bcn-viz-bars__name">{row.name}</span>
-        <span class="bcn-viz-bars__track" aria-hidden="true">
-          <span
-            class="bcn-viz-bars__fill"
-            style={`width:${pct(row.value)}%${row.color ? `;--_bar-fill:${row.color}` : ''}`}
-          />
-        </span>
-        <span class="bcn-viz-bars__val">{row.value.toLocaleString('en-US')}</span>
-      </div>
+      <span class="bcn-viz-bars__slot">
+        <BcnVizTip
+          title={row.name}
+          rows={[
+            {
+              label: measure,
+              value: row.value.toLocaleString('en-US'),
+              /* The key mirrors the fill's own precedence expression below, so the colour
+                 that identifies a bar in the chart identifies it in the popup — including
+                 under the widget config's --_mono override. */
+              color: `var(--_mono, ${row.color ?? 'var(--_accent, var(--color-content-default-secondary))'})`,
+            },
+          ]}
+        >
+          <span class="bcn-viz-bars__row">
+            <span class="bcn-viz-bars__name">{row.name}</span>
+            <span class="bcn-viz-bars__track" aria-hidden="true">
+              <span
+                class="bcn-viz-bars__fill"
+                style={`width:${pct(row.value)}%${row.color ? `;--_bar-fill:${row.color}` : ''}`}
+              />
+            </span>
+            <span class="bcn-viz-bars__val">{row.value.toLocaleString('en-US')}</span>
+          </span>
+        </BcnVizTip>
+      </span>
     ))
   }
 </div>
@@ -77,11 +105,28 @@ const pct = (value: number) =>
     min-width: 0;
   }
 
+  /* One row's CELL: the popup host sits between the flex column and the row grid, and the
+     WHOLE row is therefore the hit target rather than the 12px track (dataviz: the hit
+     target is bigger than the mark). Nothing extra is needed here — the slotted row already
+     fills its cell, which is the condition BcnVizTip's note spells out. */
+  .bcn-viz-bars__slot {
+    display: grid;
+    min-inline-size: 0;
+  }
+
   .bcn-viz-bars__row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(52px, 1.15fr) auto;
     align-items: center;
     gap: var(--spacing-250);
+    /* The row is now nested inside the popover's anchor rather than being the flex child
+       itself, so it takes its width from the cell instead of from the flex line. */
+    inline-size: 100%;
+  }
+
+  /* The hovered bar responds, so the reader can see which row the popup is reading out. */
+  .bcn-viz-bars__slot:hover .bcn-viz-bars__fill {
+    filter: brightness(1.08);
   }
 
   .bcn-viz-bars--code .bcn-viz-bars__row {

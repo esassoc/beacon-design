@@ -641,8 +641,10 @@ export const widgetById = (id: string): WidgetDef | undefined => WIDGETS.find((w
 export interface DayPoint { date: string; value: number }
 export interface BarRow { name: string; value: number }
 
-/** 14 ISO dates ending at TODAY, paired with the given values. */
-const days14 = (values: number[]): DayPoint[] =>
+/** N ISO dates ending at TODAY, paired with the given values — N is `values.length`.
+ *  (Renamed 2026-09-09, when the DMR rollup arrived with 30 values: the helper was
+ *  always length-generic and only its old name said otherwise.) */
+const daysEndingToday = (values: number[]): DayPoint[] =>
   values.map((value, i) => {
     const d = new Date(Date.parse(TODAY) - (values.length - 1 - i) * 86_400_000);
     return { date: d.toISOString().slice(0, 10), value };
@@ -652,7 +654,7 @@ export const MILEAGE_ROLLUP = {
   /** sum(totalMileage), past 14 days. */
   miles14d: 3284,
   trips14d: 96,
-  perDay: days14([286, 331, 62, 0, 348, 302, 274, 336, 295, 88, 41, 318, 361, 242]),
+  perDay: daysEndingToday([286, 331, 62, 0, 348, 302, 274, 336, 295, 88, 41, 318, 361, 242]),
   byVehicle: [
     { name: 'Subaru Crosstrek', value: 1046 },
     { name: 'Ford F-150', value: 742 },
@@ -666,7 +668,7 @@ export const RUNTIME_ROLLUP = {
   /** sum(runTimeMinutes)/60, past 14 days. */
   hours14d: 412,
   unitsLogged: 12,
-  perDayMinutes: days14([2180, 2460, 520, 0, 2610, 2340, 2085, 2520, 2270, 700, 500, 2415, 2280, 1840]),
+  perDayMinutes: daysEndingToday([2180, 2460, 520, 0, 2610, 2340, 2085, 2520, 2270, 700, 500, 2415, 2280, 1840]),
   byClassHours: [
     { name: 'Drill rig', value: 164 },
     { name: 'Support truck', value: 102 },
@@ -674,6 +676,39 @@ export const RUNTIME_ROLLUP = {
     { name: 'Generator', value: 46 },
     { name: 'Dewatering pump', value: 27 },
   ] as BarRow[],
+};
+
+export const DMR_ROLLUP = {
+  /**
+   * Reports filed per day, past 30 days (2026-09-09). Added when the widget's
+   * "by weekday" strip became a change-over-time chart: a weekday binning cannot
+   * answer a 30- or 90-day scope (five cells for ninety days of filing is not a
+   * reading), so the widget needed a real dated series rather than a 7-day
+   * presence strip.
+   *
+   * THE WEEKDAY RHYTHM SURVIVES THE CHANGE, which was the whole worry about
+   * dropping the weekday view. Sat/Sun are zero here because a field-day report is
+   * not due then, and on a dated axis those zeros land in a regular beat — so the
+   * weekly cadence is still the first thing the strip shows, now WITHOUT claiming
+   * that five buckets summarise three months. 2026-06-04 is a deliberate weekday
+   * gap: a day a report was genuinely missed reads differently from a weekend, and
+   * the popup names the weekday so the two are told apart rather than guessed at.
+   *
+   * Sums to 26 across the window, against recordCount 32 for the stream — the
+   * older six sit before the window, so the two figures agree.
+   */
+  perDay: daysEndingToday([
+    // Tue 05-19 -> Fri 05-22, then the weekend
+    1, 2, 1, 1, 0, 0,
+    // Mon 05-25 -> Fri 05-29, then the weekend
+    1, 1, 2, 1, 1, 0, 0,
+    // Mon 06-01 -> Fri 06-05 (Thu 06-04 missed), then the weekend
+    2, 1, 1, 0, 1, 0, 0,
+    // Mon 06-08 -> Fri 06-12, then the weekend
+    1, 2, 1, 1, 2, 0, 0,
+    // Mon 06-15 -> Wed 06-17 (TODAY)
+    1, 1, 1,
+  ]),
 };
 
 export const WEAP_ROLLUP = {

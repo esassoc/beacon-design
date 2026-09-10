@@ -9,10 +9,17 @@
 // window, so a day with no activity would read as a day that was never measured. The stub
 // keeps the day present and says "nothing happened here", which is a different fact.
 //
-// It is reinforcement, never the only carrier: the per-day numbers are deliberately NOT in
-// the DOM. The strip is a single role="img" whose label names the derivation, and the widget
-// beside it carries the summary stat as text. That is the accessibility contract the whole
-// dashboard micro-viz set follows — no offscreen data table per sparkline.
+// It is reinforcement, never the only carrier: the per-period numbers are deliberately NOT
+// in the DOM. The strip is a single role="img" whose label names the derivation, and the
+// widget beside it carries the summary stat as text. That is the accessibility contract the
+// whole dashboard micro-viz set follows — no offscreen data table per sparkline.
+//
+// EACH COLUMN CARRIES A POPUP (2026-09-09, BcnVizTip). This is the chart where a popup earns
+// the most: the per-period figures are the one reading the strip encodes and does not state,
+// so before this the shape was all a reader could get. The popup names the period in full and
+// gives that period's number. It is a POINTER enhancement on top of the role="img" summary,
+// not a new carrier of the data — same position BcnVizStacked takes, and the bars stay out of
+// the tab order for the same reason (31 tab stops mid-dashboard).
 //
 // Renders NOTHING with an empty `points` array. An axis with no strip over it is chrome
 // describing absent data, and the widget's own empty state is the right place for that.
@@ -27,6 +34,10 @@
 // inside its widget templates, with no extractable ui-* component. bcn-viz-trend is the
 // reusable home, alongside its siblings bcn-viz-donut / bcn-viz-bars.
 
+import type { BucketUnit } from '../../lib/bucket-series';
+import { periodLabel } from '../../lib/period-label';
+import BcnVizTip from './BcnVizTip.astro';
+
 interface DayPoint {
   /** ISO date. Only the calendar day is read; any time part is ignored. */
   date: string;
@@ -35,7 +46,7 @@ interface DayPoint {
 }
 
 interface Props {
-  /** One entry per day, in chronological order. Empty renders nothing. */
+  /** One entry per period, in chronological order. Empty renders nothing. */
   points: DayPoint[];
   /** Strip height: 'md' (72px, the default) or 'sm' (44px, for a stat panel's understudy). */
   height?: 'sm' | 'md';
@@ -43,21 +54,50 @@ interface Props {
   color?: string;
   /** Names the derivation for screen readers, e.g. "Miles per day, Jun 4 to Jun 17". */
   label: string;
+  /**
+   * The unit `points` were bucketed into — pass `bucketSeries()`'s own `unit` straight
+   * through. It exists ONLY for the popup title: a bucketed point carries its first day and
+   * nothing else, so without the unit a week's column would be labelled as a single day and
+   * the popup would misstate the figure by seven. Defaults to 'day' (an unbucketed series).
+   */
+  unit?: BucketUnit;
+  /** What the popup's number IS, e.g. "Miles", "Concerns raised". The chart title says it
+   *  once for the whole strip; the popup has to say it again per period. */
+  measure?: string;
 }
 
-const { points, height = 'md', color, label } = Astro.props;
+const { points, height = 'md', color, label, unit = 'day', measure = 'Count' } = Astro.props;
 
 // The window scales to ITSELF — the tallest day in this strip is 100%. A shared scale across
 // widgets would be meaningless, since miles, minutes and counts share no unit.
 const max = Math.max(0, ...points.map((p) => p.value));
 
+/**
+ * Strip height in PIXELS, not the percentage this used to use.
+ *
+ * 72px ('md'): tall enough that a 20% period and a 30% period are distinguishable, short
+ * enough to sit under a big stat inside a 3-row widget without pushing the footer out.
+ * 44px ('sm'): the understudy — a trend riding along beneath a stat in a shared panel, where
+ * the number is the content and the shape is a footnote to it.
+ *
+ * The columns are wrapped in BcnVizTip, i.e. in esa-popover, whose slotted trigger sits
+ * inside a shadow-DOM anchor of auto height. A percentage height on the column would have to
+ * resolve against that anchor, which has no definite height and cannot be selected from out
+ * here — so every column would collapse to nothing. Computing in pixels removes the
+ * dependency on any ancestor's height. The CSS below reads the same constants, so the two
+ * cannot drift. (BcnVizStacked hit this first and carries the same note.)
+ */
+const STRIP_PX = height === 'sm' ? 44 : 72;
+
 const columns = points.map((p) => {
   const zero = !(p.value > 0);
   return {
     zero,
-    // One decimal is past what a ~40px-wide column can resolve, but it keeps the tallest
-    // column landing on exactly 100% instead of a rounded 99%.
-    pct: zero || max <= 0 ? 0 : Math.round((p.value / max) * 1000) / 10,
+    value: p.value,
+    // Floored at 3px: a real measurement must never render SHORTER than the absent-period
+    // stub, or the idiom inverts and activity reads as no data.
+    heightPx: zero || max <= 0 ? 0 : Math.max(3, Math.round((p.value / max) * STRIP_PX)),
+    periodLabel: periodLabel(p.date, unit),
   };
 });
 
@@ -81,15 +121,35 @@ const last = points.length > 1 ? dayLabel(points[points.length - 1].date) : '';
 {
   points.length > 0 && (
     <div
-      class:list={['bcn-viztrend', height === 'sm' && 'bcn-viztrend--sm']}
+      class="bcn-viztrend"
       style={color ? `--_accent:${color}` : undefined}
     >
-      <div class="bcn-viztrend__strip" role="img" aria-label={label}>
+      <div
+        class="bcn-viztrend__strip"
+        role="img"
+        aria-label={label}
+        style={`--_trend-height:${STRIP_PX}px`}
+      >
         {columns.map((col) => (
-          <span
-            class:list={['bcn-viztrend__col', col.zero && 'bcn-viztrend__col--zero']}
-            style={col.zero ? undefined : `height:${col.pct}%`}
-          />
+          <span class="bcn-viztrend__slot">
+            <BcnVizTip
+              title={col.periodLabel}
+              rows={[
+                {
+                  label: measure,
+                  value: col.value.toLocaleString('en-US'),
+                  color: color ?? 'var(--_accent, var(--color-content-default-secondary))',
+                },
+              ]}
+            >
+              <span class="bcn-viztrend__cell" style={`block-size:${STRIP_PX}px`}>
+                <span
+                  class:list={['bcn-viztrend__col', col.zero && 'bcn-viztrend__col--zero']}
+                  style={col.zero ? undefined : `block-size:${col.heightPx}px`}
+                />
+              </span>
+            </BcnVizTip>
+          </span>
         ))}
       </div>
       <div class="bcn-viztrend__axis">
@@ -101,17 +161,11 @@ const last = points.length > 1 ? dayLabel(points[points.length - 1].date) : '';
 }
 
 <style>
-  .bcn-viztrend {
-    /* 72px. Tall enough that a 20% day and a 30% day are distinguishable, short enough to sit
-       under a big stat inside a 3-row widget without pushing the footer out. */
-    --_trend-height: 72px;
-  }
-  /* The understudy: a trend riding along under a stat in a shared panel, where the number is
-     the content and the shape is a footnote to it. */
-  .bcn-viztrend--sm {
-    --_trend-height: 44px;
-  }
-
+  /* --_trend-height is set INLINE from STRIP_PX, deliberately with no default here. The
+     column heights are now computed in pixels from that same constant, so a CSS copy of the
+     number would be a second source of truth for the one value the whole strip's arithmetic
+     depends on — exactly the drift a duplicated constant produces. One number, in the
+     frontmatter, read by both. */
   .bcn-viztrend__strip {
     display: flex;
     /* Columns grow UP from a common baseline — the whole reading of the strip. */
@@ -123,14 +177,52 @@ const last = points.length > 1 ? dayLabel(points[points.length - 1].date) : '';
     height: var(--_trend-height);
   }
 
-  .bcn-viztrend__col {
+  /* One period's CELL, and the cell — not the 3px column inside it — is the hit target, so
+     a quiet period is hoverable anywhere in its column of space (dataviz: the hit target is
+     bigger than the mark). BcnVizTip's styles carry the grid and percentage traps that make
+     this work; __cell below is the piece that makes it true.
+
+     esa-card clips at its rounded border, so a popup inside a widget would be cut off —
+     BcnDashboardWidget already un-clips on `:has(esa-popover[open])`, which is a property of
+     composing the lego rather than anything this chart has to arrange. */
+  .bcn-viztrend__slot {
     flex: 1;
-    /* Keeps a 30-day window from collapsing its columns to slivers in a 1-wide widget. */
+    /* Keeps a 30-period window from collapsing its columns to slivers in a 1-wide widget. */
     min-width: 2px;
-    /* A non-zero day must never render SHORTER than the absent-day stub, or the idiom
-       inverts and a real measurement reads as no data. Below ~4% of the max the percentage
-       height would do exactly that. */
-    min-height: 3px;
+    display: grid;
+    /* The strip is `align-items: flex-end`, which would otherwise shrink this cell to its
+       own column's height. Stretched back so the popup host has the full strip height to
+       fill; __cell below is what turns that height into a hover target. */
+    align-self: stretch;
+  }
+
+  /* THE TRIGGER, and the reason a 3px column is hoverable at all. esa-popover listens on
+     the anchor that wraps whatever is slotted into it, so the slotted thing has to be the
+     full-height cell — stretching the host alone left a 44px host around a 2px anchor, i.e.
+     around a 2px hover target (measured, 2026-09-09). Transparent, full strip height, with
+     the painted column bottom-aligned inside it. Its height comes from STRIP_PX inline for
+     the same reason the column's does: a percentage would resolve against the anchor, which
+     has no definite height. */
+  .bcn-viztrend__cell {
+    display: flex;
+    align-items: flex-end;
+    inline-size: 100%;
+  }
+
+  .bcn-viztrend__col {
+    /* BLOCKIFIED EXPLICITLY, and this is load-bearing. A <span> is display:inline, and an
+       inline box ignores block-size — including the pixel height every column is drawn
+       with. It used to be blockified for free by being a flex ITEM of the strip; it now
+       sits inside the popover's anchor instead, so nothing blockifies it and every column
+       silently rendered 0x0 (present in the DOM, invisible on screen) until this line.
+       BcnVizStacked never hit it because its column declares `display: flex` for its
+       segments. */
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 2px;
+    /* Floor, in the same place the pixel height is floored — belt and braces for the case
+       where a caller passes a height this component did not compute. */
+    min-block-size: 3px;
     /* Inherits the host widget's accent (each dashboard widget sets --_accent on its
        section); the `color` prop re-points it locally. The fallback is the quiet content
        gray, so the strip is legible even with no accent anywhere in the cascade. */
@@ -139,12 +231,19 @@ const last = points.length > 1 ? dayLabel(points[points.length - 1].date) : '';
     border-radius: 1px;
   }
 
-  /* An empty day, present and readable as empty. Semantic border token, not the raw gray
+  /* An empty period, present and readable as empty. Semantic border token, not the raw gray
      ramp — same value, and it moves with the theme. */
   .bcn-viztrend__col--zero {
-    height: 2px;
-    min-height: 0;
+    block-size: 2px;
+    min-block-size: 0;
     background: var(--color-border-default);
+  }
+
+  /* The hovered mark responds, so the reader can see which period the popup is reading out.
+     Brightness rather than a color: the fill is caller-supplied and no single outline hue
+     suits every accent on the board. */
+  .bcn-viztrend__cell:hover .bcn-viztrend__col {
+    filter: brightness(1.08);
   }
 
   .bcn-viztrend__axis {

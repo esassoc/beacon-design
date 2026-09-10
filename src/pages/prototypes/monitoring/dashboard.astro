@@ -27,7 +27,6 @@ import BcnVizStacked from '../../../components/bcn/BcnVizStacked.astro';
 import BcnVizBars from '../../../components/bcn/BcnVizBars.astro';
 import BcnVizTrend from '../../../components/bcn/BcnVizTrend.astro';
 import BcnVizMeter from '../../../components/bcn/BcnVizMeter.astro';
-import BcnVizStrip from '../../../components/bcn/BcnVizStrip.astro';
 import BcnWidgetPanels from '../../../components/bcn/BcnWidgetPanels.astro';
 import BcnMiniTable from '../../../components/bcn/BcnMiniTable.astro';
 import BcnObservationMap from '../../../components/bcn/BcnObservationMap.astro';
@@ -44,6 +43,7 @@ import {
   WIDGETS,
   streamById,
   STREAM_ICON_PATHS,
+  DMR_ROLLUP,
   MILEAGE_ROLLUP,
   RUNTIME_ROLLUP,
   WEAP_ROLLUP,
@@ -129,18 +129,20 @@ const openConcerns = DASHBOARD.complianceConcerns.active;
 
 // ── Daily Monitoring Reports ─────────────────────────────────────────────────
 const dmr = st('daily-monitoring-reports');
-const dmrRecent7 = dmr.sampleRecords.filter(
-  (r) => Date.parse(String(r.reportDate)) >= Date.parse(TODAY) - 6 * 86_400_000,
-);
-// Weekdays only (Andy 2026-08-24): monitoring is a field-day expectation, so a
-// Sat/Sun cell would read as a missed report that was never due.
-const dmrStrip = Array.from({ length: 7 }, (_, i) => {
-  const d = new Date(Date.parse(TODAY) - (6 - i) * 86_400_000).toISOString().slice(0, 10);
-  return { date: d, filled: dmr.sampleRecords.some((r) => r.reportDate === d) };
-}).filter((d) => {
-  const day = new Date(`${d.date}T00:00:00Z`).getUTCDay();
-  return day !== 0 && day !== 6;
-});
+// CHANGE OVER TIME, not weekday bins (2026-09-09). This was a 7-day presence strip with
+// Sat/Sun dropped — "weekdays only", because monitoring is a field-day expectation and a
+// weekend cell read as a report that was missed rather than never due. That reasoning was
+// right about the WEEKEND and wrong about the AXIS: the widget offers a 30-day scope (and
+// the board is heading for 90-day and all-time), and five weekday cells cannot summarise
+// three months of filing — the same binning that reads well over one week says almost
+// nothing over one quarter. So it now uses the pattern its own registry entry already
+// declared (WIDGETS['dmr-recent'].charts is ['list', 'trend']): a dated series through
+// bucketSeries, coarsening itself as the span grows.
+//
+// The weekend concern is answered rather than dropped: DMR_ROLLUP.perDay is zero on Sat/Sun,
+// so the cadence still reads as a weekly beat, and every column's popup names the weekday —
+// so a quiet Saturday and a genuinely missed Thursday are told apart instead of guessed at.
+const dmrBuckets = bucketSeries(DMR_ROLLUP.perDay);
 const DMR_STATUS: Record<string, { label: string; hex: string }> = {
   Draft: { label: 'Draft', hex: '#989898' },
   Final: { label: 'Final', hex: '#2e7571' },
@@ -250,14 +252,19 @@ for (let t = Date.parse(obsFirstDate); t <= Date.parse(TODAY); t += 86_400_000) 
 }
 const obsActivity = bucketStacked(obsDays);
 
-// ── Chart bucketing (2026-09-08) ─────────────────────────────────────────────
-// Every "per day" strip runs through bucketSeries, which sums into the finest
-// period that keeps the column count readable (<=31) and reports the unit it chose.
-// The TITLES read that unit rather than hardcoding "per day", so the label can never
-// claim a granularity the chart is not drawing. At the current fixture spans (14 and
-// 30 points) every one of these still resolves to daily — the logic is a no-op today
-// and starts doing work the moment a range or a fixture gets longer, which is the
-// point: an "all time" option must not have to remember to change the labels.
+// ── Chart bucketing (2026-09-08, titles revised 2026-09-09) ──────────────────
+// Every dated strip runs through bucketSeries, which sums into the finest period that
+// keeps the column count readable (<=31) and reports the unit it chose.
+//
+// THE TITLES SAY "OVER TIME" AND NOT THE UNIT. They used to interpolate perLabel, so a
+// heading read "Miles per day" and became "Miles per week" when the span grew. That was
+// honest but wrong in a second way: the unit is a property of the CURRENT range, not of
+// the chart, so the heading changed identity every time the scope moved and a reader
+// comparing two widgets was comparing two different sentences. "Miles over time" is
+// stable and true at every unit, and the unit is now stated where it is actually needed
+// — in each column's popup, which names its own period in full ("Week of June 8, 2026").
+// perLabel is still interpolated into the aria-label, because a screen-reader summary of
+// the whole strip has nowhere else to name the derivation.
 const concernBuckets = bucketSeries(concernTrend);
 const mileageBuckets = bucketSeries(MILEAGE_ROLLUP.perDay);
 const runtimeBuckets = bucketSeries(RUNTIME_ROLLUP.perDayMinutes);
@@ -452,7 +459,10 @@ const addCards = WIDGETS.map((w) => {
             </div>
             <div slot="b" class="stack" data-gap="sm">
               <span class="typography-label-md-strong">Observations by type</span>
-              <BcnVizDonut segments={DASHBOARD.observationBreakdown.map((b) => ({ label: b.label, value: b.value, color: b.hex }))} />
+              <BcnVizDonut
+                measure="Observations"
+                segments={DASHBOARD.observationBreakdown.map((b) => ({ label: b.label, value: b.value, color: b.hex }))}
+              />
             </div>
           </BcnWidgetPanels>
         </div>
@@ -461,6 +471,8 @@ const addCards = WIDGETS.map((w) => {
           <BcnVizStacked
             points={obsActivity.points}
             series={obsTypeSeries}
+            unit={obsActivity.unit}
+            emptyLabel="No observations"
             axisStart={fmtShort(obsActivity.points[0].date)}
             axisEnd={fmtShort(TODAY)}
             label={`Observations ${obsActivity.perLabel} by type, ${fmtShort(obsActivity.points[0].date)} to ${fmtShort(TODAY)}`}
@@ -515,6 +527,7 @@ const addCards = WIDGETS.map((w) => {
             <span class="typography-label-md-strong">Observations by species</span>
             <BcnVizBars
               variant="code"
+              measure="Observations"
               rows={DASHBOARD.nestingBirds.species.map((sp) => ({ name: sp.label, value: sp.value, color: sp.hex }))}
             />
           </div>
@@ -546,9 +559,11 @@ const addCards = WIDGETS.map((w) => {
             </span>
           </div>
           <div slot="b" class="stack" data-gap="sm">
-            <span class="typography-label-md-strong">Concerns raised {concernBuckets.perLabel}</span>
+            <span class="typography-label-md-strong">Concerns raised over time</span>
             <BcnVizTrend
               points={concernBuckets.points}
+              unit={concernBuckets.unit}
+              measure="Concerns raised"
               height="sm"
               color="var(--color-background-utility-danger)"
               label={`Concerns raised ${concernBuckets.perLabel}, ${fmtShort(concernBuckets.points[0].date)} to ${fmtShort(TODAY)}`}
@@ -581,8 +596,19 @@ const addCards = WIDGETS.map((w) => {
             <EsaStat value={dmr.recordCount} label="Total daily monitoring reports" />
           </div>
           <div slot="b" class="stack" data-gap="sm">
-            <span class="typography-label-md-strong">Reports filed by weekday</span>
-            <BcnVizStrip days={dmrStrip} label={`Reports filed by weekday, ${fmtShort(dmrStrip[0].date)} to ${fmtShort(TODAY)}`} />
+            <span class="typography-label-md-strong">Reports filed over time</span>
+            <BcnVizTrend
+              points={dmrBuckets.points}
+              unit={dmrBuckets.unit}
+              measure="Reports filed"
+              {/* sm (44px), not the default md. The strip this replaced was 43px, so md's
+                  72px plus a date axis made this the only card on the board whose height
+                  moved — and it moved without anything else moving with it. sm also matches
+                  Compliance Concerns, the other 2x3 stat+trend+table widget, so the two
+                  widgets of the same shape are the same height again. */}
+              height="sm"
+              label={`Reports filed ${dmrBuckets.perLabel}, ${fmtShort(dmrBuckets.points[0].date)} to ${fmtShort(TODAY)}`}
+            />
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Latest reports</span>
@@ -611,7 +637,10 @@ const addCards = WIDGETS.map((w) => {
           </div>
           <div slot="b" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Observations by species</span>
-            <BcnVizBars rows={DASHBOARD.biologicalResources.items.map((b) => ({ name: b.label, value: b.value, color: b.hex }))} />
+            <BcnVizBars
+              measure="Observations"
+              rows={DASHBOARD.biologicalResources.items.map((b) => ({ name: b.label, value: b.value, color: b.hex }))}
+            />
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Latest observations</span>
@@ -661,15 +690,17 @@ const addCards = WIDGETS.map((w) => {
             />
           </div>
           <div slot="b" class="stack" data-gap="sm">
-            <span class="typography-label-md-strong">Miles {mileageBuckets.perLabel}</span>
+            <span class="typography-label-md-strong">Miles over time</span>
             <BcnVizTrend
               points={mileageBuckets.points}
+              unit={mileageBuckets.unit}
+              measure="Miles"
               label={`Miles ${mileageBuckets.perLabel}, ${fmtShort(mileageBuckets.points[0].date)} to ${fmtShort(TODAY)}`}
             />
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Miles by vehicle</span>
-            <BcnVizBars rows={MILEAGE_ROLLUP.byVehicle.map((v) => ({ name: v.name, value: v.value }))} />
+            <BcnVizBars measure="Miles" rows={MILEAGE_ROLLUP.byVehicle.map((v) => ({ name: v.name, value: v.value }))} />
           </div>
         </BcnWidgetPanels>
       </BcnDashboardWidget>
@@ -692,16 +723,18 @@ const addCards = WIDGETS.map((w) => {
             <EsaStat value={RUNTIME_ROLLUP.hours14d} label="Equipment hours" sub={sinceLabel(WIDGET_SCOPES['runtime-total'][0])} />
           </div>
           <div slot="b" class="stack" data-gap="sm">
-            <span class="typography-label-md-strong">Runtime minutes {runtimeBuckets.perLabel}</span>
+            <span class="typography-label-md-strong">Runtime minutes over time</span>
             <BcnVizTrend
               points={runtimeBuckets.points}
+              unit={runtimeBuckets.unit}
+              measure="Runtime minutes"
               height="sm"
               label={`Runtime minutes ${runtimeBuckets.perLabel}, ${fmtShort(runtimeBuckets.points[0].date)} to ${fmtShort(TODAY)}`}
             />
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Hours by equipment class</span>
-            <BcnVizBars rows={RUNTIME_ROLLUP.byClassHours.map((c) => ({ name: c.name, value: c.value }))} />
+            <BcnVizBars measure="Hours" rows={RUNTIME_ROLLUP.byClassHours.map((c) => ({ name: c.name, value: c.value }))} />
           </div>
         </BcnWidgetPanels>
       </BcnDashboardWidget>
@@ -723,7 +756,7 @@ const addCards = WIDGETS.map((w) => {
           </div>
           <div slot="b" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Documents by status</span>
-            <BcnVizMeter segments={surveyMeter} />
+            <BcnVizMeter measure="Documents" segments={surveyMeter} />
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Latest surveys</span>
@@ -754,7 +787,7 @@ const addCards = WIDGETS.map((w) => {
           </div>
           <div slot="b" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Workers by company</span>
-            <BcnVizBars rows={WEAP_ROLLUP.byCompany.map((c) => ({ name: c.name, value: c.value }))} />
+            <BcnVizBars measure="Workers" rows={WEAP_ROLLUP.byCompany.map((c) => ({ name: c.name, value: c.value }))} />
           </div>
           <div slot="c" class="stack" data-gap="sm">
             <span class="typography-label-md-strong">Latest confirmations</span>
@@ -1859,7 +1892,6 @@ const addCards = WIDGETS.map((w) => {
      link-throughs stay. No copy — absence renders as absence. ── */
   [data-scope-empty] :global(.bcn-viz-donut),
   [data-scope-empty] :global(.bcn-viz-bars),
-  [data-scope-empty] :global(.bcn-viz-strip),
   [data-scope-empty] :global(.bcn-viz-meter),
   [data-scope-empty] :global(.bcn-viztrend),
   [data-scope-empty] :global(.bcn-mt),
