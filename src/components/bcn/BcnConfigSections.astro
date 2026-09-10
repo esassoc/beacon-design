@@ -81,7 +81,7 @@ import { WIDGETS, sectionDefs, SECTION_DISPLAYS } from '../../data/monitoring-st
                 size="sm"
                 label={s.title}
               ></esa-switch-toggle>
-              <span class="bcn-cfgsec__sub typography-label-sm">{SECTION_DISPLAYS[s.display]}</span>
+              <span class="bcn-cfgsec__sub typography-microcopy-xs-subtle">{SECTION_DISPLAYS[s.display]}</span>
             </span>
 
             {s.settings && s.settings.length > 0 && (
@@ -224,16 +224,46 @@ import { WIDGETS, sectionDefs, SECTION_DISPLAYS } from '../../data/monitoring-st
     min-inline-size: 0;
   }
 
-  /* ALIGNED UNDER THE SWITCH'S OWN LABEL TEXT, not under the switch. That text sits
-     inside esa-switch-toggle's shadow root, past its track and the button's gap, so
-     the indent has to be reconstructed: 32px track at size="sm" plus the .root gap of
-     --spacing-200. Derived from the lego's published size ramp rather than eyeballed,
-     and measured after the fact (both edges at the same x). If the hub retunes the sm
-     track this drifts by the difference — visibly, and only here. */
+  /* ── THE TITLE, dropped a rung to what the subtitle used to wear (Jamie,
+        2026-09-10): label-sm in secondary ink. A row title is not a heading — it
+        names a control in a list of six, under a "Sections" group label that has
+        already said what the list is.
+        ::part(label) is the LEGO'S OWN PUBLIC SURFACE, not a reach-in: the span is
+        exposed as part="label" precisely so a consumer can restyle it, and outer-tree
+        ::part rules outrank the shadow tree's own typography-body-md class. The whole
+        composite is restated because a role is five properties, and taking the size
+        without the leading and letter-spacing is how a type ramp gets half-applied. ── */
+  .bcn-cfgsec__switch::part(label) {
+    font-family: var(--typography-label-sm-font-family);
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: var(--typography-label-sm-font-weight);
+    line-height: var(--typography-label-sm-line-height);
+    letter-spacing: var(--typography-label-sm-letter-spacing);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* ── THE SUBTITLE, a rung below the title on all three axes: microcopy-xs-subtle is
+        font-size-100 (12px here) at weight 350 where label-sm is 14px at 500, and the
+        ink steps from secondary to tertiary. The class is applied in markup; only the
+        indent and colour are set here.
+
+        CHECK THE SPOKE, NOT THE HUB, before calling a token a dead end. In the hub's
+        own tokens.css `-tertiary` and `-muted` both alias --color-gray-11 — the same
+        value `-secondary` resolves to — so on that reading there was no lighter step
+        short of --color-content-disabled at 3.32:1, which fails AA at 12px. But
+        theme-beacon re-points them: measured in the browser, secondary is #525252
+        (7.81:1 on white) and tertiary is #656565 (5.83:1), a real step lighter that
+        still clears AA comfortably. The resolved value is the fact; the hub's
+        aliasing is not. ── */
   .bcn-cfgsec__sub {
     display: block;
+    /* Aligned under the switch's own label text, not under the switch. That text sits
+       inside the shadow root past the 32px sm track and the button's --spacing-200
+       gap, so the indent is reconstructed from the lego's published size ramp rather
+       than eyeballed — measured after the fact at 0px misalignment. If the hub
+       retunes the sm track this drifts by the difference, visibly and only here. */
     padding-inline-start: calc(32px + var(--spacing-200));
-    color: var(--color-content-default-secondary);
+    color: var(--color-content-default-tertiary);
   }
 
   .bcn-cfgsec__grip,
