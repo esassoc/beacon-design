@@ -250,40 +250,32 @@ const hasFoot = Boolean(footHref && footLabel);
     display: none;
   }
 
-  /* ── Count displays: label ABOVE the value, in the value's own color ────────
-     Applied at the SHELL so every stat on the dashboard agrees — a label that
-     sits above the number on three widgets and below it on six would read as a
-     bug, and each stat is an esa-stat inside a widget.
-
-     `order` is a MISSING THEMING HOOK, not a token re-point: esa-stat renders
-     value → label → sub with no labelPosition prop and no order knob, so flipping
-     it means reaching into .esa-stat__label. That is the same class of override
-     (and the same hub-ask candidate) as --_card-header-border above; a
-     `labelPosition` prop or --stat-label-order on the lego is what would retire
-     it. The sub is left alone, so it stays under the value where it belongs.
-
-     COLOR NO LONGER FOLLOWS THE VALUE (Jamie, 2026-09-09). It used to read
-     --stat-value-color so a widget that re-points its count got a matching label
-     "for free" — but the only widget that re-points is Compliance Concerns, tinting
-     its count with the danger token, and the result was a red LABEL as well as a red
-     number. That spends the alarm colour on the words "Open compliance concerns",
-     which are not the alarming part and say the same thing whatever the count is.
-     The number carries the state; the label just names it, so the label stays in
-     default ink and only the figure goes red. Weight is not matched either: the
-     value's 650 would read as a second heading and compete with the widget title. */
+  /* ── THE LABEL IS HIDDEN, NOT STYLED (Jamie, 2026-09-10). Every section now carries
+        a BcnSectionHeading — a title naming the data and a subtitle naming the display
+        — and for a count section that heading sits directly above the figure. The
+        stat's own label would then say the same words twice.
+        It stays in the DOM rather than being emptied because it is what names the
+        number in READING ORDER: esa-stat wires no aria between value and label, so
+        the label is adjacent text, and adjacent text is how every other section here
+        names its element too. Hiding it visually keeps that and drops the repetition.
+        The recipe is @esa/tokens' own `.visually-hidden` (src/a11y.css), inlined
+        because the class cannot be put on markup this component does not own.
+        This REPLACES two rules: `order: -1`, which lifted the label above the value
+        (the heading does that now), and a `color` override that made the label dark
+        while the figure stayed red — the heading's title carries default ink, so
+        Compliance Concerns still reads dark-label / red-number as asked. ── */
   .bcn-dwidget :global(.esa-stat__label) {
-    order: -1;
-    color: var(--color-content-default);
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
   }
 
-  /* LEFT-ALIGNED, not centred (Jamie, 2026-09-10). The figure used to centre under
-     its title, which reads fine as an isolated stat and stopped reading fine once the
-     flow put it at the start of a row: the number floated off the card's left margin
-     while every other section on the row — chart titles, table headers, axis labels —
-     began on it. A stat block is the first column of a row now, not a tile.
-     Explicit rather than deleted, because esa-stat has no alignment prop and
-     `text-align` inherits: the rule is what stops an ancestor's centring reaching in,
-     and it keeps the alignment stated where the order override above is. */
   .bcn-dwidget :global(.esa-stat) {
     text-align: start;
   }

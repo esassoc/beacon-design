@@ -556,6 +556,7 @@ export type WidgetColor =
  * saved: an absent value resolves to this, so old records stay readable.
  */
 export type SectionSetting =
+  | { id: string; label: string; kind: 'text'; default: string }
   | { id: string; label: string; kind: 'count'; min: number; max: number; default: number }
   | {
       id: string;
@@ -581,12 +582,46 @@ export type SectionValue = string | number | boolean;
  * also the order the parts appear in and where their own settings live. A widget with
  * three sections and no way to reorder them is the dead control now.
  */
+/**
+ * THE SET LIST of ways a section can present its data (Jamie, 2026-09-10). A
+ * section's subtitle names its display type, and it names it from HERE — a free
+ * string would drift into eleven ways of writing "bar chart", and the point of the
+ * subtitle is that a reader learns the vocabulary once.
+ *
+ * Keyed by the shape, valued by what a reader is told. Add a key when a genuinely
+ * new display arrives; do not add one for a variant of an existing shape.
+ */
+export const SECTION_DISPLAYS = {
+  figure: 'Headline figure',
+  donut: 'Donut chart',
+  bars: 'Bar chart',
+  trend: 'Time series chart',
+  stacked: 'Stacked time series chart',
+  table: 'Table',
+  map: 'Map',
+  lists: 'Grouped lists',
+  timeline: 'Timeline',
+} as const;
+
+export type SectionDisplay = keyof typeof SECTION_DISPLAYS;
+
 export interface WidgetSection {
   /** Matches a `data-section` value in the widget's markup. */
   id: string;
   /** Names the part in the configure form. Aim for 5–6 words: long enough to say
    *  which element it is, short enough to read as a row label. */
   label: string;
+  /**
+   * The heading the section renders ON THE BOARD — what data this is, in as few
+   * words as say it ("Outstanding issues"). Deliberately NOT `label`: the form is
+   * listing 3–6 parts of one widget and needs each row to be self-describing, while
+   * the board already has the widget's own title above it and a fifth of the width.
+   * This is the DEFAULT for the section's `title` setting, which a user may replace.
+   */
+  title: string;
+  /** How the section presents its data. The subtitle under `title` is this, spelled
+   *  out through SECTION_DISPLAYS. */
+  display: SectionDisplay;
   /** On when an instance is first created. Not every section ships enabled. */
   on: boolean;
   /** What this section lets a user tune. ABSENT means no settings at all, which is
@@ -638,12 +673,12 @@ export const WIDGETS: WidgetDef[] = [
     id: 'obs-active', streamId: 'observations', title: 'Active Observations', width: 2,
     charts: ['donut'], scopes: ['30d', '7d'], colorMode: 'series', defaultOn: true,
     sections: [
-      { id: 'count', label: 'Active observation headline count', on: true },
-      { id: 'breakdown', label: 'Observation type breakdown donut', on: true },
-      { id: 'activity', label: 'Observations over time by type', on: true },
-      { id: 'map', label: 'Observation locations on a map', on: true },
-      { id: 'latest', label: 'Latest observations logged', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
-      { id: 'outstanding', label: 'Outstanding issues needing attention', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+      { id: 'count', label: 'Active observation headline count', title: 'Active observations', display: 'figure', on: true },
+      { id: 'breakdown', label: 'Observation type breakdown donut', title: 'Observations by type', display: 'donut', on: true },
+      { id: 'activity', label: 'Observations over time by type', title: 'Observations over time', display: 'stacked', on: true },
+      { id: 'map', label: 'Observation locations on a map', title: 'Observation locations', display: 'map', on: true },
+      { id: 'latest', label: 'Latest observations logged', title: 'Latest observations', display: 'table', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
+      { id: 'outstanding', label: 'Outstanding issues needing attention', title: 'Outstanding issues', display: 'table', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
     ],
   },
   {
@@ -656,9 +691,9 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'mono',
     defaultOn: true,
     sections: [
-      { id: 'count', label: 'Total nesting-bird observation count', on: true },
-      { id: 'species', label: 'Observation counts by species code', on: true },
-      { id: 'latest', label: 'Latest nesting-bird observations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
+      { id: 'count', label: 'Total nesting-bird observation count', title: 'Total nesting-bird observations', display: 'figure', on: true },
+      { id: 'species', label: 'Observation counts by species code', title: 'Observations by species', display: 'bars', on: true },
+      { id: 'latest', label: 'Latest nesting-bird observations', title: 'Latest observations', display: 'table', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   {
@@ -671,9 +706,9 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'status',
     defaultOn: true,
     sections: [
-      { id: 'count', label: 'Open compliance concern count', on: true },
-      { id: 'activity', label: 'Concerns raised over time', on: true },
-      { id: 'latest', label: 'Latest open compliance concerns', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
+      { id: 'count', label: 'Open compliance concern count', title: 'Open compliance concerns', display: 'figure', on: true },
+      { id: 'activity', label: 'Concerns raised over time', title: 'Concerns raised over time', display: 'stacked', on: true },
+      { id: 'latest', label: 'Latest open compliance concerns', title: 'Latest open concerns', display: 'table', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   {
@@ -686,9 +721,9 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'mono',
     defaultOn: true,
     sections: [
-      { id: 'count', label: 'Total daily monitoring reports', on: true },
-      { id: 'activity', label: 'Reports filed over time', on: true },
-      { id: 'latest', label: 'Latest daily monitoring reports', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
+      { id: 'count', label: 'Total daily monitoring reports', title: 'Total daily monitoring reports', display: 'figure', on: true },
+      { id: 'activity', label: 'Reports filed over time', title: 'Reports filed over time', display: 'trend', on: true },
+      { id: 'latest', label: 'Latest daily monitoring reports', title: 'Latest reports', display: 'table', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   {
@@ -701,9 +736,9 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'mono',
     defaultOn: true,
     sections: [
-      { id: 'count', label: 'Total biological resource observations', on: true },
-      { id: 'species', label: 'Observation counts by species', on: true },
-      { id: 'latest', label: 'Latest biological resource observations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
+      { id: 'count', label: 'Total biological resource observations', title: 'Total biological resource observations', display: 'figure', on: true },
+      { id: 'species', label: 'Observation counts by species', title: 'Observations by species', display: 'bars', on: true },
+      { id: 'latest', label: 'Latest biological resource observations', title: 'Latest observations', display: 'table', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   // Status widget (spec §11.2): severity is encoded end to end, so no Color
@@ -718,7 +753,7 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'status',
     defaultOn: true,
     sections: [
-      { id: 'lanes', label: 'Compliance lanes by observation state', on: true },
+      { id: 'lanes', label: 'Compliance lanes by observation state', title: 'Compliance by observation state', display: 'lists', on: true },
     ],
   },
   {
@@ -732,9 +767,9 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'mono',
     defaultOn: true,
     sections: [
-      { id: 'count', label: 'Vehicle miles for the window', on: true },
-      { id: 'activity', label: 'Miles over time', on: true },
-      { id: 'vehicles', label: 'Miles by individual vehicle', on: true },
+      { id: 'count', label: 'Vehicle miles for the window', title: 'Vehicle miles', display: 'figure', on: true },
+      { id: 'activity', label: 'Miles over time', title: 'Miles over time', display: 'trend', on: true },
+      { id: 'vehicles', label: 'Miles by individual vehicle', title: 'Miles by vehicle', display: 'bars', on: true },
     ],
   },
   {
@@ -748,9 +783,9 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'mono',
     defaultOn: true,
     sections: [
-      { id: 'count', label: 'Equipment hours for the window', on: true },
-      { id: 'activity', label: 'Runtime minutes over time', on: true },
-      { id: 'classes', label: 'Hours by equipment class', on: true },
+      { id: 'count', label: 'Equipment hours for the window', title: 'Equipment hours', display: 'figure', on: true },
+      { id: 'activity', label: 'Runtime minutes over time', title: 'Runtime minutes over time', display: 'trend', on: true },
+      { id: 'classes', label: 'Hours by equipment class', title: 'Hours by equipment class', display: 'bars', on: true },
     ],
   },
   {
@@ -763,9 +798,9 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'status',
     defaultOn: true,
     sections: [
-      { id: 'count', label: 'Total survey document count', on: true },
-      { id: 'status', label: 'Documents by review status', on: true },
-      { id: 'latest', label: 'Latest survey documents', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
+      { id: 'count', label: 'Total survey document count', title: 'Total survey documents', display: 'figure', on: true },
+      { id: 'status', label: 'Documents by review status', title: 'Documents by status', display: 'donut', on: true },
+      { id: 'latest', label: 'Latest survey documents', title: 'Latest surveys', display: 'table', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   {
@@ -779,9 +814,9 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'mono',
     defaultOn: true,
     sections: [
-      { id: 'count', label: 'Training confirmations for the window', on: true },
-      { id: 'companies', label: 'Workers trained by company', on: true },
-      { id: 'latest', label: 'Latest training confirmations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
+      { id: 'count', label: 'Training confirmations for the window', title: 'Training confirmations', display: 'figure', on: true },
+      { id: 'companies', label: 'Workers trained by company', title: 'Workers by company', display: 'bars', on: true },
+      { id: 'latest', label: 'Latest training confirmations', title: 'Latest confirmations', display: 'table', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 3 }] },
     ],
   },
   // Season lane: full 3-column width because a date axis compressed into one
@@ -797,7 +832,7 @@ export const WIDGETS: WidgetDef[] = [
     colorMode: 'mono',
     defaultOn: true,
     sections: [
-      { id: 'seasons', label: 'Season windows on a date axis', on: true },
+      { id: 'seasons', label: 'Season windows on a date axis', title: 'Season windows', display: 'timeline', on: true },
     ],
   },
 ];
@@ -1055,8 +1090,40 @@ export const nextInstanceId = (type: string, taken: Iterable<string>): string =>
 };
 
 /** The registry's sections for a type, in registry order. */
-export const sectionDefs = (type: string): readonly WidgetSection[] =>
-  widgetById(type)?.sections ?? [];
+/**
+ * The `title` setting EVERY section carries — synthesized rather than written out 32
+ * times (Jamie, 2026-09-10: "each section should have at least one input").
+ *
+ * Deriving it here is what makes that guarantee structural: a section added to the
+ * registry cannot forget its title input, and the input's default cannot drift from
+ * the heading the board renders, because they are the same string. It also means
+ * every row in the configure form has an expand affordance, so the form stops having
+ * two classes of row.
+ */
+const titleSetting = (s: WidgetSection): SectionSetting => ({
+  id: 'title',
+  label: 'Section title',
+  kind: 'text',
+  default: s.title,
+});
+
+/**
+ * A widget's sections WITH their synthesized settings — the accessor everything
+ * should read (the board, the configure form, the persistence layer). Reading
+ * `widget.sections` directly gets you the authored list and misses the title input.
+ *
+ * Built once per widget at module load: the result is referenced on every apply
+ * pass, and rebuilding the arrays each call would hand out a new object identity
+ * every time for a list that cannot change.
+ */
+const SECTION_DEFS: Record<string, readonly WidgetSection[]> = Object.fromEntries(
+  WIDGETS.map((w) => [
+    w.id,
+    (w.sections ?? []).map((s) => ({ ...s, settings: [titleSetting(s), ...(s.settings ?? [])] })),
+  ]),
+);
+
+export const sectionDefs = (type: string): readonly WidgetSection[] => SECTION_DEFS[type] ?? [];
 
 /** Section defaults for a type: every section at its registry on/off, no values
  *  (each setting resolves to its own default until a user changes it). */

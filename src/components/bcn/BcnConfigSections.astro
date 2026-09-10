@@ -36,14 +36,14 @@
 // expose. esa-card is chrome for a content block, not a list row. Checked Beacon
 // prod: its widget configuration is a fixed form with no per-section rows to port.
 // bcn-config-sections is the reusable home for the bar and its disclosure.
-import { WIDGETS } from '../../data/monitoring-streams';
+import { WIDGETS, sectionDefs } from '../../data/monitoring-streams';
 ---
 
 {/* One block per widget type; the page unhides the open one. */}
 {
-  WIDGETS.filter((w) => (w.sections?.length ?? 0) > 0).map((w) => (
+  WIDGETS.filter((w) => sectionDefs(w.id).length > 0).map((w) => (
     <div class="bcn-cfgsec-list stack" data-cfgsec-list={w.id} hidden>
-      {(w.sections ?? []).map((s) => (
+      {sectionDefs(w.id).map((s) => (
         <div class="bcn-cfgsec" data-cfgsec={s.id}>
           <div class="bcn-cfgsec__bar">
             {/* Pointer target for the reorder drag. A real button so it is reachable
@@ -88,7 +88,18 @@ import { WIDGETS } from '../../data/monitoring-streams';
           {s.settings && s.settings.length > 0 && (
             <div class="bcn-cfgsec__body stack" data-gap="sm" data-cfgsec-body hidden>
               {s.settings.map((setting) =>
-                setting.kind === 'count' ? (
+                setting.kind === 'text' ? (
+                  /* EVERY section has one of these — the title input, synthesized by
+                     sectionDefs() rather than authored per section. Its default is
+                     the heading the board renders, so an untouched field and the
+                     board always agree. */
+                  <esa-text-field
+                    data-cfgsec-setting={setting.id}
+                    data-kind="text"
+                    label={setting.label}
+                    size="sm"
+                  ></esa-text-field>
+                ) : setting.kind === 'count' ? (
                   /* Options are a RANGE, so they are assigned by the page from these
                      bounds rather than written out here — esa-select takes `options`
                      as a property, which markup cannot set. */
@@ -131,6 +142,7 @@ import { WIDGETS } from '../../data/monitoring-streams';
   // is what puts them in the markup.
   import '@esa/ecology/esa-switch-toggle';
   import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
 </script>
 
 <style>
