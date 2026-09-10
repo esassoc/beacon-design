@@ -1,0 +1,340 @@
+---
+// <BcnVizSeasons> — season windows as bars on a shared date axis, at WIDGET scale.
+//
+// The full-page precedent is <BcnProjectTimeline> (the port of Beacon's
+// shared/components/dashboard-timeline): a 7-day lookback + N-day forward window,
+// three lanes, click-pinned popovers. That component IS canon and is not being
+// re-litigated here — this is its widget-scale reduction for the composable
+// Monitoring Portal dashboard: ONE lane (Seasons), server-computed geometry, no
+// popover, no window toggle (the widget's scope comes from its own config).
+//
+// The geometry is deliberately IDENTICAL to the page timeline's so the two agree
+// pixel-for-pixel on where a season starts:
+//   LOOKBACK = 7 days before today (an in-progress season stays visible)
+//   pct(day) = ((day + LOOKBACK) / (LOOKBACK + forward)) * 100
+//   bar width floors at 1.5% so a one-day window is still a visible mark
+// A season overhanging either edge is CLIPPED and flagged, never dropped — a
+// window the viewer is standing inside must not read as "no season".
+//
+// bcn-lego-checked: no esa-* lego plots dated bars on a shared time axis —
+// esa-progress-bar is a single 0-100 bar with no date frame, esa-stat/esa-card are
+// static, and esa-chart (AG Charts) is ruled out for micro-viz by the dashboard spec
+// (§8). Checked Beacon prod: dashboard-timeline is the page-scale pattern this
+// reduces, and prod has no widget-scale variant to port. Checked the spoke:
+// BcnProjectTimeline is full-width + client-driven, BcnSeasonCard draws ONE season
+// on a Jan–Dec year (a different frame entirely), BcnScheduleTimeline is a
+// water-year gantt. bcn-viz-seasons is the reusable home for a season lane.
+
+export interface SeasonBar {
+  id: string;
+  /** Season name, e.g. "Raptor nesting season". */
+  name: string;
+  /** Season type group, e.g. "Nesting Birds" — the accessible-name qualifier. */
+  group: string;
+  /** Concrete ISO date (YYYY-MM-DD) of this occurrence's start. */
+  start: string;
+  /** Concrete ISO date (YYYY-MM-DD) of this occurrence's end. */
+  end: string;
+}
+
+interface Props {
+  seasons: SeasonBar[];
+  /** Forward span in days — the widget's configured scope. */
+  windowDays: number;
+  /** Fixture "today" as ISO. Passed in, never Date.now() (deterministic demos). */
+  today: string;
+  /** Rows rendered before the overflow line. */
+  cap?: number;
+}
+
+const { seasons, windowDays, today, cap = 4 } = Astro.props;
+
+// Matches BcnProjectTimeline: the window opens LOOKBACK days before today so a
+// season already under way is not cut off at the left edge.
+const LOOKBACK = 7;
+const SPAN = LOOKBACK + windowDays;
+const MS_PER_DAY = 86_400_000;
+
+// UTC-parsed on purpose: `new Date('2026-06-17')` is UTC midnight, so reading it
+// back in a negative-offset zone reports the previous day.
+function utcDate(iso: string): Date | null {
+  const parts = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+  if (!parts) return null;
+  const d = new Date(Date.UTC(Number(parts[1]), Number(parts[2]) - 1, Number(parts[3])));
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+const todayDate = utcDate(today);
+const daysOut = (iso: string): number | null => {
+  const d = utcDate(iso);
+  if (!d || !todayDate) return null;
+  return Math.round((d.getTime() - todayDate.getTime()) / MS_PER_DAY);
+};
+
+const pct = (day: number) => ((day + LOOKBACK) / SPAN) * 100;
+
+const MONTH_DAY = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+const fmt = (iso: string) => {
+  const d = utcDate(iso);
+  return d ? MONTH_DAY.format(d) : iso;
+};
+
+// Only seasons OVERLAPPING the window render; the rest are genuinely out of frame.
+const bars = seasons
+  .map((s) => {
+    const a = daysOut(s.start);
+    const b = daysOut(s.end);
+    if (a === null || b === null) return null;
+    if (b < -LOOKBACK || a > windowDays) return null;
+    const from = Math.max(a, -LOOKBACK);
+    const to = Math.min(b, windowDays);
+    const left = pct(from);
+    return {
+      ...s,
+      left,
+      width: Math.max(pct(to) - left, 1.5),
+      clippedStart: a < -LOOKBACK,
+      clippedEnd: b > windowDays,
+      // The endpoints are labelled SEPARATELY so each can sit under its own end of
+      // the bar. Both name the TRUE date even when the bar is cropped by the
+      // window — the geometry is clipped, the label never lies.
+      startLabel: fmt(s.start),
+      endLabel: fmt(s.end),
+      // Rank by the season's next BOUNDARY inside the window, not by start date.
+      // Sorting by start puts every already-running season first, so at a 4-row cap
+      // the lane fills with identical full-width bars and pushes the seasons that
+      // actually open or close in this window into the overflow — burying the only
+      // schedule changes the viewer can act on. A season that neither starts nor
+      // ends in frame sorts last: it is context, not an event.
+      boundary: a >= 0 ? a : b <= windowDays ? b : Number.POSITIVE_INFINITY,
+      startDay: a,
+    };
+  })
+  .filter((b): b is NonNullable<typeof b> => b !== null)
+  .sort((x, y) => x.boundary - y.boundary || x.startDay - y.startDay);
+
+const shown = bars.slice(0, cap);
+const overflow = bars.length - shown.length;
+
+// Month-start ticks inside the window — seasons are read against months, not
+// arbitrary day offsets.
+const MONTH = new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: 'UTC' });
+const ticks: { left: number; label: string }[] = [];
+if (todayDate) {
+  for (let day = -LOOKBACK; day <= windowDays; day++) {
+    const d = new Date(todayDate.getTime() + day * MS_PER_DAY);
+    if (d.getUTCDate() === 1) ticks.push({ left: pct(day), label: MONTH.format(d) });
+  }
+}
+
+const todayLeft = pct(0);
+const windowLabel = `Season windows, ${fmt(today)} through the next ${windowDays} days`;
+---
+
+{bars.length > 0 ? (
+  <div class="bcn-viz-seasons">
+    <div class="bcn-viz-seasons__axis" aria-hidden="true">
+      <span class="bcn-viz-seasons__today-flag" style={`left: ${todayLeft}%;`}>Today</span>
+      {ticks.map((t) => (
+        <span class="bcn-viz-seasons__tick" style={`left: ${t.left}%;`}>{t.label}</span>
+      ))}
+    </div>
+
+    {/* The lane is a real list: each season's name and full date range are TEXT,
+        so the bar geometry is reinforcement rather than the only carrier. */}
+    <ul class="bcn-viz-seasons__lane" aria-label={windowLabel}>
+      {shown.map((b) => (
+        <li class="bcn-viz-seasons__row">
+          {/* Title ABOVE its own bar, matching how the other date-spread charts put
+              a panel title over the plot. */}
+          <span class="bcn-viz-seasons__name typography-body-sm typography-font-weight-medium">{b.name}</span>
+          <span class="bcn-viz-seasons__track" aria-hidden="true">
+            <span class="bcn-viz-seasons__rule"></span>
+            {/* The today mark repeats per TRACK rather than spanning the whole
+                component: the axis is the track, and one tall rule would strike
+                through every season name on its way down. */}
+            <span class="bcn-viz-seasons__todaymark" style={`left: ${todayLeft}%;`}></span>
+            <span
+              class:list={[
+                'bcn-viz-seasons__bar',
+                b.clippedStart && 'bcn-viz-seasons__bar--open-start',
+                b.clippedEnd && 'bcn-viz-seasons__bar--open-end',
+              ]}
+              style={`left: ${b.left}%; width: ${b.width}%;`}
+            ></span>
+          </span>
+          {/* Endpoint dates UNDER the bar, each pinned to its own end — the trend
+              charts' first/last axis labels, but per bar. Real text, not
+              aria-hidden: the dates are content, and with the track hidden they are
+              the only thing telling a screen reader when the season runs. */}
+          <span class="bcn-viz-seasons__dates">
+            <span class="bcn-viz-seasons__date typography-meta" style={`left: ${b.left}%;`}>{b.startLabel}</span>
+            <span
+              class="bcn-viz-seasons__date bcn-viz-seasons__date--end typography-meta"
+              style={`left: ${b.left + b.width}%;`}
+            >{b.endLabel}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+
+    {overflow > 0 && (
+      <p class="bcn-viz-seasons__more typography-meta">
+        +{overflow} more season{overflow === 1 ? '' : 's'} in this window
+      </p>
+    )}
+  </div>
+) : (
+  <p class="bcn-viz-seasons__empty typography-body-sm">No season windows fall in the next {windowDays} days.</p>
+)}
+
+<style>
+  /* The bar lane and the today rule share one positioning context so the rule
+     lands on the same axis the bars are measured against. */
+  .bcn-viz-seasons {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  .bcn-viz-seasons__axis {
+    position: relative;
+    height: 1rem;
+  }
+
+  .bcn-viz-seasons__tick {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    /* Floored at 13px — the dense-surface minimum for a label carrying meaning. */
+    font-size: max(0.8125rem, var(--font-size-100));
+    line-height: 1;
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+
+  /* The gap BETWEEN rows must clearly exceed the gap between a bar and its own
+     label, or the label reads as belonging to the bar beneath it. Equal gaps made
+     the pairing ambiguous in review, so the row gap is stepped up deliberately. */
+  .bcn-viz-seasons__lane {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+
+  /* Three stacked bands per season: title, bar, endpoint dates. The dates band is
+     a positioning context of its own so each label can be pinned to its end of the
+     bar using the same percentages the bar itself is drawn with. */
+  .bcn-viz-seasons__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+  }
+
+  .bcn-viz-seasons__dates {
+    position: relative;
+    display: block;
+    block-size: 1rem;
+  }
+
+  .bcn-viz-seasons__date {
+    position: absolute;
+    top: 0;
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+
+  /* The end label is pinned to the bar's trailing edge, so it grows leftwards from
+     that point rather than overhanging it. */
+  .bcn-viz-seasons__date--end {
+    transform: translateX(-100%);
+  }
+
+  .bcn-viz-seasons__track {
+    position: relative;
+    display: block;
+    height: var(--bcn-viz-seasons-bar-height, 10px);
+  }
+
+  /* The full window, drawn as a hairline so a short bar reads as a SPAN within a
+     frame rather than a floating mark of unknown scale. */
+  .bcn-viz-seasons__rule {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--color-border-default);
+  }
+
+  .bcn-viz-seasons__bar {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: var(--radius-xs);
+    /* --_accent is the stream's stored mark, set by the widget shell; the fallback
+       keeps the lane legible outside a widget. */
+    background: var(--_accent, var(--color-content-default-secondary));
+  }
+
+  /* A clipped edge squares off — a rounded end would claim the season begins or
+     ends inside the window when it does not. */
+  .bcn-viz-seasons__bar--open-start {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+
+  .bcn-viz-seasons__bar--open-end {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+
+  .bcn-viz-seasons__name {
+    color: var(--color-content-default, var(--color-content-default-primary));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* One mark per track, so "today" reads on the same axis the bars are measured
+     against without crossing any label text.
+     FALLBACK CHAIN, deliberate: --color-content-default-primary is currently EMPTY
+     in this theme (it only lands once the @esa/ecology checkout catches up to hub
+     main). An empty var in a `color` declaration harmlessly falls back to inherit,
+     which is why ~30 sibling components read fine — but here it is the only source
+     of a BACKGROUND, so an empty token drops the declaration and the mark
+     disappears entirely. --color-content-default is the name that resolves today. */
+  .bcn-viz-seasons__todaymark {
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    width: 1px;
+    background: var(--color-content-default-primary, var(--color-content-default));
+    opacity: 0.32;
+    pointer-events: none;
+  }
+
+  .bcn-viz-seasons__today-flag {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-size: max(0.8125rem, var(--font-size-100));
+    line-height: 1;
+    color: var(--color-content-default-secondary);
+    /* Must be OPAQUE: this label's whole job is to mask the today rule behind it.
+       Same empty-token caveat as .bcn-viz-seasons__today — --card-bg is the widget
+       surface this sits on and resolves today. */
+    background: var(--color-background-elevation-raised, var(--card-bg, #fff));
+    padding-inline: var(--spacing-100);
+    white-space: nowrap;
+  }
+
+  .bcn-viz-seasons__more,
+  .bcn-viz-seasons__empty {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+</style>

@@ -1,0 +1,154 @@
+---
+// <BcnObservationFilters> — the Monitoring Portal's observation filter row. Close
+// port of Beacon prod's `observation-filters` component
+// (pages/project-monitoring-dashboard/observation-filters), which sits on the real
+// monitoring dashboard above its observation panels.
+//
+// PROD'S STRUCTURE, kept: a <filter-container> carrying three icon-titled
+// <filter-item>s — "Observation Types" (eye), "Period" (calendar), "Show Inactive"
+// (eye-off), in that order. Prod passes showClearButton=false, so there is no
+// clear-all here either.
+//
+// The type facet is SINGLE-select, not multi: prod's own comment is explicit that
+// the value is "one-of-N ('All Observations' or exactly one type)", with the
+// segments keyed on each type's Key plus a null segment for All. esa-button-toggle
+// has exactly that contract (one string value), so it ports directly — the only
+// change is that All carries the string 'all' rather than null, because the lego's
+// value is typed string.
+//
+// ONE SUBSTITUTION, called out: prod's Period control is `ui-date-range-picker`
+// with preset windows. Ecology has NO range picker — esa-date-picker is a single
+// date (one `value: string`, zero range affordance) — so Period is an esa-select of
+// prod's own preset vocabulary (Today / This week / This month / Last 30 days,
+// verbatim from observation-filters.component.ts) plus an explicit "Custom range".
+// That keeps the windows a viewer can pick identical to prod's and is honest that
+// picking arbitrary endpoints is not wired here. A real range picker is the
+// hub-ask this surface would need.
+//
+// bcn-lego-checked: the row IS esa-filter-container (the lego, composed not
+// reimplemented), the segments ARE esa-button-toggle, Period IS esa-select, the
+// switch IS esa-switch-toggle, the glyphs ARE esa-icon via BcnFilterItem. The only
+// thing with no lego was prod's icon-titled filter-item label — that is
+// BcnFilterItem, and the reason it exists is documented there. This component owns
+// no CSS beyond the row's own wrap rhythm.
+import FilterContainer from '@esa/ecology/esa-filter-container.astro';
+import BcnFilterItem from './BcnFilterItem.astro';
+
+export interface ObsTypeSegment {
+  label: string;
+  value: string;
+  /** Inner Lucide SVG for the segment glyph (prod puts the entity icon here). */
+  iconPaths?: string;
+}
+
+interface Props {
+  /** Type segments AFTER the "All Observations" segment this component prepends. */
+  types: ObsTypeSegment[];
+  /** Glyph for the "All Observations" segment — prod uses the Observation entity icon. */
+  allIconPaths?: string;
+}
+
+const { types, allIconPaths } = Astro.props;
+
+// Facet glyphs. Lucide inner SVG because esa-icon's registry carries none of these
+// three (checked: eye / eye-off / calendar are all absent), same `paths` escape
+// hatch STREAM_ICON_PATHS uses.
+const EYE =
+  '<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>';
+const EYE_OFF =
+  '<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>';
+const CALENDAR =
+  '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>';
+
+// Prod's preset vocabulary, verbatim. "Last 30 days" is the dashboard's own default
+// window everywhere else in this prototype, so it is the selected preset.
+const PERIODS = ['Today', 'This week', 'This month', 'Last 30 days', 'Custom range'];
+const DEFAULT_PERIOD = 'Last 30 days';
+
+const typeSegments = [
+  { label: 'All Observations', value: 'all', iconPaths: allIconPaths },
+  ...types,
+];
+---
+
+<div class="bcn-obs-filters">
+  <FilterContainer gap="400">
+    <BcnFilterItem title="Observation Types" icon="eye" iconPaths={EYE}>
+      <esa-button-toggle
+        data-obsf-types
+        size="sm"
+        aria-label="Observation types"
+        data-segments={JSON.stringify(typeSegments)}
+      ></esa-button-toggle>
+    </BcnFilterItem>
+
+    <BcnFilterItem title="Period" icon="calendar" iconPaths={CALENDAR}>
+      <esa-select
+        data-obsf-period
+        size="sm"
+        aria-label="Observation period"
+        data-options={JSON.stringify(PERIODS.map((p) => ({ label: p, value: p })))}
+        data-selected={DEFAULT_PERIOD}
+      ></esa-select>
+    </BcnFilterItem>
+
+    <BcnFilterItem title="Show Inactive" icon="eye-off" iconPaths={EYE_OFF}>
+      <esa-switch-toggle
+        data-obsf-inactive
+        size="sm"
+        aria-label="Show inactive observations"
+      ></esa-switch-toggle>
+    </BcnFilterItem>
+  </FilterContainer>
+</div>
+
+<script>
+  // esa-button-toggle / esa-select take `options` as a PROPERTY (an array), never an
+  // attribute — so the server serializes them into data-* and this hydrates them,
+  // the same handoff BcnComplianceList uses for its Show toggle.
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-switch-toggle';
+
+  interface Option {
+    label: string;
+    value: string;
+    iconPaths?: string;
+  }
+  type ToggleEl = HTMLElement & { options: unknown[]; value: string };
+  type SelectEl = HTMLElement & { options: unknown[]; value: string };
+
+  function initObsFilters() {
+    document.querySelectorAll<HTMLElement>('.bcn-obs-filters').forEach((root) => {
+      if (root.dataset.obsfReady === 'true') return;
+      root.dataset.obsfReady = 'true';
+
+      const toggle = root.querySelector<ToggleEl>('[data-obsf-types]');
+      if (toggle) {
+        const segs: Option[] = JSON.parse(toggle.dataset.segments || '[]');
+        // esa-button-toggle's option key for a glyph is `icon` (inner SVG), matching
+        // esa-icon's `paths` convention.
+        toggle.options = segs.map((s) => ({ label: s.label, value: s.value, icon: s.iconPaths }));
+        toggle.value = segs[0]?.value ?? '';
+      }
+
+      const period = root.querySelector<SelectEl>('[data-obsf-period]');
+      if (period) {
+        period.options = JSON.parse(period.dataset.options || '[]');
+        period.value = period.dataset.selected || '';
+      }
+    });
+  }
+
+  initObsFilters();
+  document.addEventListener('astro:page-load', initObsFilters);
+</script>
+
+<style>
+  /* Row rhythm only — the container lego owns the wrap and gap; this gives the
+     facets a common baseline so a taller control (the segmented toggle) does not
+     drag its neighbours' labels out of line. */
+  .bcn-obs-filters :global(.esa-filter-container) {
+    align-items: flex-end;
+  }
+</style>

@@ -1,0 +1,198 @@
+---
+// <BcnVizTip> — the ONE hover popup the whole dashboard micro-viz set uses. Wraps a
+// mark (a column, a bar row, a legend row) and reads out a title plus one line per
+// series: key stroke, label, value, optional note.
+//
+// WHY IT EXISTS (2026-09-09). The popup was built inside BcnVizStacked first, and
+// four siblings needed the same thing: bcn-viz-trend, bcn-viz-bars, bcn-viz-donut,
+// bcn-viz-meter. Copying ~40 lines of markup, ~30 of CSS and the same three CSS
+// traps into five components is the copy-drift this repo's review explicitly hunts
+// for, so the popup moved out here and BcnVizStacked now composes it. Every chart
+// on the dashboard therefore agrees on where the panel sits, how a row is spaced,
+// and which of the two readings is the strong one — by construction, not by five
+// authors matching each other.
+//
+// TWO DATAVIZ RULES IT ENCODES, so no consumer has to remember them:
+//  1. VALUES LEAD, LABELS FOLLOW. The reader already knows which series they are
+//     pointing at; what they came for is the number. So the value is the strong,
+//     high-contrast element and the label is secondary — the legend's hierarchy
+//     deliberately inverted (a legend is scanned for identity, a popup for
+//     magnitude).
+//  2. THE KEY IS A CHIP AT THE FAR LEFT, then `label: value` (Jamie, 2026-09-09).
+//     A chip matching the legend's own swatch, so the same shape means the same
+//     thing in both places and a reader moving between them has nothing to relearn.
+//     The row was briefly a coloured NUMBER with no chip — that put a series colour
+//     on text, against the house rule that text wears text tokens, and it lost the
+//     legend's visual rhyme. Both are back the way they were: colour identifies via
+//     the chip, and every word and figure in the row is in ink.
+//
+// THE HIT TARGET IS WHATEVER THE CONSUMER SLOTS, and that is a rule with teeth:
+// esa-popover's hover listeners live on its ANCHOR, which wraps the slotted trigger
+// and is sized by it. Stretching this host does nothing on its own — measured, the
+// host was 44px tall and the anchor inside it 2px, so a 2px column was still a 2px
+// hover target. A chart whose mark is thin must therefore slot a FULL-HEIGHT CELL
+// and bottom-align its mark inside that (see BcnVizTrend/BcnVizStacked's `__cell`),
+// which is what makes the whole column of space hoverable. A chart whose mark
+// already fills its row (bars, donut and meter legends) needs nothing extra.
+//
+// bcn-lego-checked: the popup IS esa-popover — composed, not reimplemented: it owns
+// the hover/focus behaviour, the panel, the arrow and the positioning, and its
+// REFLECTED `open` attribute is what BcnDashboardWidget keys
+// `:has(esa-popover[open]) .esa-card { overflow: visible }` on, so choosing the
+// lego is also what buys the popup its escape from esa-card's clipping. esa-tooltip
+// was checked and does NOT fit: its content is a single `text` string, and this
+// needs a line per series, which means real markup in slot="content". Checked
+// Beacon prod: its dashboard widgets have no chart tooltip to port (the donut and
+// bars there are static). This component adds ONLY the readout's structure and the
+// host geometry around the lego — bcn-viz-tip is the reusable home for those.
+export interface VizTipRow {
+  /** The series or measure this line reads out. */
+  label: string;
+  /** Already formatted by the caller — this component never localises a number. */
+  value: string | number;
+  /** Series color, drawn as the chip at the row's left edge. Absent renders no chip
+   *  — right for a single-series tip, where there is no identity to disambiguate. */
+  color?: string;
+  /** A second reading after the value, e.g. a share: "48%". */
+  note?: string;
+}
+
+interface Props {
+  /** The strong first line: a period, a category, a date. */
+  title: string;
+  /** One line per series. Empty falls through to `empty`. */
+  rows?: VizTipRow[];
+  /** Shown when `rows` is empty, e.g. "No observations". Absent renders nothing. */
+  empty?: string;
+  /** Panel side. 'top' (the default) is right for a chart sitting in a widget body. */
+  position?: 'top' | 'bottom' | 'left' | 'right';
+}
+
+const { title, rows = [], empty, position = 'top' } = Astro.props;
+---
+
+<esa-popover class="bcn-viztip" trigger="hover" position={position}>
+  <slot />
+
+  <div slot="content" class="bcn-viztip__panel">
+    <span class="bcn-viztip__title">{title}</span>
+    {rows.length === 0 && empty && <span class="bcn-viztip__empty">{empty}</span>}
+    {
+      rows.map((row) => (
+        <span class="bcn-viztip__row">
+          {row.color && (
+            <span class="bcn-viztip__key" style={`background:${row.color}`} aria-hidden="true" />
+          )}
+          <span class="bcn-viztip__label">{row.label}:</span>
+          <span class="bcn-viztip__value">{row.value}</span>
+          {row.note && <span class="bcn-viztip__note">{row.note}</span>}
+        </span>
+      ))
+    }
+  </div>
+</esa-popover>
+
+<script>
+  // esa-popover is a Lit custom element, so the module has to be registered for the
+  // tag to mean anything in the browser. Importing it here rather than in each
+  // consumer means a chart gets the behaviour by composing this component, with no
+  // second thing to remember.
+  import '@esa/ecology/esa-popover';
+</script>
+
+<style>
+  /* ── Host geometry. Three traps live here; all three were paid for once in
+     BcnVizStacked and are now paid for in one place. ──
+
+     1. Overriding esa-popover's `:host { display: inline-block }` from out here is
+        legal — an outer-document rule beats :host on the same element — and it is
+        the only way to make the host behave as a cell in the consumer's layout.
+     2. GRID, not flex, and it is load-bearing. The trigger anchor lives in the
+        popover's shadow root and cannot be selected from outside, so the only way
+        to size it is through the layout its host imposes. As a flex container the
+        host stretched the anchor vertically but left its width content-driven — and
+        a slotted mark's `inline-size: 100%` then resolved against an auto width,
+        i.e. against itself, collapsing to ZERO. Bars with height and no width:
+        present, invisible. In grid, justify-items defaults to stretch, so the
+        anchor fills the host on BOTH axes and a percentage has something real to
+        resolve against.
+     3. A PERCENTAGE HEIGHT ON A SLOTTED MARK STILL CANNOT WORK, because the anchor
+        has no definite height. Consumers therefore pass their bars a PIXEL height
+        (see BcnVizStacked/BcnVizTrend's STRIP_PX) — this component cannot fix that
+        for them, so it is called out here rather than rediscovered per chart.
+     4. AND A SLOTTED <span> IS NOT BLOCKIFIED. Whatever is slotted lands inside the
+        anchor, not in the consumer's flex row, so a bare <span> stays display:inline
+        and drops block-size entirely. BcnVizTrend's columns rendered 0x0 for exactly
+        this reason. A slotted mark needs its own `display`. */
+  .bcn-viztip {
+    display: grid;
+    /* Both axes stretch, so the anchor fills the host and the slotted trigger has a
+       real box to fill in turn. No alignment knob: a chart that wants its mark on a
+       baseline aligns it inside its OWN slotted cell, which is the only place the
+       alignment can also carry the hit target. */
+    justify-items: stretch;
+    align-items: stretch;
+    inline-size: 100%;
+    /* Lets a truncating consumer (a bar row's ellipsised name) actually shrink. */
+    min-inline-size: 0;
+  }
+
+  /* One line per series, so the panel is a small table rather than a sentence. */
+  .bcn-viztip__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    /* A popup sizes to its content; wrapping a series name would make it a
+       paragraph floating over the chart. */
+    white-space: nowrap;
+  }
+
+  .bcn-viztip__title {
+    font-weight: var(--typography-font-weight-semibold, 600);
+  }
+
+  .bcn-viztip__row {
+    display: flex;
+    /* center, not baseline: the chip is a box with no text baseline of its own, so
+       it has to align to the middle of the line it keys. */
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+
+  /* The key: the legend's own chip, at the row's left edge. */
+  .bcn-viztip__key {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: var(--radius-xs);
+    flex: none;
+  }
+
+  .bcn-viztip__label {
+    color: var(--color-content-default-secondary);
+  }
+
+  /* Left-aligned, immediately after the label and its colon (Jamie, 2026-09-09).
+     It used to take `margin-inline-start: auto` so a multi-row panel read down a
+     column of figures — which looked tidy and cost the panel its whole width in
+     free space, pushing the number to the far right edge. On a chart in the third
+     column that edge is the one the scroller clips, so the FIGURE was the part that
+     got cut off: the row read "Concerns raised:" with nothing after it. A value that
+     sits next to its label is both narrower and unclippable-by-accident.
+     Ink, never the series colour — the chip on the left already carries identity. */
+  .bcn-viztip__value {
+    color: var(--color-content-default);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--typography-font-weight-semibold, 600);
+  }
+
+  /* The secondary reading — a share, a unit. Quiet, and never where the eye lands
+     first: the count is the answer, this qualifies it. */
+  .bcn-viztip__note {
+    color: var(--color-content-default-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-viztip__empty {
+    color: var(--color-content-default-secondary);
+  }
+</style>
