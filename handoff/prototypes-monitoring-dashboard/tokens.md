@@ -1,6 +1,6 @@
 # Token contract — prototypes-monitoring-dashboard
 
-The 156 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 164 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -13,6 +13,7 @@ The 156 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-elevation-floating` | `#fcfcfc` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
+| `--color-background-field` | `#0000` |
 | `--color-background-overlay-backdrop` | `#00000080` |
 | `--color-background-utility-danger` | `#ce2c31` |
 | `--color-background-utility-danger-hover` | `#641723` |
@@ -63,7 +64,11 @@ The 156 design tokens this page actually uses, resolved to their final values fo
 | `--typography-label-md-strong-font-weight` | `550` |
 | `--typography-label-md-strong-letter-spacing` | `.01em` |
 | `--typography-label-md-strong-line-height` | `1.6` |
+| `--typography-label-sm-font-family` | `"DM Sans", sans-serif` |
 | `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--typography-label-sm-font-weight` | `500` |
+| `--typography-label-sm-letter-spacing` | `.01em` |
+| `--typography-label-sm-line-height` | `1.6` |
 | `--typography-label-xs-font-family` | `"DM Sans", sans-serif` |
 | `--typography-label-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--typography-label-xs-font-weight` | `500` |
@@ -79,11 +84,6 @@ The 156 design tokens this page actually uses, resolved to their final values fo
 | `--typography-microcopy-md-font-weight` | `500` |
 | `--typography-microcopy-md-letter-spacing` | `.01em` |
 | `--typography-microcopy-md-line-height` | `1` |
-| `--typography-microcopy-sm-strong-font-family` | `"DM Sans", sans-serif` |
-| `--typography-microcopy-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--typography-microcopy-sm-strong-font-weight` | `550` |
-| `--typography-microcopy-sm-strong-letter-spacing` | `.01em` |
-| `--typography-microcopy-sm-strong-line-height` | `1` |
 | `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` |
 | `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--typography-microcopy-xs-font-weight` | `500` |
@@ -94,6 +94,11 @@ The 156 design tokens this page actually uses, resolved to their final values fo
 | `--typography-microcopy-xs-strong-font-weight` | `550` |
 | `--typography-microcopy-xs-strong-letter-spacing` | `.01em` |
 | `--typography-microcopy-xs-strong-line-height` | `1` |
+| `--typography-microcopy-xs-subtle-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-xs-subtle-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-microcopy-xs-subtle-font-weight` | `350` |
+| `--typography-microcopy-xs-subtle-letter-spacing` | `.01em` |
+| `--typography-microcopy-xs-subtle-line-height` | `1` |
 | `--typography-title-sm-strong-font-family` | `"DM Sans", sans-serif` |
 | `--typography-title-sm-strong-font-size` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
 | `--typography-title-sm-strong-font-weight` | `550` |
@@ -134,7 +139,10 @@ The 156 design tokens this page actually uses, resolved to their final values fo
 | `--font-decorative` | `"Besley", serif` |
 | `--form-border-color` | `#dcdcdc` |
 | `--form-border-width` | `1px` |
+| `--form-error-color` | `#ce2c31` |
+| `--form-help-color` | `#525252` |
 | `--form-label-color` | `#525252` |
+| `--form-text-color` | `#3d3d3d` |
 | `--side-dialog-inset` | `16px` |
 | `--side-dialog-width` | `400px` |
 | `--stat-accent-color` | `#3a7c59` |
@@ -182,7 +190,16 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-inset`
 - `--bcn-bottom-drawer-width`
 - `--bcn-bottom-drawer-z`
-- `--bcn-viz-strip-cell-height`
+- `--bcn-flow-chart-min`
+- `--bcn-mt-column-gap`
+- `--bcn-preview-stage-bg`
+- `--bcn-preview-stage-border`
+- `--bcn-preview-stage-height`
+- `--bcn-preview-stage-overflow`
+- `--bcn-preview-stage-padding`
+- `--bcn-preview-stage-radius`
+- `--bcn-viz-seasons-bar-height`
+- `--bcn-wdate-width`
 - `--color-background-brand`
 - `--color-background-brand-hover`
 - `--color-background-elevation-base`

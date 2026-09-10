@@ -120,7 +120,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(680px, 231px, 0px);
-                opacity: 1;
+                opacity: 0.825;
               "
             /><img
               alt=""
@@ -130,7 +130,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(-88px, -25px, 0px);
-                opacity: 1;
+                opacity: 0.995;
               "
             /><img
               alt=""
@@ -160,7 +160,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(680px, 487px, 0px);
-                opacity: 1;
+                opacity: 0.995;
               "
             />
           </div>
@@ -435,7 +435,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
   </script>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.V9eB__99.js"
+    src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.B7YhMltJ.js"
   ></script>
 </div>
 ```

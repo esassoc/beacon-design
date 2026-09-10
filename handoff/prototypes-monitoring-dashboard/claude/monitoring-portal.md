@@ -690,21 +690,41 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </div>
           </section>
           <section class="page-layout__content">
+            <script type="application/json" data-mpd-scopes="">
+              {
+                "mileage-total": {
+                  "14d": { "value": "3,284", "sub": "since June 4" },
+                  "7d": { "value": "1,681", "sub": "since June 11" },
+                  "30d": { "value": "6,965", "sub": "since May 19" },
+                  "90d": { "value": "19,918", "sub": "since March 20" }
+                },
+                "runtime-total": {
+                  "14d": { "value": "412", "sub": "since June 4" },
+                  "7d": { "value": "209", "sub": "since June 11" },
+                  "30d": { "value": "412", "sub": "since May 19" }
+                },
+                "weap-trained": {
+                  "30d": { "value": "8", "sub": "since May 19" },
+                  "90d": { "value": "8", "sub": "since March 20" }
+                }
+              }
+            </script>
             <div
               class="mpdash"
               data-mpdash=""
               data-geotech-component="2024-2029 Geotechnical Activities"
             >
               <div class="mpd-tracks" aria-hidden="true"><i></i><i></i><i></i></div>
-              <!-- ═══ Band A ═══ --><!-- ═══ Band B ═══ --><!-- ═══ Band C ═══ --><!-- ═══ Band D ═══ --><!-- ═══ Band E ═══ --><!-- ═══ Band F ═══ --><!-- bcn-lego-checked: the add tile is the board's own dashed affordance
+              <!-- ═══ Band A ═══ --><!-- ═══ Band B ═══ --><!-- ═══ Band C ═══ --><!-- ═══ Band D ═══ --><!-- ═══ Band E ═══ --><!-- ═══ Band F ═══ --><!-- ═══ Band G ═══ --><!-- bcn-lego-checked: the add tile is the board's own dashed affordance
            (spec §10.8; checked esa-empty-state — a full-region message, wrong
            shape; esa-button — real chrome, this is a wireframe void). -->
               <section
                 class="bcn-dwidget"
                 data-widget-id="obs-active"
+                data-widget-type="obs-active"
                 data-w="2"
-                data-h="5"
-                style="--_accent: var(--bcn-mark-teal)"
+                style="--_accent: var(--bcn-mark-teal); grid-row-end: span 169"
+                data-span="169"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -870,467 +890,1387 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         >
                         <script
                           type="module"
-                          src="/beacon-design/_astro/BcnWidgetMenu.astro_astro_type_script_index_0_lang.D9uoY8PY.js"
+                          src="/beacon-design/_astro/BcnWidgetMenu.astro_astro_type_script_index_0_lang.z5FSoCeE.js"
                         ></script
                       ></span>
                     </div>
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <div class="cluster" data-gap="xl" style="--align: flex-start">
-                        <span style="--stat-value-size: var(--font-size-900)"
-                          ><div class="esa-stat">
-                            <div class="esa-stat__value typography-display-sm">9</div>
-                            <div class="esa-stat__label typography-label-md">
-                              active observations
-                            </div>
-                            <div class="esa-stat__sub typography-body-sm">
-                              13 total in the past 30 days
-                            </div>
-                          </div></span
-                        >
-                        <div class="bcn-viz-donut cluster" data-gap="md">
-                          <svg
-                            class="bcn-viz-donut__ring"
-                            width="96"
-                            height="96"
-                            viewBox="0 0 120 120"
-                            aria-hidden="true"
-                          >
-                            <circle
-                              cx="60"
-                              cy="60"
-                              r="42"
-                              fill="none"
-                              stroke="var(--color-background-elevation-sunken)"
-                              stroke-width="18"
-                            ></circle>
-                            <g transform="rotate(-90 60 60)">
-                              <circle
-                                cx="60"
-                                cy="60"
-                                r="42"
-                                fill="none"
-                                style="stroke: var(--_series-1, var(--bcn-mark-teal))"
-                                stroke-width="18"
-                                stroke-dasharray="175.93 87.96"
-                                stroke-dashoffset="0.00"
-                              ></circle>
-                              <circle
-                                cx="60"
-                                cy="60"
-                                r="42"
-                                fill="none"
-                                style="stroke: var(--_series-2, var(--bcn-mark-orange))"
-                                stroke-width="18"
-                                stroke-dasharray="87.96 175.93"
-                                stroke-dashoffset="-175.93"
-                              ></circle>
-                            </g>
-                          </svg>
-                          <ul class="bcn-viz-donut__legend stack" data-gap="xs">
-                            <li class="bcn-viz-donut__row cluster">
-                              <span
-                                class="bcn-viz-donut__dot"
-                                style="--_c: var(--_series-1, var(--bcn-mark-teal))"
+                      <div class="bcn-widget-flow">
+                        <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Active observations</span
                               ></span
-                              ><span class="bcn-viz-donut__label typography-body-md"
-                                >Nesting Birds</span
-                              ><span class="bcn-viz-donut__value typography-label-md-strong"
-                                >6</span
-                              >
-                            </li>
-                            <li class="bcn-viz-donut__row cluster">
-                              <span
-                                class="bcn-viz-donut__dot"
-                                style="--_c: var(--_series-2, var(--bcn-mark-orange))"
-                              ></span
-                              ><span class="bcn-viz-donut__label typography-body-md"
-                                >Biological Resources</span
-                              ><span class="bcn-viz-donut__value typography-label-md-strong"
-                                >3</span
-                              >
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div
-                        class="bcn-obsmap leaflet-container leaflet-touch leaflet-fade-anim"
-                        id="bcn-obsmap-mpdash-obs"
-                        data-bcn-obsmap=""
-                        data-map-id="mpdash-obs"
-                        data-interactive="false"
-                        style="height: 220px"
-                        role="img"
-                        aria-label="Observation map — 9 observations plotted by severity"
-                        data-bcn-obsmap-ready="true"
-                      >
-                        <div
-                          class="leaflet-pane leaflet-map-pane"
-                          style="transform: translate3d(0px, 0px, 0px)"
-                        >
-                          <div class="leaflet-pane leaflet-tile-pane">
-                            <div class="leaflet-layer" style="z-index: 1; opacity: 1">
-                              <div
-                                class="leaflet-tile-container leaflet-zoom-animated"
-                                style="
-                                  z-index: 16;
-                                  transform: translate3d(-1786px, -664px, 0px) scale(8);
-                                "
-                              ></div>
-                              <div
-                                class="leaflet-tile-container leaflet-zoom-animated"
-                                style="z-index: 19; transform: translate3d(0px, 0px, 0px) scale(1)"
-                              >
-                                <img
-                                  alt=""
-                                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/41/98?access_token=undefined"
-                                  class="leaflet-tile"
-                                  style="
-                                    width: 256px;
-                                    height: 256px;
-                                    transform: translate3d(126px, -72px, 0px);
-                                    opacity: 1;
-                                  "
-                                /><img
-                                  alt=""
-                                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/41/99?access_token=undefined"
-                                  class="leaflet-tile"
-                                  style="
-                                    width: 256px;
-                                    height: 256px;
-                                    transform: translate3d(126px, 184px, 0px);
-                                    opacity: 1;
-                                  "
-                                /><img
-                                  alt=""
-                                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/40/98?access_token=undefined"
-                                  class="leaflet-tile"
-                                  style="
-                                    width: 256px;
-                                    height: 256px;
-                                    transform: translate3d(-130px, -72px, 0px);
-                                    opacity: 1;
-                                  "
-                                /><img
-                                  alt=""
-                                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/42/98?access_token=undefined"
-                                  class="leaflet-tile"
-                                  style="
-                                    width: 256px;
-                                    height: 256px;
-                                    transform: translate3d(382px, -72px, 0px);
-                                    opacity: 1;
-                                  "
-                                /><img
-                                  alt=""
-                                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/40/99?access_token=undefined"
-                                  class="leaflet-tile"
-                                  style="
-                                    width: 256px;
-                                    height: 256px;
-                                    transform: translate3d(-130px, 184px, 0px);
-                                    opacity: 1;
-                                  "
-                                /><img
-                                  alt=""
-                                  src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/42/99?access_token=undefined"
-                                  class="leaflet-tile"
-                                  style="
-                                    width: 256px;
-                                    height: 256px;
-                                    transform: translate3d(382px, 184px, 0px);
-                                    opacity: 1;
-                                  "
-                                />
-                              </div>
-                            </div>
+                            ><span class="bcn-shead__sub typography-label-sm">Headline figure</span>
                           </div>
-                          <div class="leaflet-pane leaflet-overlay-pane">
+                          <span style="--stat-value-size: var(--font-size-900)"
+                            ><div class="esa-stat">
+                              <div class="esa-stat__value typography-display-sm">9</div>
+                              <div class="esa-stat__label typography-label-md">
+                                Active observations
+                              </div>
+                            </div></span
+                          >
+                        </div>
+                        <div
+                          class="stack is-rowmate"
+                          data-gap="sm"
+                          data-section="breakdown"
+                          data-flow="chart"
+                        >
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Observations by type</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Donut chart</span>
+                          </div>
+                          <div class="bcn-viz-donut cluster" data-gap="md">
                             <svg
-                              pointer-events="none"
-                              class="leaflet-zoom-animated"
-                              width="680"
-                              height="262"
-                              viewBox="-57 -22 680 262"
-                              style="transform: translate3d(-57px, -22px, 0px)"
+                              class="bcn-viz-donut__ring"
+                              width="96"
+                              height="96"
+                              viewBox="0 0 120 120"
+                              aria-hidden="true"
                             >
-                              <g>
-                                <path
-                                  class="leaflet-interactive"
-                                  stroke="#fcfcfc"
-                                  stroke-opacity="1"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  fill="#ce2c31"
-                                  fill-opacity="0.9"
-                                  fill-rule="evenodd"
-                                  d="M280,54a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                                ></path>
-                                <path
-                                  class="leaflet-interactive"
-                                  stroke="#fcfcfc"
-                                  stroke-opacity="1"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  fill="#f59e0b"
-                                  fill-opacity="0.9"
-                                  fill-rule="evenodd"
-                                  d="M280,54a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                                ></path>
-                                <path
-                                  class="leaflet-interactive"
-                                  stroke="#fcfcfc"
-                                  stroke-opacity="1"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  fill="#f59e0b"
-                                  fill-opacity="0.9"
-                                  fill-rule="evenodd"
-                                  d="M293,126a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                                ></path>
-                                <path
-                                  class="leaflet-interactive"
-                                  stroke="#fcfcfc"
-                                  stroke-opacity="1"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  fill="#f59e0b"
-                                  fill-opacity="0.9"
-                                  fill-rule="evenodd"
-                                  d="M284,79a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                                ></path>
-                                <path
-                                  class="leaflet-interactive"
-                                  stroke="#fcfcfc"
-                                  stroke-opacity="1"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  fill="#f59e0b"
-                                  fill-opacity="0.9"
-                                  fill-rule="evenodd"
-                                  d="M293,127a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                                ></path>
-                                <path
-                                  class="leaflet-interactive"
-                                  stroke="#fcfcfc"
-                                  stroke-opacity="1"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  fill="#f59e0b"
-                                  fill-opacity="0.9"
-                                  fill-rule="evenodd"
-                                  d="M284,80a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                                ></path>
-                                <path
-                                  class="leaflet-interactive"
-                                  stroke="#fcfcfc"
-                                  stroke-opacity="1"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  fill="#bdbdbd"
-                                  fill-opacity="0.9"
-                                  fill-rule="evenodd"
-                                  d="M292,126a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                                ></path>
-                                <path
-                                  class="leaflet-interactive"
-                                  stroke="#fcfcfc"
-                                  stroke-opacity="1"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  fill="#bdbdbd"
-                                  fill-opacity="0.9"
-                                  fill-rule="evenodd"
-                                  d="M295,126a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                                ></path>
-                                <path
-                                  class="leaflet-interactive"
-                                  stroke="#fcfcfc"
-                                  stroke-opacity="1"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  fill="#bdbdbd"
-                                  fill-opacity="0.9"
-                                  fill-rule="evenodd"
-                                  d="M259,165a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
-                                ></path>
+                              <circle
+                                cx="60"
+                                cy="60"
+                                r="42"
+                                fill="none"
+                                stroke="var(--color-background-elevation-sunken)"
+                                stroke-width="18"
+                              ></circle>
+                              <g transform="rotate(-90 60 60)">
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="42"
+                                  fill="none"
+                                  style="stroke: var(--_series-1, var(--bcn-mark-teal))"
+                                  stroke-width="18"
+                                  stroke-dasharray="175.93 87.96"
+                                  stroke-dashoffset="0.00"
+                                ></circle>
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="42"
+                                  fill="none"
+                                  style="stroke: var(--_series-2, var(--bcn-mark-orange))"
+                                  stroke-width="18"
+                                  stroke-dasharray="87.96 175.93"
+                                  stroke-dashoffset="-175.93"
+                                ></circle>
                               </g>
                             </svg>
+                            <ul class="bcn-viz-donut__legend stack" data-gap="xs">
+                              <li class="bcn-viz-donut__slot">
+                                <esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span class="bcn-viz-donut__row cluster" aria-expanded="false"
+                                    ><span
+                                      class="bcn-viz-donut__dot"
+                                      style="--_c: var(--_series-1, var(--bcn-mark-teal))"
+                                    ></span
+                                    ><span class="bcn-viz-donut__label typography-body-md"
+                                      >Nesting Birds</span
+                                    ><span class="bcn-viz-donut__value typography-label-md-strong"
+                                      >6</span
+                                    ></span
+                                  >
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">Nesting Birds</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--_series-1, var(--bcn-mark-teal))"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Observations:</span
+                                      ><span class="bcn-viztip__value">6</span
+                                      ><span class="bcn-viztip__note">67%</span></span
+                                    >
+                                  </div></esa-popover
+                                >
+                                <script
+                                  type="module"
+                                  src="/beacon-design/_astro/BcnVizTip.astro_astro_type_script_index_0_lang.C46LrlnD.js"
+                                ></script>
+                              </li>
+                              <li class="bcn-viz-donut__slot">
+                                <esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span class="bcn-viz-donut__row cluster" aria-expanded="false"
+                                    ><span
+                                      class="bcn-viz-donut__dot"
+                                      style="--_c: var(--_series-2, var(--bcn-mark-orange))"
+                                    ></span
+                                    ><span class="bcn-viz-donut__label typography-body-md"
+                                      >Biological Resources</span
+                                    ><span class="bcn-viz-donut__value typography-label-md-strong"
+                                      >3</span
+                                    ></span
+                                  >
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">Biological Resources</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--_series-2, var(--bcn-mark-orange))"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Observations:</span
+                                      ><span class="bcn-viztip__value">3</span
+                                      ><span class="bcn-viztip__note">33%</span></span
+                                    >
+                                  </div></esa-popover
+                                >
+                              </li>
+                            </ul>
                           </div>
-                          <div class="leaflet-pane leaflet-shadow-pane"></div>
-                          <div class="leaflet-pane leaflet-marker-pane"></div>
-                          <div class="leaflet-pane leaflet-tooltip-pane"></div>
-                          <div class="leaflet-pane leaflet-popup-pane"></div>
+                        </div>
+                        <div data-section="activity" data-flow="chart" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Observations over time</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm"
+                              >Stacked time series chart</span
+                            >
+                          </div>
+                          <div class="bcn-vizstack">
+                            <div
+                              class="bcn-vizstack__yaxis"
+                              aria-hidden="true"
+                              style="block-size: 96px"
+                            >
+                              <span>2</span><span>1</span><span>0</span>
+                            </div>
+                            <div
+                              class="bcn-vizstack__strip"
+                              role="img"
+                              aria-label="Observations per day by type, May 18 to Jun 17"
+                              style="--_stack-height: 96px"
+                            >
+                              <span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="flex: 1; background: var(--bcn-mark-teal)"
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 18, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--bcn-mark-teal)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Nesting birds:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 19, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 20, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 21, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 22, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 23, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 24, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 25, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 26, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 27, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 28, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="flex: 1; background: var(--bcn-mark-teal)"
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 29, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--bcn-mark-teal)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Nesting birds:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 30, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 31, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 1, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="flex: 1; background: var(--bcn-mark-teal)"
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 2, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--bcn-mark-teal)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Nesting birds:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 96px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="flex: 2; background: var(--bcn-mark-teal)"
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 3, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--bcn-mark-teal)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Nesting birds:</span
+                                      ><span class="bcn-viztip__value">2</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 96px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="flex: 1; background: var(--bcn-mark-teal)"
+                                      ></span
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="flex: 1; background: var(--bcn-mark-orange)"
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 4, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--bcn-mark-teal)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Nesting birds:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--bcn-mark-orange)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Biological resources:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 5, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 6, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 7, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 8, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="flex: 1; background: var(--bcn-mark-orange)"
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 9, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--bcn-mark-orange)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Biological resources:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 10, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 11, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 12, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 13, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 14, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="flex: 1; background: var(--bcn-mark-orange)"
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 15, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--bcn-mark-orange)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Biological resources:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 16, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 17, 2026</span
+                                    ><span class="bcn-viztip__empty">No observations</span>
+                                  </div></esa-popover
+                                ></span
+                              >
+                            </div>
+                            <div class="bcn-vizstack__axis">
+                              <span>May 18</span><span>Jun 17</span>
+                            </div>
+                            <ul class="bcn-vizstack__legend">
+                              <li class="bcn-vizstack__key">
+                                <span
+                                  class="bcn-vizstack__swatch"
+                                  style="background: var(--bcn-mark-teal)"
+                                  aria-hidden="true"
+                                ></span
+                                >Nesting birds
+                              </li>
+                              <li class="bcn-vizstack__key">
+                                <span
+                                  class="bcn-vizstack__swatch"
+                                  style="background: var(--bcn-mark-orange)"
+                                  aria-hidden="true"
+                                ></span
+                                >Biological resources
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div data-section="map" data-flow="full" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Observation locations</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Map</span>
+                          </div>
                           <div
-                            class="leaflet-proxy leaflet-zoom-animated"
-                            style="transform: translate3d(10653.9px, 25269.3px, 0px) scale(128)"
-                          ></div>
+                            class="bcn-obsmap leaflet-container leaflet-touch leaflet-fade-anim"
+                            id="bcn-obsmap-mpdash-obs"
+                            data-bcn-obsmap=""
+                            data-map-id="mpdash-obs"
+                            data-interactive="false"
+                            style="height: 220px"
+                            role="img"
+                            aria-label="Observation map — 9 observations plotted by severity"
+                            data-bcn-obsmap-ready="true"
+                          >
+                            <div
+                              class="leaflet-pane leaflet-map-pane"
+                              style="transform: translate3d(0px, 0px, 0px)"
+                            >
+                              <div class="leaflet-pane leaflet-tile-pane">
+                                <div class="leaflet-layer" style="z-index: 1; opacity: 1">
+                                  <div
+                                    class="leaflet-tile-container leaflet-zoom-animated"
+                                    style="
+                                      z-index: 16;
+                                      transform: translate3d(-1786px, -664px, 0px) scale(8);
+                                    "
+                                  ></div>
+                                  <div
+                                    class="leaflet-tile-container leaflet-zoom-animated"
+                                    style="
+                                      z-index: 19;
+                                      transform: translate3d(0px, 0px, 0px) scale(1);
+                                    "
+                                  >
+                                    <img
+                                      alt=""
+                                      src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/41/98?access_token=undefined"
+                                      class="leaflet-tile"
+                                      style="
+                                        width: 256px;
+                                        height: 256px;
+                                        transform: translate3d(126px, -72px, 0px);
+                                        opacity: 1;
+                                      "
+                                    /><img
+                                      alt=""
+                                      src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/41/99?access_token=undefined"
+                                      class="leaflet-tile"
+                                      style="
+                                        width: 256px;
+                                        height: 256px;
+                                        transform: translate3d(126px, 184px, 0px);
+                                        opacity: 1;
+                                      "
+                                    /><img
+                                      alt=""
+                                      src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/40/98?access_token=undefined"
+                                      class="leaflet-tile"
+                                      style="
+                                        width: 256px;
+                                        height: 256px;
+                                        transform: translate3d(-130px, -72px, 0px);
+                                        opacity: 1;
+                                      "
+                                    /><img
+                                      alt=""
+                                      src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/42/98?access_token=undefined"
+                                      class="leaflet-tile"
+                                      style="
+                                        width: 256px;
+                                        height: 256px;
+                                        transform: translate3d(382px, -72px, 0px);
+                                        opacity: 1;
+                                      "
+                                    /><img
+                                      alt=""
+                                      src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/40/99?access_token=undefined"
+                                      class="leaflet-tile"
+                                      style="
+                                        width: 256px;
+                                        height: 256px;
+                                        transform: translate3d(-130px, 184px, 0px);
+                                        opacity: 1;
+                                      "
+                                    /><img
+                                      alt=""
+                                      src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/8/42/99?access_token=undefined"
+                                      class="leaflet-tile"
+                                      style="
+                                        width: 256px;
+                                        height: 256px;
+                                        transform: translate3d(382px, 184px, 0px);
+                                        opacity: 1;
+                                      "
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="leaflet-pane leaflet-overlay-pane">
+                                <svg
+                                  pointer-events="none"
+                                  class="leaflet-zoom-animated"
+                                  width="680"
+                                  height="262"
+                                  viewBox="-57 -22 680 262"
+                                  style="transform: translate3d(-57px, -22px, 0px)"
+                                >
+                                  <g>
+                                    <path
+                                      class="leaflet-interactive"
+                                      stroke="#fcfcfc"
+                                      stroke-opacity="1"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="#ce2c31"
+                                      fill-opacity="0.9"
+                                      fill-rule="evenodd"
+                                      d="M280,54a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                    ></path>
+                                    <path
+                                      class="leaflet-interactive"
+                                      stroke="#fcfcfc"
+                                      stroke-opacity="1"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="#f59e0b"
+                                      fill-opacity="0.9"
+                                      fill-rule="evenodd"
+                                      d="M280,54a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                    ></path>
+                                    <path
+                                      class="leaflet-interactive"
+                                      stroke="#fcfcfc"
+                                      stroke-opacity="1"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="#f59e0b"
+                                      fill-opacity="0.9"
+                                      fill-rule="evenodd"
+                                      d="M293,126a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                    ></path>
+                                    <path
+                                      class="leaflet-interactive"
+                                      stroke="#fcfcfc"
+                                      stroke-opacity="1"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="#f59e0b"
+                                      fill-opacity="0.9"
+                                      fill-rule="evenodd"
+                                      d="M284,79a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                    ></path>
+                                    <path
+                                      class="leaflet-interactive"
+                                      stroke="#fcfcfc"
+                                      stroke-opacity="1"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="#f59e0b"
+                                      fill-opacity="0.9"
+                                      fill-rule="evenodd"
+                                      d="M293,127a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                    ></path>
+                                    <path
+                                      class="leaflet-interactive"
+                                      stroke="#fcfcfc"
+                                      stroke-opacity="1"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="#f59e0b"
+                                      fill-opacity="0.9"
+                                      fill-rule="evenodd"
+                                      d="M284,80a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                    ></path>
+                                    <path
+                                      class="leaflet-interactive"
+                                      stroke="#fcfcfc"
+                                      stroke-opacity="1"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="#bdbdbd"
+                                      fill-opacity="0.9"
+                                      fill-rule="evenodd"
+                                      d="M292,126a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                    ></path>
+                                    <path
+                                      class="leaflet-interactive"
+                                      stroke="#fcfcfc"
+                                      stroke-opacity="1"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="#bdbdbd"
+                                      fill-opacity="0.9"
+                                      fill-rule="evenodd"
+                                      d="M295,126a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                    ></path>
+                                    <path
+                                      class="leaflet-interactive"
+                                      stroke="#fcfcfc"
+                                      stroke-opacity="1"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      fill="#bdbdbd"
+                                      fill-opacity="0.9"
+                                      fill-rule="evenodd"
+                                      d="M259,165a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                    ></path>
+                                  </g>
+                                </svg>
+                              </div>
+                              <div class="leaflet-pane leaflet-shadow-pane"></div>
+                              <div class="leaflet-pane leaflet-marker-pane"></div>
+                              <div class="leaflet-pane leaflet-tooltip-pane"></div>
+                              <div class="leaflet-pane leaflet-popup-pane"></div>
+                              <div
+                                class="leaflet-proxy leaflet-zoom-animated"
+                                style="transform: translate3d(10653.9px, 25269.3px, 0px) scale(128)"
+                              ></div>
+                            </div>
+                            <div class="leaflet-control-container">
+                              <div class="leaflet-top leaflet-left"></div>
+                              <div class="leaflet-top leaflet-right"></div>
+                              <div class="leaflet-bottom leaflet-left"></div>
+                              <div class="leaflet-bottom leaflet-right"></div>
+                            </div>
+                          </div>
+                          <script type="application/json" data-bcn-obsmap-data="mpdash-obs">
+                            [
+                              {
+                                "id": "CC-1042-06162026",
+                                "lat": 38.282135,
+                                "lng": -121.457699,
+                                "label": "Staging within the SWHA buffer before clearance · Open",
+                                "hex": "var(--color-background-utility-danger)"
+                              },
+                              {
+                                "id": "SWHA-2289-05182026",
+                                "lat": 38.283235,
+                                "lng": -121.457699,
+                                "label": "Swainson’s Hawk · Active",
+                                "hex": "var(--color-background-utility-warning)"
+                              },
+                              {
+                                "id": "CORA-2695-06042026",
+                                "lat": 37.969248,
+                                "lng": -121.386597,
+                                "label": "Common Raven · Active",
+                                "hex": "var(--color-background-utility-warning)"
+                              },
+                              {
+                                "id": "KILL-7655-06032026",
+                                "lat": 38.17228,
+                                "lng": -121.436532,
+                                "label": "Killdeer · Active",
+                                "hex": "var(--color-background-utility-warning)"
+                              },
+                              {
+                                "id": "MALL-1520-06022026",
+                                "lat": 37.96534,
+                                "lng": -121.386396,
+                                "label": "Mallard · Active",
+                                "hex": "var(--color-background-utility-warning)"
+                              },
+                              {
+                                "id": "Unknown-5895-06032026",
+                                "lat": 38.16898,
+                                "lng": -121.435232,
+                                "label": "Unknown raptor · Active",
+                                "hex": "var(--color-background-utility-warning)"
+                              },
+                              {
+                                "id": "Species-Swainsons-Hawk-06042026",
+                                "lat": 37.970537,
+                                "lng": -121.392578,
+                                "label": "Swainson’s Hawk · Tracking",
+                                "hex": "var(--bcn-status-not-started)"
+                              },
+                              {
+                                "id": "Species-Swainsons-Hawk-06092026",
+                                "lat": 37.968754000000004,
+                                "lng": -121.376684,
+                                "label": "Swainson’s Hawk · Tracking",
+                                "hex": "var(--bcn-status-not-started)"
+                              },
+                              {
+                                "id": "Habitat-Other-06152026",
+                                "lat": 37.801145000000005,
+                                "lng": -121.57617,
+                                "label": "Rodent burrows · Tracking",
+                                "hex": "var(--bcn-status-not-started)"
+                              }
+                            ]
+                          </script>
+                          <script
+                            type="module"
+                            src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.B7YhMltJ.js"
+                          ></script>
                         </div>
-                        <div class="leaflet-control-container">
-                          <div class="leaflet-top leaflet-left"></div>
-                          <div class="leaflet-top leaflet-right"></div>
-                          <div class="leaflet-bottom leaflet-left"></div>
-                          <div class="leaflet-bottom leaflet-right"></div>
+                        <div data-section="latest" data-flow="full" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Latest observations</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Table</span>
+                          </div>
+                          <table
+                            class="bcn-mt"
+                            role="table"
+                            data-fill=""
+                            style="--_tracks: auto auto auto"
+                          >
+                            <thead role="rowgroup">
+                              <tr role="row">
+                                <th scope="col" role="columnheader">Observation</th>
+                                <th scope="col" role="columnheader">Species</th>
+                                <th class="bcn-mt--end" scope="col" role="columnheader">
+                                  Observed
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody role="rowgroup">
+                              <tr role="row">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >CC-1042</a
+                                  >
+                                </td>
+                                <td role="cell">Staging within the SWHA buffer before clearance</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 16</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >HAB-0615</a
+                                  >
+                                </td>
+                                <td role="cell">Rodent burrows</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 15</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >SWHA-0609</a
+                                  >
+                                </td>
+                                <td role="cell">Swainson’s Hawk</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 9</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >SWHA-0604</a
+                                  >
+                                </td>
+                                <td role="cell">Swainson’s Hawk</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 4</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >CORA-2695</a
+                                  >
+                                </td>
+                                <td role="cell">Common Raven</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 4</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >UNK-5895</a
+                                  >
+                                </td>
+                                <td role="cell">Unknown raptor</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 3</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >KILL-7655</a
+                                  >
+                                </td>
+                                <td role="cell">Killdeer</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 3</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
-                      </div>
-                      <script type="application/json" data-bcn-obsmap-data="mpdash-obs">
-                        [
-                          {
-                            "id": "CC-1042-06162026",
-                            "lat": 38.282135,
-                            "lng": -121.457699,
-                            "label": "Staging within the SWHA buffer before clearance · Open",
-                            "hex": "var(--color-background-utility-danger)"
-                          },
-                          {
-                            "id": "SWHA-2289-05182026",
-                            "lat": 38.283235,
-                            "lng": -121.457699,
-                            "label": "Swainson’s Hawk · Active",
-                            "hex": "var(--color-background-utility-warning)"
-                          },
-                          {
-                            "id": "CORA-2695-06042026",
-                            "lat": 37.969248,
-                            "lng": -121.386597,
-                            "label": "Common Raven · Active",
-                            "hex": "var(--color-background-utility-warning)"
-                          },
-                          {
-                            "id": "KILL-7655-06032026",
-                            "lat": 38.17228,
-                            "lng": -121.436532,
-                            "label": "Killdeer · Active",
-                            "hex": "var(--color-background-utility-warning)"
-                          },
-                          {
-                            "id": "MALL-1520-06022026",
-                            "lat": 37.96534,
-                            "lng": -121.386396,
-                            "label": "Mallard · Active",
-                            "hex": "var(--color-background-utility-warning)"
-                          },
-                          {
-                            "id": "Unknown-5895-06032026",
-                            "lat": 38.16898,
-                            "lng": -121.435232,
-                            "label": "Unknown raptor · Active",
-                            "hex": "var(--color-background-utility-warning)"
-                          },
-                          {
-                            "id": "Species-Swainsons-Hawk-06042026",
-                            "lat": 37.970537,
-                            "lng": -121.392578,
-                            "label": "Swainson’s Hawk · Tracking",
-                            "hex": "var(--bcn-status-not-started)"
-                          },
-                          {
-                            "id": "Species-Swainsons-Hawk-06092026",
-                            "lat": 37.968754000000004,
-                            "lng": -121.376684,
-                            "label": "Swainson’s Hawk · Tracking",
-                            "hex": "var(--bcn-status-not-started)"
-                          },
-                          {
-                            "id": "Habitat-Other-06152026",
-                            "lat": 37.801145000000005,
-                            "lng": -121.57617,
-                            "label": "Rodent burrows · Tracking",
-                            "hex": "var(--bcn-status-not-started)"
-                          }
-                        ]
-                      </script>
-                      <script
-                        type="module"
-                        src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.V9eB__99.js"
-                      ></script>
-                      <div class="stack" data-gap="sm">
-                        <span
-                          class="cluster"
+                        <div
+                          data-section="outstanding"
+                          data-flow="full"
+                          class="stack"
                           data-gap="sm"
-                          style="
-                            --badge-bg: var(--color-background-elevation-sunken);
-                            --badge-text-color: var(--color-content-default-secondary);
-                          "
-                          ><span class="typography-label-md-strong">Outstanding issues</span
-                          ><span
-                            class="esa-badge esa-badge--primary esa-badge--md typography-microcopy-sm-strong"
-                            ><span class="esa-badge__text">5</span></span
-                          ></span
                         >
-                        <table class="bcn-mt">
-                          <thead>
-                            <tr>
-                              <th scope="col">Age</th>
-                              <th scope="col">Observation</th>
-                              <th scope="col">Species</th>
-                              <th class="bcn-mt--end" scope="col">Work area</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td class="bcn-mt--num">30d</td>
-                              <td>
-                                <a href="/beacon-design/prototypes/monitoring/stream/observations"
-                                  >SWHA-2289</a
-                                >
-                              </td>
-                              <td>Swainson’s Hawk</td>
-                              <td class="bcn-mt--end">DCTR2-DH-010</td>
-                            </tr>
-                            <tr>
-                              <td class="bcn-mt--num">15d</td>
-                              <td>
-                                <a href="/beacon-design/prototypes/monitoring/stream/observations"
-                                  >MALL-1520</a
-                                >
-                              </td>
-                              <td>Mallard</td>
-                              <td class="bcn-mt--end">DCRDS-DH-294</td>
-                            </tr>
-                            <tr>
-                              <td class="bcn-mt--num">14d</td>
-                              <td>
-                                <a href="/beacon-design/prototypes/monitoring/stream/observations"
-                                  >KILL-7655</a
-                                >
-                              </td>
-                              <td>Killdeer</td>
-                              <td class="bcn-mt--end">DCTR2-DH-100</td>
-                            </tr>
-                            <tr>
-                              <td class="bcn-mt--num">14d</td>
-                              <td>
-                                <a href="/beacon-design/prototypes/monitoring/stream/observations"
-                                  >UNK-5895</a
-                                >
-                              </td>
-                              <td>Unknown raptor</td>
-                              <td class="bcn-mt--end">DCTR2-DH-100</td>
-                            </tr>
-                            <tr>
-                              <td class="bcn-mt--num">13d</td>
-                              <td>
-                                <a href="/beacon-design/prototypes/monitoring/stream/observations"
-                                  >CORA-2695</a
-                                >
-                              </td>
-                              <td>Common Raven</td>
-                              <td class="bcn-mt--end">DCRAI-DH-009</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Outstanding issues</span
+                              ><span
+                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                ><span class="esa-badge__text">5</span></span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Table</span>
+                          </div>
+                          <table
+                            class="bcn-mt"
+                            role="table"
+                            data-fill=""
+                            style="--_tracks: auto auto auto auto"
+                          >
+                            <thead role="rowgroup">
+                              <tr role="row">
+                                <th scope="col" role="columnheader">Age</th>
+                                <th scope="col" role="columnheader">Observation</th>
+                                <th scope="col" role="columnheader">Species</th>
+                                <th class="bcn-mt--end" scope="col" role="columnheader">
+                                  Work area
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody role="rowgroup">
+                              <tr role="row">
+                                <td class="bcn-mt--num" role="cell">30d</td>
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >SWHA-2289</a
+                                  >
+                                </td>
+                                <td role="cell">Swainson’s Hawk</td>
+                                <td class="bcn-mt--end" role="cell">DCTR2-DH-010</td>
+                              </tr>
+                              <tr role="row">
+                                <td class="bcn-mt--num" role="cell">15d</td>
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >MALL-1520</a
+                                  >
+                                </td>
+                                <td role="cell">Mallard</td>
+                                <td class="bcn-mt--end" role="cell">DCRDS-DH-294</td>
+                              </tr>
+                              <tr role="row">
+                                <td class="bcn-mt--num" role="cell">14d</td>
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >KILL-7655</a
+                                  >
+                                </td>
+                                <td role="cell">Killdeer</td>
+                                <td class="bcn-mt--end" role="cell">DCTR2-DH-100</td>
+                              </tr>
+                              <tr role="row">
+                                <td class="bcn-mt--num" role="cell">14d</td>
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >UNK-5895</a
+                                  >
+                                </td>
+                                <td role="cell">Unknown raptor</td>
+                                <td class="bcn-mt--end" role="cell">DCTR2-DH-100</td>
+                              </tr>
+                              <tr role="row">
+                                <td class="bcn-mt--num" role="cell">13d</td>
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/observations"
+                                    >CORA-2695</a
+                                  >
+                                </td>
+                                <td role="cell">Common Raven</td>
+                                <td class="bcn-mt--end" role="cell">DCRAI-DH-009</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
+                      <script type="module">
+                        var e = `.bcn-widget-flow`,
+                          t = new WeakSet(),
+                          n = new Set(),
+                          r = !1,
+                          i = (e) => {
+                            (n.add(e),
+                              !r &&
+                                ((r = !0),
+                                queueMicrotask(() => {
+                                  r = !1;
+                                  let e = Array.from(n);
+                                  n.clear();
+                                  for (let t of e) o(t);
+                                })));
+                          },
+                          a = new ResizeObserver((t) => {
+                            for (let n of t) {
+                              let t = n.target.closest(e);
+                              t && i(t);
+                            }
+                          });
+                        function o(e) {
+                          let t = null;
+                          for (let n of Array.from(e.children)) {
+                            if ((a.observe(n), n.getClientRects().length === 0)) {
+                              n.classList.remove(`is-rowmate`);
+                              continue;
+                            }
+                            let e = n.getBoundingClientRect().top;
+                            (n.classList.toggle(`is-rowmate`, t !== null && Math.abs(e - t) < 2),
+                              (t = e));
+                          }
+                        }
+                        var s = (e) => {
+                            t.has(e) ||
+                              (t.add(e),
+                              a.observe(e),
+                              new MutationObserver(() => i(e)).observe(e, { childList: !0 }),
+                              new MutationObserver(() => i(e)).observe(e, {
+                                attributes: !0,
+                                attributeFilter: [`hidden`],
+                                subtree: !0,
+                              }),
+                              i(e));
+                          },
+                          c = () => {
+                            document.querySelectorAll(e).forEach(s);
+                          };
+                        c();
+                        var l = !1;
+                        new MutationObserver(() => {
+                          l ||
+                            ((l = !0),
+                            queueMicrotask(() => {
+                              ((l = !1), c());
+                            }));
+                        }).observe(document.body, { childList: !0, subtree: !0 });
+                      </script>
                     </div>
                   </div>
                   <div class="esa-card__footer typography-meta">
@@ -1345,9 +2285,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-dwidget"
                 data-widget-id="obs-nesting-birds"
+                data-widget-type="obs-nesting-birds"
                 data-w="1"
-                data-h="3"
-                style="--_accent: var(--bcn-mark-cyan)"
+                style="--_accent: var(--bcn-mark-cyan); grid-row-end: span 93"
+                data-span="93"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -1512,60 +2453,170 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <div class="esa-stat">
-                        <div class="esa-stat__value typography-display-sm">6</div>
-                        <div class="esa-stat__label typography-label-md">
-                          nesting-bird observations
+                      <div class="bcn-widget-flow">
+                        <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Total nesting-bird observations</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Headline figure</span>
+                          </div>
+                          <div class="esa-stat">
+                            <div class="esa-stat__value typography-display-sm">6</div>
+                            <div class="esa-stat__label typography-label-md">
+                              Total nesting-bird observations
+                            </div>
+                          </div>
                         </div>
-                        <div class="esa-stat__sub typography-body-sm">
-                          9 total in the past 30 days
+                        <div class="stack" data-gap="sm" data-section="species" data-flow="chart">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Observations by species</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Bar chart</span>
+                          </div>
+                          <div class="bcn-viz-bars bcn-viz-bars--code">
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">CORA</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 100%; --_bar-fill: var(--bcn-mark-teal)"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">2</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">SWHA</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 50%; --_bar-fill: var(--bcn-mark-teal)"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">1</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">KILL</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 50%; --_bar-fill: var(--bcn-mark-teal)"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">1</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">MALL</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 50%; --_bar-fill: var(--bcn-mark-teal)"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">1</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">UNK</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 50%; --_bar-fill: #bdbdbd"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">1</span>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div class="bcn-viz-bars bcn-viz-bars--code">
-                        <div class="bcn-viz-bars__row">
-                          <span class="bcn-viz-bars__name">CORA</span
-                          ><span class="bcn-viz-bars__track" aria-hidden="true"
-                            ><span
-                              class="bcn-viz-bars__fill"
-                              style="width: 100%; --_bar-fill: var(--bcn-mark-teal)"
-                            ></span></span
-                          ><span class="bcn-viz-bars__val">2</span>
-                        </div>
-                        <div class="bcn-viz-bars__row">
-                          <span class="bcn-viz-bars__name">SWHA</span
-                          ><span class="bcn-viz-bars__track" aria-hidden="true"
-                            ><span
-                              class="bcn-viz-bars__fill"
-                              style="width: 50%; --_bar-fill: var(--bcn-mark-teal)"
-                            ></span></span
-                          ><span class="bcn-viz-bars__val">1</span>
-                        </div>
-                        <div class="bcn-viz-bars__row">
-                          <span class="bcn-viz-bars__name">KILL</span
-                          ><span class="bcn-viz-bars__track" aria-hidden="true"
-                            ><span
-                              class="bcn-viz-bars__fill"
-                              style="width: 50%; --_bar-fill: var(--bcn-mark-teal)"
-                            ></span></span
-                          ><span class="bcn-viz-bars__val">1</span>
-                        </div>
-                        <div class="bcn-viz-bars__row">
-                          <span class="bcn-viz-bars__name">MALL</span
-                          ><span class="bcn-viz-bars__track" aria-hidden="true"
-                            ><span
-                              class="bcn-viz-bars__fill"
-                              style="width: 50%; --_bar-fill: var(--bcn-mark-teal)"
-                            ></span></span
-                          ><span class="bcn-viz-bars__val">1</span>
-                        </div>
-                        <div class="bcn-viz-bars__row">
-                          <span class="bcn-viz-bars__name">UNK</span
-                          ><span class="bcn-viz-bars__track" aria-hidden="true"
-                            ><span
-                              class="bcn-viz-bars__fill"
-                              style="width: 50%; --_bar-fill: #bdbdbd"
-                            ></span></span
-                          ><span class="bcn-viz-bars__val">1</span>
+                        <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Latest observations</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Table</span>
+                          </div>
+                          <table
+                            class="bcn-mt"
+                            role="table"
+                            data-fill=""
+                            style="--_tracks: auto auto auto"
+                          >
+                            <thead role="rowgroup">
+                              <tr role="row">
+                                <th scope="col" role="columnheader">Observation</th>
+                                <th scope="col" role="columnheader">Species</th>
+                                <th class="bcn-mt--end" scope="col" role="columnheader">
+                                  Observed
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody role="rowgroup">
+                              <tr role="row">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/nesting-birds"
+                                    >CORA-2695</a
+                                  >
+                                </td>
+                                <td role="cell">Common Raven</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 4</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/nesting-birds"
+                                    >UNK-5895</a
+                                  >
+                                </td>
+                                <td role="cell">Unknown raptor</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 3</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/nesting-birds"
+                                    >KILL-7655</a
+                                  >
+                                </td>
+                                <td role="cell">Killdeer</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 3</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/nesting-birds"
+                                    >MALL-1520</a
+                                  >
+                                </td>
+                                <td role="cell">Mallard</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 2</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/nesting-birds"
+                                    >CORA-5830</a
+                                  >
+                                </td>
+                                <td role="cell">Common Raven</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">May 29</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/nesting-birds"
+                                    >SWHA-2289</a
+                                  >
+                                </td>
+                                <td role="cell">Swainson’s Hawk</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">May 18</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
@@ -1582,9 +2633,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-dwidget"
                 data-widget-id="obs-concerns"
+                data-widget-type="obs-concerns"
                 data-w="1"
-                data-h="2"
-                style="--_accent: var(--bcn-mark-rust)"
+                style="--_accent: var(--bcn-mark-rust); grid-row-end: span 85"
+                data-span="85"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -1748,55 +2800,899 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <span style="--stat-value-color: var(--color-content-utility-danger)"
-                        ><div class="esa-stat">
-                          <div class="esa-stat__value typography-display-sm">1</div>
-                          <div class="esa-stat__label typography-label-md">
-                            open compliance concerns
+                      <div class="bcn-widget-flow">
+                        <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Open compliance concerns</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Headline figure</span>
                           </div>
-                        </div></span
-                      >
-                      <div
-                        class="bcn-viztrend bcn-viztrend--sm"
-                        style="--_accent: var(--color-background-utility-danger)"
-                      >
-                        <div
-                          class="bcn-viztrend__strip"
-                          role="img"
-                          aria-label="Concerns raised per day, May 19 to Jun 17"
-                        >
-                          <span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                          ><span class="bcn-viztrend__col" style="height: 100%"></span
-                          ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span>
+                          <span style="--stat-value-color: var(--color-content-utility-danger)"
+                            ><div class="esa-stat">
+                              <div class="esa-stat__value typography-display-sm">8</div>
+                              <div class="esa-stat__label typography-label-md">
+                                Open compliance concerns
+                              </div>
+                            </div></span
+                          >
                         </div>
-                        <div class="bcn-viztrend__axis"><span>May 19</span><span>Jun 17</span></div>
+                        <div class="stack" data-gap="sm" data-section="activity" data-flow="chart">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Concerns raised over time</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm"
+                              >Stacked time series chart</span
+                            >
+                          </div>
+                          <div class="bcn-vizstack">
+                            <div
+                              class="bcn-vizstack__yaxis"
+                              aria-hidden="true"
+                              style="block-size: 96px"
+                            >
+                              <span>2</span><span>1</span><span>0</span>
+                            </div>
+                            <div
+                              class="bcn-vizstack__strip"
+                              role="img"
+                              aria-label="Concerns raised per day, open and closed, May 19 to Jun 17"
+                              style="--_stack-height: 96px"
+                            >
+                              <span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 19, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 20, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 21, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 22, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 23, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 24, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 96px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 2;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 25, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">2</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 26, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 27, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 28, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 96px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-background-utility-danger);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 29, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-background-utility-danger)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Open:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 30, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 31, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 1, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-background-utility-danger);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 2, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-background-utility-danger)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Open:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 3, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 4, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-background-utility-danger);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 5, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-background-utility-danger)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Open:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 6, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 7, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 8, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 96px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-background-utility-danger);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 9, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-background-utility-danger)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Open:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 10, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-background-utility-danger);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 11, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-background-utility-danger)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Open:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 12, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 13, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col bcn-vizstack__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 14, 2026</span
+                                    ><span class="bcn-viztip__empty">No concerns raised</span>
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 96px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-border-default-strong);
+                                        "
+                                      ></span
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-background-utility-danger);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 15, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-border-default-strong)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Closed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-background-utility-danger)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Open:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-background-utility-danger);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 16, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-background-utility-danger)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Open:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-vizstack__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-vizstack__cell"
+                                    style="block-size: 96px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-vizstack__col" style="block-size: 48px"
+                                      ><span
+                                        class="bcn-vizstack__seg"
+                                        style="
+                                          flex: 1;
+                                          background: var(--color-background-utility-danger);
+                                        "
+                                      ></span></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 17, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--color-background-utility-danger)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Open:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              >
+                            </div>
+                            <div class="bcn-vizstack__axis">
+                              <span>May 19</span><span>Jun 17</span>
+                            </div>
+                            <ul class="bcn-vizstack__legend">
+                              <li class="bcn-vizstack__key">
+                                <span
+                                  class="bcn-vizstack__swatch"
+                                  style="background: var(--color-border-default-strong)"
+                                  aria-hidden="true"
+                                ></span
+                                >Closed
+                              </li>
+                              <li class="bcn-vizstack__key">
+                                <span
+                                  class="bcn-vizstack__swatch"
+                                  style="background: var(--color-background-utility-danger)"
+                                  aria-hidden="true"
+                                ></span
+                                >Open
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Latest open concerns</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Table</span>
+                          </div>
+                          <table
+                            class="bcn-mt"
+                            role="table"
+                            style="--_tracks: auto minmax(0, 1fr) auto"
+                          >
+                            <thead role="rowgroup">
+                              <tr role="row">
+                                <th scope="col" role="columnheader">Concern</th>
+                                <th scope="col" role="columnheader">Issue</th>
+                                <th class="bcn-mt--end" scope="col" role="columnheader">Raised</th>
+                              </tr>
+                            </thead>
+                            <tbody role="rowgroup">
+                              <tr role="row">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/compliance-concerns"
+                                    >CC-1042</a
+                                  >
+                                </td>
+                                <td
+                                  class="bcn-mt--truncate"
+                                  title="Staging within the SWHA buffer before clearance"
+                                  role="cell"
+                                >
+                                  Staging within the SWHA buffer before clearance
+                                </td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 16</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1812,9 +3708,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-dwidget"
                 data-widget-id="dmr-recent"
+                data-widget-type="dmr-recent"
                 data-w="2"
-                data-h="3"
-                style="--_accent: var(--bcn-mark-slate)"
+                style="--_accent: var(--bcn-mark-slate); grid-row-end: span 82"
+                data-span="82"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -1980,152 +3877,1109 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <div class="bcn-widget-panels" data-panels="2">
-                        <div class="bcn-widget-panels__panel stack">
-                          <div class="stack" data-gap="md">
-                            <div class="esa-stat">
-                              <div class="esa-stat__value typography-display-sm">32</div>
-                              <div class="esa-stat__label typography-label-md">
-                                daily monitoring reports
-                              </div>
-                              <div class="esa-stat__sub typography-body-sm">
-                                5 filed in the past 7 days
-                              </div>
-                            </div>
-                            <div
-                              class="bcn-viz-strip"
-                              role="img"
-                              aria-label="Reports filed by weekday, Jun 11 to Jun 17"
-                            >
-                              <span class="bcn-viz-strip__day"
-                                ><span class="bcn-viz-strip__cell"></span
-                                ><span class="bcn-viz-strip__initial">Th</span></span
-                              ><span class="bcn-viz-strip__day"
-                                ><span class="bcn-viz-strip__cell"></span
-                                ><span class="bcn-viz-strip__initial">F</span></span
-                              ><span class="bcn-viz-strip__day"
-                                ><span class="bcn-viz-strip__cell"></span
-                                ><span class="bcn-viz-strip__initial">M</span></span
-                              ><span class="bcn-viz-strip__day"
-                                ><span class="bcn-viz-strip__cell"></span
-                                ><span class="bcn-viz-strip__initial">Tu</span></span
-                              ><span class="bcn-viz-strip__day"
-                                ><span class="bcn-viz-strip__cell"></span
-                                ><span class="bcn-viz-strip__initial">W</span></span
-                              >
+                      <div class="bcn-widget-flow">
+                        <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Total daily monitoring reports</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Headline figure</span>
+                          </div>
+                          <div class="esa-stat">
+                            <div class="esa-stat__value typography-display-sm">32</div>
+                            <div class="esa-stat__label typography-label-md">
+                              Total daily monitoring reports
                             </div>
                           </div>
                         </div>
-                        <div class="bcn-widget-panels__panel stack">
-                          <div>
-                            <table class="bcn-mt">
-                              <thead>
-                                <tr>
-                                  <th scope="col">Date</th>
-                                  <th scope="col">Monitor</th>
-                                  <th scope="col">Work areas</th>
-                                  <th class="bcn-mt--end" scope="col">Status</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td class="bcn-mt--num">
-                                    <a
-                                      href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-17%0AMonitor%3A%20Christy%20Pierce%0AWork%20areas%3A%20DCTR2-DH-010%2C%20DCTR2-DH-100%0AActivities%3A%20Preconstruction%20sweep%3B%20buffer%20compliance%20checks%0AObservations%20logged%3A%202%0AStatus%3A%20Draft"
-                                      download="DMR_DCTR2-DH-010_2026-06-17.txt"
-                                      >Jun 17</a
-                                    >
-                                  </td>
-                                  <td>Christy Pierce</td>
-                                  <td>DCTR2-DH-010, DCTR2-DH-100</td>
-                                  <td class="bcn-mt--end">
-                                    <span
-                                      class="bcn-mt__dot"
-                                      style="background: #989898"
-                                      aria-hidden="true"
-                                    ></span
-                                    >Draft
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="bcn-mt--num">
-                                    <a
-                                      href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-16%0AMonitor%3A%20Bryce%20Kozak%0AWork%20areas%3A%20DCBPP-DH-066%0AActivities%3A%20Burrow%20flagging%20follow-up%3B%20access-road%20avoidance%20check%0AObservations%20logged%3A%201%0AStatus%3A%20Final"
-                                      download="DMR_DCBPP-DH-066_2026-06-16.txt"
-                                      >Jun 16</a
-                                    >
-                                  </td>
-                                  <td>Bryce Kozak</td>
-                                  <td>DCBPP-DH-066</td>
-                                  <td class="bcn-mt--end">
-                                    <span
-                                      class="bcn-mt__dot"
-                                      style="background: #2e7571"
-                                      aria-hidden="true"
-                                    ></span
-                                    >Final
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="bcn-mt--num">
-                                    <a
-                                      href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-15%0AMonitor%3A%20Morgan%20Henry%0AWork%20areas%3A%20DCBPP-DH-066%0AActivities%3A%20Habitat%20assessment%0AObservations%20logged%3A%201%0AStatus%3A%20Final"
-                                      download="DMR_DCBPP-DH-066_2026-06-15.txt"
-                                      >Jun 15</a
-                                    >
-                                  </td>
-                                  <td>Morgan Henry</td>
-                                  <td>DCBPP-DH-066</td>
-                                  <td class="bcn-mt--end">
-                                    <span
-                                      class="bcn-mt__dot"
-                                      style="background: #2e7571"
-                                      aria-hidden="true"
-                                    ></span
-                                    >Final
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="bcn-mt--num">
-                                    <a
-                                      href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-12%0AMonitor%3A%20CJ%20January%0AWork%20areas%3A%20DCTR2-DH-010%0AActivities%3A%20SWHA%2072-hour%20survey%0AObservations%20logged%3A%201%0AStatus%3A%20Final"
-                                      download="DMR_DCTR2-DH-010_2026-06-12.txt"
-                                      >Jun 12</a
-                                    >
-                                  </td>
-                                  <td>CJ January</td>
-                                  <td>DCTR2-DH-010</td>
-                                  <td class="bcn-mt--end">
-                                    <span
-                                      class="bcn-mt__dot"
-                                      style="background: #2e7571"
-                                      aria-hidden="true"
-                                    ></span
-                                    >Final
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td class="bcn-mt--num">
-                                    <a
-                                      href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-11%0AMonitor%3A%20Alicia%20Manzo%0AWork%20areas%3A%20DCRAI-DH-012%0AActivities%3A%20Two-week%20clearance%20survey%0AObservations%20logged%3A%201%0AStatus%3A%20Final"
-                                      download="DMR_DCRAI-DH-012_2026-06-11.txt"
-                                      >Jun 11</a
-                                    >
-                                  </td>
-                                  <td>Alicia Manzo</td>
-                                  <td>DCRAI-DH-012</td>
-                                  <td class="bcn-mt--end">
-                                    <span
-                                      class="bcn-mt__dot"
-                                      style="background: #2e7571"
-                                      aria-hidden="true"
-                                    ></span
-                                    >Final
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
+                        <div class="stack" data-gap="sm" data-section="activity" data-flow="chart">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Reports filed over time</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm"
+                              >Time series chart</span
+                            >
                           </div>
+                          <div class="bcn-viztrend">
+                            <div
+                              class="bcn-viztrend__yaxis"
+                              aria-hidden="true"
+                              style="block-size: 72px"
+                            >
+                              <span>2</span><span>1</span><span>0</span>
+                            </div>
+                            <div
+                              class="bcn-viztrend__strip"
+                              role="img"
+                              aria-label="Reports filed per day, May 19 to Jun 17"
+                              style="--_trend-height: 72px"
+                            >
+                              <span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 19, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 72px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 20, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">2</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 21, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 22, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 23, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">0</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 24, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">0</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 25, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 26, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 72px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 27, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">2</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 28, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 29, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 30, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">0</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">May 31, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">0</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 72px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 1, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">2</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 2, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 3, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 4, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">0</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 5, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 6, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">0</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 7, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">0</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 8, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 72px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 9, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">2</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 10, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 11, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 72px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 12, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">2</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 13, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">0</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 14, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">0</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 15, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 16, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              ><span class="bcn-viztrend__slot"
+                                ><esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span
+                                    class="bcn-viztrend__cell"
+                                    style="block-size: 72px"
+                                    aria-expanded="false"
+                                    ><span class="bcn-viztrend__col" style="block-size: 36px"></span
+                                  ></span>
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">June 17, 2026</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="
+                                          background: var(
+                                            --_accent,
+                                            var(--color-content-default-secondary)
+                                          );
+                                        "
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Reports filed:</span
+                                      ><span class="bcn-viztip__value">1</span></span
+                                    >
+                                  </div></esa-popover
+                                ></span
+                              >
+                            </div>
+                            <div class="bcn-viztrend__axis">
+                              <span>May 19</span><span>Jun 17</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Latest reports</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Table</span>
+                          </div>
+                          <table
+                            class="bcn-mt"
+                            role="table"
+                            data-fill=""
+                            style="--_tracks: auto auto auto"
+                          >
+                            <thead role="rowgroup">
+                              <tr role="row">
+                                <th scope="col" role="columnheader">Date</th>
+                                <th scope="col" role="columnheader">Monitor</th>
+                                <th class="bcn-mt--end" scope="col" role="columnheader">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody role="rowgroup">
+                              <tr role="row">
+                                <td class="bcn-mt--num" role="cell">
+                                  <a
+                                    href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-17%0AMonitor%3A%20Christy%20Pierce%0AWork%20areas%3A%20DCTR2-DH-010%2C%20DCTR2-DH-100%0AActivities%3A%20Preconstruction%20sweep%3B%20buffer%20compliance%20checks%0AObservations%20logged%3A%202%0AStatus%3A%20Draft"
+                                    download="DMR_DCTR2-DH-010_2026-06-17.txt"
+                                    >Jun 17</a
+                                  >
+                                </td>
+                                <td role="cell">Christy Pierce</td>
+                                <td class="bcn-mt--end" role="cell">
+                                  <span
+                                    class="bcn-mt__dot"
+                                    style="background: #989898"
+                                    aria-hidden="true"
+                                  ></span
+                                  >Draft
+                                </td>
+                              </tr>
+                              <tr role="row">
+                                <td class="bcn-mt--num" role="cell">
+                                  <a
+                                    href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-16%0AMonitor%3A%20Bryce%20Kozak%0AWork%20areas%3A%20DCBPP-DH-066%0AActivities%3A%20Burrow%20flagging%20follow-up%3B%20access-road%20avoidance%20check%0AObservations%20logged%3A%201%0AStatus%3A%20Final"
+                                    download="DMR_DCBPP-DH-066_2026-06-16.txt"
+                                    >Jun 16</a
+                                  >
+                                </td>
+                                <td role="cell">Bryce Kozak</td>
+                                <td class="bcn-mt--end" role="cell">
+                                  <span
+                                    class="bcn-mt__dot"
+                                    style="background: #2e7571"
+                                    aria-hidden="true"
+                                  ></span
+                                  >Final
+                                </td>
+                              </tr>
+                              <tr role="row">
+                                <td class="bcn-mt--num" role="cell">
+                                  <a
+                                    href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-15%0AMonitor%3A%20Morgan%20Henry%0AWork%20areas%3A%20DCBPP-DH-066%0AActivities%3A%20Habitat%20assessment%0AObservations%20logged%3A%201%0AStatus%3A%20Final"
+                                    download="DMR_DCBPP-DH-066_2026-06-15.txt"
+                                    >Jun 15</a
+                                  >
+                                </td>
+                                <td role="cell">Morgan Henry</td>
+                                <td class="bcn-mt--end" role="cell">
+                                  <span
+                                    class="bcn-mt__dot"
+                                    style="background: #2e7571"
+                                    aria-hidden="true"
+                                  ></span
+                                  >Final
+                                </td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td class="bcn-mt--num" role="cell">
+                                  <a
+                                    href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-12%0AMonitor%3A%20CJ%20January%0AWork%20areas%3A%20DCTR2-DH-010%0AActivities%3A%20SWHA%2072-hour%20survey%0AObservations%20logged%3A%201%0AStatus%3A%20Final"
+                                    download="DMR_DCTR2-DH-010_2026-06-12.txt"
+                                    >Jun 12</a
+                                  >
+                                </td>
+                                <td role="cell">CJ January</td>
+                                <td class="bcn-mt--end" role="cell">
+                                  <span
+                                    class="bcn-mt__dot"
+                                    style="background: #2e7571"
+                                    aria-hidden="true"
+                                  ></span
+                                  >Final
+                                </td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td class="bcn-mt--num" role="cell">
+                                  <a
+                                    href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-11%0AMonitor%3A%20Alicia%20Manzo%0AWork%20areas%3A%20DCRAI-DH-012%0AActivities%3A%20Two-week%20clearance%20survey%0AObservations%20logged%3A%201%0AStatus%3A%20Final"
+                                    download="DMR_DCRAI-DH-012_2026-06-11.txt"
+                                    >Jun 11</a
+                                  >
+                                </td>
+                                <td role="cell">Alicia Manzo</td>
+                                <td class="bcn-mt--end" role="cell">
+                                  <span
+                                    class="bcn-mt__dot"
+                                    style="background: #2e7571"
+                                    aria-hidden="true"
+                                  ></span
+                                  >Final
+                                </td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td class="bcn-mt--num" role="cell">
+                                  <a
+                                    href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-10%0AMonitor%3A%20Mackenzie%20Firestone%0AWork%20areas%3A%20DCTR2-DH-010%0AActivities%3A%20CASP%20protocol%20survey%0AObservations%20logged%3A%201%0AStatus%3A%20Final"
+                                    download="DMR_DCTR2-DH-010_2026-06-10.txt"
+                                    >Jun 10</a
+                                  >
+                                </td>
+                                <td role="cell">Mackenzie Firestone</td>
+                                <td class="bcn-mt--end" role="cell">
+                                  <span
+                                    class="bcn-mt__dot"
+                                    style="background: #2e7571"
+                                    aria-hidden="true"
+                                  ></span
+                                  >Final
+                                </td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td class="bcn-mt--num" role="cell">
+                                  <a
+                                    href="data:text/plain;charset=utf-8,Daily%20Monitoring%20Report%20%E2%80%94%202026-06-09%0AMonitor%3A%20Aaron%20Lopez%0AWork%20areas%3A%20DCRAI-DH-006%2C%20DCRAI-DH-009%0AActivities%3A%20Nest%20monitoring%3B%20raven%20activity%20check%0AObservations%20logged%3A%202%0AStatus%3A%20Final"
+                                    download="DMR_DCRAI-DH-006_2026-06-09.txt"
+                                    >Jun 9</a
+                                  >
+                                </td>
+                                <td role="cell">Aaron Lopez</td>
+                                <td class="bcn-mt--end" role="cell">
+                                  <span
+                                    class="bcn-mt__dot"
+                                    style="background: #2e7571"
+                                    aria-hidden="true"
+                                  ></span
+                                  >Final
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
@@ -2142,9 +4996,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-dwidget"
                 data-widget-id="obs-bio"
+                data-widget-type="obs-bio"
                 data-w="1"
-                data-h="3"
-                style="--_accent: var(--bcn-mark-olive)"
+                style="--_accent: var(--bcn-mark-olive); grid-row-end: span 95"
+                data-span="95"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -2309,53 +5164,115 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <div class="esa-stat">
-                        <div class="esa-stat__value typography-display-sm">3</div>
-                        <div class="esa-stat__label typography-label-md">
-                          biological-resource observations
+                      <div class="bcn-widget-flow">
+                        <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Total biological resource observations</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Headline figure</span>
+                          </div>
+                          <div class="esa-stat">
+                            <div class="esa-stat__value typography-display-sm">3</div>
+                            <div class="esa-stat__label typography-label-md">
+                              Total biological resource observations
+                            </div>
+                          </div>
                         </div>
-                        <div class="esa-stat__sub typography-body-sm">
-                          3 total in the past 30 days
+                        <div class="stack" data-gap="sm" data-section="species" data-flow="chart">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Observations by species</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Bar chart</span>
+                          </div>
+                          <div class="bcn-viz-bars">
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">SWHA foraging</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 100%; --_bar-fill: var(--bcn-mark-orange)"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">2</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Habitat / burrows</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 50%; --_bar-fill: var(--bcn-mark-orange)"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">1</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Latest observations</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Table</span>
+                          </div>
+                          <table
+                            class="bcn-mt"
+                            role="table"
+                            data-fill=""
+                            style="--_tracks: auto auto auto"
+                          >
+                            <thead role="rowgroup">
+                              <tr role="row">
+                                <th scope="col" role="columnheader">Observation</th>
+                                <th scope="col" role="columnheader">Species</th>
+                                <th class="bcn-mt--end" scope="col" role="columnheader">
+                                  Observed
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody role="rowgroup">
+                              <tr role="row">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/biological-resources"
+                                    >HAB-0615</a
+                                  >
+                                </td>
+                                <td role="cell">Rodent burrows</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 15</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/biological-resources"
+                                    >SWHA-0609</a
+                                  >
+                                </td>
+                                <td role="cell">Swainson’s Hawk</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 9</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">
+                                  <a
+                                    href="/beacon-design/prototypes/monitoring/stream/biological-resources"
+                                    >SWHA-0604</a
+                                  >
+                                </td>
+                                <td role="cell">Swainson’s Hawk</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 4</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
-                      <div class="bcn-viz-bars">
-                        <div class="bcn-viz-bars__row">
-                          <span class="bcn-viz-bars__name">SWHA foraging</span
-                          ><span class="bcn-viz-bars__track" aria-hidden="true"
-                            ><span
-                              class="bcn-viz-bars__fill"
-                              style="width: 100%; --_bar-fill: var(--bcn-mark-orange)"
-                            ></span></span
-                          ><span class="bcn-viz-bars__val">2</span>
-                        </div>
-                        <div class="bcn-viz-bars__row">
-                          <span class="bcn-viz-bars__name">Habitat / burrows</span
-                          ><span class="bcn-viz-bars__track" aria-hidden="true"
-                            ><span
-                              class="bcn-viz-bars__fill"
-                              style="width: 50%; --_bar-fill: var(--bcn-mark-orange)"
-                            ></span></span
-                          ><span class="bcn-viz-bars__val">1</span>
-                        </div>
-                      </div>
-                      <table class="bcn-mt">
-                        <thead>
-                          <tr>
-                            <th scope="col">Latest observation</th>
-                            <th class="bcn-mt--end" scope="col">Observed</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <a href="/beacon-design/prototypes/monitoring/stream/observations"
-                                >HAB-0615</a
-                              >
-                            </td>
-                            <td class="bcn-mt--end bcn-mt--num">Jun 15</td>
-                          </tr>
-                        </tbody>
-                      </table>
                     </div>
                   </div>
                   <div class="esa-card__footer typography-meta">
@@ -2370,9 +5287,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-dwidget"
                 data-widget-id="commitment-compliance"
+                data-widget-type="commitment-compliance"
                 data-w="3"
-                data-h="3"
-                style="--_accent: var(--bcn-mark-teal)"
+                style="--_accent: var(--bcn-mark-teal); grid-row-end: span 71"
+                data-span="71"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -2536,145 +5454,76 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <div class="bcn-cc" data-cc="" data-show="needs">
-                        <esa-button-toggle
-                          class="bcn-cc__show"
-                          data-cc-show="true"
-                          size="sm"
-                          label="Show"
-                        ></esa-button-toggle>
-                        <div class="bcn-cc__pane" data-cc-pane="needs">
-                          <section class="bcn-cc__lane">
-                            <h4 class="bcn-cc__lane-head">
-                              <span>Compliance concerns</span
+                      <div class="bcn-widget-flow">
+                        <div data-section="lanes" data-flow="full" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
                               ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                ><span class="esa-badge__text">1</span></span
-                              >
-                            </h4>
-                            <div class="bcn-cc__rows">
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span class="bcn-cc__alert"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path
-                                          d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-                                        ></path>
-                                        <path d="M12 9v4"></path>
-                                        <path d="M12 17h.01"></path></svg></span></span
-                                  ><span class="bcn-cc__name"
-                                    >Staging within the SWHA buffer before clearance</span
-                                  ><span class="bcn-cc__id">CC-1042</span
-                                  ><span class="bcn-cc__meta">raised 2026-06-16 · DCTR2-DH-010</span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Compliance by observation state</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Grouped lists</span>
+                          </div>
+                          <div class="bcn-cc" data-cc="" data-show="needs">
+                            <esa-button-toggle
+                              class="bcn-cc__show"
+                              data-cc-show="true"
+                              size="sm"
+                              label="Show"
+                            ></esa-button-toggle>
+                            <div class="bcn-cc__pane" data-cc-pane="needs">
+                              <section class="bcn-cc__lane">
+                                <h4 class="bcn-cc__lane-head">
+                                  <span>Compliance concerns</span
                                   ><span
-                                    class="bcn-status-chip"
-                                    data-status="open"
-                                    style="
-                                      --_chip: var(
-                                        --st-open,
-                                        var(--color-background-utility-danger)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Open</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Geotechnical staging equipment was observed inside the
-                                    Swainson’s hawk no-disturbance buffer at DCTR2-DH-010 before
-                                    clearance was issued. The designated biologist halted staging
-                                    and notified the construction lead.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-39</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Preconstruction Surveys and Implement Protective
-                                        Measures to Minimize Disturbance of Swainson's Hawk
-                                        (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </section>
-                          <section class="bcn-cc__lane">
-                            <h4 class="bcn-cc__lane-head">
-                              <span>Species observations</span
-                              ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                ><span class="esa-badge__text">5</span></span
-                              >
-                            </h4>
-                            <div class="bcn-cc__rows">
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
                                     class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">SWHA</span></span
-                                  ><span class="bcn-cc__name">Swainson’s Hawk</span
-                                  ><span class="bcn-cc__id">SWHA-2289</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-05-18 · DCTR2-DH-010</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+                                    ><span class="esa-badge__text">1</span></span
+                                  >
+                                </h4>
+                                <div class="bcn-cc__rows">
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span class="bcn-cc__alert"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                            ></path>
+                                            <path d="M12 9v4"></path>
+                                            <path d="M12 17h.01"></path></svg></span></span
+                                      ><span class="bcn-cc__name"
+                                        >Staging within the SWHA buffer before clearance</span
+                                      ><span class="bcn-cc__id">CC-1042</span
+                                      ><span class="bcn-cc__meta"
+                                        >raised 2026-06-16 · DCTR2-DH-010</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="open"
+                                        style="
+                                          --_chip: var(
+                                            --st-open,
+                                            var(--color-background-utility-danger)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Open</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
      client script rebuilds its By Status list after applying saved overrides) hand-builds
      the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
      CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
@@ -2683,1029 +5532,53 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
      specific to this one component) that this trades a hairline collision risk for the
      chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
      style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Active SWHA nest in a tree on the north side of Twin Cities
-                                    Road. One adult sitting (presumably incubating); a second adult
-                                    foraging and delivering food. Not disturbed by the
-                                    preconstruction survey along the public roadway or at the bore
-                                    site.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-39</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Preconstruction Surveys and Implement Protective
-                                        Measures to Minimize Disturbance of Swainson's Hawk
-                                        (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        Geotechnical staging equipment was observed inside the
+                                        Swainson’s hawk no-disturbance buffer at DCTR2-DH-010 before
+                                        clearance was issued. The designated biologist halted
+                                        staging and notified the construction lead.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-39</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Preconstruction Surveys and Implement
+                                            Protective Measures to Minimize Disturbance of
+                                            Swainson's Hawk (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
+                              </section>
+                              <section class="bcn-cc__lane">
+                                <h4 class="bcn-cc__lane-head">
+                                  <span>Species observations</span
+                                  ><span
                                     class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">CORA</span></span
-                                  ><span class="bcn-cc__name">Common Raven</span
-                                  ><span class="bcn-cc__id">CORA-2695</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-06-04 · DCRAI-DH-009</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Both ravens perched outside the nest during the preconstruction
-                                    survey.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">KILL</span></span
-                                  ><span class="bcn-cc__name">Killdeer</span
-                                  ><span class="bcn-cc__id">KILL-7655</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-06-03 · DCTR2-DH-100</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    One bird on the nest; tried to lead us away as we neared the
-                                    site. Four eggs present.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">MALL</span></span
-                                  ><span class="bcn-cc__name">Mallard</span
-                                  ><span class="bcn-cc__id">MALL-1520</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-06-02 · DCRDS-DH-294</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    A pair observed. Female stayed with the nest and had eggs.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">UNK</span></span
-                                  ><span class="bcn-cc__name">Unknown raptor</span
-                                  ><span class="bcn-cc__id">UNK-5895</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-06-03 · DCTR2-DH-100</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Large stick nest with a raptor in it. Too far to identify to
-                                    species and the site could not be accessed, so no closer ID was
-                                    made.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-37</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Surveys for Golden Eagle and Avoid Disturbance of
-                                        Occupied Nests (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </section>
-                        </div>
-                        <div class="bcn-cc__pane" data-cc-pane="all">
-                          <section class="bcn-cc__lane">
-                            <h4 class="bcn-cc__lane-head">
-                              <span>Compliance concerns</span
-                              ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                ><span class="esa-badge__text">1</span></span
-                              >
-                            </h4>
-                            <div class="bcn-cc__rows">
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span class="bcn-cc__alert"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path
-                                          d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-                                        ></path>
-                                        <path d="M12 9v4"></path>
-                                        <path d="M12 17h.01"></path></svg></span></span
-                                  ><span class="bcn-cc__name"
-                                    >Staging within the SWHA buffer before clearance</span
-                                  ><span class="bcn-cc__id">CC-1042</span
-                                  ><span class="bcn-cc__meta">raised 2026-06-16 · DCTR2-DH-010</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="open"
-                                    style="
-                                      --_chip: var(
-                                        --st-open,
-                                        var(--color-background-utility-danger)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Open</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Geotechnical staging equipment was observed inside the
-                                    Swainson’s hawk no-disturbance buffer at DCTR2-DH-010 before
-                                    clearance was issued. The designated biologist halted staging
-                                    and notified the construction lead.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-39</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Preconstruction Surveys and Implement Protective
-                                        Measures to Minimize Disturbance of Swainson's Hawk
-                                        (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </section>
-                          <section class="bcn-cc__lane">
-                            <h4 class="bcn-cc__lane-head">
-                              <span>Species observations</span
-                              ><span
-                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                ><span class="esa-badge__text">9</span></span
-                              >
-                            </h4>
-                            <div class="bcn-cc__rows">
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">SWHA</span></span
-                                  ><span class="bcn-cc__name">Swainson’s Hawk</span
-                                  ><span class="bcn-cc__id">SWHA-2289</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-05-18 · DCTR2-DH-010</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Active SWHA nest in a tree on the north side of Twin Cities
-                                    Road. One adult sitting (presumably incubating); a second adult
-                                    foraging and delivering food. Not disturbed by the
-                                    preconstruction survey along the public roadway or at the bore
-                                    site.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-39</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Preconstruction Surveys and Implement Protective
-                                        Measures to Minimize Disturbance of Swainson's Hawk
-                                        (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">CORA</span></span
-                                  ><span class="bcn-cc__name">Common Raven</span
-                                  ><span class="bcn-cc__id">CORA-2695</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-06-04 · DCRAI-DH-009</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Both ravens perched outside the nest during the preconstruction
-                                    survey.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">CORA</span></span
-                                  ><span class="bcn-cc__name">Common Raven</span
-                                  ><span class="bcn-cc__id">CORA-5830</span
-                                  ><span class="bcn-cc__meta">observed 2026-05-29</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="cleared"
-                                    style="
-                                      --_chip: var(
-                                        --st-cleared,
-                                        var(--color-background-utility-success)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Cleared</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Multiple ravens observed around the nest; one in the nest. 6/8:
-                                    ravens perched high on the tower outside the nest and foraging —
-                                    appear to have fledged.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">KILL</span></span
-                                  ><span class="bcn-cc__name">Killdeer</span
-                                  ><span class="bcn-cc__id">KILL-7655</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-06-03 · DCTR2-DH-100</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    One bird on the nest; tried to lead us away as we neared the
-                                    site. Four eggs present.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">MALL</span></span
-                                  ><span class="bcn-cc__name">Mallard</span
-                                  ><span class="bcn-cc__id">MALL-1520</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-06-02 · DCRDS-DH-294</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    A pair observed. Female stayed with the nest and had eggs.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">UNK</span></span
-                                  ><span class="bcn-cc__name">Unknown raptor</span
-                                  ><span class="bcn-cc__id">UNK-5895</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-06-03 · DCTR2-DH-100</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="active"
-                                    style="
-                                      --_chip: var(
-                                        --st-active,
-                                        var(--color-background-utility-warning)
-                                      );
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Active</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Large stick nest with a raptor in it. Too far to identify to
-                                    species and the site could not be accessed, so no closer ID was
-                                    made.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-36a</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Nesting Surveys for Special-Status and
-                                        Non-Special-Status Birds and Raptors and Implement
-                                        Protective Measures to Avoid Disturbance of Nesting Birds
-                                        and Raptors (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-37</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Surveys for Golden Eagle and Avoid Disturbance of
-                                        Occupied Nests (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="bcn-cc__stack" data-cc-stack="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row bcn-cc__row--head"
-                                  data-cc-stack-head=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">SWHA</span></span
-                                  ><span class="bcn-cc__name">Swainson’s Hawk</span
-                                  ><span class="bcn-cc__id">2 observations</span
-                                  ><span class="bcn-cc__meta">observed 2026-06-04 – 2026-06-09</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="tracking"
-                                    style="
-                                      --_chip: var(--st-tracking, var(--bcn-status-not-started));
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Tracking</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__members">
+                                    ><span class="esa-badge__text">5</span></span
+                                  >
+                                </h4>
+                                <div class="bcn-cc__rows">
                                   <div class="bcn-cc__item" data-cc-item="">
                                     <button
                                       type="button"
@@ -3717,9 +5590,1231 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                                         ><span class="esa-badge__text">SWHA</span></span
                                       ><span class="bcn-cc__name">Swainson’s Hawk</span
-                                      ><span class="bcn-cc__id">SWHA-0604</span
+                                      ><span class="bcn-cc__id">SWHA-2289</span
                                       ><span class="bcn-cc__meta"
-                                        >observed 2026-06-04 · DCRAI-DH-006</span
+                                        >observed 2026-05-18 · DCTR2-DH-010</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        Active SWHA nest in a tree on the north side of Twin Cities
+                                        Road. One adult sitting (presumably incubating); a second
+                                        adult foraging and delivering food. Not disturbed by the
+                                        preconstruction survey along the public roadway or at the
+                                        bore site.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-39</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Preconstruction Surveys and Implement
+                                            Protective Measures to Minimize Disturbance of
+                                            Swainson's Hawk (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">CORA</span></span
+                                      ><span class="bcn-cc__name">Common Raven</span
+                                      ><span class="bcn-cc__id">CORA-2695</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-04 · DCRAI-DH-009</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        Both ravens perched outside the nest during the
+                                        preconstruction survey.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">KILL</span></span
+                                      ><span class="bcn-cc__name">Killdeer</span
+                                      ><span class="bcn-cc__id">KILL-7655</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-03 · DCTR2-DH-100</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        One bird on the nest; tried to lead us away as we neared the
+                                        site. Four eggs present.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">MALL</span></span
+                                      ><span class="bcn-cc__name">Mallard</span
+                                      ><span class="bcn-cc__id">MALL-1520</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-02 · DCRDS-DH-294</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        A pair observed. Female stayed with the nest and had eggs.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">UNK</span></span
+                                      ><span class="bcn-cc__name">Unknown raptor</span
+                                      ><span class="bcn-cc__id">UNK-5895</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-03 · DCTR2-DH-100</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        Large stick nest with a raptor in it. Too far to identify to
+                                        species and the site could not be accessed, so no closer ID
+                                        was made.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-37</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Surveys for Golden Eagle and Avoid Disturbance
+                                            of Occupied Nests (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </section>
+                            </div>
+                            <div class="bcn-cc__pane" data-cc-pane="all">
+                              <section class="bcn-cc__lane">
+                                <h4 class="bcn-cc__lane-head">
+                                  <span>Compliance concerns</span
+                                  ><span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    ><span class="esa-badge__text">1</span></span
+                                  >
+                                </h4>
+                                <div class="bcn-cc__rows">
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span class="bcn-cc__alert"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                            ></path>
+                                            <path d="M12 9v4"></path>
+                                            <path d="M12 17h.01"></path></svg></span></span
+                                      ><span class="bcn-cc__name"
+                                        >Staging within the SWHA buffer before clearance</span
+                                      ><span class="bcn-cc__id">CC-1042</span
+                                      ><span class="bcn-cc__meta"
+                                        >raised 2026-06-16 · DCTR2-DH-010</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="open"
+                                        style="
+                                          --_chip: var(
+                                            --st-open,
+                                            var(--color-background-utility-danger)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Open</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        Geotechnical staging equipment was observed inside the
+                                        Swainson’s hawk no-disturbance buffer at DCTR2-DH-010 before
+                                        clearance was issued. The designated biologist halted
+                                        staging and notified the construction lead.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-39</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Preconstruction Surveys and Implement
+                                            Protective Measures to Minimize Disturbance of
+                                            Swainson's Hawk (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </section>
+                              <section class="bcn-cc__lane">
+                                <h4 class="bcn-cc__lane-head">
+                                  <span>Species observations</span
+                                  ><span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                    ><span class="esa-badge__text">9</span></span
+                                  >
+                                </h4>
+                                <div class="bcn-cc__rows">
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">SWHA</span></span
+                                      ><span class="bcn-cc__name">Swainson’s Hawk</span
+                                      ><span class="bcn-cc__id">SWHA-2289</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-05-18 · DCTR2-DH-010</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        Active SWHA nest in a tree on the north side of Twin Cities
+                                        Road. One adult sitting (presumably incubating); a second
+                                        adult foraging and delivering food. Not disturbed by the
+                                        preconstruction survey along the public roadway or at the
+                                        bore site.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-39</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Preconstruction Surveys and Implement
+                                            Protective Measures to Minimize Disturbance of
+                                            Swainson's Hawk (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">CORA</span></span
+                                      ><span class="bcn-cc__name">Common Raven</span
+                                      ><span class="bcn-cc__id">CORA-2695</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-04 · DCRAI-DH-009</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        Both ravens perched outside the nest during the
+                                        preconstruction survey.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">CORA</span></span
+                                      ><span class="bcn-cc__name">Common Raven</span
+                                      ><span class="bcn-cc__id">CORA-5830</span
+                                      ><span class="bcn-cc__meta">observed 2026-05-29</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="cleared"
+                                        style="
+                                          --_chip: var(
+                                            --st-cleared,
+                                            var(--color-background-utility-success)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Cleared</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        Multiple ravens observed around the nest; one in the nest.
+                                        6/8: ravens perched high on the tower outside the nest and
+                                        foraging — appear to have fledged.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">KILL</span></span
+                                      ><span class="bcn-cc__name">Killdeer</span
+                                      ><span class="bcn-cc__id">KILL-7655</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-03 · DCTR2-DH-100</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        One bird on the nest; tried to lead us away as we neared the
+                                        site. Four eggs present.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">MALL</span></span
+                                      ><span class="bcn-cc__name">Mallard</span
+                                      ><span class="bcn-cc__id">MALL-1520</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-02 · DCRDS-DH-294</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        A pair observed. Female stayed with the nest and had eggs.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">UNK</span></span
+                                      ><span class="bcn-cc__name">Unknown raptor</span
+                                      ><span class="bcn-cc__id">UNK-5895</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-03 · DCTR2-DH-100</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="active"
+                                        style="
+                                          --_chip: var(
+                                            --st-active,
+                                            var(--color-background-utility-warning)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Active</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__detail">
+                                      <p class="bcn-cc__desc">
+                                        Large stick nest with a raptor in it. Too far to identify to
+                                        species and the site could not be accessed, so no closer ID
+                                        was made.
+                                      </p>
+                                      <div class="bcn-cc__cmts">
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-36a</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Nesting Surveys for Special-Status and
+                                            Non-Special-Status Birds and Raptors and Implement
+                                            Protective Measures to Avoid Disturbance of Nesting
+                                            Birds and Raptors (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">BIO-37</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Conduct Surveys for Golden Eagle and Avoid Disturbance
+                                            of Occupied Nests (FEIR)</span
+                                          >
+                                        </div>
+                                        <div class="bcn-cc__cmt">
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">EC-14</span></span
+                                          ><span class="bcn-cc__cmt-title"
+                                            >Construction Best Management Practices for Biological
+                                            Resources (FEIR)</span
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__stack" data-cc-stack="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row bcn-cc__row--head"
+                                      data-cc-stack-head=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">SWHA</span></span
+                                      ><span class="bcn-cc__name">Swainson’s Hawk</span
+                                      ><span class="bcn-cc__id">2 observations</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-04 – 2026-06-09</span
+                                      ><span
+                                        class="bcn-status-chip"
+                                        data-status="tracking"
+                                        style="
+                                          --_chip: var(
+                                            --st-tracking,
+                                            var(--bcn-status-not-started)
+                                          );
+                                        "
+                                        ><span class="bcn-status-chip__dot"></span
+                                        ><span class="bcn-status-chip__label">Tracking</span></span
+                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                          ><svg
+                                            width="16"
+                                            height="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path d="m6 9 6 6 6-6"></path></svg></span
+                                      ></span>
+                                    </button>
+                                    <div class="bcn-cc__members">
+                                      <div class="bcn-cc__item" data-cc-item="">
+                                        <button
+                                          type="button"
+                                          class="bcn-cc__row"
+                                          data-cc-row=""
+                                          aria-expanded="false"
+                                        >
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">SWHA</span></span
+                                          ><span class="bcn-cc__name">Swainson’s Hawk</span
+                                          ><span class="bcn-cc__id">SWHA-0604</span
+                                          ><span class="bcn-cc__meta"
+                                            >observed 2026-06-04 · DCRAI-DH-006</span
+                                          ><span
+                                            class="bcn-status-chip"
+                                            data-status="tracking"
+                                            style="
+                                              --_chip: var(
+                                                --st-tracking,
+                                                var(--bcn-status-not-started)
+                                              );
+                                            "
+                                            ><span class="bcn-status-chip__dot"></span
+                                            ><span class="bcn-status-chip__label"
+                                              >Tracking</span
+                                            ></span
+                                          ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                              ><svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path d="m6 9 6 6 6-6"></path></svg></span
+                                          ></span>
+                                        </button>
+                                        <div class="bcn-cc__detail">
+                                          <p class="bcn-cc__desc">
+                                            Swainson’s hawk observed foraging overhead. No nest at
+                                            the site.
+                                          </p>
+                                          <div class="bcn-cc__cmts">
+                                            <div class="bcn-cc__cmt">
+                                              <span
+                                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                                ><span class="esa-badge__text">BIO-39</span></span
+                                              ><span class="bcn-cc__cmt-title"
+                                                >Conduct Preconstruction Surveys and Implement
+                                                Protective Measures to Minimize Disturbance of
+                                                Swainson's Hawk (FEIR)</span
+                                              >
+                                            </div>
+                                            <div class="bcn-cc__cmt">
+                                              <span
+                                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                                ><span class="esa-badge__text">EC-14</span></span
+                                              ><span class="bcn-cc__cmt-title"
+                                                >Construction Best Management Practices for
+                                                Biological Resources (FEIR)</span
+                                              >
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="bcn-cc__item" data-cc-item="">
+                                        <button
+                                          type="button"
+                                          class="bcn-cc__row"
+                                          data-cc-row=""
+                                          aria-expanded="false"
+                                        >
+                                          <span
+                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                            ><span class="esa-badge__text">SWHA</span></span
+                                          ><span class="bcn-cc__name">Swainson’s Hawk</span
+                                          ><span class="bcn-cc__id">SWHA-0609</span
+                                          ><span class="bcn-cc__meta"
+                                            >observed 2026-06-09 · DCRAI-DH-012</span
+                                          ><span
+                                            class="bcn-status-chip"
+                                            data-status="tracking"
+                                            style="
+                                              --_chip: var(
+                                                --st-tracking,
+                                                var(--bcn-status-not-started)
+                                              );
+                                            "
+                                            ><span class="bcn-status-chip__dot"></span
+                                            ><span class="bcn-status-chip__label"
+                                              >Tracking</span
+                                            ></span
+                                          ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span class="bcn-cc__chev"
+                                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                              ><svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                focusable="false"
+                                              >
+                                                <path d="m6 9 6 6 6-6"></path></svg></span
+                                          ></span>
+                                        </button>
+                                        <div class="bcn-cc__detail">
+                                          <p class="bcn-cc__desc">
+                                            Swainson’s hawk observed soaring overhead to the west.
+                                            No nest at the site.
+                                          </p>
+                                          <div class="bcn-cc__cmts">
+                                            <div class="bcn-cc__cmt">
+                                              <span
+                                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                                ><span class="esa-badge__text">BIO-39</span></span
+                                              ><span class="bcn-cc__cmt-title"
+                                                >Conduct Preconstruction Surveys and Implement
+                                                Protective Measures to Minimize Disturbance of
+                                                Swainson's Hawk (FEIR)</span
+                                              >
+                                            </div>
+                                            <div class="bcn-cc__cmt">
+                                              <span
+                                                class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                                ><span class="esa-badge__text">EC-14</span></span
+                                              ><span class="bcn-cc__cmt-title"
+                                                >Construction Best Management Practices for
+                                                Biological Resources (FEIR)</span
+                                              >
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bcn-cc__item" data-cc-item="">
+                                    <button
+                                      type="button"
+                                      class="bcn-cc__row"
+                                      data-cc-row=""
+                                      aria-expanded="false"
+                                    >
+                                      <span
+                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                        ><span class="esa-badge__text">HAB</span></span
+                                      ><span class="bcn-cc__name">Rodent burrows</span
+                                      ><span class="bcn-cc__id">HAB-0615</span
+                                      ><span class="bcn-cc__meta"
+                                        >observed 2026-06-15 · DCBPP-DH-066</span
                                       ><span
                                         class="bcn-status-chip"
                                         data-status="tracking"
@@ -3757,95 +6852,30 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </button>
                                     <div class="bcn-cc__detail">
                                       <p class="bcn-cc__desc">
-                                        Swainson’s hawk observed foraging overhead. No nest at the
-                                        site.
+                                        Two small rodent burrows flagged within the project
+                                        footprint; several more flagged along the access road. Crew
+                                        asked to avoid the road north of the berm (many burrows, not
+                                        all flagged). 6/16: crew has been avoiding driving over
+                                        burrow entrances.
                                       </p>
                                       <div class="bcn-cc__cmts">
                                         <div class="bcn-cc__cmt">
                                           <span
                                             class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                            ><span class="esa-badge__text">BIO-39</span></span
+                                            ><span class="esa-badge__text">BIO-40</span></span
                                           ><span class="bcn-cc__cmt-title"
-                                            >Conduct Preconstruction Surveys and Implement
-                                            Protective Measures to Minimize Disturbance of
-                                            Swainson's Hawk (FEIR)</span
+                                            >Conduct Surveys and Minimize Impacts on Burrowing Owl
+                                            (FEIR)</span
                                           >
                                         </div>
                                         <div class="bcn-cc__cmt">
                                           <span
                                             class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                            ><span class="esa-badge__text">EC-14</span></span
+                                            ><span class="esa-badge__text">BIO-47</span></span
                                           ><span class="bcn-cc__cmt-title"
-                                            >Construction Best Management Practices for Biological
-                                            Resources (FEIR)</span
-                                          >
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="bcn-cc__item" data-cc-item="">
-                                    <button
-                                      type="button"
-                                      class="bcn-cc__row"
-                                      data-cc-row=""
-                                      aria-expanded="false"
-                                    >
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">SWHA</span></span
-                                      ><span class="bcn-cc__name">Swainson’s Hawk</span
-                                      ><span class="bcn-cc__id">SWHA-0609</span
-                                      ><span class="bcn-cc__meta"
-                                        >observed 2026-06-09 · DCRAI-DH-012</span
-                                      ><span
-                                        class="bcn-status-chip"
-                                        data-status="tracking"
-                                        style="
-                                          --_chip: var(
-                                            --st-tracking,
-                                            var(--bcn-status-not-started)
-                                          );
-                                        "
-                                        ><span class="bcn-status-chip__dot"></span
-                                        ><span class="bcn-status-chip__label">Tracking</span></span
-                                      ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                        ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                          ><svg
-                                            width="16"
-                                            height="16"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            focusable="false"
-                                          >
-                                            <path d="m6 9 6 6 6-6"></path></svg></span
-                                      ></span>
-                                    </button>
-                                    <div class="bcn-cc__detail">
-                                      <p class="bcn-cc__desc">
-                                        Swainson’s hawk observed soaring overhead to the west. No
-                                        nest at the site.
-                                      </p>
-                                      <div class="bcn-cc__cmts">
-                                        <div class="bcn-cc__cmt">
-                                          <span
-                                            class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                            ><span class="esa-badge__text">BIO-39</span></span
-                                          ><span class="bcn-cc__cmt-title"
-                                            >Conduct Preconstruction Surveys and Implement
-                                            Protective Measures to Minimize Disturbance of
-                                            Swainson's Hawk (FEIR)</span
+                                            >Conduct Preconstruction Survey for American Badger and
+                                            Implement Avoidance and Minimization Measures
+                                            (FEIR)</span
                                           >
                                         </div>
                                         <div class="bcn-cc__cmt">
@@ -3861,99 +6891,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div class="bcn-cc__item" data-cc-item="">
-                                <button
-                                  type="button"
-                                  class="bcn-cc__row"
-                                  data-cc-row=""
-                                  aria-expanded="false"
-                                >
-                                  <span
-                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                    ><span class="esa-badge__text">HAB</span></span
-                                  ><span class="bcn-cc__name">Rodent burrows</span
-                                  ><span class="bcn-cc__id">HAB-0615</span
-                                  ><span class="bcn-cc__meta"
-                                    >observed 2026-06-15 · DCBPP-DH-066</span
-                                  ><span
-                                    class="bcn-status-chip"
-                                    data-status="tracking"
-                                    style="
-                                      --_chip: var(--st-tracking, var(--bcn-status-not-started));
-                                    "
-                                    ><span class="bcn-status-chip__dot"></span
-                                    ><span class="bcn-status-chip__label">Tracking</span></span
-                                  ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
-     client script rebuilds its By Status list after applying saved overrides) hand-builds
-     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
-     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
-     so a client-injected chip carries the classes but not that attribute and would render
-     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
-     specific to this one component) that this trades a hairline collision risk for the
-     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
-     style block already documents. --><span class="bcn-cc__chev"
-                                    ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                      ><svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        focusable="false"
-                                      >
-                                        <path d="m6 9 6 6 6-6"></path></svg></span
-                                  ></span>
-                                </button>
-                                <div class="bcn-cc__detail">
-                                  <p class="bcn-cc__desc">
-                                    Two small rodent burrows flagged within the project footprint;
-                                    several more flagged along the access road. Crew asked to avoid
-                                    the road north of the berm (many burrows, not all flagged).
-                                    6/16: crew has been avoiding driving over burrow entrances.
-                                  </p>
-                                  <div class="bcn-cc__cmts">
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-40</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Surveys and Minimize Impacts on Burrowing Owl
-                                        (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">BIO-47</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Conduct Preconstruction Survey for American Badger and
-                                        Implement Avoidance and Minimization Measures (FEIR)</span
-                                      >
-                                    </div>
-                                    <div class="bcn-cc__cmt">
-                                      <span
-                                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
-                                        ><span class="esa-badge__text">EC-14</span></span
-                                      ><span class="bcn-cc__cmt-title"
-                                        >Construction Best Management Practices for Biological
-                                        Resources (FEIR)</span
-                                      >
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                              </section>
                             </div>
-                          </section>
+                          </div>
+                          <script
+                            type="module"
+                            src="/beacon-design/_astro/BcnComplianceList.astro_astro_type_script_index_0_lang.CCCaeY45.js"
+                          ></script>
                         </div>
                       </div>
-                      <script
-                        type="module"
-                        src="/beacon-design/_astro/BcnComplianceList.astro_astro_type_script_index_0_lang.CCCaeY45.js"
-                      ></script>
                     </div>
                   </div>
                 </div>
@@ -3961,9 +6907,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-dwidget"
                 data-widget-id="mileage-total"
+                data-widget-type="mileage-total"
                 data-w="3"
-                data-h="3"
-                style="--_accent: var(--bcn-mark-sky)"
+                style="--_accent: var(--bcn-mark-sky); grid-row-end: span 73"
+                data-span="73"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -4128,97 +7075,2336 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <div class="bcn-widget-panels" data-panels="3">
-                        <div class="bcn-widget-panels__panel stack">
-                          <div>
-                            <div class="esa-stat">
-                              <div class="esa-stat__value typography-display-sm">3,284</div>
-                              <div class="esa-stat__label typography-label-md">
-                                vehicle miles, past 14 days
-                              </div>
-                              <div class="esa-stat__sub typography-body-sm">96 trips logged</div>
-                            </div>
+                      <span class="bcn-wdate cluster" data-gap="sm"
+                        ><span class="bcn-wdate__label typography-label-sm">Date Range</span
+                        ><esa-select
+                          data-widget-daterange="mileage-total"
+                          size="sm"
+                          aria-label="Date Range"
+                          data-options='[{"label":"Past 14 days","value":"14d"},{"label":"Past 7 days","value":"7d"},{"label":"Past 30 days","value":"30d"},{"label":"Past 90 days","value":"90d"}]'
+                          data-selected="14d"
+                          data-wdate-ready="true"
+                        ></esa-select
+                      ></span>
+                      <script
+                        type="module"
+                        src="/beacon-design/_astro/BcnWidgetDateRange.astro_astro_type_script_index_0_lang.B24dfe3f.js"
+                      ></script>
+                      <div class="bcn-widget-flow">
+                        <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Vehicle miles</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Headline figure</span>
+                          </div>
+                          <div class="esa-stat">
+                            <div class="esa-stat__value typography-display-sm">3,284</div>
+                            <div class="esa-stat__label typography-label-md">Vehicle miles</div>
+                            <div class="esa-stat__sub typography-body-sm">since June 4</div>
                           </div>
                         </div>
-                        <div class="bcn-widget-panels__panel stack">
-                          <div class="stack" data-gap="sm">
-                            <span class="typography-label-md-strong">Miles per day</span>
+                        <div
+                          class="stack is-rowmate"
+                          data-gap="sm"
+                          data-section="activity"
+                          data-flow="chart"
+                        >
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Miles over time</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm"
+                              >Time series chart</span
+                            >
+                          </div>
+                          <div data-scope-chart="14d">
                             <div class="bcn-viztrend">
+                              <div
+                                class="bcn-viztrend__yaxis"
+                                aria-hidden="true"
+                                style="block-size: 72px"
+                              >
+                                <span>361</span><span>181</span><span>0</span>
+                              </div>
                               <div
                                 class="bcn-viztrend__strip"
                                 role="img"
                                 aria-label="Miles per day, Jun 4 to Jun 17"
+                                style="--_trend-height: 72px"
                               >
-                                <span class="bcn-viztrend__col" style="height: 79.2%"></span
-                                ><span class="bcn-viztrend__col" style="height: 91.7%"></span
-                                ><span class="bcn-viztrend__col" style="height: 17.2%"></span
-                                ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                                ><span class="bcn-viztrend__col" style="height: 96.4%"></span
-                                ><span class="bcn-viztrend__col" style="height: 83.7%"></span
-                                ><span class="bcn-viztrend__col" style="height: 75.9%"></span
-                                ><span class="bcn-viztrend__col" style="height: 93.1%"></span
-                                ><span class="bcn-viztrend__col" style="height: 81.7%"></span
-                                ><span class="bcn-viztrend__col" style="height: 24.4%"></span
-                                ><span class="bcn-viztrend__col" style="height: 11.4%"></span
-                                ><span class="bcn-viztrend__col" style="height: 88.1%"></span
-                                ><span class="bcn-viztrend__col" style="height: 100%"></span
-                                ><span class="bcn-viztrend__col" style="height: 67%"></span>
+                                <span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 57px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 4, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">286</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 66px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 5, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">331</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 12px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 6, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">62</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col bcn-viztrend__col--zero"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 7, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">0</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 69px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 8, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">348</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 60px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 9, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">302</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 55px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 10, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">274</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 67px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 11, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">336</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 59px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 12, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">295</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 18px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 13, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">88</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 8px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 14, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">41</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 63px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 15, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">318</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 72px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 16, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">361</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 48px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 17, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">242</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                >
                               </div>
                               <div class="bcn-viztrend__axis">
                                 <span>Jun 4</span><span>Jun 17</span>
                               </div>
                             </div>
                           </div>
+                          <div data-scope-chart="7d" hidden="">
+                            <div class="bcn-viztrend">
+                              <div
+                                class="bcn-viztrend__yaxis"
+                                aria-hidden="true"
+                                style="block-size: 72px"
+                              >
+                                <span>361</span><span>181</span><span>0</span>
+                              </div>
+                              <div
+                                class="bcn-viztrend__strip"
+                                role="img"
+                                aria-label="Miles per day, Jun 11 to Jun 17"
+                                style="--_trend-height: 72px"
+                              >
+                                <span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 67px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 11, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">336</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 59px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 12, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">295</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 18px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 13, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">88</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 8px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 14, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">41</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 63px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 15, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">318</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 72px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 16, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">361</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 48px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 17, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">242</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                >
+                              </div>
+                              <div class="bcn-viztrend__axis">
+                                <span>Jun 11</span><span>Jun 17</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div data-scope-chart="30d" hidden="">
+                            <div class="bcn-viztrend">
+                              <div
+                                class="bcn-viztrend__yaxis"
+                                aria-hidden="true"
+                                style="block-size: 72px"
+                              >
+                                <span>361</span><span>181</span><span>0</span>
+                              </div>
+                              <div
+                                class="bcn-viztrend__strip"
+                                role="img"
+                                aria-label="Miles per day, May 19 to Jun 17"
+                                style="--_trend-height: 72px"
+                              >
+                                <span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 59px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 19, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">297</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 53px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 20, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">264</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 67px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 21, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">338</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 62px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 22, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">311</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 15px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 23, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">74</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col bcn-viztrend__col--zero"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 24, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">0</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 57px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 25, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">286</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 48px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 26, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">243</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 66px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 27, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">329</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 61px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 28, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">304</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 59px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 29, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">297</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col bcn-viztrend__col--zero"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 30, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">0</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col bcn-viztrend__col--zero"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">May 31, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">0</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 62px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 1, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">311</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 55px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 2, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">275</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 70px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 3, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">352</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 57px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 4, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">286</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 66px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 5, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">331</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 12px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 6, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">62</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col bcn-viztrend__col--zero"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 7, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">0</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 69px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 8, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">348</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 60px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 9, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">302</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 55px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 10, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">274</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 67px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 11, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">336</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 59px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 12, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">295</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 18px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 13, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">88</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 8px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 14, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">41</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 63px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 15, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">318</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 72px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 16, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">361</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 48px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 17, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">242</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                >
+                              </div>
+                              <div class="bcn-viztrend__axis">
+                                <span>May 19</span><span>Jun 17</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div data-scope-chart="90d" hidden="">
+                            <div class="bcn-viztrend">
+                              <div
+                                class="bcn-viztrend__yaxis"
+                                aria-hidden="true"
+                                style="block-size: 72px"
+                              >
+                                <span>1,684</span><span>842</span><span>0</span>
+                              </div>
+                              <div
+                                class="bcn-viztrend__strip"
+                                role="img"
+                                aria-label="Miles per week, Mar 16 to Jun 17"
+                                style="--_trend-height: 72px"
+                              >
+                                <span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 13px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of March 16, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">297</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 66px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of March 23, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,541</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 63px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of March 30, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,485</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 65px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of April 6, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,528</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 63px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of April 13, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,485</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 69px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of April 20, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,614</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 66px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of April 27, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,532</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 69px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of May 4, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,605</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 67px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of May 11, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,562</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 68px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of May 18, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,588</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 62px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of May 25, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,459</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 69px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of June 1, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,617</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 72px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of June 8, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">1,684</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 39px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">Week of June 15, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Miles:</span
+                                        ><span class="bcn-viztip__value">921</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                >
+                              </div>
+                              <div class="bcn-viztrend__axis">
+                                <span>Mar 16</span><span>Jun 15</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div class="bcn-widget-panels__panel stack">
-                          <div class="stack" data-gap="sm">
-                            <span class="typography-label-md-strong">Miles by vehicle</span>
-                            <div class="bcn-viz-bars">
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Subaru Crosstrek</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 100%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">1,046</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Ford F-150</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 70.94%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">742</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Ford F-600</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 56.21%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">588</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Chevrolet Silverado 2500</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 48.85%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">511</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Ford Transit</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 37.95%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">397</span>
-                              </div>
+                        <div class="stack" data-gap="sm" data-section="vehicles" data-flow="chart">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Miles by vehicle</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Bar chart</span>
+                          </div>
+                          <div class="bcn-viz-bars">
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Subaru Crosstrek</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span class="bcn-viz-bars__fill" style="width: 100%"></span></span
+                              ><span class="bcn-viz-bars__val">1,046</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Ford F-150</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 70.94%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">742</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Ford F-600</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 56.21%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">588</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Chevrolet Silverado 2500</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 48.85%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">511</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Ford Transit</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 37.95%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">397</span>
                             </div>
                           </div>
                         </div>
@@ -4237,9 +9423,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-dwidget"
                 data-widget-id="runtime-total"
+                data-widget-type="runtime-total"
                 data-w="2"
-                data-h="3"
-                style="--_accent: var(--bcn-mark-amber)"
+                style="--_accent: var(--bcn-mark-amber); grid-row-end: span 73"
+                data-span="73"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -4401,36 +9588,1264 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <div class="bcn-widget-panels" data-panels="2">
-                        <div class="bcn-widget-panels__panel stack">
-                          <div class="stack" data-gap="md">
-                            <div class="esa-stat">
-                              <div class="esa-stat__value typography-display-sm">412</div>
-                              <div class="esa-stat__label typography-label-md">
-                                equipment hours, past 14 days
+                      <span class="bcn-wdate cluster" data-gap="sm"
+                        ><span class="bcn-wdate__label typography-label-sm">Date Range</span
+                        ><esa-select
+                          data-widget-daterange="runtime-total"
+                          size="sm"
+                          aria-label="Date Range"
+                          data-options='[{"label":"Past 14 days","value":"14d"},{"label":"Past 7 days","value":"7d"},{"label":"Past 30 days","value":"30d"}]'
+                          data-selected="14d"
+                          data-wdate-ready="true"
+                        ></esa-select
+                      ></span>
+                      <div class="bcn-widget-flow">
+                        <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Equipment hours</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Headline figure</span>
+                          </div>
+                          <div class="esa-stat">
+                            <div class="esa-stat__value typography-display-sm">412</div>
+                            <div class="esa-stat__label typography-label-md">Equipment hours</div>
+                            <div class="esa-stat__sub typography-body-sm">since June 4</div>
+                          </div>
+                        </div>
+                        <div
+                          class="stack is-rowmate"
+                          data-gap="sm"
+                          data-section="activity"
+                          data-flow="chart"
+                        >
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Runtime minutes over time</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm"
+                              >Time series chart</span
+                            >
+                          </div>
+                          <div data-scope-chart="14d">
+                            <div class="bcn-viztrend">
+                              <div
+                                class="bcn-viztrend__yaxis"
+                                aria-hidden="true"
+                                style="block-size: 72px"
+                              >
+                                <span>2,610</span><span>1,305</span><span>0</span>
                               </div>
-                              <div class="esa-stat__sub typography-body-sm">12 units logged</div>
-                            </div>
-                            <div class="bcn-viztrend bcn-viztrend--sm">
                               <div
                                 class="bcn-viztrend__strip"
                                 role="img"
                                 aria-label="Runtime minutes per day, Jun 4 to Jun 17"
+                                style="--_trend-height: 72px"
                               >
-                                <span class="bcn-viztrend__col" style="height: 83.5%"></span
-                                ><span class="bcn-viztrend__col" style="height: 94.3%"></span
-                                ><span class="bcn-viztrend__col" style="height: 19.9%"></span
-                                ><span class="bcn-viztrend__col bcn-viztrend__col--zero"></span
-                                ><span class="bcn-viztrend__col" style="height: 100%"></span
-                                ><span class="bcn-viztrend__col" style="height: 89.7%"></span
-                                ><span class="bcn-viztrend__col" style="height: 79.9%"></span
-                                ><span class="bcn-viztrend__col" style="height: 96.6%"></span
-                                ><span class="bcn-viztrend__col" style="height: 87%"></span
-                                ><span class="bcn-viztrend__col" style="height: 26.8%"></span
-                                ><span class="bcn-viztrend__col" style="height: 19.2%"></span
-                                ><span class="bcn-viztrend__col" style="height: 92.5%"></span
-                                ><span class="bcn-viztrend__col" style="height: 87.4%"></span
-                                ><span class="bcn-viztrend__col" style="height: 70.5%"></span>
+                                <span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 60px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 4, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,180</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 68px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 5, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,460</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 14px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 6, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">520</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col bcn-viztrend__col--zero"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 7, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">0</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 72px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 8, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,610</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 65px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 9, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,340</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 58px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 10, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,085</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 70px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 11, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,520</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 63px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 12, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,270</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 19px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 13, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">700</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 14px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 14, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">500</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 67px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 15, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,415</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 63px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 16, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,280</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 51px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 17, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">1,840</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                >
+                              </div>
+                              <div class="bcn-viztrend__axis">
+                                <span>Jun 4</span><span>Jun 17</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div data-scope-chart="7d" hidden="">
+                            <div class="bcn-viztrend">
+                              <div
+                                class="bcn-viztrend__yaxis"
+                                aria-hidden="true"
+                                style="block-size: 72px"
+                              >
+                                <span>2,520</span><span>1,260</span><span>0</span>
+                              </div>
+                              <div
+                                class="bcn-viztrend__strip"
+                                role="img"
+                                aria-label="Runtime minutes per day, Jun 11 to Jun 17"
+                                style="--_trend-height: 72px"
+                              >
+                                <span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 72px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 11, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,520</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 65px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 12, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,270</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 20px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 13, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">700</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 14px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 14, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">500</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 69px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 15, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,415</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 65px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 16, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,280</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 53px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 17, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">1,840</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                >
+                              </div>
+                              <div class="bcn-viztrend__axis">
+                                <span>Jun 11</span><span>Jun 17</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div data-scope-chart="30d" hidden="">
+                            <div class="bcn-viztrend">
+                              <div
+                                class="bcn-viztrend__yaxis"
+                                aria-hidden="true"
+                                style="block-size: 72px"
+                              >
+                                <span>2,610</span><span>1,305</span><span>0</span>
+                              </div>
+                              <div
+                                class="bcn-viztrend__strip"
+                                role="img"
+                                aria-label="Runtime minutes per day, Jun 4 to Jun 17"
+                                style="--_trend-height: 72px"
+                              >
+                                <span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 60px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 4, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,180</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 68px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 5, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,460</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 14px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 6, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">520</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col bcn-viztrend__col--zero"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 7, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">0</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 72px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 8, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,610</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 65px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 9, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,340</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 58px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 10, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,085</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 70px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 11, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,520</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 63px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 12, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,270</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 19px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 13, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">700</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 14px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 14, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">500</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 67px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 15, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,415</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 63px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 16, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">2,280</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                ><span class="bcn-viztrend__slot"
+                                  ><esa-popover
+                                    class="bcn-viztip"
+                                    trigger="hover"
+                                    position="top"
+                                    appearance="default"
+                                    ><span
+                                      class="bcn-viztrend__cell"
+                                      style="block-size: 72px"
+                                      aria-expanded="false"
+                                      ><span
+                                        class="bcn-viztrend__col"
+                                        style="block-size: 51px"
+                                      ></span
+                                    ></span>
+                                    <div slot="content" class="bcn-viztip__panel">
+                                      <span class="bcn-viztip__title">June 17, 2026</span
+                                      ><span class="bcn-viztip__row"
+                                        ><span
+                                          class="bcn-viztip__key"
+                                          style="
+                                            background: var(
+                                              --_accent,
+                                              var(--color-content-default-secondary)
+                                            );
+                                          "
+                                          aria-hidden="true"
+                                        ></span
+                                        ><span class="bcn-viztip__label">Runtime minutes:</span
+                                        ><span class="bcn-viztip__value">1,840</span></span
+                                      >
+                                    </div></esa-popover
+                                  ></span
+                                >
                               </div>
                               <div class="bcn-viztrend__axis">
                                 <span>Jun 4</span><span>Jun 17</span>
@@ -4438,55 +10853,55 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             </div>
                           </div>
                         </div>
-                        <div class="bcn-widget-panels__panel stack">
-                          <div class="stack" data-gap="sm">
-                            <span class="typography-label-md-strong">Hours by equipment class</span>
-                            <div class="bcn-viz-bars">
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Drill rig</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 100%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">164</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Support truck</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 62.2%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">102</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Water truck</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 44.51%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">73</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Generator</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 28.05%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">46</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Dewatering pump</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 16.46%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">27</span>
-                              </div>
+                        <div class="stack" data-gap="sm" data-section="classes" data-flow="chart">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Hours by equipment class</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Bar chart</span>
+                          </div>
+                          <div class="bcn-viz-bars">
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Drill rig</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span class="bcn-viz-bars__fill" style="width: 100%"></span></span
+                              ><span class="bcn-viz-bars__val">164</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Support truck</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span class="bcn-viz-bars__fill" style="width: 62.2%"></span></span
+                              ><span class="bcn-viz-bars__val">102</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Water truck</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 44.51%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">73</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Generator</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 28.05%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">46</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Dewatering pump</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 16.46%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">27</span>
                             </div>
                           </div>
                         </div>
@@ -4505,9 +10920,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-dwidget"
                 data-widget-id="surveys-qc"
+                data-widget-type="surveys-qc"
                 data-w="1"
-                data-h="3"
-                style="--_accent: var(--bcn-mark-emerald)"
+                style="--_accent: var(--bcn-mark-emerald); grid-row-end: span 82"
+                data-span="82"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -4672,81 +11088,268 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <div class="esa-stat">
-                        <div class="esa-stat__value typography-display-sm">12</div>
-                        <div class="esa-stat__label typography-label-md">survey documents</div>
-                      </div>
-                      <div class="bcn-viz-meter">
-                        <div class="bcn-viz-meter__bar" aria-hidden="true">
-                          <span style="width: 50%; background: #2e7571"></span
-                          ><span style="width: 33.33%; background: #f59e0b"></span
-                          ><span style="width: 16.67%; background: #989898"></span>
-                        </div>
-                        <div class="bcn-viz-meter__legend">
-                          <div class="bcn-viz-meter__row">
-                            <span class="bcn-viz-meter__dot" style="background: #2e7571"></span
-                            >Final<span class="bcn-viz-meter__n">6</span>
+                      <div class="bcn-widget-flow">
+                        <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Total survey documents</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Headline figure</span>
                           </div>
-                          <div class="bcn-viz-meter__row">
-                            <span class="bcn-viz-meter__dot" style="background: #f59e0b"></span>In
-                            QC<span class="bcn-viz-meter__n">4</span>
-                          </div>
-                          <div class="bcn-viz-meter__row">
-                            <span class="bcn-viz-meter__dot" style="background: #989898"></span
-                            >Draft<span class="bcn-viz-meter__n">2</span>
+                          <div class="esa-stat">
+                            <div class="esa-stat__value typography-display-sm">12</div>
+                            <div class="esa-stat__label typography-label-md">
+                              Total survey documents
+                            </div>
                           </div>
                         </div>
+                        <div class="stack" data-gap="sm" data-section="status" data-flow="chart">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Documents by status</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Donut chart</span>
+                          </div>
+                          <div class="bcn-viz-donut cluster" data-gap="md">
+                            <svg
+                              class="bcn-viz-donut__ring"
+                              width="96"
+                              height="96"
+                              viewBox="0 0 120 120"
+                              aria-hidden="true"
+                            >
+                              <circle
+                                cx="60"
+                                cy="60"
+                                r="42"
+                                fill="none"
+                                stroke="var(--color-background-elevation-sunken)"
+                                stroke-width="18"
+                              ></circle>
+                              <g transform="rotate(-90 60 60)">
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="42"
+                                  fill="none"
+                                  style="stroke: var(--_series-1, #2e7571)"
+                                  stroke-width="18"
+                                  stroke-dasharray="131.95 131.95"
+                                  stroke-dashoffset="0.00"
+                                ></circle>
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="42"
+                                  fill="none"
+                                  style="stroke: var(--_series-2, #f59e0b)"
+                                  stroke-width="18"
+                                  stroke-dasharray="87.96 175.93"
+                                  stroke-dashoffset="-131.95"
+                                ></circle>
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="42"
+                                  fill="none"
+                                  style="stroke: var(--_series-3, #989898)"
+                                  stroke-width="18"
+                                  stroke-dasharray="43.98 219.91"
+                                  stroke-dashoffset="-219.91"
+                                ></circle>
+                              </g>
+                            </svg>
+                            <ul class="bcn-viz-donut__legend stack" data-gap="xs">
+                              <li class="bcn-viz-donut__slot">
+                                <esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span class="bcn-viz-donut__row cluster" aria-expanded="false"
+                                    ><span
+                                      class="bcn-viz-donut__dot"
+                                      style="--_c: var(--_series-1, #2e7571)"
+                                    ></span
+                                    ><span class="bcn-viz-donut__label typography-body-md"
+                                      >Final</span
+                                    ><span class="bcn-viz-donut__value typography-label-md-strong"
+                                      >6</span
+                                    ></span
+                                  >
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">Final</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--_series-1, #2e7571)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Documents:</span
+                                      ><span class="bcn-viztip__value">6</span
+                                      ><span class="bcn-viztip__note">50%</span></span
+                                    >
+                                  </div></esa-popover
+                                >
+                              </li>
+                              <li class="bcn-viz-donut__slot">
+                                <esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span class="bcn-viz-donut__row cluster" aria-expanded="false"
+                                    ><span
+                                      class="bcn-viz-donut__dot"
+                                      style="--_c: var(--_series-2, #f59e0b)"
+                                    ></span
+                                    ><span class="bcn-viz-donut__label typography-body-md"
+                                      >In QC</span
+                                    ><span class="bcn-viz-donut__value typography-label-md-strong"
+                                      >4</span
+                                    ></span
+                                  >
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">In QC</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--_series-2, #f59e0b)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Documents:</span
+                                      ><span class="bcn-viztip__value">4</span
+                                      ><span class="bcn-viztip__note">33%</span></span
+                                    >
+                                  </div></esa-popover
+                                >
+                              </li>
+                              <li class="bcn-viz-donut__slot">
+                                <esa-popover
+                                  class="bcn-viztip"
+                                  trigger="hover"
+                                  position="top"
+                                  appearance="default"
+                                  ><span class="bcn-viz-donut__row cluster" aria-expanded="false"
+                                    ><span
+                                      class="bcn-viz-donut__dot"
+                                      style="--_c: var(--_series-3, #989898)"
+                                    ></span
+                                    ><span class="bcn-viz-donut__label typography-body-md"
+                                      >Draft</span
+                                    ><span class="bcn-viz-donut__value typography-label-md-strong"
+                                      >2</span
+                                    ></span
+                                  >
+                                  <div slot="content" class="bcn-viztip__panel">
+                                    <span class="bcn-viztip__title">Draft</span
+                                    ><span class="bcn-viztip__row"
+                                      ><span
+                                        class="bcn-viztip__key"
+                                        style="background: var(--_series-3, #989898)"
+                                        aria-hidden="true"
+                                      ></span
+                                      ><span class="bcn-viztip__label">Documents:</span
+                                      ><span class="bcn-viztip__value">2</span
+                                      ><span class="bcn-viztip__note">17%</span></span
+                                    >
+                                  </div></esa-popover
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Latest surveys</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Table</span>
+                          </div>
+                          <table
+                            class="bcn-mt"
+                            role="table"
+                            data-fill=""
+                            style="--_tracks: auto auto"
+                          >
+                            <thead role="rowgroup">
+                              <tr role="row">
+                                <th scope="col" role="columnheader">Survey</th>
+                                <th class="bcn-mt--end" scope="col" role="columnheader">
+                                  Surveyed
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody role="rowgroup">
+                              <tr role="row">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/surveys"
+                                    >SRV-HAB-061526</a
+                                  >
+                                </td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 15</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/surveys"
+                                    >SRV-72H-061226</a
+                                  >
+                                </td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 12</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/surveys"
+                                    >SRV-CASP-061026</a
+                                  >
+                                </td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 10</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/surveys"
+                                    >SRV-2WK-060926</a
+                                  >
+                                </td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 9</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/surveys"
+                                    >SRV-CASP-060426</a
+                                  >
+                                </td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 4</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/surveys"
+                                    >SRV-SWHA-060426</a
+                                  >
+                                </td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 4</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">
+                                  <a href="/beacon-design/prototypes/monitoring/stream/surveys"
+                                    >SRV-CORA-2695-06042026</a
+                                  >
+                                </td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 4</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                      <table class="bcn-mt">
-                        <thead>
-                          <tr>
-                            <th scope="col">Latest surveys</th>
-                            <th class="bcn-mt--end" scope="col">Surveyed</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <a href="/beacon-design/prototypes/monitoring/stream/surveys"
-                                >SRV-HAB-061526</a
-                              >
-                            </td>
-                            <td class="bcn-mt--end bcn-mt--num">Jun 15</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <a href="/beacon-design/prototypes/monitoring/stream/surveys"
-                                >SRV-72H-061226</a
-                              >
-                            </td>
-                            <td class="bcn-mt--end bcn-mt--num">Jun 12</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <a href="/beacon-design/prototypes/monitoring/stream/surveys"
-                                >SRV-CASP-061026</a
-                              >
-                            </td>
-                            <td class="bcn-mt--end bcn-mt--num">Jun 10</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <a href="/beacon-design/prototypes/monitoring/stream/surveys"
-                                >SRV-2WK-060926</a
-                              >
-                            </td>
-                            <td class="bcn-mt--end bcn-mt--num">Jun 9</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <a href="/beacon-design/prototypes/monitoring/stream/surveys"
-                                >SRV-CASP-060426</a
-                              >
-                            </td>
-                            <td class="bcn-mt--end bcn-mt--num">Jun 4</td>
-                          </tr>
-                        </tbody>
-                      </table>
                     </div>
                   </div>
                   <div class="esa-card__footer typography-meta">
@@ -4761,9 +11364,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-dwidget"
                 data-widget-id="weap-trained"
+                data-widget-type="weap-trained"
                 data-w="3"
-                data-h="3"
-                style="--_accent: var(--bcn-mark-moss)"
+                style="--_accent: var(--bcn-mark-moss); grid-row-end: span 72"
+                data-span="72"
               >
                 <div class="esa-card">
                   <div class="esa-card__header typography-title-sm-strong">
@@ -4927,105 +11531,146 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                   <div class="esa-card__body typography-body-md">
                     <div class="bcn-dwidget__body stack" data-gap="md">
-                      <div class="bcn-widget-panels" data-panels="3">
-                        <div class="bcn-widget-panels__panel stack">
-                          <div>
-                            <div class="esa-stat">
-                              <div class="esa-stat__value typography-display-sm">418</div>
-                              <div class="esa-stat__label typography-label-md">workers trained</div>
-                              <div class="esa-stat__sub typography-body-sm">
-                                26 confirmations in the past 30 days
-                              </div>
+                      <div class="bcn-widget-flow">
+                        <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Training confirmations</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Headline figure</span>
+                          </div>
+                          <div class="esa-stat">
+                            <div class="esa-stat__value typography-display-sm">8</div>
+                            <div class="esa-stat__label typography-label-md">
+                              Training confirmations
+                            </div>
+                            <div class="esa-stat__sub typography-body-sm">since May 19</div>
+                          </div>
+                        </div>
+                        <div
+                          class="stack is-rowmate"
+                          data-gap="sm"
+                          data-section="companies"
+                          data-flow="chart"
+                        >
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Workers by company</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Bar chart</span>
+                          </div>
+                          <div class="bcn-viz-bars">
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Bayline Drilling</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span class="bcn-viz-bars__fill" style="width: 100%"></span></span
+                              ><span class="bcn-viz-bars__val">138</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Teal Ridge Construction</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 81.16%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">112</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Delta Geotechnical</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 60.87%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">84</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">Rincon Field Services</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 36.96%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">51</span>
+                            </div>
+                            <div class="bcn-viz-bars__row">
+                              <span class="bcn-viz-bars__name">ESA</span
+                              ><span class="bcn-viz-bars__track" aria-hidden="true"
+                                ><span
+                                  class="bcn-viz-bars__fill"
+                                  style="width: 23.91%"
+                                ></span></span
+                              ><span class="bcn-viz-bars__val">33</span>
                             </div>
                           </div>
                         </div>
-                        <div class="bcn-widget-panels__panel stack">
-                          <div class="stack" data-gap="sm">
-                            <span class="typography-label-md-strong">Workers by company</span>
-                            <div class="bcn-viz-bars">
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Bayline Drilling</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 100%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">138</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Teal Ridge Construction</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 81.16%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">112</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Delta Geotechnical</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 60.87%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">84</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">Rincon Field Services</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 36.96%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">51</span>
-                              </div>
-                              <div class="bcn-viz-bars__row">
-                                <span class="bcn-viz-bars__name">ESA</span
-                                ><span class="bcn-viz-bars__track" aria-hidden="true"
-                                  ><span
-                                    class="bcn-viz-bars__fill"
-                                    style="width: 23.91%"
-                                  ></span></span
-                                ><span class="bcn-viz-bars__val">33</span>
-                              </div>
-                            </div>
+                        <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Latest confirmations</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Table</span>
                           </div>
-                        </div>
-                        <div class="bcn-widget-panels__panel stack">
-                          <div class="stack" data-gap="sm">
-                            <span class="typography-label-md-strong">Latest confirmations</span>
-                            <table class="bcn-mt">
-                              <thead>
-                                <tr>
-                                  <th scope="col">Worker</th>
-                                  <th scope="col">Trade</th>
-                                  <th class="bcn-mt--end" scope="col">Date</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>D. Aldana</td>
-                                  <td>Driller helper</td>
-                                  <td class="bcn-mt--end bcn-mt--num">Jun 16</td>
-                                </tr>
-                                <tr>
-                                  <td>R. Soto</td>
-                                  <td>Driller helper</td>
-                                  <td class="bcn-mt--end bcn-mt--num">Jun 16</td>
-                                </tr>
-                                <tr>
-                                  <td>K. Doyle</td>
-                                  <td>Rig operator</td>
-                                  <td class="bcn-mt--end bcn-mt--num">Jun 11</td>
-                                </tr>
-                                <tr>
-                                  <td>L. Pham</td>
-                                  <td>Service driver</td>
-                                  <td class="bcn-mt--end bcn-mt--num">Jun 9</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
+                          <table
+                            class="bcn-mt"
+                            role="table"
+                            data-fill=""
+                            style="--_tracks: auto auto auto"
+                          >
+                            <thead role="rowgroup">
+                              <tr role="row">
+                                <th scope="col" role="columnheader">Worker</th>
+                                <th scope="col" role="columnheader">Trade</th>
+                                <th class="bcn-mt--end" scope="col" role="columnheader">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody role="rowgroup">
+                              <tr role="row">
+                                <td role="cell">D. Aldana</td>
+                                <td role="cell">Driller helper</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 16</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">R. Soto</td>
+                                <td role="cell">Driller helper</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 16</td>
+                              </tr>
+                              <tr role="row">
+                                <td role="cell">K. Doyle</td>
+                                <td role="cell">Rig operator</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 11</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">L. Pham</td>
+                                <td role="cell">Service driver</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 9</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">J. Barrera</td>
+                                <td role="cell">Fence installer</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 5</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">A. Whitfield</td>
+                                <td role="cell">Fence installer</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 5</td>
+                              </tr>
+                              <tr role="row" hidden="">
+                                <td role="cell">S. Ortiz</td>
+                                <td role="cell">Water truck operator</td>
+                                <td class="bcn-mt--end bcn-mt--num" role="cell">Jun 4</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
@@ -5035,6 +11680,330 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       class="bcn-dwidget__foot"
                       href="/beacon-design/prototypes/monitoring/stream/weap"
                       >All WEAP trainings →</a
+                    >
+                  </div>
+                </div>
+              </section>
+              <section
+                class="bcn-dwidget"
+                data-widget-id="seasons-window"
+                data-widget-type="seasons-window"
+                data-w="3"
+                style="--_accent: var(--bcn-mark-green); grid-row-end: span 65"
+                data-span="65"
+              >
+                <div class="esa-card">
+                  <div class="esa-card__header typography-title-sm-strong">
+                    <div class="repel bcn-dwidget__head" data-gap="sm">
+                      <span class="cluster" data-gap="sm"
+                        ><span class="bcn-dwidget__glyph" aria-hidden="true"
+                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                            ><svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                              <path d="M16 2v4"></path>
+                              <path d="M3 10h18"></path>
+                              <path d="M8 2v4"></path>
+                              <path d="M17 14h-6"></path>
+                              <path d="M13 18H7"></path>
+                              <path d="M7 14h.01"></path>
+                              <path d="M17 18h.01"></path></svg></span
+                        ></span>
+                        <h3 class="bcn-dwidget__title typography-title-sm-strong">
+                          Season Windows
+                        </h3></span
+                      ><span class="bcn-dwidget__tools cluster" data-gap="xs"
+                        ><button
+                          type="button"
+                          class="bcn-dwidget__grip"
+                          data-widget-grip=""
+                          aria-label="Move Season Windows"
+                        >
+                          <svg
+                            width="15"
+                            height="15"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                          >
+                            <circle cx="9" cy="12" r="1"></circle>
+                            <circle cx="9" cy="5" r="1"></circle>
+                            <circle cx="9" cy="19" r="1"></circle>
+                            <circle cx="15" cy="12" r="1"></circle>
+                            <circle cx="15" cy="5" r="1"></circle>
+                            <circle cx="15" cy="19" r="1"></circle>
+                          </svg></button
+                        ><esa-popover
+                          class="bcn-widget-menu"
+                          data-widget-menu="true"
+                          trigger="click"
+                          position="bottom"
+                          label="Widget options"
+                          has-arrow="false"
+                          appearance="default"
+                          ><button
+                            type="button"
+                            class="bcn-widget-menu__kebab"
+                            aria-label="Options for Season Windows"
+                            aria-expanded="false"
+                            aria-haspopup="dialog"
+                          >
+                            <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                              ><svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <circle
+                                  cx="5"
+                                  cy="12"
+                                  r="1.7"
+                                  fill="currentColor"
+                                  stroke="none"
+                                ></circle>
+                                <circle
+                                  cx="12"
+                                  cy="12"
+                                  r="1.7"
+                                  fill="currentColor"
+                                  stroke="none"
+                                ></circle>
+                                <circle
+                                  cx="19"
+                                  cy="12"
+                                  r="1.7"
+                                  fill="currentColor"
+                                  stroke="none"
+                                ></circle></svg
+                            ></span>
+                          </button>
+                          <div slot="content" class="bcn-widget-menu__panel">
+                            <esa-button-toggle
+                              class="bcn-widget-menu__width"
+                              size="xs"
+                              label="Width"
+                              data-menu-width="true"
+                            ></esa-button-toggle>
+                            <div class="bcn-widget-menu__rule" role="separator"></div>
+                            <button
+                              type="button"
+                              class="bcn-widget-menu__item"
+                              data-menu-action="configure"
+                            >
+                              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                ><svg
+                                  width="14"
+                                  height="14"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M20 7h-9"></path>
+                                  <path d="M14 17H5"></path>
+                                  <circle cx="17" cy="17" r="3"></circle>
+                                  <circle cx="7" cy="7" r="3"></circle></svg></span
+                              >Configure</button
+                            ><button
+                              type="button"
+                              class="bcn-widget-menu__item bcn-widget-menu__item--danger"
+                              data-menu-action="remove"
+                            >
+                              <span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                ><svg
+                                  width="14"
+                                  height="14"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M3 6h18"></path>
+                                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                  <line x1="10" x2="10" y1="11" y2="17"></line>
+                                  <line x1="14" x2="14" y1="11" y2="17"></line></svg></span
+                              >Remove widget
+                            </button>
+                          </div></esa-popover
+                        ></span
+                      >
+                    </div>
+                  </div>
+                  <div class="esa-card__body typography-body-md">
+                    <div class="bcn-dwidget__body stack" data-gap="md">
+                      <div class="bcn-widget-flow">
+                        <div data-section="seasons" data-flow="full" class="stack" data-gap="sm">
+                          <div class="bcn-shead stack" data-gap="none">
+                            <span class="cluster bcn-shead__line" data-gap="sm"
+                              ><span
+                                class="bcn-shead__title typography-label-md-strong"
+                                data-section-title=""
+                                >Season windows</span
+                              ></span
+                            ><span class="bcn-shead__sub typography-label-sm">Timeline</span>
+                          </div>
+                          <div class="bcn-viz-seasons">
+                            <div class="bcn-viz-seasons__axis" aria-hidden="true">
+                              <span
+                                class="bcn-viz-seasons__today-flag"
+                                style="left: 7.216494845360824%"
+                                >Today</span
+                              ><span class="bcn-viz-seasons__tick" style="left: 21.649484536082475%"
+                                >Jul</span
+                              ><span class="bcn-viz-seasons__tick" style="left: 53.608247422680414%"
+                                >Aug</span
+                              ><span class="bcn-viz-seasons__tick" style="left: 85.56701030927834%"
+                                >Sep</span
+                              >
+                            </div>
+                            <ul
+                              class="bcn-viz-seasons__lane"
+                              aria-label="Season windows, Jun 17 through the next 90 days"
+                            >
+                              <li class="bcn-viz-seasons__row">
+                                <span
+                                  class="bcn-viz-seasons__name typography-body-sm typography-font-weight-medium"
+                                  >VELB flight season</span
+                                ><span class="bcn-viz-seasons__track" aria-hidden="true"
+                                  ><span class="bcn-viz-seasons__rule"></span
+                                  ><span
+                                    class="bcn-viz-seasons__todaymark"
+                                    style="left: 7.216494845360824%"
+                                  ></span
+                                  ><span
+                                    class="bcn-viz-seasons__bar bcn-viz-seasons__bar--open-start"
+                                    style="left: 0%; width: 5.154639175257731%"
+                                  ></span></span
+                                ><span class="bcn-viz-seasons__dates"
+                                  ><span
+                                    class="bcn-viz-seasons__date typography-meta"
+                                    style="left: 0%"
+                                    >Mar 15</span
+                                  ><span
+                                    class="bcn-viz-seasons__date bcn-viz-seasons__date--end typography-meta"
+                                    style="left: 5.154639175257731%"
+                                    >Jun 15</span
+                                  ></span
+                                >
+                              </li>
+                              <li class="bcn-viz-seasons__row">
+                                <span
+                                  class="bcn-viz-seasons__name typography-body-sm typography-font-weight-medium"
+                                  >Salmonid migration window</span
+                                ><span class="bcn-viz-seasons__track" aria-hidden="true"
+                                  ><span class="bcn-viz-seasons__rule"></span
+                                  ><span
+                                    class="bcn-viz-seasons__todaymark"
+                                    style="left: 7.216494845360824%"
+                                  ></span
+                                  ><span
+                                    class="bcn-viz-seasons__bar bcn-viz-seasons__bar--open-start"
+                                    style="left: 0%; width: 20.618556701030926%"
+                                  ></span></span
+                                ><span class="bcn-viz-seasons__dates"
+                                  ><span
+                                    class="bcn-viz-seasons__date typography-meta"
+                                    style="left: 0%"
+                                    >Oct 1</span
+                                  ><span
+                                    class="bcn-viz-seasons__date bcn-viz-seasons__date--end typography-meta"
+                                    style="left: 20.618556701030926%"
+                                    >Jun 30</span
+                                  ></span
+                                >
+                              </li>
+                              <li class="bcn-viz-seasons__row">
+                                <span
+                                  class="bcn-viz-seasons__name typography-body-sm typography-font-weight-medium"
+                                  >Delta smelt spawning window</span
+                                ><span class="bcn-viz-seasons__track" aria-hidden="true"
+                                  ><span class="bcn-viz-seasons__rule"></span
+                                  ><span
+                                    class="bcn-viz-seasons__todaymark"
+                                    style="left: 7.216494845360824%"
+                                  ></span
+                                  ><span
+                                    class="bcn-viz-seasons__bar bcn-viz-seasons__bar--open-start"
+                                    style="left: 0%; width: 20.618556701030926%"
+                                  ></span></span
+                                ><span class="bcn-viz-seasons__dates"
+                                  ><span
+                                    class="bcn-viz-seasons__date typography-meta"
+                                    style="left: 0%"
+                                    >Feb 1</span
+                                  ><span
+                                    class="bcn-viz-seasons__date bcn-viz-seasons__date--end typography-meta"
+                                    style="left: 20.618556701030926%"
+                                    >Jun 30</span
+                                  ></span
+                                >
+                              </li>
+                              <li class="bcn-viz-seasons__row">
+                                <span
+                                  class="bcn-viz-seasons__name typography-body-sm typography-font-weight-medium"
+                                  >Tricolored blackbird colony season</span
+                                ><span class="bcn-viz-seasons__track" aria-hidden="true"
+                                  ><span class="bcn-viz-seasons__rule"></span
+                                  ><span
+                                    class="bcn-viz-seasons__todaymark"
+                                    style="left: 7.216494845360824%"
+                                  ></span
+                                  ><span
+                                    class="bcn-viz-seasons__bar bcn-viz-seasons__bar--open-start"
+                                    style="left: 0%; width: 52.57731958762887%"
+                                  ></span></span
+                                ><span class="bcn-viz-seasons__dates"
+                                  ><span
+                                    class="bcn-viz-seasons__date typography-meta"
+                                    style="left: 0%"
+                                    >Mar 15</span
+                                  ><span
+                                    class="bcn-viz-seasons__date bcn-viz-seasons__date--end typography-meta"
+                                    style="left: 52.57731958762887%"
+                                    >Jul 31</span
+                                  ></span
+                                >
+                              </li>
+                            </ul>
+                            <p class="bcn-viz-seasons__more typography-meta">
+                              +8 more seasons in this window
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="esa-card__footer typography-meta">
+                    <a
+                      class="bcn-dwidget__foot"
+                      href="/beacon-design/prototypes/monitoring/stream/seasons"
+                      >All season windows →</a
                     >
                   </div>
                 </div>
@@ -5056,7 +12025,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="obs-active"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5104,7 +12072,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="obs-nesting-birds"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5148,7 +12115,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="obs-concerns"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5191,7 +12157,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="dmr-recent"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5236,7 +12201,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="obs-bio"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5280,7 +12244,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="commitment-compliance"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5323,7 +12286,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="mileage-total"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5367,7 +12329,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="runtime-total"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5408,7 +12369,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="surveys-qc"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5454,7 +12414,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   data-widget-card=""
                   data-widget-id="weap-trained"
                   data-on=""
-                  disabled=""
                 >
                   <div class="esa-card">
                     <div class="esa-card__body typography-body-md">
@@ -5490,6 +12449,51 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         ></span
                       >
                     </div>
+                  </div></button
+                ><button
+                  type="button"
+                  class="bcn-widget-card"
+                  data-widget-card=""
+                  data-widget-id="seasons-window"
+                  data-on=""
+                >
+                  <div class="esa-card">
+                    <div class="esa-card__body typography-body-md">
+                      <span class="bcn-widget-card__body stack" data-gap="md"
+                        ><span class="repel"
+                          ><span class="esa-icon esa-icon--md" aria-hidden="true"
+                            ><svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                              <path d="M16 2v4"></path>
+                              <path d="M3 10h18"></path>
+                              <path d="M8 2v4"></path>
+                              <path d="M17 14h-6"></path>
+                              <path d="M13 18H7"></path>
+                              <path d="M7 14h.01"></path>
+                              <path d="M17 18h.01"></path></svg></span
+                          ><span class="bcn-widget-card__state"
+                            ><span
+                              class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                              ><span class="esa-badge__text">On dashboard</span></span
+                            ></span
+                          ></span
+                        ><span class="stack" data-gap="xs"
+                          ><span class="bcn-widget-card__title typography-label-md-strong"
+                            >Season Windows</span
+                          ></span
+                        ></span
+                      >
+                    </div>
                   </div>
                 </button>
               </div></esa-dialog
@@ -5519,7 +12523,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 ((r.well.style.width = `${Math.round(r.frameWidth * o)}px`),
                   (r.well.style.height = `${Math.round(s)}px`),
                   (r.well.style.marginTop = `${Math.max(0, (i.height - s) / 2)}px`),
-                  (n.dataset.overflow = s > i.height ? `1` : `0`));
+                  (n.dataset.overflow =
+                    r.scroll.scrollHeight - r.scroll.clientHeight > 1 ? `1` : `0`));
               }
               function r(t) {
                 let r = e.get(t);
@@ -5603,20 +12608,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               }
               document.querySelectorAll(`[data-color-field]`).forEach(e);
             </script>
+            <script
+              type="module"
+              src="/beacon-design/_astro/BcnConfigSections.astro_astro_type_script_index_0_lang.DZn73ISW.js"
+            ></script>
             <esa-dialog
               id="mp-config-dialog"
               data-config-dialog="true"
               heading="Configure widget"
               size="lg"
               show-close-button="true"
-              style="--dialog-width-lg: min(1140px, 94vw)"
+              style="--dialog-width-lg: min(1320px, 94vw)"
               ><div class="bcn-cfg">
-                <div class="bcn-cfg__preview stack" data-gap="md">
-                  <esa-button-toggle
-                    data-cfg-tabs="true"
-                    size="sm"
-                    aria-label="Preview width"
-                  ></esa-button-toggle>
+                <div class="bcn-cfg__preview">
                   <div class="bcn-preview-stage" data-preview-stage="" data-stage-armed="1">
                     <span class="bcn-preview-stage__badge" data-stage-badge=""></span>
                     <div class="bcn-preview-stage__scroll" data-stage-scroll="">
@@ -5627,11 +12631,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </div>
                 </div>
                 <div class="bcn-cfg__options stack" data-gap="lg">
-                  <esa-text-field data-cfg-title="true" label="Title" size="sm"></esa-text-field>
+                  <span class="bcn-cfg__group typography-label-md-strong">Basics</span
+                  ><esa-text-field data-cfg-title="true" label="Title" size="sm"></esa-text-field
+                  ><esa-button-toggle
+                    data-cfg-tabs="true"
+                    size="sm"
+                    label="Columns"
+                  ></esa-button-toggle>
                   <div data-cfg-shows-field="">
                     <esa-select data-cfg-shows="true" label="Shows" size="sm"></esa-select>
                   </div>
-                  <esa-select data-cfg-scope="true" label="Date range" size="sm"></esa-select>
+                  <div data-cfg-scope-field="">
+                    <esa-select
+                      data-cfg-scope="true"
+                      label="Default date range"
+                      size="sm"
+                    ></esa-select>
+                  </div>
                   <div class="stack" data-gap="sm" data-cfg-color-mono="">
                     <span class="bcn-cfg__label typography-label-md-strong">Color</span>
                     <div class="bcn-color-field" data-color-field="">
@@ -5858,6 +12874,2189 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </div>
                     </div>
                   </div>
+                  <div class="stack" data-gap="sm" data-cfg-sections-field="" hidden="">
+                    <span class="bcn-cfg__group typography-label-md-strong">Sections</span>
+                    <div data-cfg-sections="">
+                      <div class="bcn-cfgsec-list stack" data-cfgsec-list="obs-active" hidden="">
+                        <div class="bcn-cfgsec" data-cfgsec="count">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Active observation headline count"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Active observation headline count"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Active observation headline count settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="breakdown">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Observation type breakdown donut"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Observation type breakdown donut"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Observation type breakdown donut settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="activity">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Observations over time by type"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Observations over time by type"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Observations over time by type settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="map">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Observation locations on a map"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Observation locations on a map"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Observation locations on a map settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="latest">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Latest observations logged"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Latest observations logged"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Latest observations logged settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field
+                            ><esa-select
+                              data-cfgsec-setting="rows"
+                              data-kind="count"
+                              data-min="1"
+                              data-max="7"
+                              label="Rows shown"
+                              size="sm"
+                            ></esa-select>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="outstanding">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Outstanding issues needing attention"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Outstanding issues needing attention"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Outstanding issues needing attention settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field
+                            ><esa-select
+                              data-cfgsec-setting="rows"
+                              data-kind="count"
+                              data-min="1"
+                              data-max="7"
+                              label="Rows shown"
+                              size="sm"
+                            ></esa-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="bcn-cfgsec-list stack"
+                        data-cfgsec-list="obs-nesting-birds"
+                        hidden=""
+                      >
+                        <div class="bcn-cfgsec" data-cfgsec="count">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Total nesting-bird observation count"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Total nesting-bird observation count"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Total nesting-bird observation count settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="species">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Observation counts by species code"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Observation counts by species code"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Observation counts by species code settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="latest">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Latest nesting-bird observations"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Latest nesting-bird observations"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Latest nesting-bird observations settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field
+                            ><esa-select
+                              data-cfgsec-setting="rows"
+                              data-kind="count"
+                              data-min="1"
+                              data-max="7"
+                              label="Rows shown"
+                              size="sm"
+                            ></esa-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bcn-cfgsec-list stack" data-cfgsec-list="obs-concerns" hidden="">
+                        <div class="bcn-cfgsec" data-cfgsec="count">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Open compliance concern count"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Open compliance concern count"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Open compliance concern count settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="activity">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Concerns raised over time"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Concerns raised over time"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Concerns raised over time settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="latest">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Latest open compliance concerns"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Latest open compliance concerns"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Latest open compliance concerns settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field
+                            ><esa-select
+                              data-cfgsec-setting="rows"
+                              data-kind="count"
+                              data-min="1"
+                              data-max="7"
+                              label="Rows shown"
+                              size="sm"
+                            ></esa-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bcn-cfgsec-list stack" data-cfgsec-list="dmr-recent" hidden="">
+                        <div class="bcn-cfgsec" data-cfgsec="count">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Total daily monitoring reports"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Total daily monitoring reports"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Total daily monitoring reports settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="activity">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Reports filed over time"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Reports filed over time"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Reports filed over time settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="latest">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Latest daily monitoring reports"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Latest daily monitoring reports"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Latest daily monitoring reports settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field
+                            ><esa-select
+                              data-cfgsec-setting="rows"
+                              data-kind="count"
+                              data-min="1"
+                              data-max="7"
+                              label="Rows shown"
+                              size="sm"
+                            ></esa-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bcn-cfgsec-list stack" data-cfgsec-list="obs-bio" hidden="">
+                        <div class="bcn-cfgsec" data-cfgsec="count">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Total biological resource observations"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Total biological resource observations"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Total biological resource observations settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="species">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Observation counts by species"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Observation counts by species"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Observation counts by species settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="latest">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Latest biological resource observations"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Latest biological resource observations"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Latest biological resource observations settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field
+                            ><esa-select
+                              data-cfgsec-setting="rows"
+                              data-kind="count"
+                              data-min="1"
+                              data-max="7"
+                              label="Rows shown"
+                              size="sm"
+                            ></esa-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="bcn-cfgsec-list stack"
+                        data-cfgsec-list="commitment-compliance"
+                        hidden=""
+                      >
+                        <div class="bcn-cfgsec" data-cfgsec="lanes">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Compliance lanes by observation state"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Compliance lanes by observation state"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Compliance lanes by observation state settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bcn-cfgsec-list stack" data-cfgsec-list="mileage-total" hidden="">
+                        <div class="bcn-cfgsec" data-cfgsec="count">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Vehicle miles for the window"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Vehicle miles for the window"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Vehicle miles for the window settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="activity">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Miles over time"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Miles over time"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Miles over time settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="vehicles">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Miles by individual vehicle"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Miles by individual vehicle"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Miles by individual vehicle settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bcn-cfgsec-list stack" data-cfgsec-list="runtime-total" hidden="">
+                        <div class="bcn-cfgsec" data-cfgsec="count">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Equipment hours for the window"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Equipment hours for the window"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Equipment hours for the window settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="activity">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Runtime minutes over time"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Runtime minutes over time"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Runtime minutes over time settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="classes">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Hours by equipment class"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Hours by equipment class"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Hours by equipment class settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bcn-cfgsec-list stack" data-cfgsec-list="surveys-qc" hidden="">
+                        <div class="bcn-cfgsec" data-cfgsec="count">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Total survey document count"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Total survey document count"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Total survey document count settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="status">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Documents by review status"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Documents by review status"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Documents by review status settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="latest">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Latest survey documents"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Latest survey documents"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Latest survey documents settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field
+                            ><esa-select
+                              data-cfgsec-setting="rows"
+                              data-kind="count"
+                              data-min="1"
+                              data-max="7"
+                              label="Rows shown"
+                              size="sm"
+                            ></esa-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bcn-cfgsec-list stack" data-cfgsec-list="weap-trained" hidden="">
+                        <div class="bcn-cfgsec" data-cfgsec="count">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Training confirmations for the window"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Training confirmations for the window"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Training confirmations for the window settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="companies">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Workers trained by company"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Workers trained by company"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Workers trained by company settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                        <div class="bcn-cfgsec" data-cfgsec="latest">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Latest training confirmations"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Latest training confirmations"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Latest training confirmations settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field
+                            ><esa-select
+                              data-cfgsec-setting="rows"
+                              data-kind="count"
+                              data-min="1"
+                              data-max="7"
+                              label="Rows shown"
+                              size="sm"
+                            ></esa-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="bcn-cfgsec-list stack"
+                        data-cfgsec-list="seasons-window"
+                        hidden=""
+                      >
+                        <div class="bcn-cfgsec" data-cfgsec="seasons">
+                          <div class="bcn-cfgsec__bar">
+                            <button
+                              type="button"
+                              class="bcn-cfgsec__grip"
+                              data-cfgsec-grip=""
+                              aria-label="Reorder Season windows on a date axis"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="9" cy="5" r="1.6"></circle>
+                                <circle cx="15" cy="5" r="1.6"></circle>
+                                <circle cx="9" cy="12" r="1.6"></circle>
+                                <circle cx="15" cy="12" r="1.6"></circle>
+                                <circle cx="9" cy="19" r="1.6"></circle>
+                                <circle cx="15" cy="19" r="1.6"></circle>
+                              </svg></button
+                            ><esa-switch-toggle
+                              class="bcn-cfgsec__switch"
+                              data-cfgsec-toggle="true"
+                              size="sm"
+                              label="Season windows on a date axis"
+                              label-position="after"
+                            ></esa-switch-toggle
+                            ><button
+                              type="button"
+                              class="bcn-cfgsec__caret"
+                              data-cfgsec-expand=""
+                              aria-expanded="false"
+                              aria-label="Season windows on a date axis settings"
+                            >
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="m6 9 6 6 6-6"></path>
+                              </svg>
+                            </button>
+                          </div>
+                          <div
+                            class="bcn-cfgsec__body stack"
+                            data-gap="sm"
+                            data-cfgsec-body=""
+                            hidden=""
+                          >
+                            <esa-text-field
+                              data-cfgsec-setting="title"
+                              data-kind="text"
+                              label="Section title"
+                              size="sm"
+                            ></esa-text-field>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div slot="footer" class="repel bcn-cfg__foot" data-gap="md">
@@ -5876,6 +15075,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <span class="esa-button__label">Save widget</span>
                       </button></span
                     ></span
+                  ><span data-cfg-add="" hidden=""
+                    ><span
+                      class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+                      ><button class="esa-button__native typography-microcopy-xs" type="button">
+                        <span class="esa-button__label">Add to dashboard</span>
+                      </button></span
+                    ></span
                   ><span data-cfg-cancel=""
                     ><span
                       class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
@@ -5889,7 +15095,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             >
             <script
               type="module"
-              src="/beacon-design/_astro/BcnConfigDialog.astro_astro_type_script_index_0_lang.UibiIlFv.js"
+              src="/beacon-design/_astro/BcnConfigDialog.astro_astro_type_script_index_0_lang.cf31l-CO.js"
             ></script>
             <script type="application/json" data-mpd-payload="">
               [
@@ -5900,7 +15106,117 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   "scopes": ["30d", "7d"],
                   "colorMode": "series",
                   "series": ["Nesting Birds", "Biological Resources"],
-                  "stream": "Observations"
+                  "stream": "Observations",
+                  "sections": [
+                    {
+                      "id": "count",
+                      "label": "Active observation headline count",
+                      "title": "Active observations",
+                      "display": "figure",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Active observations"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "breakdown",
+                      "label": "Observation type breakdown donut",
+                      "title": "Observations by type",
+                      "display": "donut",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Observations by type"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "activity",
+                      "label": "Observations over time by type",
+                      "title": "Observations over time",
+                      "display": "stacked",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Observations over time"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "map",
+                      "label": "Observation locations on a map",
+                      "title": "Observation locations",
+                      "display": "map",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Observation locations"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "latest",
+                      "label": "Latest observations logged",
+                      "title": "Latest observations",
+                      "display": "table",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Latest observations"
+                        },
+                        {
+                          "id": "rows",
+                          "label": "Rows shown",
+                          "kind": "count",
+                          "min": 1,
+                          "max": 7,
+                          "default": 3
+                        }
+                      ]
+                    },
+                    {
+                      "id": "outstanding",
+                      "label": "Outstanding issues needing attention",
+                      "title": "Outstanding issues",
+                      "display": "table",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Outstanding issues"
+                        },
+                        {
+                          "id": "rows",
+                          "label": "Rows shown",
+                          "kind": "count",
+                          "min": 1,
+                          "max": 7,
+                          "default": 5
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": false,
+                  "width": 2
                 },
                 {
                   "id": "obs-nesting-birds",
@@ -5909,7 +15225,64 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   "scopes": ["30d", "7d"],
                   "colorMode": "mono",
                   "series": [],
-                  "stream": "Nesting Birds"
+                  "stream": "Nesting Birds",
+                  "sections": [
+                    {
+                      "id": "count",
+                      "label": "Total nesting-bird observation count",
+                      "title": "Total nesting-bird observations",
+                      "display": "figure",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Total nesting-bird observations"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "species",
+                      "label": "Observation counts by species code",
+                      "title": "Observations by species",
+                      "display": "bars",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Observations by species"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "latest",
+                      "label": "Latest nesting-bird observations",
+                      "title": "Latest observations",
+                      "display": "table",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Latest observations"
+                        },
+                        {
+                          "id": "rows",
+                          "label": "Rows shown",
+                          "kind": "count",
+                          "min": 1,
+                          "max": 7,
+                          "default": 3
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": false,
+                  "width": 1
                 },
                 {
                   "id": "obs-concerns",
@@ -5918,7 +15291,64 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   "scopes": ["30d", "90d"],
                   "colorMode": "status",
                   "series": [],
-                  "stream": "Compliance Concerns"
+                  "stream": "Compliance Concerns",
+                  "sections": [
+                    {
+                      "id": "count",
+                      "label": "Open compliance concern count",
+                      "title": "Open compliance concerns",
+                      "display": "figure",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Open compliance concerns"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "activity",
+                      "label": "Concerns raised over time",
+                      "title": "Concerns raised over time",
+                      "display": "stacked",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Concerns raised over time"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "latest",
+                      "label": "Latest open compliance concerns",
+                      "title": "Latest open concerns",
+                      "display": "table",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Latest open concerns"
+                        },
+                        {
+                          "id": "rows",
+                          "label": "Rows shown",
+                          "kind": "count",
+                          "min": 1,
+                          "max": 7,
+                          "default": 3
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": false,
+                  "width": 1
                 },
                 {
                   "id": "dmr-recent",
@@ -5927,7 +15357,64 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   "scopes": ["7d", "30d"],
                   "colorMode": "mono",
                   "series": [],
-                  "stream": "Daily Monitoring Reports"
+                  "stream": "Daily Monitoring Reports",
+                  "sections": [
+                    {
+                      "id": "count",
+                      "label": "Total daily monitoring reports",
+                      "title": "Total daily monitoring reports",
+                      "display": "figure",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Total daily monitoring reports"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "activity",
+                      "label": "Reports filed over time",
+                      "title": "Reports filed over time",
+                      "display": "trend",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Reports filed over time"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "latest",
+                      "label": "Latest daily monitoring reports",
+                      "title": "Latest reports",
+                      "display": "table",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Latest reports"
+                        },
+                        {
+                          "id": "rows",
+                          "label": "Rows shown",
+                          "kind": "count",
+                          "min": 1,
+                          "max": 7,
+                          "default": 3
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": false,
+                  "width": 2
                 },
                 {
                   "id": "obs-bio",
@@ -5936,7 +15423,64 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   "scopes": ["30d", "7d"],
                   "colorMode": "mono",
                   "series": [],
-                  "stream": "Biological Resources"
+                  "stream": "Biological Resources",
+                  "sections": [
+                    {
+                      "id": "count",
+                      "label": "Total biological resource observations",
+                      "title": "Total biological resource observations",
+                      "display": "figure",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Total biological resource observations"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "species",
+                      "label": "Observation counts by species",
+                      "title": "Observations by species",
+                      "display": "bars",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Observations by species"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "latest",
+                      "label": "Latest biological resource observations",
+                      "title": "Latest observations",
+                      "display": "table",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Latest observations"
+                        },
+                        {
+                          "id": "rows",
+                          "label": "Rows shown",
+                          "kind": "count",
+                          "min": 1,
+                          "max": 7,
+                          "default": 3
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": false,
+                  "width": 1
                 },
                 {
                   "id": "commitment-compliance",
@@ -5945,7 +15489,26 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   "scopes": ["30d", "90d"],
                   "colorMode": "status",
                   "series": [],
-                  "stream": "Observations"
+                  "stream": "Observations",
+                  "sections": [
+                    {
+                      "id": "lanes",
+                      "label": "Compliance lanes by observation state",
+                      "title": "Compliance by observation state",
+                      "display": "lists",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Compliance by observation state"
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": false,
+                  "width": 3
                 },
                 {
                   "id": "mileage-total",
@@ -5954,7 +15517,56 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   "scopes": ["14d", "7d", "30d", "90d"],
                   "colorMode": "mono",
                   "series": [],
-                  "stream": "Vehicle Mileage"
+                  "stream": "Vehicle Mileage",
+                  "sections": [
+                    {
+                      "id": "count",
+                      "label": "Vehicle miles for the window",
+                      "title": "Vehicle miles",
+                      "display": "figure",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Vehicle miles"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "activity",
+                      "label": "Miles over time",
+                      "title": "Miles over time",
+                      "display": "trend",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Miles over time"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "vehicles",
+                      "label": "Miles by individual vehicle",
+                      "title": "Miles by vehicle",
+                      "display": "bars",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Miles by vehicle"
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": true,
+                  "width": 3
                 },
                 {
                   "id": "runtime-total",
@@ -5963,16 +15575,122 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   "scopes": ["14d", "7d", "30d"],
                   "colorMode": "mono",
                   "series": [],
-                  "stream": "Equipment Runtime"
+                  "stream": "Equipment Runtime",
+                  "sections": [
+                    {
+                      "id": "count",
+                      "label": "Equipment hours for the window",
+                      "title": "Equipment hours",
+                      "display": "figure",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Equipment hours"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "activity",
+                      "label": "Runtime minutes over time",
+                      "title": "Runtime minutes over time",
+                      "display": "trend",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Runtime minutes over time"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "classes",
+                      "label": "Hours by equipment class",
+                      "title": "Hours by equipment class",
+                      "display": "bars",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Hours by equipment class"
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": true,
+                  "width": 2
                 },
                 {
                   "id": "surveys-qc",
                   "title": "Surveys",
-                  "charts": ["meter"],
+                  "charts": ["donut"],
                   "scopes": ["30d", "90d"],
                   "colorMode": "status",
                   "series": [],
-                  "stream": "Surveys"
+                  "stream": "Surveys",
+                  "sections": [
+                    {
+                      "id": "count",
+                      "label": "Total survey document count",
+                      "title": "Total survey documents",
+                      "display": "figure",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Total survey documents"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "status",
+                      "label": "Documents by review status",
+                      "title": "Documents by status",
+                      "display": "donut",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Documents by status"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "latest",
+                      "label": "Latest survey documents",
+                      "title": "Latest surveys",
+                      "display": "table",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Latest surveys"
+                        },
+                        {
+                          "id": "rows",
+                          "label": "Rows shown",
+                          "kind": "count",
+                          "min": 1,
+                          "max": 7,
+                          "default": 3
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": false,
+                  "width": 1
                 },
                 {
                   "id": "weap-trained",
@@ -5981,7 +15699,92 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   "scopes": ["30d", "90d"],
                   "colorMode": "mono",
                   "series": [],
-                  "stream": "WEAP Trainings"
+                  "stream": "WEAP Trainings",
+                  "sections": [
+                    {
+                      "id": "count",
+                      "label": "Training confirmations for the window",
+                      "title": "Training confirmations",
+                      "display": "figure",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Training confirmations"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "companies",
+                      "label": "Workers trained by company",
+                      "title": "Workers by company",
+                      "display": "bars",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Workers by company"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "latest",
+                      "label": "Latest training confirmations",
+                      "title": "Latest confirmations",
+                      "display": "table",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Latest confirmations"
+                        },
+                        {
+                          "id": "rows",
+                          "label": "Rows shown",
+                          "kind": "count",
+                          "min": 1,
+                          "max": 7,
+                          "default": 3
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": true,
+                  "width": 3
+                },
+                {
+                  "id": "seasons-window",
+                  "title": "Season Windows",
+                  "charts": ["seasons"],
+                  "scopes": ["90d", "30d"],
+                  "colorMode": "mono",
+                  "series": [],
+                  "stream": "Season Windows",
+                  "sections": [
+                    {
+                      "id": "seasons",
+                      "label": "Season windows on a date axis",
+                      "title": "Season windows",
+                      "display": "timeline",
+                      "on": true,
+                      "settings": [
+                        {
+                          "id": "title",
+                          "label": "Section title",
+                          "kind": "text",
+                          "default": "Season windows"
+                        }
+                      ]
+                    }
+                  ],
+                  "windowed": false,
+                  "width": 3
                 }
               ]
             </script>
@@ -14894,45 +24697,89 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
   justify-content: center;
   align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
   display: inline-flex;
 }
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
 }
-.bcn-status-chip {
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
+}
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-default-strong, #bbb);
+}
+.esa-button__label {
   white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  display: inline-flex;
 }
-.bcn-status-chip__dot {
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
 }
 .page-layout {
   min-height: calc(100vh - 52px);
@@ -15085,133 +24932,6 @@ a.breadcrumb-item {
   font-size: var(--_stat-sub-size);
   color: var(--_stat-sub-color);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-background-elevation-sunken, #f0f0f0) 45%,
-    var(--color-background-elevation-raised, #fcfcfc)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-default-strong, #bbb);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-  background: 0 0;
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.bcn-obsmap {
-  border-radius: var(--radius-200);
-  border: 1px solid var(--color-border-default);
-  background: var(--color-background-elevation-sunken);
-  z-index: 0;
-  isolation: isolate;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
-.bcn-obsmap .leaflet-interactive {
-  cursor: pointer;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
 .bcn-component-picker {
   align-self: center;
   align-items: center;
@@ -15248,9 +24968,11 @@ html,
 .mpdash {
   --_col: 3;
   --_gap: var(--spacing-400);
+  --_row: 8px;
   grid-template-columns: repeat(var(--_col), minmax(0, 1fr));
-  gap: var(--_gap);
-  grid-auto-rows: minmax(84px, auto);
+  grid-auto-rows: var(--_row);
+  row-gap: 0;
+  column-gap: var(--_gap);
   display: grid;
   position: relative;
 }
@@ -15272,27 +24994,17 @@ html,
 }
 .bcn-dwidget {
   min-width: 0;
+  align-self: start;
+  margin-block-end: var(--_gap);
   display: flex;
   container-type: inline-size;
 }
 .bcn-dwidget[data-w="2"] {
   grid-column: span 2;
 }
-.bcn-dwidget[data-h="5"] {
-  grid-row: span 5;
-}
 .mpdash > .bcn-dwidget {
   z-index: 1;
   position: relative;
-}
-.bcn-dwidget[data-w="1"] {
-  grid-column: span 1;
-}
-.bcn-dwidget[data-h="3"] {
-  grid-row: span 3;
-}
-.bcn-dwidget[data-h="2"] {
-  grid-row: span 2;
 }
 .bcn-dwidget[data-w="3"] {
   grid-column: span 3;
@@ -15309,6 +25021,7 @@ html,
   font-size: var(--font-size-150);
   cursor: pointer;
   grid-column: 1/-1;
+  margin-block-end: var(--_gap);
   font-weight: 600;
   display: flex;
 }
@@ -15367,16 +25080,32 @@ html,
   font-size: var(--font-size-100);
 }
 .bcn-cfg {
-  gap: var(--spacing-500);
-  grid-template-columns: minmax(0, 1fr) 348px;
-  align-items: start;
+  --_bleed: var(--spacing-500);
+  margin: calc(-1 * var(--_bleed));
+  grid-template-columns: minmax(0, 1fr) 396px;
+  align-items: stretch;
+  gap: 0;
   display: grid;
 }
-.bcn-preview-stage {
+.bcn-cfg__preview {
   background: var(--color-background-elevation-sunken);
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-200);
-  height: 520px;
+  padding: var(--_bleed);
+  --bcn-preview-stage-height: auto;
+  --bcn-preview-stage-overflow: visible;
+  --bcn-preview-stage-bg: transparent;
+  --bcn-preview-stage-border: 0;
+  --bcn-preview-stage-radius: 0;
+  --bcn-preview-stage-padding: 0;
+  min-inline-size: 0;
+}
+.bcn-preview-stage {
+  --_bg: var(--bcn-preview-stage-bg, var(--color-background-elevation-sunken));
+  --_border: var(--bcn-preview-stage-border, 1px solid var(--color-border-default));
+  --_radius: var(--bcn-preview-stage-radius, var(--radius-200));
+  height: var(--bcn-preview-stage-height, 520px);
+  background: var(--_bg);
+  border: var(--_border);
+  border-radius: var(--_radius);
   position: relative;
   overflow: hidden;
 }
@@ -15398,9 +25127,9 @@ html,
 }
 .bcn-preview-stage__scroll {
   height: 100%;
-  padding: var(--spacing-500);
+  overflow-y: var(--bcn-preview-stage-overflow, auto);
+  padding: var(--bcn-preview-stage-padding, var(--spacing-500));
   scrollbar-gutter: stable;
-  overflow-y: auto;
 }
 .bcn-preview-stage__well {
   margin: 0 auto;
@@ -15412,6 +25141,16 @@ html,
   position: absolute;
   top: 0;
   left: 0;
+}
+.bcn-cfg__options {
+  border-inline-start: 1px solid var(--color-border-default);
+  padding: var(--_bleed);
+  min-inline-size: 0;
+}
+.bcn-cfg__group {
+  color: var(--color-content-default);
+  border-block-end: 1px solid var(--color-border-default);
+  padding-block-end: var(--spacing-150);
 }
 .bcn-cfg__label {
   color: var(--color-content-default-primary);
@@ -15454,6 +25193,10 @@ html,
 .bcn-dwidget .esa-card {
   transition: box-shadow 0.12s;
 }
+.bcn-dwidget .esa-card__header {
+  min-height: 0;
+  padding-block: var(--spacing-200);
+}
 .bcn-dwidget__head {
   cursor: grab;
   touch-action: none;
@@ -15468,7 +25211,6 @@ html,
   margin: 0;
 }
 .bcn-dwidget__tools {
-  opacity: 0;
   transition: opacity 0.12s;
 }
 .bcn-dwidget__grip {
@@ -15534,38 +25276,281 @@ html,
 }
 .bcn-dwidget .esa-card__body {
   flex: 1;
+  padding-block-start: var(--spacing-300);
 }
-.bcn-viztrend {
-  --_trend-height: 72px;
+.bcn-widget-flow {
+  --_gap-x: var(--spacing-600);
+  --_gap-y: var(--spacing-500);
+  gap: var(--_gap-y) var(--_gap-x);
+  flex-wrap: wrap;
+  flex: 1;
+  align-items: stretch;
+  min-inline-size: 0;
+  display: flex;
 }
-.bcn-viztrend--sm {
-  --_trend-height: 44px;
+.bcn-widget-flow > * {
+  min-inline-size: 0;
+  position: relative;
 }
-.bcn-viztrend__strip {
-  height: var(--_trend-height);
+.bcn-widget-flow > [data-flow="figure"] {
+  flex: 0 auto;
+  min-inline-size: 132px;
+  max-inline-size: 240px;
+}
+.bcn-shead__line {
+  --badge-bg: var(--color-background-elevation-sunken);
+  --badge-text-color: var(--color-content-default-secondary);
+  align-items: center;
+}
+.bcn-shead__sub {
+  color: var(--color-content-default-secondary);
+}
+.bcn-dwidget .esa-stat {
+  text-align: start;
+}
+.bcn-dwidget .esa-stat__value {
+  padding-inline-start: var(--spacing-100);
+}
+.bcn-dwidget .esa-stat__label {
+  white-space: nowrap;
+  clip-path: inset(50%);
+  border: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+}
+.bcn-widget-flow > [data-flow="chart"] {
+  flex: 1 1 var(--bcn-flow-chart-min, 360px);
+}
+.bcn-viz-donut {
+  min-inline-size: 0;
+}
+.bcn-viz-donut__ring {
+  flex: none;
+}
+.bcn-viz-donut__legend {
+  flex: auto;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-viz-donut__slot {
+  min-inline-size: 0;
+  padding-inline: var(--spacing-100);
+  margin-inline: calc(var(--spacing-100) * -1);
+  border-radius: var(--radius-xs);
+  display: grid;
+}
+.bcn-viztip {
+  place-items: stretch stretch;
+  inline-size: 100%;
+  min-inline-size: 0;
+  display: grid;
+}
+.bcn-viz-donut__row {
+  --gap: var(--spacing-250);
+  flex-wrap: nowrap;
+  inline-size: 100%;
+}
+.bcn-viz-donut__dot {
+  border-radius: var(--radius-full);
+  background: var(--_c);
+  flex: none;
+  block-size: 10px;
+  inline-size: 10px;
+}
+.bcn-viz-donut__label {
+  color: var(--color-content-default);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+.bcn-viz-donut__value {
+  color: var(--color-content-default);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+  margin-inline-start: auto;
+}
+.bcn-viztip__panel {
+  gap: var(--spacing-050);
+  white-space: nowrap;
+  flex-direction: column;
+  display: flex;
+}
+.bcn-viztip__title {
+  font-weight: var(--typography-font-weight-semibold, 600);
+}
+.bcn-viztip__row {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: flex;
+}
+.bcn-viztip__key {
+  border-radius: var(--radius-xs);
+  flex: none;
+  block-size: 8px;
+  inline-size: 8px;
+}
+.bcn-viztip__label {
+  color: var(--color-content-default-secondary);
+}
+.bcn-viztip__value {
+  color: var(--color-content-default);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--typography-font-weight-semibold, 600);
+}
+.bcn-viztip__note {
+  color: var(--color-content-default-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.bcn-vizstack {
+  --_stack-height: 96px;
+  column-gap: var(--spacing-200);
+  row-gap: var(--spacing-200);
+  grid-template-columns: auto 1fr;
+  min-inline-size: 0;
+  display: grid;
+}
+.bcn-vizstack__yaxis {
+  border-inline-end: 1px solid var(--color-border-default);
+  font-size: max(0.75rem, var(--font-size-100));
+  color: var(--color-content-default-tertiary);
+  font-variant-numeric: tabular-nums;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-inline-end: var(--spacing-100);
+  line-height: 1;
+  display: flex;
+}
+.bcn-vizstack__strip {
+  block-size: var(--_stack-height);
   align-items: flex-end;
   gap: 2px;
   display: flex;
 }
-.bcn-viztrend__col {
-  background: var(--_accent, var(--color-content-default-secondary));
-  border-radius: 1px;
+.bcn-vizstack__slot {
   flex: 1;
-  min-width: 2px;
-  min-height: 3px;
+  align-self: stretch;
+  min-inline-size: 2px;
+  display: grid;
 }
-.bcn-viztrend__col--zero {
+.bcn-vizstack__cell {
+  align-items: flex-end;
+  inline-size: 100%;
+  display: flex;
+}
+.bcn-vizstack__col {
+  border-radius: 1px;
+  flex-direction: column-reverse;
+  min-block-size: 3px;
+  inline-size: 100%;
+  min-inline-size: 2px;
+  display: flex;
+  overflow: hidden;
+}
+.bcn-vizstack__seg {
+  min-block-size: 2px;
+  display: block;
+}
+.bcn-vizstack__col--zero {
   background: var(--color-border-default);
-  height: 2px;
-  min-height: 0;
+  block-size: 2px;
+  min-block-size: 0;
+  inline-size: 100%;
 }
-.bcn-viztrend__axis {
-  margin-top: var(--spacing-100);
-  font-size: max(0.8125rem, var(--font-size-150));
+.bcn-viztip__empty {
   color: var(--color-content-default-secondary);
-  font-variant-numeric: tabular-nums;
+}
+.bcn-vizstack__axis,
+.bcn-vizstack__legend {
+  grid-column: 2;
+}
+.bcn-vizstack__axis {
+  font-size: max(0.8125rem, var(--font-size-100));
+  color: var(--color-content-default-tertiary);
   justify-content: space-between;
   display: flex;
+}
+.bcn-vizstack__legend {
+  gap: var(--spacing-100) var(--spacing-300);
+  font-size: max(0.8125rem, var(--font-size-100));
+  color: var(--color-content-default-secondary);
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.bcn-vizstack__key {
+  align-items: center;
+  gap: var(--spacing-100);
+  min-inline-size: 0;
+  display: inline-flex;
+}
+.bcn-vizstack__swatch {
+  border-radius: var(--radius-xs);
+  flex: none;
+  block-size: 8px;
+  inline-size: 8px;
+}
+.bcn-widget-flow > [data-flow="full"] {
+  flex: 100%;
+}
+.bcn-mt {
+  grid-template-columns: var(--_tracks);
+  column-gap: var(--bcn-mt-column-gap, var(--spacing-300));
+  inline-size: 100%;
+  font-size: var(--font-size-150);
+  display: grid;
+}
+.bcn-mt[data-fill] {
+  justify-content: space-between;
+}
+.bcn-mt thead,
+.bcn-mt tbody {
+  display: contents;
+}
+.bcn-mt tr {
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  display: grid;
+}
+.bcn-mt thead tr {
+  border-block-end: 1px solid var(--color-border-default);
+}
+.bcn-mt th {
+  text-align: start;
+  color: var(--color-content-default-secondary);
+  padding-block: var(--spacing-100);
+  min-inline-size: 0;
+  font-weight: 600;
+}
+.bcn-mt th.bcn-mt--end,
+.bcn-mt td.bcn-mt--end {
+  text-align: end;
+}
+.bcn-mt td {
+  padding-block: var(--spacing-150);
+  color: var(--color-content-default-primary);
+  min-inline-size: 0;
+}
+.bcn-mt td a {
+  color: var(--color-content-brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+.bcn-mt--num {
+  font-variant-numeric: tabular-nums;
+}
+.bcn-mt tbody tr:not([hidden]) + tr:not([hidden]) {
+  border-block-start: 1px solid var(--color-border-default);
 }
 .bcn-dwidget__foot {
   color: var(--color-content-link);
@@ -15619,72 +25604,66 @@ html,
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
-.bcn-widget-panels {
-  gap: var(--spacing-400);
-  flex: 1;
-  grid-template-columns: 220px 1fr;
-  min-inline-size: 0;
+.bcn-mt--truncate {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.bcn-viztrend {
+  column-gap: var(--spacing-200);
+  grid-template-columns: auto 1fr;
   display: grid;
 }
-.bcn-widget-panels__panel {
-  --gap: var(--spacing-250);
-  min-inline-size: 0;
-}
-.bcn-viz-strip {
-  gap: var(--spacing-100);
-  display: flex;
-}
-.bcn-viz-strip__day {
-  align-items: center;
-  gap: var(--spacing-100);
-  flex-direction: column;
-  flex: 1;
-  display: flex;
-}
-.bcn-viz-strip__cell {
-  box-sizing: border-box;
-  width: 100%;
-  height: var(--bcn-viz-strip-cell-height, 26px);
-  border-radius: var(--radius-xs);
-  background: var(--_accent, var(--color-content-default-secondary));
-}
-.bcn-viz-strip__initial {
-  font-size: max(0.8125rem, var(--font-size-100));
+.bcn-viztrend__yaxis {
+  border-inline-end: 1px solid var(--color-border-default);
+  font-size: max(0.75rem, var(--font-size-100));
   color: var(--color-content-default-tertiary);
-  line-height: 1;
-}
-.bcn-widget-panels__panel + .bcn-widget-panels__panel {
-  border-inline-start: 1px solid var(--color-border-default-subtle);
-  padding-inline-start: var(--spacing-400);
-}
-.bcn-mt {
-  border-collapse: collapse;
-  inline-size: 100%;
-  font-size: var(--font-size-150);
-}
-.bcn-mt th {
-  text-align: start;
-  color: var(--color-content-default-secondary);
-  padding-block: var(--spacing-100);
-  border-block-end: 1px solid var(--color-border-default);
-  font-weight: 600;
-}
-.bcn-mt th.bcn-mt--end,
-.bcn-mt td.bcn-mt--end {
-  text-align: end;
-}
-.bcn-mt--num {
   font-variant-numeric: tabular-nums;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-inline-end: var(--spacing-100);
+  line-height: 1;
+  display: flex;
 }
-.bcn-mt td {
-  padding-block: var(--spacing-150);
-  border-block-end: 1px solid var(--color-border-default);
-  color: var(--color-content-default-primary);
+.bcn-viztrend__strip {
+  height: var(--_trend-height);
+  align-items: flex-end;
+  gap: 2px;
+  display: flex;
 }
-.bcn-mt td a {
-  color: var(--color-content-brand);
-  font-weight: 600;
-  text-decoration: none;
+.bcn-viztrend__slot {
+  flex: 1;
+  align-self: stretch;
+  min-width: 2px;
+  display: grid;
+}
+.bcn-viztrend__cell {
+  align-items: flex-end;
+  inline-size: 100%;
+  display: flex;
+}
+.bcn-viztrend__col {
+  background: var(--_accent, var(--color-content-default-secondary));
+  border-radius: 1px;
+  min-block-size: 3px;
+  inline-size: 100%;
+  min-inline-size: 2px;
+  display: block;
+}
+.bcn-viztrend__col--zero {
+  background: var(--color-border-default);
+  block-size: 2px;
+  min-block-size: 0;
+}
+.bcn-viztrend__axis {
+  margin-top: var(--spacing-100);
+  font-size: max(0.8125rem, var(--font-size-100));
+  color: var(--color-content-default-secondary);
+  font-variant-numeric: tabular-nums;
+  grid-column: 2;
+  justify-content: space-between;
+  display: flex;
 }
 .bcn-mt__dot {
   border-radius: var(--radius-full);
@@ -15694,18 +25673,23 @@ html,
   margin-inline-end: var(--spacing-100);
   display: inline-block;
 }
-.bcn-mt tbody tr:last-child td {
-  border-block-end: none;
-}
 .bcn-cc {
-  gap: var(--spacing-300);
+  gap: var(--spacing-400);
   flex-direction: column;
   display: flex;
 }
 .bcn-cc__show {
-  align-self: flex-start;
+  align-self: flex-end;
+  align-items: center;
+  gap: var(--spacing-200);
+  --color-content-brand: var(--color-content-default);
+  flex-direction: row;
 }
-.bcn-cc__pane,
+.bcn-cc__pane {
+  gap: var(--spacing-500);
+  flex-direction: column;
+  display: flex;
+}
 .bcn-cc__lane {
   gap: var(--spacing-200);
   flex-direction: column;
@@ -15717,6 +25701,8 @@ html,
   font-size: var(--font-size-150);
   font-weight: var(--typography-font-weight-medium);
   color: var(--color-content-default-secondary);
+  --badge-bg: var(--color-background-elevation-sunken);
+  --badge-text-color: var(--color-content-default-secondary);
   margin: 0;
   display: flex;
 }
@@ -15777,264 +25763,211 @@ html,
 .bcn-cc[data-show="all"] [data-cc-pane="needs"] {
   display: none;
 }
-.bcn-widget-panels[data-panels="3"] {
-  grid-template-columns: 190px 1fr 1fr;
+.bcn-wdate {
+  flex-wrap: nowrap;
+  align-self: flex-end;
+  min-inline-size: 0;
 }
-.bcn-viz-meter {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  min-width: 0;
-  display: flex;
+.bcn-wdate__label {
+  font-weight: var(--typography-font-weight-semibold, 600);
+  color: var(--color-content-default);
+  white-space: nowrap;
 }
-.bcn-viz-meter__bar {
-  border-radius: var(--radius-xs);
-  background: var(--color-background-elevation-sunken);
-  height: 14px;
-  display: flex;
-  overflow: hidden;
+.bcn-wdate esa-select {
+  --_field-padding-y: var(--spacing-100);
+  inline-size: var(--bcn-wdate-width, 9.5rem);
 }
-.bcn-viz-meter__bar span {
-  height: 100%;
-  display: block;
-}
-.bcn-viz-meter__legend {
+.bcn-viz-seasons {
   gap: var(--spacing-200);
   flex-direction: column;
-  min-width: 0;
   display: flex;
+  position: relative;
 }
-.bcn-viz-meter__row {
-  align-items: center;
-  gap: var(--spacing-250);
-  font-size: var(--font-size-200);
-  color: var(--color-content-default);
-  display: flex;
+.bcn-viz-seasons__axis {
+  height: 1rem;
+  position: relative;
 }
-.bcn-viz-meter__dot {
-  border-radius: var(--radius-full);
-  flex: none;
-  width: 10px;
-  height: 10px;
+.bcn-viz-seasons__today-flag {
+  font-size: max(0.8125rem, var(--font-size-100));
+  color: var(--color-content-default-secondary);
+  background: var(--color-background-elevation-raised, var(--card-bg, #fff));
+  padding-inline: var(--spacing-100);
+  white-space: nowrap;
+  line-height: 1;
+  position: absolute;
+  top: 0;
+  transform: translate(-50%);
 }
-.bcn-viz-meter__n {
-  font-weight: var(--typography-font-weight-semibold);
-  font-variant-numeric: tabular-nums;
-  margin-left: auto;
+.bcn-viz-seasons__tick {
+  font-size: max(0.8125rem, var(--font-size-100));
+  color: var(--color-content-default-tertiary);
+  white-space: nowrap;
+  line-height: 1;
+  position: absolute;
+  top: 0;
+  transform: translate(-50%);
 }
-.bcn-viz-donut {
-  min-inline-size: 0;
-}
-.bcn-viz-donut__ring {
-  flex: none;
-}
-.bcn-viz-donut__legend {
-  flex: auto;
-  min-inline-size: 0;
+.bcn-viz-seasons__lane {
+  gap: var(--spacing-400);
+  flex-direction: column;
   margin: 0;
   padding: 0;
   list-style: none;
+  display: flex;
 }
-.bcn-viz-donut__row {
-  --gap: var(--spacing-250);
-  flex-wrap: nowrap;
+.bcn-viz-seasons__row {
+  gap: var(--spacing-050);
+  flex-direction: column;
+  display: flex;
 }
-.bcn-viz-donut__dot {
-  border-radius: var(--radius-full);
-  background: var(--_c);
-  flex: none;
-  block-size: 10px;
-  inline-size: 10px;
-}
-.bcn-viz-donut__label {
-  color: var(--color-content-default);
+.bcn-viz-seasons__name {
+  color: var(--color-content-default, var(--color-content-default-primary));
   text-overflow: ellipsis;
   white-space: nowrap;
-  min-inline-size: 0;
   overflow: hidden;
 }
-.bcn-viz-donut__value {
-  color: var(--color-content-default);
-  font-variant-numeric: tabular-nums;
-  flex: none;
-  margin-inline-start: auto;
+.bcn-viz-seasons__track {
+  height: var(--bcn-viz-seasons-bar-height, 10px);
+  display: block;
+  position: relative;
 }
-.leaflet-container {
+.bcn-viz-seasons__rule {
+  inset-inline: 0;
+  background: var(--color-border-default);
+  height: 1px;
+  position: absolute;
+  top: 50%;
+}
+.bcn-viz-seasons__todaymark {
+  background: var(--color-content-default-primary, var(--color-content-default));
+  opacity: 0.32;
+  pointer-events: none;
+  width: 1px;
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+}
+.bcn-viz-seasons__bar {
+  border-radius: var(--radius-xs);
+  background: var(--_accent, var(--color-content-default-secondary));
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.bcn-viz-seasons__bar--open-start {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+.bcn-viz-seasons__dates {
+  block-size: 1rem;
+  display: block;
+  position: relative;
+}
+.bcn-viz-seasons__date {
+  color: var(--color-content-default-secondary);
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+}
+.bcn-viz-seasons__date--end {
+  transform: translate(-100%);
+}
+.bcn-viz-seasons__more,
+.bcn-viz-seasons__empty {
+  color: var(--color-content-default-secondary);
+  margin: 0;
+}
+.bcn-widget-flow > .is-rowmate:before {
+  content: "";
+  border-inline-start: 1px solid var(--color-border-default-subtle);
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(-1 * var(--_gap-x) / 2);
+}
+.bcn-dwidget[data-w="1"] {
+  grid-column: span 1;
+}
+.bcn-mt tr[hidden] {
+  display: none;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.bcn-obsmap {
+  border-radius: var(--radius-200);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-background-elevation-sunken);
+  z-index: 0;
+  isolation: isolate;
+  width: 100%;
+  position: relative;
   overflow: hidden;
 }
-.leaflet-container {
-  -webkit-tap-highlight-color: transparent;
-}
-.leaflet-container {
-  outline-offset: 1px;
-  background: #ddd;
-}
-.leaflet-container {
-  font-family:
-    Helvetica Neue,
-    Arial,
-    Helvetica,
-    sans-serif;
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-.leaflet-pane,
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-tile-container,
-.leaflet-pane > svg,
-.leaflet-pane > canvas,
-.leaflet-zoom-box,
-.leaflet-image-layer,
-.leaflet-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.leaflet-pane {
-  z-index: 400;
-}
-.leaflet-tile-pane {
-  z-index: 200;
-}
-.leaflet-overlay-pane {
-  z-index: 400;
-}
-.leaflet-shadow-pane {
-  z-index: 500;
-}
-.leaflet-marker-pane {
-  z-index: 600;
-}
-.leaflet-tooltip-pane {
-  z-index: 650;
-}
-.leaflet-popup-pane {
-  z-index: 700;
-}
-.leaflet-popup-pane,
-.leaflet-control {
-  cursor: auto;
-}
-.leaflet-zoom-animated {
-  -webkit-transform-origin: 0 0;
-  -ms-transform-origin: 0 0;
-  transform-origin: 0 0;
-}
-.leaflet-top,
-.leaflet-bottom {
-  z-index: 1000;
-  pointer-events: none;
-  position: absolute;
-}
-.leaflet-top {
-  top: 0;
-}
-.leaflet-left {
-  left: 0;
-}
-.leaflet-right {
-  right: 0;
-}
-.leaflet-bottom {
-  bottom: 0;
-}
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-image-layer,
-.leaflet-pane > svg path,
-.leaflet-tile-container {
-  pointer-events: none;
-}
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-.leaflet-tile {
-  filter: inherit;
-  visibility: hidden;
-}
-.leaflet-container .leaflet-marker-pane img,
-.leaflet-container .leaflet-shadow-pane img,
-.leaflet-container .leaflet-tile-pane img,
-.leaflet-container img.leaflet-image-layer,
-.leaflet-container .leaflet-tile {
-  width: auto;
-  padding: 0;
-  max-width: none !important;
-  max-height: none !important;
-}
-.leaflet-container img.leaflet-tile {
-  mix-blend-mode: plus-lighter;
-}
-.leaflet-tile::selection {
-  background: 0 0;
-}
-.leaflet-zoom-anim .leaflet-zoom-animated {
-  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-}
-.leaflet-overlay-pane svg {
-  -moz-user-select: none;
-}
-.leaflet-map-pane svg {
-  z-index: 200;
-}
-svg.leaflet-zoom-animated {
-  will-change: transform;
-}
-.leaflet-container .leaflet-overlay-pane svg {
-  max-width: none !important;
-  max-height: none !important;
-}
-.leaflet-interactive {
+.bcn-obsmap .leaflet-interactive {
   cursor: pointer;
 }
-.leaflet-marker-icon.leaflet-interactive,
-.leaflet-image-layer.leaflet-interactive,
-.leaflet-pane > svg path.leaflet-interactive,
-svg.leaflet-image-layer.leaflet-interactive path {
-  pointer-events: visiblePainted;
-  pointer-events: auto;
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
-.leaflet-zoom-anim .leaflet-tile,
-.leaflet-pan-anim .leaflet-tile {
-  -webkit-transition: none;
-  -moz-transition: none;
-  transition: none;
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
 }
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
+.bcn-status-chip {
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+.bcn-status-chip__dot {
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
 }
 .modern-layout {
   flex-direction: column;
@@ -16863,6 +26796,156 @@ svg.leaflet-image-layer.leaflet-interactive path {
   border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
   background: var(--color-background-elevation-sunken, #f0f0f0);
 }
+.leaflet-container {
+  overflow: hidden;
+}
+.leaflet-container {
+  -webkit-tap-highlight-color: transparent;
+}
+.leaflet-container {
+  outline-offset: 1px;
+  background: #ddd;
+}
+.leaflet-container {
+  font-family:
+    Helvetica Neue,
+    Arial,
+    Helvetica,
+    sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.leaflet-pane {
+  z-index: 400;
+}
+.leaflet-tile-pane {
+  z-index: 200;
+}
+.leaflet-overlay-pane {
+  z-index: 400;
+}
+.leaflet-shadow-pane {
+  z-index: 500;
+}
+.leaflet-marker-pane {
+  z-index: 600;
+}
+.leaflet-tooltip-pane {
+  z-index: 650;
+}
+.leaflet-popup-pane {
+  z-index: 700;
+}
+.leaflet-popup-pane,
+.leaflet-control {
+  cursor: auto;
+}
+.leaflet-zoom-animated {
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 1000;
+  pointer-events: none;
+  position: absolute;
+}
+.leaflet-top {
+  top: 0;
+}
+.leaflet-left {
+  left: 0;
+}
+.leaflet-right {
+  right: 0;
+}
+.leaflet-bottom {
+  bottom: 0;
+}
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+  pointer-events: none;
+}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.leaflet-tile {
+  filter: inherit;
+  visibility: hidden;
+}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+  width: auto;
+  padding: 0;
+  max-width: none !important;
+  max-height: none !important;
+}
+.leaflet-container img.leaflet-tile {
+  mix-blend-mode: plus-lighter;
+}
+.leaflet-tile::selection {
+  background: 0 0;
+}
+.leaflet-overlay-pane svg {
+  -moz-user-select: none;
+}
+.leaflet-map-pane svg {
+  z-index: 200;
+}
+svg.leaflet-zoom-animated {
+  will-change: transform;
+}
+.leaflet-container .leaflet-overlay-pane svg {
+  max-width: none !important;
+  max-height: none !important;
+}
+.leaflet-interactive {
+  cursor: pointer;
+}
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+  pointer-events: visiblePainted;
+  pointer-events: auto;
+}
+.leaflet-zoom-anim .leaflet-zoom-animated {
+  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
+  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
+  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
+}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+  -webkit-transition: none;
+  -moz-transition: none;
+  transition: none;
+}
 .typography-microcopy-md {
   font-family: var(--typography-microcopy-md-font-family);
   font-size: var(--typography-microcopy-md-font-size);
@@ -16905,6 +26988,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
   line-height: var(--typography-title-sm-strong-line-height);
   letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
+.typography-label-sm {
+  font-family: var(--typography-label-sm-font-family);
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  line-height: var(--typography-label-sm-line-height);
+  letter-spacing: var(--typography-label-sm-letter-spacing);
+}
 .typography-display-sm {
   font-family: var(--typography-display-sm-font-family);
   font-size: var(--typography-display-sm-font-size);
@@ -16933,12 +27023,51 @@ svg.leaflet-image-layer.leaflet-interactive path {
   line-height: var(--typography-body-sm-line-height);
   letter-spacing: var(--typography-body-sm-letter-spacing);
 }
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 ```
 
@@ -17051,7 +27180,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
 | `--typography-label-md-strong-font-weight` | `550` | semantic |
 | `--typography-label-md-strong-letter-spacing` | `.01em` | semantic |
 | `--typography-label-md-strong-line-height` | `1.6` | semantic |
+| `--typography-label-sm-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-label-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-label-sm-font-weight` | `500` | semantic |
+| `--typography-label-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-label-sm-line-height` | `1.6` | semantic |
 | `--typography-meta-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-meta-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
 | `--typography-meta-font-weight` | `350` | semantic |
@@ -17062,11 +27195,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 | `--typography-microcopy-md-font-weight` | `500` | semantic |
 | `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
 | `--typography-microcopy-md-line-height` | `1` | semantic |
-| `--typography-microcopy-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
-| `--typography-microcopy-sm-strong-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
-| `--typography-microcopy-sm-strong-font-weight` | `550` | semantic |
-| `--typography-microcopy-sm-strong-letter-spacing` | `.01em` | semantic |
-| `--typography-microcopy-sm-strong-line-height` | `1` | semantic |
 | `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
 | `--typography-microcopy-xs-font-weight` | `500` | semantic |
@@ -17077,6 +27205,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
 | `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |
 | `--typography-microcopy-xs-strong-letter-spacing` | `.01em` | semantic |
 | `--typography-microcopy-xs-strong-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-subtle-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-subtle-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-subtle-font-weight` | `350` | semantic |
+| `--typography-microcopy-xs-subtle-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-subtle-line-height` | `1` | semantic |
 | `--typography-title-sm-strong-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-title-sm-strong-font-size` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | semantic |
 | `--typography-title-sm-strong-font-weight` | `550` | semantic |

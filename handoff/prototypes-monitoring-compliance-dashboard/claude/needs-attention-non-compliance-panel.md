@@ -376,7 +376,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
         </script>
         <script
           type="module"
-          src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.V9eB__99.js"
+          src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.B7YhMltJ.js"
         ></script>
       </div>
       <section class="bcn-apanel__outstanding stack" data-gap="sm">

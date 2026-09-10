@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-commitment
 
-The 145 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 143 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -8,7 +8,6 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 |---|---|
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
-| `--border-width-emphasis` | `2px` |
 | `--color-background-accent` | `#f76b15` |
 | `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-floating` | `#fcfcfc` |
@@ -142,7 +141,6 @@ The 145 design tokens this page actually uses, resolved to their final values fo
 | `--font-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
-| `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
