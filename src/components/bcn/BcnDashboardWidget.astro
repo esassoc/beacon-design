@@ -288,6 +288,16 @@ const hasFoot = Boolean(footHref && footLabel);
     text-align: start;
   }
 
+  /* A SMALL INDENT ON THE FIGURE ONLY (Jamie, 2026-09-10). Set flush, a display-sized
+     numeral reads as hanging LEFT of the label above it: its side bearings are a
+     fraction of its own size, so a 36px digit starts closer to the box edge than
+     16px text does. 4px puts the two optical left edges on the same line without the
+     number looking inset. On the value alone — the label is the thing the eye
+     measures the column from, so it stays on the margin. */
+  .bcn-dwidget :global(.esa-stat__value) {
+    padding-inline-start: var(--spacing-100);
+  }
+
   /* ── Hover chrome: border steps on the card's public knob, a quiet lift, and the
         ⋯ button fades in. Focus keeps it visible for keyboard users. ── */
   .bcn-dwidget :global(.esa-card) {
