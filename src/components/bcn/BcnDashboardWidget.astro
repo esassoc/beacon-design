@@ -276,13 +276,16 @@ const hasFoot = Boolean(footHref && footLabel);
     color: var(--color-content-default);
   }
 
-  /* The number centres under its title. text-align (not align-items) so every line
-     shares ONE centre axis — the title is the widest line, so centring the box of
-     each child would give the same result here but drift the moment a sub line runs
-     longer than the title. Also a missing hook: esa-stat has no alignment prop, so
-     this rides along with the order override above and retires with it. */
+  /* LEFT-ALIGNED, not centred (Jamie, 2026-09-10). The figure used to centre under
+     its title, which reads fine as an isolated stat and stopped reading fine once the
+     flow put it at the start of a row: the number floated off the card's left margin
+     while every other section on the row — chart titles, table headers, axis labels —
+     began on it. A stat block is the first column of a row now, not a tile.
+     Explicit rather than deleted, because esa-stat has no alignment prop and
+     `text-align` inherits: the rule is what stops an ancestor's centring reaching in,
+     and it keeps the alignment stated where the order override above is. */
   .bcn-dwidget :global(.esa-stat) {
-    text-align: center;
+    text-align: start;
   }
 
   /* ── Hover chrome: border steps on the card's public knob, a quiet lift, and the
