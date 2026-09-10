@@ -36,7 +36,7 @@
 // expose. esa-card is chrome for a content block, not a list row. Checked Beacon
 // prod: its widget configuration is a fixed form with no per-section rows to port.
 // bcn-config-sections is the reusable home for the bar and its disclosure.
-import { WIDGETS, sectionDefs } from '../../data/monitoring-streams';
+import { WIDGETS, sectionDefs, SECTION_DISPLAYS } from '../../data/monitoring-streams';
 ---
 
 {/* One block per widget type; the page unhides the open one. */}
@@ -61,14 +61,28 @@ import { WIDGETS, sectionDefs } from '../../data/monitoring-streams';
               </svg>
             </button>
 
-            {/* The switch carries the NAME, so the bar has one label rather than a
-                label and a separately-associated control. */}
-            <esa-switch-toggle
-              class="bcn-cfgsec__switch"
-              data-cfgsec-toggle
-              size="sm"
-              label={s.label}
-            ></esa-switch-toggle>
+            {/* TITLE OVER SUBTITLE (Jamie, 2026-09-10): the row says which part of the
+                widget it operates, then what KIND of display that part is. This is
+                where that pattern belongs — a row in a list has no chart beside it to
+                make "donut" obvious, which is exactly the ambiguity the subtitle
+                removes. (It was built on the board's headings first, on a misread.)
+
+                The switch keeps carrying the title as its own label so the control is
+                properly named and the words are part of its hit target — the subtitle
+                is descriptive text, not something to click. It takes `title`, the
+                concise form, rather than the verbose `label`: at 396px "Outstanding
+                issues needing attention" wrapped to two lines and collided with the
+                caret. `label` still names the grip and caret buttons below, where the
+                long form is the unambiguous one. */}
+            <span class="bcn-cfgsec__name">
+              <esa-switch-toggle
+                class="bcn-cfgsec__switch"
+                data-cfgsec-toggle
+                size="sm"
+                label={s.title}
+              ></esa-switch-toggle>
+              <span class="bcn-cfgsec__sub typography-label-sm">{SECTION_DISPLAYS[s.display]}</span>
+            </span>
 
             {s.settings && s.settings.length > 0 && (
               <button
@@ -196,11 +210,30 @@ import { WIDGETS, sectionDefs } from '../../data/monitoring-streams';
     padding-block: var(--spacing-300);
   }
 
-  /* The switch takes the slack so the caret sits at the trailing edge and every bar
-     in the list agrees about where its controls are. */
-  .bcn-cfgsec__switch {
+  /* The NAME BLOCK takes the slack so the caret sits at the trailing edge and every
+     bar in the list agrees about where its controls are. It used to be the switch
+     itself; the switch is now inside it, with the subtitle under it. */
+  .bcn-cfgsec__name {
+    display: block;
     flex: 1;
     min-inline-size: 0;
+  }
+
+  .bcn-cfgsec__switch {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  /* ALIGNED UNDER THE SWITCH'S OWN LABEL TEXT, not under the switch. That text sits
+     inside esa-switch-toggle's shadow root, past its track and the button's gap, so
+     the indent has to be reconstructed: 32px track at size="sm" plus the .root gap of
+     --spacing-200. Derived from the lego's published size ramp rather than eyeballed,
+     and measured after the fact (both edges at the same x). If the hub retunes the sm
+     track this drifts by the difference — visibly, and only here. */
+  .bcn-cfgsec__sub {
+    display: block;
+    padding-inline-start: calc(32px + var(--spacing-200));
+    color: var(--color-content-default-secondary);
   }
 
   .bcn-cfgsec__grip,

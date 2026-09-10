@@ -514,20 +514,20 @@ const addCards = WIDGETS.map((w) => {
             filters a map, and this widget's map is a small non-interactive inset. */}
         <BcnWidgetFlow>
           <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Active observations" display="figure" />
+            <BcnSectionHeading title="Active observations" />
             <span style="--stat-value-size: var(--font-size-900);">
               <EsaStat value={DASHBOARD.activeObservations} label="Active observations" />
             </span>
           </div>
           <div class="stack" data-gap="sm" data-section="breakdown" data-flow="chart">
-            <BcnSectionHeading title="Observations by type" display="donut" />
+            <BcnSectionHeading title="Observations by type" />
             <BcnVizDonut
               measure="Observations"
               segments={DASHBOARD.observationBreakdown.map((b) => ({ label: b.label, value: b.value, color: b.hex }))}
             />
           </div>
           <div data-section="activity" data-flow="chart" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Observations over time" display="stacked" />
+            <BcnSectionHeading title="Observations over time" />
             <BcnVizStacked
               points={obsActivity.points}
               series={obsTypeSeries}
@@ -541,20 +541,20 @@ const addCards = WIDGETS.map((w) => {
           {
             obsPins.length > 0 && (
               <div data-section="map" data-flow="full" class="stack" data-gap="sm">
-                <BcnSectionHeading title="Observation locations" display="map" />
+                <BcnSectionHeading title="Observation locations" />
                 <BcnObservationMap observations={obsPins} mapId="mpdash-obs" height="220px" interactive={false} />
               </div>
             )
           }
           <div data-section="latest" data-flow="full" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Latest observations" display="table" />
+            <BcnSectionHeading title="Latest observations" />
             <BcnMiniTable
               columns={[{ label: 'Observation' }, { label: 'Species' }, { label: 'Observed', align: 'end' }]}
               rows={latestObsRows}
             />
           </div>
           <div data-section="outstanding" data-flow="full" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Outstanding issues" display="table" count={issues.length} />
+            <BcnSectionHeading title="Outstanding issues" count={issues.length} />
             <BcnMiniTable
               columns={[{ label: 'Age' }, { label: 'Observation' }, { label: 'Species' }, { label: 'Work area', align: 'end' }]}
               rows={issueRows}
@@ -575,18 +575,18 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetFlow>
           <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Total nesting-bird observations" display="figure" />
+            <BcnSectionHeading title="Total nesting-bird observations" />
             <EsaStat value={DASHBOARD.nestingBirds.total} label="Total nesting-bird observations" />
           </div>
           <div class="stack" data-gap="sm" data-section="species" data-flow="chart">
-            <BcnSectionHeading title="Observations by species" display="bars" />
+            <BcnSectionHeading title="Observations by species" />
             <BcnVizBars
               variant="code"
               rows={DASHBOARD.nestingBirds.species.map((sp) => ({ name: sp.label, value: sp.value, color: sp.hex }))}
             />
           </div>
           <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
-            <BcnSectionHeading title="Latest observations" display="table" />
+            <BcnSectionHeading title="Latest observations" />
             <BcnMiniTable
               columns={[{ label: 'Observation' }, { label: 'Species' }, { label: 'Observed', align: 'end' }]}
               rows={latestNestingRows}
@@ -607,13 +607,13 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetFlow>
           <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Open compliance concerns" display="figure" />
+            <BcnSectionHeading title="Open compliance concerns" />
             <span style={openConcerns > 0 ? '--stat-value-color: var(--color-content-utility-danger);' : undefined}>
               <EsaStat value={openConcerns} label="Open compliance concerns" />
             </span>
           </div>
           <div class="stack" data-gap="sm" data-section="activity" data-flow="chart">
-            <BcnSectionHeading title="Concerns raised over time" display="stacked" />
+            <BcnSectionHeading title="Concerns raised over time" />
             <BcnVizStacked
               points={concernActivity.points}
               series={CONCERN_SERIES}
@@ -625,7 +625,7 @@ const addCards = WIDGETS.map((w) => {
             />
           </div>
           <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
-            <BcnSectionHeading title="Latest open concerns" display="table" />
+            <BcnSectionHeading title="Latest open concerns" />
             <BcnMiniTable
               columns={[{ label: 'Concern' }, { label: 'Issue' }, { label: 'Raised', align: 'end' }]}
               rows={latestConcernRows}
@@ -647,11 +647,11 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetFlow>
           <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Total daily monitoring reports" display="figure" />
+            <BcnSectionHeading title="Total daily monitoring reports" />
             <EsaStat value={dmr.recordCount} label="Total daily monitoring reports" />
           </div>
           <div class="stack" data-gap="sm" data-section="activity" data-flow="chart">
-            <BcnSectionHeading title="Reports filed over time" display="trend" />
+            <BcnSectionHeading title="Reports filed over time" />
             <BcnVizTrend
               points={dmrBuckets.points}
               unit={dmrBuckets.unit}
@@ -665,7 +665,7 @@ const addCards = WIDGETS.map((w) => {
             />
           </div>
           <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
-            <BcnSectionHeading title="Latest reports" display="table" />
+            <BcnSectionHeading title="Latest reports" />
             <BcnMiniTable
               columns={[{ label: 'Date' }, { label: 'Monitor' }, { label: 'Status', align: 'end' }]}
               rows={dmrRows.map((r) => [r[0], r[1], r[3]])}
@@ -686,15 +686,15 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetFlow>
           <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Total biological resource observations" display="figure" />
+            <BcnSectionHeading title="Total biological resource observations" />
             <EsaStat value={DASHBOARD.biologicalResources.total} label="Total biological resource observations" />
           </div>
           <div class="stack" data-gap="sm" data-section="species" data-flow="chart">
-            <BcnSectionHeading title="Observations by species" display="bars" />
+            <BcnSectionHeading title="Observations by species" />
             <BcnVizBars rows={DASHBOARD.biologicalResources.items.map((b) => ({ name: b.label, value: b.value, color: b.hex }))} />
           </div>
           <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
-            <BcnSectionHeading title="Latest observations" display="table" />
+            <BcnSectionHeading title="Latest observations" />
             <BcnMiniTable
               columns={[{ label: 'Observation' }, { label: 'Species' }, { label: 'Observed', align: 'end' }]}
               rows={latestBioRows}
@@ -717,7 +717,7 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetFlow>
           <div data-section="lanes" data-flow="full" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Compliance by observation state" display="lists" />
+            <BcnSectionHeading title="Compliance by observation state" />
             <BcnComplianceList />
           </div>
         </BcnWidgetFlow>
@@ -737,7 +737,7 @@ const addCards = WIDGETS.map((w) => {
         <BcnWidgetDateRange widgetId="mileage-total" scopes={WIDGET_SCOPES['mileage-total']} />
         <BcnWidgetFlow>
           <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Vehicle miles" display="figure" />
+            <BcnSectionHeading title="Vehicle miles" />
             <EsaStat
               value={MILEAGE_ROLLUP.miles14d.toLocaleString('en-US')}
               label="Vehicle miles"
@@ -745,7 +745,7 @@ const addCards = WIDGETS.map((w) => {
             />
           </div>
           <div class="stack" data-gap="sm" data-section="activity" data-flow="chart">
-            <BcnSectionHeading title="Miles over time" display="trend" />
+            <BcnSectionHeading title="Miles over time" />
             {mileageScoped.map((s) => (
               <div data-scope-chart={s.scope} hidden={s.scope !== WIDGET_SCOPES['mileage-total'][0]}>
                 <BcnVizTrend
@@ -758,7 +758,7 @@ const addCards = WIDGETS.map((w) => {
             ))}
           </div>
           <div class="stack" data-gap="sm" data-section="vehicles" data-flow="chart">
-            <BcnSectionHeading title="Miles by vehicle" display="bars" />
+            <BcnSectionHeading title="Miles by vehicle" />
             <BcnVizBars rows={MILEAGE_ROLLUP.byVehicle.map((v) => ({ name: v.name, value: v.value }))} />
           </div>
         </BcnWidgetFlow>
@@ -778,11 +778,11 @@ const addCards = WIDGETS.map((w) => {
         <BcnWidgetDateRange widgetId="runtime-total" scopes={WIDGET_SCOPES['runtime-total']} />
         <BcnWidgetFlow>
           <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Equipment hours" display="figure" />
+            <BcnSectionHeading title="Equipment hours" />
             <EsaStat value={RUNTIME_ROLLUP.hours14d} label="Equipment hours" sub={sinceLabel(WIDGET_SCOPES['runtime-total'][0])} />
           </div>
           <div class="stack" data-gap="sm" data-section="activity" data-flow="chart">
-            <BcnSectionHeading title="Runtime minutes over time" display="trend" />
+            <BcnSectionHeading title="Runtime minutes over time" />
             {runtimeScoped.map((s) => (
               <div data-scope-chart={s.scope} hidden={s.scope !== WIDGET_SCOPES['runtime-total'][0]}>
                 <BcnVizTrend
@@ -795,7 +795,7 @@ const addCards = WIDGETS.map((w) => {
             ))}
           </div>
           <div class="stack" data-gap="sm" data-section="classes" data-flow="chart">
-            <BcnSectionHeading title="Hours by equipment class" display="bars" />
+            <BcnSectionHeading title="Hours by equipment class" />
             <BcnVizBars rows={RUNTIME_ROLLUP.byClassHours.map((c) => ({ name: c.name, value: c.value }))} />
           </div>
         </BcnWidgetFlow>
@@ -813,15 +813,15 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetFlow>
           <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Total survey documents" display="figure" />
+            <BcnSectionHeading title="Total survey documents" />
             <EsaStat value={SURVEYS.length} label="Total survey documents" />
           </div>
           <div class="stack" data-gap="sm" data-section="status" data-flow="chart">
-            <BcnSectionHeading title="Documents by status" display="donut" />
+            <BcnSectionHeading title="Documents by status" />
             <BcnVizDonut measure="Documents" segments={surveyStatuses} />
           </div>
           <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
-            <BcnSectionHeading title="Latest surveys" display="table" />
+            <BcnSectionHeading title="Latest surveys" />
             <BcnMiniTable
               columns={[{ label: 'Survey' }, { label: 'Surveyed', align: 'end' }]}
               rows={surveyRows}
@@ -843,15 +843,15 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetFlow>
           <div data-section="count" data-flow="figure" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Training confirmations" display="figure" />
+            <BcnSectionHeading title="Training confirmations" />
             <EsaStat value={WEAP_ROLLUP.confirmations30d} label="Training confirmations" sub={sinceLabel(WIDGET_SCOPES['weap-trained'][0])} />
           </div>
           <div class="stack" data-gap="sm" data-section="companies" data-flow="chart">
-            <BcnSectionHeading title="Workers by company" display="bars" />
+            <BcnSectionHeading title="Workers by company" />
             <BcnVizBars rows={WEAP_ROLLUP.byCompany.map((c) => ({ name: c.name, value: c.value }))} />
           </div>
           <div class="stack" data-gap="sm" data-section="latest" data-flow="full">
-            <BcnSectionHeading title="Latest confirmations" display="table" />
+            <BcnSectionHeading title="Latest confirmations" />
             <BcnMiniTable columns={[{ label: 'Worker' }, { label: 'Trade' }, { label: 'Date', align: 'end' }]} rows={weapRows} />
           </div>
         </BcnWidgetFlow>
@@ -870,7 +870,7 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetFlow>
           <div data-section="seasons" data-flow="full" class="stack" data-gap="sm">
-            <BcnSectionHeading title="Season windows" display="timeline" />
+            <BcnSectionHeading title="Season windows" />
             <BcnVizSeasons seasons={SEASON_WINDOWS} windowDays={90} today={TODAY} />
           </div>
         </BcnWidgetFlow>
