@@ -57,13 +57,18 @@
 <div class="bcn-widget-flow"><slot /></div>
 
 <style>
-  /* ── The flow. Both gaps are the same 24px trough so a wrapped row is separated
-        from the one above it exactly as far as two side-by-side sections are. ── */
+  /* ── The flow. The two axes are NOT the same gap (Jamie, 2026-09-10): 32px across,
+        24px down. They are doing different jobs. Horizontally the gap has to hold a
+        divider AND read as air on both sides of it, and two charts butted 24px apart
+        with a line up the middle left 12px a side — enough to separate them, not
+        enough to look deliberate. Vertically there is no line to accommodate and the
+        sections' own titles already announce each one, so 24px stays. ── */
   .bcn-widget-flow {
-    --_trough: var(--spacing-500);
+    --_gap-x: var(--spacing-600);
+    --_gap-y: var(--spacing-500);
     display: flex;
     flex-wrap: wrap;
-    gap: var(--_trough);
+    gap: var(--_gap-y) var(--_gap-x);
     align-items: stretch;
     min-inline-size: 0;
     flex: 1; /* the widget body is a flex column — fill a stretched band's height */
@@ -99,9 +104,10 @@
      not a width: flex line-breaking measures hypothetical main size, so an item that
      would fall under it wraps to the next row instead of being crushed.
      360px is measured, not picked: at the 870px two-column card it is what decides
-     that a figure sits beside ONE chart (143 + 360 + 360 + gaps overflows, so the
-     second chart drops to its own full-width row) while the 1337px banner fits a
-     figure and two. Below it a stacked trend loses its y-axis gutter to its columns. */
+     that a figure sits beside ONE chart (143 + 360 + 360 + two 32px gaps = 927, so
+     the second chart drops to its own full-width row) while the 1337px banner fits a
+     figure and two (916). Below it a stacked trend loses its y-axis gutter to its
+     columns. */
   .bcn-widget-flow > :global([data-flow='chart']) {
     flex: 1 1 var(--bcn-flow-chart-min, 360px);
   }
@@ -115,14 +121,15 @@
 
   /* ── The divider, drawn only between two sections that ended up on the same row.
         `.is-rowmate` comes from the script; a pseudo-element rather than a border so
-        it can sit at the true midpoint of the trough (12px into the 24px gap) without
-        taking width from the section it hangs off. ── */
+        it can sit at the true midpoint of the horizontal gap without taking width
+        from the section it hangs off. ── */
   .bcn-widget-flow > :global(.is-rowmate)::before {
     content: '';
     position: absolute;
     inset-block: 0;
-    /* Half the trough to the left of this section's leading edge. */
-    inset-inline-start: calc(-1 * var(--_trough) / 2);
+    /* Half the horizontal gap to the left of this section's leading edge — derived,
+       so widening the gap keeps the line centred instead of drifting off it. */
+    inset-inline-start: calc(-1 * var(--_gap-x) / 2);
     /* The LIGHTEST hairline in the set: this separates two sections of one card,
        a quieter job than the table rules and chart axes on --color-border-default. */
     border-inline-start: 1px solid var(--color-border-default-subtle);
