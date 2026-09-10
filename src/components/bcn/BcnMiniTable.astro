@@ -144,11 +144,31 @@ const fill = truncateAt.size === 0;
   .bcn-mt[data-fill] {
     justify-content: space-between;
   }
+  /* ── A HIDDEN ROW HAS TO BE RESTATED, and this is what broke the "Rows shown"
+        setting. `display: grid` above is a class-based rule, so it out-cascades the
+        UA's `[hidden] { display: none }` and `tr.hidden = true` painted anyway. The
+        dashboard renders every list at its maximum and reveals the first N, so the
+        control silently did nothing — in the live preview and after save alike.
+        Third time this trap has cost real time here (`.stack` in BcnConfigSections,
+        the section lists in the configure dialog): ANY component that overrides
+        `display` owes `[hidden]` a rule of its own. ── */
+  .bcn-mt tr[hidden] {
+    display: none;
+  }
+
   /* Separators live on the ROW, not the cells: a per-cell border would break into
      a dash at every column gap. */
-  .bcn-mt thead tr,
-  .bcn-mt tbody tr:not(:last-child) {
+  .bcn-mt thead tr {
     border-block-end: 1px solid var(--color-border-default);
+  }
+
+  /* BETWEEN VISIBLE ROWS, which is why this is a leading border on the follower and
+     not `:not(:last-child)`. With a row limit in play the DOM's last child is a
+     hidden row, so a trailing rule would paint under the last row a reader can
+     actually see — a table that looks like it has a bottom border on Tuesday and not
+     on Wednesday, depending on the setting. */
+  .bcn-mt tbody tr:not([hidden]) + tr:not([hidden]) {
+    border-block-start: 1px solid var(--color-border-default);
   }
   .bcn-mt th {
     text-align: start;
