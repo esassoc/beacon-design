@@ -7,10 +7,42 @@ import {
   instanceType,
   widgetById,
   type DashboardConfig,
+  type SectionState,
 } from '../data/monitoring-streams';
 
-export type { DashboardConfig };
+export type { DashboardConfig, SectionState };
 export { defaultDashboardConfig };
+
+/**
+ * Coerce one instance's `sections` to the current shape.
+ *
+ * The key bump means we should never SEE a v5 boolean map — but this record is
+ * parsed JSON from whatever a browser has in storage, so its shape is an assumption
+ * either way. A stray `true` becomes `{ on: true }` rather than a truthy object that
+ * silently reports `state.on === undefined`, which is the failure that would render
+ * a widget with every section off and no error anywhere.
+ *
+ * Anything that is neither a boolean nor an object is dropped, and its section then
+ * falls back to the registry default like any absent key.
+ */
+const liveSections = (w: { sections?: unknown }): Record<string, SectionState> | undefined => {
+  if (!w.sections || typeof w.sections !== 'object') return undefined;
+  const out: Record<string, SectionState> = {};
+  for (const [id, raw] of Object.entries(w.sections as Record<string, unknown>)) {
+    if (typeof raw === 'boolean') {
+      out[id] = { on: raw };
+    } else if (raw && typeof raw === 'object') {
+      const r = raw as { on?: unknown; values?: unknown };
+      out[id] = {
+        on: r.on === true,
+        ...(r.values && typeof r.values === 'object'
+          ? { values: r.values as SectionState['values'] }
+          : {}),
+      };
+    }
+  }
+  return out;
+};
 
 /** Read the saved layout, merged over registry defaults. A bad or missing read
  *  returns the defaults — the dashboard must render, never break. */
@@ -35,9 +67,9 @@ export const readDashboardConfig = (): DashboardConfig => {
     for (const id of fallback.order) if (!order.includes(id)) order.push(id);
     // Same rule for the record itself, so a retired widget's config cannot linger.
     const widgets = Object.fromEntries(
-      Object.entries({ ...fallback.widgets, ...parsed.widgets }).filter(([id, w]) =>
-        Boolean(widgetById(w?.type ?? instanceType(id))),
-      ),
+      Object.entries({ ...fallback.widgets, ...parsed.widgets })
+        .filter(([id, w]) => Boolean(widgetById(w?.type ?? instanceType(id))))
+        .map(([id, w]) => [id, { ...w, sections: liveSections(w) }]),
     ) as DashboardConfig['widgets'];
     return { order, widgets };
   } catch {

@@ -66,6 +66,14 @@ import { bucketSeries, bucketStacked } from '../../../lib/bucket-series';
 const st = (id: string) => streamById(id)!;
 const streamHref = (id: string) => withBase(`/prototypes/monitoring/stream/${id}`);
 
+// ── "Latest N" rows (2026-09-10) ─────────────────────────────────────────────
+// Every list renders SECTION_ROW_MAX rows, and the section's `rows` setting reveals
+// the first N of them (applySections). Rendered at the maximum rather than at the
+// saved count because these rows are server-rendered markup: slicing to the saved
+// value would mean re-rendering the table in the page script every time the setting
+// moved. Hiding the tail is one attribute per row and needs no second renderer.
+const SECTION_ROW_MAX = 7;
+
 const fmtShort = (iso: string) =>
   new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
@@ -176,7 +184,7 @@ const dmrFile = (r: Record<string, unknown>) => ({
     ].join('\n'),
   )}`,
 });
-const dmrRows = dmr.sampleRecords.slice(0, 5).map((r) => {
+const dmrRows = dmr.sampleRecords.slice(0, SECTION_ROW_MAX).map((r) => {
   const file = dmrFile(r);
   return [
     { text: fmtShort(String(r.reportDate)), href: file.href, download: file.name, num: true },
@@ -205,7 +213,7 @@ const surveyStatuses = surveyOrder.map((s) => ({
 // The five most recent survey documents (Andy round 4, X3).
 const surveyRows = [...SURVEYS]
   .sort((a, b) => (a.date < b.date ? 1 : -1))
-  .slice(0, 5)
+  .slice(0, SECTION_ROW_MAX)
   .map((s) => [
     { text: s.id, href: streamHref('surveys') },
     { text: fmtShort(s.date), num: true },
@@ -213,7 +221,7 @@ const surveyRows = [...SURVEYS]
 
 // ── WEAP: latest confirmations ───────────────────────────────────────────────
 const weap = st('weap');
-const weapRows = weap.sampleRecords.slice(0, 4).map((r) => [
+const weapRows = weap.sampleRecords.slice(0, SECTION_ROW_MAX).map((r) => [
   { text: String(r.worker) },
   { text: String(r.trade) },
   { text: fmtShort(String(r.trainingDate)), num: true },
@@ -310,7 +318,7 @@ const scopedSeries = (rows: { date: string; value: number }[], scopes: readonly 
 // Same shape the Surveys and Biological Resources widgets already use: a
 // BcnMiniTable of the most recent records, newest first, with the id linking
 // through to the stream. Five rows is the house length (surveyRows, dmrRows).
-const newest = <T extends { observedDate: string }>(rows: T[], n = 5): T[] =>
+const newest = <T extends { observedDate: string }>(rows: T[], n = SECTION_ROW_MAX): T[] =>
   [...rows].sort((a, b) => (a.observedDate < b.observedDate ? 1 : -1)).slice(0, n);
 
 const latestBioRows = newest(FINDS.filter((f) => f.type === 'Biological Resource')).map((f) => [
@@ -499,22 +507,20 @@ const addCards = WIDGETS.map((w) => {
             one toggleable part; the page script hides them per the saved instance.
             The observation filter row moved OUT to the Dashboard Map widget — it
             filters a map, and this widget's map is a small non-interactive inset. */}
-        <div data-section="stats">
-          <BcnWidgetPanels>
-            <div slot="a">
-              <span style="--stat-value-size: var(--font-size-900);">
-                <EsaStat value={DASHBOARD.activeObservations} label="Active observations" />
-              </span>
-            </div>
-            <div slot="b" class="stack" data-gap="sm">
-              <span class="typography-label-md-strong">Observations by type</span>
-              <BcnVizDonut
-                measure="Observations"
-                segments={DASHBOARD.observationBreakdown.map((b) => ({ label: b.label, value: b.value, color: b.hex }))}
-              />
-            </div>
-          </BcnWidgetPanels>
-        </div>
+        <BcnWidgetPanels>
+          <div slot="a" data-section="count">
+            <span style="--stat-value-size: var(--font-size-900);">
+              <EsaStat value={DASHBOARD.activeObservations} label="Active observations" />
+            </span>
+          </div>
+          <div slot="b" class="stack" data-gap="sm" data-section="breakdown">
+            <span class="typography-label-md-strong">Observations by type</span>
+            <BcnVizDonut
+              measure="Observations"
+              segments={DASHBOARD.observationBreakdown.map((b) => ({ label: b.label, value: b.value, color: b.hex }))}
+            />
+          </div>
+        </BcnWidgetPanels>
         <div data-section="activity" class="stack" data-gap="sm">
           <span class="typography-label-md-strong">Observations over time</span>
           <BcnVizStacked
@@ -568,17 +574,17 @@ const addCards = WIDGETS.map((w) => {
         footLabel="All nesting-bird observations"
       >
         <BcnWidgetPanels>
-          <div slot="a">
+          <div slot="a" data-section="count">
             <EsaStat value={DASHBOARD.nestingBirds.total} label="Total nesting-bird observations" />
           </div>
-          <div slot="b" class="stack" data-gap="sm">
+          <div slot="b" class="stack" data-gap="sm" data-section="species">
             <span class="typography-label-md-strong">Observations by species</span>
             <BcnVizBars
               variant="code"
               rows={DASHBOARD.nestingBirds.species.map((sp) => ({ name: sp.label, value: sp.value, color: sp.hex }))}
             />
           </div>
-          <div slot="c" class="stack" data-gap="sm">
+          <div slot="c" class="stack" data-gap="sm" data-section="latest">
             <span class="typography-label-md-strong">Latest observations</span>
             <BcnMiniTable
               columns={[{ label: 'Observation' }, { label: 'Species' }, { label: 'Observed', align: 'end' }]}
@@ -599,12 +605,12 @@ const addCards = WIDGETS.map((w) => {
         footLabel="All compliance concerns"
       >
         <BcnWidgetPanels>
-          <div slot="a">
+          <div slot="a" data-section="count">
             <span style={openConcerns > 0 ? '--stat-value-color: var(--color-content-utility-danger);' : undefined}>
               <EsaStat value={openConcerns} label="Open compliance concerns" />
             </span>
           </div>
-          <div slot="b" class="stack" data-gap="sm">
+          <div slot="b" class="stack" data-gap="sm" data-section="activity">
             <span class="typography-label-md-strong">Concerns raised over time</span>
             <BcnVizStacked
               points={concernActivity.points}
@@ -616,7 +622,7 @@ const addCards = WIDGETS.map((w) => {
               label={`Concerns raised ${concernActivity.perLabel}, open and closed, ${fmtShort(concernActivity.points[0].date)} to ${fmtShort(TODAY)}`}
             />
           </div>
-          <div slot="c" class="stack" data-gap="sm">
+          <div slot="c" class="stack" data-gap="sm" data-section="latest">
             <span class="typography-label-md-strong">Latest open concerns</span>
             <BcnMiniTable
               columns={[{ label: 'Concern' }, { label: 'Issue' }, { label: 'Raised', align: 'end' }]}
@@ -638,10 +644,10 @@ const addCards = WIDGETS.map((w) => {
         footLabel="All daily monitoring reports"
       >
         <BcnWidgetPanels>
-          <div slot="a">
+          <div slot="a" data-section="count">
             <EsaStat value={dmr.recordCount} label="Total daily monitoring reports" />
           </div>
-          <div slot="b" class="stack" data-gap="sm">
+          <div slot="b" class="stack" data-gap="sm" data-section="activity">
             <span class="typography-label-md-strong">Reports filed over time</span>
             <BcnVizTrend
               points={dmrBuckets.points}
@@ -655,7 +661,7 @@ const addCards = WIDGETS.map((w) => {
               label={`Reports filed ${dmrBuckets.perLabel}, ${fmtShort(dmrBuckets.points[0].date)} to ${fmtShort(TODAY)}`}
             />
           </div>
-          <div slot="c" class="stack" data-gap="sm">
+          <div slot="c" class="stack" data-gap="sm" data-section="latest">
             <span class="typography-label-md-strong">Latest reports</span>
             <BcnMiniTable
               columns={[{ label: 'Date' }, { label: 'Monitor' }, { label: 'Status', align: 'end' }]}
@@ -676,14 +682,14 @@ const addCards = WIDGETS.map((w) => {
         footLabel="All biological-resource observations"
       >
         <BcnWidgetPanels>
-          <div slot="a">
+          <div slot="a" data-section="count">
             <EsaStat value={DASHBOARD.biologicalResources.total} label="Total biological resource observations" />
           </div>
-          <div slot="b" class="stack" data-gap="sm">
+          <div slot="b" class="stack" data-gap="sm" data-section="species">
             <span class="typography-label-md-strong">Observations by species</span>
             <BcnVizBars rows={DASHBOARD.biologicalResources.items.map((b) => ({ name: b.label, value: b.value, color: b.hex }))} />
           </div>
-          <div slot="c" class="stack" data-gap="sm">
+          <div slot="c" class="stack" data-gap="sm" data-section="latest">
             <span class="typography-label-md-strong">Latest observations</span>
             <BcnMiniTable
               columns={[{ label: 'Observation' }, { label: 'Species' }, { label: 'Observed', align: 'end' }]}
@@ -705,7 +711,9 @@ const addCards = WIDGETS.map((w) => {
         iconName="clipboard-check"
         iconPaths={STREAM_ICON_PATHS['clipboard-check']}
       >
-        <BcnComplianceList />
+        <div data-section="lanes">
+          <BcnComplianceList />
+        </div>
       </BcnDashboardWidget>
 
       <!-- ═══ Band D ═══ -->
@@ -721,14 +729,14 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetDateRange widgetId="mileage-total" scopes={WIDGET_SCOPES['mileage-total']} />
         <BcnWidgetPanels>
-          <div slot="a">
+          <div slot="a" data-section="count">
             <EsaStat
               value={MILEAGE_ROLLUP.miles14d.toLocaleString('en-US')}
               label="Vehicle miles"
               sub={sinceLabel(WIDGET_SCOPES['mileage-total'][0])}
             />
           </div>
-          <div slot="b" class="stack" data-gap="sm">
+          <div slot="b" class="stack" data-gap="sm" data-section="activity">
             <span class="typography-label-md-strong">Miles over time</span>
             {mileageScoped.map((s) => (
               <div data-scope-chart={s.scope} hidden={s.scope !== WIDGET_SCOPES['mileage-total'][0]}>
@@ -741,7 +749,7 @@ const addCards = WIDGETS.map((w) => {
               </div>
             ))}
           </div>
-          <div slot="c" class="stack" data-gap="sm">
+          <div slot="c" class="stack" data-gap="sm" data-section="vehicles">
             <span class="typography-label-md-strong">Miles by vehicle</span>
             <BcnVizBars rows={MILEAGE_ROLLUP.byVehicle.map((v) => ({ name: v.name, value: v.value }))} />
           </div>
@@ -761,10 +769,10 @@ const addCards = WIDGETS.map((w) => {
       >
         <BcnWidgetDateRange widgetId="runtime-total" scopes={WIDGET_SCOPES['runtime-total']} />
         <BcnWidgetPanels>
-          <div slot="a">
+          <div slot="a" data-section="count">
             <EsaStat value={RUNTIME_ROLLUP.hours14d} label="Equipment hours" sub={sinceLabel(WIDGET_SCOPES['runtime-total'][0])} />
           </div>
-          <div slot="b" class="stack" data-gap="sm">
+          <div slot="b" class="stack" data-gap="sm" data-section="activity">
             <span class="typography-label-md-strong">Runtime minutes over time</span>
             {runtimeScoped.map((s) => (
               <div data-scope-chart={s.scope} hidden={s.scope !== WIDGET_SCOPES['runtime-total'][0]}>
@@ -777,7 +785,7 @@ const addCards = WIDGETS.map((w) => {
               </div>
             ))}
           </div>
-          <div slot="c" class="stack" data-gap="sm">
+          <div slot="c" class="stack" data-gap="sm" data-section="classes">
             <span class="typography-label-md-strong">Hours by equipment class</span>
             <BcnVizBars rows={RUNTIME_ROLLUP.byClassHours.map((c) => ({ name: c.name, value: c.value }))} />
           </div>
@@ -795,14 +803,14 @@ const addCards = WIDGETS.map((w) => {
         footLabel="All surveys"
       >
         <BcnWidgetPanels>
-          <div slot="a">
+          <div slot="a" data-section="count">
             <EsaStat value={SURVEYS.length} label="Total survey documents" />
           </div>
-          <div slot="b" class="stack" data-gap="sm">
+          <div slot="b" class="stack" data-gap="sm" data-section="status">
             <span class="typography-label-md-strong">Documents by status</span>
             <BcnVizDonut measure="Documents" segments={surveyStatuses} />
           </div>
-          <div slot="c" class="stack" data-gap="sm">
+          <div slot="c" class="stack" data-gap="sm" data-section="latest">
             <span class="typography-label-md-strong">Latest surveys</span>
             <BcnMiniTable
               columns={[{ label: 'Survey' }, { label: 'Surveyed', align: 'end' }]}
@@ -824,14 +832,14 @@ const addCards = WIDGETS.map((w) => {
         footLabel="All WEAP trainings"
       >
         <BcnWidgetPanels>
-          <div slot="a">
+          <div slot="a" data-section="count">
             <EsaStat value={WEAP_ROLLUP.confirmations30d} label="Training confirmations" sub={sinceLabel(WIDGET_SCOPES['weap-trained'][0])} />
           </div>
-          <div slot="b" class="stack" data-gap="sm">
+          <div slot="b" class="stack" data-gap="sm" data-section="companies">
             <span class="typography-label-md-strong">Workers by company</span>
             <BcnVizBars rows={WEAP_ROLLUP.byCompany.map((c) => ({ name: c.name, value: c.value }))} />
           </div>
-          <div slot="c" class="stack" data-gap="sm">
+          <div slot="c" class="stack" data-gap="sm" data-section="latest">
             <span class="typography-label-md-strong">Latest confirmations</span>
             <BcnMiniTable columns={[{ label: 'Worker' }, { label: 'Trade' }, { label: 'Date', align: 'end' }]} rows={weapRows} />
           </div>
@@ -849,7 +857,9 @@ const addCards = WIDGETS.map((w) => {
         footHref={streamHref('seasons')}
         footLabel="All season windows"
       >
-        <BcnVizSeasons seasons={SEASON_WINDOWS} windowDays={90} today={TODAY} />
+        <div data-section="seasons">
+          <BcnVizSeasons seasons={SEASON_WINDOWS} windowDays={90} today={TODAY} />
+        </div>
       </BcnDashboardWidget>
 
       <!-- bcn-lego-checked: the add tile is the board's own dashed affordance
@@ -898,7 +908,9 @@ const addCards = WIDGETS.map((w) => {
     readDashboardConfig as readConfig,
     writeDashboardConfig as writeConfig,
     type DashboardConfig,
+    type SectionState,
   } from '../../../lib/mpdash-config';
+  import { orderedSections, type SectionValue } from '../../../data/monitoring-streams';
   import type { MarkKey, WidgetColor, WidgetConfig } from '../../../data/monitoring-streams';
 
   interface CfgInfo {
@@ -1003,18 +1015,116 @@ const addCards = WIDGETS.map((w) => {
     return el;
   };
 
-  /** Hide the parts of a widget its instance has switched off. */
-  const applySections = (el: HTMLElement, type: string, on?: Record<string, boolean>): void => {
+  /**
+   * Render a widget's parts in the order its instance stores, ON before OFF.
+   *
+   * Reads orderedSections() so the board and the configure form derive the sequence
+   * from the same function — the alternative is two orderings that agree until one
+   * of them is edited.
+   *
+   * Only reorders SIBLINGS: a section inside BcnWidgetPanels is a slot, and moving a
+   * slot between panels would fight the component's own track layout. Within one
+   * parent, appendChild in order is enough, and the panels' slots are siblings of
+   * each other anyway.
+   */
+  const applySectionOrder = (
+    el: HTMLElement,
+    type: string,
+    inst: { sections?: Record<string, SectionState>; sectionOrder?: string[] },
+  ): void => {
+    const wanted = orderedSections(type, inst);
+    if (wanted.length < 2) return;
+    const byParent = new Map<HTMLElement, HTMLElement[]>();
+    for (const def of wanted) {
+      for (const node of el.querySelectorAll<HTMLElement>(`[data-section="${def.id}"]`)) {
+        const movable = movableFor(node);
+        const parent = movable?.parentElement;
+        if (!movable || !parent) continue;
+        const group = byParent.get(parent) ?? [];
+        group.push(movable);
+        byParent.set(parent, group);
+      }
+    }
+    for (const [parent, nodes] of byParent) {
+      for (const node of nodes) parent.appendChild(node);
+    }
+  };
+
+  /**
+   * The element to actually move for a section.
+   *
+   * A section inside BcnWidgetPanels is slotted into a `__panel` wrapper and is that
+   * wrapper's ONLY child, so appending the section itself reorders nothing — the
+   * first pass at this silently did exactly that for the eight panel-based widgets.
+   * The wrapper is what has siblings, so the wrapper is what moves.
+   *
+   * CONSEQUENCE WORTH KNOWING: the panels' first track is a fixed 190/220px rail, so
+   * whichever section is ordered first lands in it. Moving a chart to the top of a
+   * banner widget therefore squeezes it to rail width — which is BcnWidgetPanels'
+   * documented behaviour for a chart in the rail (its L1 note), not a new bug, but it
+   * does mean "reorder" and "keep the stat in the rail" are in tension by design.
+   */
+  const movableFor = (node: HTMLElement): HTMLElement | null =>
+    node.closest<HTMLElement>('.bcn-widget-panels__panel') ?? node;
+
+  /**
+   * Apply an instance's section state: which parts are on, and each section's own
+   * settings.
+   *
+   * Both reads fall back to the registry — an absent section key to its `on`, an
+   * absent setting to the SETTING's default — so a widget gaining either does not
+   * have every saved layout silently hide a part or lose a value.
+   */
+  const applySections = (
+    el: HTMLElement,
+    type: string,
+    state?: Record<string, SectionState>,
+  ): void => {
     const defs = infoById.get(type)?.sections ?? [];
     if (defs.length === 0) return;
     for (const def of defs) {
-      // Absent key falls back to the registry default, so a widget GAINING a
-      // section does not have every saved layout silently hide it.
-      const visible = on?.[def.id] ?? def.on;
+      const saved = state?.[def.id];
+      const visible = saved?.on ?? def.on;
       el.querySelectorAll<HTMLElement>(`[data-section="${def.id}"]`).forEach((node) => {
         node.hidden = !visible;
+        applySectionSettings(node, def, saved);
       });
     }
+  };
+
+  /**
+   * One section's settings, applied to its own subtree.
+   *
+   * `count` is the only kind with a rendering consequence today, and it means "show
+   * the first N rows of the list in here" — the table is rendered at
+   * SECTION_ROW_MAX and the tail is hidden, so moving the number never re-renders
+   * anything. `choice` and `flag` exist in the model without a consumer yet; they
+   * fall through deliberately rather than being asserted on, because a registry
+   * that declares one before the page reads it should degrade to "no effect", not
+   * throw in a dashboard.
+   */
+  const applySectionSettings = (
+    node: HTMLElement,
+    def: { settings?: readonly { id: string; kind: string }[] },
+    saved?: SectionState,
+  ): void => {
+    for (const setting of def.settings ?? []) {
+      if (setting.kind !== 'count') continue;
+      const raw = saved?.values?.[setting.id];
+      const limit = typeof raw === 'number' ? raw : sectionDefault(def, setting.id);
+      node.querySelectorAll<HTMLElement>('tbody tr').forEach((tr, i) => {
+        tr.hidden = i >= limit;
+      });
+    }
+  };
+
+  /** A setting's declared default, from the payload the page was rendered with. */
+  const sectionDefault = (
+    def: { settings?: readonly { id: string; default?: unknown }[] },
+    settingId: string,
+  ): number => {
+    const d = def.settings?.find((x) => x.id === settingId)?.default;
+    return typeof d === 'number' ? d : SECTION_ROW_MAX;
   };
   // The server-rendered accent (the stream's stored mark) — restored when a
   // color override is cleared.
@@ -1093,6 +1203,7 @@ const addCards = WIDGETS.map((w) => {
       const h = el.querySelector('.bcn-dwidget__title');
       if (h) h.textContent = c.title ?? infoById.get(type)?.title ?? '';
       applySections(el, type, c.sections);
+      applySectionOrder(el, type, c);
       applyScopeFigure(el, type, c.scope);
       applyScopeChart(el, c.scope);
       // Keep the widget's own control in step with the saved value — the configure
@@ -1265,7 +1376,18 @@ const addCards = WIDGETS.map((w) => {
   // Add mode: the dialog is configuring a widget that is NOT on the board yet, so
   // Save/Remove are swapped for "Add to dashboard" and nothing is written until then.
   let adding = false;
-  let draft: (WidgetConfig & { sections?: Record<string, boolean> }) | null = null;
+  let draft: (WidgetConfig & { sections?: Record<string, SectionState> }) | null = null;
+  /** The open widget's section order while the dialog is up. Empty means "registry
+   *  order" — the same absent-is-default rule the saved record uses. */
+  let draftSectionOrder: string[] = [];
+  /** The fields a commit may write. Mirrors WidgetInstance without importing it —
+   *  the page speaks in WidgetConfig plus the two instance-only keys it sets. */
+  type WidgetInstanceLike = WidgetConfig & {
+    type?: string;
+    sections?: Record<string, SectionState>;
+    sectionOrder?: string[];
+    on?: boolean;
+  };
   let clone: HTMLElement | null = null;
 
   // Frame math, read from the live grid (spec: measured, never hardcoded).
@@ -1293,19 +1415,135 @@ const addCards = WIDGETS.map((w) => {
 
   // One esa-switch-toggle per declared section. Hidden entirely when the widget has
   // none, so a single-block widget shows no dead control.
-  const setSectionFields = (info: CfgInfo, on?: Record<string, boolean>): void => {
+  /**
+   * Show the open widget's pre-rendered section list and set every control in it.
+   *
+   * Nothing is created here — BcnConfigSections rendered a bar per section of every
+   * widget at build time, so this reveals one block and writes values into controls
+   * that already exist. What that buys, beyond the markup living in a component: the
+   * fields keep their identity across opens, so a select does not lose its options
+   * and a disclosure does not lose its state just because the dialog closed.
+   */
+  const setSectionFields = (info: CfgInfo, state?: Record<string, SectionState>): void => {
     if (!sectionsField || !sectionsWrap) return;
     const defs = info.sections ?? [];
     sectionsField.hidden = defs.length === 0;
-    sectionsWrap.textContent = '';
-    for (const def of defs) {
-      const row = document.createElement('esa-switch-toggle');
-      row.setAttribute('data-cfg-section', def.id);
-      row.setAttribute('size', 'sm');
-      row.setAttribute('label', def.label);
-      (row as HTMLElement & { checked: boolean }).checked = on?.[def.id] ?? def.on;
-      sectionsWrap.appendChild(row);
+
+    for (const list of sectionsWrap.querySelectorAll<HTMLElement>('[data-cfgsec-list]')) {
+      list.hidden = list.dataset.cfgsecList !== info.id;
     }
+    const list = sectionsWrap.querySelector<HTMLElement>(`[data-cfgsec-list="${info.id}"]`);
+    if (!list) return;
+
+    for (const def of defs) {
+      const row = list.querySelector<HTMLElement>(`[data-cfgsec="${def.id}"]`);
+      if (!row) continue;
+      const saved = state?.[def.id];
+      const on = saved?.on ?? def.on;
+
+      const toggle = row.querySelector<HTMLElement & { checked: boolean }>('[data-cfgsec-toggle]');
+      if (toggle) toggle.checked = on;
+
+      // The caret is DISABLED until the section is on: a settings panel for a part
+      // that is not rendering configures nothing. Disabled rather than hidden, so a
+      // section that HAS settings still looks different from one that has none.
+      const caret = row.querySelector<HTMLButtonElement>('[data-cfgsec-expand]');
+      const body = row.querySelector<HTMLElement>('[data-cfgsec-body]');
+      if (caret && body) {
+        caret.disabled = !on;
+        // Reopening the dialog starts each section collapsed. The expansion is a
+        // reading state, not a saved preference — persisting it would put UI state
+        // in the layout record next to the widget's actual configuration.
+        setExpanded(caret, body, false);
+      }
+
+      for (const field of row.querySelectorAll<HTMLElement>('[data-cfgsec-setting]')) {
+        setSectionSetting(field, def, saved);
+      }
+    }
+    reorderSectionRows(list, info, state);
+  };
+
+  /**
+   * Put the bars in display order: ON sections first, then OFF, each keeping its
+   * relative sequence. Mirrors orderedSections() in the data module — the same rule
+   * the widget itself renders its parts by, so the form and the board agree about
+   * where a section sits.
+   *
+   * Reordering the DOM rather than storing a display order is what makes "toggling
+   * moves it between the groups" free: the partition is re-derived from the switches
+   * every time, so it cannot drift from them.
+   */
+  const reorderSectionRows = (
+    list: HTMLElement,
+    info: CfgInfo,
+    state?: Record<string, SectionState>,
+  ): void => {
+    const defs = info.sections ?? [];
+    const order = draftSectionOrder.length ? draftSectionOrder : defs.map((d) => d.id);
+    const rank = (id: string) => {
+      const i = order.indexOf(id);
+      return i === -1 ? order.length + defs.findIndex((d) => d.id === id) : i;
+    };
+    const isOn = (id: string) => state?.[id]?.on ?? defs.find((d) => d.id === id)?.on ?? false;
+    const rows = [...list.querySelectorAll<HTMLElement>('[data-cfgsec]')];
+    rows
+      .sort((a, b) => {
+        const ida = a.dataset.cfgsec!;
+        const idb = b.dataset.cfgsec!;
+        const on = Number(isOn(idb)) - Number(isOn(ida));
+        return on !== 0 ? on : rank(ida) - rank(idb);
+      })
+      .forEach((row) => list.appendChild(row));
+  };
+
+  /** One disclosure's open state, kept on the caret and its body together so the
+      arrow and the panel can never disagree. */
+  const setExpanded = (caret: HTMLButtonElement, body: HTMLElement, open: boolean): void => {
+    caret.setAttribute('aria-expanded', String(open));
+    body.hidden = !open;
+  };
+
+  /**
+   * Fill one setting control and set its value.
+   *
+   * `count` builds its options from the declared min/max rather than carrying a
+   * written-out list, so widening a range in the registry is a number change and not
+   * a markup edit. esa-select takes `options` as a PROPERTY, which is why this runs
+   * at all — markup cannot express it.
+   */
+  const setSectionSetting = (
+    field: HTMLElement,
+    def: { settings?: readonly { id: string; kind: string; default?: unknown }[] },
+    saved?: SectionState,
+  ): void => {
+    const id = field.dataset.cfgsecSetting;
+    if (!id) return;
+    const setting = def.settings?.find((x) => x.id === id);
+    const value = saved?.values?.[id] ?? setting?.default;
+
+    if (field.dataset.kind === 'count') {
+      const min = Number(field.dataset.min ?? 1);
+      const max = Number(field.dataset.max ?? 1);
+      const el = field as HTMLElement & { options: { value: string; label: string }[]; value: string };
+      el.options = Array.from({ length: Math.max(0, max - min + 1) }, (_, i) => {
+        const n = min + i;
+        return { value: String(n), label: String(n) };
+      });
+      el.value = String(value ?? min);
+      return;
+    }
+    if (field.dataset.kind === 'choice') {
+      const el = field as HTMLElement & { options: unknown; value: string };
+      try {
+        el.options = JSON.parse(field.dataset.options ?? '[]');
+      } catch {
+        el.options = [];
+      }
+      el.value = String(value ?? '');
+      return;
+    }
+    (field as HTMLElement & { checked: boolean }).checked = value === true;
   };
 
   const setColorFields = (info: CfgInfo, color?: WidgetColor): void => {
@@ -1346,6 +1584,9 @@ const addCards = WIDGETS.map((w) => {
     openId = id;
     openType = type;
     draft = { ...c, color: c.color ? JSON.parse(JSON.stringify(c.color)) : undefined };
+    // Seed the drag order from the saved record; empty means registry order, which
+    // is the same absent-is-default rule the record itself uses.
+    draftSectionOrder = [...(c.sectionOrder ?? [])];
 
     // The preview is the REAL widget: clone, made inert, tools dropped.
     clone = el.cloneNode(true) as HTMLElement;
@@ -1429,14 +1670,150 @@ const addCards = WIDGETS.map((w) => {
       draft.chart = value as WidgetConfig['chart'];
     } else if (el.hasAttribute('data-cfg-scope')) {
       draft.scope = value as WidgetConfig['scope'];
-    } else if (el.hasAttribute('data-cfg-section')) {
-      const key = el.getAttribute('data-cfg-section')!;
+    } else if (el.hasAttribute('data-cfgsec-toggle')) {
+      const row = el.closest<HTMLElement>('[data-cfgsec]');
+      const key = row?.dataset.cfgsec;
+      if (!key) return;
       const checked = (el as HTMLElement & { checked: boolean }).checked;
-      draft.sections = { ...(draft.sections ?? {}), [key]: checked };
-      // Re-section the preview so the switch shows its own consequence.
+      // Merge, never replace: a section's `values` must survive its toggle being
+      // flipped off and on again, or every setting resets the moment a user hides a
+      // part and changes their mind.
+      draft.sections = {
+        ...(draft.sections ?? {}),
+        [key]: { ...(draft.sections?.[key] ?? {}), on: checked },
+      };
+
+      // Switching ON opens the settings, because that is the moment a user is most
+      // likely to want them — they just asked for the part. Switching OFF collapses
+      // and disables, so the panel cannot be left open over a section that is not
+      // rendering.
+      const caret = row.querySelector<HTMLButtonElement>('[data-cfgsec-expand]');
+      const body = row.querySelector<HTMLElement>('[data-cfgsec-body]');
+      if (caret && body) {
+        caret.disabled = !checked;
+        setExpanded(caret, body, checked);
+      }
+
+      // Re-section the preview so the switch shows its own consequence, then move
+      // the bar between the on/off groups.
+      if (clone && openType) applySections(clone, openType, draft.sections);
+      const info = openType ? infoById.get(openType) : undefined;
+      const list = row.closest<HTMLElement>('[data-cfgsec-list]');
+      if (info && list) reorderSectionRows(list, info, draft.sections);
+      reframe();
+    } else if (el.hasAttribute('data-cfgsec-setting')) {
+      const row = el.closest<HTMLElement>('[data-cfgsec]');
+      const key = row?.dataset.cfgsec;
+      const settingId = el.dataset.cfgsecSetting;
+      if (!key || !settingId) return;
+      const kind = el.dataset.kind;
+      const next: SectionValue =
+        kind === 'count'
+          ? Number(value)
+          : kind === 'flag'
+            ? (el as HTMLElement & { checked: boolean }).checked
+            : value;
+      const current = draft.sections?.[key] ?? {
+        on: infoById.get(openType ?? '')?.sections?.find((d) => d.id === key)?.on ?? true,
+      };
+      draft.sections = {
+        ...(draft.sections ?? {}),
+        [key]: { ...current, values: { ...(current.values ?? {}), [settingId]: next } },
+      };
+      // The preview honours settings the same way the board does, so a row count
+      // shows its effect in the clone before anything is saved.
       if (clone && openType) applySections(clone, openType, draft.sections);
       reframe();
     }
+  });
+
+  // ── Section reorder (2026-09-10) ────────────────────────────────────────────
+  //    A vertical list inside a dialog, which is a far smaller problem than the
+  //    board's drag: one axis, no column spans, no placeholder to size, and the
+  //    list is short enough that moving the row itself IS the preview. So there is
+  //    no lifted clone and no slot — the row moves in the DOM as the pointer
+  //    crosses midlines, and the drop just reads the result back out.
+  let secDrag: { row: HTMLElement; list: HTMLElement } | null = null;
+
+  /** The row the pointer sits above, by midline — the one to insert BEFORE. Null
+      means past the last row, i.e. append. */
+  const sectionRowAt = (list: HTMLElement, y: number): HTMLElement | null => {
+    for (const row of list.querySelectorAll<HTMLElement>('[data-cfgsec]')) {
+      const r = row.getBoundingClientRect();
+      if (y < r.top + r.height / 2) return row;
+    }
+    return null;
+  };
+
+  /**
+   * Read the dragged result into the draft, then re-derive the partition.
+   *
+   * The re-derive is deliberate and visible: drag an ON section down among the OFF
+   * ones and it snaps back above them, having kept the new position it gained WITHIN
+   * its own group. That is the rule the user asked for — selected sections stay above
+   * unselected — and it holds without a special case, because the stored order only
+   * ever carries the relative sequence.
+   */
+  const commitSectionOrder = (): void => {
+    if (!secDrag) return;
+    const { list } = secDrag;
+    // RECORD FIRST, then react. The order is a fact about the DOM the user just
+    // rearranged, so it is captured before anything that depends on other open-dialog
+    // state — an early return further down must not be able to lose the drag.
+    draftSectionOrder = [...list.querySelectorAll<HTMLElement>('[data-cfgsec]')].map(
+      (r) => r.dataset.cfgsec!,
+    );
+    if (!draft || !openType) return;
+    const info = infoById.get(openType);
+    if (info) reorderSectionRows(list, info, draft.sections);
+    // The preview reorders with it, so the drag shows the widget it would produce.
+    if (clone) {
+      applySectionOrder(clone, openType, {
+        sections: draft.sections,
+        sectionOrder: draftSectionOrder,
+      });
+    }
+    reframe();
+  };
+
+  dialog?.addEventListener('pointerdown', (event) => {
+    const grip = (event.target as Element | null)?.closest<HTMLElement>('[data-cfgsec-grip]');
+    if (!grip) return;
+    const row = grip.closest<HTMLElement>('[data-cfgsec]');
+    const list = grip.closest<HTMLElement>('[data-cfgsec-list]');
+    if (!row || !list) return;
+    event.preventDefault(); // the grip is a button; do not let it click or select
+    secDrag = { row, list };
+    row.classList.add('is-dragging');
+    grip.setPointerCapture?.(event.pointerId);
+  });
+
+  dialog?.addEventListener('pointermove', (event) => {
+    if (!secDrag) return;
+    const { row, list } = secDrag;
+    const before = sectionRowAt(list, event.clientY);
+    if (before === row) return;
+    if (before) list.insertBefore(row, before);
+    else list.appendChild(row);
+  });
+
+  const endSectionDrag = (): void => {
+    if (!secDrag) return;
+    secDrag.row.classList.remove('is-dragging');
+    commitSectionOrder();
+    secDrag = null;
+  };
+  dialog?.addEventListener('pointerup', endSectionDrag);
+  dialog?.addEventListener('pointercancel', endSectionDrag);
+
+  // ── The settings disclosure. Click-only: the caret is disabled while the section
+  //    is off, and the switch beside it owns the auto-expand. ──
+  dialog?.addEventListener('click', (event) => {
+    const caret = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-cfgsec-expand]');
+    if (!caret || caret.disabled) return;
+    const body = caret.closest<HTMLElement>('[data-cfgsec]')?.querySelector<HTMLElement>('[data-cfgsec-body]');
+    if (!body) return;
+    setExpanded(caret, body, caret.getAttribute('aria-expanded') !== 'true');
   });
 
   dialog?.addEventListener('bcn-color-change', (event) => {
@@ -1452,6 +1829,23 @@ const addCards = WIDGETS.map((w) => {
     applyColor(clone, openId, draft.color); // live on the preview clone
   });
 
+  /**
+   * What a commit writes. BOTH the save path and the add path go through this,
+   * because they had already diverged: sectionOrder was added to the add branch and
+   * silently missing from save, so dragging a section then pressing "Save widget"
+   * discarded the drag with no error anywhere. Two hand-maintained object literals
+   * describing the same commit is the drift; one builder is the fix.
+   *
+   * `sectionOrder` is written ONLY when the user actually dragged. An empty array
+   * would claim an order the registry already provides, and a later registry change
+   * could then never move a section for anyone who had opened the dialog once.
+   */
+  const commitPatch = (): Partial<WidgetInstanceLike> => ({
+    ...(draft as WidgetConfig),
+    type: openType ?? undefined,
+    ...(draftSectionOrder.length ? { sectionOrder: [...draftSectionOrder] } : {}),
+  });
+
   dialog?.addEventListener('click', (event) => {
     const target = event.target as Element | null;
     if (!target) return;
@@ -1460,7 +1854,7 @@ const addCards = WIDGETS.map((w) => {
         const id = openId;
         const type = openType;
         const next = draft;
-        mutate((c) => (c.widgets[id] = { ...c.widgets[id], ...next, type }));
+        mutate((c) => (c.widgets[id] = { ...c.widgets[id], ...commitPatch(), type }));
       }
       closeConfig();
     } else if (target.closest('[data-cfg-add]')) {
@@ -1470,9 +1864,8 @@ const addCards = WIDGETS.map((w) => {
       if (openId && openType && draft) {
         const id = openId;
         const type = openType;
-        const next = draft;
         mutate((c) => {
-          c.widgets[id] = { ...next, type, on: true };
+          c.widgets[id] = { ...commitPatch(), type, on: true };
           if (!c.order.includes(id)) c.order.push(id);
         });
       }

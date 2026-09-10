@@ -502,8 +502,7 @@ export const streamById = (id: string): MonitoringStream | undefined => STREAMS.
 // passed to EsaIcon / PageLayout via their `paths` fallback. `database` is the
 // catalog page's own glyph; `map-pinned` is the portal dashboard's.
 export const STREAM_ICON_PATHS: Record<string, string> = {
-  binoculars:
-    '<path d="M10 10h4"/><path d="M19 7V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3"/><path d="M20 21a2 2 0 0 0 2-2v-3.851c0-1.39-2-2.962-2-4.829V8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v11a2 2 0 0 0 2 2z"/><path d="M 22 16 L 2 16"/><path d="M4 21a2 2 0 0 1-2-2v-3.851c0-1.39 2-2.962 2-4.829V8a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v11a2 2 0 0 1-2 2z"/><path d="M9 7V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v3"/>',
+  binoculars: '<path d="M10 10h4"/><path d="M19 7V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3"/><path d="M20 21a2 2 0 0 0 2-2v-3.851c0-1.39-2-2.962-2-4.829V8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v11a2 2 0 0 0 2 2z"/><path d="M 22 16 L 2 16"/><path d="M4 21a2 2 0 0 1-2-2v-3.851c0-1.39 2-2.962 2-4.829V8a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v11a2 2 0 0 1-2 2z"/><path d="M9 7V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v3"/>',
   bird: '<path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/>',
   'clipboard-list': '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
   'file-text': '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
@@ -514,13 +513,10 @@ export const STREAM_ICON_PATHS: Record<string, string> = {
   'map-pinned': '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
   'layout-dashboard': '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
   egg: '<path d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"/>',
-  'triangle-alert':
-    '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  'triangle-alert': '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
   leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
-  'clipboard-check':
-    '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
-  'calendar-range':
-    '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M3 10h18"/><path d="M8 2v4"/><path d="M17 14h-6"/><path d="M13 18H7"/><path d="M7 14h.01"/><path d="M17 18h.01"/>',
+  'clipboard-check': '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+  'calendar-range': '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M3 10h18"/><path d="M8 2v4"/><path d="M17 14h-6"/><path d="M13 18H7"/><path d="M7 14h.01"/><path d="M17 18h.01"/>',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -550,23 +546,60 @@ export type WidgetColor =
   | { mode: 'series'; series: Record<string, MarkKey> };
 
 /**
- * A toggleable PART of a widget (2026-09-08). The dashboard is configurable at two
- * levels: which widgets are on the page, and which sections are on inside each
- * widget — so "Active Observations" is not one fixed block but a stats figure, a
- * map, and an outstanding-issues list a viewer can turn on independently.
+ * ONE SETTING a section exposes (2026-09-10). Discriminated on `kind` so the
+ * configure form renders from a CONTRACT rather than by sniffing what type a
+ * stored value happens to be — a stored `3` cannot tell you whether it is a count,
+ * an index into a choice list, or a flag someone wrote as a number.
  *
- * Declared ONLY by widgets that genuinely have parts. A single-figure widget
- * (Surveys, Biological Resources) omits `sections` entirely and its configure form
- * shows no section toggles — a control whose only possible value is "on" is a dead
- * control, not a uniform model.
+ * `default` lives here, on the SETTING, rather than in the saved record. That is
+ * what lets a section gain a setting without invalidating every layout already
+ * saved: an absent value resolves to this, so old records stay readable.
+ */
+export type SectionSetting =
+  | { id: string; label: string; kind: 'count'; min: number; max: number; default: number }
+  | {
+      id: string;
+      label: string;
+      kind: 'choice';
+      options: readonly { value: string; label: string }[];
+      default: string;
+    }
+  | { id: string; label: string; kind: 'flag'; default: boolean };
+
+export type SectionValue = string | number | boolean;
+
+/**
+ * A toggleable PART of a widget (2026-09-08; settings added 2026-09-10). The
+ * dashboard is configurable at two levels: which widgets are on the page, and which
+ * sections are on inside each widget — so "Active Observations" is not one fixed
+ * block but a stats figure, a map, and an outstanding-issues list a viewer can turn
+ * on independently.
+ *
+ * EVERY widget declares its sections now. It used to be only the ones with obvious
+ * parts, on the argument that "a control whose only possible value is on is a dead
+ * control" — true of a toggle, but the section list is no longer just toggles: it is
+ * also the order the parts appear in and where their own settings live. A widget with
+ * three sections and no way to reorder them is the dead control now.
  */
 export interface WidgetSection {
   /** Matches a `data-section` value in the widget's markup. */
   id: string;
-  /** Label in the configure form. */
+  /** Names the part in the configure form. Aim for 5–6 words: long enough to say
+   *  which element it is, short enough to read as a row label. */
   label: string;
-  /** On when an instance is first created. */
+  /** On when an instance is first created. Not every section ships enabled. */
   on: boolean;
+  /** What this section lets a user tune. ABSENT means no settings at all, which is
+   *  what the form reads to decide whether the row gets an expand affordance. */
+  settings?: readonly SectionSetting[];
+}
+
+/** A section's saved state on ONE placed widget. */
+export interface SectionState {
+  on: boolean;
+  /** setting id → value. Absent keys fall back to the SETTING's own default, so
+   *  this record only has to carry what a user actually changed. */
+  values?: Record<string, SectionValue>;
 }
 
 export interface WidgetDef {
@@ -605,28 +638,168 @@ export const WIDGETS: WidgetDef[] = [
     id: 'obs-active', streamId: 'observations', title: 'Active Observations', width: 2,
     charts: ['donut'], scopes: ['30d', '7d'], colorMode: 'series', defaultOn: true,
     sections: [
-      { id: 'stats', label: 'Count and breakdown', on: true },
-      { id: 'activity', label: 'Activity over time', on: true },
-      { id: 'map', label: 'Observation map', on: true },
-      { id: 'latest', label: 'Latest observations', on: true },
-      { id: 'outstanding', label: 'Outstanding observations', on: true },
+      { id: 'count', label: 'Active observation headline count', on: true },
+      { id: 'breakdown', label: 'Observation type breakdown donut', on: true },
+      { id: 'activity', label: 'Observations over time by type', on: true },
+      { id: 'map', label: 'Observation locations on a map', on: true },
+      { id: 'latest', label: 'Latest observations logged', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+      { id: 'outstanding', label: 'Outstanding issues needing attention', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
     ],
   },
-  { id: 'obs-nesting-birds', streamId: 'nesting-birds', title: 'Nesting Birds', width: 1, charts: ['bars', 'trend'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
-  { id: 'obs-concerns', streamId: 'compliance-concerns', title: 'Compliance Concerns', width: 1, charts: ['trend'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
-  { id: 'dmr-recent', streamId: 'daily-monitoring-reports', title: 'Daily Monitoring Reports', width: 2, charts: ['list', 'trend'], scopes: ['7d', '30d'], colorMode: 'mono', defaultOn: true },
-  { id: 'obs-bio', streamId: 'biological-resources', title: 'Biological Resources', width: 1, charts: ['bars'], scopes: ['30d', '7d'], colorMode: 'mono', defaultOn: true },
+  {
+    id: 'obs-nesting-birds',
+    streamId: 'nesting-birds',
+    title: 'Nesting Birds',
+    width: 1,
+    charts: ['bars', 'trend'],
+    scopes: ['30d', '7d'],
+    colorMode: 'mono',
+    defaultOn: true,
+    sections: [
+      { id: 'count', label: 'Total nesting-bird observation count', on: true },
+      { id: 'species', label: 'Observation counts by species code', on: true },
+      { id: 'latest', label: 'Latest nesting-bird observations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+    ],
+  },
+  {
+    id: 'obs-concerns',
+    streamId: 'compliance-concerns',
+    title: 'Compliance Concerns',
+    width: 1,
+    charts: ['trend'],
+    scopes: ['30d', '90d'],
+    colorMode: 'status',
+    defaultOn: true,
+    sections: [
+      { id: 'count', label: 'Open compliance concern count', on: true },
+      { id: 'activity', label: 'Concerns raised over time', on: true },
+      { id: 'latest', label: 'Latest open compliance concerns', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+    ],
+  },
+  {
+    id: 'dmr-recent',
+    streamId: 'daily-monitoring-reports',
+    title: 'Daily Monitoring Reports',
+    width: 2,
+    charts: ['list', 'trend'],
+    scopes: ['7d', '30d'],
+    colorMode: 'mono',
+    defaultOn: true,
+    sections: [
+      { id: 'count', label: 'Total daily monitoring reports', on: true },
+      { id: 'activity', label: 'Reports filed over time', on: true },
+      { id: 'latest', label: 'Latest daily monitoring reports', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+    ],
+  },
+  {
+    id: 'obs-bio',
+    streamId: 'biological-resources',
+    title: 'Biological Resources',
+    width: 1,
+    charts: ['bars'],
+    scopes: ['30d', '7d'],
+    colorMode: 'mono',
+    defaultOn: true,
+    sections: [
+      { id: 'count', label: 'Total biological resource observations', on: true },
+      { id: 'species', label: 'Observation counts by species', on: true },
+      { id: 'latest', label: 'Latest biological resource observations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+    ],
+  },
   // Status widget (spec §11.2): severity is encoded end to end, so no Color
   // control, and the list is the only rendering — prod's section IS the design.
-  { id: 'commitment-compliance', streamId: 'observations', title: 'Commitment Compliance', width: 3, charts: ['list'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
-  { id: 'mileage-total', windowed: true, streamId: 'mileage', title: 'Vehicle Mileage', width: 3, charts: ['trend', 'bars', 'stat'], scopes: ['14d', '7d', '30d', '90d'], colorMode: 'mono', defaultOn: true },
-  { id: 'runtime-total', windowed: true, streamId: 'runtime', title: 'Equipment Runtime', width: 2, charts: ['trend', 'bars'], scopes: ['14d', '7d', '30d'], colorMode: 'mono', defaultOn: true },
-  { id: 'surveys-qc', streamId: 'surveys', title: 'Surveys', width: 1, charts: ['donut'], scopes: ['30d', '90d'], colorMode: 'status', defaultOn: true },
-  { id: 'weap-trained', windowed: true, streamId: 'weap', title: 'WEAP Trainings', width: 3, charts: ['bars', 'stat'], scopes: ['30d', '90d'], colorMode: 'mono', defaultOn: true },
+  {
+    id: 'commitment-compliance',
+    streamId: 'observations',
+    title: 'Commitment Compliance',
+    width: 3,
+    charts: ['list'],
+    scopes: ['30d', '90d'],
+    colorMode: 'status',
+    defaultOn: true,
+    sections: [
+      { id: 'lanes', label: 'Compliance lanes by observation state', on: true },
+    ],
+  },
+  {
+    id: 'mileage-total',
+    windowed: true,
+    streamId: 'mileage',
+    title: 'Vehicle Mileage',
+    width: 3,
+    charts: ['trend', 'bars', 'stat'],
+    scopes: ['14d', '7d', '30d', '90d'],
+    colorMode: 'mono',
+    defaultOn: true,
+    sections: [
+      { id: 'count', label: 'Vehicle miles for the window', on: true },
+      { id: 'activity', label: 'Miles over time', on: true },
+      { id: 'vehicles', label: 'Miles by individual vehicle', on: true },
+    ],
+  },
+  {
+    id: 'runtime-total',
+    windowed: true,
+    streamId: 'runtime',
+    title: 'Equipment Runtime',
+    width: 2,
+    charts: ['trend', 'bars'],
+    scopes: ['14d', '7d', '30d'],
+    colorMode: 'mono',
+    defaultOn: true,
+    sections: [
+      { id: 'count', label: 'Equipment hours for the window', on: true },
+      { id: 'activity', label: 'Runtime minutes over time', on: true },
+      { id: 'classes', label: 'Hours by equipment class', on: true },
+    ],
+  },
+  {
+    id: 'surveys-qc',
+    streamId: 'surveys',
+    title: 'Surveys',
+    width: 1,
+    charts: ['donut'],
+    scopes: ['30d', '90d'],
+    colorMode: 'status',
+    defaultOn: true,
+    sections: [
+      { id: 'count', label: 'Total survey document count', on: true },
+      { id: 'status', label: 'Documents by review status', on: true },
+      { id: 'latest', label: 'Latest survey documents', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+    ],
+  },
+  {
+    id: 'weap-trained',
+    windowed: true,
+    streamId: 'weap',
+    title: 'WEAP Trainings',
+    width: 3,
+    charts: ['bars', 'stat'],
+    scopes: ['30d', '90d'],
+    colorMode: 'mono',
+    defaultOn: true,
+    sections: [
+      { id: 'count', label: 'Training confirmations for the window', on: true },
+      { id: 'companies', label: 'Workers trained by company', on: true },
+      { id: 'latest', label: 'Latest training confirmations', on: true, settings: [{ id: 'rows', label: 'Rows shown', kind: 'count', min: 1, max: 7, default: 5 }] },
+    ],
+  },
   // Season lane: full 3-column width because a date axis compressed into one
   // column cannot resolve a multi-month window. 90d default — season windows are
   // months long, so a 7d or 14d scope would show every bar clipped at both edges.
-  { id: 'seasons-window', streamId: 'seasons', title: 'Season Windows', width: 3, charts: ['seasons'], scopes: ['90d', '30d'], colorMode: 'mono', defaultOn: true },
+  {
+    id: 'seasons-window',
+    streamId: 'seasons',
+    title: 'Season Windows',
+    width: 3,
+    charts: ['seasons'],
+    scopes: ['90d', '30d'],
+    colorMode: 'mono',
+    defaultOn: true,
+    sections: [
+      { id: 'seasons', label: 'Season windows on a date axis', on: true },
+    ],
+  },
 ];
 
 export const widgetById = (id: string): WidgetDef | undefined => WIDGETS.find((w) => w.id === id);
@@ -846,10 +1019,19 @@ export interface WidgetConfig {
 export interface WidgetInstance extends WidgetConfig {
   type: string;
   /**
-   * Section id → on. Absent keys fall back to the section's registry default, so a
-   * widget gaining a new section does not have every saved layout hide it.
+   * Section id → its saved state. Absent keys fall back to the section's registry
+   * default, so a widget gaining a new section does not have every saved layout
+   * hide it.
    */
-  sections?: Record<string, boolean>;
+  sections?: Record<string, SectionState>;
+  /**
+   * The user's DRAG order for this widget's sections. Absent means registry order;
+   * ids missing from it append in registry order, same rule the widget order uses.
+   *
+   * This is NOT the display order — see orderedSections. It carries only the
+   * relative sequence; the on-before-off split is derived from the toggles.
+   */
+  sectionOrder?: string[];
 }
 
 export interface DashboardConfig {
@@ -872,9 +1054,78 @@ export const nextInstanceId = (type: string, taken: Iterable<string>): string =>
   }
 };
 
-/** Section defaults for a type, as a plain map. */
-export const defaultSections = (type: string): Record<string, boolean> =>
-  Object.fromEntries((widgetById(type)?.sections ?? []).map((s) => [s.id, s.on]));
+/** The registry's sections for a type, in registry order. */
+export const sectionDefs = (type: string): readonly WidgetSection[] =>
+  widgetById(type)?.sections ?? [];
+
+/** Section defaults for a type: every section at its registry on/off, no values
+ *  (each setting resolves to its own default until a user changes it). */
+export const defaultSections = (type: string): Record<string, SectionState> =>
+  Object.fromEntries(sectionDefs(type).map((s) => [s.id, { on: s.on }]));
+
+/**
+ * One section's state, resolved instance → registry default. Every read goes
+ * through here so a saved record that predates a section still renders it.
+ */
+export const sectionState = (
+  type: string,
+  inst: Pick<WidgetInstance, 'sections'> | undefined,
+  sectionId: string,
+): SectionState => {
+  const saved = inst?.sections?.[sectionId];
+  if (saved) return saved;
+  const def = sectionDefs(type).find((s) => s.id === sectionId);
+  return { on: def?.on ?? false };
+};
+
+/**
+ * One setting's value, resolved instance → the SETTING's default. Returns
+ * undefined only for a setting the registry does not declare, which is a caller
+ * bug rather than a state a saved record can get into.
+ */
+export const sectionValue = (
+  type: string,
+  inst: Pick<WidgetInstance, 'sections'> | undefined,
+  sectionId: string,
+  settingId: string,
+): SectionValue | undefined => {
+  const saved = inst?.sections?.[sectionId]?.values?.[settingId];
+  if (saved !== undefined) return saved;
+  const def = sectionDefs(type).find((s) => s.id === sectionId);
+  return def?.settings?.find((x) => x.id === settingId)?.default;
+};
+
+/**
+ * THE DISPLAY ORDER, and the reason it is a function rather than a field.
+ *
+ * Sections that are ON come first, then the ones that are OFF, each group keeping
+ * its relative order from `sectionOrder`. Because that split is DERIVED from the
+ * toggles, switching a section on moves it above the off group with no write to the
+ * order at all — and the two can never disagree about where a section sits.
+ *
+ * The alternative was to re-splice a stored display order on every toggle, which is
+ * the same shape as the widget row spans that were just deleted from this app: a
+ * number that has to agree with a layout, maintained separately from it. Storing
+ * only the relative sequence and deriving the partition removes that class of bug.
+ */
+export const orderedSections = (
+  type: string,
+  inst?: Pick<WidgetInstance, 'sections' | 'sectionOrder'>,
+): readonly WidgetSection[] => {
+  const defs = sectionDefs(type);
+  const saved = inst?.sectionOrder ?? [];
+  const rank = new Map(saved.map((id, i) => [id, i]));
+  // Ids the saved order does not mention sort after the ones it does, in registry
+  // order — the same append rule the widget order uses for a newly added widget.
+  const sequenced = [...defs].sort((a, b) => {
+    const ra = rank.get(a.id) ?? saved.length + defs.indexOf(a);
+    const rb = rank.get(b.id) ?? saved.length + defs.indexOf(b);
+    return ra - rb;
+  });
+  const on = sequenced.filter((s) => sectionState(type, inst, s.id).on);
+  const off = sequenced.filter((s) => !sectionState(type, inst, s.id).on);
+  return [...on, ...off];
+};
 
 export const defaultDashboardConfig = (): DashboardConfig => ({
   order: WIDGETS.map((w) => w.id),
@@ -894,6 +1145,12 @@ export const defaultDashboardConfig = (): DashboardConfig => ({
 });
 
 /** localStorage key for the composer's saved layout. */
+// v6: `sections` is a map of SectionState ({on, values}) rather than of booleans,
+// and an instance may carry `sectionOrder`. Bumped rather than migrated because a v5
+// record's `true` has no room for a section's settings — the shape cannot be widened
+// in place. ONE reset; after it, the instance→default fallback in sectionState and
+// sectionValue means later additions to the registry never cost another.
+//
 // v5: `height` is GONE from the record. A widget's vertical footprint is now
 // measured from its own content (the page's measureSpans), so a stored height is a
 // number nothing reads. Bumped rather than ignored, because the stored WIDTHS matter
@@ -906,4 +1163,4 @@ export const defaultDashboardConfig = (): DashboardConfig => ({
 // v4: the widgets record is keyed by INSTANCE id and each entry carries `type` +
 // `sections`. Bumped rather than migrated — a v3 record has no `type`, so reading
 // one would produce instances that render nothing.
-export const DASHBOARD_CONFIG_KEY = 'bcn-mpdash-layout-v5';
+export const DASHBOARD_CONFIG_KEY = 'bcn-mpdash-layout-v6';

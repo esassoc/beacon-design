@@ -1,0 +1,217 @@
+---
+// <BcnConfigSections> — the "Sections" block of the configure dialog: one full-width
+// bar per part of a widget, carrying a drag grip, an on/off switch, the section's
+// name, and (only where the section has settings) an expand caret over its own
+// fields.
+//
+// EVERY WIDGET'S LIST IS PRE-RENDERED HERE, and the page reveals the one matching
+// the open widget. That is the load-bearing decision in this component, so:
+//
+//   The dialog used to build its section rows in the page script —
+//   `document.createElement('esa-switch-toggle')` per section. That was fine for a
+//   bare switch and stops being fine now: a bar is a grip, a switch, a caret, a
+//   disclosure body and a select per setting. Building that in JS puts five nested
+//   elements per section into a page script, where the component-first gates cannot
+//   see them and no reviewer reads them as markup.
+//
+//   Pre-rendering is possible because the set is KNOWN AT BUILD TIME: sections come
+//   from the registry, not from user data. So the whole matrix — every widget, every
+//   section, every setting — is authored in Astro once, and opening the dialog is a
+//   matter of unhiding a block and setting values on controls that already exist.
+//   Same trick the board uses for its per-scope charts and its widget templates.
+//
+// WHAT THE PAGE STILL OWNS: which block is visible, each switch's `checked`, whether
+// a caret is enabled, whether a body is expanded, and every select's options and
+// value. This component renders hooks (`data-cfgsec-*`) and nothing else — the same
+// dumb-shell contract BcnConfigDialog itself follows.
+//
+// bcn-lego-checked: the switch IS esa-switch-toggle and the count field IS esa-select
+// — both composed, not reimplemented. esa-collapsible was checked FIRST for the
+// disclosure and does NOT fit twice over: it is an .astro lego built on
+// <details>/<summary>, so (1) its summary takes an icon and a title and has nowhere
+// to put an interactive switch or a grip, and an interactive control inside a
+// <summary> fights the disclosure it sits in — clicking the switch would toggle the
+// panel; and (2) the open state here has to be DRIVEN (a caret disabled until the
+// switch is on, auto-expanding when it flips), which a native <details> does not
+// expose. esa-card is chrome for a content block, not a list row. Checked Beacon
+// prod: its widget configuration is a fixed form with no per-section rows to port.
+// bcn-config-sections is the reusable home for the bar and its disclosure.
+import { WIDGETS } from '../../data/monitoring-streams';
+---
+
+{/* One block per widget type; the page unhides the open one. */}
+{
+  WIDGETS.filter((w) => (w.sections?.length ?? 0) > 0).map((w) => (
+    <div class="bcn-cfgsec-list stack" data-gap="xs" data-cfgsec-list={w.id} hidden>
+      {(w.sections ?? []).map((s) => (
+        <div class="bcn-cfgsec" data-cfgsec={s.id}>
+          <div class="bcn-cfgsec__bar">
+            {/* Pointer target for the reorder drag. A real button so it is reachable
+                by keyboard and announces itself; the page arms the pointer path. */}
+            <button
+              type="button"
+              class="bcn-cfgsec__grip"
+              data-cfgsec-grip
+              aria-label={`Reorder ${s.label}`}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <circle cx="9" cy="5" r="1.6" /><circle cx="15" cy="5" r="1.6" />
+                <circle cx="9" cy="12" r="1.6" /><circle cx="15" cy="12" r="1.6" />
+                <circle cx="9" cy="19" r="1.6" /><circle cx="15" cy="19" r="1.6" />
+              </svg>
+            </button>
+
+            {/* The switch carries the NAME, so the bar has one label rather than a
+                label and a separately-associated control. */}
+            <esa-switch-toggle
+              class="bcn-cfgsec__switch"
+              data-cfgsec-toggle
+              size="sm"
+              label={s.label}
+            ></esa-switch-toggle>
+
+            {s.settings && s.settings.length > 0 && (
+              <button
+                type="button"
+                class="bcn-cfgsec__caret"
+                data-cfgsec-expand
+                aria-expanded="false"
+                aria-label={`${s.label} settings`}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+            )}
+          </div>
+
+          {s.settings && s.settings.length > 0 && (
+            <div class="bcn-cfgsec__body stack" data-gap="sm" data-cfgsec-body hidden>
+              {s.settings.map((setting) =>
+                setting.kind === 'count' ? (
+                  /* Options are a RANGE, so they are assigned by the page from these
+                     bounds rather than written out here — esa-select takes `options`
+                     as a property, which markup cannot set. */
+                  <esa-select
+                    data-cfgsec-setting={setting.id}
+                    data-kind="count"
+                    data-min={String(setting.min)}
+                    data-max={String(setting.max)}
+                    label={setting.label}
+                    size="sm"
+                  ></esa-select>
+                ) : setting.kind === 'choice' ? (
+                  <esa-select
+                    data-cfgsec-setting={setting.id}
+                    data-kind="choice"
+                    data-options={JSON.stringify(setting.options)}
+                    label={setting.label}
+                    size="sm"
+                  ></esa-select>
+                ) : (
+                  <esa-switch-toggle
+                    data-cfgsec-setting={setting.id}
+                    data-kind="flag"
+                    size="sm"
+                    label={setting.label}
+                  ></esa-switch-toggle>
+                ),
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  ))
+}
+
+<script>
+  // Both are Lit custom elements, so the modules have to be registered for the tags
+  // to mean anything. Imported here rather than in the dialog because this component
+  // is what puts them in the markup.
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-select';
+</script>
+
+<style>
+  /* ── The bar. Full width, so a row reads as one band per section rather than as a
+        switch with a name trailing off it. ── */
+  .bcn-cfgsec {
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-md);
+    /* -raised, not -base: `--color-background-elevation-base` is UNDEFINED in this
+       app (three other places in the spoke reference it and get nothing, which is
+       invisible because an invalid background just falls back to transparent). The
+       defined set is raised / floating / sunken. */
+    background: var(--color-background-elevation-raised);
+  }
+
+  /* Dragging lifts the bar out of the flow visually; the page owns the class. */
+  .bcn-cfgsec.is-dragging {
+    opacity: 0.4;
+  }
+
+  .bcn-cfgsec__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding-inline: var(--spacing-200);
+    padding-block: var(--spacing-150);
+  }
+
+  /* The switch takes the slack so the caret sits at the trailing edge and every bar
+     in the list agrees about where its controls are. */
+  .bcn-cfgsec__switch {
+    flex: 1;
+    min-inline-size: 0;
+  }
+
+  .bcn-cfgsec__grip,
+  .bcn-cfgsec__caret {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+  }
+
+  .bcn-cfgsec__grip {
+    cursor: grab;
+    /* The pointer drag needs the browser to stop claiming the gesture for scrolling
+       on touch — same reason the widget grip sets it on the board. */
+    touch-action: none;
+  }
+
+  .bcn-cfgsec__caret svg {
+    transition: transform 120ms ease;
+  }
+  .bcn-cfgsec__caret[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+
+  /* DISABLED, NOT HIDDEN, when the section is off. The affordance staying put is
+     what tells a reader the section HAS settings — hiding it would make an off
+     section look identical to one with nothing to configure. */
+  .bcn-cfgsec__caret:disabled {
+    cursor: not-allowed;
+    color: var(--color-content-disabled);
+  }
+
+  .bcn-cfgsec__grip:focus-visible,
+  .bcn-cfgsec__caret:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  /* The settings sit INSIDE the bar's border, indented past the grip so they read as
+     belonging to the section above them rather than as the next row. */
+  .bcn-cfgsec__body {
+    padding-inline: var(--spacing-400) var(--spacing-200);
+    padding-block-end: var(--spacing-250);
+  }
+</style>

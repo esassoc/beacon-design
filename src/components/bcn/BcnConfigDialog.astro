@@ -28,6 +28,7 @@
 // esa-button; the stage is bcn-preview-stage and color is bcn-color-field. The
 // CSS below is the two-column body grid + footer arrangement only.
 import BcnPreviewStage from './BcnPreviewStage.astro';
+import BcnConfigSections from './BcnConfigSections.astro';
 import BcnColorField from './BcnColorField.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import { DASHBOARD } from '../../data/monitoring';
@@ -49,6 +50,13 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
     </div>
 
     <div class="bcn-cfg__options stack" data-gap="lg">
+      {/* TWO GROUPS (2026-09-10): Basics is what the widget IS — its name, its
+          footprint, its window, its colour. Sections is what it CONTAINS. The split
+          is worth a heading each because the second list grew from a handful of
+          switches into a reorderable set of bars with their own settings, and an
+          unlabelled run of controls that long reads as one undifferentiated form. */}
+      <span class="bcn-cfg__group typography-label-md-strong">Basics</span>
+
       <esa-text-field data-cfg-title label="Title" size="sm"></esa-text-field>
 
       {/* The column selector lives with the other inputs (2026-09-08), not floating
@@ -70,16 +78,6 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
         <esa-select data-cfg-scope label="Default date range" size="sm"></esa-select>
       </div>
 
-      {/* Sections (2026-09-08): which PARTS of the widget are on. The page fills
-          the rows from the open widget's registry sections and hides the whole
-          block for a single-section widget — a toggle that can only be on is a
-          dead control. Placed above Color because it is structural: what the
-          widget contains reads before how it looks. */}
-      <div class="stack" data-gap="sm" data-cfg-sections-field hidden>
-        <span class="bcn-cfg__label typography-label-md-strong">Sections</span>
-        <div class="stack" data-gap="xs" data-cfg-sections></div>
-      </div>
-
       <div class="stack" data-gap="sm" data-cfg-color-mono>
         <span class="bcn-cfg__label typography-label-md-strong">Color</span>
         <BcnColorField />
@@ -88,6 +86,15 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
       <div class="stack" data-gap="sm" data-cfg-color-series hidden>
         <span class="bcn-cfg__label typography-label-md-strong">Color</span>
         {seriesLabels.map((label) => <BcnColorField label={label} seriesKey={label} />)}
+      </div>
+
+      {/* Sections (2026-09-08; rebuilt as bars 2026-09-10): which PARTS of the widget
+          are on, in what order, and how each is configured. Every widget's list is
+          pre-rendered inside BcnConfigSections and the page unhides the open one —
+          the whole block hides for a widget the registry gives no sections. */}
+      <div class="stack" data-gap="sm" data-cfg-sections-field hidden>
+        <span class="bcn-cfg__group typography-label-md-strong">Sections</span>
+        <div data-cfg-sections><BcnConfigSections /></div>
       </div>
     </div>
   </div>
@@ -201,6 +208,15 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
 
   .bcn-cfg__label {
     color: var(--color-content-default-primary);
+  }
+
+  /* A GROUP heading, one rung up from a field label: it names a run of controls
+     rather than a single input, so it takes default ink and a rule under it to close
+     the band off from the fields below. */
+  .bcn-cfg__group {
+    color: var(--color-content-default);
+    padding-block-end: var(--spacing-150);
+    border-block-end: 1px solid var(--color-border-default);
   }
 
   /* .stack's display:flex would out-cascade the UA [hidden] rule — restate it
