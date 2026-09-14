@@ -506,8 +506,9 @@ const { title = 'Obligations' } = Astro.props;
   /* Each icon button sits in an esa-tooltip; the host is inline-block by default, which
      would give the row a text baseline to align to. */
   .bcn-swot__verbs esa-tooltip { display: inline-flex; }
-  .bcn-swot__verb--quiet { opacity: 0; transition: opacity 120ms ease; }
-  .bcn-swot__row:hover .bcn-swot__verb--quiet, .bcn-swot__verb--quiet:focus-visible { opacity: 1; }
+  /* Every row verb is quiet: it appears when the row is hovered or holds focus. */
+  .bcn-swot__verb { opacity: 0; transition: opacity 120ms ease; }
+  .bcn-swot__row:hover .bcn-swot__verb, .bcn-swot__row:focus-within .bcn-swot__verb { opacity: 1; }
   .bcn-swot__verb {
     display: inline-flex;
     align-items: center;
