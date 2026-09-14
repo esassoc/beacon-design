@@ -420,19 +420,11 @@ export const DRAFTED_BY = 'Drafted by AI from the approved requirements';
  * ITP obligations, filed into the registry's subject taxonomy by their first
  * subject (major › minor), with the requirement records as children.
  *
- * Trigger and thresholds are the fields the setup wizard's model would extract;
- * here they are SEEDED from the requirement text by two small patterns so the
- * editor shows the shape with real values. They are a demonstration, not a pass.
+ * Trigger is the field the setup wizard's model would extract; here it is
+ * SEEDED from the requirement text by a small pattern so the editor shows the
+ * shape with real values. It is a demonstration, not a pass. Thresholds were
+ * dropped 2026-09-14: the numbers stay in the source text.
  */
-export interface ObligationThreshold {
-  /** What is measured — "underwater peak sound", "buffer". */
-  quantity: string;
-  comparator: '≤' | '≥' | '<' | '>' | '=' | 'within';
-  value: string;
-  unit: string;
-  /** Commitment code of the requirement the number came from. */
-  source: string;
-}
 
 export interface ObligationRequirement {
   id: string;
@@ -451,7 +443,6 @@ export interface ObligationNode {
   species: string[];
   activities: string[];
   trigger: string;
-  thresholds: ObligationThreshold[];
   /** Waits on an approved plan before it is in force. */
   gate: boolean;
   requirements: ObligationRequirement[];
@@ -459,39 +450,6 @@ export interface ObligationNode {
 
 export interface ObligationTreeSub { id: string; name: string; obligations: ObligationNode[] }
 export interface ObligationTreeCat { id: string; name: string; subcategories: ObligationTreeSub[]; count: number }
-
-const UNIT_RE =
-  /(\d[\d,]*(?:\.\d+)?)\s*(dB(?:\s?(?:peak|SEL|rms|Leq|re\s?1\s?µPa))?|dBA|feet|foot|ft|miles?|mi|mph|hours?|hrs?|days?|weeks?|months?|minutes?|°F|degrees?(?: F)?|mg\/L|NTU|percent|%|acres?|cfs|inches|in\.|meters?|m|gpm|km\/h|business days)\b/gi;
-
-const comparatorBefore = (before: string): ObligationThreshold['comparator'] => {
-  const b = before.toLowerCase();
-  if (/within/.test(b)) return 'within';
-  if (/(no more than|not exceed|shall not exceed|maximum|max\.?|up to|less than|below|under|no greater than|not more than)/.test(b)) return '≤';
-  if (/(at least|minimum|min\.?|no less than|greater than|more than|exceed|above|beyond|over)/.test(b)) return '≥';
-  return '=';
-};
-
-const COMPARATOR_PHRASE =
-  /\b(within|no more than|not exceed|shall not exceed|maximum|max\.?|up to|less than|below|under|no greater than|not more than|at least|minimum|min\.?|no less than|greater than|more than|exceed(?:s|ing)?|above|beyond|over|of|for|to|by|at|in|every|each)\s*$/i;
-
-/** The noun the number measures: the few words before the comparator phrase, clean of stopwords. */
-const quantityBefore = (before: string): string => {
-  let head = before.replace(/[()]/g, ' ').replace(/[.;:,]\s*$/, '').trim();
-  for (let i = 0; i < 2; i++) head = head.replace(COMPARATOR_PHRASE, '').trim();
-  const words = head.split(/[.;:]/).pop()!.trim().split(/\s+/).filter(Boolean).slice(-4);
-  while (words.length && /^(a|an|the|of|to|by|for|and|or|with|at|in|shall|will|be|is|are|not|any|all)$/i.test(words[0])) words.shift();
-  return words.join(' ').toLowerCase();
-};
-
-const thresholdsFrom = (text: string, code: string): ObligationThreshold[] => {
-  const out: ObligationThreshold[] = [];
-  for (const m of text.matchAll(UNIT_RE)) {
-    const before = text.slice(Math.max(0, (m.index ?? 0) - 70), m.index);
-    out.push({ quantity: quantityBefore(before), comparator: comparatorBefore(before), value: m[1], unit: m[2], source: code });
-    if (out.length >= 4) break;
-  }
-  return out;
-};
 
 const TRIGGER_RE = /\b(if|when|whenever|in the event(?: that)?|should|upon|prior to|before|during|after|once)\b[^.;]{12,160}/i;
 const triggerFrom = (text: string): string => {
@@ -527,7 +485,6 @@ export const OBLIGATION_NODES: ObligationNode[] = ITP.obligations.map((o) => {
     species: uniq(reqs.flatMap((r) => r.species)),
     activities: uniq(reqs.flatMap((r) => r.activities)),
     trigger: reqs.map((r) => triggerFrom(r.text)).find(Boolean) ?? '',
-    thresholds: reqs.flatMap((r) => thresholdsFrom(r.text, r.commitment)).slice(0, 5),
     gate: GATE_RE.test(allText),
     requirements,
   };
@@ -567,6 +524,5 @@ export const OBLIGATION_TREE_TOTALS = {
   categories: OBLIGATION_TREE.length,
   subcategories: OBLIGATION_TREE.reduce((n, c) => n + c.subcategories.length, 0),
   requirementLinks: OBLIGATION_NODES.reduce((n, o) => n + o.requirements.length, 0),
-  withThresholds: OBLIGATION_NODES.filter((o) => o.thresholds.length > 0).length,
   withTrigger: OBLIGATION_NODES.filter((o) => o.trigger).length,
 };

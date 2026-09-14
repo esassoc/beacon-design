@@ -6,11 +6,12 @@
 //
 // The fields are the anatomy of an obligation (projects/beacon/shaping/obligation-anatomy.md)
 // as it stands after the 2026-09-14 round: Title; Class; where it is filed (Category /
-// Subcategory); the Trigger a classifier matches evidence against; the
-// quantitative Thresholds it holds; and the Requirements it derives from, each folding
-// open to its exact source text. Scope (phases, species) lives on the requirements, and
-// there is no Gate field: whether an obligation waits on an approved plan is read off its
-// requirements' actions, not typed in.
+// Subcategory); the Trigger a classifier matches evidence against; and the Requirements
+// it derives from, each folding open to its exact source text. Scope (phases, species)
+// lives on the requirements; there is no Gate field, since whether an obligation waits on
+// an approved plan is read off its requirements' actions; and there is no Thresholds
+// table, since the numbers stay in the source text until Beacon has something to compare
+// them against (dropped 2026-09-14).
 //
 // Requirements are managed here as well as in the tree: each row can be duplicated,
 // moved to another obligation, or unlinked; "Link requirement" adds from the permit's
@@ -19,9 +20,7 @@
 // disagree. Remove routes through the tree's delete guard.
 //
 // bcn-lego-checked: both frames ARE esa-side-dialog; the controls are esa-text-field,
-// esa-select, esa-textarea, esa-checkbox, esa-button. The threshold grid composes
-// esa-text-field + esa-select per cell; no lego is a small editable table. The
-// requirement list is native <details> because esa-accordion carries a heading scale
+// esa-select, esa-textarea, esa-checkbox, esa-button. The requirement list is native <details> because esa-accordion carries a heading scale
 // this record does not want; the picker rows are native buttons with role=option because
 // esa-list-item is not selectable.
 import EsaButton from '@esa/ecology/esa-button.astro';
@@ -32,7 +31,6 @@ const CLASS_OPTIONS = JSON.stringify(
   (['adhere', 'monitor', 'notify', 'roster'] as const).map((c) => ({ label: OBLIGATION_CLASS_LABEL[c], value: c })),
 );
 const CATEGORY_OPTIONS = JSON.stringify(OBLIGATION_TREE.map((c) => ({ label: c.name, value: c.id })));
-const COMPARATOR_OPTIONS = JSON.stringify(['≤', '≥', '<', '>', '=', 'within'].map((c) => ({ label: c, value: c })));
 
 // The drawer is filled by script from this: every obligation keyed by id, EVERY permit
 // requirement keyed by id (with its exact text, so Link can offer all of them), and the
@@ -42,7 +40,7 @@ for (const r of ITP.requirements) requirements[r.id] = { code: r.commitment, nam
 const obligations: Record<string, unknown> = {};
 for (const cat of OBLIGATION_TREE)
   for (const sub of cat.subcategories)
-    for (const o of sub.obligations) obligations[o.id] = { title: o.title, class: o.class, trigger: o.trigger, thresholds: o.thresholds, cat: cat.id, sub: sub.id };
+    for (const o of sub.obligations) obligations[o.id] = { title: o.title, class: o.class, trigger: o.trigger, cat: cat.id, sub: sub.id };
 const DATA = JSON.stringify({
   obligations,
   requirements,
@@ -70,24 +68,6 @@ const DATA = JSON.stringify({
 
     <div class="bcn-swo-edit__section">
       <div class="bcn-swo-edit__label-row">
-        <span class="bcn-swo-edit__label">Thresholds</span>
-        <EsaButton variant="ghost" size="xs" data-swo-thr-add>
-          <span class="bcn-swo-edit__verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />Add threshold</span>
-        </EsaButton>
-      </div>
-      <div class="bcn-swo-edit__thr" data-swo-thresholds>
-        <span class="bcn-swo-edit__thr-head">Quantity</span>
-        <span class="bcn-swo-edit__thr-head">Is</span>
-        <span class="bcn-swo-edit__thr-head">Value</span>
-        <span class="bcn-swo-edit__thr-head">Unit</span>
-        <span class="bcn-swo-edit__thr-head">Source</span>
-        <span></span>
-      </div>
-      <p class="bcn-swo-edit__empty" data-swo-thr-empty hidden>No quantitative limit in the source text.</p>
-    </div>
-
-    <div class="bcn-swo-edit__section">
-      <div class="bcn-swo-edit__label-row">
         <span class="bcn-swo-edit__label">Requirements <span class="bcn-swo-edit__label-n" data-swo-req-n>0</span></span>
         <EsaButton variant="ghost" size="xs" data-swo-link>
           <span class="bcn-swo-edit__verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />Link requirement</span>
@@ -106,16 +86,6 @@ const DATA = JSON.stringify({
     </span>
   </span>
 
-  <template data-swo-tpl="thr">
-    <div class="bcn-swo-edit__thr-row">
-      <esa-text-field size="xs" name="thr-quantity" aria-label="Quantity"></esa-text-field>
-      <esa-select size="sm" name="thr-comparator" options={COMPARATOR_OPTIONS} aria-label="Comparator"></esa-select>
-      <esa-text-field size="xs" name="thr-value" aria-label="Value" inputmode="decimal"></esa-text-field>
-      <esa-text-field size="xs" name="thr-unit" aria-label="Unit"></esa-text-field>
-      <span class="bcn-swo-edit__thr-source"></span>
-      <button type="button" class="bcn-swo-edit__x" title="Remove threshold" aria-label="Remove threshold"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
-    </div>
-  </template>
   <template data-swo-tpl="req">
     <details class="bcn-swo-edit__req">
       <summary class="bcn-swo-edit__req-row">
@@ -178,8 +148,7 @@ const DATA = JSON.stringify({
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-checkbox';
 
-  type Thr = { quantity: string; comparator: string; value: string; unit: string; source: string };
-  type Obl = { title: string; class: string; trigger: string; thresholds: Thr[]; cat: string; sub: string };
+  type Obl = { title: string; class: string; trigger: string; cat: string; sub: string };
   type Req = { code: string; name: string; text: string; inActions: number };
   type Data = {
     obligations: Record<string, Obl>;
@@ -215,26 +184,6 @@ const DATA = JSON.stringify({
     if (!sel) return;
     sel.options = (cat?.subs ?? []).map((s) => ({ label: s.name, value: s.id }));
     sel.value = subId ?? cat?.subs[0]?.id ?? '';
-  };
-
-  // ---- Thresholds.
-  const addThreshold = (t: Partial<Thr> = {}) => {
-    const host = editor?.querySelector('[data-swo-thresholds]');
-    if (!host) return;
-    const row = tpl('thr');
-    (row.querySelector('[name="thr-quantity"]') as Valued).value = t.quantity ?? '';
-    (row.querySelector('[name="thr-value"]') as Valued).value = t.value ?? '';
-    (row.querySelector('[name="thr-unit"]') as Valued).value = t.unit ?? '';
-    row.querySelector('.bcn-swo-edit__thr-source')!.textContent = t.source ?? '';
-    host.append(row);
-    customElements.whenDefined('esa-select').then(() => ((row.querySelector('[name="thr-comparator"]') as Valued).value = t.comparator ?? '≤'));
-    row.querySelector('.bcn-swo-edit__x')?.addEventListener('click', () => { row.remove(); syncThrEmpty(); });
-    syncThrEmpty();
-  };
-  const syncThrEmpty = () => {
-    const n = editor?.querySelectorAll('.bcn-swo-edit__thr-row').length ?? 0;
-    const empty = editor?.querySelector<HTMLElement>('[data-swo-thr-empty]');
-    if (empty) empty.hidden = n > 0;
   };
 
   // ---- Requirements: the drawer's list mirrors the card's rows, by index.
@@ -441,7 +390,7 @@ const DATA = JSON.stringify({
     const id = card.dataset.id ?? '';
     const o: Obl = data.obligations[id] ?? {
       title: card.querySelector('.bcn-swoc__title')?.textContent?.trim() ?? '',
-      class: card.dataset.class ?? 'adhere', trigger: '', thresholds: [],
+      class: card.dataset.class ?? 'adhere', trigger: '',
       cat: card.closest<HTMLElement>('[data-swo-cat]')?.dataset.swoCat ?? '', sub: card.closest<HTMLElement>('[data-swo-sub]')?.dataset.swoSub ?? '',
     };
     // Where the card sits NOW wins over where the fixture filed it — it may have been dragged.
@@ -467,9 +416,6 @@ const DATA = JSON.stringify({
     }
     setSubOptions(catNow, subNow);
 
-    editor?.querySelectorAll('.bcn-swo-edit__thr-row').forEach((r) => r.remove());
-    o.thresholds.forEach((t) => addThreshold(t));
-    syncThrEmpty();
     renderReqs();
   };
 
@@ -493,7 +439,6 @@ const DATA = JSON.stringify({
   });
 
   field('swo-category')?.addEventListener('change', (e) => setSubOptions((e.target as Valued).value));
-  editor?.querySelector('[data-swo-thr-add]')?.addEventListener('click', (e) => { e.preventDefault(); addThreshold(); });
   editor?.querySelector('[data-swo-editor-cancel]')?.addEventListener('click', () => (editor.open = false));
   // Remove hands the card to the tree's delete guard; the drawer closes only if the
   // guard confirms (the card's removal is what closes it).
@@ -547,22 +492,6 @@ const DATA = JSON.stringify({
   .bcn-swo-edit__empty { margin: 0; font-size: 0.75rem; font-style: italic; color: var(--color-content-default-tertiary); }
   .bcn-swo-edit__verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
 
-  /* Thresholds: five columns and a remove cell, xs controls. */
-  .bcn-swo-edit__thr {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) 5.25rem minmax(0, 1fr) minmax(0, 1fr) 4.5rem 22px;
-    gap: var(--spacing-100) var(--spacing-150);
-    align-items: center;
-  }
-  .bcn-swo-edit__thr:not(:has(.bcn-swo-edit__thr-row)) { display: none; }
-  .bcn-swo-edit__thr-head {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    color: var(--color-content-default-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
   /* Requirements: a code, a name, then the exact text folded under it. */
   .bcn-swo-edit__reqs { display: flex; flex-direction: column; border-top: 1px solid var(--color-border-default-subtle); }
   .bcn-swo-edit__reqs:empty { border-top: none; }
@@ -574,8 +503,6 @@ const DATA = JSON.stringify({
 
 <style is:global>
   /* Rows in both drawers are stamped by script, outside the scope id. */
-  .bcn-swo-edit__thr-row { display: contents; }
-  .bcn-swo-edit__thr-source { font-family: var(--typography-font-family-mono); font-size: 0.6875rem; color: var(--color-commitment); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-swo-edit__x { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: none; background: transparent; border-radius: var(--radius-100); color: var(--color-content-default-tertiary); cursor: pointer; }
   .bcn-swo-edit__x:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
   .bcn-swo-edit__x--danger:hover { color: var(--color-background-utility-danger); }
