@@ -38,7 +38,8 @@ const { n, token, intro } = Astro.props;
     background: var(--color-background-elevation-raised);
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    overflow: hidden;
+    /* No overflow clip: the filter row's selects drop a listbox below the panel's
+       edge, and nothing inside paints to the corners. */
     flex-shrink: 0;
   }
   .bcn-swsp__header { padding: var(--spacing-400) var(--spacing-500); }

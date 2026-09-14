@@ -88,7 +88,7 @@ const titleCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
     - edit one action      -> bcn-sw-actions-edit-dialog  # side drawer, closed until a pencil opens it
 -->
 
-<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard">
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
   <PageLayout title="Setup Wizard" hideTitleRow>
     <BcnSetupWizardFrame active="actions">
       <div class="stack" data-gap="md">

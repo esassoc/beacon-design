@@ -20,7 +20,7 @@ const firstOpen = SETUP_STEPS.find((s) => !COMPLETE_STEPS.includes(s.id)) ?? SET
     - welcome + flow    -> bcn-setup-wizard-overview  # hero, "How project setup works", five numbered columns, Continue setup CTA
 -->
 
-<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard">
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
   <PageLayout title="Setup Wizard" hideTitleRow>
     <BcnSetupWizardFrame>
       <BcnSetupWizardOverview startHref={firstOpen.href} startLabel={`Continue with step ${firstOpen.n}: ${firstOpen.label}`} />

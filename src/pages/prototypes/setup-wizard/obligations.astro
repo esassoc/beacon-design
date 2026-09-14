@@ -27,10 +27,11 @@ import BcnSwFilterRow from '../../../components/bcn/BcnSwFilterRow.astro';
 import BcnSwObligationsTree from '../../../components/bcn/BcnSwObligationsTree.astro';
 import BcnSwObligationsEditor from '../../../components/bcn/BcnSwObligationsEditor.astro';
 import { PROJECT } from '../../../data/project-dashboard';
-import { SETUP_STEPS, STEP_GLYPH, OBLIGATION_TREE_TOTALS } from '../../../data/setup-wizard';
+import { SETUP_STEPS, STEP_GLYPH, OBLIGATION_TREE_TOTALS, OBLIGATION_CLASS_LABEL } from '../../../data/setup-wizard';
 
 const STEP = SETUP_STEPS.find((s) => s.id === 'obligations')!;
 const total = OBLIGATION_TREE_TOTALS.obligations;
+const CLASS_PICKS = Object.entries(OBLIGATION_CLASS_LABEL).map(([value, label]) => ({ label, value }));
 ---
 
 <!-- manifest:
@@ -43,14 +44,14 @@ const total = OBLIGATION_TREE_TOTALS.obligations;
     - edit one          -> bcn-sw-obligations-editor  # side drawer a title or pencil opens, headed by the title: class, filing, trigger, requirements (duplicate / move / unlink, Link from the permit via a stacked drawer) with source text
 -->
 
-<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard">
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
   <PageLayout title="Setup Wizard" hideTitleRow>
     <BcnSetupWizardFrame active="obligations">
       <div class="stack" data-gap="md">
         <BcnSwStepPanel
           n={STEP.n}
           token={STEP.token}
-          intro="Review the standing obligations Beacon drafted from requirements that are not tracked as actions. Open any obligation to read and correct it, drag obligations and requirements to where they belong, then approve the set."
+          intro="Review and approve Obligations and their proposed categorizations."
         >
           <Fragment slot="title">
             <span>Obligations in</span>
@@ -58,9 +59,9 @@ const total = OBLIGATION_TREE_TOTALS.obligations;
             <span data-swo-count="title"><BcnSwCountBadge value={total} label={`${total} obligations`} /></span>
           </Fragment>
           <BcnSwFilterRow
-            searchPlaceholder="Search obligations and requirements by statement, class, name or commitment..."
+            searchPlaceholder="Search obligations"
             searchName="swo-search"
-            pickers={[{ label: 'Class', value: 'All classes' }]}
+            pickers={[{ label: 'Class', value: 'All classes', options: CLASS_PICKS }]}
           >
             <EsaButton variant="ghost" size="xs" data-swo-expand title="Open every category">
               <span class="sw-verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
