@@ -1,62 +1,52 @@
 ---
 // <BcnSwObligationsEditor> — the one place an obligation is read and changed. Clicking
-// a card's statement or its pencil opens this drawer filled with that record; there is
-// no read-only view, so everything the record holds is here.
+// a card's title or its pencil opens this drawer filled with that record; there is no
+// read-only view, so everything the record holds is here, and the drawer's heading is
+// the record's title, following the field as it is typed.
 //
-// The fields ARE the anatomy of an obligation (projects/beacon/shaping/obligation-anatomy.md):
-// the Statement, the Class, where it is filed (Category / Subcategory — the most common
-// correction, so it sits high), its Scope (phases, species), the Trigger a classifier
-// matches evidence against, the quantitative Thresholds it holds, the Gate it waits on,
-// and the Requirements it derives from, each folding open to the exact source text.
-// There is no Standard field: the statement plus the source text already say it.
+// The fields are the anatomy of an obligation (projects/beacon/shaping/obligation-anatomy.md)
+// as it stands after the 2026-09-14 round: Title; Class; where it is filed (Category /
+// Subcategory); the Trigger a classifier matches evidence against; the
+// quantitative Thresholds it holds; and the Requirements it derives from, each folding
+// open to its exact source text. Scope (phases, species) lives on the requirements, and
+// there is no Gate field: whether an obligation waits on an approved plan is read off its
+// requirements' actions, not typed in.
 //
-// Every control is one size down (sm; the threshold grid xs) so the record reads as a
-// record and not a form. The footer puts Remove at the left, Cancel and Save at the right.
+// Requirements are managed here as well as in the tree: each row can be duplicated,
+// moved to another obligation, or unlinked; "Link requirement" adds from the permit's
+// full list. Move and Link open a second, narrower drawer stacked over this one.
+// Every change lands on the card in the tree at once, so the list and the drawer never
+// disagree. Remove routes through the tree's delete guard.
 //
-// bcn-lego-checked: the frame IS esa-side-dialog; the controls are esa-text-field,
-// esa-button-toggle, esa-select, esa-textarea, esa-input-tag, esa-button. The threshold
-// grid composes esa-text-field + esa-select per cell; no lego is a small editable table
-// (esa-data-table is read-only rows). The requirement list is native <details> because
-// esa-accordion carries a heading scale this record does not want.
+// bcn-lego-checked: both frames ARE esa-side-dialog; the controls are esa-text-field,
+// esa-select, esa-textarea, esa-checkbox, esa-button. The threshold grid composes
+// esa-text-field + esa-select per cell; no lego is a small editable table. The
+// requirement list is native <details> because esa-accordion carries a heading scale
+// this record does not want; the picker rows are native buttons with role=option because
+// esa-list-item is not selectable.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import {
-  OBLIGATION_CLASS_LABEL,
-  OBLIGATION_TREE,
-  OBLIGATION_NODES,
-  STEP_GLYPH,
-} from '../../data/setup-wizard';
+import { ACTIONS_OF, ITP, OBLIGATION_CLASS_LABEL, OBLIGATION_TREE, STEP_GLYPH } from '../../data/setup-wizard';
 
 const CLASS_OPTIONS = JSON.stringify(
   (['adhere', 'monitor', 'notify', 'roster'] as const).map((c) => ({ label: OBLIGATION_CLASS_LABEL[c], value: c })),
 );
-const GATE_OPTIONS = JSON.stringify([
-  { label: 'None', value: 'none' },
-  { label: 'Approved plan', value: 'plan' },
-  { label: 'Installed control', value: 'control' },
-]);
 const CATEGORY_OPTIONS = JSON.stringify(OBLIGATION_TREE.map((c) => ({ label: c.name, value: c.id })));
 const COMPARATOR_OPTIONS = JSON.stringify(['≤', '≥', '<', '>', '=', 'within'].map((c) => ({ label: c, value: c })));
-const PHASE_OPTIONS = JSON.stringify(
-  [...new Set(OBLIGATION_NODES.flatMap((o) => o.phases))].sort().map((p) => ({ label: p, value: p })),
-);
-const SPECIES_OPTIONS = JSON.stringify(
-  [...new Set(OBLIGATION_NODES.flatMap((o) => o.species))].sort().map((s) => ({ label: s, value: s })),
-);
 
-// The drawer is filled by script from this: every obligation keyed by id, every
-// requirement keyed by id (with its exact text), and the taxonomy for the two selects.
+// The drawer is filled by script from this: every obligation keyed by id, EVERY permit
+// requirement keyed by id (with its exact text, so Link can offer all of them), and the
+// taxonomy for the two selects.
 const requirements: Record<string, { code: string; name: string; text: string; inActions: number }> = {};
+for (const r of ITP.requirements) requirements[r.id] = { code: r.commitment, name: r.name, text: r.text, inActions: ACTIONS_OF.get(r.id)?.length ?? 0 };
 const obligations: Record<string, unknown> = {};
 for (const cat of OBLIGATION_TREE)
   for (const sub of cat.subcategories)
-    for (const o of sub.obligations) {
-      obligations[o.id] = { title: o.title, class: o.class, phases: o.phases, species: o.species, trigger: o.trigger, thresholds: o.thresholds, gate: o.gate ? 'plan' : 'none', cat: cat.id, sub: sub.id };
-      for (const r of o.requirements) requirements[r.id] = { code: r.code, name: r.name, text: r.text, inActions: r.inActions };
-    }
+    for (const o of sub.obligations) obligations[o.id] = { title: o.title, class: o.class, trigger: o.trigger, thresholds: o.thresholds, cat: cat.id, sub: sub.id };
 const DATA = JSON.stringify({
   obligations,
   requirements,
+  classes: OBLIGATION_CLASS_LABEL,
   taxonomy: OBLIGATION_TREE.map((c) => ({ id: c.id, name: c.name, subs: c.subcategories.map((s) => ({ id: s.id, name: s.name })) })),
 });
 ---
@@ -67,35 +57,24 @@ const DATA = JSON.stringify({
   position="right"
   style="--_width: min(640px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
   <form class="bcn-swo-edit" data-swo-form>
-    <esa-text-field label="Statement" size="sm" name="swo-title" required hint="One imperative line: what must hold, for whom."></esa-text-field>
+    <esa-text-field label="Title" size="sm" name="swo-title" required></esa-text-field>
 
-    <div class="bcn-swo-edit__pair">
-      <esa-button-toggle label="Class" size="sm" options={CLASS_OPTIONS} name="swo-class"></esa-button-toggle>
-      <esa-button-toggle label="Gate" size="sm" options={GATE_OPTIONS} name="swo-gate"></esa-button-toggle>
-    </div>
+    <esa-select label="Class" size="sm" options={CLASS_OPTIONS} name="swo-class" required></esa-select>
 
     <div class="bcn-swo-edit__pair">
       <esa-select label="Category" size="sm" options={CATEGORY_OPTIONS} name="swo-category" required></esa-select>
       <esa-select label="Subcategory" size="sm" options="[]" name="swo-subcategory" required></esa-select>
     </div>
 
-    <fieldset class="bcn-swo-edit__group">
-      <legend class="bcn-swo-edit__legend">Scope</legend>
-      <div class="bcn-swo-edit__pair">
-        <esa-input-tag label="Phases" size="sm" options={PHASE_OPTIONS} name="swo-phases" placeholder="Add a phase"></esa-input-tag>
-        <esa-input-tag label="Species" size="sm" options={SPECIES_OPTIONS} name="swo-species" placeholder="Add a species"></esa-input-tag>
+    <esa-textarea label="Trigger" size="sm" rows={2} name="swo-trigger"></esa-textarea>
+
+    <div class="bcn-swo-edit__section">
+      <div class="bcn-swo-edit__label-row">
+        <span class="bcn-swo-edit__label">Thresholds</span>
+        <EsaButton variant="ghost" size="xs" data-swo-thr-add>
+          <span class="bcn-swo-edit__verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />Add threshold</span>
+        </EsaButton>
       </div>
-    </fieldset>
-
-    <esa-textarea
-      label="Trigger"
-      size="sm"
-      rows={2}
-      name="swo-trigger"
-      hint="The observable event or state that brings this into force — what a classifier matches evidence against."></esa-textarea>
-
-    <fieldset class="bcn-swo-edit__group">
-      <legend class="bcn-swo-edit__legend">Thresholds</legend>
       <div class="bcn-swo-edit__thr" data-swo-thresholds>
         <span class="bcn-swo-edit__thr-head">Quantity</span>
         <span class="bcn-swo-edit__thr-head">Is</span>
@@ -104,19 +83,19 @@ const DATA = JSON.stringify({
         <span class="bcn-swo-edit__thr-head">Source</span>
         <span></span>
       </div>
-      <p class="bcn-swo-edit__thr-empty" data-swo-thr-empty hidden>No quantitative limit in the source text.</p>
-      <div>
-        <EsaButton variant="ghost" size="xs" data-swo-thr-add>
-          <span class="bcn-swo-edit__verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />Add threshold</span>
+      <p class="bcn-swo-edit__empty" data-swo-thr-empty hidden>No quantitative limit in the source text.</p>
+    </div>
+
+    <div class="bcn-swo-edit__section">
+      <div class="bcn-swo-edit__label-row">
+        <span class="bcn-swo-edit__label">Requirements <span class="bcn-swo-edit__label-n" data-swo-req-n>0</span></span>
+        <EsaButton variant="ghost" size="xs" data-swo-link>
+          <span class="bcn-swo-edit__verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />Link requirement</span>
         </EsaButton>
       </div>
-    </fieldset>
-
-    <fieldset class="bcn-swo-edit__group">
-      <legend class="bcn-swo-edit__legend">Requirements <span class="bcn-swo-edit__legend-n" data-swo-req-n>0</span></legend>
-      <p class="bcn-swo-edit__note">The exact source text this obligation derives from. Link or unlink requirements by dragging them in the list.</p>
       <div class="bcn-swo-edit__reqs" data-swo-reqs></div>
-    </fieldset>
+      <p class="bcn-swo-edit__empty" data-swo-req-empty hidden>No requirements linked. This obligation has nothing to stand on.</p>
+    </div>
   </form>
 
   <span slot="footer" class="bcn-swo-edit__foot">
@@ -134,7 +113,7 @@ const DATA = JSON.stringify({
       <esa-text-field size="xs" name="thr-value" aria-label="Value" inputmode="decimal"></esa-text-field>
       <esa-text-field size="xs" name="thr-unit" aria-label="Unit"></esa-text-field>
       <span class="bcn-swo-edit__thr-source"></span>
-      <button type="button" class="bcn-swo-edit__thr-x" title="Remove threshold" aria-label="Remove threshold"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
+      <button type="button" class="bcn-swo-edit__x" title="Remove threshold" aria-label="Remove threshold"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
     </div>
   </template>
   <template data-swo-tpl="req">
@@ -144,10 +123,50 @@ const DATA = JSON.stringify({
         <span class="bcn-swo-edit__code"></span>
         <span class="bcn-swo-edit__req-name"></span>
         <span class="bcn-swo-edit__also"></span>
+        <span class="bcn-swo-edit__req-verbs">
+          <button type="button" class="bcn-swo-edit__x" title="Duplicate (a copy in this obligation)" aria-label="Duplicate requirement" data-swo-req-verb="dup"><EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} /></button>
+          <button type="button" class="bcn-swo-edit__x" title="Move to another obligation" aria-label="Move requirement" data-swo-req-verb="move"><EsaIcon name="arrow-right" size="xs" /></button>
+          <button type="button" class="bcn-swo-edit__x bcn-swo-edit__x--danger" title="Unlink from this obligation" aria-label="Unlink requirement" data-swo-req-verb="unlink"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
+        </span>
       </summary>
       <blockquote class="bcn-swo-edit__text"></blockquote>
     </details>
   </template>
+</esa-side-dialog>
+
+<!-- The second drawer, stacked over the first: Link (pick any number of the permit's
+     requirements) or Move (pick the obligation this requirement goes to). -->
+<esa-side-dialog
+  id="swo-picker"
+  heading="Link requirements"
+  position="right"
+  style="--_width: min(460px, 90vw); --z-modal: 1400; --z-modal-backdrop: 1350;">
+  <div class="bcn-swo-pick">
+    <esa-text-field size="sm" name="swo-pick-search" placeholder="Search by commitment, name or text…" aria-label="Search"></esa-text-field>
+    <p class="bcn-swo-pick__meta" data-swo-pick-meta></p>
+    <div class="bcn-swo-pick__list" data-swo-pick-list role="listbox"></div>
+  </div>
+  <span slot="footer" class="bcn-swo-edit__foot bcn-swo-edit__foot--end">
+    <EsaButton variant="ghost" size="sm" data-swo-pick-cancel>Cancel</EsaButton>
+    <EsaButton variant="primary" size="sm" data-swo-pick-ok>Link</EsaButton>
+  </span>
+
+  <template data-swo-tpl="pick-req">
+    <button type="button" class="bcn-swo-pick__row" role="option" aria-selected="false">
+      <esa-checkbox size="sm" aria-hidden="true" tabindex="-1"></esa-checkbox>
+      <span class="bcn-swo-edit__code"></span>
+      <span class="bcn-swo-pick__name"></span>
+      <span class="bcn-swo-edit__also"></span>
+    </button>
+  </template>
+  <template data-swo-tpl="pick-obl">
+    <button type="button" class="bcn-swo-pick__row" role="option" aria-selected="false">
+      <span class="bcn-swo-pick__class"></span>
+      <span class="bcn-swo-pick__name"></span>
+      <span class="bcn-swo-pick__n"></span>
+    </button>
+  </template>
+  <template data-swo-tpl="pick-group"><div class="bcn-swo-pick__group" role="presentation"></div></template>
 </esa-side-dialog>
 
 <script type="application/json" id="swo-data" set:html={DATA}></script>
@@ -157,29 +176,48 @@ const DATA = JSON.stringify({
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-textarea';
   import '@esa/ecology/esa-select';
-  import '@esa/ecology/esa-button-toggle';
-  import '@esa/ecology/esa-input-tag';
+  import '@esa/ecology/esa-checkbox';
 
   type Thr = { quantity: string; comparator: string; value: string; unit: string; source: string };
-  type Obl = { title: string; class: string; phases: string[]; species: string[]; trigger: string; thresholds: Thr[]; gate: string; cat: string; sub: string };
+  type Obl = { title: string; class: string; trigger: string; thresholds: Thr[]; cat: string; sub: string };
   type Req = { code: string; name: string; text: string; inActions: number };
-  type Data = { obligations: Record<string, Obl>; requirements: Record<string, Req>; taxonomy: { id: string; name: string; subs: { id: string; name: string }[] }[] };
-
-  const editor = document.getElementById('swo-editor') as (HTMLElement & { open: boolean }) | null;
-  const data = JSON.parse(document.getElementById('swo-data')?.textContent ?? '{}') as Data;
+  type Data = {
+    obligations: Record<string, Obl>;
+    requirements: Record<string, Req>;
+    classes: Record<string, string>;
+    taxonomy: { id: string; name: string; subs: { id: string; name: string }[] }[];
+  };
+  type Drawer = HTMLElement & { open: boolean; heading: string };
   type Valued = HTMLElement & { value: string };
+  type Selectish = Valued & { options: unknown[] };
+
+  const editor = document.getElementById('swo-editor') as Drawer | null;
+  const picker = document.getElementById('swo-picker') as Drawer | null;
+  const data = JSON.parse(document.getElementById('swo-data')?.textContent ?? '{}') as Data;
   const field = (name: string) => editor?.querySelector<Valued>(`[name="${name}"]`) ?? null;
-  const tpl = (name: string) => (editor?.querySelector<HTMLTemplateElement>(`template[data-swo-tpl="${name}"]`)!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+  const tplFrom = (host: HTMLElement | null, name: string) =>
+    (host?.querySelector<HTMLTemplateElement>(`template[data-swo-tpl="${name}"]`)!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+  const tpl = (name: string) => tplFrom(editor, name);
+  const also = (n: number) => (n ? `also in ${n} ${n === 1 ? 'action' : 'actions'}` : '');
+  const changed = () => document.dispatchEvent(new CustomEvent('swo:changed'));
   let current: HTMLElement | null = null;
 
+  // ---- Heading follows the title.
+  const setHeading = (v: string) => { if (editor) editor.heading = v.trim() || 'Untitled obligation'; };
+  const titleField = field('swo-title');
+  titleField?.addEventListener('change', () => setHeading(titleField.value));
+  titleField?.addEventListener('input', () => setHeading(titleField.value));
+
+  // ---- Filing.
   const setSubOptions = (catId: string, subId?: string) => {
-    const sel = field('swo-subcategory') as (Valued & { options: unknown[] }) | null;
+    const sel = field('swo-subcategory') as Selectish | null;
     const cat = data.taxonomy.find((c) => c.id === catId);
     if (!sel) return;
     sel.options = (cat?.subs ?? []).map((s) => ({ label: s.name, value: s.id }));
     sel.value = subId ?? cat?.subs[0]?.id ?? '';
   };
 
+  // ---- Thresholds.
   const addThreshold = (t: Partial<Thr> = {}) => {
     const host = editor?.querySelector('[data-swo-thresholds]');
     if (!host) return;
@@ -190,7 +228,7 @@ const DATA = JSON.stringify({
     row.querySelector('.bcn-swo-edit__thr-source')!.textContent = t.source ?? '';
     host.append(row);
     customElements.whenDefined('esa-select').then(() => ((row.querySelector('[name="thr-comparator"]') as Valued).value = t.comparator ?? '≤'));
-    row.querySelector('.bcn-swo-edit__thr-x')?.addEventListener('click', () => { row.remove(); syncThrEmpty(); });
+    row.querySelector('.bcn-swo-edit__x')?.addEventListener('click', () => { row.remove(); syncThrEmpty(); });
     syncThrEmpty();
   };
   const syncThrEmpty = () => {
@@ -199,23 +237,223 @@ const DATA = JSON.stringify({
     if (empty) empty.hidden = n > 0;
   };
 
+  // ---- Requirements: the drawer's list mirrors the card's rows, by index.
+  const cardRows = () => (current ? [...current.querySelectorAll<HTMLElement>('.bcn-swoc__req')] : []);
+  const reqOf = (row: HTMLElement): Req =>
+    data.requirements[row.dataset.req ?? ''] ?? { code: row.dataset.code ?? '', name: row.querySelector('.bcn-swoc__req-name')?.textContent ?? '', text: '', inActions: 0 };
+  const renderReqs = () => {
+    const host = editor?.querySelector<HTMLElement>('[data-swo-reqs]');
+    if (!host) return;
+    host.replaceChildren();
+    const rows = cardRows();
+    rows.forEach((row, i) => {
+      const r = reqOf(row);
+      const d = tpl('req');
+      d.dataset.index = String(i);
+      d.querySelector('.bcn-swo-edit__code')!.textContent = r.code;
+      d.querySelector('.bcn-swo-edit__req-name')!.textContent = r.name;
+      d.querySelector('.bcn-swo-edit__also')!.textContent = also(r.inActions);
+      d.querySelector('.bcn-swo-edit__text')!.textContent = (r.text || '(source text not in this fixture)').replace(/\s*\n\s*/g, ' ');
+      host.append(d);
+    });
+    (host.firstElementChild as HTMLDetailsElement | null)?.setAttribute('open', '');
+    editor!.querySelector('[data-swo-req-n]')!.textContent = String(rows.length);
+    editor!.querySelector<HTMLElement>('[data-swo-req-empty]')!.hidden = rows.length > 0;
+  };
+  // A new requirement row is stamped from a live one so the card's scoped styles apply
+  // (a template in this file would carry this file's scope, not the card's).
+  const stampReq = (id: string): HTMLElement | null => {
+    const src = document.querySelector<HTMLElement>('.bcn-swoc__req:has(.bcn-swoc__also)') ?? document.querySelector<HTMLElement>('.bcn-swoc__req');
+    const r = data.requirements[id];
+    if (!src || !r) return null;
+    const li = src.cloneNode(true) as HTMLElement;
+    li.classList.remove('is-new', 'is-dragging');
+    li.hidden = false;
+    li.dataset.req = id;
+    li.dataset.code = r.code;
+    li.querySelector('.bcn-cbadge')!.textContent = r.code;
+    const name = li.querySelector<HTMLElement>('.bcn-swoc__req-name')!;
+    name.textContent = r.name;
+    name.dataset.swoText = r.name;
+    const alsoEl = li.querySelector('.bcn-swoc__also');
+    if (r.inActions && alsoEl) alsoEl.textContent = also(r.inActions);
+    else alsoEl?.remove();
+    return li;
+  };
+  const flash = (el: HTMLElement) => { el.classList.add('is-new'); setTimeout(() => el.classList.remove('is-new'), 1000); };
+
+  editor?.querySelector('[data-swo-reqs]')?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-swo-req-verb]');
+    if (!btn) return;
+    e.preventDefault();
+    const d = btn.closest<HTMLElement>('.bcn-swo-edit__req')!;
+    const row = cardRows()[Number(d.dataset.index)];
+    if (!row) return;
+    if (btn.dataset.swoReqVerb === 'dup') {
+      const copy = row.cloneNode(true) as HTMLElement;
+      row.after(copy);
+      flash(copy);
+      changed();
+      renderReqs();
+    } else if (btn.dataset.swoReqVerb === 'unlink') {
+      row.remove();
+      changed();
+      renderReqs();
+    } else if (btn.dataset.swoReqVerb === 'move') {
+      openPicker('move', row);
+    }
+  });
+  editor?.querySelector('[data-swo-link]')?.addEventListener('click', (e) => { e.preventDefault(); openPicker('link'); });
+
+  // ---- The picker: one list, two modes.
+  type Mode = 'link' | 'move';
+  let mode: Mode = 'link';
+  let moving: HTMLElement | null = null;
+  const selected = new Set<string>();
+  const targets = new Map<string, HTMLElement>();
+  const pickList = picker?.querySelector<HTMLElement>('[data-swo-pick-list]');
+  const pickMeta = picker?.querySelector<HTMLElement>('[data-swo-pick-meta]');
+  const pickSearch = picker?.querySelector<Valued>('[name="swo-pick-search"]');
+  const pickOk = picker?.querySelector<HTMLButtonElement>('[data-swo-pick-ok]');
+  const CAP = 60;
+  // Disabled is toggled on the native button only: the lego's own `disabled` prop
+  // also kills pointer events on its wrapper, which script cannot lift.
+  if (pickOk) pickOk.disabled = true;
+
+  const syncOk = () => {
+    if (!pickOk) return;
+    pickOk.disabled = selected.size === 0;
+    pickOk.textContent = mode === 'link' ? (selected.size > 1 ? `Link ${selected.size}` : 'Link') : 'Move';
+  };
+  const renderPick = () => {
+    if (!pickList || !pickMeta) return;
+    const needle = (pickSearch?.value ?? '').trim().toLowerCase();
+    pickList.replaceChildren();
+    targets.clear();
+    if (mode === 'link') {
+      pickList.setAttribute('aria-multiselectable', 'true');
+      const linked = new Set(cardRows().map((r) => r.dataset.req));
+      const all = Object.entries(data.requirements).filter(([id]) => !linked.has(id));
+      const hits = needle ? all.filter(([, r]) => `${r.code} ${r.name} ${r.text}`.toLowerCase().includes(needle)) : all;
+      hits.slice(0, CAP).forEach(([id, r]) => {
+        const b = tplFrom(picker, 'pick-req');
+        b.dataset.id = id;
+        b.querySelector('.bcn-swo-edit__code')!.textContent = r.code;
+        b.querySelector('.bcn-swo-pick__name')!.textContent = r.name;
+        b.querySelector('.bcn-swo-edit__also')!.textContent = also(r.inActions);
+        pickList.append(b);
+      });
+      pickMeta.textContent = hits.length > CAP ? `Showing ${CAP} of ${hits.length}. Narrow the search.` : `${hits.length} of the permit's ${Object.keys(data.requirements).length} requirements${linked.size ? `; ${linked.size} already linked here` : ''}.`;
+    } else {
+      pickList.removeAttribute('aria-multiselectable');
+      let n = 0;
+      document.querySelectorAll<HTMLElement>('[data-swo-sub]').forEach((sub) => {
+        const catName = sub.closest('[data-swo-cat]')?.querySelector('[data-swo-name]')?.textContent?.trim() ?? '';
+        const subName = sub.querySelector('[data-swo-name]')?.textContent?.trim() ?? '';
+        const cards = [...sub.querySelectorAll<HTMLElement>('[data-swo-card]')].filter((c) => c !== current);
+        const rows = cards.filter((c) => !needle || `${catName} ${subName} ${c.querySelector('.bcn-swoc__title')?.textContent ?? ''}`.toLowerCase().includes(needle));
+        if (!rows.length) return;
+        const g = tplFrom(picker, 'pick-group');
+        g.textContent = `${catName} › ${subName}`;
+        pickList.append(g);
+        rows.forEach((c) => {
+          const key = `t${++n}`;
+          targets.set(key, c);
+          const b = tplFrom(picker, 'pick-obl');
+          b.dataset.id = key;
+          b.querySelector('.bcn-swo-pick__class')!.textContent = data.classes[c.dataset.class ?? ''] ?? c.dataset.class ?? '';
+          b.querySelector('.bcn-swo-pick__name')!.textContent = c.querySelector('.bcn-swoc__title')?.textContent?.trim() ?? '';
+          const k = c.querySelectorAll('.bcn-swoc__req').length;
+          b.querySelector('.bcn-swo-pick__n')!.textContent = String(k);
+          pickList.append(b);
+        });
+      });
+      pickMeta.textContent = `${n} ${n === 1 ? 'obligation' : 'obligations'}${needle ? ' match' : ''}.`;
+    }
+    pickList.querySelectorAll<HTMLElement>('[role="option"]').forEach((b) => paint(b));
+  };
+  const paint = (b: HTMLElement) => {
+    const on = selected.has(b.dataset.id ?? '');
+    b.setAttribute('aria-selected', String(on));
+    const cb = b.querySelector('esa-checkbox') as (HTMLElement & { checked: boolean }) | null;
+    if (cb) cb.checked = on;
+  };
+  const openPicker = (m: Mode, row?: HTMLElement) => {
+    if (!picker) return;
+    mode = m;
+    moving = row ?? null;
+    selected.clear();
+    picker.heading = m === 'link' ? 'Link requirements' : `Move ${row ? reqOf(row).code : 'requirement'} to…`;
+    if (pickSearch) pickSearch.value = '';
+    Promise.all(['esa-checkbox', 'esa-text-field'].map((t) => customElements.whenDefined(t))).then(() => {
+      renderPick();
+      syncOk();
+      picker.open = true;
+    });
+  };
+  pickList?.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
+    if (!b) return;
+    e.preventDefault();
+    const id = b.dataset.id ?? '';
+    if (mode === 'link') {
+      if (selected.has(id)) selected.delete(id);
+      else selected.add(id);
+      paint(b);
+    } else {
+      selected.clear();
+      selected.add(id);
+      pickList.querySelectorAll<HTMLElement>('[role="option"]').forEach((x) => paint(x));
+    }
+    syncOk();
+  });
+  pickSearch?.addEventListener('change', () => renderPick());
+  pickSearch?.addEventListener('input', () => renderPick());
+  picker?.querySelector('[data-swo-pick-cancel]')?.addEventListener('click', () => (picker.open = false));
+  pickOk?.addEventListener('click', () => {
+    if (!current || !picker) return;
+    if (mode === 'link') {
+      const host = current.querySelector('.bcn-swoc__reqs');
+      selected.forEach((id) => {
+        const li = stampReq(id);
+        if (li && host) { host.append(li); flash(li); }
+      });
+      (current.querySelector('.bcn-swoc__node') as HTMLDetailsElement | null)?.setAttribute('open', '');
+    } else if (moving) {
+      const card = targets.get([...selected][0] ?? '');
+      const host = card?.querySelector('.bcn-swoc__reqs');
+      if (card && host) {
+        host.append(moving);
+        (card.querySelector('.bcn-swoc__node') as HTMLDetailsElement | null)?.setAttribute('open', '');
+        (card.closest('.bcn-swot__sub') as HTMLDetailsElement | null)?.setAttribute('open', '');
+        (card.closest('[data-swo-cat]') as HTMLDetailsElement | null)?.setAttribute('open', '');
+        flash(moving);
+      }
+    }
+    picker.open = false;
+    changed();
+    renderReqs();
+  });
+
+  // ---- Fill from a card.
   const fill = (card: HTMLElement) => {
     current = card;
     const id = card.dataset.id ?? '';
     const o: Obl = data.obligations[id] ?? {
       title: card.querySelector('.bcn-swoc__title')?.textContent?.trim() ?? '',
-      class: card.dataset.class ?? 'adhere', phases: [], species: [], trigger: '', thresholds: [], gate: 'none',
+      class: card.dataset.class ?? 'adhere', trigger: '', thresholds: [],
       cat: card.closest<HTMLElement>('[data-swo-cat]')?.dataset.swoCat ?? '', sub: card.closest<HTMLElement>('[data-swo-sub]')?.dataset.swoSub ?? '',
     };
     // Where the card sits NOW wins over where the fixture filed it — it may have been dragged.
     const catNow = card.closest<HTMLElement>('[data-swo-cat]')?.dataset.swoCat ?? o.cat;
     const subNow = card.closest<HTMLElement>('[data-swo-sub]')?.dataset.swoSub ?? o.sub;
 
-    field('swo-title')!.value = card.querySelector('.bcn-swoc__title')?.textContent?.trim() ?? o.title;
+    const title = card.querySelector('.bcn-swoc__title')?.textContent?.trim() ?? o.title;
+    field('swo-title')!.value = title;
+    setHeading(title);
     field('swo-class')!.value = card.dataset.class ?? o.class;
-    field('swo-gate')!.value = o.gate;
     field('swo-trigger')!.value = o.trigger;
-    const cat = field('swo-category') as (Valued & { options: unknown[] }) | null;
+    const cat = field('swo-category') as Selectish | null;
     if (cat) {
       // A category made in this session is not in the fixture's options; add it by its live name.
       const known = data.taxonomy.some((c) => c.id === catNow);
@@ -228,38 +466,22 @@ const DATA = JSON.stringify({
       cat.value = catNow;
     }
     setSubOptions(catNow, subNow);
-    (field('swo-phases') as Valued & { value: unknown }).value = o.phases.join(',');
-    (field('swo-species') as Valued & { value: unknown }).value = o.species.join(',');
 
     editor?.querySelectorAll('.bcn-swo-edit__thr-row').forEach((r) => r.remove());
     o.thresholds.forEach((t) => addThreshold(t));
     syncThrEmpty();
-
-    const reqs = editor!.querySelector<HTMLElement>('[data-swo-reqs]')!;
-    reqs.replaceChildren();
-    const rows = [...card.querySelectorAll<HTMLElement>('.bcn-swoc__req')];
-    rows.forEach((row) => {
-      const r = data.requirements[row.dataset.req ?? ''] ?? { code: row.dataset.code ?? '', name: row.querySelector('.bcn-swoc__req-name')?.textContent ?? '', text: '', inActions: 0 };
-      const d = tpl('req');
-      d.querySelector('.bcn-swo-edit__code')!.textContent = r.code;
-      d.querySelector('.bcn-swo-edit__req-name')!.textContent = r.name;
-      d.querySelector('.bcn-swo-edit__also')!.textContent = r.inActions ? `also in ${r.inActions} ${r.inActions === 1 ? 'action' : 'actions'}` : '';
-      d.querySelector('.bcn-swo-edit__text')!.textContent = (r.text || '(source text not in this fixture)').replace(/\s*\n\s*/g, ' ');
-      reqs.append(d);
-    });
-    (reqs.firstElementChild as HTMLDetailsElement | null)?.setAttribute('open', '');
-    editor!.querySelector('[data-swo-req-n]')!.textContent = String(rows.length);
+    renderReqs();
   };
 
   const open = (card: HTMLElement) => {
     if (!editor) return;
-    Promise.all(['esa-select', 'esa-input-tag', 'esa-button-toggle', 'esa-text-field', 'esa-textarea'].map((t) => customElements.whenDefined(t))).then(() => {
+    Promise.all(['esa-select', 'esa-text-field', 'esa-textarea', 'esa-side-dialog'].map((t) => customElements.whenDefined(t))).then(() => {
       fill(card);
       editor.open = true;
     });
   };
 
-  // Any card's statement or pencil opens the drawer on that card.
+  // Any card's title or pencil opens the drawer on that card.
   document.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
     const trigger = t.closest<HTMLElement>('[data-swo-open]');
@@ -273,12 +495,13 @@ const DATA = JSON.stringify({
   field('swo-category')?.addEventListener('change', (e) => setSubOptions((e.target as Valued).value));
   editor?.querySelector('[data-swo-thr-add]')?.addEventListener('click', (e) => { e.preventDefault(); addThreshold(); });
   editor?.querySelector('[data-swo-editor-cancel]')?.addEventListener('click', () => (editor.open = false));
+  // Remove hands the card to the tree's delete guard; the drawer closes only if the
+  // guard confirms (the card's removal is what closes it).
   editor?.querySelector('[data-swo-editor-remove]')?.addEventListener('click', () => {
-    current?.remove();
-    editor.open = false;
-    document.dispatchEvent(new CustomEvent('swo:changed'));
+    current?.dispatchEvent(new CustomEvent('swo:remove-card', { bubbles: true }));
   });
-  // Save writes the statement and class back onto the card, and refiles it if the
+  document.addEventListener('swo:changed', () => { if (editor?.open && current && !current.isConnected) editor.open = false; });
+  // Save writes the title and class back onto the card, and refiles it if the
   // category or subcategory changed — the same move as a drag.
   editor?.querySelector('[data-swo-editor-save]')?.addEventListener('click', () => {
     if (!current) return;
@@ -289,7 +512,7 @@ const DATA = JSON.stringify({
     if (cls) {
       current.dataset.class = cls;
       const tag = current.querySelector('[data-swo-class-tag]');
-      if (tag) tag.textContent = cls.charAt(0).toUpperCase() + cls.slice(1);
+      if (tag) tag.textContent = data.classes[cls] ?? cls;
     }
     const subId = field('swo-subcategory')!.value;
     const dest = document.querySelector<HTMLElement>(`[data-swo-sub="${subId}"] [data-swo-cards]`);
@@ -299,7 +522,7 @@ const DATA = JSON.stringify({
       (dest.closest('[data-swo-cat]') as HTMLDetailsElement).open = true;
     }
     editor.open = false;
-    document.dispatchEvent(new CustomEvent('swo:changed'));
+    changed();
   });
 </script>
 
@@ -316,26 +539,12 @@ const DATA = JSON.stringify({
     gap: var(--spacing-300);
     align-items: start;
   }
-  .bcn-swo-edit__group {
-    margin: 0;
-    padding: var(--spacing-300) var(--spacing-300) var(--spacing-300);
-    border: 1px solid var(--color-border-default-subtle);
-    border-radius: var(--radius-200);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-200);
-    min-width: 0;
-  }
-  .bcn-swo-edit__legend {
-    padding: 0 var(--spacing-100);
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-content-default-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .bcn-swo-edit__legend-n { font-weight: 500; color: var(--color-content-default-tertiary); margin-left: var(--spacing-100); }
-  .bcn-swo-edit__note { margin: 0; font-size: 0.75rem; color: var(--color-content-default-tertiary); }
+  .bcn-swo-edit__section { display: flex; flex-direction: column; gap: var(--spacing-150); min-width: 0; }
+  .bcn-swo-edit__label-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-200); }
+  /* The same label a lego draws, so the two sections read as fields. */
+  .bcn-swo-edit__label { font-size: 0.75rem; font-weight: 500; color: var(--form-label-color, #646464); }
+  .bcn-swo-edit__label-n { font-weight: 400; color: var(--color-content-default-tertiary); margin-left: var(--spacing-100); }
+  .bcn-swo-edit__empty { margin: 0; font-size: 0.75rem; font-style: italic; color: var(--color-content-default-tertiary); }
   .bcn-swo-edit__verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
 
   /* Thresholds: five columns and a remove cell, xs controls. */
@@ -345,6 +554,7 @@ const DATA = JSON.stringify({
     gap: var(--spacing-100) var(--spacing-150);
     align-items: center;
   }
+  .bcn-swo-edit__thr:not(:has(.bcn-swo-edit__thr-row)) { display: none; }
   .bcn-swo-edit__thr-head {
     font-size: 0.6875rem;
     font-weight: 500;
@@ -352,20 +562,26 @@ const DATA = JSON.stringify({
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
-  .bcn-swo-edit__thr-empty { margin: 0; font-size: 0.75rem; font-style: italic; color: var(--color-content-default-tertiary); }
 
   /* Requirements: a code, a name, then the exact text folded under it. */
   .bcn-swo-edit__reqs { display: flex; flex-direction: column; border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-swo-edit__reqs:empty { border-top: none; }
+
+  .bcn-swo-pick { display: flex; flex-direction: column; gap: var(--spacing-200); font-size: 0.8125rem; }
+  .bcn-swo-pick__meta { margin: 0; font-size: 0.75rem; color: var(--color-content-default-tertiary); }
+  .bcn-swo-pick__list { display: flex; flex-direction: column; border-top: 1px solid var(--color-border-default-subtle); }
 </style>
 
 <style is:global>
-  /* The threshold rows and requirement rows are stamped by script, outside the scope id. */
+  /* Rows in both drawers are stamped by script, outside the scope id. */
   .bcn-swo-edit__thr-row { display: contents; }
   .bcn-swo-edit__thr-source { font-family: var(--typography-font-family-mono); font-size: 0.6875rem; color: var(--color-commitment); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .bcn-swo-edit__thr-x { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: none; background: transparent; border-radius: var(--radius-100); color: var(--color-content-default-tertiary); cursor: pointer; }
-  .bcn-swo-edit__thr-x:hover { background: var(--bcn-gray-100); color: var(--color-background-utility-danger); }
+  .bcn-swo-edit__x { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: none; background: transparent; border-radius: var(--radius-100); color: var(--color-content-default-tertiary); cursor: pointer; }
+  .bcn-swo-edit__x:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
+  .bcn-swo-edit__x--danger:hover { color: var(--color-background-utility-danger); }
 
   .bcn-swo-edit__req { border-bottom: 1px solid var(--color-border-default-subtle); }
+  .bcn-swo-edit__req.is-new { background: color-mix(in srgb, var(--color-obligation) 10%, white); }
   .bcn-swo-edit__req-row { display: flex; align-items: center; gap: var(--spacing-200); min-height: 30px; padding: var(--spacing-100) var(--spacing-100); list-style: none; cursor: pointer; font-size: 0.8125rem; }
   .bcn-swo-edit__req-row::-webkit-details-marker { display: none; }
   .bcn-swo-edit__req-row:hover { background: var(--color-background-default); }
@@ -374,8 +590,23 @@ const DATA = JSON.stringify({
   .bcn-swo-edit__code { flex-shrink: 0; font-family: var(--typography-font-family-mono); font-weight: 600; font-size: 0.6875rem; color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); border-radius: var(--radius-100); padding: 1px 6px; }
   .bcn-swo-edit__req-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bcn-swo-edit__also { flex-shrink: 0; font-size: 0.6875rem; color: var(--color-content-default-tertiary); }
+  .bcn-swo-edit__also:empty { display: none; }
+  .bcn-swo-edit__req-verbs { display: inline-flex; flex-shrink: 0; gap: 2px; opacity: 0; transition: opacity 120ms ease; }
+  .bcn-swo-edit__req-row:hover .bcn-swo-edit__req-verbs,
+  .bcn-swo-edit__req-row:focus-within .bcn-swo-edit__req-verbs { opacity: 1; }
   .bcn-swo-edit__text { margin: 0 0 var(--spacing-200) calc(var(--spacing-100) + 20px); padding: var(--spacing-200) var(--spacing-300); border-left: 3px solid var(--color-commitment); background: var(--color-background-default); font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
 
   .bcn-swo-edit__foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-200); }
+  .bcn-swo-edit__foot--end { justify-content: flex-end; }
   .bcn-swo-edit__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+
+  /* Picker rows: a button per option; the checkbox is state only, the row takes the click. */
+  .bcn-swo-pick__group { padding: var(--spacing-200) var(--spacing-100) var(--spacing-100); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-content-default-tertiary); }
+  .bcn-swo-pick__row { display: flex; align-items: center; gap: var(--spacing-200); width: 100%; min-height: 32px; padding: var(--spacing-100) var(--spacing-150); border: none; border-bottom: 1px solid var(--color-border-default-subtle); background: transparent; border-radius: 0; text-align: left; font: inherit; font-size: 0.8125rem; color: var(--color-content-default); cursor: pointer; }
+  .bcn-swo-pick__row:hover { background: var(--color-background-default); }
+  .bcn-swo-pick__row[aria-selected='true'] { background: color-mix(in srgb, var(--color-obligation) 8%, white); }
+  .bcn-swo-pick__row esa-checkbox { pointer-events: none; flex-shrink: 0; }
+  .bcn-swo-pick__name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-swo-pick__class { flex-shrink: 0; padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.6875rem; font-weight: 500; background: var(--bcn-gray-100); color: var(--color-content-default-secondary); }
+  .bcn-swo-pick__n { flex-shrink: 0; font-size: 0.6875rem; color: var(--color-content-default-tertiary); }
 </style>

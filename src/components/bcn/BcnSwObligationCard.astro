@@ -100,20 +100,24 @@ const { obligation: o, open = false } = Astro.props;
   .bcn-swoc__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
   details[open] > summary .bcn-swoc__chevron { transform: rotate(90deg); }
 
+  /* The class tag sits at its natural width, tinted from the obligation end of the
+     setup ramp: adhere in the step's own pink, then the ramp's next hues for the others. */
   .bcn-swoc__class {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     flex-shrink: 0;
-    width: 4.25rem;
-    padding: 1px var(--spacing-150);
+    padding: 1px var(--spacing-200);
     border-radius: var(--radius-100);
     font-size: 0.6875rem;
     font-weight: 500;
     line-height: 1.5;
-    background: var(--bcn-gray-100);
-    color: var(--color-content-default);
+    background: color-mix(in srgb, var(--_hue) 14%, white);
+    color: color-mix(in srgb, var(--_hue) 78%, black);
   }
+  .bcn-swoc[data-class='adhere'] { --_hue: var(--color-obligation); }
+  .bcn-swoc[data-class='monitor'] { --_hue: #ff7c43; }
+  .bcn-swoc[data-class='notify'] { --_hue: #ffa600; }
+  .bcn-swoc[data-class='roster'] { --_hue: var(--color-action); }
   .bcn-swoc__title {
     flex: 1;
     min-width: 0;

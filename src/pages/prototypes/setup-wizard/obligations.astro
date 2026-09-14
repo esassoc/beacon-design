@@ -3,12 +3,14 @@
 //
 // One bordered top panel (numeral, serif title with the category chip and the count,
 // intro line) with Approve at the right of the title row; a filter row with search,
-// a class picker and the expand / collapse verbs; then one list panel holding the
-// registry four levels deep — category > subcategory > obligation > requirement(s) —
-// every line at one small size. Clicking an obligation's statement or its pencil opens
-// the editor drawer, the only view of the record. Obligations drag between
+// a class picker and the expand / collapse verbs (category level; each subcategory row
+// has its own pair that goes all the way down to requirements); then one list panel
+// holding the registry four levels deep — category > subcategory > obligation >
+// requirement(s) — every line at one small size. Clicking an obligation's title or its
+// pencil opens the editor drawer, the only view of the record, where its requirements
+// are linked, duplicated, moved and unlinked. In the list, obligations drag between
 // subcategories; requirements drag between obligations (or onto a subcategory to start
-// a new one), duplicate in place, and unlink. "New category" closes the list panel.
+// a new one). Deleting anything asks first. "New category" closes the list panel.
 //
 // The tree and every count are derived from the ITP fixture (OBLIGATION_TREE): the 333
 // obligations the actions pass wrote, filed into the registry's subject taxonomy, each
@@ -38,7 +40,7 @@ const total = OBLIGATION_TREE_TOTALS.obligations;
     - step panel        -> bcn-sw-step-panel          # numeral, serif title with category chip (bcn-sw-select-chip) and count, Approve at right, intro
     - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), class picker, expand / collapse verbs
     - obligation tree   -> bcn-sw-obligations-tree    # category > subcategory > bcn-sw-obligation-card > requirement rows; drag to refile; New category at the foot
-    - edit one          -> bcn-sw-obligations-editor  # side drawer a statement or pencil opens: statement, class, filing, scope, trigger, thresholds, gate, requirements with source text
+    - edit one          -> bcn-sw-obligations-editor  # side drawer a title or pencil opens, headed by the title: class, filing, trigger, thresholds, requirements (duplicate / move / unlink, Link from the permit via a stacked drawer) with source text
 -->
 
 <AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard">
@@ -65,10 +67,10 @@ const total = OBLIGATION_TREE_TOTALS.obligations;
             searchName="swo-search"
             pickers={[{ label: 'Class', value: 'All classes' }]}
           >
-            <EsaButton variant="ghost" size="xs" data-swo-expand title="Open every category, subcategory and obligation">
+            <EsaButton variant="ghost" size="xs" data-swo-expand title="Open every category">
               <span class="sw-verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
             </EsaButton>
-            <EsaButton variant="ghost" size="xs" data-swo-collapse title="Close everything">
+            <EsaButton variant="ghost" size="xs" data-swo-collapse title="Close every category">
               <span class="sw-verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
             </EsaButton>
           </BcnSwFilterRow>
