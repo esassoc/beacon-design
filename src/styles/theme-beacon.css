@@ -159,13 +159,17 @@
   --bcn-teal-800: #0a6562;
   --bcn-teal-900: #005862;
 
-  /* Setup-wizard step accents (Source → Commitment → Requirement → Action).
-     Beacon exposes these globally as --color-source etc.; keep the same names so
-     ported views match verbatim. */
+  /* Setup-wizard step accents (Source → Commitment → Requirement → Action →
+     Obligation). Beacon exposes the first four globally as --color-source etc.;
+     keep the same names so ported views match verbatim. Obligation is the next
+     rung of the same ramp (2026-09-14, the wizard's fifth step); white-on-color
+     contrast 3.1:1, one step down from Action's 4.0:1, so it is a badge and fill
+     color, never small text on white. */
   --color-source:      #003f5c;
   --color-commitment:  #58508d;
   --color-requirement: #a05195;
   --color-action:      #d45087;
+  --color-obligation:  #f95d6a;
 
   /* Semantic success ramp Beacon exposes as CSS vars. */
   --color-success-50:  #f0fdf4;

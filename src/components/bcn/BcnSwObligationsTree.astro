@@ -1,0 +1,223 @@
+---
+// <BcnSwObligationsTree> — the whole list, and the only place it exists.
+//
+// Category > subcategory > obligation, every one of the 402 rows rendered. What
+// makes that scannable is not fewer rows, it is a fixed column rhythm: --swo-grid
+// is declared here, once, and the header strip plus every row in all 17 categories
+// read it, so class, species, commitments and the verbs land in the same four
+// columns whatever depth a row sits at. Groups indent their HEADERS; they never pad
+// their bodies, which is what would knock those columns out of line.
+//
+// Two <details> tiers, no JS of their own. The first two categories open with their
+// subcategories; the remaining 15 are collapsed, so the page opens as 17 category
+// lines and one worked example rather than a 402-row wall. The toolbar's expand /
+// collapse and filter read the data-swo-* hooks below.
+//
+// bcn-lego-checked: checked esa-collapsible (string `title` only, no slot for a
+// name + count + scope line), esa-tab-layout (this is nesting, not siding-by-side),
+// esa-sidebar-nav (navigation, drops children when collapsed), and esa-table (the
+// group headers are not rows, and a row body inside a table needs colspan
+// gymnastics). The filter's no-results line is a plain <p> rather than
+// esa-empty-state: the lego is an icon + title + description block sized for an
+// empty PAGE, and this is one line inside a list that is not empty, only filtered.
+// The rows themselves are bcn-sw-obligations-row; the counts are the existing
+// bcn-count; the glyphs are esa-icon.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCount from './BcnCount.astro';
+import BcnSwObligationsRow from './BcnSwObligationsRow.astro';
+import { OBLIGATION_TAXONOMY } from '../../data/setup-wizard';
+
+const CHEVRON = '<path d="m9 18 6-6-6-6"/>';
+
+---
+
+<section class="bcn-swo-tree" data-swo-tree>
+  <div class="bcn-swo-tree__head">
+    <span></span>
+    <span>Obligation</span>
+    <span>Class</span>
+    <span>Species</span>
+    <span class="bcn-swo-tree__head-end">Commitments</span>
+    <span></span>
+    <span></span>
+  </div>
+
+  {
+    OBLIGATION_TAXONOMY.map((cat, ci) => (
+      <details class="bcn-swo-cat" data-swo-cat open={ci < 2}>
+        <summary class="bcn-swo-cat__line">
+          <span class="bcn-swo-cat__caret" aria-hidden="true">
+            <EsaIcon name="chevron-right" paths={CHEVRON} size="sm" />
+          </span>
+          <span class="bcn-swo-cat__name">{cat.name}</span>
+          <span data-swo-count={cat.count}>
+            <BcnCount value={cat.count} label={`${cat.count} obligations`} />
+          </span>
+        </summary>
+
+        {cat.subcategories.map((sub) => (
+          <details class="bcn-swo-sub" data-swo-sub open={ci < 2}>
+            <summary class="bcn-swo-sub__line">
+              <span class="bcn-swo-sub__caret" aria-hidden="true">
+                <EsaIcon name="chevron-right" paths={CHEVRON} size="sm" />
+              </span>
+              <span class="bcn-swo-sub__text">
+                <span class="bcn-swo-sub__name">{sub.name}</span>
+                <span class="bcn-swo-sub__scope">{sub.scope}</span>
+              </span>
+              <span data-swo-count={sub.obligations.length}>
+                <BcnCount value={sub.obligations.length} label={`${sub.obligations.length} obligations`} />
+              </span>
+            </summary>
+
+            <div class="bcn-swo-sub__rows">
+              {sub.obligations.map((o, oi) => (
+                <BcnSwObligationsRow obligation={o} open={ci === 0 && sub === cat.subcategories[0] && oi === 0} />
+              ))}
+            </div>
+          </details>
+        ))}
+      </details>
+    ))
+  }
+
+  <p class="bcn-swo-tree__empty" data-swo-empty hidden>No obligation matches this filter.</p>
+</section>
+
+<style>
+  .bcn-swo-tree {
+    /* ONE column template for the header strip and all 402 rows. */
+    --swo-grid: 18px minmax(0, 1fr) 96px 190px 184px 132px 18px;
+
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    background: var(--color-background-elevation-raised);
+    /* NO overflow:hidden. It would make this box the sticky containing block for
+       the header strip below, and since the box never scrolls the strip would
+       simply never stick. The corners are rounded on the first and last children
+       instead. */
+  }
+
+  /* ── Column header strip ────────────────────────────────────────────────── */
+  .bcn-swo-tree__head {
+    display: grid;
+    grid-template-columns: var(--swo-grid);
+    column-gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300) var(--spacing-200) var(--spacing-700);
+    border-bottom: 1px solid var(--color-border-default);
+    background: var(--color-background-elevation-sunken);
+    font-size: var(--font-size-150);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-start-start-radius: var(--radius-md);
+    border-start-end-radius: var(--radius-md);
+  }
+  .bcn-swo-tree__head-end {
+    text-align: right;
+  }
+
+  /* ── Category ───────────────────────────────────────────────────────────── */
+  .bcn-swo-cat {
+    border-top: 1px solid var(--color-border-default);
+  }
+  .bcn-swo-cat:first-of-type {
+    border-top: 0;
+  }
+  .bcn-swo-cat:last-of-type > .bcn-swo-cat__line {
+    border-end-start-radius: var(--radius-md);
+    border-end-end-radius: var(--radius-md);
+  }
+  .bcn-swo-cat__line {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-250) var(--spacing-300);
+    cursor: pointer;
+    list-style: none;
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-swo-cat__line::-webkit-details-marker {
+    display: none;
+  }
+  .bcn-swo-cat__line:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-swo-cat__line:focus-visible {
+    outline: 2px solid var(--color-background-brand);
+    outline-offset: -2px;
+  }
+  .bcn-swo-cat__name {
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-swo-cat__caret,
+  .bcn-swo-sub__caret {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--color-content-default-tertiary);
+    transition: transform 120ms ease;
+  }
+  .bcn-swo-cat[open] > .bcn-swo-cat__line .bcn-swo-cat__caret,
+  .bcn-swo-sub[open] > .bcn-swo-sub__line .bcn-swo-sub__caret {
+    transform: rotate(90deg);
+  }
+
+  /* ── Subcategory ────────────────────────────────────────────────────────── */
+  .bcn-swo-sub {
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-swo-sub__line {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300) var(--spacing-200) var(--spacing-500);
+    cursor: pointer;
+    list-style: none;
+  }
+  .bcn-swo-sub__line::-webkit-details-marker {
+    display: none;
+  }
+  .bcn-swo-sub__line:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-swo-sub__line:focus-visible {
+    outline: 2px solid var(--color-background-brand);
+    outline-offset: -2px;
+  }
+  .bcn-swo-sub__caret {
+    margin-top: 2px;
+  }
+  .bcn-swo-sub__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+  }
+  .bcn-swo-sub__name {
+    font-size: var(--font-size-250);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-swo-sub__scope {
+    max-width: 92ch;
+    font-size: var(--font-size-200);
+    line-height: 1.45;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-swo-sub__rows {
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+
+  .bcn-swo-tree__empty {
+    margin: 0;
+    padding: var(--spacing-600) var(--spacing-300);
+    text-align: center;
+    font-size: var(--font-size-250);
+    color: var(--color-content-default-secondary);
+  }
+</style>

@@ -1,0 +1,130 @@
+---
+// <BcnSwActionsBoard> — the two-column board, ported from prod's
+// .actions-step__board: one framed rectangle, a 2fr / 3fr split, a 1px seam between the
+// columns, and each column body its own scroller. Requirements on the left, actions on
+// the right, same as prod.
+//
+// WHAT DID NOT COME ACROSS. Prod's board is a drag-and-drop builder: cdkDropListGroup
+// on the frame, cdkDrag on every requirement row, a dashed "drag a requirement here to
+// create a new action" zone at the top of the right column, a "New Action" button in
+// its header, and per-column footers carrying Convert Each (N) and Combine All (N).
+// All of it is gone. The actions arrive drafted, so this step reviews a result instead
+// of assembling one, and every affordance for assembling one is a thing the reviewer
+// can do by accident.
+//
+// The columns take SLOTS rather than data. The two lists have nothing in common beyond
+// sitting in a scroller, and pushing both record types through one props contract would
+// make this component know about requirements and actions at once.
+//
+// bcn-lego-checked: the count beside each column title IS esa-badge. Checked Ecology for
+// a two-column board/split lego — the `.sidebar` primitive is a fixed-width aside beside
+// flexible content and the `.switcher` collapses at a threshold, neither of which is a
+// fixed ratio split with independently scrolling halves and a shared frame — and Beacon,
+// where this is .actions-step__board, ported. bcn-sw-actions-board is the reusable home
+// for the frame, the seam and the two scrollers.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+
+interface Props {
+  /** Left column heading. */
+  requirementsTitle: string;
+  /** How many records the left column stands for, including any not rendered. */
+  requirementsCount: number;
+  /** `flag` paints the count in Beacon's attention tokens. */
+  requirementsTone?: 'default' | 'flag';
+  /** Right column heading. */
+  actionsTitle: string;
+  actionsCount: number;
+}
+const {
+  requirementsTitle,
+  requirementsCount,
+  requirementsTone = 'default',
+  actionsTitle,
+  actionsCount,
+} = Astro.props;
+---
+
+<div class="bcn-swab">
+  <section class="bcn-swab__col">
+    <header class="bcn-swab__head" data-tone={requirementsTone}>
+      <h3 class="bcn-swab__title typography-label-md-strong">{requirementsTitle}</h3>
+      <EsaBadge value={requirementsCount} variant="secondary" size="sm" />
+    </header>
+    <div class="bcn-swab__body">
+      <slot name="requirements" />
+    </div>
+  </section>
+
+  <section class="bcn-swab__col">
+    <header class="bcn-swab__head">
+      <h3 class="bcn-swab__title typography-label-md-strong">{actionsTitle}</h3>
+      <EsaBadge value={actionsCount} variant="secondary" size="sm" />
+    </header>
+    <div class="bcn-swab__body">
+      <slot name="actions" />
+    </div>
+  </section>
+</div>
+
+<style>
+  /* prod .actions-step__board: one frame, 2fr / 3fr, corners clipped so the column
+     bodies cannot paint over the radius. */
+  .bcn-swab {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    overflow: hidden;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    background: var(--color-background-default);
+  }
+  .bcn-swab__col {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+  /* prod .board-col + .board-col — the seam is the frame's own rule, not a gutter. */
+  .bcn-swab__col + .bcn-swab__col {
+    border-left: 1px solid var(--color-border-default);
+  }
+
+  .bcn-swab__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-swab__title {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  /* Token-only restyle of the lego: the same amber the routing bar gives this bucket,
+     so the column and the segment above it read as the same fact. */
+  .bcn-swab__head[data-tone='flag'] :global(.esa-badge) {
+    border: 1px solid var(--bcn-flag-on-border);
+    background: var(--bcn-flag-on-bg);
+    color: var(--bcn-flag-on-color);
+  }
+
+  /* prod .board-col__body — each column scrolls on its own so the two lists stay side
+     by side however long either gets. */
+  .bcn-swab__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    max-height: 560px;
+    padding: var(--spacing-300) var(--spacing-400);
+    overflow-y: auto;
+  }
+
+  @media (max-width: 960px) {
+    .bcn-swab {
+      grid-template-columns: 1fr;
+    }
+    .bcn-swab__col + .bcn-swab__col {
+      border-left: 0;
+      border-top: 1px solid var(--color-border-default);
+    }
+  }
+</style>

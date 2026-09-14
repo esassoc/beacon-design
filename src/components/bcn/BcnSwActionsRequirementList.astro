@@ -1,0 +1,52 @@
+---
+// <BcnSwActionsRequirementList> — the left column's stack: the requirement rows that are
+// rendered, and the control that reaches the ones that are not.
+//
+// The column heading already carries the full count, so this list never restates it as
+// prose. When the stack is truncated the remainder is a CONTROL, not a note: the only
+// useful thing to say about rows you cannot see is how to see them.
+//
+// bcn-lego-checked: each row IS BcnSwActionsRequirementRow; the overflow control IS
+// esa-button. Checked Ecology for a truncated-list / show-more lego — esa-pagination
+// splits a list into numbered pages, which is a different contract (this column is a
+// scroller, not a paged view) — and Beacon, whose board column renders every row and
+// relies on the scrollbar alone. bcn-sw-actions-requirement-list is the reusable home
+// for the stack plus its overflow control.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnSwActionsRequirementRow from './BcnSwActionsRequirementRow.astro';
+
+interface Props {
+  /** The rows to render, already sliced by the caller. */
+  rows: { code: string; name: string }[];
+  /** How many records the column stands for in total. */
+  total: number;
+  /** The noun `total` counts, for the overflow control's label. */
+  noun: string;
+}
+const { rows, total, noun } = Astro.props;
+const remaining = total - rows.length;
+---
+
+<div class="bcn-swarl">
+  {rows.map((r) => <BcnSwActionsRequirementRow code={r.code} name={r.name} />)}
+  {remaining > 0 && (
+    <div class="bcn-swarl__more">
+      <EsaButton variant="chrome" appearance="outline" size="sm" iconRight="chevron-down">
+        Show all {total} {noun}
+      </EsaButton>
+    </div>
+  )}
+</div>
+
+<style>
+  .bcn-swarl {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-swarl__more {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--spacing-150);
+  }
+</style>

@@ -1,0 +1,91 @@
+---
+// <BcnSwActionsRequirementRow> — one approved requirement that has not been routed yet,
+// with the three things a reviewer can do about it.
+//
+// Narrowed from prod's shared <requirement-row>, which carries a drag handle, a chevron,
+// an expandable panel holding the full commitment text and a source-page deep link, and
+// a removable x. None of that is decision-relevant here: the reviewer is deciding WHERE
+// this requirement goes, and the commitment code plus the requirement's own name is what
+// that decision is made on. The full text lives one click away on the requirement record.
+//
+// NO TYPE TAG. The board is scoped to one requirement type by the filter band above it,
+// so a type tag on every row repeats the filter twelve times and carries no information.
+// It also turns the row's identity line into three unlabeled facts sitting side by side.
+//
+// THE VERBS ARE ASYMMETRIC ON PURPOSE. An action is a container that already exists, so
+// the requirement is ADDED to one and the control is a picker. An obligation is a
+// different classification of the same duty, so the requirement is ROUTED there and the
+// control is a one-way move. "Not applicable" is neither, and it takes a reason, which
+// is what its trailing ellipsis says.
+//
+// NO "ALSO IN N ACTIONS" CHIP HERE. It cannot fire: a requirement is unrouted precisely
+// when it is in zero actions. The 91 requirements that do sit in more than one action
+// are all routed, so the chip belongs where those rows are visible, which is the edit
+// dialog's association rail.
+//
+// bcn-lego-checked: the commitment code IS BcnCommitmentBadge (the spoke's existing chip
+// for exactly this id); all three verbs ARE esa-button, with the picker's affordance
+// carried by esa-button's own iconRight. Checked Ecology for a list-row lego (esa-card is
+// a panel with a header, not a dense row; esa-link-column is a column of links) and
+// Beacon (<requirement-row>, which this narrows). bcn-sw-actions-requirement-row is the
+// reusable home for the routing row.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+
+interface Props {
+  /** Client commitment id the requirement was split out of, e.g. "COA 9.2". */
+  code: string;
+  /** The requirement's own name. */
+  name: string;
+}
+const { code, name } = Astro.props;
+---
+
+<article class="bcn-swarow">
+  <div class="bcn-swarow__id">
+    <BcnCommitmentBadge code={code} size="sm" />
+  </div>
+  <p class="bcn-swarow__name typography-body-md">{name}</p>
+  <div class="bcn-swarow__verbs">
+    <EsaButton variant="chrome" appearance="outline" size="xs" icon="plus" iconRight="chevron-down">
+      Add to action
+    </EsaButton>
+    <EsaButton variant="ghost" size="xs" iconRight="arrow-right">To obligation</EsaButton>
+    <EsaButton variant="ghost" size="xs" icon="circle-x">Not applicable&#8230;</EsaButton>
+  </div>
+</article>
+
+<style>
+  .bcn-swarow {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--spacing-150) var(--spacing-250);
+    padding: var(--spacing-250) var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--color-background-default);
+  }
+  .bcn-swarow:hover {
+    border-color: var(--color-border-default);
+    background: var(--color-background-overlay-hover);
+  }
+  .bcn-swarow__id {
+    display: flex;
+    /* Optical alignment with the first line of the name, which sits on a taller box. */
+    padding-top: 1px;
+  }
+  .bcn-swarow__name {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  /* The verbs sit under the name on one line, spanning the full row width so the
+     three fit side by side at the 2fr column width. */
+  .bcn-swarow__verbs {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+</style>

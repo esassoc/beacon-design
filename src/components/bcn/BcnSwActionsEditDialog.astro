@@ -1,0 +1,277 @@
+---
+// <BcnSwActionsEditDialog> — the edit surface for one drafted action, ported from prod's
+// actions-step-edit-dialog: name and status in the header, the association rail on the
+// left, Details / Timing / Evidence on the right, and the commit controls in the footer.
+//
+// RENDERED OPEN AND STATIC. esa-side-dialog opens itself on hydration when the `open`
+// attribute is present, which is the lego's own behavior and not authored script. It
+// opens MODALLY, so the board behind it is scrimmed until Esc dismisses it; that is the
+// same state prod puts you in when you click Edit, and it is the state this page exists
+// to show.
+//
+// TIMING IS THE OPEN TAB. The reduction Stewart asked for (Beacon PM check-in,
+// 2026-09-14) is the only part of this dialog that is new, so it is the part on screen.
+//
+// WHAT THE REDUCED TIMING MODEL CANNOT HOLD. Two toggles carry four of the record's
+// timing facts. The stored deadline also has a DIRECTION ("After") and, on other
+// actions, an offset and a unit, and the stored cadence has four values (One time,
+// Recurring, As needed, Ongoing) where the toggle offers two. The source's own sentence
+// is therefore kept verbatim in a read-only field beneath the toggles: it is the only
+// place the dropped facts survive, and it is what anyone auditing the reduction will
+// check against.
+//
+// TYPE AND DELIVERABLE TYPE RENDER READ-ONLY. esa-select keeps its selection in private
+// component state with no declared `value` property, so there is no way to render one
+// already showing its value without a controller script, and a picker that shows an
+// empty box for a field the record has filled is worse than a label. They are labeled
+// values here; the lego gap is the reason.
+//
+// bcn-lego-checked: the drawer IS esa-side-dialog, the tabs ARE esa-tab-layout, both
+// timing controls ARE esa-button-toggle (the one kit control whose selection can be set
+// from markup), the fields ARE esa-text-field / esa-textarea, the rail's chips ARE
+// BcnCommitmentBadge and esa-pill, the status IS esa-badge, the footer verbs ARE
+// esa-button, and the read-only pairs ARE BcnKeyValue. Checked Ecology for an
+// association-rail lego (esa-entity-search is a search-and-pick control, not a list of
+// what is already linked) and Beacon (<requirement-association-rail>, whose browse pool
+// and three facet filters are the builder half and do not come across). The rail's own
+// layout is the only thing this component authors.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+
+interface Option {
+  label: string;
+  value: string;
+}
+interface RailItem {
+  /** Client commitment id the requirement came from. */
+  code: string;
+  name: string;
+  /** How many actions this requirement sits in, counting this one. */
+  inActions: number;
+}
+interface Props {
+  name: string;
+  status: 'draft' | 'approved';
+  statusLabel: string;
+  rail: { title: string; items: RailItem[] };
+  /** Tab labels, in order. */
+  tabs: string[];
+  /** Which tab is open. */
+  activeTab: number;
+  details: { nameLabel: string; fields: { label: string; value: string }[] };
+  timing: {
+    deadline: { label: string; options: Option[]; value: string; field: { label: string; value: string } };
+    cadence: { label: string; options: Option[]; value: string; field: { label: string } };
+    stated: { label: string; value: string };
+  };
+  evidence: { label: string; value: string };
+}
+const { name, status, statusLabel, rail, tabs, activeTab, details, timing, evidence } = Astro.props;
+
+const tabsJson = JSON.stringify(tabs.map((label) => ({ label })));
+const deadlineJson = JSON.stringify(timing.deadline.options);
+const cadenceJson = JSON.stringify(timing.cadence.options);
+---
+
+<esa-side-dialog class="bcn-swaed" open position="right" size="lg" data-status={status}>
+  <div slot="header" class="bcn-swaed__head">
+    <h2 class="bcn-swaed__title typography-title-strong">{name}</h2>
+    <EsaBadge value={statusLabel} variant={status === 'approved' ? 'success' : 'secondary'} size="sm" />
+  </div>
+
+  <div class="bcn-swaed__body">
+    <aside class="bcn-swaed__rail">
+      <header class="bcn-swaed__rail-head">
+        <h3 class="bcn-swaed__rail-title typography-label-md-strong">{rail.title}</h3>
+        <EsaBadge value={rail.items.length} variant="secondary" size="sm" />
+      </header>
+      <ul class="bcn-swaed__rail-list">
+        {rail.items.map((item) => (
+          <li class="bcn-swaed__rail-item">
+            <BcnCommitmentBadge code={item.code} size="sm" />
+            <p class="bcn-swaed__rail-name typography-body-sm">{item.name}</p>
+            {item.inActions > 1 && (
+              <EsaPill label={`In ${item.inActions} actions`} size="sm" removable={false} />
+            )}
+          </li>
+        ))}
+      </ul>
+    </aside>
+
+    <section class="bcn-swaed__detail">
+      <esa-tab-layout tabs={tabsJson} active-index={activeTab} size="md">
+        <div slot="panel-0" class="bcn-swaed__panel">
+          <esa-text-field label={details.nameLabel} value={name} size="md"></esa-text-field>
+          <div class="bcn-swaed__pairs">
+            {details.fields.map((f) => <BcnKeyValue label={f.label} value={f.value} />)}
+          </div>
+        </div>
+
+        <div slot="panel-1" class="bcn-swaed__panel">
+          <div class="bcn-swaed__timing-group">
+            <esa-button-toggle
+              label={timing.deadline.label}
+              options={deadlineJson}
+              value={timing.deadline.value}
+              size="md"></esa-button-toggle>
+            <esa-text-field
+              label={timing.deadline.field.label}
+              value={timing.deadline.field.value}
+              size="md"></esa-text-field>
+          </div>
+
+          <div class="bcn-swaed__timing-group">
+            <esa-button-toggle
+              label={timing.cadence.label}
+              options={cadenceJson}
+              value={timing.cadence.value}
+              size="md"></esa-button-toggle>
+            <esa-text-field label={timing.cadence.field.label} size="md" disabled></esa-text-field>
+          </div>
+
+          <esa-textarea
+            label={timing.stated.label}
+            value={timing.stated.value}
+            rows="3"
+            auto-resize
+            disabled></esa-textarea>
+        </div>
+
+        <div slot="panel-2" class="bcn-swaed__panel">
+          <esa-textarea label={evidence.label} value={evidence.value} rows="4" auto-resize></esa-textarea>
+        </div>
+      </esa-tab-layout>
+    </section>
+  </div>
+
+  <div slot="footer" class="bcn-swaed__foot">
+    <EsaButton variant="danger" appearance="outline" size="md" icon="rotate-ccw">Discard</EsaButton>
+    <div class="bcn-swaed__foot-right">
+      <EsaButton variant="secondary" appearance="outline" size="md">Cancel</EsaButton>
+      <EsaButton variant="primary" size="md">Save</EsaButton>
+    </div>
+  </div>
+</esa-side-dialog>
+
+<script>
+  // Registration only. Every element below ships its own behavior; nothing here is
+  // authored interaction.
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+</script>
+
+<style>
+  /* Prod's edit dialog is a wide modal holding a rail and a form side by side. The lego's
+     lg step is 520px, which is a column, so the panel is widened through the token the
+     lego already reads. */
+  .bcn-swaed {
+    --side-dialog-width-lg: min(780px, 92vw);
+  }
+
+  .bcn-swaed__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    min-width: 0;
+  }
+  .bcn-swaed__title {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+
+  .bcn-swaed__body {
+    display: grid;
+    grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+    gap: var(--spacing-500);
+    align-items: start;
+  }
+
+  .bcn-swaed__rail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+    padding: var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-md);
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-swaed__rail-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-swaed__rail-title {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-swaed__rail-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-swaed__rail-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding-bottom: var(--spacing-250);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-swaed__rail-item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .bcn-swaed__rail-name {
+    flex: 1 1 100%;
+    margin: 0;
+    color: var(--color-content-default);
+  }
+
+  .bcn-swaed__detail {
+    min-width: 0;
+  }
+  .bcn-swaed__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-swaed__pairs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-300) var(--spacing-600);
+  }
+  /* A toggle and the field it governs are one answer, so they sit closer to each other
+     than either does to the next question. */
+  .bcn-swaed__timing-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+
+  .bcn-swaed__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+  }
+  .bcn-swaed__foot-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+
+  @media (max-width: 720px) {
+    .bcn-swaed__body {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

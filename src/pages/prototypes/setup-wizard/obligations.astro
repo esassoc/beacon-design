@@ -1,0 +1,52 @@
+---
+// Setup Wizard — step 5, Obligations. The step that reviews the standing duties
+// drafted from the approved requirements and approves the TAXONOMY in one act:
+// category > subcategory > obligation, all 402 rows, add / edit / remove inline,
+// one approval at the bottom (Beacon PM check-in, 2026-09-14).
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwObligationsHeader from '../../../components/bcn/BcnSwObligationsHeader.astro';
+import BcnSwObligationsStats from '../../../components/bcn/BcnSwObligationsStats.astro';
+import BcnSwObligationsRouting from '../../../components/bcn/BcnSwObligationsRouting.astro';
+import BcnSwObligationsToolbar from '../../../components/bcn/BcnSwObligationsToolbar.astro';
+import BcnSwObligationsTree from '../../../components/bcn/BcnSwObligationsTree.astro';
+import BcnSwObligationsEditor from '../../../components/bcn/BcnSwObligationsEditor.astro';
+import BcnSwObligationsFooter from '../../../components/bcn/BcnSwObligationsFooter.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { SETUP_STEPS, OBLIGATION_TAXONOMY } from '../../../data/setup-wizard';
+
+const step = SETUP_STEPS.find((s) => s.id === 'obligations')!;
+
+// The record staged in the editor is the same one the tree renders expanded, so the
+// page shows one obligation in all three states: scanned, read, edited.
+const staged = OBLIGATION_TAXONOMY[0].subcategories[0].obligations[0];
+---
+
+<!-- manifest:
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(xl)   # SPINE
+  sections:
+    - step header + AI receipt -> bcn-sw-obligations-header    # numeral in the step colour, instruction, collapsed drafted-by band
+    - registry figures         -> bcn-sw-obligations-stats     # obligations / categories / subcategories / gates + the class split
+    - requirement routing      -> bcn-sw-obligations-routing   # the four exclusive buckets + the not-yet-routed disclosure
+    - list toolbar             -> bcn-sw-obligations-toolbar   # search, class filter, add verbs, expand / collapse
+    - the obligation list      -> bcn-sw-obligations-tree      # 17 categories > 69 subcategories > 402 rows (rows -> bcn-sw-obligations-row)
+    - edit record              -> bcn-sw-obligations-editor    # esa-side-dialog staged open on one obligation
+    - approval bar             -> bcn-sw-obligations-footer    # back to step 4, Approve obligations (402), Finish wizard
+-->
+
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard">
+  <PageLayout title="Setup Wizard" hideTitleRow>
+    <BcnSetupWizardFrame active="obligations">
+      <div class="stack" data-gap="xl">
+        <BcnSwObligationsHeader n={step.n} token={step.token} />
+        <BcnSwObligationsStats />
+        <BcnSwObligationsRouting />
+        <BcnSwObligationsToolbar />
+        <BcnSwObligationsTree />
+        <BcnSwObligationsFooter />
+      </div>
+      <BcnSwObligationsEditor obligation={staged} />
+    </BcnSetupWizardFrame>
+  </PageLayout>
+</AppShell>

@@ -650,4 +650,40 @@ export const prototypeGroups: PrototypeGroup[] = [
       },
     ],
   },
+  {
+    slug: 'setup-wizard',
+    tenant: 'dcp',
+    title: 'Setup Wizard — Actions and Obligations',
+    description:
+      'The wizard as five steps. A requirement routes to an action or an obligation, not both (PM check-in 2026-09-14): step 4 becomes a review of pre-drafted actions with timing reduced to specific-or-relative and one-time-or-recurring, and a new step 5 reviews the obligations as one category > subcategory > obligation list that is approved at once.',
+    pages: [
+      {
+        slug: 'setup-wizard-overview',
+        title: 'Wizard overview',
+        description:
+          'The wizard home with five numbered steps in the setup ramp — Source Documents, Commitments, Requirements, Actions, Obligations — and the fifth entity color.',
+        route: '/prototypes/setup-wizard',
+        createdAt: '2026-09-14',
+        status: 'live',
+      },
+      {
+        slug: 'setup-wizard-actions',
+        title: 'Step 4 — Actions',
+        description:
+          'Review, not creation: 267 actions drafted from the ITP\'s 854 requirements in one pass, scoped by phase and type; each requirement routes to an action, an obligation, or not applicable; scope and exclusivity are gone; timing is two switches.',
+        route: '/prototypes/setup-wizard/actions',
+        createdAt: '2026-09-14',
+        status: 'live',
+      },
+      {
+        slug: 'setup-wizard-obligations',
+        title: 'Step 5 — Obligations',
+        description:
+          'One list, category > subcategory > obligation, 402 rows from the registry: view, add, edit, remove, move — then approve the taxonomy at once. Coverage shows every requirement routed somewhere.',
+        route: '/prototypes/setup-wizard/obligations',
+        createdAt: '2026-09-14',
+        status: 'live',
+      },
+    ],
+  },
 ];

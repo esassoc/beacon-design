@@ -1,0 +1,61 @@
+---
+// <BcnSwObligationsFooter> — the approval bar, stuck to the bottom of the scroller.
+//
+// The step's whole product is ONE decision, so the bar carries exactly one primary:
+// approve the taxonomy, count in the label, because the count IS what is being
+// approved. Back to step 4 is a ghost link, and Finish wizard sits disabled as the
+// terminal affordance that unlocks once the approval lands.
+//
+// The count is NOT tinted with the step colour. #f95d6a is a 3.09:1 fill, so it can
+// never carry knockout text at a button label's size, and a coral chip inside a teal
+// primary is two entity colours fighting for one control. The step colour keeps its
+// one legible home, the header numeral. See the report note.
+//
+// It is sticky rather than fixed: the AppShell `.main` is the scroll container and
+// the page container sets no overflow, so `position: sticky; bottom: 0` rides the
+// page instead of floating over the whole viewport.
+//
+// bcn-lego-checked: every control is esa-button (fill / ghost / outline-disabled),
+// including the back LINK, which is esa-button with `href` — the lego's documented
+// way to render an <a> styled as a button, so a ghost link here matches every other
+// ghost in the spoke. Checked esa-app-bar (top chrome, not a page action bar) and
+// esa-button-group (a segmented set of peers; these three are not peers). The bar
+// itself is layout.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { withBase } from '../../lib/base';
+import { OBLIGATION_TOTALS } from '../../data/setup-wizard';
+---
+
+<div class="bcn-swo-foot">
+  <EsaButton variant="ghost" size="md" icon="arrow-left" href={withBase('/prototypes/setup-wizard/actions')}>
+    Back to step 4: Actions
+  </EsaButton>
+
+  <div class="bcn-swo-foot__end">
+    <EsaButton variant="primary" size="md">Approve obligations ({OBLIGATION_TOTALS.obligations})</EsaButton>
+    <EsaButton variant="secondary" appearance="outline" size="md" disabled>Finish wizard</EsaButton>
+  </div>
+</div>
+
+<style>
+  .bcn-swo-foot {
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    margin-block-start: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-top: 1px solid var(--color-border-default);
+    background: var(--color-background-elevation-raised);
+    box-shadow: 0 -2px 8px rgb(0 0 0 / 6%);
+  }
+  .bcn-swo-foot__end {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+  }
+</style>

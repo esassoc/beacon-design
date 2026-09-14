@@ -1,0 +1,74 @@
+---
+// <BcnSwActionsHeader> — a Setup Wizard step's identity block, ported from prod's
+// actions-step header (origin/develop actions-step.component.html +
+// actions-step.component.scss): the filled 28px step-number indicator in the step's
+// entity color, the step name, and one instruction line beneath.
+//
+// PROD'S H2 CARRIED THE PICKERS INLINE: "Actions during [Phase v] for [Type v] (N)".
+// Two reasons that shape does not survive here. First, a title that is also two
+// dropdowns and a count badge is a heading you cannot read as a heading. Second, it
+// welds four independent facts onto one line, which is the packed-metadata
+// construction design-restraint bans. The pickers move down into
+// <BcnSwActionsFilters>, where they sit with the board they scope and each one gets
+// its own label. Indicator geometry, color and the instruction line are prod's.
+//
+// bcn-lego-checked: esa-page-header is the hub's title lego, but it renders a page H1
+// with a lede and an actions rail, and this H2 is nested inside a page whose title row
+// bcn-setup-wizard-frame already owns. Checked Beacon: this IS .actions-step__header
+// plus .step-indicator, ported. bcn-sw-actions-header is the reusable home for a
+// wizard step's identity block; every other control on the page is a lego.
+interface Props {
+  /** Step number shown in the indicator. */
+  n: number;
+  /** Step name, the H2. */
+  label: string;
+  /** --color-<token>: the step's entity color on Beacon's setup ramp. */
+  token: string;
+  /** One line stating what this step asks of the reviewer. */
+  instruction: string;
+}
+const { n, label, token, instruction } = Astro.props;
+---
+
+<header class="bcn-swah" style={`--_step: var(--color-${token});`}>
+  <div class="bcn-swah__row">
+    <span class="bcn-swah__indicator" aria-hidden="true">{n}</span>
+    <h2 class="bcn-swah__title typography-title-strong">{label}</h2>
+  </div>
+  <p class="bcn-swah__instruction typography-body-md">{instruction}</p>
+</header>
+
+<style>
+  .bcn-swah {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-swah__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  /* prod .step-indicator, verbatim geometry. */
+  .bcn-swah__indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: var(--radius-pill);
+    background: var(--_step);
+    color: var(--color-content-default-knockout);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-swah__title {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-swah__instruction {
+    margin: 0;
+    max-width: 72ch;
+    color: var(--color-content-default-secondary);
+  }
+</style>

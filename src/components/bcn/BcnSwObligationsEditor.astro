@@ -1,0 +1,149 @@
+---
+// <BcnSwObligationsEditor> — the Edit verb's destination, staged open.
+//
+// One obligation, every field the registry stores for it, plus the two selects that
+// MOVE it: category and subcategory. Moving a row is the most common correction this
+// step will take, because what is under review is the grouping, not the text — so
+// the two selects sit directly under the class toggle, above the prose fields,
+// rather than at the bottom where a form would normally put filing.
+//
+// The subcategory select is scoped to the chosen category, which is what a wired
+// version would do; a flat list of all 69 would let a reviewer file a bird duty
+// under Air quality.
+//
+// Remove is a soft danger button, not esa-danger-zone: the zone is a bordered corral
+// with its own heading and a consequence paragraph, three pieces of chrome for a verb
+// the row already offers. This is its echo inside the open record, and it stays quiet.
+//
+// bcn-lego-checked: the frame IS esa-side-dialog (header / default / footer slots)
+// and every control is a lego — esa-text-field, esa-button-toggle, esa-select,
+// esa-textarea, esa-input-tag for the linked commitments, esa-button for the three
+// verbs. Checked esa-dialog (centred, wrong shape for a record beside a list) and
+// esa-form-field (a wrapper for a bespoke control — every control here already has
+// its own lego). The only script is the two-line value hydration the Lit accessors
+// require, exactly as bcn-component-data-panel does it.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import {
+  OBLIGATION_CLASS_LABEL,
+  OBLIGATION_TAXONOMY,
+  type ObligationRow,
+} from '../../data/setup-wizard';
+
+interface Props {
+  obligation: ObligationRow;
+}
+const { obligation: o } = Astro.props;
+
+// Where the row is filed: subjects[0] is its home subcategory.
+const category = OBLIGATION_TAXONOMY.find((c) => c.subcategories.some((s) => s.id === o.subjects[0]));
+const subcategory = category?.subcategories.find((s) => s.id === o.subjects[0]);
+
+const CLASS_OPTIONS = JSON.stringify(
+  (['adhere', 'monitor', 'notify', 'roster'] as const).map((c) => ({
+    label: OBLIGATION_CLASS_LABEL[c],
+    value: c,
+  })),
+);
+const CATEGORY_OPTIONS = JSON.stringify(
+  OBLIGATION_TAXONOMY.map((c) => ({ label: c.name, value: c.id })),
+);
+const SUBCATEGORY_OPTIONS = JSON.stringify(
+  (category?.subcategories ?? []).map((s) => ({ label: s.name, value: s.id })),
+);
+const COMMITMENT_OPTIONS = JSON.stringify(o.commitments.map((c) => ({ label: c, value: c })));
+---
+
+<esa-side-dialog
+  id="swo-editor"
+  heading="Edit obligation"
+  position="right"
+  open
+  style="--_width: min(680px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
+  <div class="bcn-swo-edit">
+    <esa-text-field label="Title" value={o.title} name="swo-title" required></esa-text-field>
+
+    <esa-button-toggle
+      label="Class"
+      options={CLASS_OPTIONS}
+      value={o.class}
+      size="md"
+      name="swo-class-edit"></esa-button-toggle>
+
+    <div class="bcn-swo-edit__pair">
+      <esa-select
+        label="Category"
+        options={CATEGORY_OPTIONS}
+        data-swo-value={category?.id}
+        name="swo-category"
+        required></esa-select>
+      <esa-select
+        label="Subcategory"
+        options={SUBCATEGORY_OPTIONS}
+        data-swo-value={subcategory?.id}
+        name="swo-subcategory"
+        required></esa-select>
+    </div>
+
+    <esa-textarea label="Standard" value={o.standard} rows={2} name="swo-standard"></esa-textarea>
+    <esa-textarea label="Condition" value={o.condition} rows={2} name="swo-condition"></esa-textarea>
+    <esa-textarea label="Parameters" value={o.parameters} rows={2} name="swo-parameters"></esa-textarea>
+
+    <esa-input-tag
+      label="Linked commitments"
+      options={COMMITMENT_OPTIONS}
+      data-swo-value={o.commitments.join(',')}
+      placeholder="e.g. BIO-34"
+      name="swo-commitments"></esa-input-tag>
+
+    <div class="bcn-swo-edit__remove">
+      <EsaButton variant="danger" appearance="soft" size="sm">Remove obligation</EsaButton>
+    </div>
+  </div>
+
+  <span slot="footer" class="bcn-swo-edit__foot">
+    <EsaButton variant="primary" size="md">Save</EsaButton>
+    <EsaButton variant="ghost" size="md">Cancel</EsaButton>
+  </span>
+</esa-side-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-input-tag';
+
+  // esa-select and esa-input-tag expose `value` as a JS accessor, not a reflected
+  // attribute, so a statically-staged record has to be handed to them once the
+  // custom elements upgrade. Same mechanism bcn-component-data-panel uses.
+  Promise.all([customElements.whenDefined('esa-select'), customElements.whenDefined('esa-input-tag')]).then(
+    () => {
+      document.querySelectorAll<HTMLElement & { value: string }>('[data-swo-value]').forEach((el) => {
+        el.value = el.dataset.swoValue ?? '';
+      });
+    },
+  );
+</script>
+
+<style>
+  .bcn-swo-edit {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-swo-edit__pair {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-300);
+  }
+  .bcn-swo-edit__remove {
+    padding-block-start: var(--spacing-300);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-swo-edit__foot {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+</style>

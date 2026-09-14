@@ -1,0 +1,281 @@
+---
+// Setup Wizard step 4 — Actions, as a REVIEW step.
+//
+// Prod's step 4 is a BUILDER: an AI prompt panel, a drag-and-drop create zone, "New
+// Action", "Convert Each (N)" / "Combine All (N)", a scope toggle, an exclusivity
+// control and a publish control. Laura's read at the Beacon PM check-in (2026-09-14)
+// was that nobody will ever finish it as built, and the bulk-extraction tool now
+// drafts the actions outside Beacon anyway. So the commissioning half is gone and what
+// is left is judgment: is this action right, are its requirements right, and what still
+// has nowhere to go. Scope, exclusivity and publishing came off actions in the same
+// meeting and appear nowhere on this page.
+//
+// EVERY NUMBER ON THIS PAGE IS DERIVED FROM THE FIXTURE. Nothing is typed in. Four
+// different counts appear and they are four different facts: 854 requirements in the
+// project (routing strip), 83 matching both filters (filter band), 61 of those with no
+// route yet (left column), 11 drafted actions in the same slice (right column).
+//
+// TWO FIELDS THE MODEL DOES NOT HAVE, both seeded here and named where they are used:
+// WizardAction carries no phases (derived below as the union of its requirements') and
+// no approval state (prod stores Action.IsPublished; two ids are pinned below).
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwActionsHeader from '../../../components/bcn/BcnSwActionsHeader.astro';
+import BcnSwActionsReceipt from '../../../components/bcn/BcnSwActionsReceipt.astro';
+import BcnSwActionsRouting from '../../../components/bcn/BcnSwActionsRouting.astro';
+import BcnSwActionsFilters from '../../../components/bcn/BcnSwActionsFilters.astro';
+import BcnSwActionsBoard from '../../../components/bcn/BcnSwActionsBoard.astro';
+import BcnSwActionsRequirementList from '../../../components/bcn/BcnSwActionsRequirementList.astro';
+import BcnSwActionsList from '../../../components/bcn/BcnSwActionsList.astro';
+import BcnSwActionsEditDialog from '../../../components/bcn/BcnSwActionsEditDialog.astro';
+import BcnSwActionsFooter from '../../../components/bcn/BcnSwActionsFooter.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { withBase } from '../../../lib/base';
+import {
+  SETUP_STEPS,
+  PHASES,
+  REQUIREMENT_TYPE_LABEL,
+  ITP,
+  ROUTE_OF,
+  ROUTING_TOTALS,
+  ACTIONS_OF,
+  simpleTiming,
+  DEADLINE_LABEL,
+  CADENCE_LABEL,
+  DRAFTED_BY,
+  type Phase,
+  type Route,
+  type RequirementType,
+  type WizardAction,
+} from '../../../data/setup-wizard';
+
+const STEP = SETUP_STEPS.find((s) => s.id === 'actions')!;
+
+// ── What the filter band is showing ──────────────────────────────────────────
+// Both controls are static in this prototype; these two constants are what they read.
+const ACTIVE_PHASE: Phase = 'Construction';
+const ACTIVE_TYPE: RequirementType = 'AvoidanceAndBMPs';
+
+const requirementById = new Map(ITP.requirements.map((r) => [r.id, r]));
+const byLifecycle = (a: string, b: string) =>
+  PHASES.indexOf(a as Phase) - PHASES.indexOf(b as Phase);
+
+// ── The routing strip: the whole project, not the filtered slice ─────────────
+const ROUTE_LABEL: Record<Route, string> = {
+  action: 'Routed to an action',
+  obligation: 'Routed to an obligation',
+  both: 'Routed to both',
+  unrouted: 'Not yet routed',
+};
+const ROUTE_TONE: Record<Route, 'action' | 'obligation' | 'both' | 'flag'> = {
+  action: 'action',
+  obligation: 'obligation',
+  both: 'both',
+  unrouted: 'flag',
+};
+const routingSegments = ROUTING_TOTALS.map(({ route, count }) => ({
+  label: ROUTE_LABEL[route],
+  count,
+  tone: ROUTE_TONE[route],
+}));
+const requirementTotal = ROUTING_TOTALS.reduce((n, r) => n + r.count, 0);
+
+// ── The slice both columns are drawn from ────────────────────────────────────
+const sliceRequirements = ITP.requirements.filter(
+  (r) => r.type === ACTIVE_TYPE && r.phases.includes(ACTIVE_PHASE),
+);
+const unroutedRequirements = sliceRequirements.filter((r) => ROUTE_OF.get(r.id) === 'unrouted');
+const unroutedRows = unroutedRequirements
+  .slice(0, 12)
+  .map((r) => ({ code: r.commitment, name: r.name }));
+
+// An action has no phases of its own; it inherits the union of its requirements'.
+const phasesOf = (a: WizardAction) =>
+  [...new Set(a.requirementIds.flatMap((id) => requirementById.get(id)?.phases ?? []))].sort(
+    byLifecycle,
+  );
+
+const sliceActions = ITP.actions.filter(
+  (a) =>
+    a.type === ACTIVE_TYPE &&
+    a.requirementIds.some((id) => requirementById.get(id)?.phases.includes(ACTIVE_PHASE)),
+);
+
+// Approval state is not in the fixture. Two of the slice stand approved so the badge,
+// the card's resting tone and the footer ratio all have something real to render.
+const APPROVED = new Set([
+  'act_01M2G6Y37DQ86DQQR0DMG43C04',
+  'act_01M2G6Y37E7QF03BCX148MFCQY',
+]);
+const isApproved = (a: WizardAction) => APPROVED.has(a.id);
+
+const actionRows = sliceActions.map((a) => {
+  const t = simpleTiming(a.timing);
+  return {
+    id: a.id,
+    name: a.name,
+    status: (isApproved(a) ? 'approved' : 'draft') as 'draft' | 'approved',
+    statusLabel: isApproved(a) ? 'Approved' : 'Draft',
+    // No type pair: the filter band scopes the board to one type, so it would be the
+    // same word eleven times. Deadline and Cadence are the reduced timing model.
+    meta: [
+      { label: 'Deadline', value: DEADLINE_LABEL[t.deadline] },
+      { label: 'Cadence', value: CADENCE_LABEL[t.cadence] },
+      { label: 'Phases', value: phasesOf(a).join(', ') },
+      { label: 'Requirements', value: String(a.requirementIds.length) },
+    ],
+  };
+});
+const approvedCount = actionRows.filter((a) => a.status === 'approved').length;
+const draftCount = actionRows.length - approvedCount;
+
+// ── The one action shown open ────────────────────────────────────────────────
+// Picked because it exercises every part of the reduced timing model: a relative
+// deadline with a direction the two toggles cannot hold, and a stated schedule that
+// survives only in the read-only field.
+const editing = ITP.actions.find((a) => a.id === 'act_01M2G6Y3H3KQ2JH8QCYXWA8G3R')!;
+const editingTiming = simpleTiming(editing.timing);
+const titleCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+// The extraction tool's own label for the pass carries its run note after an em dash;
+// the surface takes the document's title and leaves the provenance to the tool.
+const sourceTitle = ITP.source.split('—')[0].trim();
+---
+
+<!-- manifest:
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(lg)   # SPINE
+  sections:
+    - wizard chrome           -> bcn-setup-wizard-frame            # compass mark, serif title, five-step pill nav with step 4 active
+    - step identity           -> bcn-sw-actions-header             # numbered indicator in --color-action, name, what the step asks
+    - drafting receipt        -> bcn-sw-actions-receipt            # agent mark + collapsed disclosure of the pass and its counts
+    - requirement routing     -> bcn-sw-actions-routing            # proportional bar + labeled legend over all 854 requirements
+    - phase + type filters    -> bcn-sw-actions-filters            # phase toggle, requirement-type menu, matching count
+    - review board            -> bcn-sw-actions-board              # the two-column frame and its column headings
+    - unrouted requirements   -> bcn-sw-actions-requirement-list   # left column: rows + the control that reaches the rest
+    - drafted actions         -> bcn-sw-actions-list               # right column: one card per drafted action
+    - edit one action         -> bcn-sw-actions-edit-dialog        # rail + Details / Timing / Evidence, rendered open
+    - commit bar              -> bcn-sw-actions-footer             # approve/discard the drafts, and the way to step 5
+-->
+
+<AppShell
+  title="Setup Wizard"
+  tenantName={PROJECT.tenant}
+  projectName="Delta Conveyance"
+  activeNavId="setup-wizard"
+>
+  <PageLayout title="Setup Wizard" hideTitleRow>
+    <BcnSetupWizardFrame active="actions">
+      <div class="stack" data-gap="lg">
+        <BcnSwActionsHeader
+          n={STEP.n}
+          label={STEP.label}
+          token={STEP.token}
+          instruction="Approve the drafted actions, correct the ones that are wrong, and route the requirements that are not yet routed."
+        />
+
+        <BcnSwActionsReceipt
+          draftedBy={DRAFTED_BY}
+          facts={[
+            { label: 'Source document', value: sourceTitle },
+            { label: 'Actions drafted', value: ITP.actions.length.toLocaleString() },
+            { label: 'Obligations drafted', value: ITP.obligations.length.toLocaleString() },
+          ]}
+        />
+
+        <BcnSwActionsRouting
+          title="Requirement routing"
+          total={requirementTotal}
+          totalNoun="requirements"
+          segments={routingSegments}
+        />
+
+        <BcnSwActionsFilters
+          phaseLabel="Phase"
+          phases={PHASES}
+          activePhase={ACTIVE_PHASE}
+          typeLabel="Requirement type"
+          activeType={REQUIREMENT_TYPE_LABEL[ACTIVE_TYPE]}
+          typeOptions={Object.values(REQUIREMENT_TYPE_LABEL)}
+          resultLabel="Requirements"
+          resultCount={sliceRequirements.length}
+        />
+
+        <BcnSwActionsBoard
+          requirementsTitle="Requirements not yet routed"
+          requirementsCount={unroutedRequirements.length}
+          requirementsTone="flag"
+          actionsTitle="Actions"
+          actionsCount={actionRows.length}
+        >
+          <BcnSwActionsRequirementList
+            slot="requirements"
+            rows={unroutedRows}
+            total={unroutedRequirements.length}
+            noun="requirements"
+          />
+          <BcnSwActionsList slot="actions" actions={actionRows} />
+        </BcnSwActionsBoard>
+
+        <BcnSwActionsFooter
+          progressLabel="Approved"
+          progressValue={`${approvedCount} of ${actionRows.length}`}
+          pendingCount={draftCount}
+          nextLabel="Continue to step 5: Obligations"
+          nextHref={withBase('/prototypes/setup-wizard/obligations')}
+        />
+      </div>
+
+      <BcnSwActionsEditDialog
+        name={editing.name}
+        status={isApproved(editing) ? 'approved' : 'draft'}
+        statusLabel={isApproved(editing) ? 'Approved' : 'Draft'}
+        rail={{
+          title: 'Linked requirements',
+          items: editing.requirementIds.map((id) => {
+            const r = requirementById.get(id)!;
+            return {
+              code: r.commitment,
+              name: r.name,
+              inActions: ACTIONS_OF.get(id)?.length ?? 1,
+            };
+          }),
+        }}
+        tabs={['Details', 'Timing', 'Evidence']}
+        activeTab={1}
+        details={{
+          nameLabel: 'Name',
+          fields: [
+            { label: 'Requirement type', value: REQUIREMENT_TYPE_LABEL[editing.type] },
+            {
+              label: 'Deliverable type',
+              value: editing.deliverableType ? titleCase(editing.deliverableType) : 'Not stated',
+            },
+          ],
+        }}
+        timing={{
+          deadline: {
+            label: 'Deadline',
+            options: [
+              { label: DEADLINE_LABEL.specific, value: 'specific' },
+              { label: DEADLINE_LABEL.relative, value: 'relative' },
+            ],
+            value: editingTiming.deadline,
+            field: { label: 'Milestone', value: editing.timing.deadline?.milestone ?? '' },
+          },
+          cadence: {
+            label: 'Cadence',
+            options: [
+              { label: CADENCE_LABEL['one-time'], value: 'one-time' },
+              { label: CADENCE_LABEL.recurring, value: 'recurring' },
+            ],
+            value: editingTiming.cadence,
+            field: { label: 'Recurrence' },
+          },
+          stated: { label: 'Stated schedule', value: editing.timing.stated ?? '' },
+        }}
+        evidence={{ label: 'Expected evidence', value: editing.expectedEvidence }}
+      />
+    </BcnSetupWizardFrame>
+  </PageLayout>
+</AppShell>

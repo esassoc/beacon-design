@@ -1,0 +1,190 @@
+---
+// <BcnSetupWizardOverview> — the wizard's welcome page, ported from prod's
+// get-started (origin/develop): a headline, a lede, "How project setup works",
+// then one numbered column per step in the step's entity color, and a Get
+// Started button. Prod renders four columns; this renders SETUP_STEPS, which
+// has five since 2026-09-14, and the count in the copy is derived from the
+// list so it can never drift from the nav.
+//
+// bcn-lego-checked: the step columns are a numbered horizontal flow, which no
+// esa-* lego provides (same lookup as bcn-setup-wizard-card and
+// bcn-setup-wizard-frame; catalog re-listed 2026-09-14). The CTA is esa-button,
+// the glyphs are esa-icon; this component owns only the step column itself.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { SETUP_STEPS, STEP_GLYPH } from '../../data/setup-wizard';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** Root-relative route Get Started leads to — the first step still open. */
+  startHref: string;
+  startLabel?: string;
+}
+const { startHref, startLabel = 'Continue setup' } = Astro.props;
+const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
+const countWord = ["One", "Two", "Three", "Four", "Five", "Six"][SETUP_STEPS.length - 1] ?? String(SETUP_STEPS.length);
+---
+
+<div class="bcn-swo">
+  <section class="bcn-swo__hero">
+    <span class="bcn-swo__mark" aria-hidden="true"><EsaIcon name="compass" size="md" paths={STEP_GLYPH.compass} /></span>
+    <h1 class="bcn-swo__headline">Welcome back to Beacon</h1>
+    <p class="bcn-swo__lede">
+      Beacon turns your source documents into trackable actions and standing obligations. Three steps are done; two are waiting for your
+      review.
+    </p>
+  </section>
+
+  <section class="bcn-swo__overview" aria-labelledby="bcn-swo-how">
+    <h2 class="bcn-swo__title" id="bcn-swo-how">How project setup works</h2>
+    <p class="bcn-swo__sub">
+      {countWord} steps from source documents to trackable actions and obligations. Beacon reads and drafts; you review and approve.
+    </p>
+    <ol class="bcn-swo__flow" style={`--_cols: ${SETUP_STEPS.length};`}>
+      {
+        SETUP_STEPS.map((s) => (
+          <li class="bcn-swo__step" style={`--_step: var(--color-${s.token});`}>
+            <a class="bcn-swo__link" href={linkHref(s.href)}>
+              <span class="bcn-swo__num">{s.n}</span>
+              <span class="bcn-swo__name">
+                <span class="bcn-swo__glyph" aria-hidden="true"><EsaIcon name={s.id} size="sm" paths={s.iconPaths} /></span>
+                {s.label}
+              </span>
+              <span class="bcn-swo__line">{s.line}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="bcn-swo__cta">
+      <EsaButton variant="primary" href={linkHref(startHref)}>{startLabel}</EsaButton>
+    </div>
+  </section>
+</div>
+
+<style>
+  .bcn-swo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-700);
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: var(--spacing-600) 0;
+  }
+
+  .bcn-swo__hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-swo__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: var(--bcn-teal-600, var(--color-background-brand));
+    color: var(--color-content-default-knockout);
+  }
+  .bcn-swo__headline {
+    margin: 0;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: var(--font-size-600);
+    font-weight: var(--typography-font-weight-semibold);
+    line-height: 1.15;
+    color: var(--color-content-default);
+  }
+  .bcn-swo__lede {
+    margin: 0;
+    max-width: 44rem;
+    font-size: var(--font-size-200);
+    line-height: var(--line-height-relaxed, 1.6);
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-swo__overview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding: var(--spacing-600);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-300);
+  }
+  .bcn-swo__title {
+    margin: 0;
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-swo__sub {
+    margin: 0;
+    font-size: var(--font-size-150);
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-swo__flow {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-400) 0 0;
+    border-top: 1px solid var(--color-border-default-subtle);
+    display: grid;
+    grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
+    gap: var(--spacing-400);
+  }
+  @media (max-width: 1000px) {
+    .bcn-swo__flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  .bcn-swo__step { min-width: 0; }
+  .bcn-swo__link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    height: 100%;
+    padding: var(--spacing-400);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 150ms ease;
+  }
+  .bcn-swo__link:hover { border-color: var(--_step); }
+
+  /* The numeral is the badge that carries the step color — never a colored edge. */
+  .bcn-swo__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: var(--_step);
+    color: var(--color-content-default-knockout);
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-swo__name {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    font-size: var(--font-size-200);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-swo__glyph { display: inline-flex; color: var(--_step); }
+  .bcn-swo__line {
+    font-size: var(--font-size-100);
+    line-height: var(--line-height-normal, 1.5);
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-swo__cta {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--spacing-200);
+  }
+</style>
