@@ -1,0 +1,47 @@
+---
+// <BcnSwSelectChip> — the inline dropdown trigger prod sets INSIDE the step title
+// ("Actions during [Pre-Construction ▾] for [Design ▾]"): text-sized, a 5% ink tint,
+// 6px radius, chevron in muted ink (.actions-step__select-trigger, origin/develop).
+// Static in this prototype: it shows the selected value and opens nothing.
+//
+// bcn-lego-checked: esa-select is a labelled form control with field chrome; prod's
+// trigger inherits the h2's serif and size and has no field. Beacon HAS it; this is
+// that trigger under a bcn- name.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Props {
+  /** The selected value shown in the chip. */
+  value: string;
+  /** Accessible name for what the chip picks ("Phase"). */
+  label: string;
+}
+const { value, label } = Astro.props;
+---
+
+<button type="button" class="bcn-swsc" aria-label={`${label}: ${value}`} aria-haspopup="menu">
+  <span class="bcn-swsc__label">{value}</span>
+  <span class="bcn-swsc__chevron" aria-hidden="true"><EsaIcon name="chevron-down" size="sm" /></span>
+</button>
+
+<style>
+  .bcn-swsc {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    padding: 2px var(--spacing-200);
+    background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    transition: background 120ms ease;
+  }
+  .bcn-swsc:hover { background: color-mix(in srgb, var(--color-content-default) 10%, transparent); }
+  .bcn-swsc:focus-visible { outline: 2px solid var(--color-background-brand); outline-offset: 2px; }
+  .bcn-swsc__label { min-width: 0; text-align: left; }
+  .bcn-swsc__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); }
+</style>

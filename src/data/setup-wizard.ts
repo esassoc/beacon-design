@@ -38,21 +38,45 @@ export interface SetupStep {
   iconPaths: string;
 }
 
-// Lucide glyphs — inner SVG markup only, the same idiom AppShell uses.
+// Lucide glyphs — inner SVG markup only, the same idiom AppShell uses. The four
+// entity glyphs are prod's BeaconEntityTypeEnum (BCN-1623: SourceDocument file-text,
+// Commitment clipboard-list, Requirement clipboard-check, Action radar). Prod has no
+// Obligation entity yet; shield-check is this prototype's proposal, drawn from prod's
+// registered icon set. The rest are the row/panel chrome prod's actions step uses.
 export const STEP_GLYPH = {
   'file-text':
     '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
-  handshake:
-    '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>',
-  'list-checks':
-    '<path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/>',
-  'square-check-big':
-    '<path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"/><path d="m9 11 3 3L22 4"/>',
+  'clipboard-list':
+    '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+  'clipboard-check':
+    '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+  radar:
+    '<path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/>',
   'shield-check':
     '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
   compass:
     '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>',
   check: '<path d="M20 6 9 17l-5-5"/>',
+  'grip-vertical':
+    '<circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/>',
+  'square-pen':
+    '<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>',
+  plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+  x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  'list-tree':
+    '<path d="M21 12h-8"/><path d="M21 6H8"/><path d="M21 18h-8"/><path d="M3 6v4c0 1.1.9 2 2 2h3"/><path d="M3 10v6c0 1.1.9 2 2 2h3"/>',
+  merge: '<path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"/><path d="m20 22-5-5"/>',
+  undo: '<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>',
+  'flask-conical':
+    '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  'arrow-up': '<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',
+  lightbulb:
+    '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+  'chevrons-down-up':
+    '<path d="m7 20 5-5 5 5"/><path d="m7 4 5 5 5-5"/>',
+  'chevrons-up-down':
+    '<path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/>',
 } as const;
 
 export const SETUP_STEPS: SetupStep[] = [
@@ -72,7 +96,7 @@ export const SETUP_STEPS: SetupStep[] = [
     token: 'commitment',
     line: 'Every enforceable commitment, cited to the page it came from.',
     href: '#setup-commitments',
-    iconPaths: STEP_GLYPH.handshake,
+    iconPaths: STEP_GLYPH['clipboard-list'],
   },
   {
     id: 'requirements',
@@ -81,7 +105,7 @@ export const SETUP_STEPS: SetupStep[] = [
     token: 'requirement',
     line: 'Each commitment split into what, when and who — one requirement per duty.',
     href: '#setup-requirements',
-    iconPaths: STEP_GLYPH['list-checks'],
+    iconPaths: STEP_GLYPH['clipboard-check'],
   },
   {
     id: 'actions',
@@ -90,7 +114,7 @@ export const SETUP_STEPS: SetupStep[] = [
     token: 'action',
     line: 'Dated work with a deliverable — plans, reports, approvals — drafted for review.',
     href: '/prototypes/setup-wizard/actions',
-    iconPaths: STEP_GLYPH['square-check-big'],
+    iconPaths: STEP_GLYPH.radar,
   },
   {
     id: 'obligations',

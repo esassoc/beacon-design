@@ -1,5 +1,5 @@
 ---
-// <BcnSwObligationsEditor> — the Edit verb's destination, staged open.
+// <BcnSwObligationsEditor> — the Edit verb's destination; closed until a pencil or the review dialog opens it.
 //
 // One obligation, every field the registry stores for it, plus the two selects that
 // MOVE it: category and subcategory. Moving a row is the most common correction this
@@ -57,7 +57,6 @@ const COMMITMENT_OPTIONS = JSON.stringify(o.commitments.map((c) => ({ label: c, 
   id="swo-editor"
   heading="Edit obligation"
   position="right"
-  open
   style="--_width: min(680px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
   <div class="bcn-swo-edit">
     <esa-text-field label="Title" value={o.title} name="swo-title" required></esa-text-field>

@@ -1,0 +1,170 @@
+---
+// <BcnSwObligationsReviewDialog> — the modal a slim obligation card opens. The card
+// shows the class, the title and the codes; this shows the whole record, read-only:
+// where it is filed, the standard, the condition a monitor observes, the parameters
+// where sources disagree, the species, the notify window, every commitment it traces
+// to, and whether it waits on an approved plan. Footer: Remove at the left, Edit and
+// Close at the right. Edit hands off to the editor drawer (id `swo-editor`).
+//
+// The records travel as one JSON block (every obligation, keyed by id, with its
+// category > subcategory path) so a click fills the dialog without a round trip.
+//
+// bcn-lego-checked: the frame IS esa-dialog (heading / default / footer slots, native
+// <dialog>, Esc and backdrop close); the verbs ARE esa-button; the code chips ARE
+// BcnCommitmentBadge. This component authors only the definition-list body.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { OBLIGATION_TAXONOMY, OBLIGATION_CLASS_LABEL, OBLIGATIONS } from '../../data/setup-wizard';
+
+const pathOf = new Map<string, string>();
+for (const c of OBLIGATION_TAXONOMY)
+  for (const s of c.subcategories) for (const o of s.obligations) pathOf.set(o.id, `${c.name} › ${s.name}`);
+
+const records = Object.fromEntries(
+  OBLIGATIONS.map((o) => [
+    o.id,
+    {
+      title: o.title,
+      cls: OBLIGATION_CLASS_LABEL[o.class],
+      path: pathOf.get(o.id) ?? '',
+      standard: o.standard,
+      condition: o.condition,
+      parameters: o.parameters,
+      species: o.species,
+      window: o.window,
+      commitments: o.commitments,
+      gate: o.gate,
+      installed: o.installedControl,
+    },
+  ]),
+);
+---
+
+<esa-dialog id="swo-review" size="lg" heading="Obligation" show-close-button>
+  <div class="bcn-swor">
+    <p class="bcn-swor__where"><span class="bcn-swor__class" data-field="cls"></span><span data-field="path"></span></p>
+    <dl class="bcn-swor__dl">
+      <dt>Standard</dt><dd data-field="standard"></dd>
+      <dt>Condition</dt><dd data-field="condition"></dd>
+      <dt>Parameters</dt><dd data-field="parameters"></dd>
+      <dt>Species</dt><dd data-field="species"></dd>
+      <dt>Window</dt><dd data-field="window"></dd>
+      <dt>Commitments</dt><dd data-field="commitments" class="bcn-swor__codes"></dd>
+      <dt>Gate</dt><dd data-field="gate"></dd>
+    </dl>
+  </div>
+  <div slot="footer" class="bcn-swor__foot">
+    <EsaButton variant="danger" appearance="soft" size="sm" data-swor-remove>Remove</EsaButton>
+    <span class="bcn-swor__foot-right">
+      <EsaButton variant="secondary" appearance="outline" size="sm" data-swor-edit>Edit</EsaButton>
+      <EsaButton variant="primary" size="sm" data-swor-close>Close</EsaButton>
+    </span>
+  </div>
+</esa-dialog>
+
+<script type="application/json" id="swo-data" set:html={JSON.stringify(records)} />
+
+<script>
+  import '@esa/ecology/esa-dialog';
+
+  type Rec = {
+    title: string; cls: string; path: string; standard: string; condition: string; parameters: string;
+    species: string[]; window: string; commitments: string[]; gate: boolean; installed: boolean;
+  };
+  const data = JSON.parse(document.getElementById('swo-data')?.textContent ?? '{}') as Record<string, Rec>;
+  const dlg = document.getElementById('swo-review') as (HTMLElement & { open: boolean; heading: string }) | null;
+  const editor = document.getElementById('swo-editor') as (HTMLElement & { open: boolean }) | null;
+  const field = (name: string) => dlg?.querySelector<HTMLElement>(`[data-field="${name}"]`);
+  const dash = (s: string) => (s && s.trim() ? s : '—');
+
+  const fill = (id: string) => {
+    const r = data[id];
+    if (!r || !dlg) return;
+    dlg.heading = r.title;
+    field('cls')!.textContent = r.cls;
+    field('path')!.textContent = r.path;
+    field('standard')!.textContent = dash(r.standard);
+    field('condition')!.textContent = dash(r.condition);
+    field('parameters')!.textContent = dash(r.parameters);
+    field('species')!.textContent = r.species.length ? r.species.join(', ') : '—';
+    field('window')!.textContent = dash(r.window);
+    field('gate')!.textContent = r.gate ? 'Waits on an approved plan' : r.installed ? 'Installed control' : 'None';
+    const codes = field('commitments')!;
+    codes.replaceChildren(
+      ...r.commitments.map((c) => {
+        const el = document.createElement('span');
+        el.className = 'bcn-swor__code';
+        el.textContent = c;
+        return el;
+      }),
+    );
+  };
+
+  document.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    const open = t.closest<HTMLElement>('[data-swo-open]');
+    if (open && !t.closest('[data-swo-edit],[data-swo-remove]')) {
+      fill(open.dataset.swoOpen!);
+      if (dlg) dlg.open = true;
+      return;
+    }
+    const edit = t.closest<HTMLElement>('[data-swo-edit]');
+    if (edit) {
+      e.stopPropagation();
+      if (editor) editor.open = true;
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const t = (e.target as HTMLElement).closest<HTMLElement>('[data-swo-open]');
+    if (!t) return;
+    e.preventDefault();
+    fill(t.dataset.swoOpen!);
+    if (dlg) dlg.open = true;
+  });
+  dlg?.querySelector('[data-swor-close]')?.addEventListener('click', () => (dlg.open = false));
+  dlg?.querySelector('[data-swor-edit]')?.addEventListener('click', () => {
+    dlg.open = false;
+    if (editor) editor.open = true;
+  });
+</script>
+
+<style>
+  .bcn-swor { display: flex; flex-direction: column; gap: var(--spacing-300); font-size: 0.8125rem; color: var(--color-content-default); }
+  .bcn-swor__where { margin: 0; display: flex; align-items: center; gap: var(--spacing-200); color: var(--color-content-default-tertiary); }
+  .bcn-swor__class {
+    display: inline-flex;
+    padding: 1px var(--spacing-150);
+    border-radius: var(--radius-100);
+    background: var(--bcn-gray-100);
+    color: var(--color-content-default);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .bcn-swor__dl {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: var(--spacing-200) var(--spacing-300);
+    margin: 0;
+  }
+  .bcn-swor__dl dt { color: var(--color-content-default-tertiary); font-weight: 500; }
+  .bcn-swor__dl dd { margin: 0; line-height: 1.45; }
+  .bcn-swor__codes { display: flex; flex-wrap: wrap; gap: var(--spacing-100); }
+  .bcn-swor__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-200); width: 100%; }
+  .bcn-swor__foot-right { display: inline-flex; gap: var(--spacing-200); }
+</style>
+
+<style is:global>
+  /* The chips are created by the script, so they carry no scope id; this block is unscoped on purpose. */
+  .bcn-swor__codes .bcn-swor__code {
+    display: inline-block;
+    font-family: var(--typography-font-family-mono);
+    font-weight: var(--typography-font-weight-semibold);
+    font-size: 0.6875rem;
+    padding: 1px var(--spacing-150);
+    border-radius: var(--radius-100);
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    white-space: nowrap;
+  }
+</style>

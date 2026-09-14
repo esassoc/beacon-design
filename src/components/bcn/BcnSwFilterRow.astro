@@ -1,0 +1,56 @@
+---
+// <BcnSwFilterRow> — prod's .actions-step__filters (origin/develop): a search field
+// that grows first, then chip-style pickers, then whatever verbs the step adds, on
+// one wrapping line under a hairline. The search is esa-text-field at sm; the pickers
+// are bcn-sw-select-chip; verbs arrive through the default slot.
+//
+// bcn-lego-checked: esa-search-panel is a full search surface with results; prod's
+// row is a flex line of independent controls. Beacon HAS the row; this is it under a
+// bcn- name. The `search-name` is the field's `name`, so page scripts can find it.
+import BcnSwSelectChip from './BcnSwSelectChip.astro';
+
+interface Picker {
+  label: string;
+  value: string;
+}
+interface Props {
+  searchPlaceholder: string;
+  searchName: string;
+  pickers?: Picker[];
+  /** Inset variant: prod's row inside the AI band drops the top hairline. */
+  inset?: boolean;
+}
+const { searchPlaceholder, searchName, pickers = [], inset = false } = Astro.props;
+---
+
+<div class:list={['bcn-swfr', inset && 'bcn-swfr--inset']}>
+  <esa-text-field class="bcn-swfr__search" size="sm" name={searchName} placeholder={searchPlaceholder} aria-label={searchPlaceholder}></esa-text-field>
+  {pickers.map((p) => <BcnSwSelectChip label={p.label} value={p.value} />)}
+  <div class="bcn-swfr__verbs"><slot /></div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+</script>
+
+<style>
+  .bcn-swfr {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+    padding: var(--spacing-300) var(--spacing-500);
+    border-top: 1px solid var(--color-border-default-subtle);
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+  }
+  .bcn-swfr--inset { border-top: none; }
+  .bcn-swfr__search { flex: 1 1 180px; max-width: 360px; }
+  .bcn-swfr__verbs {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-left: auto;
+  }
+  .bcn-swfr__verbs:empty { display: none; }
+</style>

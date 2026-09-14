@@ -1,0 +1,89 @@
+---
+// <BcnSwStepPanel> — prod's .actions-step__top (origin/develop): the one bordered
+// panel at the head of a wizard step. Header row: the 28px step numeral in the step's
+// entity colour, the serif h2 (whose inline parts — text, dropdown chips, the count —
+// come through the `title` slot), an optional right-aligned `actions` slot; then the
+// one-line intro. Anything slotted by default renders BELOW the header inside the
+// same panel (prod puts the AI band there; step 5 puts its search and filters there).
+//
+// bcn-lego-checked: esa-card is a titled content card with its own header type and
+// padding, not this header-row-with-inline-controls; esa-page-header is the app
+// page's title row. Beacon HAS this panel (.actions-step__top / __header); this is
+// that panel under a bcn- name, with the numeral colour read from --color-<token>.
+import type { SetupStepToken } from '../../data/setup-wizard';
+
+interface Props {
+  n: number;
+  token: SetupStepToken;
+  /** One line under the title: what the step asks of the reviewer. */
+  intro: string;
+}
+const { n, token, intro } = Astro.props;
+---
+
+<section class="bcn-swsp" style={`--_step: var(--color-${token});`}>
+  <header class="bcn-swsp__header">
+    <div class="bcn-swsp__row">
+      <span class="bcn-swsp__num" aria-hidden="true">{n}</span>
+      <h2 class="bcn-swsp__title"><slot name="title" /></h2>
+      <div class="bcn-swsp__actions"><slot name="actions" /></div>
+    </div>
+    <p class="bcn-swsp__intro">{intro}</p>
+  </header>
+  <slot />
+</section>
+
+<style>
+  .bcn-swsp {
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .bcn-swsp__header { padding: var(--spacing-400) var(--spacing-500); }
+  .bcn-swsp__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+  }
+  .bcn-swsp__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--_step);
+    color: var(--color-content-default-knockout);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .bcn-swsp__title {
+    margin: 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-150);
+    font-family: var(--font-decorative);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-content-default);
+  }
+  .bcn-swsp__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-left: auto;
+  }
+  .bcn-swsp__actions:empty { display: none; }
+  .bcn-swsp__intro {
+    margin: var(--spacing-200) 0 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--color-content-default);
+  }
+</style>

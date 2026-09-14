@@ -47,10 +47,9 @@
      that left every one of those components rendering the hub's default
      green (--color-grass-9 #46a758) instead of Beacon teal. Logged in
      docs/system-improvement-ledger.md (2026-08-24). */
-  --color-background-brand:             var(--color-background-brand);        /* teal-900 #005862 */
-  --color-background-brand-hover:       var(--color-background-brand-hover);  /* #00474f */
-  --color-background-brand-active:      var(--color-background-brand-active); /* #003940 */
-  --color-background-brand-subtle:      var(--color-background-brand-subtle); /* teal-50 */
+  /* --color-background-brand, -hover, -active and -subtle are set once, above. Re-declaring
+     them here as var() of themselves made each one cyclic (invalid at computed time), so
+     every primary esa-button fell back to the hub green #46a758 (fixed 2026-09-14). */
   --color-background-brand-muted:       var(--bcn-teal-100);         /* #eef5f4 */
   --color-background-brand-muted-hover: var(--bcn-teal-200);         /* #b9d6d2 */
   --color-content-brand:                var(--color-background-brand);        /* teal-900 — brand text/link/outline-label */

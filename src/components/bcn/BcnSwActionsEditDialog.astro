@@ -3,7 +3,7 @@
 // actions-step-edit-dialog: name and status in the header, the association rail on the
 // left, Details / Timing / Evidence on the right, and the commit controls in the footer.
 //
-// RENDERED OPEN AND STATIC. esa-side-dialog opens itself on hydration when the `open`
+// CLOSED UNTIL A PENCIL OPENS IT (id swa-edit). esa-side-dialog opens itself when `open`
 // attribute is present, which is the lego's own behavior and not authored script. It
 // opens MODALLY, so the board behind it is scrimmed until Esc dismisses it; that is the
 // same state prod puts you in when you click Edit, and it is the state this page exists
@@ -76,7 +76,7 @@ const deadlineJson = JSON.stringify(timing.deadline.options);
 const cadenceJson = JSON.stringify(timing.cadence.options);
 ---
 
-<esa-side-dialog class="bcn-swaed" open position="right" size="lg" data-status={status}>
+<esa-side-dialog id="swa-edit" class="bcn-swaed" position="right" size="lg" data-status={status}>
   <div slot="header" class="bcn-swaed__head">
     <h2 class="bcn-swaed__title typography-title-strong">{name}</h2>
     <EsaBadge value={statusLabel} variant={status === 'approved' ? 'success' : 'secondary'} size="sm" />

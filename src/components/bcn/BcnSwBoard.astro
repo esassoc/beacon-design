@@ -1,0 +1,106 @@
+---
+// <BcnSwBoard> — prod's .actions-step__board (origin/develop): one bordered card split
+// into a gray "raw input" column (2fr) and a white "structured work" column (3fr).
+// Each column is header (serif title + count badge, optional verbs at the right) /
+// scrolling body (max 500px) / footer. The columns' contents come through slots so
+// the page decides what rows and verbs go where.
+//
+// bcn-lego-checked: esa-card is one titled card; esa-split-view / esa-tab-layout are
+// not a two-column board with per-column header and footer. Beacon HAS this board;
+// this is it under a bcn- name. Titles are serif because prod's wizard area sets every
+// heading to --font-decorative (_headings.scss).
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+
+interface Column {
+  title: string;
+  count: number;
+  /** Accessible reading of the count ("20 requirements"). */
+  countLabel: string;
+}
+interface Props {
+  left: Column;
+  right: Column;
+}
+const { left, right } = Astro.props;
+---
+
+<div class="bcn-swb">
+  <section class="bcn-swb__col bcn-swb__col--left" aria-label={left.title}>
+    <header class="bcn-swb__head">
+      <h2 class="bcn-swb__title">{left.title}</h2>
+      <BcnSwCountBadge value={left.count} label={left.countLabel} />
+      <div class="bcn-swb__head-verbs"><slot name="left-verbs" /></div>
+    </header>
+    <div class="bcn-swb__body"><slot name="left-body" /></div>
+    <footer class="bcn-swb__foot"><slot name="left-foot" /></footer>
+  </section>
+
+  <section class="bcn-swb__col bcn-swb__col--right" aria-label={right.title}>
+    <header class="bcn-swb__head">
+      <h2 class="bcn-swb__title">{right.title}</h2>
+      <BcnSwCountBadge value={right.count} label={right.countLabel} />
+      <div class="bcn-swb__head-verbs"><slot name="right-verbs" /></div>
+    </header>
+    <div class="bcn-swb__body"><slot name="right-body" /></div>
+    <footer class="bcn-swb__foot bcn-swb__foot--split"><slot name="right-foot" /></footer>
+  </section>
+</div>
+
+<style>
+  .bcn-swb {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+    min-height: 360px;
+  }
+  .bcn-swb__col { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .bcn-swb__col + .bcn-swb__col { border-left: 1px solid var(--color-border-default-subtle); }
+  .bcn-swb__col--left { background: var(--color-background-default); }
+
+  .bcn-swb__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 48px;
+    padding: var(--spacing-200) var(--spacing-400);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-swb__title {
+    margin: 0;
+    font-family: var(--font-decorative);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-content-default);
+  }
+  .bcn-swb__head-verbs { display: inline-flex; align-items: center; gap: var(--spacing-200); margin-left: auto; }
+  .bcn-swb__head-verbs:empty { display: none; }
+
+  .bcn-swb__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: var(--spacing-300) var(--spacing-400);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  .bcn-swb__foot {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-top: 1px solid var(--color-border-default-subtle);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-swb__foot--split { justify-content: space-between; flex-wrap: wrap; }
+
+  @media (max-width: 900px) {
+    .bcn-swb { grid-template-columns: 1fr; }
+    .bcn-swb__col + .bcn-swb__col { border-left: none; border-top: 1px solid var(--color-border-default-subtle); }
+  }
+</style>

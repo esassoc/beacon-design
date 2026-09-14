@@ -1,0 +1,113 @@
+---
+// <BcnSwObligationCard> — the obligation as a slim card, the same card prod uses for
+// a requirement or an action on the actions step (8×12 padding, 6px radius, one flex
+// line, 13px): the class tag, the one-line title, the commitment-code chips (two, then
+// a gray "+n"), and the quiet pencil and × that appear on hover. The card is a button:
+// it opens the review dialog (bcn-sw-obligations-review-dialog) with this record; the
+// pencil opens the editor directly. Nothing about the record is expanded inline.
+//
+// bcn-lego-checked: esa-card and esa-list-item carry their own type scale and padding;
+// Beacon HAS this card shape (requirement-row / action-card). The code chips ARE
+// BcnCommitmentBadge (prod's client-commitment-id), glyphs are esa-icon.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import { OBLIGATION_CLASS_LABEL, STEP_GLYPH, type ObligationRow } from '../../data/setup-wizard';
+
+interface Props {
+  obligation: ObligationRow;
+}
+const { obligation: o } = Astro.props;
+const shown = o.commitments.slice(0, 2);
+const more = o.commitments.length - shown.length;
+const haystack = [o.title, o.class, ...o.commitments, ...o.species].join(' ').toLowerCase();
+---
+
+<li class="bcn-swoc" data-swo-card data-id={o.id} data-class={o.class} data-search={haystack}>
+  <div class="bcn-swoc__main" role="button" tabindex="0" aria-haspopup="dialog" aria-label={`Review ${o.title}`} data-swo-open={o.id}>
+    <span class="bcn-swoc__class" data-class={o.class}>{OBLIGATION_CLASS_LABEL[o.class]}</span>
+    <span class="bcn-swoc__title">{o.title}</span>
+    <span class="bcn-swoc__codes">
+      {shown.map((c) => <BcnCommitmentBadge code={c} size="sm" />)}
+      {more > 0 && <BcnCommitmentBadge code={`+${more}`} size="sm" tone="neutral" />}
+    </span>
+    <button type="button" class="bcn-swoc__edit" title="Edit obligation" aria-label="Edit obligation" data-swo-edit={o.id}>
+      <EsaIcon name="square-pen" size="sm" paths={STEP_GLYPH['square-pen']} />
+    </button>
+    <button type="button" class="bcn-swoc__remove" title="Remove obligation" aria-label="Remove obligation" data-swo-remove={o.id}>
+      <EsaIcon name="x" size="sm" paths={STEP_GLYPH.x} />
+    </button>
+  </div>
+</li>
+
+<style>
+  .bcn-swoc {
+    list-style: none;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: 6px;
+    background: var(--color-background-elevation-raised);
+    overflow: hidden;
+    transition: border-color 120ms ease;
+  }
+  .bcn-swoc:hover { border-color: var(--color-border-default); }
+  .bcn-swoc[hidden] { display: none; }
+  .bcn-swoc__main {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-300);
+    min-width: 0;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: background-color 120ms ease;
+  }
+  .bcn-swoc__main:hover { background: var(--color-background-default); }
+  .bcn-swoc__main:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
+
+  /* Class tag: prod's .action-card__tag, one per class, gray so the row stays one colour. */
+  .bcn-swoc__class {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: 4.25rem;
+    justify-content: center;
+    padding: 1px var(--spacing-150);
+    border-radius: var(--radius-100);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    background: var(--bcn-gray-100);
+    color: var(--color-content-default);
+  }
+  .bcn-swoc__title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-content-default);
+  }
+  .bcn-swoc__codes { display: inline-flex; align-items: center; gap: var(--spacing-100); flex-shrink: 0; }
+  .bcn-swoc__edit,
+  .bcn-swoc__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    padding: 2px;
+    border-radius: var(--radius-100);
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 120ms ease, color 120ms ease, background-color 120ms ease;
+  }
+  .bcn-swoc:hover .bcn-swoc__edit,
+  .bcn-swoc:hover .bcn-swoc__remove,
+  .bcn-swoc__edit:focus-visible,
+  .bcn-swoc__remove:focus-visible { opacity: 1; }
+  .bcn-swoc__edit:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
+  .bcn-swoc__remove { color: var(--bcn-gray-400); }
+  .bcn-swoc__remove:hover { color: var(--color-background-utility-danger); }
+</style>

@@ -1,0 +1,150 @@
+---
+// <BcnSwActionCard> — prod's .action-card (actions-step, origin/develop), collapsed:
+// chevron, the Draft / Approved pill (a Draft's pill is the one-click approve target),
+// the name with the edit pencil riding after it, the type and phase tags, the linked
+// count, the quiet × at the end. Approved cards sit on the success tint. Click on the
+// pencil opens the edit drawer whose id `editTarget` names.
+//
+// bcn-lego-checked: esa-card's title/meta/body shape is not this single flex line;
+// esa-badge's dot mode carries no text, and prod's pill is dot AND word. Beacon HAS
+// the card; this is it under a bcn- name. The count IS bcn-sw-count-badge, the glyphs
+// are esa-icon.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+
+interface Props {
+  name: string;
+  status: 'draft' | 'approved';
+  tags: string[];
+  count: number;
+  /** id of the esa-side-dialog the pencil opens. */
+  editTarget?: string;
+}
+const { name, status, tags, count, editTarget } = Astro.props;
+const approved = status === 'approved';
+---
+
+<li class="bcn-swac" data-status={status}>
+  <div class="bcn-swac__main" role="button" tabindex="0" aria-expanded="false" aria-label={`Expand ${name}`}>
+    <span class="bcn-swac__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="md" /></span>
+    {approved ? (
+      <span class="bcn-swac__pill bcn-swac__pill--approved"><span class="bcn-swac__dot" aria-hidden="true"></span>Approved</span>
+    ) : (
+      <button type="button" class="bcn-swac__approve" title="Approve action" aria-label="Approve action">
+        <span class="bcn-swac__pill"><span class="bcn-swac__dot" aria-hidden="true"></span>Draft</span>
+      </button>
+    )}
+    <span class="bcn-swac__title-group">
+      <span class="bcn-swac__name">{name}</span>
+      <button type="button" class="bcn-swac__edit" title="Edit action" aria-label="Edit action" data-open-dialog={editTarget}>
+        <EsaIcon name="square-pen" size="sm" paths={STEP_GLYPH['square-pen']} />
+      </button>
+    </span>
+    <span class="bcn-swac__tags">{tags.map((t) => <span class="bcn-swac__tag">{t}</span>)}</span>
+    <BcnSwCountBadge value={count} label={`${count} linked requirements`} />
+    <button type="button" class="bcn-swac__delete" title="Delete action" aria-label="Delete action">
+      <EsaIcon name="x" size="md" paths={STEP_GLYPH.x} />
+    </button>
+  </div>
+</li>
+
+<style>
+  .bcn-swac {
+    list-style: none;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: 6px;
+    background: var(--color-background-elevation-raised);
+    overflow: hidden;
+    transition: border-color 120ms ease;
+  }
+  .bcn-swac[data-status='approved'] {
+    border-color: var(--color-success-200);
+    background: var(--color-success-50);
+  }
+  .bcn-swac__main {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
+    min-width: 0;
+    cursor: pointer;
+    transition: background-color 120ms ease;
+  }
+  .bcn-swac__main:hover { background: color-mix(in srgb, var(--color-content-default-tertiary) 6%, transparent); }
+  .bcn-swac__main:focus-visible { outline: 2px solid var(--color-action); outline-offset: -2px; }
+  .bcn-swac__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); }
+
+  .bcn-swac__approve { border: none; background: transparent; padding: 0; cursor: pointer; display: inline-flex; flex-shrink: 0; border-radius: var(--radius-full); }
+  .bcn-swac__approve:focus-visible { outline: 2px solid var(--color-action); outline-offset: 2px; }
+  .bcn-swac__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    flex-shrink: 0;
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-full);
+    background: var(--bcn-gray-100);
+    color: var(--bcn-gray-700);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.5;
+    white-space: nowrap;
+    transition: background-color 120ms ease, color 120ms ease;
+  }
+  .bcn-swac__dot { width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--bcn-status-not-started); }
+  .bcn-swac__pill--approved,
+  .bcn-swac__approve:hover .bcn-swac__pill { background: var(--color-success-100); color: var(--color-background-utility-success); }
+  .bcn-swac__pill--approved .bcn-swac__dot,
+  .bcn-swac__approve:hover .bcn-swac__dot { background: var(--color-background-utility-success); }
+
+  /* The name wins the fight for width: it keeps a 9rem floor and the tag run clips instead. */
+  .bcn-swac__title-group { display: flex; align-items: center; gap: var(--spacing-100); flex: 1 1 auto; min-width: 9rem; }
+  .bcn-swac__name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-content-default);
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+  .bcn-swac__edit,
+  .bcn-swac__delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    padding: 2px;
+    border-radius: var(--radius-100);
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 120ms ease, color 120ms ease, background-color 120ms ease;
+  }
+  .bcn-swac:hover .bcn-swac__edit,
+  .bcn-swac:hover .bcn-swac__delete,
+  .bcn-swac__edit:focus-visible,
+  .bcn-swac__delete:focus-visible { opacity: 1; }
+  .bcn-swac__edit:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
+  .bcn-swac__delete { padding: 0; color: var(--bcn-gray-400); }
+  .bcn-swac__delete:hover { color: var(--color-background-utility-danger); }
+
+  /* Whole tags drop, never half a word: the run wraps and only the first line is shown. */
+  .bcn-swac__tags { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-100); flex: 0 1 auto; min-width: 0; max-height: 1.25rem; overflow: hidden; white-space: nowrap; }
+  .bcn-swac__tag {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: var(--spacing-050) var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--bcn-gray-100);
+    color: var(--color-content-default);
+  }
+</style>

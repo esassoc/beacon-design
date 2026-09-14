@@ -1,52 +1,93 @@
 ---
-// Setup Wizard — step 5, Obligations. The step that reviews the standing duties
-// drafted from the approved requirements and approves the TAXONOMY in one act:
-// category > subcategory > obligation, all 402 rows, add / edit / remove inline,
-// one approval at the bottom (Beacon PM check-in, 2026-09-14).
+// Setup Wizard step 5 — Obligations, in the same clothes as step 4.
+//
+// One bordered top panel (numeral, serif title with the category chip and the count,
+// intro line) with Approve at the right of the title row; a filter row with search,
+// a class picker and the expand / collapse verbs; then one list panel holding the
+// taxonomy: category > subcategory > slim obligation card, every line at one small
+// size. A card opens the review modal; its pencil, or the modal's Edit, opens the
+// editor drawer. Nothing is expanded inline and there is no footer: the step's one
+// verb is Approve obligations, at the top.
+//
+// The tree and every count are derived from the ITP fixture (OBLIGATION_TAXONOMY).
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
-import BcnSwObligationsHeader from '../../../components/bcn/BcnSwObligationsHeader.astro';
-import BcnSwObligationsStats from '../../../components/bcn/BcnSwObligationsStats.astro';
-import BcnSwObligationsRouting from '../../../components/bcn/BcnSwObligationsRouting.astro';
-import BcnSwObligationsToolbar from '../../../components/bcn/BcnSwObligationsToolbar.astro';
+import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
+import BcnSwSelectChip from '../../../components/bcn/BcnSwSelectChip.astro';
+import BcnSwCountBadge from '../../../components/bcn/BcnSwCountBadge.astro';
+import BcnSwFilterRow from '../../../components/bcn/BcnSwFilterRow.astro';
 import BcnSwObligationsTree from '../../../components/bcn/BcnSwObligationsTree.astro';
+import BcnSwObligationsReviewDialog from '../../../components/bcn/BcnSwObligationsReviewDialog.astro';
 import BcnSwObligationsEditor from '../../../components/bcn/BcnSwObligationsEditor.astro';
-import BcnSwObligationsFooter from '../../../components/bcn/BcnSwObligationsFooter.astro';
 import { PROJECT } from '../../../data/project-dashboard';
-import { SETUP_STEPS, OBLIGATION_TAXONOMY } from '../../../data/setup-wizard';
+import { SETUP_STEPS, STEP_GLYPH, OBLIGATION_TAXONOMY, OBLIGATION_TOTALS } from '../../../data/setup-wizard';
 
-const step = SETUP_STEPS.find((s) => s.id === 'obligations')!;
+const STEP = SETUP_STEPS.find((s) => s.id === 'obligations')!;
+const total = OBLIGATION_TOTALS.obligations;
 
-// The record staged in the editor is the same one the tree renders expanded, so the
-// page shows one obligation in all three states: scanned, read, edited.
+// The editor drawer holds one real record so every field has something to show.
 const staged = OBLIGATION_TAXONOMY[0].subcategories[0].obligations[0];
 ---
 
 <!-- manifest:
-  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(xl)   # SPINE
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
   sections:
-    - step header + AI receipt -> bcn-sw-obligations-header    # numeral in the step colour, instruction, collapsed drafted-by band
-    - registry figures         -> bcn-sw-obligations-stats     # obligations / categories / subcategories / gates + the class split
-    - requirement routing      -> bcn-sw-obligations-routing   # the four exclusive buckets + the not-yet-routed disclosure
-    - list toolbar             -> bcn-sw-obligations-toolbar   # search, class filter, add verbs, expand / collapse
-    - the obligation list      -> bcn-sw-obligations-tree      # 17 categories > 69 subcategories > 402 rows (rows -> bcn-sw-obligations-row)
-    - edit record              -> bcn-sw-obligations-editor    # esa-side-dialog staged open on one obligation
-    - approval bar             -> bcn-sw-obligations-footer    # back to step 4, Approve obligations (402), Finish wizard
+    - wizard chrome     -> bcn-setup-wizard-frame          # compass mark, serif title, five-step pill nav with step 5 active
+    - step panel        -> bcn-sw-step-panel               # numeral, serif title with category chip (bcn-sw-select-chip) and count, Approve at right, intro
+    - filter row        -> bcn-sw-filter-row               # search, class picker, expand / collapse verbs
+    - obligation tree   -> bcn-sw-obligations-tree         # one list panel: category > subcategory > bcn-sw-obligation-card, one 13px size
+    - review one        -> bcn-sw-obligations-review-dialog  # modal a card opens: the whole record, read-only; Remove / Edit / Close
+    - edit one          -> bcn-sw-obligations-editor       # side drawer, closed until a pencil or the modal's Edit opens it
 -->
 
 <AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard">
   <PageLayout title="Setup Wizard" hideTitleRow>
     <BcnSetupWizardFrame active="obligations">
-      <div class="stack" data-gap="xl">
-        <BcnSwObligationsHeader n={step.n} token={step.token} />
-        <BcnSwObligationsStats />
-        <BcnSwObligationsRouting />
-        <BcnSwObligationsToolbar />
+      <div class="stack" data-gap="md">
+        <BcnSwStepPanel
+          n={STEP.n}
+          token={STEP.token}
+          intro="Review the standing obligations Beacon drafted from requirements that are not tracked as actions. Open any card to read the whole record, edit or remove what is wrong, then approve the set."
+        >
+          <Fragment slot="title">
+            <span>Obligations in</span>
+            <BcnSwSelectChip label="Category" value="All categories" />
+            <BcnSwCountBadge value={total} label={`${total} obligations`} />
+          </Fragment>
+          <Fragment slot="actions">
+            <EsaButton variant="primary" size="sm" title="Approve every obligation in this list">
+              <span class="sw-verb"><EsaIcon name="circle-check" size="xs" />Approve obligations ({total})</span>
+            </EsaButton>
+          </Fragment>
+          <BcnSwFilterRow
+            searchPlaceholder="Search obligations by title, class, species or commitment..."
+            searchName="swo-search"
+            pickers={[{ label: 'Class', value: 'All classes' }]}
+          >
+            <EsaButton variant="ghost" size="xs" data-swo-expand title="Open every category and subcategory">
+              <span class="sw-verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
+            </EsaButton>
+            <EsaButton variant="ghost" size="xs" data-swo-collapse title="Close every category and subcategory">
+              <span class="sw-verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
+            </EsaButton>
+            <EsaButton variant="ghost" size="xs" title="Add a category">
+              <span class="sw-verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />New category</span>
+            </EsaButton>
+          </BcnSwFilterRow>
+        </BcnSwStepPanel>
+
         <BcnSwObligationsTree />
-        <BcnSwObligationsFooter />
       </div>
+
+      <BcnSwObligationsReviewDialog />
       <BcnSwObligationsEditor obligation={staged} />
     </BcnSetupWizardFrame>
   </PageLayout>
 </AppShell>
+
+<style>
+  .sw-verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+</style>

@@ -1,223 +1,195 @@
 ---
-// <BcnSwObligationsTree> — the whole list, and the only place it exists.
+// <BcnSwObligationsTree> — the one list step 5 reviews: category > subcategory >
+// obligation, in the bordered panel prod's board uses, at ONE size (13px). Categories
+// and subcategories are native <details> rows — chevron, name, count, and the add /
+// edit / remove verbs that appear on hover — and the leaves are bcn-sw-obligation-card.
+// The first category and its first subcategory open on load; the rest sit collapsed
+// with their counts so the whole taxonomy fits one screen. The page's search box
+// (name `swo-search`) filters cards and opens the branches that still have matches;
+// `[data-swo-expand]` / `[data-swo-collapse]` open and close every branch.
 //
-// Category > subcategory > obligation, every one of the 402 rows rendered. What
-// makes that scannable is not fewer rows, it is a fixed column rhythm: --swo-grid
-// is declared here, once, and the header strip plus every row in all 17 categories
-// read it, so class, species, commitments and the verbs land in the same four
-// columns whatever depth a row sits at. Groups indent their HEADERS; they never pad
-// their bodies, which is what would knock those columns out of line.
-//
-// Two <details> tiers, no JS of their own. The first two categories open with their
-// subcategories; the remaining 15 are collapsed, so the page opens as 17 category
-// lines and one worked example rather than a 402-row wall. The toolbar's expand /
-// collapse and filter read the data-swo-* hooks below.
-//
-// bcn-lego-checked: checked esa-collapsible (string `title` only, no slot for a
-// name + count + scope line), esa-tab-layout (this is nesting, not siding-by-side),
-// esa-sidebar-nav (navigation, drops children when collapsed), and esa-table (the
-// group headers are not rows, and a row body inside a table needs colspan
-// gymnastics). The filter's no-results line is a plain <p> rather than
-// esa-empty-state: the lego is an icon + title + description block sized for an
-// empty PAGE, and this is one line inside a list that is not empty, only filtered.
-// The rows themselves are bcn-sw-obligations-row; the counts are the existing
-// bcn-count; the glyphs are esa-icon.
+// bcn-lego-checked: esa-tree-view is a selection tree with its own row chrome and no
+// slot for a card leaf; esa-accordion is one level of panels. Beacon has no taxonomy
+// tree. bcn-sw-obligations-tree is the reusable home; the leaf IS bcn-sw-obligation-card,
+// the counts ARE bcn-sw-count-badge, the glyphs are esa-icon.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import BcnCount from './BcnCount.astro';
-import BcnSwObligationsRow from './BcnSwObligationsRow.astro';
-import { OBLIGATION_TAXONOMY } from '../../data/setup-wizard';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnSwObligationCard from './BcnSwObligationCard.astro';
+import { OBLIGATION_TAXONOMY, OBLIGATION_TOTALS, STEP_GLYPH } from '../../data/setup-wizard';
 
-const CHEVRON = '<path d="m9 18 6-6-6-6"/>';
-
+interface Props {
+  title?: string;
+}
+const { title = 'Obligations' } = Astro.props;
+const total = OBLIGATION_TOTALS.obligations;
 ---
 
-<section class="bcn-swo-tree" data-swo-tree>
-  <div class="bcn-swo-tree__head">
-    <span></span>
-    <span>Obligation</span>
-    <span>Class</span>
-    <span>Species</span>
-    <span class="bcn-swo-tree__head-end">Commitments</span>
-    <span></span>
-    <span></span>
-  </div>
+<section class="bcn-swot" aria-label={title}>
+  <header class="bcn-swot__head">
+    <h2 class="bcn-swot__title">{title}</h2>
+    <BcnSwCountBadge value={total} label={`${total} obligations`} />
+    <span class="bcn-swot__shape">{OBLIGATION_TAXONOMY.length} categories · {OBLIGATION_TOTALS.subcategories} subcategories</span>
+    <p class="bcn-swot__nomatch" data-swo-nomatch hidden>No obligations match.</p>
+  </header>
 
-  {
-    OBLIGATION_TAXONOMY.map((cat, ci) => (
-      <details class="bcn-swo-cat" data-swo-cat open={ci < 2}>
-        <summary class="bcn-swo-cat__line">
-          <span class="bcn-swo-cat__caret" aria-hidden="true">
-            <EsaIcon name="chevron-right" paths={CHEVRON} size="sm" />
-          </span>
-          <span class="bcn-swo-cat__name">{cat.name}</span>
-          <span data-swo-count={cat.count}>
-            <BcnCount value={cat.count} label={`${cat.count} obligations`} />
+  <div class="bcn-swot__body">
+    {OBLIGATION_TAXONOMY.map((cat, ci) => (
+      <details class="bcn-swot__cat" data-swo-branch open={ci === 0}>
+        <summary class="bcn-swot__row bcn-swot__row--cat">
+          <span class="bcn-swot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <span class="bcn-swot__name">{cat.name}</span>
+          <BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} />
+          <span class="bcn-swot__verbs">
+            <button type="button" class="bcn-swot__verb" title="Rename category" aria-label="Rename category"><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
+            <button type="button" class="bcn-swot__verb" title="Add subcategory" aria-label="Add subcategory"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
+            <button type="button" class="bcn-swot__verb bcn-swot__verb--danger" title="Remove category" aria-label="Remove category"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
           </span>
         </summary>
-
-        {cat.subcategories.map((sub) => (
-          <details class="bcn-swo-sub" data-swo-sub open={ci < 2}>
-            <summary class="bcn-swo-sub__line">
-              <span class="bcn-swo-sub__caret" aria-hidden="true">
-                <EsaIcon name="chevron-right" paths={CHEVRON} size="sm" />
-              </span>
-              <span class="bcn-swo-sub__text">
-                <span class="bcn-swo-sub__name">{sub.name}</span>
-                <span class="bcn-swo-sub__scope">{sub.scope}</span>
-              </span>
-              <span data-swo-count={sub.obligations.length}>
-                <BcnCount value={sub.obligations.length} label={`${sub.obligations.length} obligations`} />
-              </span>
-            </summary>
-
-            <div class="bcn-swo-sub__rows">
-              {sub.obligations.map((o, oi) => (
-                <BcnSwObligationsRow obligation={o} open={ci === 0 && sub === cat.subcategories[0] && oi === 0} />
-              ))}
-            </div>
-          </details>
-        ))}
+        <div class="bcn-swot__subs">
+          {cat.subcategories.map((sub, si) => (
+            <details class="bcn-swot__sub" data-swo-branch open={ci === 0 && si === 0}>
+              <summary class="bcn-swot__row bcn-swot__row--sub">
+                <span class="bcn-swot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+                <span class="bcn-swot__name">{sub.name}</span>
+                <BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} />
+                <span class="bcn-swot__verbs">
+                  <button type="button" class="bcn-swot__verb" title="Rename subcategory" aria-label="Rename subcategory"><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
+                  <button type="button" class="bcn-swot__verb" title="Add obligation" aria-label="Add obligation"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
+                  <button type="button" class="bcn-swot__verb bcn-swot__verb--danger" title="Remove subcategory" aria-label="Remove subcategory"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
+                </span>
+              </summary>
+              <ul class="bcn-swot__cards">
+                {sub.obligations.map((o) => <BcnSwObligationCard obligation={o} />)}
+              </ul>
+            </details>
+          ))}
+        </div>
       </details>
-    ))
-  }
-
-  <p class="bcn-swo-tree__empty" data-swo-empty hidden>No obligation matches this filter.</p>
+    ))}
+  </div>
 </section>
 
+<script>
+  const root = document.querySelector<HTMLElement>('.bcn-swot');
+  if (root) {
+    const branches = [...root.querySelectorAll<HTMLDetailsElement>('[data-swo-branch]')];
+    const cards = [...root.querySelectorAll<HTMLElement>('[data-swo-card]')];
+    const nomatch = root.querySelector<HTMLElement>('[data-swo-nomatch]');
+    const setAll = (open: boolean) => branches.forEach((b) => (b.open = open));
+
+    document.querySelector('[data-swo-expand]')?.addEventListener('click', () => setAll(true));
+    document.querySelector('[data-swo-collapse]')?.addEventListener('click', () => setAll(false));
+
+    const search = document.querySelector<HTMLElement & { value: string }>('esa-text-field[name="swo-search"]');
+    const apply = () => {
+      const q = (search?.value ?? '').trim().toLowerCase();
+      let shown = 0;
+      cards.forEach((c) => {
+        const hit = !q || (c.dataset.search ?? '').includes(q);
+        c.hidden = !hit;
+        if (hit) shown++;
+      });
+      // A branch stays visible while any card under it is; searching opens the survivors.
+      branches.forEach((b) => {
+        const alive = [...b.querySelectorAll<HTMLElement>('[data-swo-card]')].some((c) => !c.hidden);
+        b.hidden = !alive;
+        if (q && alive) b.open = true;
+      });
+      if (nomatch) nomatch.hidden = shown > 0;
+    };
+    search?.addEventListener('input', apply);
+    search?.addEventListener('change', apply);
+  }
+</script>
+
 <style>
-  .bcn-swo-tree {
-    /* ONE column template for the header strip and all 402 rows. */
-    --swo-grid: 18px minmax(0, 1fr) 96px 190px 184px 132px 18px;
-
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-md);
+  .bcn-swot {
     background: var(--color-background-elevation-raised);
-    /* NO overflow:hidden. It would make this box the sticky containing block for
-       the header strip below, and since the box never scrolls the strip would
-       simply never stick. The corners are rounded on the first and last children
-       instead. */
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
   }
-
-  /* ── Column header strip ────────────────────────────────────────────────── */
-  .bcn-swo-tree__head {
-    display: grid;
-    grid-template-columns: var(--swo-grid);
-    column-gap: var(--spacing-200);
-    padding: var(--spacing-200) var(--spacing-300) var(--spacing-200) var(--spacing-700);
-    border-bottom: 1px solid var(--color-border-default);
-    background: var(--color-background-elevation-sunken);
-    font-size: var(--font-size-150);
-    font-weight: var(--typography-font-weight-semibold);
-    color: var(--color-content-default-secondary);
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    border-start-start-radius: var(--radius-md);
-    border-start-end-radius: var(--radius-md);
-  }
-  .bcn-swo-tree__head-end {
-    text-align: right;
-  }
-
-  /* ── Category ───────────────────────────────────────────────────────────── */
-  .bcn-swo-cat {
-    border-top: 1px solid var(--color-border-default);
-  }
-  .bcn-swo-cat:first-of-type {
-    border-top: 0;
-  }
-  .bcn-swo-cat:last-of-type > .bcn-swo-cat__line {
-    border-end-start-radius: var(--radius-md);
-    border-end-end-radius: var(--radius-md);
-  }
-  .bcn-swo-cat__line {
+  .bcn-swot__head {
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
-    padding: var(--spacing-250) var(--spacing-300);
-    cursor: pointer;
+    min-height: 48px;
+    padding: var(--spacing-200) var(--spacing-400);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-swot__title {
+    margin: 0;
+    font-family: var(--font-decorative);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .bcn-swot__shape { color: var(--color-content-default-tertiary); }
+  .bcn-swot__nomatch { margin: 0 0 0 auto; color: var(--color-content-default-tertiary); }
+
+  .bcn-swot__body { padding: var(--spacing-200) var(--spacing-400) var(--spacing-300); }
+
+  details[hidden] { display: none; }
+  .bcn-swot__cat + .bcn-swot__cat { border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-swot__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 32px;
+    padding: var(--spacing-100) var(--spacing-200);
+    border-radius: var(--radius-100);
     list-style: none;
-    background: var(--color-background-elevation-raised);
+    cursor: pointer;
+    user-select: none;
   }
-  .bcn-swo-cat__line::-webkit-details-marker {
-    display: none;
-  }
-  .bcn-swo-cat__line:hover {
-    background: var(--color-background-elevation-sunken);
-  }
-  .bcn-swo-cat__line:focus-visible {
-    outline: 2px solid var(--color-background-brand);
-    outline-offset: -2px;
-  }
-  .bcn-swo-cat__name {
-    font-size: var(--font-size-300);
-    font-weight: var(--typography-font-weight-semibold);
-    color: var(--color-content-default);
-  }
-  .bcn-swo-cat__caret,
-  .bcn-swo-sub__caret {
+  .bcn-swot__row::-webkit-details-marker { display: none; }
+  .bcn-swot__row:hover { background: var(--color-background-default); }
+  .bcn-swot__row:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
+  .bcn-swot__row--cat .bcn-swot__name { font-weight: 600; }
+  .bcn-swot__row--sub { margin-left: var(--spacing-500); }
+  .bcn-swot__row--sub .bcn-swot__name { font-weight: 500; }
+  .bcn-swot__chevron {
     display: inline-flex;
     flex-shrink: 0;
     color: var(--color-content-default-tertiary);
     transition: transform 120ms ease;
   }
-  .bcn-swo-cat[open] > .bcn-swo-cat__line .bcn-swo-cat__caret,
-  .bcn-swo-sub[open] > .bcn-swo-sub__line .bcn-swo-sub__caret {
-    transform: rotate(90deg);
-  }
+  details[open] > summary .bcn-swot__chevron { transform: rotate(90deg); }
+  .bcn-swot__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  /* ── Subcategory ────────────────────────────────────────────────────────── */
-  .bcn-swo-sub {
-    border-top: 1px solid var(--color-border-default-subtle);
+  .bcn-swot__verbs {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-050);
+    margin-left: auto;
+    opacity: 0;
+    transition: opacity 120ms ease;
   }
-  .bcn-swo-sub__line {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-200);
-    padding: var(--spacing-200) var(--spacing-300) var(--spacing-200) var(--spacing-500);
+  .bcn-swot__row:hover .bcn-swot__verbs,
+  .bcn-swot__row:focus-within .bcn-swot__verbs { opacity: 1; }
+  .bcn-swot__verb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-100);
+    color: var(--color-content-default-tertiary);
     cursor: pointer;
+  }
+  .bcn-swot__verb:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
+  .bcn-swot__verb--danger:hover { color: var(--color-background-utility-danger); }
+
+  .bcn-swot__subs { padding-bottom: var(--spacing-100); }
+  .bcn-swot__cards {
     list-style: none;
-  }
-  .bcn-swo-sub__line::-webkit-details-marker {
-    display: none;
-  }
-  .bcn-swo-sub__line:hover {
-    background: var(--color-background-elevation-sunken);
-  }
-  .bcn-swo-sub__line:focus-visible {
-    outline: 2px solid var(--color-background-brand);
-    outline-offset: -2px;
-  }
-  .bcn-swo-sub__caret {
-    margin-top: 2px;
-  }
-  .bcn-swo-sub__text {
+    margin: 0;
+    padding: var(--spacing-100) 0 var(--spacing-200) calc(var(--spacing-500) * 2);
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-    flex: 1;
-  }
-  .bcn-swo-sub__name {
-    font-size: var(--font-size-250);
-    font-weight: var(--typography-font-weight-semibold);
-    color: var(--color-content-default);
-  }
-  .bcn-swo-sub__scope {
-    max-width: 92ch;
-    font-size: var(--font-size-200);
-    line-height: 1.45;
-    color: var(--color-content-default-secondary);
-  }
-  .bcn-swo-sub__rows {
-    border-top: 1px solid var(--color-border-default-subtle);
-  }
-
-  .bcn-swo-tree__empty {
-    margin: 0;
-    padding: var(--spacing-600) var(--spacing-300);
-    text-align: center;
-    font-size: var(--font-size-250);
-    color: var(--color-content-default-secondary);
+    gap: var(--spacing-100);
   }
 </style>
