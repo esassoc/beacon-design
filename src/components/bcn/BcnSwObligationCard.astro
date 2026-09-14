@@ -31,31 +31,31 @@ const { obligation: o, open = false } = Astro.props;
 <li class="bcn-swoc" data-swo-card data-id={o.id} data-class={o.class} draggable="true" data-swo-drag="obligation">
   <details class="bcn-swoc__node" data-swo-branch open={open}>
     <summary class="bcn-swoc__main" data-swo-drop="obligation">
-      <span class="bcn-swoc__grip" aria-hidden="true" title="Drag to another subcategory"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span>
+      <esa-tooltip text="Drag to move"><span class="bcn-swoc__grip" aria-hidden="true"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span></esa-tooltip>
       <span class="bcn-swoc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
       <span class="bcn-swoc__class" data-swo-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
-      <button type="button" class="bcn-swoc__title" data-swo-open data-swo-text={o.title} title="Open this obligation">{o.title}</button>
+      <button type="button" class="bcn-swoc__title" data-swo-open data-swo-text={o.title}>{o.title}</button>
       <span data-swo-count="obligation"><BcnSwCountBadge value={o.requirements.length} label={`${o.requirements.length} requirements`} /></span>
-      <button type="button" class="bcn-swoc__verb" title="Edit obligation" aria-label="Edit obligation" data-swo-open>
+      <esa-tooltip text="Edit"><button type="button" class="bcn-swoc__verb" aria-label="Edit obligation" data-swo-open>
         <EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} />
-      </button>
-      <button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" title="Remove obligation" aria-label="Remove obligation" data-swo-remove>
+      </button></esa-tooltip>
+      <esa-tooltip text="Remove"><button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" aria-label="Remove obligation" data-swo-remove>
         <EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} />
-      </button>
+      </button></esa-tooltip>
     </summary>
     <ul class="bcn-swoc__reqs">
       {o.requirements.map((r) => (
         <li class="bcn-swoc__req" draggable="true" data-swo-drag="requirement" data-req={r.id} data-code={r.code}>
-          <span class="bcn-swoc__grip" aria-hidden="true" title="Drag to another obligation"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span>
+          <esa-tooltip text="Drag to move"><span class="bcn-swoc__grip" aria-hidden="true"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span></esa-tooltip>
           <BcnCommitmentBadge code={r.code} size="sm" />
           <span class="bcn-swoc__req-name" data-swo-text={r.name}>{r.name}</span>
           {r.inActions > 0 && <span class="bcn-swoc__also">also in {r.inActions} {r.inActions === 1 ? 'action' : 'actions'}</span>}
-          <button type="button" class="bcn-swoc__verb" title="Duplicate requirement (then drag the copy elsewhere)" aria-label="Duplicate requirement" data-swo-dup>
+          <esa-tooltip text="Duplicate"><button type="button" class="bcn-swoc__verb" aria-label="Duplicate requirement" data-swo-dup>
             <EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} />
-          </button>
-          <button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" title="Unlink from this obligation" aria-label="Unlink requirement" data-swo-unlink>
+          </button></esa-tooltip>
+          <esa-tooltip text="Unlink"><button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" aria-label="Unlink requirement" data-swo-unlink>
             <EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} />
-          </button>
+          </button></esa-tooltip>
         </li>
       ))}
     </ul>
@@ -135,6 +135,8 @@ const { obligation: o, open = false } = Astro.props;
   .bcn-swoc__title:hover { text-decoration: underline; text-underline-offset: 2px; }
   .bcn-swoc__title:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 2px; border-radius: 2px; }
 
+  /* Each verb and grip sits in an esa-tooltip; inline-flex so the row has no text baseline to honour. */
+  .bcn-swoc esa-tooltip { display: inline-flex; }
   .bcn-swoc__verb {
     display: inline-flex;
     align-items: center;

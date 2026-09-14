@@ -94,9 +94,9 @@ const DATA = JSON.stringify({
         <span class="bcn-swo-edit__req-name"></span>
         <span class="bcn-swo-edit__also"></span>
         <span class="bcn-swo-edit__req-verbs">
-          <button type="button" class="bcn-swo-edit__x" title="Duplicate (a copy in this obligation)" aria-label="Duplicate requirement" data-swo-req-verb="dup"><EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} /></button>
-          <button type="button" class="bcn-swo-edit__x" title="Move to another obligation" aria-label="Move requirement" data-swo-req-verb="move"><EsaIcon name="arrow-right" size="xs" /></button>
-          <button type="button" class="bcn-swo-edit__x bcn-swo-edit__x--danger" title="Unlink from this obligation" aria-label="Unlink requirement" data-swo-req-verb="unlink"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
+          <esa-tooltip text="Duplicate"><button type="button" class="bcn-swo-edit__x" aria-label="Duplicate requirement" data-swo-req-verb="dup"><EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} /></button></esa-tooltip>
+          <esa-tooltip text="Move"><button type="button" class="bcn-swo-edit__x" aria-label="Move requirement" data-swo-req-verb="move"><EsaIcon name="arrow-right" size="xs" /></button></esa-tooltip>
+          <esa-tooltip text="Unlink"><button type="button" class="bcn-swo-edit__x bcn-swo-edit__x--danger" aria-label="Unlink requirement" data-swo-req-verb="unlink"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
         </span>
       </summary>
       <blockquote class="bcn-swo-edit__text"></blockquote>
@@ -147,6 +147,7 @@ const DATA = JSON.stringify({
   import '@esa/ecology/esa-textarea';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-tooltip';
 
   type Obl = { title: string; class: string; trigger: string; cat: string; sub: string };
   type Req = { code: string; name: string; text: string; inActions: number };
@@ -503,6 +504,7 @@ const DATA = JSON.stringify({
 
 <style is:global>
   /* Rows in both drawers are stamped by script, outside the scope id. */
+  .bcn-swo-edit__req-verbs esa-tooltip { display: inline-flex; }
   .bcn-swo-edit__x { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: none; background: transparent; border-radius: var(--radius-100); color: var(--color-content-default-tertiary); cursor: pointer; }
   .bcn-swo-edit__x:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
   .bcn-swo-edit__x--danger:hover { color: var(--color-background-utility-danger); }

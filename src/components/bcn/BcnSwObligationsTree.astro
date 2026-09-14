@@ -44,9 +44,9 @@ const { title = 'Obligations' } = Astro.props;
           <span class="bcn-swot__name" data-swo-name>{cat.name}</span>
           <span data-swo-count="cat"><BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} /></span>
           <span class="bcn-swot__verbs">
-            <button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" title="Rename category" aria-label="Rename category" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
-            <button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" title="Remove category" aria-label="Remove category" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
-            <button type="button" class="bcn-swot__verb" title="Add a subcategory" aria-label="Add a subcategory" data-swo-add-sub><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
+            <esa-tooltip text="Rename"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" aria-label="Rename category" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+            <esa-tooltip text="Remove"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" aria-label="Remove category" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+            <esa-tooltip text="Add subcategory" align="end"><button type="button" class="bcn-swot__verb" aria-label="Add a subcategory" data-swo-add-sub><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
           </span>
         </summary>
         <div class="bcn-swot__subs" data-swo-subs>
@@ -57,11 +57,11 @@ const { title = 'Obligations' } = Astro.props;
                 <span class="bcn-swot__name" data-swo-name>{sub.name}</span>
                 <span data-swo-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
                 <span class="bcn-swot__verbs">
-                  <button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" title="Rename subcategory" aria-label="Rename subcategory" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
-                  <button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" title="Remove subcategory" aria-label="Remove subcategory" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
-                  <button type="button" class="bcn-swot__verb" title="Expand every obligation here down to its requirements" aria-label="Expand to requirements" data-swo-sub-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button>
-                  <button type="button" class="bcn-swot__verb" title="Collapse this subcategory" aria-label="Collapse" data-swo-sub-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button>
-                  <button type="button" class="bcn-swot__verb" title="Add an obligation here" aria-label="Add an obligation" data-swo-add-obl><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
+                  <esa-tooltip text="Rename"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" aria-label="Rename subcategory" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                  <esa-tooltip text="Remove"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" aria-label="Remove subcategory" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+                  <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-swot__verb" aria-label="Expand to requirements" data-swo-sub-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+                  <esa-tooltip text="Collapse"><button type="button" class="bcn-swot__verb" aria-label="Collapse" data-swo-sub-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
+                  <esa-tooltip text="Add obligation" align="end"><button type="button" class="bcn-swot__verb" aria-label="Add an obligation" data-swo-add-obl><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
                 </span>
               </summary>
               <ul class="bcn-swot__cards" data-swo-drop="subcategory" data-swo-cards>
@@ -75,7 +75,7 @@ const { title = 'Obligations' } = Astro.props;
   </div>
 
   <footer class="bcn-swot__foot">
-    <EsaButton variant="secondary" appearance="outline" size="sm" data-swo-add-cat title="Add a category at the end of the list">
+    <EsaButton variant="secondary" appearance="outline" size="sm" data-swo-add-cat>
       <span class="bcn-swot__foot-verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />New category</span>
     </EsaButton>
   </footer>
@@ -88,11 +88,11 @@ const { title = 'Obligations' } = Astro.props;
         <span class="bcn-swot__name" data-swo-name>New subcategory</span>
         <span data-swo-count="sub"><BcnSwCountBadge value={0} /></span>
         <span class="bcn-swot__verbs">
-          <button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" title="Rename subcategory" aria-label="Rename subcategory" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
-          <button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" title="Remove subcategory" aria-label="Remove subcategory" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
-          <button type="button" class="bcn-swot__verb" title="Expand every obligation here down to its requirements" aria-label="Expand to requirements" data-swo-sub-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button>
-          <button type="button" class="bcn-swot__verb" title="Collapse this subcategory" aria-label="Collapse" data-swo-sub-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button>
-          <button type="button" class="bcn-swot__verb" title="Add an obligation here" aria-label="Add an obligation" data-swo-add-obl><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
+          <esa-tooltip text="Rename"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" aria-label="Rename subcategory" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+          <esa-tooltip text="Remove"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" aria-label="Remove subcategory" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+          <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-swot__verb" aria-label="Expand to requirements" data-swo-sub-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+          <esa-tooltip text="Collapse"><button type="button" class="bcn-swot__verb" aria-label="Collapse" data-swo-sub-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
+          <esa-tooltip text="Add obligation" align="end"><button type="button" class="bcn-swot__verb" aria-label="Add an obligation" data-swo-add-obl><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
         </span>
       </summary>
       <ul class="bcn-swot__cards" data-swo-drop="subcategory" data-swo-cards></ul>
@@ -105,9 +105,9 @@ const { title = 'Obligations' } = Astro.props;
         <span class="bcn-swot__name" data-swo-name>New category</span>
         <span data-swo-count="cat"><BcnSwCountBadge value={0} /></span>
         <span class="bcn-swot__verbs">
-          <button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" title="Rename category" aria-label="Rename category" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
-          <button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" title="Remove category" aria-label="Remove category" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
-          <button type="button" class="bcn-swot__verb" title="Add a subcategory" aria-label="Add a subcategory" data-swo-add-sub><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
+          <esa-tooltip text="Rename"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" aria-label="Rename category" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+          <esa-tooltip text="Remove"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" aria-label="Remove category" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+          <esa-tooltip text="Add subcategory" align="end"><button type="button" class="bcn-swot__verb" aria-label="Add a subcategory" data-swo-add-sub><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
         </span>
       </summary>
       <div class="bcn-swot__subs" data-swo-subs></div>
@@ -128,6 +128,7 @@ const { title = 'Obligations' } = Astro.props;
 
 <script>
   import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-tooltip';
 
   const root = document.querySelector<HTMLElement>('.bcn-swot');
   if (root) {
@@ -502,6 +503,9 @@ const { title = 'Obligations' } = Astro.props;
 
   /* Right-aligned icon set: add / expand / collapse always showing; rename and remove on hover. */
   .bcn-swot__verbs { display: inline-flex; gap: 2px; margin-left: auto; }
+  /* Each icon button sits in an esa-tooltip; the host is inline-block by default, which
+     would give the row a text baseline to align to. */
+  .bcn-swot__verbs esa-tooltip { display: inline-flex; }
   .bcn-swot__verb--quiet { opacity: 0; transition: opacity 120ms ease; }
   .bcn-swot__row:hover .bcn-swot__verb--quiet, .bcn-swot__verb--quiet:focus-visible { opacity: 1; }
   .bcn-swot__verb {
