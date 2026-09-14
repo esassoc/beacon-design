@@ -1,64 +1,77 @@
 ---
-// <BcnSwObligationsTree> — the one list step 5 reviews: category > subcategory >
-// obligation, in the bordered panel prod's board uses, at ONE size (13px). Categories
-// and subcategories are native <details> rows — chevron, name, count, and the add /
-// edit / remove verbs that appear on hover — and the leaves are bcn-sw-obligation-card.
-// The first category and its first subcategory open on load; the rest sit collapsed
-// with their counts so the whole taxonomy fits one screen. The page's search box
-// (name `swo-search`) filters cards and opens the branches that still have matches;
-// `[data-swo-expand]` / `[data-swo-collapse]` open and close every branch.
+// <BcnSwObligationsTree> — the one list step 5 reviews, four levels deep:
+// CATEGORY > SUBCATEGORY > OBLIGATION > REQUIREMENT(S). Categories and subcategories
+// are native <details> rows — chevron, name, count, an always-visible + on categories
+// (add a subcategory) and the rename / remove verbs that appear on hover. The leaves
+// are bcn-sw-obligation-card, each folding open to its requirements. "New category"
+// is the panel's footer.
+//
+// Everything is native HTML5 drag and drop: an obligation drags into any subcategory;
+// a requirement drags into another obligation, or onto a subcategory row to start a
+// fresh obligation there. Holding Option while dropping COPIES instead of moving, and
+// the card's Duplicate verb makes a copy in place so it can be dragged elsewhere —
+// a requirement may sit in several obligations. Counts re-tally after every move.
+//
+// The page's search box (name `swo-search`) filters cards, opens the branches that
+// still have matches, and wraps every hit in <mark>. `[data-swo-expand]` /
+// `[data-swo-collapse]` open and close every branch.
 //
 // bcn-lego-checked: esa-tree-view is a selection tree with its own row chrome and no
-// slot for a card leaf; esa-accordion is one level of panels. Beacon has no taxonomy
-// tree. bcn-sw-obligations-tree is the reusable home; the leaf IS bcn-sw-obligation-card,
-// the counts ARE bcn-sw-count-badge, the glyphs are esa-icon.
+// card leaf or drag contract; esa-accordion is one level of panels. Beacon has no
+// taxonomy tree. bcn-sw-obligations-tree is the reusable home; the leaf IS
+// bcn-sw-obligation-card, the counts ARE bcn-sw-count-badge, the footer verb IS
+// esa-button, the glyphs are esa-icon.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import BcnSwObligationCard from './BcnSwObligationCard.astro';
-import { OBLIGATION_TAXONOMY, OBLIGATION_TOTALS, STEP_GLYPH } from '../../data/setup-wizard';
+import { OBLIGATION_TREE, OBLIGATION_TREE_TOTALS, STEP_GLYPH } from '../../data/setup-wizard';
 
 interface Props {
   title?: string;
 }
 const { title = 'Obligations' } = Astro.props;
-const total = OBLIGATION_TOTALS.obligations;
+const T = OBLIGATION_TREE_TOTALS;
 ---
 
 <section class="bcn-swot" aria-label={title}>
   <header class="bcn-swot__head">
     <h2 class="bcn-swot__title">{title}</h2>
-    <BcnSwCountBadge value={total} label={`${total} obligations`} />
-    <span class="bcn-swot__shape">{OBLIGATION_TAXONOMY.length} categories · {OBLIGATION_TOTALS.subcategories} subcategories</span>
+    <span data-swo-count="total"><BcnSwCountBadge value={T.obligations} label={`${T.obligations} obligations`} /></span>
+    <span class="bcn-swot__shape" data-swo-shape>{T.categories} categories · {T.subcategories} subcategories · {T.requirementLinks} requirement links</span>
+    <span class="bcn-swot__hint">Drag to refile · hold ⌥ to copy</span>
     <p class="bcn-swot__nomatch" data-swo-nomatch hidden>No obligations match.</p>
   </header>
 
-  <div class="bcn-swot__body">
-    {OBLIGATION_TAXONOMY.map((cat, ci) => (
-      <details class="bcn-swot__cat" data-swo-branch open={ci === 0}>
+  <div class="bcn-swot__body" data-swo-cats>
+    {OBLIGATION_TREE.map((cat, ci) => (
+      <details class="bcn-swot__cat" data-swo-branch data-swo-cat={cat.id} open={ci === 0}>
         <summary class="bcn-swot__row bcn-swot__row--cat">
           <span class="bcn-swot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
-          <span class="bcn-swot__name">{cat.name}</span>
-          <BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} />
+          <span class="bcn-swot__name" data-swo-name>{cat.name}</span>
+          <span data-swo-count="cat"><BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} /></span>
+          <button type="button" class="bcn-swot__add" title="Add a subcategory" aria-label="Add a subcategory" data-swo-add-sub>
+            <EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /><span>Subcategory</span>
+          </button>
           <span class="bcn-swot__verbs">
-            <button type="button" class="bcn-swot__verb" title="Rename category" aria-label="Rename category"><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
-            <button type="button" class="bcn-swot__verb" title="Add subcategory" aria-label="Add subcategory"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
-            <button type="button" class="bcn-swot__verb bcn-swot__verb--danger" title="Remove category" aria-label="Remove category"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
+            <button type="button" class="bcn-swot__verb" title="Rename category" aria-label="Rename category" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
+            <button type="button" class="bcn-swot__verb bcn-swot__verb--danger" title="Remove category" aria-label="Remove category" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
           </span>
         </summary>
-        <div class="bcn-swot__subs">
+        <div class="bcn-swot__subs" data-swo-subs>
           {cat.subcategories.map((sub, si) => (
-            <details class="bcn-swot__sub" data-swo-branch open={ci === 0 && si === 0}>
-              <summary class="bcn-swot__row bcn-swot__row--sub">
+            <details class="bcn-swot__sub" data-swo-branch data-swo-sub={sub.id} open={ci === 0 && si === 0}>
+              <summary class="bcn-swot__row bcn-swot__row--sub" data-swo-drop="subcategory">
                 <span class="bcn-swot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
-                <span class="bcn-swot__name">{sub.name}</span>
-                <BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} />
+                <span class="bcn-swot__name" data-swo-name>{sub.name}</span>
+                <span data-swo-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
                 <span class="bcn-swot__verbs">
-                  <button type="button" class="bcn-swot__verb" title="Rename subcategory" aria-label="Rename subcategory"><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
-                  <button type="button" class="bcn-swot__verb" title="Add obligation" aria-label="Add obligation"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
-                  <button type="button" class="bcn-swot__verb bcn-swot__verb--danger" title="Remove subcategory" aria-label="Remove subcategory"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
+                  <button type="button" class="bcn-swot__verb" title="Rename subcategory" aria-label="Rename subcategory" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
+                  <button type="button" class="bcn-swot__verb" title="Add an obligation here" aria-label="Add an obligation" data-swo-add-obl><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
+                  <button type="button" class="bcn-swot__verb bcn-swot__verb--danger" title="Remove subcategory" aria-label="Remove subcategory" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
                 </span>
               </summary>
-              <ul class="bcn-swot__cards">
+              <ul class="bcn-swot__cards" data-swo-drop="subcategory" data-swo-cards>
                 {sub.obligations.map((o) => <BcnSwObligationCard obligation={o} />)}
               </ul>
             </details>
@@ -67,107 +80,412 @@ const total = OBLIGATION_TOTALS.obligations;
       </details>
     ))}
   </div>
+
+  <footer class="bcn-swot__foot">
+    <EsaButton variant="secondary" appearance="outline" size="sm" data-swo-add-cat title="Add a category at the end of the list">
+      <span class="bcn-swot__foot-verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />New category</span>
+    </EsaButton>
+  </footer>
+
+  <!-- Stamps for what the verbs create: a subcategory, a category, an obligation. -->
+  <template data-swo-tpl="sub">
+    <details class="bcn-swot__sub" data-swo-branch open>
+      <summary class="bcn-swot__row bcn-swot__row--sub" data-swo-drop="subcategory">
+        <span class="bcn-swot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+        <span class="bcn-swot__name" data-swo-name>New subcategory</span>
+        <span data-swo-count="sub"><BcnSwCountBadge value={0} /></span>
+        <span class="bcn-swot__verbs">
+          <button type="button" class="bcn-swot__verb" title="Rename subcategory" aria-label="Rename subcategory" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
+          <button type="button" class="bcn-swot__verb" title="Add an obligation here" aria-label="Add an obligation" data-swo-add-obl><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button>
+          <button type="button" class="bcn-swot__verb bcn-swot__verb--danger" title="Remove subcategory" aria-label="Remove subcategory" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
+        </span>
+      </summary>
+      <ul class="bcn-swot__cards" data-swo-drop="subcategory" data-swo-cards></ul>
+    </details>
+  </template>
+  <template data-swo-tpl="cat">
+    <details class="bcn-swot__cat" data-swo-branch open>
+      <summary class="bcn-swot__row bcn-swot__row--cat">
+        <span class="bcn-swot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+        <span class="bcn-swot__name" data-swo-name>New category</span>
+        <span data-swo-count="cat"><BcnSwCountBadge value={0} /></span>
+        <button type="button" class="bcn-swot__add" title="Add a subcategory" aria-label="Add a subcategory" data-swo-add-sub>
+          <EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /><span>Subcategory</span>
+        </button>
+        <span class="bcn-swot__verbs">
+          <button type="button" class="bcn-swot__verb" title="Rename category" aria-label="Rename category" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button>
+          <button type="button" class="bcn-swot__verb bcn-swot__verb--danger" title="Remove category" aria-label="Remove category" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
+        </span>
+      </summary>
+      <div class="bcn-swot__subs" data-swo-subs></div>
+    </details>
+  </template>
+  <template data-swo-tpl="obl">
+    <BcnSwObligationCard open obligation={{ id: 'new', title: 'New obligation', class: 'adhere', phases: [], species: [], activities: [], trigger: '', thresholds: [], gate: false, requirements: [] }} />
+  </template>
 </section>
 
 <script>
   const root = document.querySelector<HTMLElement>('.bcn-swot');
   if (root) {
-    const branches = [...root.querySelectorAll<HTMLDetailsElement>('[data-swo-branch]')];
-    const cards = [...root.querySelectorAll<HTMLElement>('[data-swo-card]')];
-    const nomatch = root.querySelector<HTMLElement>('[data-swo-nomatch]');
-    const setAll = (open: boolean) => branches.forEach((b) => (b.open = open));
+    const q = <T extends Element>(sel: string, from: ParentNode = root) => from.querySelector<T>(sel);
+    const qa = <T extends Element>(sel: string, from: ParentNode = root) => [...from.querySelectorAll<T>(sel)];
+    const tpl = (name: string) => (q<HTMLTemplateElement>(`template[data-swo-tpl="${name}"]`)!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+    const badgeOf = (host: Element | null) => host?.querySelector<HTMLElement>('.bcn-swcb') ?? null;
+    const nomatch = q<HTMLElement>('[data-swo-nomatch]');
+    let seq = 0;
 
+    // ---- Counts: obligation = its requirements; subcategory = its cards; category = sum.
+    const recount = () => {
+      qa<HTMLElement>('[data-swo-card]').forEach((card) => {
+        const n = card.querySelectorAll('.bcn-swoc__req').length;
+        const b = badgeOf(card.querySelector('[data-swo-count="obligation"]'));
+        if (b) { b.textContent = String(n); b.setAttribute('aria-label', `${n} requirements`); }
+      });
+      let total = 0;
+      qa<HTMLDetailsElement>('[data-swo-cat]').forEach((cat) => {
+        let catN = 0;
+        qa<HTMLDetailsElement>('.bcn-swot__sub', cat).forEach((sub) => {
+          const n = sub.querySelectorAll('[data-swo-card]').length;
+          catN += n;
+          const b = badgeOf(sub.querySelector('[data-swo-count="sub"]'));
+          if (b) { b.textContent = String(n); b.setAttribute('aria-label', `${n} obligations`); }
+        });
+        total += catN;
+        const b = badgeOf(cat.querySelector('[data-swo-count="cat"]'));
+        if (b) { b.textContent = String(catN); b.setAttribute('aria-label', `${catN} obligations`); }
+      });
+      [q('[data-swo-count="total"]'), document.querySelector('[data-swo-count="title"]')].forEach((h) => {
+        const b = badgeOf(h);
+        if (b) b.textContent = String(total);
+      });
+      const shape = q<HTMLElement>('[data-swo-shape]');
+      if (shape) {
+        const cats = qa('[data-swo-cat]').length;
+        const subs = qa('.bcn-swot__sub').length;
+        const links = qa('.bcn-swoc__req').length;
+        shape.textContent = `${cats} categories · ${subs} subcategories · ${links} requirement links`;
+      }
+      document.querySelectorAll<HTMLElement>('[data-swo-total]').forEach((el) => (el.textContent = `(${total})`));
+    };
+
+    // ---- Expand / collapse.
+    const branches = () => qa<HTMLDetailsElement>('[data-swo-branch]');
+    const setAll = (open: boolean) => branches().forEach((b) => (b.open = open));
+    document.addEventListener('swo:changed', recount);
     document.querySelector('[data-swo-expand]')?.addEventListener('click', () => setAll(true));
     document.querySelector('[data-swo-collapse]')?.addEventListener('click', () => setAll(false));
 
-    const search = document.querySelector<HTMLElement & { value: string }>('esa-text-field[name="swo-search"]');
-    const apply = () => {
-      const q = (search?.value ?? '').trim().toLowerCase();
-      let shown = 0;
-      cards.forEach((c) => {
-        const hit = !q || (c.dataset.search ?? '').includes(q);
-        c.hidden = !hit;
-        if (hit) shown++;
-      });
-      // A branch stays visible while any card under it is; searching opens the survivors.
-      branches.forEach((b) => {
-        const alive = [...b.querySelectorAll<HTMLElement>('[data-swo-card]')].some((c) => !c.hidden);
-        b.hidden = !alive;
-        if (q && alive) b.open = true;
-      });
-      if (nomatch) nomatch.hidden = shown > 0;
+    // ---- Search with <mark> hit highlighting. Every searchable span keeps its original
+    // text in data-swo-text; the query rewrites innerHTML with the hits wrapped.
+    const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+    const rx = (needle: string) => new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    const paint = (el: HTMLElement, needle: string) => {
+      const text = el.dataset.swoText ?? el.textContent ?? '';
+      if (!needle) { el.textContent = text; return false; }
+      const re = rx(needle);
+      if (!re.test(text)) { el.textContent = text; return false; }
+      el.innerHTML = esc(text).replace(rx(needle), (m) => `<mark class="bcn-swot__hit">${m}</mark>`);
+      return true;
     };
-    search?.addEventListener('input', apply);
-    search?.addEventListener('change', apply);
+    // A hit at any level keeps that level and everything under it: a category name
+    // that matches shows the whole category; an obligation or requirement that matches
+    // shows its card and opens the branches above it.
+    const cardHit = (card: HTMLElement, needle: string) => {
+      const title = card.querySelector<HTMLElement>('.bcn-swoc__title')!;
+      const titleHit = paint(title, needle);
+      const classHit = !!needle && (card.dataset.class ?? '').toLowerCase().includes(needle.toLowerCase());
+      let reqHit = false;
+      card.querySelectorAll<HTMLElement>('.bcn-swoc__req').forEach((row) => {
+        const name = row.querySelector<HTMLElement>('.bcn-swoc__req-name')!;
+        const nameHit = paint(name, needle);
+        const codeHit = !!needle && (row.dataset.code ?? '').toLowerCase().includes(needle.toLowerCase());
+        row.querySelector<HTMLElement>('.bcn-cbadge')?.classList.toggle('bcn-swot__hit-chip', codeHit);
+        reqHit = reqHit || nameHit || codeHit;
+      });
+      if (needle && reqHit) (card.querySelector('details') as HTMLDetailsElement).open = true;
+      return titleHit || classHit || reqHit;
+    };
+    const applyQuery = (raw: string) => {
+      const needle = raw.trim();
+      let shown = 0;
+      qa<HTMLDetailsElement>('[data-swo-cat]').forEach((cat) => {
+        const catHit = paint(cat.querySelector<HTMLElement>(':scope > summary [data-swo-name]')!, needle);
+        let catAny = false;
+        qa<HTMLDetailsElement>('.bcn-swot__sub', cat).forEach((sub) => {
+          const subHit = paint(sub.querySelector<HTMLElement>(':scope > summary [data-swo-name]')!, needle);
+          let subAny = false;
+          qa<HTMLElement>('[data-swo-card]', sub).forEach((card) => {
+            const own = cardHit(card, needle); // painted even when the branch above already matched
+            const hit = !needle || catHit || subHit || own;
+            card.hidden = !hit;
+            if (hit) { shown++; subAny = true; }
+          });
+          const keep = !needle || subHit || subAny;
+          sub.hidden = !keep;
+          if (needle && keep) sub.open = true;
+          catAny = catAny || keep;
+        });
+        const keep = !needle || catHit || catAny;
+        cat.hidden = !keep;
+        if (needle && keep) cat.open = true;
+      });
+      if (nomatch) nomatch.hidden = shown > 0 || !needle;
+    };
+    const search = document.querySelector<HTMLElement & { value: string }>('esa-text-field[name="swo-search"]');
+    if (search) {
+      const read = () => search.value ?? search.shadowRoot?.querySelector('input')?.value ?? '';
+      search.addEventListener('input', () => applyQuery(read()));
+      search.addEventListener('change', () => applyQuery(read()));
+    }
+
+    // ---- Drag and drop. `dragged` is the element in flight; its kind decides which
+    // targets accept it. Option at drop time copies instead of moving.
+    let dragged: HTMLElement | null = null;
+    let kind: 'obligation' | 'requirement' | null = null;
+    // An obligation in flight only cares about subcategories, so a drop anywhere inside
+    // a subcategory's list — including on another card — refiles it there. A requirement
+    // lands on the obligation under the pointer, or on a subcategory row / empty list.
+    const resolve = (from: HTMLElement): HTMLElement | null => {
+      if (kind === 'obligation') return from.closest<HTMLElement>('[data-swo-drop="subcategory"]');
+      if (kind === 'requirement') return from.closest<HTMLElement>('[data-swo-drop]');
+      return null;
+    };
+    const cardsOf = (drop: HTMLElement): HTMLElement => {
+      if (drop.matches('[data-swo-cards]')) return drop;
+      const sub = drop.closest<HTMLElement>('.bcn-swot__sub')!;
+      return sub.querySelector<HTMLElement>('[data-swo-cards]')!;
+    };
+    const flash = (el: HTMLElement) => { el.classList.add('is-new'); setTimeout(() => el.classList.remove('is-new'), 1000); };
+
+    root.addEventListener('dragstart', (e) => {
+      const el = (e.target as HTMLElement).closest<HTMLElement>('[data-swo-drag]');
+      if (!el) return;
+      dragged = el;
+      kind = el.dataset.swoDrag as typeof kind;
+      el.classList.add('is-dragging');
+      e.dataTransfer?.setData('text/plain', el.dataset.id ?? el.dataset.req ?? '');
+      if (e.dataTransfer) e.dataTransfer.effectAllowed = 'copyMove';
+    });
+    root.addEventListener('dragend', () => {
+      dragged?.classList.remove('is-dragging');
+      qa('.is-over').forEach((el) => el.classList.remove('is-over'));
+      dragged = null; kind = null;
+    });
+    root.addEventListener('dragover', (e) => {
+      const target = dragged ? resolve(e.target as HTMLElement) : null;
+      if (!target || !dragged) return;
+      if (kind === 'requirement' && target.dataset.swoDrop === 'obligation' && target.closest('[data-swo-card]')?.contains(dragged)) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = e.altKey ? 'copy' : 'move';
+      qa('.is-over').forEach((el) => el !== target && el.classList.remove('is-over'));
+      target.classList.add('is-over');
+    });
+    root.addEventListener('dragleave', (e) => {
+      const target = dragged ? resolve(e.target as HTMLElement) : null;
+      if (target && !target.contains(e.relatedTarget as Node)) target.classList.remove('is-over');
+    });
+    root.addEventListener('drop', (e) => {
+      const target = dragged ? resolve(e.target as HTMLElement) : null;
+      if (!target || !dragged) return;
+      e.preventDefault();
+      target.classList.remove('is-over');
+      const copy = e.altKey;
+      const moving = copy ? (dragged.cloneNode(true) as HTMLElement) : dragged;
+      moving.classList.remove('is-dragging');
+      if (kind === 'obligation') {
+        if (copy) moving.dataset.id = `${moving.dataset.id}-copy-${++seq}`;
+        const list = cardsOf(target);
+        list.prepend(moving);
+        (list.closest('details') as HTMLDetailsElement).open = true;
+      } else if (target.dataset.swoDrop === 'obligation') {
+        const card = target.closest<HTMLElement>('[data-swo-card]')!;
+        card.querySelector('.bcn-swoc__reqs')!.prepend(moving);
+        (card.querySelector('details') as HTMLDetailsElement).open = true;
+      } else {
+        // A requirement dropped on a subcategory starts a fresh obligation there.
+        const list = cardsOf(target);
+        const card = tpl('obl');
+        card.dataset.id = `new-${++seq}`;
+        card.querySelector<HTMLElement>('.bcn-swoc__title')!.textContent = moving.querySelector('.bcn-swoc__req-name')?.textContent ?? 'New obligation';
+        card.querySelector('.bcn-swoc__reqs')!.append(moving);
+        list.prepend(card);
+        (list.closest('details') as HTMLDetailsElement).open = true;
+        flash(card);
+      }
+      flash(moving);
+      recount();
+    });
+
+    // ---- Verbs: duplicate / unlink a requirement, remove an obligation, add / rename /
+    // remove branches. Renaming is inline — the name becomes editable in place.
+    const rename = (row: HTMLElement) => {
+      const name = row.querySelector<HTMLElement>('[data-swo-name]');
+      if (!name) return;
+      name.contentEditable = 'true';
+      name.classList.add('is-editing');
+      name.focus();
+      const sel = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(name);
+      sel?.removeAllRanges(); sel?.addRange(range);
+      const done = () => {
+        name.contentEditable = 'false';
+        name.classList.remove('is-editing');
+        if (!name.textContent?.trim()) name.textContent = 'Untitled';
+      };
+      name.addEventListener('blur', done, { once: true });
+      name.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') { ev.preventDefault(); name.blur(); }
+        if (ev.key === 'Escape') { ev.preventDefault(); name.blur(); }
+      });
+    };
+
+    root.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      const btn = t.closest<HTMLElement>('button');
+      if (!btn) return;
+      if (btn.matches('[data-swo-dup]')) {
+        e.preventDefault();
+        const row = btn.closest<HTMLElement>('.bcn-swoc__req')!;
+        const copy = row.cloneNode(true) as HTMLElement;
+        row.after(copy);
+        flash(copy);
+        recount();
+      } else if (btn.matches('[data-swo-unlink]')) {
+        e.preventDefault();
+        btn.closest('.bcn-swoc__req')?.remove();
+        recount();
+      } else if (btn.matches('[data-swo-remove]')) {
+        e.preventDefault();
+        btn.closest('[data-swo-card]')?.remove();
+        recount();
+      } else if (btn.matches('[data-swo-add-sub]')) {
+        e.preventDefault();
+        const cat = btn.closest<HTMLDetailsElement>('[data-swo-cat]')!;
+        const sub = tpl('sub');
+        sub.dataset.swoSub = `sub-new-${++seq}`;
+        cat.querySelector('[data-swo-subs]')!.prepend(sub);
+        cat.open = true;
+        rename(sub.querySelector('summary')!);
+        recount();
+      } else if (btn.matches('[data-swo-add-obl]')) {
+        e.preventDefault();
+        const sub = btn.closest<HTMLDetailsElement>('.bcn-swot__sub')!;
+        const card = tpl('obl');
+        card.dataset.id = `new-${++seq}`;
+        sub.querySelector('[data-swo-cards]')!.prepend(card);
+        sub.open = true;
+        flash(card);
+        recount();
+        card.querySelector<HTMLElement>('[data-swo-open]')?.click();
+      } else if (btn.matches('[data-swo-add-cat]')) {
+        e.preventDefault();
+        const cat = tpl('cat');
+        cat.dataset.swoCat = `cat-new-${++seq}`;
+        q('[data-swo-cats]')!.append(cat);
+        rename(cat.querySelector('summary')!);
+        cat.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        recount();
+      } else if (btn.matches('[data-swo-rename]')) {
+        e.preventDefault();
+        rename(btn.closest('summary')!);
+      } else if (btn.matches('[data-swo-remove-branch]')) {
+        e.preventDefault();
+        btn.closest('details')?.remove();
+        recount();
+      }
+    });
+    // A click on a summary's buttons must not toggle the branch; a click on the
+    // editable name while editing must not either.
+    root.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('.is-editing')) e.preventDefault();
+    });
   }
 </script>
 
 <style>
   .bcn-swot {
+    display: flex;
+    flex-direction: column;
     background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default-subtle);
+    border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    overflow: hidden;
     font-size: 0.8125rem;
     color: var(--color-content-default);
   }
   .bcn-swot__head {
     display: flex;
     align-items: center;
-    gap: var(--spacing-200);
-    min-height: 48px;
-    padding: var(--spacing-200) var(--spacing-400);
-    border-bottom: 1px solid var(--color-border-default-subtle);
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-bottom: 1px solid var(--color-border-default);
   }
   .bcn-swot__title {
     margin: 0;
-    font-family: var(--font-decorative);
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
     font-size: 0.875rem;
     font-weight: 600;
   }
-  .bcn-swot__shape { color: var(--color-content-default-tertiary); }
-  .bcn-swot__nomatch { margin: 0 0 0 auto; color: var(--color-content-default-tertiary); }
+  .bcn-swot__shape { color: var(--color-content-default-tertiary); font-size: 0.75rem; }
+  .bcn-swot__hint { margin-left: auto; color: var(--color-content-default-tertiary); font-size: 0.75rem; white-space: nowrap; }
+  .bcn-swot__nomatch { margin: 0; color: var(--color-content-default-tertiary); font-style: italic; }
 
-  .bcn-swot__body { padding: var(--spacing-200) var(--spacing-400) var(--spacing-300); }
+  .bcn-swot__body { display: flex; flex-direction: column; }
+  .bcn-swot__cat { border-bottom: 1px solid var(--color-border-default-subtle); }
+  .bcn-swot__cat:last-child { border-bottom: none; }
+  .bcn-swot__cat[hidden], .bcn-swot__sub[hidden] { display: none; }
 
-  details[hidden] { display: none; }
-  .bcn-swot__cat + .bcn-swot__cat { border-top: 1px solid var(--color-border-default-subtle); }
   .bcn-swot__row {
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
-    min-height: 32px;
-    padding: var(--spacing-100) var(--spacing-200);
-    border-radius: var(--radius-100);
+    min-height: 34px;
+    padding: var(--spacing-100) var(--spacing-400);
     list-style: none;
     cursor: pointer;
     user-select: none;
+    transition: background-color 120ms ease, box-shadow 120ms ease;
   }
   .bcn-swot__row::-webkit-details-marker { display: none; }
   .bcn-swot__row:hover { background: var(--color-background-default); }
-  .bcn-swot__row:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
-  .bcn-swot__row--cat .bcn-swot__name { font-weight: 600; }
-  .bcn-swot__row--sub { margin-left: var(--spacing-500); }
-  .bcn-swot__row--sub .bcn-swot__name { font-weight: 500; }
-  .bcn-swot__chevron {
-    display: inline-flex;
-    flex-shrink: 0;
-    color: var(--color-content-default-tertiary);
-    transition: transform 120ms ease;
+  .bcn-swot__row--cat { font-weight: 600; background: var(--color-background-default); }
+  .bcn-swot__row--sub { padding-left: calc(var(--spacing-400) + 22px); }
+  .bcn-swot__row.is-over { box-shadow: inset 0 0 0 2px var(--color-obligation); background: color-mix(in srgb, var(--color-obligation) 6%, transparent); }
+  .bcn-swot__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
+  details[open] > .bcn-swot__row .bcn-swot__chevron { transform: rotate(90deg); }
+  .bcn-swot__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-radius: 2px; padding: 0 2px; }
+  .bcn-swot__name.is-editing {
+    outline: 2px solid var(--color-obligation);
+    outline-offset: 0;
+    background: var(--color-background-elevation-raised);
+    font-weight: 500;
+    cursor: text;
+    user-select: text;
   }
-  details[open] > summary .bcn-swot__chevron { transform: rotate(90deg); }
-  .bcn-swot__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  .bcn-swot__verbs {
+  /* The explicit + on a category row: a quiet outlined chip, always visible. */
+  .bcn-swot__add {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-050);
-    margin-left: auto;
-    opacity: 0;
-    transition: opacity 120ms ease;
+    gap: 3px;
+    margin-left: var(--spacing-100);
+    padding: 1px var(--spacing-150) 1px var(--spacing-100);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised);
+    color: var(--color-content-default-secondary);
+    font: inherit;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    cursor: pointer;
   }
-  .bcn-swot__row:hover .bcn-swot__verbs,
-  .bcn-swot__row:focus-within .bcn-swot__verbs { opacity: 1; }
+  .bcn-swot__add:hover { border-color: var(--color-border-default-strong); color: var(--color-content-default); }
+
+  .bcn-swot__verbs { display: inline-flex; gap: 2px; margin-left: auto; opacity: 0; transition: opacity 120ms ease; }
+  .bcn-swot__row:hover .bcn-swot__verbs, .bcn-swot__verbs:focus-within { opacity: 1; }
   .bcn-swot__verb {
     display: inline-flex;
     align-items: center;
@@ -183,13 +501,38 @@ const total = OBLIGATION_TOTALS.obligations;
   .bcn-swot__verb:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
   .bcn-swot__verb--danger:hover { color: var(--color-background-utility-danger); }
 
-  .bcn-swot__subs { padding-bottom: var(--spacing-100); }
+  .bcn-swot__subs { display: flex; flex-direction: column; }
   .bcn-swot__cards {
     list-style: none;
     margin: 0;
-    padding: var(--spacing-100) 0 var(--spacing-200) calc(var(--spacing-500) * 2);
+    padding: var(--spacing-200) var(--spacing-400) var(--spacing-300) calc(var(--spacing-400) + 44px);
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-100);
+    gap: var(--spacing-150);
+    min-height: 34px;
+    border-radius: 6px;
   }
+  .bcn-swot__cards.is-over { box-shadow: inset 0 0 0 2px var(--color-obligation); background: color-mix(in srgb, var(--color-obligation) 4%, transparent); }
+  .bcn-swot__cards:empty::after {
+    content: 'No obligations — drop one here.';
+    color: var(--color-content-default-tertiary);
+    font-style: italic;
+    padding: var(--spacing-100) 0;
+  }
+
+  .bcn-swot__foot {
+    display: flex;
+    padding: var(--spacing-300) var(--spacing-400);
+    border-top: 1px solid var(--color-border-default);
+    background: var(--color-background-default);
+    border-bottom-left-radius: var(--radius-200);
+    border-bottom-right-radius: var(--radius-200);
+  }
+  .bcn-swot__foot-verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+</style>
+
+<style is:global>
+  /* Search hits are painted by script, so they sit outside the scope id. */
+  .bcn-swot__hit { background: #fff176; color: inherit; border-radius: 2px; padding: 0 1px; }
+  .bcn-swot__hit-chip { box-shadow: 0 0 0 2px #fff176; }
 </style>

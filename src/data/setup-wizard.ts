@@ -63,6 +63,7 @@ export const STEP_GLYPH = {
     '<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>',
   plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
   x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  copy: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
   'list-tree':
     '<path d="M21 12h-8"/><path d="M21 6H8"/><path d="M21 18h-8"/><path d="M3 6v4c0 1.1.9 2 2 2h3"/><path d="M3 10v6c0 1.1.9 2 2 2h3"/>',
   merge: '<path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"/><path d="m20 22-5-5"/>',
@@ -408,3 +409,164 @@ export const CADENCE_LABEL: Record<CadenceKind, string> = {
 
 /** Human label for the tool that drafted the rows — the same mark prod's AI panel wears. */
 export const DRAFTED_BY = 'Drafted by AI from the approved requirements';
+
+/* ------------------------------------------------------------------ */
+/* Obligation tree with requirement children (2026-09-14, second cut)   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The registry rows above trace to COMMITMENT codes; only the ITP fixture's
+ * obligations trace to REQUIREMENTS. Step 5's tree is therefore built from the
+ * ITP obligations, filed into the registry's subject taxonomy by their first
+ * subject (major › minor), with the requirement records as children.
+ *
+ * Trigger and thresholds are the fields the setup wizard's model would extract;
+ * here they are SEEDED from the requirement text by two small patterns so the
+ * editor shows the shape with real values. They are a demonstration, not a pass.
+ */
+export interface ObligationThreshold {
+  /** What is measured — "underwater peak sound", "buffer". */
+  quantity: string;
+  comparator: '≤' | '≥' | '<' | '>' | '=' | 'within';
+  value: string;
+  unit: string;
+  /** Commitment code of the requirement the number came from. */
+  source: string;
+}
+
+export interface ObligationRequirement {
+  id: string;
+  code: string;
+  name: string;
+  text: string;
+  inActions: number;
+  inObligations: number;
+}
+
+export interface ObligationNode {
+  id: string;
+  title: string;
+  class: ObligationClass;
+  phases: string[];
+  species: string[];
+  activities: string[];
+  trigger: string;
+  thresholds: ObligationThreshold[];
+  /** Waits on an approved plan before it is in force. */
+  gate: boolean;
+  requirements: ObligationRequirement[];
+}
+
+export interface ObligationTreeSub { id: string; name: string; obligations: ObligationNode[] }
+export interface ObligationTreeCat { id: string; name: string; subcategories: ObligationTreeSub[]; count: number }
+
+const UNIT_RE =
+  /(\d[\d,]*(?:\.\d+)?)\s*(dB(?:\s?(?:peak|SEL|rms|Leq|re\s?1\s?µPa))?|dBA|feet|foot|ft|miles?|mi|mph|hours?|hrs?|days?|weeks?|months?|minutes?|°F|degrees?(?: F)?|mg\/L|NTU|percent|%|acres?|cfs|inches|in\.|meters?|m|gpm|km\/h|business days)\b/gi;
+
+const comparatorBefore = (before: string): ObligationThreshold['comparator'] => {
+  const b = before.toLowerCase();
+  if (/within/.test(b)) return 'within';
+  if (/(no more than|not exceed|shall not exceed|maximum|max\.?|up to|less than|below|under|no greater than|not more than)/.test(b)) return '≤';
+  if (/(at least|minimum|min\.?|no less than|greater than|more than|exceed|above|beyond|over)/.test(b)) return '≥';
+  return '=';
+};
+
+const COMPARATOR_PHRASE =
+  /\b(within|no more than|not exceed|shall not exceed|maximum|max\.?|up to|less than|below|under|no greater than|not more than|at least|minimum|min\.?|no less than|greater than|more than|exceed(?:s|ing)?|above|beyond|over|of|for|to|by|at|in|every|each)\s*$/i;
+
+/** The noun the number measures: the few words before the comparator phrase, clean of stopwords. */
+const quantityBefore = (before: string): string => {
+  let head = before.replace(/[()]/g, ' ').replace(/[.;:,]\s*$/, '').trim();
+  for (let i = 0; i < 2; i++) head = head.replace(COMPARATOR_PHRASE, '').trim();
+  const words = head.split(/[.;:]/).pop()!.trim().split(/\s+/).filter(Boolean).slice(-4);
+  while (words.length && /^(a|an|the|of|to|by|for|and|or|with|at|in|shall|will|be|is|are|not|any|all)$/i.test(words[0])) words.shift();
+  return words.join(' ').toLowerCase();
+};
+
+const thresholdsFrom = (text: string, code: string): ObligationThreshold[] => {
+  const out: ObligationThreshold[] = [];
+  for (const m of text.matchAll(UNIT_RE)) {
+    const before = text.slice(Math.max(0, (m.index ?? 0) - 70), m.index);
+    out.push({ quantity: quantityBefore(before), comparator: comparatorBefore(before), value: m[1], unit: m[2], source: code });
+    if (out.length >= 4) break;
+  }
+  return out;
+};
+
+const TRIGGER_RE = /\b(if|when|whenever|in the event(?: that)?|should|upon|prior to|before|during|after|once)\b[^.;]{12,160}/i;
+const triggerFrom = (text: string): string => {
+  const m = text.match(TRIGGER_RE);
+  if (!m) return '';
+  const t = m[0].trim();
+  return t.charAt(0).toUpperCase() + t.slice(1);
+};
+
+const GATE_RE = /\b(approved (?:plan|by)|approval of the|prior to approval|upon approval|once approved|plan is approved)\b/i;
+
+const uniq = (xs: string[]) => [...new Set(xs)];
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+export const OBLIGATION_NODES: ObligationNode[] = ITP.obligations.map((o) => {
+  const reqs = o.requirementIds
+    .map((rid) => ITP.requirements.find((r) => r.id === rid))
+    .filter((r): r is WizardRequirement => !!r);
+  const requirements: ObligationRequirement[] = reqs.map((r) => ({
+    id: r.id,
+    code: r.commitment,
+    name: r.name,
+    text: r.text,
+    inActions: ACTIONS_OF.get(r.id)?.length ?? 0,
+    inObligations: OBLIGATIONS_OF.get(r.id)?.length ?? 0,
+  }));
+  const allText = reqs.map((r) => r.text).join(' ');
+  return {
+    id: o.id,
+    title: o.name,
+    class: o.class,
+    phases: o.phases,
+    species: uniq(reqs.flatMap((r) => r.species)),
+    activities: uniq(reqs.flatMap((r) => r.activities)),
+    trigger: reqs.map((r) => triggerFrom(r.text)).find(Boolean) ?? '',
+    thresholds: reqs.flatMap((r) => thresholdsFrom(r.text, r.commitment)).slice(0, 5),
+    gate: GATE_RE.test(allText),
+    requirements,
+  };
+});
+
+export const OBLIGATION_TREE: ObligationTreeCat[] = (() => {
+  const cats = new Map<string, ObligationTreeCat>();
+  const catId = (major: string) => subjectAxis.groups.find((g) => g.name === major)?.id ?? `cat-${slug(major)}`;
+  const subId = (major: string, minor: string) =>
+    subjectAxis.groups.find((g) => g.name === major)?.items.find((i) => i.name === minor)?.id ?? `sub-${slug(major)}-${slug(minor)}`;
+  for (const o of ITP.obligations) {
+    const home = o.subjects[0] ?? { major: 'Unfiled', minor: 'Unfiled' };
+    const node = OBLIGATION_NODES.find((n) => n.id === o.id)!;
+    const cid = catId(home.major);
+    const cat = cats.get(cid) ?? { id: cid, name: home.major, subcategories: [], count: 0 };
+    cats.set(cid, cat);
+    const sid = subId(home.major, home.minor);
+    let sub = cat.subcategories.find((s) => s.id === sid);
+    if (!sub) {
+      sub = { id: sid, name: home.minor, obligations: [] };
+      cat.subcategories.push(sub);
+    }
+    sub.obligations.push(node);
+    cat.count += 1;
+  }
+  const byName = (a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name);
+  return [...cats.values()]
+    .map((c) => ({
+      ...c,
+      subcategories: c.subcategories.map((s) => ({ ...s, obligations: [...s.obligations].sort((a, b) => a.title.localeCompare(b.title)) })).sort(byName),
+    }))
+    .sort(byName);
+})();
+
+export const OBLIGATION_TREE_TOTALS = {
+  obligations: OBLIGATION_NODES.length,
+  categories: OBLIGATION_TREE.length,
+  subcategories: OBLIGATION_TREE.reduce((n, c) => n + c.subcategories.length, 0),
+  requirementLinks: OBLIGATION_NODES.reduce((n, o) => n + o.requirements.length, 0),
+  withThresholds: OBLIGATION_NODES.filter((o) => o.thresholds.length > 0).length,
+  withTrigger: OBLIGATION_NODES.filter((o) => o.trigger).length,
+};

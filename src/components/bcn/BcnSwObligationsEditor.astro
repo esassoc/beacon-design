@@ -1,109 +1,156 @@
 ---
-// <BcnSwObligationsEditor> — the Edit verb's destination; closed until a pencil or the review dialog opens it.
+// <BcnSwObligationsEditor> — the one place an obligation is read and changed. Clicking
+// a card's statement or its pencil opens this drawer filled with that record; there is
+// no read-only view, so everything the record holds is here.
 //
-// One obligation, every field the registry stores for it, plus the two selects that
-// MOVE it: category and subcategory. Moving a row is the most common correction this
-// step will take, because what is under review is the grouping, not the text — so
-// the two selects sit directly under the class toggle, above the prose fields,
-// rather than at the bottom where a form would normally put filing.
+// The fields ARE the anatomy of an obligation (projects/beacon/shaping/obligation-anatomy.md):
+// the Statement, the Class, where it is filed (Category / Subcategory — the most common
+// correction, so it sits high), its Scope (phases, species), the Trigger a classifier
+// matches evidence against, the quantitative Thresholds it holds, the Gate it waits on,
+// and the Requirements it derives from, each folding open to the exact source text.
+// There is no Standard field: the statement plus the source text already say it.
 //
-// The subcategory select is scoped to the chosen category, which is what a wired
-// version would do; a flat list of all 69 would let a reviewer file a bird duty
-// under Air quality.
+// Every control is one size down (sm; the threshold grid xs) so the record reads as a
+// record and not a form. The footer puts Remove at the left, Cancel and Save at the right.
 //
-// Remove is a soft danger button, not esa-danger-zone: the zone is a bordered corral
-// with its own heading and a consequence paragraph, three pieces of chrome for a verb
-// the row already offers. This is its echo inside the open record, and it stays quiet.
-//
-// bcn-lego-checked: the frame IS esa-side-dialog (header / default / footer slots)
-// and every control is a lego — esa-text-field, esa-button-toggle, esa-select,
-// esa-textarea, esa-input-tag for the linked commitments, esa-button for the three
-// verbs. Checked esa-dialog (centred, wrong shape for a record beside a list) and
-// esa-form-field (a wrapper for a bespoke control — every control here already has
-// its own lego). The only script is the two-line value hydration the Lit accessors
-// require, exactly as bcn-component-data-panel does it.
+// bcn-lego-checked: the frame IS esa-side-dialog; the controls are esa-text-field,
+// esa-button-toggle, esa-select, esa-textarea, esa-input-tag, esa-button. The threshold
+// grid composes esa-text-field + esa-select per cell; no lego is a small editable table
+// (esa-data-table is read-only rows). The requirement list is native <details> because
+// esa-accordion carries a heading scale this record does not want.
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
 import {
   OBLIGATION_CLASS_LABEL,
-  OBLIGATION_TAXONOMY,
-  type ObligationRow,
+  OBLIGATION_TREE,
+  OBLIGATION_NODES,
+  STEP_GLYPH,
 } from '../../data/setup-wizard';
 
-interface Props {
-  obligation: ObligationRow;
-}
-const { obligation: o } = Astro.props;
-
-// Where the row is filed: subjects[0] is its home subcategory.
-const category = OBLIGATION_TAXONOMY.find((c) => c.subcategories.some((s) => s.id === o.subjects[0]));
-const subcategory = category?.subcategories.find((s) => s.id === o.subjects[0]);
-
 const CLASS_OPTIONS = JSON.stringify(
-  (['adhere', 'monitor', 'notify', 'roster'] as const).map((c) => ({
-    label: OBLIGATION_CLASS_LABEL[c],
-    value: c,
-  })),
+  (['adhere', 'monitor', 'notify', 'roster'] as const).map((c) => ({ label: OBLIGATION_CLASS_LABEL[c], value: c })),
 );
-const CATEGORY_OPTIONS = JSON.stringify(
-  OBLIGATION_TAXONOMY.map((c) => ({ label: c.name, value: c.id })),
+const GATE_OPTIONS = JSON.stringify([
+  { label: 'None', value: 'none' },
+  { label: 'Approved plan', value: 'plan' },
+  { label: 'Installed control', value: 'control' },
+]);
+const CATEGORY_OPTIONS = JSON.stringify(OBLIGATION_TREE.map((c) => ({ label: c.name, value: c.id })));
+const COMPARATOR_OPTIONS = JSON.stringify(['≤', '≥', '<', '>', '=', 'within'].map((c) => ({ label: c, value: c })));
+const PHASE_OPTIONS = JSON.stringify(
+  [...new Set(OBLIGATION_NODES.flatMap((o) => o.phases))].sort().map((p) => ({ label: p, value: p })),
 );
-const SUBCATEGORY_OPTIONS = JSON.stringify(
-  (category?.subcategories ?? []).map((s) => ({ label: s.name, value: s.id })),
+const SPECIES_OPTIONS = JSON.stringify(
+  [...new Set(OBLIGATION_NODES.flatMap((o) => o.species))].sort().map((s) => ({ label: s, value: s })),
 );
-const COMMITMENT_OPTIONS = JSON.stringify(o.commitments.map((c) => ({ label: c, value: c })));
+
+// The drawer is filled by script from this: every obligation keyed by id, every
+// requirement keyed by id (with its exact text), and the taxonomy for the two selects.
+const requirements: Record<string, { code: string; name: string; text: string; inActions: number }> = {};
+const obligations: Record<string, unknown> = {};
+for (const cat of OBLIGATION_TREE)
+  for (const sub of cat.subcategories)
+    for (const o of sub.obligations) {
+      obligations[o.id] = { title: o.title, class: o.class, phases: o.phases, species: o.species, trigger: o.trigger, thresholds: o.thresholds, gate: o.gate ? 'plan' : 'none', cat: cat.id, sub: sub.id };
+      for (const r of o.requirements) requirements[r.id] = { code: r.code, name: r.name, text: r.text, inActions: r.inActions };
+    }
+const DATA = JSON.stringify({
+  obligations,
+  requirements,
+  taxonomy: OBLIGATION_TREE.map((c) => ({ id: c.id, name: c.name, subs: c.subcategories.map((s) => ({ id: s.id, name: s.name })) })),
+});
 ---
 
 <esa-side-dialog
   id="swo-editor"
-  heading="Edit obligation"
+  heading="Obligation"
   position="right"
-  style="--_width: min(680px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
-  <div class="bcn-swo-edit">
-    <esa-text-field label="Title" value={o.title} name="swo-title" required></esa-text-field>
-
-    <esa-button-toggle
-      label="Class"
-      options={CLASS_OPTIONS}
-      value={o.class}
-      size="md"
-      name="swo-class-edit"></esa-button-toggle>
+  style="--_width: min(640px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
+  <form class="bcn-swo-edit" data-swo-form>
+    <esa-text-field label="Statement" size="sm" name="swo-title" required hint="One imperative line: what must hold, for whom."></esa-text-field>
 
     <div class="bcn-swo-edit__pair">
-      <esa-select
-        label="Category"
-        options={CATEGORY_OPTIONS}
-        data-swo-value={category?.id}
-        name="swo-category"
-        required></esa-select>
-      <esa-select
-        label="Subcategory"
-        options={SUBCATEGORY_OPTIONS}
-        data-swo-value={subcategory?.id}
-        name="swo-subcategory"
-        required></esa-select>
+      <esa-button-toggle label="Class" size="sm" options={CLASS_OPTIONS} name="swo-class"></esa-button-toggle>
+      <esa-button-toggle label="Gate" size="sm" options={GATE_OPTIONS} name="swo-gate"></esa-button-toggle>
     </div>
 
-    <esa-textarea label="Standard" value={o.standard} rows={2} name="swo-standard"></esa-textarea>
-    <esa-textarea label="Condition" value={o.condition} rows={2} name="swo-condition"></esa-textarea>
-    <esa-textarea label="Parameters" value={o.parameters} rows={2} name="swo-parameters"></esa-textarea>
-
-    <esa-input-tag
-      label="Linked commitments"
-      options={COMMITMENT_OPTIONS}
-      data-swo-value={o.commitments.join(',')}
-      placeholder="e.g. BIO-34"
-      name="swo-commitments"></esa-input-tag>
-
-    <div class="bcn-swo-edit__remove">
-      <EsaButton variant="danger" appearance="soft" size="sm">Remove obligation</EsaButton>
+    <div class="bcn-swo-edit__pair">
+      <esa-select label="Category" size="sm" options={CATEGORY_OPTIONS} name="swo-category" required></esa-select>
+      <esa-select label="Subcategory" size="sm" options="[]" name="swo-subcategory" required></esa-select>
     </div>
-  </div>
+
+    <fieldset class="bcn-swo-edit__group">
+      <legend class="bcn-swo-edit__legend">Scope</legend>
+      <div class="bcn-swo-edit__pair">
+        <esa-input-tag label="Phases" size="sm" options={PHASE_OPTIONS} name="swo-phases" placeholder="Add a phase"></esa-input-tag>
+        <esa-input-tag label="Species" size="sm" options={SPECIES_OPTIONS} name="swo-species" placeholder="Add a species"></esa-input-tag>
+      </div>
+    </fieldset>
+
+    <esa-textarea
+      label="Trigger"
+      size="sm"
+      rows={2}
+      name="swo-trigger"
+      hint="The observable event or state that brings this into force — what a classifier matches evidence against."></esa-textarea>
+
+    <fieldset class="bcn-swo-edit__group">
+      <legend class="bcn-swo-edit__legend">Thresholds</legend>
+      <div class="bcn-swo-edit__thr" data-swo-thresholds>
+        <span class="bcn-swo-edit__thr-head">Quantity</span>
+        <span class="bcn-swo-edit__thr-head">Is</span>
+        <span class="bcn-swo-edit__thr-head">Value</span>
+        <span class="bcn-swo-edit__thr-head">Unit</span>
+        <span class="bcn-swo-edit__thr-head">Source</span>
+        <span></span>
+      </div>
+      <p class="bcn-swo-edit__thr-empty" data-swo-thr-empty hidden>No quantitative limit in the source text.</p>
+      <div>
+        <EsaButton variant="ghost" size="xs" data-swo-thr-add>
+          <span class="bcn-swo-edit__verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />Add threshold</span>
+        </EsaButton>
+      </div>
+    </fieldset>
+
+    <fieldset class="bcn-swo-edit__group">
+      <legend class="bcn-swo-edit__legend">Requirements <span class="bcn-swo-edit__legend-n" data-swo-req-n>0</span></legend>
+      <p class="bcn-swo-edit__note">The exact source text this obligation derives from. Link or unlink requirements by dragging them in the list.</p>
+      <div class="bcn-swo-edit__reqs" data-swo-reqs></div>
+    </fieldset>
+  </form>
 
   <span slot="footer" class="bcn-swo-edit__foot">
-    <EsaButton variant="primary" size="md">Save</EsaButton>
-    <EsaButton variant="ghost" size="md">Cancel</EsaButton>
+    <EsaButton variant="danger" appearance="soft" size="sm" data-swo-editor-remove>Remove obligation</EsaButton>
+    <span class="bcn-swo-edit__foot-right">
+      <EsaButton variant="ghost" size="sm" data-swo-editor-cancel>Cancel</EsaButton>
+      <EsaButton variant="primary" size="sm" data-swo-editor-save>Save</EsaButton>
+    </span>
   </span>
+
+  <template data-swo-tpl="thr">
+    <div class="bcn-swo-edit__thr-row">
+      <esa-text-field size="xs" name="thr-quantity" aria-label="Quantity"></esa-text-field>
+      <esa-select size="sm" name="thr-comparator" options={COMPARATOR_OPTIONS} aria-label="Comparator"></esa-select>
+      <esa-text-field size="xs" name="thr-value" aria-label="Value" inputmode="decimal"></esa-text-field>
+      <esa-text-field size="xs" name="thr-unit" aria-label="Unit"></esa-text-field>
+      <span class="bcn-swo-edit__thr-source"></span>
+      <button type="button" class="bcn-swo-edit__thr-x" title="Remove threshold" aria-label="Remove threshold"><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button>
+    </div>
+  </template>
+  <template data-swo-tpl="req">
+    <details class="bcn-swo-edit__req">
+      <summary class="bcn-swo-edit__req-row">
+        <span class="bcn-swo-edit__chev" aria-hidden="true"><EsaIcon name="chevron-right" size="xs" /></span>
+        <span class="bcn-swo-edit__code"></span>
+        <span class="bcn-swo-edit__req-name"></span>
+        <span class="bcn-swo-edit__also"></span>
+      </summary>
+      <blockquote class="bcn-swo-edit__text"></blockquote>
+    </details>
+  </template>
 </esa-side-dialog>
+
+<script type="application/json" id="swo-data" set:html={DATA}></script>
 
 <script>
   import '@esa/ecology/esa-side-dialog';
@@ -113,16 +160,147 @@ const COMMITMENT_OPTIONS = JSON.stringify(o.commitments.map((c) => ({ label: c, 
   import '@esa/ecology/esa-button-toggle';
   import '@esa/ecology/esa-input-tag';
 
-  // esa-select and esa-input-tag expose `value` as a JS accessor, not a reflected
-  // attribute, so a statically-staged record has to be handed to them once the
-  // custom elements upgrade. Same mechanism bcn-component-data-panel uses.
-  Promise.all([customElements.whenDefined('esa-select'), customElements.whenDefined('esa-input-tag')]).then(
-    () => {
-      document.querySelectorAll<HTMLElement & { value: string }>('[data-swo-value]').forEach((el) => {
-        el.value = el.dataset.swoValue ?? '';
-      });
-    },
-  );
+  type Thr = { quantity: string; comparator: string; value: string; unit: string; source: string };
+  type Obl = { title: string; class: string; phases: string[]; species: string[]; trigger: string; thresholds: Thr[]; gate: string; cat: string; sub: string };
+  type Req = { code: string; name: string; text: string; inActions: number };
+  type Data = { obligations: Record<string, Obl>; requirements: Record<string, Req>; taxonomy: { id: string; name: string; subs: { id: string; name: string }[] }[] };
+
+  const editor = document.getElementById('swo-editor') as (HTMLElement & { open: boolean }) | null;
+  const data = JSON.parse(document.getElementById('swo-data')?.textContent ?? '{}') as Data;
+  type Valued = HTMLElement & { value: string };
+  const field = (name: string) => editor?.querySelector<Valued>(`[name="${name}"]`) ?? null;
+  const tpl = (name: string) => (editor?.querySelector<HTMLTemplateElement>(`template[data-swo-tpl="${name}"]`)!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+  let current: HTMLElement | null = null;
+
+  const setSubOptions = (catId: string, subId?: string) => {
+    const sel = field('swo-subcategory') as (Valued & { options: unknown[] }) | null;
+    const cat = data.taxonomy.find((c) => c.id === catId);
+    if (!sel) return;
+    sel.options = (cat?.subs ?? []).map((s) => ({ label: s.name, value: s.id }));
+    sel.value = subId ?? cat?.subs[0]?.id ?? '';
+  };
+
+  const addThreshold = (t: Partial<Thr> = {}) => {
+    const host = editor?.querySelector('[data-swo-thresholds]');
+    if (!host) return;
+    const row = tpl('thr');
+    (row.querySelector('[name="thr-quantity"]') as Valued).value = t.quantity ?? '';
+    (row.querySelector('[name="thr-value"]') as Valued).value = t.value ?? '';
+    (row.querySelector('[name="thr-unit"]') as Valued).value = t.unit ?? '';
+    row.querySelector('.bcn-swo-edit__thr-source')!.textContent = t.source ?? '';
+    host.append(row);
+    customElements.whenDefined('esa-select').then(() => ((row.querySelector('[name="thr-comparator"]') as Valued).value = t.comparator ?? '≤'));
+    row.querySelector('.bcn-swo-edit__thr-x')?.addEventListener('click', () => { row.remove(); syncThrEmpty(); });
+    syncThrEmpty();
+  };
+  const syncThrEmpty = () => {
+    const n = editor?.querySelectorAll('.bcn-swo-edit__thr-row').length ?? 0;
+    const empty = editor?.querySelector<HTMLElement>('[data-swo-thr-empty]');
+    if (empty) empty.hidden = n > 0;
+  };
+
+  const fill = (card: HTMLElement) => {
+    current = card;
+    const id = card.dataset.id ?? '';
+    const o: Obl = data.obligations[id] ?? {
+      title: card.querySelector('.bcn-swoc__title')?.textContent?.trim() ?? '',
+      class: card.dataset.class ?? 'adhere', phases: [], species: [], trigger: '', thresholds: [], gate: 'none',
+      cat: card.closest<HTMLElement>('[data-swo-cat]')?.dataset.swoCat ?? '', sub: card.closest<HTMLElement>('[data-swo-sub]')?.dataset.swoSub ?? '',
+    };
+    // Where the card sits NOW wins over where the fixture filed it — it may have been dragged.
+    const catNow = card.closest<HTMLElement>('[data-swo-cat]')?.dataset.swoCat ?? o.cat;
+    const subNow = card.closest<HTMLElement>('[data-swo-sub]')?.dataset.swoSub ?? o.sub;
+
+    field('swo-title')!.value = card.querySelector('.bcn-swoc__title')?.textContent?.trim() ?? o.title;
+    field('swo-class')!.value = card.dataset.class ?? o.class;
+    field('swo-gate')!.value = o.gate;
+    field('swo-trigger')!.value = o.trigger;
+    const cat = field('swo-category') as (Valued & { options: unknown[] }) | null;
+    if (cat) {
+      // A category made in this session is not in the fixture's options; add it by its live name.
+      const known = data.taxonomy.some((c) => c.id === catNow);
+      if (!known) {
+        const name = card.closest('[data-swo-cat]')?.querySelector('[data-swo-name]')?.textContent?.trim() ?? 'New category';
+        const subs = [...(card.closest('[data-swo-cat]')?.querySelectorAll<HTMLElement>('[data-swo-sub]') ?? [])].map((s) => ({ id: s.dataset.swoSub ?? '', name: s.querySelector('[data-swo-name]')?.textContent?.trim() ?? '' }));
+        data.taxonomy.push({ id: catNow, name, subs });
+        cat.options = data.taxonomy.map((c) => ({ label: c.name, value: c.id }));
+      }
+      cat.value = catNow;
+    }
+    setSubOptions(catNow, subNow);
+    (field('swo-phases') as Valued & { value: unknown }).value = o.phases.join(',');
+    (field('swo-species') as Valued & { value: unknown }).value = o.species.join(',');
+
+    editor?.querySelectorAll('.bcn-swo-edit__thr-row').forEach((r) => r.remove());
+    o.thresholds.forEach((t) => addThreshold(t));
+    syncThrEmpty();
+
+    const reqs = editor!.querySelector<HTMLElement>('[data-swo-reqs]')!;
+    reqs.replaceChildren();
+    const rows = [...card.querySelectorAll<HTMLElement>('.bcn-swoc__req')];
+    rows.forEach((row) => {
+      const r = data.requirements[row.dataset.req ?? ''] ?? { code: row.dataset.code ?? '', name: row.querySelector('.bcn-swoc__req-name')?.textContent ?? '', text: '', inActions: 0 };
+      const d = tpl('req');
+      d.querySelector('.bcn-swo-edit__code')!.textContent = r.code;
+      d.querySelector('.bcn-swo-edit__req-name')!.textContent = r.name;
+      d.querySelector('.bcn-swo-edit__also')!.textContent = r.inActions ? `also in ${r.inActions} ${r.inActions === 1 ? 'action' : 'actions'}` : '';
+      d.querySelector('.bcn-swo-edit__text')!.textContent = (r.text || '(source text not in this fixture)').replace(/\s*\n\s*/g, ' ');
+      reqs.append(d);
+    });
+    (reqs.firstElementChild as HTMLDetailsElement | null)?.setAttribute('open', '');
+    editor!.querySelector('[data-swo-req-n]')!.textContent = String(rows.length);
+  };
+
+  const open = (card: HTMLElement) => {
+    if (!editor) return;
+    Promise.all(['esa-select', 'esa-input-tag', 'esa-button-toggle', 'esa-text-field', 'esa-textarea'].map((t) => customElements.whenDefined(t))).then(() => {
+      fill(card);
+      editor.open = true;
+    });
+  };
+
+  // Any card's statement or pencil opens the drawer on that card.
+  document.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    const trigger = t.closest<HTMLElement>('[data-swo-open]');
+    if (!trigger) return;
+    const card = trigger.closest<HTMLElement>('[data-swo-card]');
+    if (!card) return;
+    e.preventDefault();
+    open(card);
+  });
+
+  field('swo-category')?.addEventListener('change', (e) => setSubOptions((e.target as Valued).value));
+  editor?.querySelector('[data-swo-thr-add]')?.addEventListener('click', (e) => { e.preventDefault(); addThreshold(); });
+  editor?.querySelector('[data-swo-editor-cancel]')?.addEventListener('click', () => (editor.open = false));
+  editor?.querySelector('[data-swo-editor-remove]')?.addEventListener('click', () => {
+    current?.remove();
+    editor.open = false;
+    document.dispatchEvent(new CustomEvent('swo:changed'));
+  });
+  // Save writes the statement and class back onto the card, and refiles it if the
+  // category or subcategory changed — the same move as a drag.
+  editor?.querySelector('[data-swo-editor-save]')?.addEventListener('click', () => {
+    if (!current) return;
+    const title = field('swo-title')!.value.trim();
+    const cls = field('swo-class')!.value;
+    const t = current.querySelector<HTMLElement>('.bcn-swoc__title');
+    if (t && title) { t.textContent = title; t.dataset.swoText = title; }
+    if (cls) {
+      current.dataset.class = cls;
+      const tag = current.querySelector('[data-swo-class-tag]');
+      if (tag) tag.textContent = cls.charAt(0).toUpperCase() + cls.slice(1);
+    }
+    const subId = field('swo-subcategory')!.value;
+    const dest = document.querySelector<HTMLElement>(`[data-swo-sub="${subId}"] [data-swo-cards]`);
+    if (dest && !dest.contains(current)) {
+      dest.prepend(current);
+      (dest.closest('details') as HTMLDetailsElement).open = true;
+      (dest.closest('[data-swo-cat]') as HTMLDetailsElement).open = true;
+    }
+    editor.open = false;
+    document.dispatchEvent(new CustomEvent('swo:changed'));
+  });
 </script>
 
 <style>
@@ -130,19 +308,74 @@ const COMMITMENT_OPTIONS = JSON.stringify(o.commitments.map((c) => ({ label: c, 
     display: flex;
     flex-direction: column;
     gap: var(--spacing-400);
+    font-size: 0.8125rem;
   }
   .bcn-swo-edit__pair {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--spacing-300);
+    align-items: start;
   }
-  .bcn-swo-edit__remove {
-    padding-block-start: var(--spacing-300);
-    border-top: 1px solid var(--color-border-default-subtle);
-  }
-  .bcn-swo-edit__foot {
+  .bcn-swo-edit__group {
+    margin: 0;
+    padding: var(--spacing-300) var(--spacing-300) var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-200);
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: var(--spacing-200);
+    min-width: 0;
   }
+  .bcn-swo-edit__legend {
+    padding: 0 var(--spacing-100);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-content-default-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .bcn-swo-edit__legend-n { font-weight: 500; color: var(--color-content-default-tertiary); margin-left: var(--spacing-100); }
+  .bcn-swo-edit__note { margin: 0; font-size: 0.75rem; color: var(--color-content-default-tertiary); }
+  .bcn-swo-edit__verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+
+  /* Thresholds: five columns and a remove cell, xs controls. */
+  .bcn-swo-edit__thr {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) 5.25rem minmax(0, 1fr) minmax(0, 1fr) 4.5rem 22px;
+    gap: var(--spacing-100) var(--spacing-150);
+    align-items: center;
+  }
+  .bcn-swo-edit__thr-head {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--color-content-default-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .bcn-swo-edit__thr-empty { margin: 0; font-size: 0.75rem; font-style: italic; color: var(--color-content-default-tertiary); }
+
+  /* Requirements: a code, a name, then the exact text folded under it. */
+  .bcn-swo-edit__reqs { display: flex; flex-direction: column; border-top: 1px solid var(--color-border-default-subtle); }
+</style>
+
+<style is:global>
+  /* The threshold rows and requirement rows are stamped by script, outside the scope id. */
+  .bcn-swo-edit__thr-row { display: contents; }
+  .bcn-swo-edit__thr-source { font-family: var(--typography-font-family-mono); font-size: 0.6875rem; color: var(--color-commitment); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-swo-edit__thr-x { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: none; background: transparent; border-radius: var(--radius-100); color: var(--color-content-default-tertiary); cursor: pointer; }
+  .bcn-swo-edit__thr-x:hover { background: var(--bcn-gray-100); color: var(--color-background-utility-danger); }
+
+  .bcn-swo-edit__req { border-bottom: 1px solid var(--color-border-default-subtle); }
+  .bcn-swo-edit__req-row { display: flex; align-items: center; gap: var(--spacing-200); min-height: 30px; padding: var(--spacing-100) var(--spacing-100); list-style: none; cursor: pointer; font-size: 0.8125rem; }
+  .bcn-swo-edit__req-row::-webkit-details-marker { display: none; }
+  .bcn-swo-edit__req-row:hover { background: var(--color-background-default); }
+  .bcn-swo-edit__chev { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
+  .bcn-swo-edit__req[open] > .bcn-swo-edit__req-row .bcn-swo-edit__chev { transform: rotate(90deg); }
+  .bcn-swo-edit__code { flex-shrink: 0; font-family: var(--typography-font-family-mono); font-weight: 600; font-size: 0.6875rem; color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); border-radius: var(--radius-100); padding: 1px 6px; }
+  .bcn-swo-edit__req-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-swo-edit__also { flex-shrink: 0; font-size: 0.6875rem; color: var(--color-content-default-tertiary); }
+  .bcn-swo-edit__text { margin: 0 0 var(--spacing-200) calc(var(--spacing-100) + 20px); padding: var(--spacing-200) var(--spacing-300); border-left: 3px solid var(--color-commitment); background: var(--color-background-default); font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
+
+  .bcn-swo-edit__foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-200); }
+  .bcn-swo-edit__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }
 </style>
