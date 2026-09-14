@@ -75,9 +75,10 @@ const { title = 'Obligations' } = Astro.props;
   </div>
 
   <footer class="bcn-swot__foot">
-    <EsaButton variant="secondary" appearance="outline" size="sm" data-swo-add-cat>
+    <EsaButton variant="ghost" size="sm" data-swo-add-cat>
       <span class="bcn-swot__foot-verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />New category</span>
     </EsaButton>
+    <div class="bcn-swot__foot-end"><slot name="foot" /></div>
   </footer>
 
   <!-- Stamps for what the verbs create: a subcategory, a category, an obligation. -->
@@ -545,6 +546,9 @@ const { title = 'Obligations' } = Astro.props;
 
   .bcn-swot__foot {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
     padding: var(--spacing-300) var(--spacing-400);
     border-top: 1px solid var(--color-border-default);
     background: var(--color-background-default);
@@ -552,6 +556,8 @@ const { title = 'Obligations' } = Astro.props;
     border-bottom-right-radius: var(--radius-200);
   }
   .bcn-swot__foot-verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  .bcn-swot__foot-end { display: inline-flex; align-items: center; gap: var(--spacing-200); margin-left: auto; }
+  .bcn-swot__foot-end:empty { display: none; }
 </style>
 
 <style is:global>

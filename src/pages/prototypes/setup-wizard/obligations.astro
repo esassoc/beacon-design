@@ -2,7 +2,7 @@
 // Setup Wizard step 5 — Obligations, in the same clothes as step 4.
 //
 // One bordered top panel (numeral, serif title with the category chip and the count,
-// intro line) with Approve at the right of the title row; a filter row with search,
+// intro line); a filter row with search,
 // a class picker and the expand / collapse verbs (category level; each subcategory row
 // has its own pair that goes all the way down to requirements); then one list panel
 // holding the registry four levels deep — category > subcategory > obligation >
@@ -37,9 +37,9 @@ const total = OBLIGATION_TREE_TOTALS.obligations;
   layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
   sections:
     - wizard chrome     -> bcn-setup-wizard-frame     # compass mark, serif title, five-step pill nav with step 5 active
-    - step panel        -> bcn-sw-step-panel          # numeral, serif title with category chip (bcn-sw-select-chip) and count, Approve at right, intro
+    - step panel        -> bcn-sw-step-panel          # numeral, serif title with category chip (bcn-sw-select-chip) and count, intro
     - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), class picker, expand / collapse verbs
-    - obligation tree   -> bcn-sw-obligations-tree    # category > subcategory > bcn-sw-obligation-card > requirement rows; drag to refile; New category at the foot
+    - obligation tree   -> bcn-sw-obligations-tree    # category > subcategory > bcn-sw-obligation-card > requirement rows; drag to refile; foot: New category (ghost) left, Approve obligations right
     - edit one          -> bcn-sw-obligations-editor  # side drawer a title or pencil opens, headed by the title: class, filing, trigger, requirements (duplicate / move / unlink, Link from the permit via a stacked drawer) with source text
 -->
 
@@ -57,11 +57,6 @@ const total = OBLIGATION_TREE_TOTALS.obligations;
             <BcnSwSelectChip label="Category" value="All categories" />
             <span data-swo-count="title"><BcnSwCountBadge value={total} label={`${total} obligations`} /></span>
           </Fragment>
-          <Fragment slot="actions">
-            <EsaButton variant="primary" size="sm" title="Approve every obligation in this list">
-              <span class="sw-verb"><EsaIcon name="circle-check" size="xs" />Approve obligations <span data-swo-total>({total})</span></span>
-            </EsaButton>
-          </Fragment>
           <BcnSwFilterRow
             searchPlaceholder="Search obligations and requirements by statement, class, name or commitment..."
             searchName="swo-search"
@@ -76,7 +71,13 @@ const total = OBLIGATION_TREE_TOTALS.obligations;
           </BcnSwFilterRow>
         </BcnSwStepPanel>
 
-        <BcnSwObligationsTree />
+        <BcnSwObligationsTree>
+          <Fragment slot="foot">
+            <EsaButton variant="primary" size="sm" title="Approve every obligation in this list">
+              <span class="sw-verb"><EsaIcon name="circle-check" size="xs" />Approve obligations <span data-swo-total>({total})</span></span>
+            </EsaButton>
+          </Fragment>
+        </BcnSwObligationsTree>
       </div>
 
       <BcnSwObligationsEditor />
