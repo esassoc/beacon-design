@@ -19,11 +19,11 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
 ```html
 <section class="readiness" aria-label="Work areas by clearance status">
   <div class="readiness__head">
-    <span class="readiness__title">Work areas by clearance status</span
-    ><span class="readiness__summary"
-      >Ready to work <strong id="rs-ready">8</strong
-      ><span id="rs-total">of 231 work areas</span></span
-    >
+    <span class="readiness__title">Work areas by clearance status</span>
+    <span class="readiness__summary">
+      Ready to work <strong id="rs-ready">8</strong>
+      <span id="rs-total">of 231 work areas</span>
+    </span>
   </div>
   <div
     class="readiness__bar"
@@ -43,7 +43,7 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
         background: repeating-linear-gradient(
           135deg,
           var(--st-provisional-block) 0 4px,
-          var(--color-background-elevation-raised) 4px 7px
+          var(--color-surface) 4px 7px
         );
       "
     ></div>
@@ -62,9 +62,9 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
   </div>
   <ul class="readiness__legend">
     <li class="readiness__legend-item" data-rs-item="blocked" data-empty="false">
-      <span class="readiness__swatch" style="background: var(--st-blocked)"></span
-      ><span class="readiness__legend-label">Blocked</span
-      ><span class="readiness__legend-count" data-rs-count="blocked">3</span>
+      <span class="readiness__swatch" style="background: var(--st-blocked)"></span>
+      <span class="readiness__legend-label">Blocked</span>
+      <span class="readiness__legend-count" data-rs-count="blocked">3</span>
     </li>
     <li
       class="readiness__legend-item"
@@ -74,28 +74,28 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
       <span
         class="readiness__swatch"
         style="
-          background: var(--color-background-elevation-raised);
+          background: var(--color-surface);
           border: 2px solid var(--st-provisional-block);
           box-sizing: border-box;
         "
-      ></span
-      ><span class="readiness__legend-label">Provisional Block</span
-      ><span class="readiness__legend-count" data-rs-count="provisional-block">18</span>
+      ></span>
+      <span class="readiness__legend-label">Provisional Block</span>
+      <span class="readiness__legend-count" data-rs-count="provisional-block">18</span>
     </li>
     <li class="readiness__legend-item" data-rs-item="inaccessible" data-empty="false">
-      <span class="readiness__swatch" style="background: var(--st-inaccessible)"></span
-      ><span class="readiness__legend-label">Inaccessible</span
-      ><span class="readiness__legend-count" data-rs-count="inaccessible">2</span>
+      <span class="readiness__swatch" style="background: var(--st-inaccessible)"></span>
+      <span class="readiness__legend-label">Inaccessible</span>
+      <span class="readiness__legend-count" data-rs-count="inaccessible">2</span>
     </li>
     <li class="readiness__legend-item" data-rs-item="not-surveyed" data-empty="false">
-      <span class="readiness__swatch" style="background: var(--st-not-surveyed)"></span
-      ><span class="readiness__legend-label">Not Surveyed</span
-      ><span class="readiness__legend-count" data-rs-count="not-surveyed">200</span>
+      <span class="readiness__swatch" style="background: var(--st-not-surveyed)"></span>
+      <span class="readiness__legend-label">Not Surveyed</span>
+      <span class="readiness__legend-count" data-rs-count="not-surveyed">200</span>
     </li>
     <li class="readiness__legend-item" data-rs-item="cleared" data-empty="false">
-      <span class="readiness__swatch" style="background: var(--st-cleared)"></span
-      ><span class="readiness__legend-label">Cleared</span
-      ><span class="readiness__legend-count" data-rs-count="cleared">8</span>
+      <span class="readiness__swatch" style="background: var(--st-cleared)"></span>
+      <span class="readiness__legend-label">Cleared</span>
+      <span class="readiness__legend-count" data-rs-count="cleared">8</span>
     </li>
   </ul>
 </section>
@@ -104,89 +104,91 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
 ## Styles
 ```css
 .readiness {
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-200);
   margin-top: var(--spacing-400);
   padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-300);
-  flex-direction: column;
-  display: flex;
 }
 .readiness__head {
-  justify-content: space-between;
+  display: flex;
   align-items: baseline;
+  justify-content: space-between;
   gap: var(--spacing-300);
   flex-wrap: wrap;
-  display: flex;
 }
 .readiness__title {
   font-size: 0.875rem;
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 .readiness__summary {
-  color: var(--color-content-default-secondary);
   font-size: 0.875rem;
+  color: var(--color-text-secondary);
 }
 .readiness__summary strong {
   color: var(--st-cleared);
-  font-weight: var(--typography-font-weight-bold);
+  font-weight: var(--font-weight-bold);
 }
 .readiness__bar {
-  border-radius: var(--radius-full);
-  background: var(--color-background-default);
-  height: 10px;
   display: flex;
+  height: 10px;
+  border-radius: var(--radius-full);
   overflow: hidden;
+  background: var(--color-background);
 }
 .readiness__bar > div + div {
-  border-left: 1px solid var(--color-background-elevation-raised);
+  border-left: 1px solid var(--color-surface);
 }
 .readiness__legend {
-  gap: var(--spacing-200) var(--spacing-500);
-  flex-wrap: wrap;
+  list-style: none;
   margin: 0;
   padding: 0;
-  list-style: none;
   display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-200) var(--spacing-500);
 }
 .readiness__legend-item {
+  display: flex;
   align-items: center;
   gap: var(--spacing-150);
-  color: var(--color-content-default-secondary);
   font-size: 0.875rem;
-  display: flex;
+  color: var(--color-text-secondary);
 }
 .readiness__legend-item[data-empty="true"] {
   opacity: 0.4;
 }
 .readiness__swatch {
-  border-radius: var(--radius-050);
-  flex-shrink: 0;
   width: 12px;
   height: 12px;
+  border-radius: var(--radius-050);
+  flex-shrink: 0;
 }
 .readiness__legend-label {
-  color: var(--color-content-default);
+  color: var(--color-text-primary);
 }
 .readiness__legend-count {
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
   font-variant-numeric: tabular-nums;
 }
 .readiness {
   break-inside: avoid;
-  border-color: var(--color-border-default, #ccc);
+  border-color: var(--color-border, #ccc);
 }
 ```
 
 ## Tokens
-- `--color-background-default`: #fafafa _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-background`: #fafafa _(semantic)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--font-weight-bold`: 650 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-050`: .125rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
@@ -196,5 +198,3 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--st-cleared`: #1a9850 _(component)_
-- `--typography-font-weight-bold`: 650 _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_

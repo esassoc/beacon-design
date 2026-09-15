@@ -11,7 +11,7 @@ The 149 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-accent` | `#f76b15` |
 | `--color-background-brand` | `#005862` |
 | `--color-background-brand-hover` | `#00474f` |
-| `--color-background-brand-muted` | `#eef5f4` |
+| `--color-background-brand-muted` | `#00918b` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
 | `--color-background-field` | `#0000` |
@@ -21,7 +21,7 @@ The 149 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-utility-warning` | `#f59e0b` |
 | `--color-border-default` | `#dcdcdc` |
 | `--color-border-default-subtle` | `#efefef` |
-| `--color-content-brand` | `#005862` |
+| `--color-content-brand` | `#2a7e3b` |
 | `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
@@ -104,6 +104,7 @@ The 149 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
 | `--bcn-aldo-50` | `#e8f6f5` |
+| `--bcn-content-muted` | `#7c7c7c` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-1000` | `#000` |
 | `--bcn-gray-200` | `#dcdcdc` |
@@ -146,7 +147,6 @@ The 149 design tokens this page actually uses, resolved to their final values fo
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
-| `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |

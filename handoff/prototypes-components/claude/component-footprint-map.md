@@ -47,8 +47,8 @@ The second view, asked for explicitly on the design call: where the components A
             >
               <img
                 alt=""
-                src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/14/2663/6314?access_token=undefined"
-                class="leaflet-tile"
+                src="https://b.basemaps.cartocdn.com/light_all/14/2663/6314.png"
+                class="leaflet-tile leaflet-tile-loaded"
                 style="
                   width: 256px;
                   height: 256px;
@@ -316,9 +316,7 @@ The second view, asked for explicitly on the design call: where the components A
               </svg>
               Leaflet</a
             >
-            <span aria-hidden="true">|</span> ©
-            <a href="https://www.mapbox.com/about/maps/">Mapbox</a> ©
-            <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>
+            <span aria-hidden="true">|</span> © OpenStreetMap © CARTO
           </div>
         </div>
       </div>

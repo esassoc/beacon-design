@@ -22,8 +22,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 <section class="bcn-sr">
   <!-- 1 · Search field — mirrors the omnibox's own leading-icon + bare input -->
   <div class="bcn-sr__search">
-    <span class="bcn-sr__search-icon" aria-hidden="true"
-      ><svg
+    <span class="bcn-sr__search-icon" aria-hidden="true">
+      <svg
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -32,8 +32,10 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
         stroke-linejoin="round"
       >
         <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.3-4.3"></path></svg></span
-    ><input
+        <path d="m21 21-4.3-4.3"></path>
+      </svg>
+    </span>
+    <input
       id="results-query"
       class="bcn-sr__input"
       type="search"
@@ -52,17 +54,18 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
         role="tab"
         aria-selected="true"
       >
-        <span class="bcn-sr__scope-label">All</span
-        ><span class="bcn-sr__scope-count" data-scope-count="">147</span></button
-      ><button
+        <span class="bcn-sr__scope-label">All</span>
+        <span class="bcn-sr__scope-count" data-scope-count="">147</span>
+      </button>
+      <button
         type="button"
         class="bcn-sr__scope"
         data-scope="source-documents"
         role="tab"
         aria-selected="false"
       >
-        <span class="bcn-sr__scope-label">Source Documents</span
-        ><span class="bcn-sr__scope-count" data-scope-count="">0</span></button
+        <span class="bcn-sr__scope-label">Source Documents</span>
+        <span class="bcn-sr__scope-count" data-scope-count="">0</span></button
       ><button
         type="button"
         class="bcn-sr__scope"
@@ -70,8 +73,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
         role="tab"
         aria-selected="false"
       >
-        <span class="bcn-sr__scope-label">Commitments</span
-        ><span class="bcn-sr__scope-count" data-scope-count="">143</span></button
+        <span class="bcn-sr__scope-label">Commitments</span>
+        <span class="bcn-sr__scope-count" data-scope-count="">143</span></button
       ><button
         type="button"
         class="bcn-sr__scope"
@@ -79,8 +82,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
         role="tab"
         aria-selected="false"
       >
-        <span class="bcn-sr__scope-label">Requirements</span
-        ><span class="bcn-sr__scope-count" data-scope-count="">1</span></button
+        <span class="bcn-sr__scope-label">Requirements</span>
+        <span class="bcn-sr__scope-count" data-scope-count="">1</span></button
       ><button
         type="button"
         class="bcn-sr__scope"
@@ -88,8 +91,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
         role="tab"
         aria-selected="false"
       >
-        <span class="bcn-sr__scope-label">Actions</span
-        ><span class="bcn-sr__scope-count" data-scope-count="">2</span></button
+        <span class="bcn-sr__scope-label">Actions</span>
+        <span class="bcn-sr__scope-count" data-scope-count="">2</span></button
       ><button
         type="button"
         class="bcn-sr__scope"
@@ -97,8 +100,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
         role="tab"
         aria-selected="false"
       >
-        <span class="bcn-sr__scope-label">Components</span
-        ><span class="bcn-sr__scope-count" data-scope-count="">0</span></button
+        <span class="bcn-sr__scope-label">Components</span>
+        <span class="bcn-sr__scope-count" data-scope-count="">0</span></button
       ><button
         type="button"
         class="bcn-sr__scope"
@@ -106,8 +109,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
         role="tab"
         aria-selected="false"
       >
-        <span class="bcn-sr__scope-label">Evidence of Compliance</span
-        ><span class="bcn-sr__scope-count" data-scope-count="">1</span></button
+        <span class="bcn-sr__scope-label">Evidence of Compliance</span>
+        <span class="bcn-sr__scope-count" data-scope-count="">1</span></button
       ><button
         type="button"
         class="bcn-sr__scope"
@@ -115,8 +118,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
         role="tab"
         aria-selected="false"
       >
-        <span class="bcn-sr__scope-label">Work Areas</span
-        ><span class="bcn-sr__scope-count" data-scope-count="">0</span></button
+        <span class="bcn-sr__scope-label">Work Areas</span>
+        <span class="bcn-sr__scope-count" data-scope-count="">0</span></button
       ><button
         type="button"
         class="bcn-sr__scope"
@@ -124,8 +127,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
         role="tab"
         aria-selected="false"
       >
-        <span class="bcn-sr__scope-label">Observations</span
-        ><span class="bcn-sr__scope-count" data-scope-count="">0</span>
+        <span class="bcn-sr__scope-label">Observations</span>
+        <span class="bcn-sr__scope-count" data-scope-count="">0</span>
       </button>
     </nav>
     <div class="bcn-sr__main">
@@ -147,22 +150,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               <path d="m21 21-4.3-4.3"></path>
             </svg>
           </div>
-          <h3 class="esa-empty-state__title typography-label-md-strong">
-            Search the project
-          </h3>
-          <p class="esa-empty-state__description typography-body-sm">
+          <h3 class="esa-empty-state__title">Search the project</h3>
+          <p class="esa-empty-state__description">
             Source documents, commitments, requirements, actions, components, evidence,
             work areas, and observations — search titles and full document text.
           </p>
-          <div class="esa-empty-state__actions typography-label-md"></div>
+          <div class="esa-empty-state__actions"></div>
         </div>
       </div>
       <!-- Grouped results -->
       <div class="bcn-sr__results">
         <section class="bcn-sr__group" data-group="source-documents" hidden="">
           <header class="bcn-sr__group-head">
-            <span class="bcn-sr__group-label">Source Documents</span
-            ><span class="bcn-sr__group-count" data-group-count="">0</span>
+            <span class="bcn-sr__group-label">Source Documents</span>
+            <span class="bcn-sr__group-count" data-group-count="">0</span>
           </header>
           <div class="bcn-sr__rows">
             <a
@@ -172,14 +173,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="source-documents"
               data-entity="3600 alameda avenue project feir final environmental impact report · 130 requirements"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
-                    >3600 Alameda Avenue Project FEIR</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">3600 Alameda Avenue Project FEIR</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-source-document"
@@ -187,14 +187,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="source-documents"
               data-entity="delta conveyance project eir environmental impact report"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
-                    >Delta Conveyance Project EIR</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Delta Conveyance Project EIR</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-source-document"
@@ -202,14 +201,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="source-documents"
               data-entity="incidental take permit (itp) 2081 cdfw 2081(b) permit · 36 studies"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
-                    >Incidental Take Permit (ITP) 2081</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Incidental Take Permit (ITP) 2081</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-source-document"
@@ -217,14 +215,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="source-documents"
               data-entity="biological opinion — delta smelt usfws biological opinion"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
-                    >Biological Opinion — Delta Smelt</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Biological Opinion — Delta Smelt</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-source-document"
@@ -232,14 +229,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="source-documents"
               data-entity="nesting bird management plan construction management plan"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
-                    >Nesting Bird Management Plan</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Nesting Bird Management Plan</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-source-document"
@@ -247,21 +243,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="source-documents"
               data-entity="stormwater pollution prevention plan (swppp) construction stormwater plan"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Stormwater Pollution Prevention Plan (SWPPP)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div
-            ></a>
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div>
+            </a>
           </div>
         </section>
         <section class="bcn-sr__group" data-group="commitments">
           <header class="bcn-sr__group-head">
-            <span class="bcn-sr__group-label">Commitments</span
-            ><span class="bcn-sr__group-count" data-group-count="">143</span>
+            <span class="bcn-sr__group-label">Commitments</span>
+            <span class="bcn-sr__group-count" data-group-count="">143</span>
           </header>
           <div class="bcn-sr__rows">
             <a
@@ -270,14 +267,15 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-id="cm-dcp-0"
               data-scope="commitments"
               data-entity="california least tern avoidance and minimization measures "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">6.3.2.2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">6.3.2.2</span>
+                  <span class="bcn-sr__row-title"
                     >California Least Tern Avoidance and Minimization Measures</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … on (April 15 to August 15). Construction-related noise level will be
@@ -314,21 +312,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   suitable California least tern habitat.All lights will be screened and
                   directed down toward work activities and away …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-1"
               data-scope="commitments"
               data-entity="least bell’s vireo avoidance and minimization measures "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">6.3.2.3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">6.3.2.3</span>
+                  <span class="bcn-sr__row-title"
                     >Least Bell’s Vireo Avoidance and Minimization Measures</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … tivities occurring between May 15 through September 1.1. Prior to the
@@ -351,22 +350,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   and maintained as far as possible, with a minimum distance of 500 feet,
                   from suitable least Bell’s vireo habitat.6. All lights will b …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-2"
               data-scope="commitments"
               data-entity="western yellow-billed cuckoo avoidance and minimization measures "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">6.3.2.4</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">6.3.2.4</span>
+                  <span class="bcn-sr__row-title"
                     >Western Yellow-Billed Cuckoo Avoidance and Minimization
                     Measures</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … tivities occurring between May 15 through September 1.1. Prior to the
@@ -389,21 +389,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   with a minimum distance of 500 feet, from suitable western yellow-billed
                   cuckoo habitat.6. All lights will be …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-3"
               data-scope="commitments"
               data-entity="california red-legged frog avoidance and minimization measures "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">6.3.2.5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">6.3.2.5</span>
+                  <span class="bcn-sr__row-title"
                     >California Red-Legged Frog Avoidance and Minimization Measures</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. When each site is available for surveys, a Service-approved
@@ -426,7 +427,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   approved by the Service based on site conditions and expected risks to
                   Calif …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -434,16 +435,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="install visual barriers between construction work areas and sensitive receptors (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AES-1a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AES-1a</span>
+                  <span class="bcn-sr__row-title"
                     >Install Visual Barriers between Construction Work Areas and Sensitive
                     Receptors (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -451,15 +453,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="apply aesthetic design treatments to project structures "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AES-1b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AES-1b</span>
+                  <span class="bcn-sr__row-title"
                     >Apply Aesthetic Design Treatments to Project Structures</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -467,16 +470,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="implement best management practices to implement project landscaping plan (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AES-1c</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AES-1c</span>
+                  <span class="bcn-sr__row-title"
                     >Implement Best Management Practices to Implement Project Landscaping
                     Plan (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -484,16 +488,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="limit construction outside of daylight hours within 0.25 mile of residents at the intakes (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AES-4a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AES-4a</span>
+                  <span class="bcn-sr__row-title"
                     >Limit Construction Outside of Daylight Hours within 0.25 Mile of
                     Residents at the Intakes (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -501,16 +506,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="minimize fugitive light from portable sources used for construction (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AES-4b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AES-4b</span>
+                  <span class="bcn-sr__row-title"
                     >Minimize Fugitive Light from Portable Sources Used for Construction
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -518,17 +524,18 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="install visual barriers along access routes, where necessary, to prevent light spill from truck headlights toward residences (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AES-4c</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AES-4c</span>
+                  <span class="bcn-sr__row-title"
                     >Install Visual Barriers along Access Routes, Where Necessary, to
                     Prevent Light Spill from Truck Headlights toward Residences
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -536,13 +543,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="preserve agricultural land "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AG-1</span
-                  ><span class="bcn-sr__row-title">Preserve Agricultural Land</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AG-1</span>
+                  <span class="bcn-sr__row-title">Preserve Agricultural Land</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -550,16 +558,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="replacement or relocation of affected infrastructure supporting agricultural properties (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AG-3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AG-3</span>
+                  <span class="bcn-sr__row-title"
                     >Replacement or Relocation of Affected Infrastructure Supporting
                     Agricultural Properties (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -567,15 +576,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="conduct environmental resources worker awareness training "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-1</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Environmental Resources Worker Awareness Training</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -583,15 +593,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement hazardous materials management plans "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-2</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement Hazardous Materials Management Plans</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -599,16 +610,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement spill prevention, control, and countermeasure plans "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-3</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement Spill Prevention, Control, and Countermeasure
                     Plans</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -616,15 +628,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement erosion and sediment control plans "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-4a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-4a</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement Erosion and Sediment Control Plans</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -632,15 +645,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement stormwater pollution prevention plans "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-4b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-4b</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement Stormwater Pollution Prevention Plans</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -648,15 +662,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement a fire prevention and control plan "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-5</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Fire Prevention and Control Plan</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -664,15 +679,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="conduct cultural resources awareness training "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-6</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-6</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Cultural Resources Awareness Training</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -680,15 +696,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="off-road heavy-duty engines "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-7</span
-                  ><span class="bcn-sr__row-title"
-                    >Off-Road Heavy-Duty Engines</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-7</span>
+                  <span class="bcn-sr__row-title">Off-Road Heavy-Duty Engines</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -696,13 +711,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="on-road haul trucks "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-8</span
-                  ><span class="bcn-sr__row-title">On-Road Haul Trucks</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-8</span>
+                  <span class="bcn-sr__row-title">On-Road Haul Trucks</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -710,13 +726,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="on-site locomotives "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-9</span
-                  ><span class="bcn-sr__row-title">On-Site Locomotives</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-9</span>
+                  <span class="bcn-sr__row-title">On-Site Locomotives</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -724,13 +741,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="marine vessels "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-10</span
-                  ><span class="bcn-sr__row-title">Marine Vessels</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-10</span>
+                  <span class="bcn-sr__row-title">Marine Vessels</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -738,13 +756,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="fugitive dust control "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-11</span
-                  ><span class="bcn-sr__row-title">Fugitive Dust Control</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-11</span>
+                  <span class="bcn-sr__row-title">Fugitive Dust Control</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -752,15 +771,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="on-site concrete batching plants "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-12</span
-                  ><span class="bcn-sr__row-title"
-                    >On-Site Concrete Batching Plants</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-12</span>
+                  <span class="bcn-sr__row-title">On-Site Concrete Batching Plants</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -768,29 +786,31 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="dwr best management practices to reduce ghg emissions "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-13</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-13</span>
+                  <span class="bcn-sr__row-title"
                     >DWR Best Management Practices to Reduce GHG Emissions</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-26"
               data-scope="commitments"
               data-entity="construction best management practices for biological resources "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-14</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-14</span>
+                  <span class="bcn-sr__row-title"
                     >Construction Best Management Practices for Biological Resources</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   DWR will require all construction and restoration activities in and
@@ -829,7 +849,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   non-disturbance of sensitive resources.
                 </p>
                 <p class="bcn-sr__row-more">+ 41 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -837,16 +857,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="sediment monitoring, modeling, and reintroduction adaptive management "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-15</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-15</span>
+                  <span class="bcn-sr__row-title"
                     >Sediment Monitoring, Modeling, and Reintroduction Adaptive
                     Management</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -854,31 +875,33 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="provide notification of construction and maintenance activities in waterways "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-16</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-16</span>
+                  <span class="bcn-sr__row-title"
                     >Provide Notification of Construction and Maintenance Activities in
                     Waterways</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-29"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on terrestrial biological resources from maintenance activities "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-17</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-17</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Terrestrial Biological Resources from
                     Maintenance Activities</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … intenance ActivitiesDWR will implement the following process and
@@ -923,7 +946,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   recommendations. See Chapter 3 for appropriate species-specific buffers.
                   Maintenance activities will avoid impacts on rodent burrows, w …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -931,15 +954,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="avoid and minimize operational traffic impacts on wildlife "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-18</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-18</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Operational Traffic Impacts on Wildlife</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -947,16 +971,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="minimize fugitive light from portable sources used for construction "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-19</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-19</span>
+                  <span class="bcn-sr__row-title"
                     >Minimize Fugitive Light from Portable Sources Used for
                     Construction</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -964,16 +989,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="install visual barriers along access routes, where necessary, to prevent light spill from truck headlights toward residences "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-20</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-20</span>
+                  <span class="bcn-sr__row-title"
                     >Install Visual Barriers along Access Routes, Where Necessary, to
                     Prevent Light Spill from Truck Headlights toward Residences</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -981,29 +1007,31 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement a noise control plan "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-21</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-21</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Noise Control Plan</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-34"
               data-scope="commitments"
               data-entity="electrical power line support placement "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-22</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-22</span>
+                  <span class="bcn-sr__row-title"
                     >Electrical Power Line Support Placement</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … distribution lines and the locations of necessary appurtenances such
@@ -1019,21 +1047,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   as reasonably and practically feasible to preconstruction conditions by
                   reestablishing surface conditions through carefully gradi …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-35"
               data-scope="commitments"
               data-entity="develop and implement a mercury management and monitoring plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-23</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-23</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Mercury Management and Monitoring Plan</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … discernably worse. The MMMP will serve as the framework for
@@ -1047,7 +1076,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   studies to be conducted at potential tidal habitat sites to characterize
                   mercury sources and concentrations of mercury, meth …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1055,15 +1084,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="minimize access road impacts on listed amphibian connectivity "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-24</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-24</span>
+                  <span class="bcn-sr__row-title"
                     >Minimize Access Road Impacts on Listed Amphibian Connectivity</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1071,15 +1101,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement a fish rescue and salvage plan "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-25</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-25</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Fish Rescue and Salvage Plan</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1087,16 +1118,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement an underwater sound control and abatement plan "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-26</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-26</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement an Underwater Sound Control and Abatement
                     Plan</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1104,15 +1136,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement a barge operations plan "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AMM-27</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AMM-27</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Barge Operations Plan</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1120,16 +1153,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="offset construction-generated criteria pollutants in the sacramento valley air basin (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AQ-1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AQ-1</span>
+                  <span class="bcn-sr__row-title"
                     >Offset Construction-Generated Criteria Pollutants in the Sacramento
                     Valley Air Basin (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1137,16 +1171,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="offset construction-generated criteria pollutants in the san joaquin valley air basin (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AQ-2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AQ-2</span>
+                  <span class="bcn-sr__row-title"
                     >Offset Construction-Generated Criteria Pollutants in the San Joaquin
                     Valley Air Basin (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1154,16 +1189,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="offset construction-generated criteria pollutants in the san francisco bay area air basin (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AQ-3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AQ-3</span>
+                  <span class="bcn-sr__row-title"
                     >Offset Construction-Generated Criteria Pollutants in the San
                     Francisco Bay Area Air Basin (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1171,16 +1207,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="avoid public exposure to localized particulate matter and nitrogen dioxide concentrations (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AQ-5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AQ-5</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid Public Exposure to Localized Particulate Matter and Nitrogen
                     Dioxide Concentrations (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1188,17 +1225,18 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement a ghg reduction plan to reduce ghg emissions from construction and net cvp operational pumping to net zero (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AQ-9</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AQ-9</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a GHG Reduction Plan to Reduce GHG Emissions
                     from Construction and Net CVP Operational Pumping to Net Zero
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1206,16 +1244,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement an underwater sound control and abatement plan (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AQUA-1a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AQUA-1a</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement an Underwater Sound Control and Abatement Plan
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1223,29 +1262,31 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement a barge operations plan (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AQUA-1b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AQUA-1b</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Barge Operations Plan (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-47"
               data-scope="commitments"
               data-entity="develop and implement a fish rescue and salvage plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AQUA-1c</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AQUA-1c</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Fish Rescue and Salvage Plan</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   All fish rescue and salvage operations will be conducted under the
@@ -1273,22 +1314,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   species.
                 </p>
                 <p class="bcn-sr__row-more">+ 40 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-48"
               data-scope="commitments"
               data-entity="avoid or minimize impacts on special-status natural communities and special-status plants "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-2a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-2a</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid or Minimize Impacts on Special-Status Natural Communities and
                     Special-Status Plants</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … gation measures would be implemented to avoid or offset impacts. The
@@ -1301,22 +1343,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Protocols for Surveying and Evaluating Impacts to Special Status Native
                   Plant Populations and Sensitive Natural Communities (Califor …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-49"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on terrestrial biological resources from maintenance activities (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-2b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-2b</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Terrestrial Biological Resources from
                     Maintenance Activities (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   DWR will implement the following process and measures to avoid and
@@ -1372,7 +1415,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   during the environmental clearance review or preconstruction s …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1380,31 +1423,33 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="electrical power line support placement (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-2c</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-2c</span>
+                  <span class="bcn-sr__row-title"
                     >Electrical Power Line Support Placement (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-51"
               data-scope="commitments"
               data-entity="avoid and minimize impacts from construction on vernal pool aquatic invertebrates and critical habitat for vernal pool fairy shrimp (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-14</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-14</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts from Construction on Vernal Pool Aquatic
                     Invertebrates and Critical Habitat for Vernal Pool Fairy Shrimp
                     (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … e species will be conducted to determine whether they are present or
@@ -1415,22 +1460,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   permit under Section 10(a)(1)(A) of the ESA.
                 </p>
                 <p class="bcn-sr__row-more">+ 9 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-52"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on valley elderberry longhorn beetle (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-18</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-18</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Valley Elderberry Longhorn Beetle
                     (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   As properties become accessible for initiating project activities, DWR
@@ -1443,21 +1489,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   diameter at ground level (U.S …
                 </p>
                 <p class="bcn-sr__row-more">+ 9 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-53"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on bumble bees (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-21</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-21</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Bumble Bees (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. The ground disturbance footprint will be surveyed for foraging
@@ -1527,22 +1574,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   et al. 1992; Dramstad and Fry 1995), therefore, these plants wil …
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-54"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on california tiger salamander (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-22a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-22a</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on California Tiger Salamander
                     (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. When each site is available for surveys a USFWS- and CDFW-approved
@@ -1611,7 +1659,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   to use the …
                 </p>
                 <p class="bcn-sr__row-more">+ 7 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1619,30 +1667,32 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="avoid and minimize operational traffic impacts on wildlife (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-22b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-22b</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Operational Traffic Impacts on Wildlife
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-56"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on western spadefoot toad (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-23</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-23</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Western Spadefoot Toad (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … for work in a given area. Surveys and monitoring will be conducted
@@ -1706,22 +1756,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   fee …
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-57"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on california red-legged frog and critical habitat (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-24a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-24a</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on California Red-Legged Frog and Critical
                     Habitat (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   5. When each site is available for surveys,
@@ -1819,7 +1870,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   costs associated with the care or treatment of such injured …
                 </p>
                 <p class="bcn-sr__row-more">+ 5 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -1827,30 +1878,32 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="compensate for impacts on california red-legged frog habitat connectivity (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-24b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-24b</span>
+                  <span class="bcn-sr__row-title"
                     >Compensate for Impacts on California Red-Legged Frog Habitat
                     Connectivity (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-59"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on western pond turtle (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-25</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-25</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Western Pond Turtle (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … d turtle will be required only for surface construction occurring
@@ -1913,21 +1966,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   relocate turtles.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-60"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on special-status reptiles (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-26</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-26</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Special-Status Reptiles (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   During project implementation and prior to project construction, DWR
@@ -1970,21 +2024,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   and minimization measures are not being fulfilled.
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-61"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on giant garter snake (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-30</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-30</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Giant Garter Snake (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. When each site is available for surveys, a USFWS- and CDFW-approved
@@ -2051,22 +2106,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   or greater occurs during the aestivation …
                 </p>
                 <p class="bcn-sr__row-more">+ 4 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-62"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on western yellow-billed cuckoo (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-31</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-31</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Western Yellow-Billed Cuckoo
                     (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. Prior to the construction, a noise expert will create a sound level
@@ -2090,22 +2146,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   lights will be …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-63"
               data-scope="commitments"
               data-entity="conduct preconstruction surveys and implement protective measures to avoid disturbance of california black rail (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-32</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-32</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Preconstruction Surveys and Implement Protective Measures to
                     Avoid Disturbance of California Black Rail (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … s and where access is available. Potentially suitable habitat includes
@@ -2177,21 +2234,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   measures are not being fulfilled.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-64"
               data-scope="commitments"
               data-entity="avoid and minimize disturbance of sandhill cranes (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-33</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-33</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Disturbance of Sandhill Cranes (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Preconstruction Surveys a. Preconstruction surveys will be conducted to
@@ -2257,22 +2315,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   establishment.
                 </p>
                 <p class="bcn-sr__row-more">+ 6 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-65"
               data-scope="commitments"
               data-entity="avoid california least tern nesting colonies and minimize indirect effects on colonies (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-34</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-34</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid California Least Tern Nesting Colonies and Minimize Indirect
                     Effects on Colonies (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … on, DWR will require that at least three preconstruction surveys for
@@ -2303,22 +2362,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   monitoring.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-66"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on cormorant, heron, and egret rookeries (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-35</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-35</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Cormorant, Heron, and Egret Rookeries
                     (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. To the maximum extent feasible, as determined by the contractor in
@@ -2362,23 +2422,24 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   active.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-67"
               data-scope="commitments"
               data-entity="conduct nesting surveys for special-status and non-special-status birds and raptors and implement protective measures to avoid disturbance of nesting birds and raptors (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-36a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-36a</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Nesting Surveys for Special-Status and Non-Special-Status
                     Birds and Raptors and Implement Protective Measures to Avoid
                     Disturbance of Nesting Birds and Raptors (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. Timing Restrictions. To the maximum extent feasible, as determined by
@@ -2437,22 +2498,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   <mark>biologist</mark>(s) determine that bird behavior has normalized.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-68"
               data-scope="commitments"
               data-entity="conduct preconstruction surveys and implement protective measures to avoid disturbance of white-tailed kite (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-36b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-36b</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Preconstruction Surveys and Implement Protective Measures to
                     Avoid Disturbance of White-Tailed Kite (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. Preconstruction Surveys. Preconstruction surveys will be conducted by
@@ -2572,22 +2634,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   trimming of known or suitable nest trees cannot be avoided.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-69"
               data-scope="commitments"
               data-entity="conduct surveys for golden eagle and avoid disturbance of occupied nests (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-37</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-37</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Surveys for Golden Eagle and Avoid Disturbance of Occupied
                     Nests (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. Prior to the start of construction, DWR will require qualified
@@ -2612,22 +2675,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   CDFW, identifies protective measures that avoid take.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-70"
               data-scope="commitments"
               data-entity="conduct preconstruction surveys and implement protective measures to minimize disturbance of swainson's hawk (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-39</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-39</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Preconstruction Surveys and Implement Protective Measures to
                     Minimize Disturbance of Swainson's Hawk (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. Preconstruction Surveys. Preconstruction surveys will be conducted by
@@ -2787,21 +2851,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   trees cannot be avoided.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-71"
               data-scope="commitments"
               data-entity="conduct surveys and minimize impacts on burrowing owl (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-40</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-40</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Surveys and Minimize Impacts on Burrowing Owl (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   2. Avoidance and Minimization. To the extent feasible, as determined by
@@ -2861,22 +2926,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   animals that may be inside the burrow.
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-72"
               data-scope="commitments"
               data-entity="conduct surveys and minimize impacts on least bell's vireo (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-42</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-42</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Surveys and Minimize Impacts on Least Bell's Vireo
                     (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. Prior to the construction, a noise expert will create a sound level
@@ -2902,22 +2968,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   from suitable least Bell’s vireo habitat.6. All lights will b …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-73"
               data-scope="commitments"
               data-entity="conduct preconstruction surveys and implement protective measures to avoid disturbance of tricolored blackbird (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-44</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-44</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Preconstruction Surveys and Implement Protective Measures to
                     Avoid Disturbance of Tricolored Blackbird (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … or to construction, DWR will contact the UC Davis Tricolored Blackbird
@@ -3028,7 +3095,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   increasing the size of the non-disturbance buffer, delaying night …
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3036,30 +3103,32 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="compensate for the loss of bat roosting habitat on bridges and overpasses (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-45a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-45a</span>
+                  <span class="bcn-sr__row-title"
                     >Compensate for the Loss of Bat Roosting Habitat on Bridges and
                     Overpasses (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-75"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on roosting bats (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-45b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-45b</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Roosting Bats (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   1. Approximately 2 years prior to surface construction, including
@@ -3138,22 +3207,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   active.
                 </p>
                 <p class="bcn-sr__row-more">+ 7 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-76"
               data-scope="commitments"
               data-entity="conduct preconstruction survey for san joaquin kit fox and implement avoidance and minimization measures (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-46</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-46</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Preconstruction Survey for San Joaquin Kit Fox and Implement
                     Avoidance and Minimization Measures (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   As properties become accessible for initiating project activities within
@@ -3242,22 +3312,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   destroyed den.
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-77"
               data-scope="commitments"
               data-entity="conduct preconstruction survey for american badger and implement avoidance and minimization measures (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-47</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-47</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Preconstruction Survey for American Badger and Implement
                     Avoidance and Minimization Measures (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   DWR will require a qualified <mark>biologist</mark> to survey for
@@ -3272,22 +3343,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   collapsed by hand to prevent occupation of the den between the time of
                   the s …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-78"
               data-scope="commitments"
               data-entity="avoid and minimize impacts on terrestrial wildlife connectivity and movement (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">BIO-53</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">BIO-53</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid and Minimize Impacts on Terrestrial Wildlife Connectivity and
                     Movement (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Design and Construction The following measures will be implemented
@@ -3334,21 +3406,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   curbs) …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-79"
               data-scope="commitments"
               data-entity="san joaquin kit fox avoidance and minimization measures "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CM 6.3.2.1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CM 6.3.2.1</span>
+                  <span class="bcn-sr__row-title"
                     >San Joaquin Kit Fox Avoidance and Minimization Measures</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   For areas verified as being suitable for San Joaquin kit fox,
@@ -3394,7 +3467,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   50-foot buffer using flagging.
                 </p>
                 <p class="bcn-sr__row-more">+ 12 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3402,13 +3475,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="general design guidelines "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-0</span
-                  ><span class="bcn-sr__row-title">General Design Guidelines</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-0</span>
+                  <span class="bcn-sr__row-title">General Design Guidelines</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3416,15 +3490,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tidal perennial aquatic habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-1</span
-                  ><span class="bcn-sr__row-title"
-                    >Tidal Perennial Aquatic Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-1</span>
+                  <span class="bcn-sr__row-title">Tidal Perennial Aquatic Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3432,15 +3505,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tidal freshwater emergent wetland "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-2</span
-                  ><span class="bcn-sr__row-title"
-                    >Tidal Freshwater Emergent Wetland</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-2</span>
+                  <span class="bcn-sr__row-title">Tidal Freshwater Emergent Wetland</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3448,15 +3520,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="valley/foothill riparian habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-3</span
-                  ><span class="bcn-sr__row-title"
-                    >Valley/Foothill Riparian Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-3</span>
+                  <span class="bcn-sr__row-title">Valley/Foothill Riparian Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3464,15 +3535,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="nontidal perennial aquatic habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-4</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-4</span>
+                  <span class="bcn-sr__row-title"
                     >Nontidal Perennial Aquatic Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3480,15 +3552,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="nontidal freshwater perennial emergent wetland "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-5</span>
+                  <span class="bcn-sr__row-title"
                     >Nontidal Freshwater Perennial Emergent Wetland</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3496,15 +3569,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="nontidal brackish emergent wetland "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-6</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-6</span>
+                  <span class="bcn-sr__row-title"
                     >Nontidal Brackish Emergent Wetland</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3512,15 +3586,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="alkaline seasonal wetland complex "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-7</span
-                  ><span class="bcn-sr__row-title"
-                    >Alkaline Seasonal Wetland Complex</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-7</span>
+                  <span class="bcn-sr__row-title">Alkaline Seasonal Wetland Complex</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3528,13 +3601,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="vernal pool complex "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-8</span
-                  ><span class="bcn-sr__row-title">Vernal Pool Complex</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-8</span>
+                  <span class="bcn-sr__row-title">Vernal Pool Complex</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3542,13 +3616,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="special-status plants "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-9</span
-                  ><span class="bcn-sr__row-title">Special-Status Plants</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-9</span>
+                  <span class="bcn-sr__row-title">Special-Status Plants</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3556,13 +3631,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="mason’s lilaeopsis "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-10</span
-                  ><span class="bcn-sr__row-title">Mason’s Lilaeopsis</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-10</span>
+                  <span class="bcn-sr__row-title">Mason’s Lilaeopsis</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3570,15 +3646,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="vernal pool fairy shrimp and vernal pool tadpole shrimp habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-11</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-11</span>
+                  <span class="bcn-sr__row-title"
                     >Vernal Pool Fairy Shrimp and Vernal Pool Tadpole Shrimp Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3586,15 +3663,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="valley elderberry longhorn beetle habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-12</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-12</span>
+                  <span class="bcn-sr__row-title"
                     >Valley Elderberry Longhorn Beetle Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3602,15 +3680,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="california tiger salamander habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-13</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-13</span>
+                  <span class="bcn-sr__row-title"
                     >California Tiger Salamander Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3618,15 +3697,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="california red-legged frog habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-14</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-14</span>
+                  <span class="bcn-sr__row-title"
                     >California Red-Legged Frog Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3634,13 +3714,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="giant garter snake habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-15</span
-                  ><span class="bcn-sr__row-title">Giant Garter Snake Habitat</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-15</span>
+                  <span class="bcn-sr__row-title">Giant Garter Snake Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3648,15 +3729,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="western yellow-billed cuckoo habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-16</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-16</span>
+                  <span class="bcn-sr__row-title"
                     >Western Yellow-Billed Cuckoo Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3664,15 +3746,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="california black rail habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-17</span
-                  ><span class="bcn-sr__row-title"
-                    >California Black Rail Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-17</span>
+                  <span class="bcn-sr__row-title">California Black Rail Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3680,15 +3761,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="sandhill crane roosting habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-18a</span
-                  ><span class="bcn-sr__row-title"
-                    >Sandhill Crane Roosting Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-18a</span>
+                  <span class="bcn-sr__row-title">Sandhill Crane Roosting Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3696,15 +3776,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="sandhill crane foraging habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-18b</span
-                  ><span class="bcn-sr__row-title"
-                    >Sandhill Crane Foraging Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-18b</span>
+                  <span class="bcn-sr__row-title">Sandhill Crane Foraging Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3712,15 +3791,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="swainson's hawk nesting habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-19a</span
-                  ><span class="bcn-sr__row-title"
-                    >Swainson's Hawk Nesting Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-19a</span>
+                  <span class="bcn-sr__row-title">Swainson's Hawk Nesting Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3728,15 +3806,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="swainson's hawk foraging habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-19b</span
-                  ><span class="bcn-sr__row-title"
-                    >Swainson's Hawk Foraging Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-19b</span>
+                  <span class="bcn-sr__row-title">Swainson's Hawk Foraging Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3744,15 +3821,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="occupied burrowing owl habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-20</span
-                  ><span class="bcn-sr__row-title"
-                    >Occupied Burrowing Owl Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-20</span>
+                  <span class="bcn-sr__row-title">Occupied Burrowing Owl Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3760,13 +3836,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="least bell's vireo "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-21</span
-                  ><span class="bcn-sr__row-title">Least Bell's Vireo</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-21</span>
+                  <span class="bcn-sr__row-title">Least Bell's Vireo</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3774,15 +3851,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tricolored blackbird nesting habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-22a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-22a</span>
+                  <span class="bcn-sr__row-title"
                     >Tricolored Blackbird Nesting Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3790,15 +3868,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tricolored blackbird breeding foraging habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-22b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-22b</span>
+                  <span class="bcn-sr__row-title"
                     >Tricolored Blackbird Breeding Foraging Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3806,16 +3885,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tidal perennial habitat restoration for construction impacts on habitat for fish and aquatic resources (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-23</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-23</span>
+                  <span class="bcn-sr__row-title"
                     >Tidal Perennial Habitat Restoration for Construction Impacts on
                     Habitat for Fish and Aquatic Resources (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3823,16 +3903,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="channel margin habitat restoration for construction impacts on habitat for fish and aquatic resources "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-24</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-24</span>
+                  <span class="bcn-sr__row-title"
                     >Channel Margin Habitat Restoration for Construction Impacts on
                     Habitat for Fish and Aquatic Resources</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3840,16 +3921,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tidal habitat restoration to mitigate north delta hydrodynamic effects on chinook salmon juveniles "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-25</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-25</span>
+                  <span class="bcn-sr__row-title"
                     >Tidal Habitat Restoration to Mitigate North Delta Hydrodynamic
                     Effects on Chinook Salmon Juveniles</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3857,16 +3939,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="channel margin habitat restoration for operations impacts on chinook salmon juveniles "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-26</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-26</span>
+                  <span class="bcn-sr__row-title"
                     >Channel Margin Habitat Restoration for Operations Impacts on Chinook
                     Salmon Juveniles</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3874,15 +3957,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tidal habitat restoration for operations impacts on delta smelt "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-27</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-27</span>
+                  <span class="bcn-sr__row-title"
                     >Tidal Habitat Restoration for Operations Impacts on Delta Smelt</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3890,28 +3974,30 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tidal habitat restoration for operations impacts on longfin smelt "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-28</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-28</span>
+                  <span class="bcn-sr__row-title"
                     >Tidal Habitat Restoration for Operations Impacts on Longfin
                     Smelt</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-112"
               data-scope="commitments"
               data-entity="crotch bumble bee habitat "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-29</span
-                  ><span class="bcn-sr__row-title">Crotch Bumble Bee Habitat</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-29</span>
+                  <span class="bcn-sr__row-title">Crotch Bumble Bee Habitat</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … ions, including the application of insecticides, as described in U.S.
@@ -3925,7 +4011,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   the lost nest that is permanently affected.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3933,15 +4019,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="northwestern pond turtle habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-30</span
-                  ><span class="bcn-sr__row-title"
-                    >Northwestern Pond Turtle Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-30</span>
+                  <span class="bcn-sr__row-title">Northwestern Pond Turtle Habitat</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3949,13 +4034,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="western spadefoot "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CMP-31</span
-                  ><span class="bcn-sr__row-title">Western Spadefoot</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CMP-31</span>
+                  <span class="bcn-sr__row-title">Western Spadefoot</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3963,13 +4049,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="legal compliance "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 1</span
-                  ><span class="bcn-sr__row-title">Legal Compliance</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 1</span>
+                  <span class="bcn-sr__row-title">Legal Compliance</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3977,13 +4064,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="ceqa compliance "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 2</span
-                  ><span class="bcn-sr__row-title">CEQA Compliance</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 2</span>
+                  <span class="bcn-sr__row-title">CEQA Compliance</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -3991,13 +4079,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="lsa agreement compliance "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 3</span
-                  ><span class="bcn-sr__row-title">LSA Agreement Compliance</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 3</span>
+                  <span class="bcn-sr__row-title">LSA Agreement Compliance</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4005,13 +4094,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="esa compliance "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 4</span
-                  ><span class="bcn-sr__row-title">ESA Compliance</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 4</span>
+                  <span class="bcn-sr__row-title">ESA Compliance</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4019,13 +4109,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="itp time frame compliance "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 5</span
-                  ><span class="bcn-sr__row-title">ITP Time Frame Compliance</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 5</span>
+                  <span class="bcn-sr__row-title">ITP Time Frame Compliance</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4033,16 +4124,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="phase authorizations for pre-implementation and construction activities "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 6</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 6</span>
+                  <span class="bcn-sr__row-title"
                     >Phase Authorizations for Pre-Implementation and Construction
                     Activities</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4050,15 +4142,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="pre-implementation phase authorization package "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 6.1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 6.1</span>
+                  <span class="bcn-sr__row-title"
                     >Pre-Implementation Phase Authorization Package</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4066,15 +4159,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="construction phase authorization package "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 6.2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 6.2</span>
+                  <span class="bcn-sr__row-title"
                     >Construction Phase Authorization Package</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4082,15 +4176,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="cdfw review of the construction phase authorization package "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 6.3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 6.3</span>
+                  <span class="bcn-sr__row-title"
                     >CDFW Review of the Construction Phase Authorization Package</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4098,15 +4193,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="resubmittal of construction phase authorizatio package "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 6.4</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 6.4</span>
+                  <span class="bcn-sr__row-title"
                     >Resubmittal of Construction Phase Authorizatio Package</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4114,15 +4210,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="amendment of construction phase authorization package "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 6.5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 6.5</span>
+                  <span class="bcn-sr__row-title"
                     >Amendment of Construction Phase Authorization Package</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4130,15 +4227,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="phase authorization for operations activities "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 7</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 7</span>
+                  <span class="bcn-sr__row-title"
                     >Phase Authorization for Operations Activities</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4146,15 +4244,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="phase 2 authorization package "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 7.1</span
-                  ><span class="bcn-sr__row-title"
-                    >Phase 2 Authorization Package</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 7.1</span>
+                  <span class="bcn-sr__row-title">Phase 2 Authorization Package</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4162,15 +4259,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="cdfw review of the phase 2 authorization package "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 7.2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 7.2</span>
+                  <span class="bcn-sr__row-title"
                     >CDFW Review of the Phase 2 Authorization Package</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4178,15 +4276,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="resubmittal of phase 2 authorization package "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 7.3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 7.3</span>
+                  <span class="bcn-sr__row-title"
                     >Resubmittal of Phase 2 Authorization Package</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4194,15 +4293,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="amendment of phase 2 authorization package "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 7.4</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 7.4</span>
+                  <span class="bcn-sr__row-title"
                     >Amendment of Phase 2 Authorization Package</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4210,15 +4310,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="phase 2 project operations report "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 7.5</span
-                  ><span class="bcn-sr__row-title"
-                    >Phase 2 Project Operations Report</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 7.5</span>
+                  <span class="bcn-sr__row-title">Phase 2 Project Operations Report</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4226,15 +4325,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="consultation regarding amendment "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 8</span
-                  ><span class="bcn-sr__row-title"
-                    >Consultation Regarding Amendment</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 8</span>
+                  <span class="bcn-sr__row-title">Consultation Regarding Amendment</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4242,58 +4340,62 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="designated representative "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.1</span
-                  ><span class="bcn-sr__row-title">Designated Representative</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.1</span>
+                  <span class="bcn-sr__row-title">Designated Representative</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-134"
               data-scope="commitments"
               data-entity="designated biologist(s), fisheries biologists(s), biological monitor(s) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.2</span>
+                  <span class="bcn-sr__row-title"
                     >Designated <mark>Biologist</mark>(s), Fisheries
                     <mark>Biologist</mark>s(s), Biological Monitor(s)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-135"
               data-scope="commitments"
               data-entity="designated biologist(s), fisheries biologists(s), biological monitor(s) [stop work] authority "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.3</span>
+                  <span class="bcn-sr__row-title"
                     >Designated <mark>Biologist</mark>(s), Fisheries
                     <mark>Biologist</mark>s(s), Biological Monitor(s) [Stop Work]
                     Authority</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-136"
               data-scope="commitments"
               data-entity="education program "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.4</span
-                  ><span class="bcn-sr__row-title">Education Program</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.4</span>
+                  <span class="bcn-sr__row-title">Education Program</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall conduct an education program for all persons employed or
@@ -4308,21 +4410,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Fisheries <mark>Biologist</mark>(s), and Biological Monitor(s).
                 </p>
                 <p class="bcn-sr__row-more">+ 13 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-137"
               data-scope="commitments"
               data-entity="construction monitoring documentation "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.5</span>
+                  <span class="bcn-sr__row-title"
                     >Construction Monitoring Documentation</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s), Fisheries
@@ -4331,7 +4434,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   digital format throughout the construction period, which shall include:
                 </p>
                 <p class="bcn-sr__row-more">+ 4 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4339,25 +4442,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="trash abatement "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.6</span
-                  ><span class="bcn-sr__row-title">Trash Abatement</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.6</span>
+                  <span class="bcn-sr__row-title">Trash Abatement</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-139"
               data-scope="commitments"
               data-entity="erosion control "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.7</span
-                  ><span class="bcn-sr__row-title">Erosion Control</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.7</span>
+                  <span class="bcn-sr__row-title">Erosion Control</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) and/or Biological Monitor(s)
@@ -4366,7 +4471,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   measures immediately.
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4374,27 +4479,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="delineation of property boundaries "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.8</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.8</span>
+                  <span class="bcn-sr__row-title"
                     >Delineation of Property Boundaries</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-141"
               data-scope="commitments"
               data-entity="delineation of habitat "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.9</span
-                  ><span class="bcn-sr__row-title">Delineation of Habitat</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.9</span>
+                  <span class="bcn-sr__row-title">Delineation of Habitat</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … n plans (Condition of Approval 6.2). Permittee shall inspect and
@@ -4406,7 +4513,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Compliance Report (Condition of Approval 10.15).
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4414,13 +4521,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="project access "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.10</span
-                  ><span class="bcn-sr__row-title">Project Access</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.10</span>
+                  <span class="bcn-sr__row-title">Project Access</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4428,27 +4536,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="staging areas "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.11</span
-                  ><span class="bcn-sr__row-title">Staging Areas</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.11</span>
+                  <span class="bcn-sr__row-title">Staging Areas</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-144"
               data-scope="commitments"
               data-entity="vehicle and equipment inspection "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.12</span
-                  ><span class="bcn-sr__row-title"
-                    >Vehicle and Equipment Inspection</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.12</span>
+                  <span class="bcn-sr__row-title">Vehicle and Equipment Inspection</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Vehicles and equipment shall be visually inspected by the Designated
@@ -4462,7 +4570,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   consistent with the requirements of Conditions of Approval of this ITP.
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4470,13 +4578,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="refueling and maintenance "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.13</span
-                  ><span class="bcn-sr__row-title">Refueling and Maintenance</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.13</span>
+                  <span class="bcn-sr__row-title">Refueling and Maintenance</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4484,13 +4593,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="hazardous waste "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.14</span
-                  ><span class="bcn-sr__row-title">Hazardous Waste</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.14</span>
+                  <span class="bcn-sr__row-title">Hazardous Waste</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4498,13 +4608,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="cdfw access "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.15</span
-                  ><span class="bcn-sr__row-title">CDFW Access</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.15</span>
+                  <span class="bcn-sr__row-title">CDFW Access</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4512,15 +4623,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="conservation easements and cdfw managed lands. "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.16</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.16</span>
+                  <span class="bcn-sr__row-title"
                     >Conservation Easements and CDFW Managed Lands.</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4528,13 +4640,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="refuse removal "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.17</span
-                  ><span class="bcn-sr__row-title">Refuse Removal</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.17</span>
+                  <span class="bcn-sr__row-title">Refuse Removal</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4542,13 +4655,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="wildfire prevention "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 9.18</span
-                  ><span class="bcn-sr__row-title">Wildfire Prevention</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 9.18</span>
+                  <span class="bcn-sr__row-title">Wildfire Prevention</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4556,15 +4670,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="notification before commencement "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.1</span
-                  ><span class="bcn-sr__row-title"
-                    >Notification Before Commencement</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.1</span>
+                  <span class="bcn-sr__row-title">Notification Before Commencement</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4572,15 +4685,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="notification of non-compliance "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.2</span
-                  ><span class="bcn-sr__row-title"
-                    >Notification of Non-Compliance</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.2</span>
+                  <span class="bcn-sr__row-title">Notification of Non-Compliance</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4588,16 +4700,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tracking suitable habitat feature disturbances, map updating, and reporting "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.3</span>
+                  <span class="bcn-sr__row-title"
                     >Tracking Suitable Habitat Feature Disturbances, Map Updating, and
                     Reporting</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4605,15 +4718,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="suitable habitat monitoring "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.4</span
-                  ><span class="bcn-sr__row-title"
-                    >Suitable Habitat Monitoring</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.4</span>
+                  <span class="bcn-sr__row-title">Suitable Habitat Monitoring</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4621,25 +4733,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="reporting approved maps "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.5</span
-                  ><span class="bcn-sr__row-title">Reporting Approved Maps</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.5</span>
+                  <span class="bcn-sr__row-title">Reporting Approved Maps</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-156"
               data-scope="commitments"
               data-entity="photo monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.6</span
-                  ><span class="bcn-sr__row-title">Photo Monitoring</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.6</span>
+                  <span class="bcn-sr__row-title">Photo Monitoring</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   (4) If CDFW or the Designated <mark>Biologist</mark>(s) determines that
@@ -4647,7 +4761,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   added to the inventory of photo monitoring stations.
                 </p>
                 <p class="bcn-sr__row-more">+ 7 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4655,27 +4769,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="species observations outside of mapped habitat "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.7</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.7</span>
+                  <span class="bcn-sr__row-title"
                     >Species Observations Outside of Mapped Habitat</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-158"
               data-scope="commitments"
               data-entity="habitat evaluation "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.8</span
-                  ><span class="bcn-sr__row-title">Habitat Evaluation</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.8</span>
+                  <span class="bcn-sr__row-title">Habitat Evaluation</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) shall conduct a field survey
@@ -4690,7 +4806,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   the Designated <mark>Biologist</mark>(s).
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4698,27 +4814,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="tracking impacts "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.9</span
-                  ><span class="bcn-sr__row-title">Tracking Impacts</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.9</span>
+                  <span class="bcn-sr__row-title">Tracking Impacts</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-160"
               data-scope="commitments"
               data-entity="daily compliance monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.10</span
-                  ><span class="bcn-sr__row-title"
-                    >Daily Compliance Monitoring</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.10</span>
+                  <span class="bcn-sr__row-title">Daily Compliance Monitoring</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) and/or Biological Monitor(s)
@@ -4744,7 +4860,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   at ground level, and at approxima …
                 </p>
                 <p class="bcn-sr__row-more">+ 7 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4752,27 +4868,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="environmental compliance monitoring plan "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.11</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.11</span>
+                  <span class="bcn-sr__row-title"
                     >Environmental Compliance Monitoring Plan</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-162"
               data-scope="commitments"
               data-entity="monthly compliance report "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.12</span
-                  ><span class="bcn-sr__row-title">Monthly Compliance Report</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.12</span>
+                  <span class="bcn-sr__row-title">Monthly Compliance Report</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated Representative or Designated <mark>Biologist</mark> shall
@@ -4782,7 +4900,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   implementation status of each mitigation measure.
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4790,25 +4908,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="annual status report "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.13</span
-                  ><span class="bcn-sr__row-title">Annual Status Report</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.13</span>
+                  <span class="bcn-sr__row-title">Annual Status Report</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-164"
               data-scope="commitments"
               data-entity="cnddb observations "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.14</span
-                  ><span class="bcn-sr__row-title">CNDDB Observations</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.14</span>
+                  <span class="bcn-sr__row-title">CNDDB Observations</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) and/or Biological Monitor(s)
@@ -4822,19 +4942,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   submitted first relative to the observation.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-165"
               data-scope="commitments"
               data-entity="final mitigation report "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.15</span
-                  ><span class="bcn-sr__row-title">Final Mitigation Report</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.15</span>
+                  <span class="bcn-sr__row-title">Final Mitigation Report</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall provide CDFW with Final Phase Mitigation Reports no
@@ -4858,21 +4979,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   MMRP (ITP Attachment 2) with notes showin …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-166"
               data-scope="commitments"
               data-entity="notification of take or injury/damage "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.16</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.16</span>
+                  <span class="bcn-sr__row-title"
                     >Notification of Take or Injury/Damage</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall immediately notify the Designated
@@ -4887,7 +5009,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   CDFW Bay-Delta Region Stockton Office at (209) 234-3420.
                 </p>
                 <p class="bcn-sr__row-more">+ 4 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4895,16 +5017,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="subsurface vibratory testing and monitoring study for fossorial covered species "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.17</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.17</span>
+                  <span class="bcn-sr__row-title"
                     >Subsurface Vibratory Testing and Monitoring Study for Fossorial
                     Covered Species</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4912,15 +5035,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="covered fish species monitoring and scientific studies "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.18</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.18</span>
+                  <span class="bcn-sr__row-title"
                     >Covered Fish Species Monitoring and Scientific Studies</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4928,15 +5052,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="fisheries evaluation studies "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.19</span
-                  ><span class="bcn-sr__row-title"
-                    >Fisheries Evaluation Studies</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.19</span>
+                  <span class="bcn-sr__row-title">Fisheries Evaluation Studies</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4944,29 +5067,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="water quality evaluation studies "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.20</span
-                  ><span class="bcn-sr__row-title"
-                    >Water Quality Evaluation Studies</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.20</span>
+                  <span class="bcn-sr__row-title">Water Quality Evaluation Studies</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-171"
               data-scope="commitments"
               data-entity="ecological response evaluation studies "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.21</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.21</span>
+                  <span class="bcn-sr__row-title"
                     >Ecological Response Evaluation Studies</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   During In-water Preconstruction Monitoring, Permittee shall convene a
@@ -4977,7 +5100,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   including approaches to balancing diversions between north an …
                 </p>
                 <p class="bcn-sr__row-more">+ 28 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -4985,15 +5108,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="personnel conducting studies and monitoring "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.22</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.22</span>
+                  <span class="bcn-sr__row-title"
                     >Personnel Conducting Studies and Monitoring</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5001,15 +5125,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="sacramento river bathymetric studies "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.23</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.23</span>
+                  <span class="bcn-sr__row-title"
                     >Sacramento River Bathymetric Studies</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5017,15 +5142,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="mathematical model development "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.24</span
-                  ><span class="bcn-sr__row-title"
-                    >Mathematical Model Development</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.24</span>
+                  <span class="bcn-sr__row-title">Mathematical Model Development</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5033,15 +5157,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="north delta intake hydraulic modeling "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.25</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.25</span>
+                  <span class="bcn-sr__row-title"
                     >North Delta Intake Hydraulic Modeling</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5049,16 +5174,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="incorporation of fish guidance system into the north delta intake structures "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.26</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.26</span>
+                  <span class="bcn-sr__row-title"
                     >Incorporation of Fish Guidance System into the North Delta Intake
                     Structures</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5066,15 +5192,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="hydraulic testing for velocity requirements "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.27</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.27</span>
+                  <span class="bcn-sr__row-title"
                     >Hydraulic Testing for Velocity Requirements</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5082,13 +5209,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="visual inspections "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.28</span
-                  ><span class="bcn-sr__row-title">Visual Inspections</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.28</span>
+                  <span class="bcn-sr__row-title">Visual Inspections</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5096,13 +5224,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="sediment management "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.29</span
-                  ><span class="bcn-sr__row-title">Sediment Management</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.29</span>
+                  <span class="bcn-sr__row-title">Sediment Management</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5110,27 +5239,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="screen impingement study "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 10.30</span
-                  ><span class="bcn-sr__row-title">Screen Impingement Study</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 10.30</span>
+                  <span class="bcn-sr__row-title">Screen Impingement Study</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-181"
               data-scope="commitments"
               data-entity="covered species observations "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.1</span
-                  ><span class="bcn-sr__row-title"
-                    >Covered Species Observations</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.1</span>
+                  <span class="bcn-sr__row-title">Covered Species Observations</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   During all phases of Project construction, operations, and maintenance,
@@ -5154,19 +5283,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   observation.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-182"
               data-scope="commitments"
               data-entity="covered species injury "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.2</span
-                  ><span class="bcn-sr__row-title">Covered Species Injury</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.2</span>
+                  <span class="bcn-sr__row-title">Covered Species Injury</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   If a Covered Species is injured as a result of Covered Activities, the
@@ -5177,21 +5307,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   shall notify CDFW of the injury to the Covered Species …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-183"
               data-scope="commitments"
               data-entity="covered species capture, handling, and reporting "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.3</span>
+                  <span class="bcn-sr__row-title"
                     >Covered Species Capture, Handling, and Reporting</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) shall be responsible for and
@@ -5208,7 +5339,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   condition of the Covered Species, (4) the capture …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5216,15 +5347,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="pesticide, fungicide, and herbicide use "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.4</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.4</span>
+                  <span class="bcn-sr__row-title"
                     >Pesticide, Fungicide, and Herbicide Use</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5232,15 +5364,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="prohibition of rodenticide and poison use "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.5</span>
+                  <span class="bcn-sr__row-title"
                     >Prohibition of Rodenticide and Poison Use</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5248,13 +5381,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="fertilizer use "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.6</span
-                  ><span class="bcn-sr__row-title">Fertilizer Use</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.6</span>
+                  <span class="bcn-sr__row-title">Fertilizer Use</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5262,13 +5396,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="daily work restrictions "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.7</span
-                  ><span class="bcn-sr__row-title">Daily Work Restrictions</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.7</span>
+                  <span class="bcn-sr__row-title">Daily Work Restrictions</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5276,15 +5411,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="artificial lighting at night "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.8</span
-                  ><span class="bcn-sr__row-title"
-                    >Artificial Lighting at Night</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.8</span>
+                  <span class="bcn-sr__row-title">Artificial Lighting at Night</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5292,29 +5426,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="lighting on intake structure "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.9</span
-                  ><span class="bcn-sr__row-title"
-                    >Lighting on Intake Structure</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.9</span>
+                  <span class="bcn-sr__row-title">Lighting on Intake Structure</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-190"
               data-scope="commitments"
               data-entity="visual barriers along access routes for nighttime activities "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.10</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.10</span>
+                  <span class="bcn-sr__row-title"
                     >Visual Barriers Along Access Routes for Nighttime Activities</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … etrofitted using a CDFW-approved visual screen along portions of
@@ -5326,7 +5460,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   prior to the installation of any visual barriers.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5334,13 +5468,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="speed limits "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.11</span
-                  ><span class="bcn-sr__row-title">Speed Limits</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.11</span>
+                  <span class="bcn-sr__row-title">Speed Limits</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5348,27 +5483,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="wildlife road-crossing structures "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.12</span
-                  ><span class="bcn-sr__row-title"
-                    >Wildlife Road-Crossing Structures</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.12</span>
+                  <span class="bcn-sr__row-title">Wildlife Road-Crossing Structures</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-193"
               data-scope="commitments"
               data-entity="precipitation work limit "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.13</span
-                  ><span class="bcn-sr__row-title">Precipitation Work Limit</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.13</span>
+                  <span class="bcn-sr__row-title">Precipitation Work Limit</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … vernal pools, Permittee shall restrict Covered Activities to periods
@@ -5386,21 +5521,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   condition will not apply to Covered Activities inside enclosed str …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-194"
               data-scope="commitments"
               data-entity="daily entrapment inspections "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.14</span
-                  ><span class="bcn-sr__row-title"
-                    >Daily Entrapment Inspections</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.14</span>
+                  <span class="bcn-sr__row-title">Daily Entrapment Inspections</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   All construction equipment, or construction materials left overnight in
@@ -5438,21 +5572,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   further actions to be taken.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-195"
               data-scope="commitments"
               data-entity="pipes, culverts, and other materials inspections "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.15</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.15</span>
+                  <span class="bcn-sr__row-title"
                     >Pipes, Culverts, and Other Materials Inspections</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … stored in the open have the potential to attract, injure, or entrap
@@ -5491,7 +5626,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Covered Species from entering, immediately after inspection.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5499,16 +5634,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="disposal of spoils, reusable tunnel material, and dredged material "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.16</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.16</span>
+                  <span class="bcn-sr__row-title"
                     >Disposal of Spoils, Reusable Tunnel Material, and Dredged
                     Material</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5516,27 +5652,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="electrical power line support placement "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.17</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.17</span>
+                  <span class="bcn-sr__row-title"
                     >Electrical Power Line Support Placement</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-198"
               data-scope="commitments"
               data-entity="vegetation management "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.18</span
-                  ><span class="bcn-sr__row-title">Vegetation Management</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.18</span>
+                  <span class="bcn-sr__row-title">Vegetation Management</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … lexes shall be subject to CDFW written approval once site-specific
@@ -5550,21 +5688,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   less active on the surface and during dry conditions (no rai …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-199"
               data-scope="commitments"
               data-entity="prevention of spread of invasive species "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.19</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.19</span>
+                  <span class="bcn-sr__row-title"
                     >Prevention of Spread of Invasive Species</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) qualified to do botanical
@@ -5598,7 +5737,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   purpose.
                 </p>
                 <p class="bcn-sr__row-more">+ 5 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5606,13 +5745,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="hazards to covered species "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.20</span
-                  ><span class="bcn-sr__row-title">Hazards to Covered Species</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.20</span>
+                  <span class="bcn-sr__row-title">Hazards to Covered Species</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5620,15 +5760,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="hazardous materials management plans "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.21</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.21</span>
+                  <span class="bcn-sr__row-title"
                     >Hazardous Materials Management Plans</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5636,15 +5777,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="spill prevention, control, and countermeasure plans "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.22</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.22</span>
+                  <span class="bcn-sr__row-title"
                     >Spill Prevention, Control, and Countermeasure Plans</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5652,15 +5794,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="groundwater testing and monitoring plan "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.23</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.23</span>
+                  <span class="bcn-sr__row-title"
                     >Groundwater Testing and Monitoring Plan</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5668,15 +5811,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="detection of underground and natural gas wells "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.24</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.24</span>
+                  <span class="bcn-sr__row-title"
                     >Detection of Underground and Natural Gas Wells</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5684,29 +5828,31 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="stormwater pollution prevention plans "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.25</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.25</span>
+                  <span class="bcn-sr__row-title"
                     >Stormwater Pollution Prevention Plans</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-206"
               data-scope="commitments"
               data-entity="erosion and sediment control plans "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.26</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.26</span>
+                  <span class="bcn-sr__row-title"
                     >Erosion and Sediment Control Plans</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … tion of Approval 6.2) for CDFW’s review and confirmation of
@@ -5721,21 +5867,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   stabilization (see Con …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-207"
               data-scope="commitments"
               data-entity="erosion control stabilization prohibitions "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.27</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.27</span>
+                  <span class="bcn-sr__row-title"
                     >Erosion Control Stabilization Prohibitions</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … red Activities within a construction site that may cause the
@@ -5748,7 +5895,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   replace ineffective measures immediately.
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5756,25 +5903,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="monofilament netting "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.28</span
-                  ><span class="bcn-sr__row-title">Monofilament Netting</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.28</span>
+                  <span class="bcn-sr__row-title">Monofilament Netting</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-209"
               data-scope="commitments"
               data-entity="fugitive dust control "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.29</span
-                  ><span class="bcn-sr__row-title">Fugitive Dust Control</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.29</span>
+                  <span class="bcn-sr__row-title">Fugitive Dust Control</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … Monitoring Plan and submit the Plan to CDFW as part of the appropriate
@@ -5788,7 +5937,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   access roads to prevent visible dust from leaving construction sites; …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5796,15 +5945,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="construction mercury management and monitoring plan. "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.30</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.30</span>
+                  <span class="bcn-sr__row-title"
                     >Construction Mercury Management and Monitoring Plan.</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5812,13 +5962,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="in-water work windows "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.31</span
-                  ><span class="bcn-sr__row-title">In-Water Work Windows</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.31</span>
+                  <span class="bcn-sr__row-title">In-Water Work Windows</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5826,15 +5977,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="daily in-water work restriction "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.32</span
-                  ><span class="bcn-sr__row-title"
-                    >Daily In-Water Work Restriction</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.32</span>
+                  <span class="bcn-sr__row-title">Daily In-Water Work Restriction</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5842,15 +5992,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="underwater sound abatement plan "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.33</span
-                  ><span class="bcn-sr__row-title"
-                    >Underwater Sound Abatement Plan</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.33</span>
+                  <span class="bcn-sr__row-title">Underwater Sound Abatement Plan</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5858,25 +6007,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="pile driving plan "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.34</span
-                  ><span class="bcn-sr__row-title">Pile Driving Plan</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.34</span>
+                  <span class="bcn-sr__row-title">Pile Driving Plan</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-215"
               data-scope="commitments"
               data-entity="fish salvage plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.35</span
-                  ><span class="bcn-sr__row-title">Fish Salvage Plan</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.35</span>
+                  <span class="bcn-sr__row-title">Fish Salvage Plan</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Obligation for the Designated Representative or Designated Fisheries
@@ -5903,19 +6054,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   CDFW.
                 </p>
                 <p class="bcn-sr__row-more">+ 26 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-216"
               data-scope="commitments"
               data-entity="barge operations plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.36</span
-                  ><span class="bcn-sr__row-title">Barge Operations Plan</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.36</span>
+                  <span class="bcn-sr__row-title">Barge Operations Plan</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) or Fisheries
@@ -5933,19 +6085,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Monitor(s) who shall fulfill the following requirements:
                 </p>
                 <p class="bcn-sr__row-more">+ 19 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-217"
               data-scope="commitments"
               data-entity="dewatering plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.37</span
-                  ><span class="bcn-sr__row-title">Dewatering Plan</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.37</span>
+                  <span class="bcn-sr__row-title">Dewatering Plan</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … eries Service (1997). Fish screening criteria for anadromous
@@ -5976,7 +6129,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   business day when the fish salvage has been completed and construction
                   can recommence.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -5984,27 +6137,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="preconstruction survey protocols "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.38</span
-                  ><span class="bcn-sr__row-title"
-                    >Preconstruction Survey Protocols</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.38</span>
+                  <span class="bcn-sr__row-title">Preconstruction Survey Protocols</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-219"
               data-scope="commitments"
               data-entity="cts avoidance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.39</span
-                  ><span class="bcn-sr__row-title">CTS Avoidance</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.39</span>
+                  <span class="bcn-sr__row-title">CTS Avoidance</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … ble to conduct Covered Activities in already disturbed areas,
@@ -6025,21 +6178,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   in accordance with Condition of Approval 11.51.
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-220"
               data-scope="commitments"
               data-entity="cts breeding habitat avoidance near conserved lands "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.40</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.40</span>
+                  <span class="bcn-sr__row-title"
                     >CTS Breeding Habitat Avoidance Near Conserved Lands</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Breeding Habitat Avoidance Near Conserved Lands. If the Designated
@@ -6050,23 +6204,24 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Activities within the suitable aquatic bree …
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-221"
               data-scope="commitments"
               data-entity="cts preconstruction activities, scada and transmission line construction and maintenance, access road construction and maintenance activities "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.41</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.41</span>
+                  <span class="bcn-sr__row-title"
                     >CTS Preconstruction Activities, SCADA and Transmission Line
                     Construction and Maintenance, Access Road Construction and Maintenance
                     Activities</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) and/or Biological Monitor(s)
@@ -6091,19 +6246,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   that avoid potentially occupied burrows.
                 </p>
                 <p class="bcn-sr__row-more">+ 4 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-222"
               data-scope="commitments"
               data-entity="cts surveys "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.42</span
-                  ><span class="bcn-sr__row-title">CTS Surveys</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.42</span>
+                  <span class="bcn-sr__row-title">CTS Surveys</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) and/or Biological Monitor(s)
@@ -6134,21 +6290,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Approval 11.51.
                 </p>
                 <p class="bcn-sr__row-more">+ 9 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-223"
               data-scope="commitments"
               data-entity="cts exclusion barrier installation and maintenance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.43</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.43</span>
+                  <span class="bcn-sr__row-title"
                     >CTS Exclusion Barrier Installation and Maintenance</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … ll submit site-specific CTS exclusion barrier design and location
@@ -6228,19 +6385,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   remove vegetation.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-224"
               data-scope="commitments"
               data-entity="cts seasonal work window "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.44</span
-                  ><span class="bcn-sr__row-title">CTS Seasonal Work Window</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.44</span>
+                  <span class="bcn-sr__row-title">CTS Seasonal Work Window</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … ad construction, grading, trenching, pipe and culvert installation) to
@@ -6254,19 +6412,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   periods of low rainfall (less than 0.08 inches per 24-hour peri …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-225"
               data-scope="commitments"
               data-entity="cts rain forecast "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.45</span
-                  ><span class="bcn-sr__row-title">CTS Rain Forecast</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.45</span>
+                  <span class="bcn-sr__row-title">CTS Rain Forecast</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   This condition applies to Covered Activities within 1.3 miles of
@@ -6284,21 +6443,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   each day any rain is forecasted.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-226"
               data-scope="commitments"
               data-entity="cts time of day work restrictions "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.46</span
-                  ><span class="bcn-sr__row-title"
-                    >CTS Time of Day Work Restrictions</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.46</span>
+                  <span class="bcn-sr__row-title">CTS Time of Day Work Restrictions</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   CTS active season is defined as the period of time during which CTS are
@@ -6311,19 +6469,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   acce …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-227"
               data-scope="commitments"
               data-entity="cts - night work "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.47</span
-                  ><span class="bcn-sr__row-title">CTS - Night Work</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.47</span>
+                  <span class="bcn-sr__row-title">CTS - Night Work</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … use artificial lighting unless it is needed for worker safety. Where
@@ -6343,21 +6502,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Approval 11.51).
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-228"
               data-scope="commitments"
               data-entity="cts - initial site clearing and monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.48</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.48</span>
+                  <span class="bcn-sr__row-title"
                     >CTS - Initial Site Clearing and Monitoring</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall confine ground disturbance activities that could result
@@ -6384,21 +6544,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   enter the construction site.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-229"
               data-scope="commitments"
               data-entity="cts - avoidance or treatment of burrows "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.49</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.49</span>
+                  <span class="bcn-sr__row-title"
                     >CTS - Avoidance or Treatment of Burrows</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … rmittee shall avoid disturbing any known or potential CTS burrows
@@ -6445,19 +6606,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   0.5 inches.
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-230"
               data-scope="commitments"
               data-entity="cts capture and handling "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.50</span
-                  ><span class="bcn-sr__row-title">CTS Capture and Handling</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.50</span>
+                  <span class="bcn-sr__row-title">CTS Capture and Handling</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Prior to handling and relocation, the Designated
@@ -6503,21 +6665,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   the CTS Relocation Plan (see Condition of Approval 11.51).
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-231"
               data-scope="commitments"
               data-entity="cts mortality reductions and relocation plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.51</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.51</span>
+                  <span class="bcn-sr__row-title"
                     >CTS Mortality Reductions and Relocation Plan</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … n Plan (CTS Relocation Plan) and submit it to CDFW for written
@@ -6574,21 +6737,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   of the incident. The written incident report shall also be i …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-232"
               data-scope="commitments"
               data-entity="cts - notification of cts take or injury "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.52</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.52</span>
+                  <span class="bcn-sr__row-title"
                     >CTS - Notification of CTS Take or Injury</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall immediately notify the Designated
@@ -6628,7 +6792,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Permit …
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -6636,27 +6800,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="cts - invasive species "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.53</span
-                  ><span class="bcn-sr__row-title">CTS - Invasive Species</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.53</span>
+                  <span class="bcn-sr__row-title">CTS - Invasive Species</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-234"
               data-scope="commitments"
               data-entity="ggs - establishment of environmentally sensitive areas (esas). "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.54</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.54</span>
+                  <span class="bcn-sr__row-title"
                     >GGS - Establishment of Environmentally Sensitive Areas (ESAs).</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … mittee shall establish Environmentally Sensitive Areas (ESAs) in each
@@ -6687,19 +6853,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Project construction site. Permittee sh …
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-235"
               data-scope="commitments"
               data-entity="ggs avoidance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.55</span
-                  ><span class="bcn-sr__row-title">GGS Avoidance</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.55</span>
+                  <span class="bcn-sr__row-title">GGS Avoidance</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) and/or Biological Monitor(s)
@@ -6725,19 +6892,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   contacted and is on-site.
                 </p>
                 <p class="bcn-sr__row-more">+ 16 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-236"
               data-scope="commitments"
               data-entity="ggs surveys "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.56</span
-                  ><span class="bcn-sr__row-title">GGS Surveys</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.56</span>
+                  <span class="bcn-sr__row-title">GGS Surveys</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   11.56 GGS Surveys. The Designated <mark>Biologist</mark>(s) with
@@ -6785,19 +6953,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   according to the GGS Relocation Plan (see Condition of Approval 11.67).
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-237"
               data-scope="commitments"
               data-entity="ggs - mowing "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.57</span
-                  ><span class="bcn-sr__row-title">GGS - Mowing</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.57</span>
+                  <span class="bcn-sr__row-title">GGS - Mowing</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … lished ESAs, avoidable burrows, burrow complexes, and suitable refugia
@@ -6824,7 +6993,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   <mark>Biologist</mark>(s) (see Condition of Approval 11.67).
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -6832,13 +7001,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="ggs - seasonal work window "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.58</span
-                  ><span class="bcn-sr__row-title">GGS - Seasonal Work Window</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.58</span>
+                  <span class="bcn-sr__row-title">GGS - Seasonal Work Window</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -6846,29 +7016,31 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="ggs - seasonal work restriction exception "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.59</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.59</span>
+                  <span class="bcn-sr__row-title"
                     >GGS - Seasonal Work Restriction Exception</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-240"
               data-scope="commitments"
               data-entity="ggs - channel management and seasonal work restriction "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.60</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.60</span>
+                  <span class="bcn-sr__row-title"
                     >GGS - Channel Management and Seasonal Work Restriction</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … lated sediments, acoustic monitoring, and aquatic vegetation removal
@@ -6885,21 +7057,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Activities for GGS.
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-241"
               data-scope="commitments"
               data-entity="dewatered ggs aquatic habitat "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.61</span
-                  ><span class="bcn-sr__row-title"
-                    >Dewatered GGS Aquatic Habitat</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.61</span>
+                  <span class="bcn-sr__row-title">Dewatered GGS Aquatic Habitat</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … n suitable GGS aquatic habitat, Permittee shall dewater the habitat
@@ -6933,21 +7104,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   potential GGS, exclusion fencing shall be installed around the Project
                   construction site (see Condition of Approval 11.62) so no snakes o …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-242"
               data-scope="commitments"
               data-entity="ggs exclusion barrier installation and maintenance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.62</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.62</span>
+                  <span class="bcn-sr__row-title"
                     >GGS Exclusion Barrier Installation and Maintenance</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) and/or Biological Monitor(s)
@@ -6999,21 +7171,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Condition of Approval 11.62.2).
                 </p>
                 <p class="bcn-sr__row-more">+ 6 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-243"
               data-scope="commitments"
               data-entity="ggs - initial site clearing and monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.63</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.63</span>
+                  <span class="bcn-sr__row-title"
                     >GGS - Initial Site Clearing and Monitoring</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   11.63 Initial Site Clearing and Monitoring. Permittee shall confine
@@ -7038,7 +7211,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   and Permittee implements appropriate corrective measures to ensure GGS
                   will not enter the construction site through the exclusion barrier.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -7046,27 +7219,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="ggs - disposal of debris "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.64</span
-                  ><span class="bcn-sr__row-title">GGS - Disposal of Debris</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.64</span>
+                  <span class="bcn-sr__row-title">GGS - Disposal of Debris</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-245"
               data-scope="commitments"
               data-entity="ggs - restoration of temporary impacts "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.65</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.65</span>
+                  <span class="bcn-sr__row-title"
                     >GGS - Restoration of Temporary Impacts</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … ne, and access road construction, and maintenance sites with highly
@@ -7102,21 +7277,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   the burrow to be avoided by the no-activity buffer.
                 </p>
                 <p class="bcn-sr__row-more">+ 7 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-246"
               data-scope="commitments"
               data-entity="ggs - restoration of temporary impacts "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.66</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.66</span>
+                  <span class="bcn-sr__row-title"
                     >GGS - Restoration of Temporary Impacts</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … tation Plan in Condition of Approval 12.3.3). The restoration effort
@@ -7127,21 +7303,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   and CDFW.
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-247"
               data-scope="commitments"
               data-entity="ggs - mortality reduction and relocation plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.67</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.67</span>
+                  <span class="bcn-sr__row-title"
                     >GGS - Mortality Reduction and Relocation Plan</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … duction and Relocation Plan (GGS Relocation Plan) and submit it to
@@ -7178,21 +7355,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   written incident report shall also be included …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-248"
               data-scope="commitments"
               data-entity="ggs - notification of ggs take or injury "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.68</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.68</span>
+                  <span class="bcn-sr__row-title"
                     >GGS - Notification of GGS Take or Injury</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall immediately notify the Designated
@@ -7219,19 +7397,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   accordance with the GGS Relocation Plan (Condition of Approval 11.67).
                 </p>
                 <p class="bcn-sr__row-more">+ 5 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-249"
               data-scope="commitments"
               data-entity="swha avoidance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.69</span
-                  ><span class="bcn-sr__row-title">SWHA Avoidance</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.69</span>
+                  <span class="bcn-sr__row-title">SWHA Avoidance</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … e extent possible, previously disturbed areas and as identified within
@@ -7242,21 +7421,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Monitor(s).
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-250"
               data-scope="commitments"
               data-entity="swha seasonal work restriction "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.70</span
-                  ><span class="bcn-sr__row-title"
-                    >SWHA Seasonal Work Restriction</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.70</span>
+                  <span class="bcn-sr__row-title">SWHA Seasonal Work Restriction</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Where a Project construction site occurs within 0.5 miles of suitable
@@ -7274,19 +7452,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   work to outside the breeding season or to restrict work during t …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-251"
               data-scope="commitments"
               data-entity="swha surveys "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.71</span
-                  ><span class="bcn-sr__row-title">SWHA Surveys</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.71</span>
+                  <span class="bcn-sr__row-title">SWHA Surveys</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) with assistance (if needed)
@@ -7319,21 +7498,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   in traditional nest territories.
                 </p>
                 <p class="bcn-sr__row-more">+ 6 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-252"
               data-scope="commitments"
               data-entity="swha no -disturbance buffer "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.72</span
-                  ><span class="bcn-sr__row-title"
-                    >SWHA No -Disturbance Buffer</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.72</span>
+                  <span class="bcn-sr__row-title">SWHA No -Disturbance Buffer</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … prey during the nesting season may lead to failure to nest, nest
@@ -7347,19 +7525,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   nest tree. The buffer shall remain in place and be maintained unti …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-253"
               data-scope="commitments"
               data-entity="swha nest monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.73</span
-                  ><span class="bcn-sr__row-title">SWHA Nest Monitoring</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.73</span>
+                  <span class="bcn-sr__row-title">SWHA Nest Monitoring</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   If a nesting SWHA is found at or within 0.5 miles of a Project
@@ -7399,21 +7578,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   the SWHA are engaged in normal nesting behavior.
                 </p>
                 <p class="bcn-sr__row-more">+ 3 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-254"
               data-scope="commitments"
               data-entity="swha disturbance of occupied nest tree "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.74</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.74</span>
+                  <span class="bcn-sr__row-title"
                     >SWHA Disturbance of Occupied Nest Tree</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … break, rest, or meeting areas in proximity to active SWHA nests. All
@@ -7425,34 +7605,36 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   nests.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-255"
               data-scope="commitments"
               data-entity="swha authority of the designated biologist (s) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.75</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.75</span>
+                  <span class="bcn-sr__row-title"
                     >SWHA Authority of the Designated <mark>Biologist</mark> (s)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-256"
               data-scope="commitments"
               data-entity="swha nest tree avoidance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.76</span
-                  ><span class="bcn-sr__row-title">SWHA Nest Tree Avoidance</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.76</span>
+                  <span class="bcn-sr__row-title">SWHA Nest Tree Avoidance</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … ion of the known nest tree, conditions to offset the loss of the nest
@@ -7461,19 +7643,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   nesting season, until the last young have left the nest, as verified by
                   the Designated <mark>Biologist</mark>(s).
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-257"
               data-scope="commitments"
               data-entity="swha vegetation removal "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.77</span
-                  ><span class="bcn-sr__row-title">SWHA Vegetation Removal</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.77</span>
+                  <span class="bcn-sr__row-title">SWHA Vegetation Removal</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Swainson’s Hawk (SWHA) Measures - 11.77 Vegetation Removal. Permittee
@@ -7490,21 +7673,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   flag, and avoid any active nests until the nesting cycle is complete
                   (refer to Condition of Approval 11.72).
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-258"
               data-scope="commitments"
               data-entity="swha preconstruction activities "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.78</span
-                  ><span class="bcn-sr__row-title"
-                    >SWHA Preconstruction Activities</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.78</span>
+                  <span class="bcn-sr__row-title">SWHA Preconstruction Activities</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Swainson’s Hawk (SWHA) Measures - 11.78 Preconstruction Activities. The
@@ -7521,22 +7703,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   miles away from any occupied nest tree, unless otherwise approved by
                   CDFW in writing.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-259"
               data-scope="commitments"
               data-entity="swha measures specific ot scada and transmission line construction and maintenance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.79</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.79</span>
+                  <span class="bcn-sr__row-title"
                     >SWHA Measures Specific ot SCADA and Transmission Line Construction
                     and Maintenance</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … g of known or suitable nest trees, to the extent practicable, during
@@ -7548,21 +7731,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   known or suitable nest trees cannot be avoided.
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-260"
               data-scope="commitments"
               data-entity="swha mortality reduction and relocation plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.80</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.80</span>
+                  <span class="bcn-sr__row-title"
                     >SWHA Mortality Reduction and Relocation Plan</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … ve location, and quality of suitable habitat present; a map depicting
@@ -7573,21 +7757,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   expertise in handling raptors.
                 </p>
                 <p class="bcn-sr__row-more">+ 11 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-261"
               data-scope="commitments"
               data-entity="swha notification of swha take or injury "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.81</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.81</span>
+                  <span class="bcn-sr__row-title"
                     >SWHA Notification of SWHA Take or Injury</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall immediately notify the Designated
@@ -7614,19 +7799,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   number of an …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-262"
               data-scope="commitments"
               data-entity="trbl avoidance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.82</span
-                  ><span class="bcn-sr__row-title">TRBL Avoidance</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.82</span>
+                  <span class="bcn-sr__row-title">TRBL Avoidance</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall restrict Covered Activities to 45 minutes after sunrise
@@ -7644,21 +7830,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   to disturbance.
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-263"
               data-scope="commitments"
               data-entity="trbl preconstruction assessment "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.83</span
-                  ><span class="bcn-sr__row-title"
-                    >TRBL Preconstruction Assessment</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.83</span>
+                  <span class="bcn-sr__row-title">TRBL Preconstruction Assessment</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Prior to the commencement of Covered Activities for each Project Phase,
@@ -7670,19 +7855,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   …
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-264"
               data-scope="commitments"
               data-entity="trbl surveys "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.84</span
-                  ><span class="bcn-sr__row-title">TRBL Surveys</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.84</span>
+                  <span class="bcn-sr__row-title">TRBL Surveys</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) with assistance (if needed)
@@ -7750,7 +7936,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Condition of Approval 11.90
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -7758,27 +7944,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="trbl nest buffer zone "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.85</span
-                  ><span class="bcn-sr__row-title">TRBL Nest Buffer Zone</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.85</span>
+                  <span class="bcn-sr__row-title">TRBL Nest Buffer Zone</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-266"
               data-scope="commitments"
               data-entity="trbl nest buffer monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.86</span
-                  ><span class="bcn-sr__row-title"
-                    >TRBL Nest Buffer Monitoring</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.86</span>
+                  <span class="bcn-sr__row-title">TRBL Nest Buffer Monitoring</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   If nesting TRBL is present within the Project construction site or
@@ -7825,7 +8011,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   include the date, time, location, and circumstan …
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -7833,29 +8019,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="trbl roosting site buffer zone "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.87</span
-                  ><span class="bcn-sr__row-title"
-                    >TRBL Roosting Site Buffer Zone</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.87</span>
+                  <span class="bcn-sr__row-title">TRBL Roosting Site Buffer Zone</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-268"
               data-scope="commitments"
               data-entity="trbl roosting site buffer monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.88</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.88</span>
+                  <span class="bcn-sr__row-title"
                     >TRBL Roosting Site Buffer Monitoring</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Occupied roost sites that are within the 300 feet no-activity buffer
@@ -7880,21 +8066,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   alternative measures.
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-269"
               data-scope="commitments"
               data-entity="trbl disturbance of breeding colonies and roost sites "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.89</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.89</span>
+                  <span class="bcn-sr__row-title"
                     >TRBL Disturbance of Breeding Colonies and Roost Sites</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall prohibit physical contact with a breeding colony during
@@ -7908,21 +8095,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   present (see Con …
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-270"
               data-scope="commitments"
               data-entity="trbl delineation of nesting and roosting habitat "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.90</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.90</span>
+                  <span class="bcn-sr__row-title"
                     >TRBL Delineation of Nesting and Roosting Habitat</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) and/or Biological Monitor(s)
@@ -7932,7 +8120,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   transmission line, and access road construction and maintenance sites. …
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -7940,27 +8128,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="trbl helicopters "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.91</span
-                  ><span class="bcn-sr__row-title">TRBL Helicopters</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.91</span>
+                  <span class="bcn-sr__row-title">TRBL Helicopters</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-272"
               data-scope="commitments"
               data-entity="trbl mortality reduction and relocation plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.92</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.92</span>
+                  <span class="bcn-sr__row-title"
                     >TRBL Mortality Reduction and Relocation Plan</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   The Designated <mark>Biologist</mark>(s) shall prepare a TRBL Mortality
@@ -7978,21 +8168,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   expertise in handling blackbirds shall handle and relocate TRBL.
                 </p>
                 <p class="bcn-sr__row-more">+ 6 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-273"
               data-scope="commitments"
               data-entity="notification of trbl take or injury "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.93</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.93</span>
+                  <span class="bcn-sr__row-title"
                     >Notification of TRBL Take or Injury</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Permittee shall immediately notify the Designated
@@ -8016,19 +8207,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   individual was found, number of animals t …
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-274"
               data-scope="commitments"
               data-entity="cbb avoidance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.94</span
-                  ><span class="bcn-sr__row-title">CBB Avoidance</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.94</span>
+                  <span class="bcn-sr__row-title">CBB Avoidance</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … riate Project Phase Authorization Package (Condition of Approval 6.1
@@ -8044,19 +8236,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   construction site or 50 feet beyond the Project construction site,
                   during all phases of Covered Activities.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-275"
               data-scope="commitments"
               data-entity="cbb seasonal restriction "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.95</span
-                  ><span class="bcn-sr__row-title">CBB Seasonal Restriction</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.95</span>
+                  <span class="bcn-sr__row-title">CBB Seasonal Restriction</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   If feasible, Covered Activities shall avoid vegetation and ground
@@ -8079,7 +8272,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   to implementation of activities, for CDFW approval …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -8087,27 +8280,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="cbb preconstruction assessment "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.96</span
-                  ><span class="bcn-sr__row-title"
-                    >CBB Preconstruction Assessment</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.96</span>
+                  <span class="bcn-sr__row-title">CBB Preconstruction Assessment</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-277"
               data-scope="commitments"
               data-entity="cbb surveys "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.97</span
-                  ><span class="bcn-sr__row-title">CBB Surveys</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.97</span>
+                  <span class="bcn-sr__row-title">CBB Surveys</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   During the Project construction and postconstruction maintenance phases,
@@ -8138,21 +8331,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Monthly Compliance Reporting (Condition …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-278"
               data-scope="commitments"
               data-entity="cbb no-activity buffer zone "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.98</span
-                  ><span class="bcn-sr__row-title"
-                    >CBB No-activity Buffer Zone</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.98</span>
+                  <span class="bcn-sr__row-title">CBB No-activity Buffer Zone</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … is discovered during a CBB survey within the Project construction site
@@ -8165,19 +8357,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   appropriate Phase Authorization Package (Condition of Approval 6.2).
                   Utilizing this plan, the buffer shall be delineated using high …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-279"
               data-scope="commitments"
               data-entity="cbb daily monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.99</span
-                  ><span class="bcn-sr__row-title">CBB Daily Monitoring</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.99</span>
+                  <span class="bcn-sr__row-title">CBB Daily Monitoring</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Crotch Bumble Bee (CBB) Measures - 11.99 CBB Daily Monitoring. In
@@ -8209,21 +8402,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   only be required to conduct a daily visual sweep prior to initiation of
                   Covered Activities that day.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-280"
               data-scope="commitments"
               data-entity="cbb avoidance or treatment of underground refugia "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.100</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.100</span>
+                  <span class="bcn-sr__row-title"
                     >CBB Avoidance or Treatment of Underground Refugia</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … s in suitable CBB habitat to the maximum extent possible. Within
@@ -8245,7 +8439,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   the Biological Monitor(s) shall repeat CBB surveys within suitable CBB
                   habitat, prior to resuming Covered Activities.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -8253,25 +8447,27 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="cbb vegetation management "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.101</span
-                  ><span class="bcn-sr__row-title">CBB Vegetation Management</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.101</span>
+                  <span class="bcn-sr__row-title">CBB Vegetation Management</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-282"
               data-scope="commitments"
               data-entity="cbb nest relocation plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.102</span
-                  ><span class="bcn-sr__row-title">CBB Nest Relocation Plan</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.102</span>
+                  <span class="bcn-sr__row-title">CBB Nest Relocation Plan</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … roval 11.98. If Project personnel observe CBB or an insect resembling
@@ -8293,21 +8489,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   guidance from CDFW. Nest relocation efforts shall follow the general
                   guidelines described by The Xerces Society in Bumble Bee …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-283"
               data-scope="commitments"
               data-entity="cbb notification of cbb take or injury "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.103</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.103</span>
+                  <span class="bcn-sr__row-title"
                     >CBB Notification of CBB Take or Injury</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Crotch Bumble Bee (CBB) Measures - 11.103 Notification of CBB Take or
@@ -8330,21 +8527,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   collection, collection location, GPS location (including datum and
                   horizontal error in feet), circumstances surrounding death, collecto …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-284"
               data-scope="commitments"
               data-entity="mali initial site clearing and monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.104</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.104</span>
+                  <span class="bcn-sr__row-title"
                     >MALI Initial Site Clearing and Monitoring</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Mason's Lilaeopsis (MALI) Measures - 11.104 Initial Site Clearing and
@@ -8362,19 +8560,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   translocated to suitable habitat outside of the Project footprint in
                   accordance with Condition of Approval 11.108.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-285"
               data-scope="commitments"
               data-entity="mali surveys "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.105</span
-                  ><span class="bcn-sr__row-title">MALI Surveys</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.105</span>
+                  <span class="bcn-sr__row-title">MALI Surveys</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   Mason's Lilaeopsis (MALI) Measures - 11.105 MALI Surveys. The Designated
@@ -8391,21 +8590,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   habitat are floristic in nature and consistent with the Guidelines for
                   Conducting and Reporting Botanical Inventories for Federally Listed, …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-286"
               data-scope="commitments"
               data-entity="mali no-activity buffer zone "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.106</span
-                  ><span class="bcn-sr__row-title"
-                    >MALI No-Activity Buffer Zone</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.106</span>
+                  <span class="bcn-sr__row-title">MALI No-Activity Buffer Zone</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … uffer is not feasible, Permittee may reduce the no-activity zone to a
@@ -8420,22 +8618,23 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-287"
               data-scope="commitments"
               data-entity="mali measures specific to scada and transmission line construction and maintenance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.107</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.107</span>
+                  <span class="bcn-sr__row-title"
                     >MALI Measures Specific to SCADA and Transmission Line Construction
                     and Maintenance</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … e or repair of SCADA or transmission lines are necessary, maintenance
@@ -8445,19 +8644,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   by the Designated <mark>Biologist</mark>(s) and/or Biological Monitor(s)
                   prior to maintenance activities.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-288"
               data-scope="commitments"
               data-entity="mali translocation plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.108</span
-                  ><span class="bcn-sr__row-title">MALI Translocation Plan</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.108</span>
+                  <span class="bcn-sr__row-title">MALI Translocation Plan</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … on Plan) for MALI and submit it to CDFW as part of the appropriate
@@ -8489,19 +8689,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   include the date, time, location, and circ …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-289"
               data-scope="commitments"
               data-entity="buow avoidance "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.109</span
-                  ><span class="bcn-sr__row-title">BUOW Avoidance</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.109</span>
+                  <span class="bcn-sr__row-title">BUOW Avoidance</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … age (Condition of Approval 6.2). Project personnel shall not cross
@@ -8517,21 +8718,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   the Designated <mark>Biologist</mark>(s) if they encounter BUOW on site
                   or within 1,640 feet (500 meters) of the Project construction site.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-290"
               data-scope="commitments"
               data-entity="preconstruction habitat assessment (buow) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.110</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.110</span>
+                  <span class="bcn-sr__row-title"
                     >Preconstruction Habitat Assessment (BUOW)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   11.110 Preconstruction Habitat Assessment.Prior to the commencement of
@@ -8552,19 +8754,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Activities. The report shall …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-291"
               data-scope="commitments"
               data-entity="buow surveys "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.111</span
-                  ><span class="bcn-sr__row-title">BUOW Surveys</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.111</span>
+                  <span class="bcn-sr__row-title">BUOW Surveys</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   11.111 BUOW Surveys.The Designated <mark>Biologist</mark>(s) with
@@ -8602,19 +8805,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   the Project construction site.
                 </p>
                 <p class="bcn-sr__row-more">+ 2 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-292"
               data-scope="commitments"
               data-entity="buow burrow complex map "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.112</span
-                  ><span class="bcn-sr__row-title">BUOW Burrow Complex Map</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.112</span>
+                  <span class="bcn-sr__row-title">BUOW Burrow Complex Map</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   11.112 BUOW Burrow Complex Map.After BUOW surveys are conducted for each
@@ -8634,21 +8838,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   currently occupied sites and sites known to have been occupied within
                   the last t …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-293"
               data-scope="commitments"
               data-entity="buow seasonal work restrictions "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.113</span
-                  ><span class="bcn-sr__row-title"
-                    >BUOW Seasonal Work Restrictions</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.113</span>
+                  <span class="bcn-sr__row-title">BUOW Seasonal Work Restrictions</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … Project construction site until young are fledged and are no longer
@@ -8660,21 +8863,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   leave the Project construction site and the non-disturbance buffer on
                   their own volition.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-294"
               data-scope="commitments"
               data-entity="non-disturbance buffers (buow) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.114</span
-                  ><span class="bcn-sr__row-title"
-                    >Non-Disturbance Buffers (BUOW)</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.114</span>
+                  <span class="bcn-sr__row-title">Non-Disturbance Buffers (BUOW)</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   11.114 Non-disturbance Buffers.If an active nesting, roosting, or
@@ -8739,21 +8941,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   tracking medium to determine if the BUOW have not displayed any
                   courtship behavior an …
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-295"
               data-scope="commitments"
               data-entity="buow mortality reduction plan "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.115</span
-                  ><span class="bcn-sr__row-title"
-                    >BUOW Mortality Reduction Plan</span
-                  ></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.115</span>
+                  <span class="bcn-sr__row-title">BUOW Mortality Reduction Plan</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   If any of the designs and methodologies must be modified due to site
@@ -8769,19 +8970,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   Authorization Pa …
                 </p>
                 <p class="bcn-sr__row-more">+ 1 more paragraph in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-296"
               data-scope="commitments"
               data-entity="buow monitoring "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.116</span
-                  ><span class="bcn-sr__row-title">BUOW Monitoring</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.116</span>
+                  <span class="bcn-sr__row-title">BUOW Monitoring</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   11.116 BUOW Monitoring.The Designated <mark>Biologist</mark>(s) and/or
@@ -8828,19 +9030,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   prior to reinitiating Covered Activities to ensure any Covered Species
                   are not in harm’s way.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-297"
               data-scope="commitments"
               data-entity="buow exclusion activities "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.117</span
-                  ><span class="bcn-sr__row-title">BUOW Exclusion Activities</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.117</span>
+                  <span class="bcn-sr__row-title">BUOW Exclusion Activities</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … and other BUOW exclusion activities (collectively termed BUOW
@@ -8952,21 +9155,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   access to the bur …
                 </p>
                 <p class="bcn-sr__row-more">+ 4 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-298"
               data-scope="commitments"
               data-entity="notification of buow take or injury "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.118</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.118</span>
+                  <span class="bcn-sr__row-title"
                     >Notification of BUOW Take or Injury</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   11.118 Notification of BUOW Take or Injury.Permittee shall immediately
@@ -9003,7 +9207,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   updates on the status of the rehabilitation facility’s treatment of the
                   individual to CDFW.
                 </p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9011,15 +9215,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="detering predator attraction (buow) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.119</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.119</span>
+                  <span class="bcn-sr__row-title"
                     >Detering Predator Attraction (BUOW)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9027,15 +9232,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="velocity requirements at north delta intakes "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.120</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.120</span>
+                  <span class="bcn-sr__row-title"
                     >Velocity Requirements at North Delta Intakes</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9043,27 +9249,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="phase 1 and phase 2 authorized operations "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.121</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.121</span>
+                  <span class="bcn-sr__row-title"
                     >Phase 1 and Phase 2 Authorized Operations</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-302"
               data-scope="commitments"
               data-entity="diversion criteria "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.122</span
-                  ><span class="bcn-sr__row-title">Diversion Criteria</span></span
-                ></span
-              >
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.122</span>
+                  <span class="bcn-sr__row-title">Diversion Criteria</span>
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   … .120, 11.123, 11.124, and 11.125.11.122.3 North Delta Diversion
@@ -9078,7 +9286,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   operatio …
                 </p>
                 <p class="bcn-sr__row-more">+ 96 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9086,13 +9294,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="reservoir storage "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.123</span
-                  ><span class="bcn-sr__row-title">Reservoir Storage</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.123</span>
+                  <span class="bcn-sr__row-title">Reservoir Storage</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9100,15 +9309,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="shifting during balanced conditions "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.124</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.124</span>
+                  <span class="bcn-sr__row-title"
                     >Shifting During Balanced Conditions</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9116,15 +9326,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="additional diversions from north delta intakes "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.125</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.125</span>
+                  <span class="bcn-sr__row-title"
                     >Additional Diversions from North Delta Intakes</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9132,15 +9343,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="delta smelt and longfin smelt biological criteria "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.126</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.126</span>
+                  <span class="bcn-sr__row-title"
                     >Delta Smelt and Longfin Smelt Biological Criteria</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9148,15 +9360,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="winter-and spring-run chinook salmon biological criteria "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.127</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.127</span>
+                  <span class="bcn-sr__row-title"
                     >Winter-and Spring-run Chinook Salmon Biological Criteria</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9164,15 +9377,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="white sturgeon biological criteria "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 11.128</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 11.128</span>
+                  <span class="bcn-sr__row-title"
                     >White Sturgeon Biological Criteria</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9180,15 +9394,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="habitat management, land acquisition, and restoration "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12</span>
+                  <span class="bcn-sr__row-title"
                     >Habitat Management, Land Acquisition, and Restoration</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9196,15 +9411,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="project footprint features with impact multiplier percentages "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.1</span>
+                  <span class="bcn-sr__row-title"
                     >Project Footprint Features with Impact Multiplier Percentages</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9212,29 +9428,31 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="restoration from temporary preconstruction impacts "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.2</span>
+                  <span class="bcn-sr__row-title"
                     >Restoration from Temporary Preconstruction Impacts</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-312"
               data-scope="commitments"
               data-entity="temporary impacts and on-site restoration "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.3</span>
+                  <span class="bcn-sr__row-title"
                     >Temporary Impacts and On-Site Restoration</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   (9) Permittee shall oversee the management of invasive plants within
@@ -9259,7 +9477,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   establishment, …
                 </p>
                 <p class="bcn-sr__row-more">+ 31 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9267,16 +9485,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="install and maintain bird strike diverters on transmission lines in the project area "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.4</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.4</span>
+                  <span class="bcn-sr__row-title"
                     >Install and Maintain Bird Strike Diverters on Transmission Lines in
                     the Project Area</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9284,15 +9503,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="compensatory mitigation for swha "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.5</span
-                  ><span class="bcn-sr__row-title"
-                    >Compensatory Mitigation for SWHA</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.5</span>
+                  <span class="bcn-sr__row-title">Compensatory Mitigation for SWHA</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9300,15 +9518,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="compensatory mitigation for western burrowing owl "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.6</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.6</span>
+                  <span class="bcn-sr__row-title"
                     >Compensatory Mitigation for Western Burrowing Owl</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9316,15 +9535,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="compensatory mitigation for delta smelt and longfin smelt "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.7</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.7</span>
+                  <span class="bcn-sr__row-title"
                     >Compensatory Mitigation for Delta Smelt and Longfin Smelt</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9332,15 +9552,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="compensatory mitigation for chnwr and chnsr "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.8</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.8</span>
+                  <span class="bcn-sr__row-title"
                     >Compensatory Mitigation for CHNWR and CHNSR</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9348,15 +9569,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="compensatory mitigation for white sturgeon (ws) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.9</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.9</span>
+                  <span class="bcn-sr__row-title"
                     >Compensatory Mitigation for White Sturgeon (WS)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9364,13 +9586,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="cost estimates "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.10</span
-                  ><span class="bcn-sr__row-title">Cost Estimates</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.10</span>
+                  <span class="bcn-sr__row-title">Cost Estimates</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9378,13 +9601,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="covered species credits "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.11</span
-                  ><span class="bcn-sr__row-title">Covered Species Credits</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.11</span>
+                  <span class="bcn-sr__row-title">Covered Species Credits</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9392,15 +9616,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="habitat management lands acquisition and protection "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.12</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.12</span>
+                  <span class="bcn-sr__row-title"
                     >Habitat Management Lands Acquisition and Protection</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9408,15 +9633,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="in-perpetuity management funding "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.13</span
-                  ><span class="bcn-sr__row-title"
-                    >In-Perpetuity Management Funding</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.13</span>
+                  <span class="bcn-sr__row-title">In-Perpetuity Management Funding</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9424,13 +9648,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="reimburse cdfw "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 12.14</span
-                  ><span class="bcn-sr__row-title">Reimburse CDFW</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 12.14</span>
+                  <span class="bcn-sr__row-title">Reimburse CDFW</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9438,13 +9663,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="ensure security "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 13</span
-                  ><span class="bcn-sr__row-title">Ensure Security</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 13</span>
+                  <span class="bcn-sr__row-title">Ensure Security</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9452,13 +9678,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="calculate security amount "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 13.1</span
-                  ><span class="bcn-sr__row-title">Calculate Security Amount</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 13.1</span>
+                  <span class="bcn-sr__row-title">Calculate Security Amount</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9466,15 +9693,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="prepare and submit cesa mitigation funding strategy to cdfw "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 13.2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 13.2</span>
+                  <span class="bcn-sr__row-title"
                     >Prepare and Submit CESA Mitigation Funding Strategy to CDFW</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9482,15 +9710,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="demonstrate compliance with itp "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA 13.3</span
-                  ><span class="bcn-sr__row-title"
-                    >Demonstrate Compliance with ITP</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA 13.3</span>
+                  <span class="bcn-sr__row-title">Demonstrate Compliance with ITP</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9498,13 +9725,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="esa compliance (draft itp) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA-4</span
-                  ><span class="bcn-sr__row-title">ESA Compliance (Draft ITP)</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA-4</span>
+                  <span class="bcn-sr__row-title">ESA Compliance (Draft ITP)</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9512,15 +9740,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="phase authorizations for construction activities (draft itp) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA-6</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA-6</span>
+                  <span class="bcn-sr__row-title"
                     >Phase Authorizations for Construction Activities (Draft ITP)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9528,15 +9757,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="consultation regarding amendment (draft itp) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">COA-8</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">COA-8</span>
+                  <span class="bcn-sr__row-title"
                     >Consultation Regarding Amendment (Draft ITP)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9544,16 +9774,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="avoid impacts on built-environment historical resources through project design (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CUL-1a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CUL-1a</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid Impacts on Built-Environment Historical Resources through
                     Project Design (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9561,16 +9792,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="prepare and implement a built-environment treatment plan in consultation with interested parties (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CUL-1b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CUL-1b</span>
+                  <span class="bcn-sr__row-title"
                     >Prepare and Implement a Built-Environment Treatment Plan in
                     Consultation with Interested Parties (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9578,17 +9810,18 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="conduct a survey of inaccessible properties to assess eligibility and determine whether these properties will be adversely affected by the project (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CUL-2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CUL-2</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct a Survey of Inaccessible Properties to Assess Eligibility and
                     Determine Whether These Properties Will Be Adversely Affected by the
                     Project (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9596,16 +9829,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="prepare and implement an archaeological resources management plan (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CUL-3a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CUL-3a</span>
+                  <span class="bcn-sr__row-title"
                     >Prepare and Implement an Archaeological Resources Management Plan
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9613,15 +9847,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="conduct cultural resources sensitivity training (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CUL-3b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CUL-3b</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Cultural Resources Sensitivity Training (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9629,16 +9864,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="implement archaeological protocols for field investigations (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CUL-3c</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CUL-3c</span>
+                  <span class="bcn-sr__row-title"
                     >Implement Archaeological Protocols for Field Investigations
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9646,16 +9882,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="follow state and federal law governing human remains if such resources are discovered during construction (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">CUL-5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">CUL-5</span>
+                  <span class="bcn-sr__row-title"
                     >Follow State and Federal Law Governing Human Remains if Such
                     Resources Are Discovered during Construction (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9663,15 +9900,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="conduct environmental resources worker awareness training "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-1</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Environmental Resources Worker Awareness Training</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9679,16 +9917,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement hazardous materials management plans (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-2</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement Hazardous Materials Management Plans
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9696,16 +9935,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement spill prevention, containment, and countermeasure plans (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-3</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-3</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement Spill Prevention, Containment, and
                     Countermeasure Plans (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9713,15 +9953,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement erosion and sediment control plans (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-4a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-4a</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement Erosion and Sediment Control Plans (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9729,16 +9970,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement stormwater pollution prevention plans (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-4b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-4b</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement Stormwater Pollution Prevention Plans
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9746,15 +9988,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement a fire prevention and control plan (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-5</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Fire Prevention and Control Plan (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9762,15 +10005,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="conduct cultural resources awareness training (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-6</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-6</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Cultural Resources Awareness Training (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9778,15 +10022,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="off-road heavy-duty engines (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-7</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-7</span>
+                  <span class="bcn-sr__row-title"
                     >Off-Road Heavy-Duty Engines (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9794,13 +10039,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="on-road haul trucks (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-8</span
-                  ><span class="bcn-sr__row-title">On-Road Haul Trucks (FEIR)</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-8</span>
+                  <span class="bcn-sr__row-title">On-Road Haul Trucks (FEIR)</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9808,13 +10054,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="on-site locomotives (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-9</span
-                  ><span class="bcn-sr__row-title">On-Site Locomotives (FEIR)</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-9</span>
+                  <span class="bcn-sr__row-title">On-Site Locomotives (FEIR)</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9822,13 +10069,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="marine vessels (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-10</span
-                  ><span class="bcn-sr__row-title">Marine Vessels (FEIR)</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-10</span>
+                  <span class="bcn-sr__row-title">Marine Vessels (FEIR)</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9836,15 +10084,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="fugitive dust control (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-11</span
-                  ><span class="bcn-sr__row-title"
-                    >Fugitive Dust Control (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-11</span>
+                  <span class="bcn-sr__row-title">Fugitive Dust Control (FEIR)</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9852,15 +10099,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="on-site concrete batching plants (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-12</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-12</span>
+                  <span class="bcn-sr__row-title"
                     >On-Site Concrete Batching Plants (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9868,30 +10116,32 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="dwr best management practices to reduce ghg emissions (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-13</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-13</span>
+                  <span class="bcn-sr__row-title"
                     >DWR Best Management Practices to Reduce GHG Emissions (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-352"
               data-scope="commitments"
               data-entity="construction best management practices for biological resources (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-14</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-14</span>
+                  <span class="bcn-sr__row-title"
                     >Construction Best Management Practices for Biological Resources
                     (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   DWR will require all construction and restoration activities in and
@@ -9929,7 +10179,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   species to enforce buffers and non-disturbance of sensitive resources.
                 </p>
                 <p class="bcn-sr__row-more">+ 42 more paragraphs in this commitment</p>
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9937,16 +10187,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="sediment monitoring, modeling, and reintroduction adaptive management (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-15</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-15</span>
+                  <span class="bcn-sr__row-title"
                     >Sediment Monitoring, Modeling, and Reintroduction Adaptive Management
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9954,16 +10205,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="provide notification of construction and maintenance activities in waterways (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-16</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-16</span>
+                  <span class="bcn-sr__row-title"
                     >Provide Notification of Construction and Maintenance Activities in
                     Waterways (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9971,16 +10223,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="pursue solar electric power options at conveyance facility sites (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-17</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-17</span>
+                  <span class="bcn-sr__row-title"
                     >Pursue Solar Electric Power Options at Conveyance Facility Sites
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -9988,16 +10241,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="minimize construction-related disturbances to delta community events and festivals (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EC-18</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EC-18</span>
+                  <span class="bcn-sr__row-title"
                     >Minimize Construction-Related Disturbances to Delta Community Events
                     and Festivals (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10005,13 +10259,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="project description "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">EIR PD</span
-                  ><span class="bcn-sr__row-title">Project Description</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">EIR PD</span>
+                  <span class="bcn-sr__row-title">Project Description</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10019,15 +10274,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="maintain groundwater supplies in affected areas (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">GW-1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">GW-1</span>
+                  <span class="bcn-sr__row-title"
                     >Maintain Groundwater Supplies in Affected Areas (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10035,16 +10291,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="reduce potential increases in groundwater elevations near project intake facilities affecting agricultural drainage (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">GW-5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">GW-5</span>
+                  <span class="bcn-sr__row-title"
                     >Reduce Potential Increases in Groundwater Elevations near Project
                     Intake Facilities Affecting Agricultural Drainage (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10052,16 +10309,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="perform a phase i environmental site assessment prior to construction activities and remediate (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">HAZ-2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">HAZ-2</span>
+                  <span class="bcn-sr__row-title"
                     >Perform a Phase I Environmental Site Assessment Prior to Construction
                     Activities and Remediate (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10069,15 +10327,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement a noise control plan (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">NOI-1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">NOI-1</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Noise Control Plan (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10085,16 +10344,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="prepare and implement a monitoring and mitigation plan for paleontological resources (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">PALEO-1a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">PALEO-1a</span>
+                  <span class="bcn-sr__row-title"
                     >Prepare and Implement a Monitoring and Mitigation Plan for
                     Paleontological Resources (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10102,16 +10362,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="educate construction personnel in recognizing fossil material (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">PALEO-1b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">PALEO-1b</span>
+                  <span class="bcn-sr__row-title"
                     >Educate Construction Personnel in Recognizing Fossil Material
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10119,16 +10380,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="avoid creating areas of standing water during preconstruction field investigations and project construction (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">PH-1a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">PH-1a</span>
+                  <span class="bcn-sr__row-title"
                     >Avoid Creating Areas of Standing Water During Preconstruction Field
                     Investigations and Project Construction (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10136,16 +10398,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="develop and implement a mosquito management plan for compensatory mitigation sites on bouldin island and at i-5 ponds (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">PH-1b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">PH-1b</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Mosquito Management Plan for Compensatory
                     Mitigation Sites on Bouldin Island and at I-5 Ponds (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10153,16 +10416,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="conduct site-specific soil analysis and construct alternative wastewater disposal system as required (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">SOILS-5</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">SOILS-5</span>
+                  <span class="bcn-sr__row-title"
                     >Conduct Site-Specific Soil Analysis and Construct Alternative
                     Wastewater Disposal System as Required (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10170,15 +10434,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="avoidance of impacts on tribal cultural resources (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">TCR-1a</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">TCR-1a</span>
+                  <span class="bcn-sr__row-title"
                     >Avoidance of Impacts on Tribal Cultural Resources (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10186,15 +10451,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="plans for the management of tribal cultural resources (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">TCR-1b</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">TCR-1b</span>
+                  <span class="bcn-sr__row-title"
                     >Plans for the Management of Tribal Cultural Resources (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10202,17 +10468,18 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="implement measures to restore and enhance the physical, spiritual, and ceremonial qualities of affected tribal cultural resources (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">TCR-1c</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">TCR-1c</span>
+                  <span class="bcn-sr__row-title"
                     >Implement Measures to Restore and Enhance the Physical, Spiritual,
                     and Ceremonial Qualities of Affected Tribal Cultural Resources
                     (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10220,16 +10487,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="incorporate tribal knowledge into compensatory mitigation planning (restoration)(feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">TCR-1d</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">TCR-1d</span>
+                  <span class="bcn-sr__row-title"
                     >Incorporate Tribal Knowledge into Compensatory Mitigation Planning
                     (Restoration)(FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10237,16 +10505,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="perform an assessment of significance, known attributes, and integrity for individual crhr eligibility (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">TCR-2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">TCR-2</span>
+                  <span class="bcn-sr__row-title"
                     >Perform an Assessment of Significance, Known Attributes, and
                     Integrity for Individual CRHR Eligibility (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10254,16 +10523,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="implement site-specific construction transportation demand management plan and transportation management plan (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">TRANS-1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">TRANS-1</span>
+                  <span class="bcn-sr__row-title"
                     >Implement Site-Specific Construction Transportation Demand Management
                     Plan and Transportation Management Plan (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10271,30 +10541,32 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="commitments"
               data-entity="contra costa water district interconnection facility (feir) "
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">WQ-4</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">WQ-4</span>
+                  <span class="bcn-sr__row-title"
                     >Contra Costa Water District Interconnection Facility (FEIR)</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
               data-id="cm-dcp-374"
               data-scope="commitments"
               data-entity="develop and implement a mercury management and monitoring plan (feir) "
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">WQ-6</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">WQ-6</span>
+                  <span class="bcn-sr__row-title"
                     >Develop and Implement a Mercury Management and Monitoring Plan
                     (FEIR)</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 <p>
                   DWR will retain a qualified water quality specialist, wildlife
@@ -10302,14 +10574,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                   expertise in methylmercury management to develop the MMMP.
                 </p>
                 <p class="bcn-sr__row-more">+ 33 more paragraphs in this commitment</p>
-              </div></a
-            >
+              </div>
+            </a>
           </div>
         </section>
         <section class="bcn-sr__group" data-group="requirements">
           <header class="bcn-sr__group-head">
-            <span class="bcn-sr__group-label">Requirements</span
-            ><span class="bcn-sr__group-count" data-group-count="">1</span>
+            <span class="bcn-sr__group-label">Requirements</span>
+            <span class="bcn-sr__group-count" data-group-count="">1</span>
           </header>
           <div class="bcn-sr__rows">
             <a
@@ -10319,13 +10591,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="requirements"
               data-entity="develop weap training training &amp; education"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">MM-BIO-1</span
-                  ><span class="bcn-sr__row-title">Develop WEAP Training</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">MM-BIO-1</span>
+                  <span class="bcn-sr__row-title">Develop WEAP Training</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-requirement"
@@ -10333,35 +10606,37 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="requirements"
               data-entity="provide weap training to all project personnel training &amp; education"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">MM-BIO-1</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">MM-BIO-1</span>
+                  <span class="bcn-sr__row-title"
                     >Provide WEAP Training to all Project personnel</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-requirement"
               data-id="rq-buffer"
               data-scope="requirements"
               data-entity="if bird nests are found, establish no-disturbance buffer zones biological resources"
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">MM-BIO-2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">MM-BIO-2</span>
+                  <span class="bcn-sr__row-title"
                     >If bird nests are found, establish no-disturbance buffer zones</span
-                  ></span
-                ></span
-              >
+                  >
+                </span>
+              </span>
               <div class="bcn-sr__row-snippet">
                 Where active nests are identified, establish and flag no-disturbance
                 buffer zones sized by the qualified <mark>biologist</mark>; restrict
                 ground-disturbing activities, demolition, and vegetation removal within
                 the buffer until the nest is no longer active.
-              </div></a
+              </div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-requirement"
@@ -10369,15 +10644,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="requirements"
               data-entity="pre-construction survey for nesting raptors and migratory birds biological resources"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">MM-BIO-2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">MM-BIO-2</span>
+                  <span class="bcn-sr__row-title"
                     >Pre-construction survey for nesting raptors and migratory birds</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-requirement"
@@ -10385,15 +10661,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="requirements"
               data-entity="pre-construction habitat assessment for bat roost sites biological resources"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">MM-BIO-2</span
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">MM-BIO-2</span>
+                  <span class="bcn-sr__row-title"
                     >Pre-construction habitat assessment for bat roost sites</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-requirement"
@@ -10401,22 +10678,21 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="requirements"
               data-entity="dust control measures — erosion air quality"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-code">AQ-1</span
-                  ><span class="bcn-sr__row-title"
-                    >Dust control measures — erosion</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div
-            ></a>
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-code">AQ-1</span>
+                  <span class="bcn-sr__row-title">Dust control measures — erosion</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div>
+            </a>
           </div>
         </section>
         <section class="bcn-sr__group" data-group="actions">
           <header class="bcn-sr__group-head">
-            <span class="bcn-sr__group-label">Actions</span
-            ><span class="bcn-sr__group-count" data-group-count="">2</span>
+            <span class="bcn-sr__group-label">Actions</span>
+            <span class="bcn-sr__group-count" data-group-count="">2</span>
           </header>
           <div class="bcn-sr__rows">
             <a
@@ -10425,29 +10701,31 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-id="ac-weap-schedule"
               data-scope="actions"
               data-entity="schedule weap training session with qualified biologist mm-bio-1"
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Schedule WEAP training session with qualified
                     <mark>biologist</mark></span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
               data-id="ac-retain-bio"
               data-scope="actions"
               data-entity="retain qualified biologist for nesting surveys mm-bio-2"
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Retain qualified <mark>biologist</mark> for nesting surveys</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
@@ -10455,14 +10733,15 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="actions"
               data-entity="install no-disturbance buffer fencing at active nests mm-bio-2"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Install no-disturbance buffer fencing at active nests</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
@@ -10470,14 +10749,15 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="actions"
               data-entity="file monthly nesting-bird monitoring report mm-bio-2"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >File monthly nesting-bird monitoring report</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
@@ -10485,14 +10765,15 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="actions"
               data-entity="apply dust-control watering on graded surfaces air quality"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Apply dust-control watering on graded surfaces</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
@@ -10500,21 +10781,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="actions"
               data-entity="coordinate agricultural easement acquisition ag-1"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Coordinate agricultural easement acquisition</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div
-            ></a>
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div>
+            </a>
           </div>
         </section>
         <section class="bcn-sr__group" data-group="components" hidden="">
           <header class="bcn-sr__group-head">
-            <span class="bcn-sr__group-label">Components</span
-            ><span class="bcn-sr__group-count" data-group-count="">0</span>
+            <span class="bcn-sr__group-label">Components</span>
+            <span class="bcn-sr__group-count" data-group-count="">0</span>
           </header>
           <div class="bcn-sr__rows">
             <a
@@ -10524,12 +10806,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="components"
               data-entity="north grading area work component · 3600 alameda"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">North Grading Area</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">North Grading Area</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10537,12 +10820,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="components"
               data-entity="south grading area work component · 3600 alameda"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">South Grading Area</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">South Grading Area</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10550,12 +10834,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="components"
               data-entity="intake facilities work component · dcp"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">Intake Facilities</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Intake Facilities</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10563,12 +10848,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="components"
               data-entity="tunnel shaft sites work component · dcp"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">Tunnel Shaft Sites</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Tunnel Shaft Sites</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10576,12 +10862,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="components"
               data-entity="bouldin island complex work component · dcp"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">Bouldin Island Complex</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Bouldin Island Complex</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-commitment"
@@ -10589,19 +10876,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="components"
               data-entity="twin cities road corridor work component · dcp"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">Twin Cities Road Corridor</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div
-            ></a>
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Twin Cities Road Corridor</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div>
+            </a>
           </div>
         </section>
         <section class="bcn-sr__group" data-group="evidence">
           <header class="bcn-sr__group-head">
-            <span class="bcn-sr__group-label">Evidence of Compliance</span
-            ><span class="bcn-sr__group-count" data-group-count="">1</span>
+            <span class="bcn-sr__group-label">Evidence of Compliance</span>
+            <span class="bcn-sr__group-count" data-group-count="">1</span>
           </header>
           <div class="bcn-sr__rows">
             <a
@@ -10611,14 +10899,15 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="evidence"
               data-entity="weap training sign-in sheet — 2026-04-12.pdf mm-bio-1 · document"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >WEAP Training Sign-in Sheet — 2026-04-12.pdf</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
@@ -10626,14 +10915,15 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="evidence"
               data-entity="preconstruction nesting bird survey report.pdf mm-bio-2 · report"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Preconstruction Nesting Bird Survey Report.pdf</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
@@ -10641,28 +10931,30 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="evidence"
               data-entity="buffer fencing photo log — dctr2-dh-010 mm-bio-2 · photos"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Buffer Fencing Photo Log — DCTR2-DH-010</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
               data-id="ev-daily-log"
               data-scope="evidence"
               data-entity="biologist daily monitoring log — week 14 mm-bio-2 · log"
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     ><mark>Biologist</mark> Daily Monitoring Log — Week 14</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
@@ -10670,14 +10962,15 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="evidence"
               data-entity="dust control watering record — june.xlsx air quality · record"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Dust Control Watering Record — June.xlsx</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/data-catalog-action"
@@ -10685,21 +10978,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="evidence"
               data-entity="agricultural land easement — recorded deed.pdf ag-1 · legal"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Agricultural Land Easement — Recorded Deed.pdf</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div
-            ></a>
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div>
+            </a>
           </div>
         </section>
         <section class="bcn-sr__group" data-group="work-areas" hidden="">
           <header class="bcn-sr__group-head">
-            <span class="bcn-sr__group-label">Work Areas</span
-            ><span class="bcn-sr__group-count" data-group-count="">0</span>
+            <span class="bcn-sr__group-label">Work Areas</span>
+            <span class="bcn-sr__group-count" data-group-count="">0</span>
           </header>
           <div class="bcn-sr__rows">
             <a
@@ -10709,12 +11003,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="work-areas"
               data-entity="dctr2-dh-010 twin cities road · geotech bore"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">DCTR2-DH-010</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">DCTR2-DH-010</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/site-clearance"
@@ -10722,12 +11017,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="work-areas"
               data-entity="dcrai-dh-009 rail crossing · geotech bore"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">DCRAI-DH-009</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">DCRAI-DH-009</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/site-clearance"
@@ -10735,12 +11031,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="work-areas"
               data-entity="dcrai-dh-006 rail crossing · geotech bore"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">DCRAI-DH-006</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">DCRAI-DH-006</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/site-clearance"
@@ -10748,12 +11045,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="work-areas"
               data-entity="dctr2-dh-100 twin cities road · geotech bore"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">DCTR2-DH-100</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">DCTR2-DH-100</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/site-clearance"
@@ -10761,12 +11059,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="work-areas"
               data-entity="dcrds-dh-294 roadway · geotech bore"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">DCRDS-DH-294</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">DCRDS-DH-294</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/site-clearance"
@@ -10774,19 +11073,20 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="work-areas"
               data-entity="dcbpp-dh-066 bouldin island · geotech bore"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title">DCBPP-DH-066</span></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div
-            ></a>
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">DCBPP-DH-066</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div>
+            </a>
           </div>
         </section>
         <section class="bcn-sr__group" data-group="observations" hidden="">
           <header class="bcn-sr__group-head">
-            <span class="bcn-sr__group-label">Observations</span
-            ><span class="bcn-sr__group-count" data-group-count="">0</span>
+            <span class="bcn-sr__group-label">Observations</span>
+            <span class="bcn-sr__group-count" data-group-count="">0</span>
           </header>
           <div class="bcn-sr__rows">
             <a
@@ -10796,14 +11096,15 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="observations"
               data-entity="swainson's hawk nest — dctr2-dh-010 nesting bird · active"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Swainson's Hawk nest — DCTR2-DH-010</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/monitoring/dashboard"
@@ -10811,14 +11112,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="observations"
               data-entity="common raven nest — dcrai-dh-009 nesting bird · active"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
-                    >Common Raven nest — DCRAI-DH-009</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Common Raven nest — DCRAI-DH-009</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/monitoring/dashboard"
@@ -10826,14 +11126,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="observations"
               data-entity="killdeer nest — dctr2-dh-100 nesting bird · active"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
-                    >Killdeer nest — DCTR2-DH-100</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Killdeer nest — DCTR2-DH-100</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/monitoring/dashboard"
@@ -10841,14 +11140,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="observations"
               data-entity="mallard nest — dcrds-dh-294 nesting bird · active"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
-                    >Mallard nest — DCRDS-DH-294</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Mallard nest — DCRDS-DH-294</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/monitoring/dashboard"
@@ -10856,14 +11154,13 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="observations"
               data-entity="rodent burrows — dcbpp-dh-066 biological resource · tracking"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
-                    >Rodent burrows — DCBPP-DH-066</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div></a
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title">Rodent burrows — DCBPP-DH-066</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div> </a
             ><a
               class="bcn-sr__row"
               href="/beacon-design/prototypes/monitoring/dashboard"
@@ -10871,15 +11168,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               data-scope="observations"
               data-entity="swainson's hawk foraging — dcrai-dh-006 biological resource · tracking"
               hidden=""
-              ><span class="bcn-sr__row-head"
-                ><span class="bcn-sr__row-titlerow"
-                  ><span class="bcn-sr__row-title"
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  <span class="bcn-sr__row-title"
                     >Swainson's Hawk foraging — DCRAI-DH-006</span
-                  ></span
-                ></span
-              >
-              <div class="bcn-sr__row-snippet" hidden=""></div
-            ></a>
+                  >
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden=""></div>
+            </a>
           </div>
         </section>
         <!-- 5 · Empty state (the lego) — hidden until the client finds zero matches -->
@@ -10900,12 +11198,12 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                 <path d="m21 21-4.3-4.3"></path>
               </svg>
             </div>
-            <h3 class="esa-empty-state__title typography-label-md-strong">No matches</h3>
-            <p class="esa-empty-state__description typography-body-sm">
+            <h3 class="esa-empty-state__title">No matches</h3>
+            <p class="esa-empty-state__description">
               No records match your search. Try a different term or clear the active type
               filter.
             </p>
-            <div class="esa-empty-state__actions typography-label-md"></div>
+            <div class="esa-empty-state__actions"></div>
           </div>
         </div>
       </div>
@@ -10918,142 +11216,121 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 
 ## Styles
 ```css
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .bcn-sr {
-  gap: var(--spacing-400);
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
 }
 .bcn-sr__search {
+  display: flex;
   align-items: center;
   gap: var(--spacing-300);
   padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-300);
-  display: flex;
 }
 .bcn-sr__search:focus-within {
-  border-color: var(--color-background-brand);
-  box-shadow: 0 0 0 3px var(--color-background-brand-subtle);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-subtle);
 }
 .bcn-sr__search-icon {
-  color: var(--color-content-default-tertiary);
-  flex-shrink: 0;
   display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
 }
 .bcn-sr__search-icon svg {
   width: 20px;
   height: 20px;
 }
 .bcn-sr__input {
+  flex: 1;
   min-width: 0;
-  font-family: inherit;
-  font-size: var(--font-size-300);
-  color: var(--color-content-default);
-  background: 0 0;
   border: none;
   outline: none;
-  flex: 1;
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--type-size-300);
+  color: var(--color-text-primary);
 }
 .bcn-sr__input::placeholder {
-  color: var(--color-content-default-tertiary);
+  color: var(--color-text-tertiary);
 }
 .bcn-sr__count {
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-secondary);
   margin: 0;
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
 }
 .bcn-sr__split {
+  display: flex;
   align-items: flex-start;
   gap: var(--spacing-500);
-  display: flex;
 }
 .bcn-sr__rail {
-  width: 220px;
-  top: var(--spacing-400);
-  flex-direction: column;
   flex: none;
-  gap: 1px;
-  display: flex;
+  width: 220px;
   position: sticky;
+  top: var(--spacing-400);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 .bcn-sr__main {
-  gap: var(--spacing-400);
-  border-left: 1px solid var(--color-border-default);
+  flex: 1 1 auto;
   min-width: 0;
-  padding-left: var(--spacing-500);
-  flex-direction: column;
-  flex: auto;
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  border-left: 1px solid var(--color-border);
+  padding-left: var(--spacing-500);
 }
 .bcn-sr__scope {
+  display: flex;
   align-items: center;
   gap: var(--spacing-200);
   width: 100%;
   padding: var(--spacing-200) var(--spacing-250);
+  border: 0;
   border-radius: var(--radius-200);
-  color: var(--color-content-default-secondary);
+  background: transparent;
+  color: var(--color-text-secondary);
   font-family: inherit;
-  font-size: var(--font-size-150);
+  font-size: var(--type-size-150);
   text-align: left;
   cursor: pointer;
-  background: 0 0;
-  border: 0;
   transition:
-    background 0.12s,
-    color 0.12s;
-  display: flex;
+    background 0.12s ease,
+    color 0.12s ease;
 }
 .bcn-sr__scope:hover {
-  background: var(--color-background-elevation-sunken);
-  color: var(--color-content-default);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-primary);
 }
 .bcn-sr__scope--active {
-  background: var(--color-background-brand);
-  color: var(--color-content-default-knockout);
-  font-weight: var(--typography-font-weight-semibold);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
 }
 .bcn-sr__scope-label {
-  text-overflow: ellipsis;
-  white-space: nowrap;
   flex: 1;
   min-width: 0;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .bcn-sr__scope-count {
-  font-variant-numeric: tabular-nums;
-  opacity: 0.8;
   flex: none;
   font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
 }
 .bcn-sr--idle .bcn-sr__scope {
-  color: var(--color-content-default-tertiary);
+  color: var(--color-text-tertiary);
   cursor: default;
 }
 .bcn-sr--idle .bcn-sr__scope:hover {
-  color: var(--color-content-default-tertiary);
-  background: 0 0;
+  background: transparent;
+  color: var(--color-text-tertiary);
 }
 .bcn-sr--idle .bcn-sr__scope-count {
   display: none;
@@ -11066,106 +11343,106 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   display: none;
 }
 .bcn-sr__results {
-  gap: var(--spacing-500);
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
 }
 .bcn-sr__group {
-  gap: var(--spacing-150);
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
 }
 .bcn-sr__group[hidden] {
   display: none;
 }
 .bcn-sr__group-head {
+  display: flex;
   align-items: center;
   gap: var(--spacing-200);
   padding: 0 var(--spacing-200) var(--spacing-150);
-  border-bottom: 1px solid var(--color-border-default-subtle);
-  display: flex;
+  border-bottom: 1px solid var(--color-border-light);
 }
 .bcn-sr__group-label {
-  font-size: var(--font-size-200);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 .bcn-sr__group-count {
-  font-size: var(--font-size-100);
+  font-size: var(--type-size-100);
   font-variant-numeric: tabular-nums;
-  color: var(--color-content-default-secondary);
-  border: 1px solid var(--color-border-default);
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-100);
-  background: 0 0;
   padding: 0 6px;
   line-height: 1.5;
 }
 .bcn-sr__rows {
-  gap: var(--spacing-300);
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
 }
 .bcn-sr__row {
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-150);
   padding: var(--spacing-200) var(--spacing-300);
   border-radius: var(--radius-200);
-  color: var(--color-content-default);
-  background: 0 0;
-  flex-direction: column;
+  background: transparent;
+  color: var(--color-text-primary);
   text-decoration: none;
-  transition: background 0.12s;
-  display: flex;
+  transition: background 0.12s ease;
 }
 .bcn-sr__row:hover {
-  background: var(--color-background-elevation-sunken);
+  background: var(--color-surface-sunken);
 }
 .bcn-sr__row[hidden] {
   display: none;
 }
 .bcn-sr__row-head {
+  display: flex;
   align-items: center;
   min-width: 0;
-  display: flex;
 }
 .bcn-sr__row-titlerow {
+  flex: 1;
+  display: flex;
   align-items: center;
   gap: var(--spacing-200);
-  flex: 1;
   min-width: 0;
-  display: flex;
 }
 .bcn-sr__row-code {
+  flex: none;
+  padding: 1px 6px;
   border-radius: var(--radius-100);
-  font-size: var(--font-size-100);
-  font-weight: var(--typography-font-weight-semibold);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
   white-space: nowrap;
   color: var(--color-commitment);
   background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  flex: none;
-  padding: 1px 6px;
-  line-height: 1.4;
 }
 .bcn-sr__row-title {
+  flex: 0 1 auto;
   min-width: 0;
-  font-size: var(--font-size-200);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
   white-space: nowrap;
-  text-overflow: ellipsis;
-  flex: 0 auto;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .bcn-sr__row-snippet {
   margin-top: var(--spacing-150);
   padding: var(--spacing-300) var(--spacing-350, 1.25rem);
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-200);
-  background: var(--color-background-elevation-raised);
+  background: var(--color-surface);
   font-family: var(--font-decorative);
-  font-size: var(--font-size-150);
-  color: var(--color-content-default);
-  text-align: left;
+  font-size: var(--type-size-150);
   line-height: 1.7;
+  color: var(--color-text-primary);
+  text-align: left;
 }
 .bcn-sr__row-snippet p {
   margin: 0;
@@ -11174,73 +11451,60 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   margin-top: 0.85em;
 }
 .bcn-sr__row-snippet .bcn-sr__row-more {
-  border-top: 1px solid var(--color-border-default);
-  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
-  font-size: var(--font-size-100);
-  color: var(--color-content-default-tertiary);
   margin-top: 1em;
   padding-top: 0.7em;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--type-size-100);
   font-style: normal;
+  color: var(--color-text-tertiary);
 }
 .bcn-sr__row-snippet[hidden] {
   display: none;
 }
 .bcn-sr__row-title mark,
 .bcn-sr__row-snippet mark {
-  color: var(--color-content-default);
   background: #fde047;
+  color: var(--color-text-primary);
   border-radius: 2px;
   padding: 0 1px;
 }
 .bcn-sr__empty[hidden] {
   display: none;
 }
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
+  --_empty-title-size: 16px;
+  --_empty-desc-size: 14px;
+  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  justify-content: center;
-  align-items: center;
   gap: var(--_empty-gap);
-  flex-direction: column;
-  display: flex;
 }
 .esa-empty-state--xs {
   --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
+  --_empty-title-size: 13px;
+  --_empty-desc-size: 11px;
   padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
 }
 .esa-empty-state--sm {
   --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  --_empty-title-size: 14px;
+  --_empty-desc-size: 12px;
   padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
 }
 .esa-empty-state--lg {
   --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
+  --_empty-title-size: 20px;
+  --_empty-desc-size: 16px;
   padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
 }
 .esa-empty-state__icon {
-  color: var(--color-content-default-secondary, #646464);
+  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
   margin-bottom: var(--spacing-100, 0.25rem);
   display: inline-flex;
 }
@@ -11249,13 +11513,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   height: var(--_empty-icon-size);
 }
 .esa-empty-state__title {
-  color: var(--color-content-default, #202020);
   margin: 0;
+  font-size: var(--_empty-title-size);
+  font-weight: 600;
+  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
 }
 .esa-empty-state__description {
-  color: var(--color-content-default-secondary, #646464);
-  max-width: 360px;
   margin: 0;
+  font-size: var(--_empty-desc-size);
+  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
+  max-width: 360px;
 }
 .esa-empty-state__actions {
   margin-top: var(--spacing-200, 0.5rem);
@@ -11266,26 +11533,29 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 ```
 
 ## Tokens
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-subtle`: #effefb _(semantic)_
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-background-elevation-sunken`: #efefef _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-knockout`: #fcfcfc _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-primary-subtle`: #effefb _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
+- `--color-text-muted`: #7c7c7c _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--empty-state-description-color`: #525252 _(component)_
+- `--empty-state-gap`: .5rem _(component)_
+- `--empty-state-icon-color`: #7c7c7c _(component)_
 - `--empty-state-icon-size-lg`: 64px _(component)_
 - `--empty-state-icon-size-md`: 48px _(component)_
 - `--empty-state-icon-size-sm`: 32px _(component)_
 - `--empty-state-icon-size-xs`: 24px _(component)_
+- `--empty-state-title-color`: #3d3d3d _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--font-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_
+- `--font-sans`: "DM Sans", sans-serif _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
@@ -11299,20 +11569,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 - `--spacing-600`: 2rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
 - `--spacing-800`: 4rem _(primitive)_
-- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
-- `--typography-body-sm-font-weight`: 350 _(semantic)_
-- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
-- `--typography-body-sm-line-height`: 1.6 _(semantic)_
-- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--type-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_

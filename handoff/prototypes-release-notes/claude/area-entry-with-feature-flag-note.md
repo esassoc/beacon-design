@@ -43,56 +43,58 @@ One change inside an area group: the entry title, optional deployment notes (a f
   scroll-margin-top: var(--spacing-500);
 }
 .bcn-release__entry-head {
-  align-items: baseline;
-  gap: var(--spacing-150) var(--spacing-300);
-  flex-wrap: wrap;
-  max-inline-size: 42rem;
-  margin-block-end: var(--spacing-300);
   display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-150) var(--spacing-300);
+  margin-block-end: var(--spacing-300);
+  max-inline-size: 42rem;
 }
 .bcn-release__entry-title {
-  font-size: 1rem;
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-content-default);
   margin: 0;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
   line-height: 1.4;
+  color: var(--color-text-primary);
 }
 .bcn-release__flag {
+  display: inline-flex;
   align-items: baseline;
   gap: var(--spacing-100);
   padding: 2px var(--spacing-200);
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-100);
-  background: var(--color-background-elevation-raised);
-  color: var(--color-content-default-tertiary);
+  background: var(--color-surface);
   font-size: 0.8125rem;
-  display: inline-flex;
+  color: var(--color-text-tertiary);
 }
 .bcn-release__flag code {
-  font-family: var(--typography-font-family-mono);
-  color: var(--color-content-default-secondary);
+  font-family: var(--font-mono);
   font-size: 0.8125rem;
+  color: var(--color-text-secondary);
 }
 .bcn-release__blocks {
-  gap: var(--spacing-400);
-  flex-direction: column;
-  max-inline-size: 42rem;
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  max-inline-size: 42rem;
 }
 .bcn-release__p {
+  margin: 0;
   font-size: 1rem;
   line-height: var(--line-height-normal);
-  color: var(--color-content-default);
-  margin: 0;
+  color: var(--color-text-primary);
 }
 ```
 
 ## Tokens
-- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
-- `--color-border-default`: #dcdcdc _(semantic)_
-- `--color-content-default`: #3d3d3d _(semantic)_
-- `--color-content-default-secondary`: #525252 _(semantic)_
-- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--line-height-normal`: 1.6 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
@@ -101,5 +103,3 @@ One change inside an area group: the entry title, optional deployment notes (a f
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
-- `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
-- `--typography-font-weight-semibold`: 550 _(semantic)_

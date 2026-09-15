@@ -27,8 +27,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       <div class="bcn-solution">
         <div class="bcn-solution__card" data-reveal="" data-reveal-delay="1" data-reveal-bound="">
           <div class="bcn-solution__medallion" style="background: #003f5c">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true"
-              ><svg
+            <span class="esa-icon esa-icon--xl" aria-hidden="true">
+              <svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -45,8 +45,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <path d="M20 3v4"></path>
                 <path d="M22 5h-4"></path>
                 <path d="M4 17v2"></path>
-                <path d="M5 18H3"></path></svg
-            ></span>
+                <path d="M5 18H3"></path>
+              </svg>
+            </span>
           </div>
           <div class="bcn-solution__title">Catalog</div>
           <div class="bcn-solution__desc">
@@ -56,8 +57,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </div>
         <div class="bcn-solution__card" data-reveal="" data-reveal-delay="2" data-reveal-bound="">
           <div class="bcn-solution__medallion" style="background: #a05195">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true"
-              ><svg
+            <span class="esa-icon esa-icon--xl" aria-hidden="true">
+              <svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -72,8 +73,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <rect x="2" y="16" width="6" height="6" rx="1"></rect>
                 <rect x="9" y="2" width="6" height="6" rx="1"></rect>
                 <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path>
-                <path d="M12 12V8"></path></svg
-            ></span>
+                <path d="M12 12V8"></path>
+              </svg>
+            </span>
           </div>
           <div class="bcn-solution__title">Plan</div>
           <div class="bcn-solution__desc">
@@ -83,8 +85,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </div>
         <div class="bcn-solution__card" data-reveal="" data-reveal-delay="3" data-reveal-bound="">
           <div class="bcn-solution__medallion" style="background: #ffa600">
-            <span class="esa-icon esa-icon--xl" aria-hidden="true"
-              ><svg
+            <span class="esa-icon esa-icon--xl" aria-hidden="true">
+              <svg
                 width="28"
                 height="28"
                 viewBox="0 0 24 24"
@@ -96,8 +98,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 focusable="false"
               >
                 <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                <path d="m9 11 3 3L22 4"></path></svg
-            ></span>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+            </span>
           </div>
           <div class="bcn-solution__title">Execute</div>
           <div class="bcn-solution__desc">
@@ -113,56 +116,83 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
 .bcn-mkt-section {
   --_section-pad: clamp(48px, 8vw, 96px);
   padding-block: var(--_section-pad);
 }
 .bcn-mkt-section--white {
-  background: var(--color-background-elevation-raised);
+  background: var(--color-surface);
 }
 .bcn-mkt-section__inner {
   max-inline-size: 1100px;
-  padding-inline: var(--spacing-500);
   margin-inline: auto;
+  padding-inline: var(--spacing-500);
 }
 .bcn-section-intro {
   margin-block-end: var(--spacing-700);
 }
 .bcn-section-intro__eyebrow {
+  display: block;
   font-size: 12px;
-  font-weight: var(--typography-font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--color-content-default-tertiary);
+  color: var(--color-text-tertiary);
   margin-block-end: var(--spacing-300);
-  display: block;
 }
 .bcn-section-intro__headline {
   margin: 0 0 var(--spacing-400);
-  font-family: var(--font-decorative, var(--typography-font-family-sans));
-  font-size: var(--font-size-700);
-  font-weight: var(--typography-font-weight-bold);
+  font-family: var(--font-decorative, var(--font-sans));
+  font-size: var(--type-size-700);
+  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight, 1.25);
-  color: var(--color-content-default);
+  color: var(--color-text-primary);
   text-wrap: balance;
 }
 .bcn-section-intro__accent {
-  background: var(--color-background-brand);
-  border-radius: var(--radius-full, 9999px);
-  block-size: 4px;
   inline-size: 48px;
+  block-size: 4px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full, 9999px);
   margin-block-end: var(--spacing-400);
 }
 .bcn-section-intro__subtext {
-  font-size: var(--font-size-300);
-  color: var(--color-content-default-secondary);
+  margin: 0;
+  font-size: var(--type-size-300);
+  color: var(--color-text-secondary);
   max-inline-size: 820px;
   line-height: var(--line-height-relaxed, 1.75);
   text-wrap: balance;
-  margin: 0;
 }
 .bcn-mkt-section--light {
-  background: var(--color-background-elevation-sunken, var(--color-gray-2));
+  background: var(--color-surface-sunken, var(--color-gray-2));
 }
 .bcn-section-intro--center {
   text-align: center;
@@ -174,45 +204,45 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   margin-inline: auto;
 }
 .bcn-solution {
-  gap: var(--spacing-500);
-  grid-template-columns: repeat(3, 1fr);
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-500);
 }
 .bcn-solution__card {
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-200);
   padding: var(--spacing-600) var(--spacing-500);
   text-align: center;
   transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .bcn-solution__medallion {
-  border-radius: var(--radius-full, 9999px);
-  block-size: 64px;
   inline-size: 64px;
+  block-size: 64px;
+  border-radius: var(--radius-full, 9999px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto var(--spacing-400);
   color: #fff;
   --icon-size-xl: 32px;
-  justify-content: center;
-  align-items: center;
-  display: flex;
 }
 .bcn-solution__title {
-  font-size: var(--font-size-400);
-  font-weight: var(--typography-font-weight-semibold);
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-semibold);
   margin-block-end: var(--spacing-300);
 }
 .bcn-solution__desc {
-  font-size: var(--font-size-150);
-  color: var(--color-content-default-secondary);
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
   line-height: var(--line-height-relaxed, 1.75);
 }
 .bcn-mkt-section--forest {
   color: #fff;
   background:
-    linear-gradient(160deg, #02140af0 0%, #052312eb 40%, #08321ce6 100%),
+    linear-gradient(160deg, #02140af0, #052312eb 40%, #08321ce6),
     var(--_forest-image) center / cover no-repeat;
 }
 .bcn-section-intro--on-dark .bcn-section-intro__eyebrow {
@@ -227,53 +257,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-section-intro--on-dark .bcn-section-intro__subtext {
   color: #fffc;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--color-background-brand` | `#005862` | semantic |
-| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
-| `--color-background-elevation-sunken` | `#efefef` | semantic |
-| `--color-border-default` | `#dcdcdc` | semantic |
-| `--color-content-default` | `#3d3d3d` | semantic |
-| `--color-content-default-secondary` | `#525252` | semantic |
-| `--color-content-default-tertiary` | `#656565` | semantic |
+| `--color-border` | `#dcdcdc` | semantic |
 | `--color-gray-2` | `#f9f9f9` | primitive |
+| `--color-primary` | `#005862` | semantic |
+| `--color-surface` | `#fcfcfc` | semantic |
+| `--color-surface-sunken` | `#efefef` | semantic |
+| `--color-text-primary` | `#3d3d3d` | semantic |
+| `--color-text-secondary` | `#525252` | semantic |
+| `--color-text-tertiary` | `#656565` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
-| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--font-sans` | `"DM Sans", sans-serif` | primitive |
+| `--font-weight-bold` | `650` | primitive |
+| `--font-weight-semibold` | `550` | primitive |
+| `--icon-size-large` | `24px` | component |
 | `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
+| `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
+| `--icon-size-small` | `16px` | component |
 | `--icon-size-xl` | `28px` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
 | `--line-height-tight` | `1.3` | primitive |
@@ -284,9 +290,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
-| `--typography-font-weight-bold` | `650` | semantic |
-| `--typography-font-weight-semibold` | `550` | semantic |
+| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._
