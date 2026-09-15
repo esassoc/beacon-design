@@ -1,0 +1,244 @@
+---
+// <BcnWidgetFlow> — the widget BODY for the composable Monitoring Portal dashboard.
+// It renders INSIDE <BcnDashboardWidget>'s slot, carries no card chrome, and does
+// one job: let a widget's sections FLOW into whatever width the card actually has.
+//
+// WHY THIS REPLACED BcnWidgetPanels (Jamie, 2026-09-10). The old body was a fixed
+// track set — a 190/220px stat rail plus one or two 1fr columns, addressed by named
+// slots a/b/c. That model broke down the moment sections became user-configurable:
+//
+//   • The rail was POSITIONAL, not semantic. Whichever section came first landed in
+//     it, so dragging a chart to the top of a widget squeezed it to 190px.
+//   • Turning a section off left a HOLE. The donut sat in track b; switching it off
+//     emptied that track instead of letting the chart below move up into it.
+//   • Named slots cannot be reordered. A section slotted into `b` is `b` forever, so
+//     the reorder path had to move the generated wrapper and could never move a
+//     section across the rail boundary.
+//
+// So the tracks are gone. This is a WRAPPING FLOW, and each section declares how it
+// sits via `data-flow` — layout belongs in the markup that has the content, not in a
+// registry field nothing else reads:
+//
+//   figure  the headline count. Content-width, capped, never grows: a stat that
+//           stretches with the card starts competing with the viz beside it.
+//   chart   a donut / trend / bar list. Grows to fill its row, but WRAPS rather
+//           than shrink under --bcn-flow-chart-min — a trend with a y-axis gutter
+//           and a dozen columns stops being readable below ~360px.
+//   full    a map, a table, a lane set. Always alone on its own full-width row.
+//
+// The wrapping is what makes it feel connected: a figure and a chart share a row
+// because they fit; kill the donut in Active Observations and the over-time chart
+// moves up beside the count on its own, because there is now room for it. Nothing
+// computes that — flex-wrap does, against the widths the content asks for. That also
+// retires the old container queries: a 1-column widget stacks its sections because
+// 132px + 360px does not fit in 402px, not because a breakpoint said so.
+//
+// THE DIVIDER NEEDS SCRIPT, and this is the one thing here that is not declarative.
+// A line belongs between two sections that sit SIDE BY SIDE (vertical neighbours read
+// in sequence, so a line across them describes an order the reading order already
+// gives away). With fixed tracks that was `panel + panel { border-inline-start }`.
+// In a wrapping flow it cannot be: CSS has no selector for "first item on its flex
+// line", so that rule would draw a line down the leading edge of every wrapped row.
+// The script below tags each item that shares a row with its predecessor
+// (`.is-rowmate`) and CSS draws the line only there.
+//
+// bcn-lego-checked: no esa-* lego is a widget body — esa-card is the chrome these
+// sections sit INSIDE, esa-container is page width, esa-collapsible is a disclosure.
+// The @esa/tokens layout primitives were checked: `.switcher` is the closest (it
+// wraps on an intrinsic threshold) but it forces EQUAL columns, and the whole point
+// here is that the figure stays narrow while the charts take the slack; `.grid` is
+// uniform auto-fill tracks with no per-item span; `.reel` scrolls instead of
+// wrapping; `.sidebar` needs a fixed aside, which is exactly the rail this replaces.
+// Each section still IS `.stack` in the caller's markup. Checked Beacon prod: its
+// project pages are fixed tab layouts with no configurable widget body to port.
+// bcn-widget-flow is the reusable home; the only CSS here is the flow and the rule.
+---
+
+<div class="bcn-widget-flow"><slot /></div>
+
+<style>
+  /* ── The flow. The two axes are NOT the same gap (Jamie, 2026-09-10): 32px across,
+        24px down. They are doing different jobs. Horizontally the gap has to hold a
+        divider AND read as air on both sides of it, and two charts butted 24px apart
+        with a line up the middle left 12px a side — enough to separate them, not
+        enough to look deliberate. 32px gives the line 16px either way, which was the
+        settled call after trying 40 (too much daylight between a figure and the chart
+        it belongs to). Vertically there is no line to accommodate and the sections'
+        own titles already announce each one, so 24px stays. ── */
+  .bcn-widget-flow {
+    --_gap-x: var(--spacing-600);
+    --_gap-y: var(--spacing-500);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--_gap-y) var(--_gap-x);
+    align-items: stretch;
+    min-inline-size: 0;
+    flex: 1; /* the widget body is a flex column — fill a stretched band's height */
+  }
+
+  /* ── EVERY CHILD RULE BELOW IS :global(), and it is not optional. The sections are
+        SLOTTED, so they carry the PAGE's scope hash, not this component's — Astro
+        would compile `.bcn-widget-flow > [data-flow='full']` with this component's
+        cid on BOTH sides and the rule would match nothing. It fails silently and
+        plausibly: the container is still `flex-wrap`, so items still sized to their
+        content and still wrapped, just with none of the flow semantics. First pass at
+        this measured a `full` table 506px wide inside an 870px card and a map 2px
+        wide sharing row 1 with three other sections. Same lesson as `[hidden]` in
+        BcnConfigSections — a scoped rule cannot cross a component boundary. ── */
+
+  /* Positioning context for the divider pseudo-element. Out-of-flow, so it is not a
+     flex item of the section's own `.stack` and takes no part in its gap. */
+  .bcn-widget-flow > :global(*) {
+    position: relative;
+    min-inline-size: 0;
+  }
+
+  /* The headline figure: as wide as its label needs and no wider. The cap is what the
+     old rail used to be — a ceiling now instead of a floor, so a long label has room
+     without the figure claiming a third of a two-column card. */
+  .bcn-widget-flow > :global([data-flow='figure']) {
+    flex: 0 1 auto;
+    min-inline-size: 132px;
+    max-inline-size: 240px;
+  }
+
+  /* A chart grows into whatever the row has left. The basis is a READABILITY floor,
+     not a width: flex line-breaking measures hypothetical main size, so an item that
+     would fall under it wraps to the next row instead of being crushed.
+     360px is measured, not picked: at the 870px two-column card it is what decides
+     that a figure sits beside ONE chart (143 + 360 + 360 + two 32px gaps = 927, so
+     the second chart drops to its own full-width row) while the 1337px banner fits a
+     figure and two (916). Below it a stacked trend loses its y-axis gutter to its
+     columns. */
+  .bcn-widget-flow > :global([data-flow='chart']) {
+    flex: 1 1 var(--bcn-flow-chart-min, 360px);
+  }
+
+  /* Maps, tables and lane sets are always alone on a full-width row (Jamie): they are
+     read across, and half a card is not enough to read them in. A 100% basis both
+     breaks the line before it and fills the line it starts. */
+  .bcn-widget-flow > :global([data-flow='full']) {
+    flex: 1 1 100%;
+  }
+
+  /* ── The divider, drawn only between two sections that ended up on the same row.
+        `.is-rowmate` comes from the script; a pseudo-element rather than a border so
+        it can sit at the true midpoint of the horizontal gap without taking width
+        from the section it hangs off. ── */
+  .bcn-widget-flow > :global(.is-rowmate)::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    /* Half the horizontal gap to the left of this section's leading edge — derived,
+       so widening the gap keeps the line centred instead of drifting off it. */
+    inset-inline-start: calc(-1 * var(--_gap-x) / 2);
+    /* The LIGHTEST hairline in the set: this separates two sections of one card,
+       a quieter job than the table rules and chart axes on --color-border-default. */
+    border-inline-start: 1px solid var(--color-border-default-subtle);
+  }
+</style>
+
+<script>
+  // ── Row detection. See the header note: CSS cannot express "first item on its
+  //    flex line", so the divider's condition is computed here and expressed as a
+  //    class. Everything else about this component is declarative.
+  const FLOW = '.bcn-widget-flow';
+  const armed = new WeakSet<Element>();
+
+  const pending = new Set<HTMLElement>();
+  let queued = false;
+
+  /**
+   * Coalesce to a MICROTASK, not a frame.
+   *
+   * requestAnimationFrame was the obvious batcher and it was wrong twice over. It is
+   * not guaranteed to run promptly — an unpainted or throttled document may not
+   * produce a frame at all, and the measured symptom was a section switched back ON
+   * keeping the divider its neighbour had while it was off, until an unrelated resize
+   * happened to force a pass. And it buys nothing: `sync` reads geometry, which
+   * forces layout on demand, so the values are correct the moment the mutation lands.
+   * A microtask still collapses every mutation from one task into a single pass.
+   */
+  const schedule = (root: HTMLElement): void => {
+    pending.add(root);
+    if (queued) return;
+    queued = true;
+    queueMicrotask(() => {
+      queued = false;
+      const batch = Array.from(pending);
+      pending.clear();
+      for (const el of batch) sync(el);
+    });
+  };
+
+  const ro = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const root = (entry.target as HTMLElement).closest<HTMLElement>(FLOW);
+      if (root) schedule(root);
+    }
+  });
+
+  /**
+   * Tag every item that shares a flex line with the one before it.
+   *
+   * Same line == same top, which holds because the container is `align-items:
+   * stretch`. Hidden sections are skipped rather than treated as row starts — a
+   * `display: none` item has no box and is on no row, so the next visible section
+   * inherits the comparison from the last visible one.
+   *
+   * Toggling the class only adds an out-of-flow pseudo-element, so this cannot feed
+   * back into the observers that call it — which is what makes it safe to run
+   * straight out of a ResizeObserver callback.
+   */
+  function sync(root: HTMLElement): void {
+    let prevTop: number | null = null;
+    for (const el of Array.from(root.children) as HTMLElement[]) {
+      // Idempotent, and the cheapest place to pick up sections added since the last
+      // pass: an item's OWN width can change wrapping (a webfont swap widening the
+      // figure) without the container ever resizing.
+      ro.observe(el);
+      if (el.getClientRects().length === 0) {
+        el.classList.remove('is-rowmate');
+        continue;
+      }
+      const top = el.getBoundingClientRect().top;
+      el.classList.toggle('is-rowmate', prevTop !== null && Math.abs(top - prevTop) < 2);
+      prevTop = top;
+    }
+  }
+
+  const arm = (root: HTMLElement): void => {
+    if (armed.has(root)) return;
+    armed.add(root);
+    ro.observe(root);
+    // TWO OBSERVERS, and it has to be two: MutationObserver.observe on a target the
+    // same observer already watches REPLACES that registration rather than adding to
+    // it, so a second call for `attributes` silently retired the `childList` one.
+    // Sections are REORDERED by moving nodes and switched off by `hidden` on a child;
+    // neither changes the container's size, so the ResizeObserver sees neither.
+    new MutationObserver(() => schedule(root)).observe(root, { childList: true });
+    new MutationObserver(() => schedule(root)).observe(root, {
+      attributes: true,
+      attributeFilter: ['hidden'],
+      subtree: true,
+    });
+    schedule(root);
+  };
+
+  const scan = (): void => {
+    document.querySelectorAll<HTMLElement>(FLOW).forEach(arm);
+  };
+
+  scan();
+  // Widgets are built from <template> clones (the board) and cloned again into the
+  // configure dialog's preview, so flow containers appear long after load.
+  let scanQueued = false;
+  new MutationObserver(() => {
+    if (scanQueued) return;
+    scanQueued = true;
+    queueMicrotask(() => {
+      scanQueued = false;
+      scan();
+    });
+  }).observe(document.body, { childList: true, subtree: true });
+</script>

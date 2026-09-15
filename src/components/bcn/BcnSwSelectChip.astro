@@ -1,0 +1,102 @@
+---
+// <BcnSwSelectChip> — the inline dropdown trigger prod sets INSIDE the step title
+// ("Actions during [Pre-Construction ▾] for [Design ▾]"): text-sized, a 5% ink tint,
+// 6px radius, chevron in muted ink (.actions-step__select-trigger, origin/develop).
+// Given `options`, it opens a menu and announces the pick as a bubbling `sw:chip`
+// event carrying { name, value, label } (working since 2026-09-14; without options it
+// stays the static chip the actions page shows).
+//
+// bcn-lego-checked: esa-select is a labelled form control with field chrome; prod's
+// trigger inherits the h2's serif and size and has no field. Beacon HAS it; this is
+// that trigger under a bcn- name. The menu IS esa-dropdown-menu, with this chip as
+// its slotted trigger.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Option { label: string; value: string }
+interface Props {
+  /** The selected value shown in the chip. */
+  value: string;
+  /** Accessible name for what the chip picks ("Phase"). */
+  label: string;
+  /** Menu rows; the first is usually the "all" row with value ''. Omit for a static chip. */
+  options?: Option[];
+  /** Name carried on the sw:chip event so a page with two chips can tell them apart. */
+  name?: string;
+}
+const { value, label, options, name = label.toLowerCase() } = Astro.props;
+---
+
+{options ? (
+  <esa-dropdown-menu class="bcn-swsc__menu" position="below-start" data-sw-chip={name} data-items={JSON.stringify(options)} data-value={options.find((o) => o.label === value)?.value ?? ''}>
+    <button type="button" class="bcn-swsc" aria-label={`${label}: ${value}`}>
+      <span class="bcn-swsc__label" data-sw-chip-label>{value}</span>
+      <span class="bcn-swsc__chevron" aria-hidden="true"><EsaIcon name="chevron-down" size="sm" /></span>
+    </button>
+  </esa-dropdown-menu>
+) : (
+  <button type="button" class="bcn-swsc" aria-label={`${label}: ${value}`} aria-haspopup="menu">
+    <span class="bcn-swsc__label">{value}</span>
+    <span class="bcn-swsc__chevron" aria-hidden="true"><EsaIcon name="chevron-down" size="sm" /></span>
+  </button>
+)}
+
+<script>
+  import '@esa/ecology/esa-dropdown-menu';
+  type Menu = HTMLElement & { items: { label: string; action: string }[] };
+  customElements.whenDefined('esa-dropdown-menu').then(() => {
+    document.querySelectorAll<Menu>('[data-sw-chip]').forEach((menu) => {
+      const options = JSON.parse(menu.dataset.items ?? '[]') as { label: string; value: string }[];
+      // The lego only emits menu-action for a truthy action, so the "All …" row
+      // (value '') would close the menu and change nothing. It rides as a sentinel
+      // and is mapped back to '' before anyone downstream sees it.
+      const ALL = '__all__';
+      menu.items = options.map((o) => ({ label: o.label, action: o.value || ALL }));
+      const text = menu.querySelector<HTMLElement>('[data-sw-chip-label]');
+      const btn = menu.querySelector<HTMLButtonElement>('button');
+      const base = btn?.getAttribute('aria-label')?.split(':')[0] ?? '';
+      // The lego wraps its slot in a div carrying body type, and a slotted element
+      // inherits from that div, not from the host. The host itself still inherits the
+      // title's serif, size and weight, so those are copied down onto the chip.
+      if (btn) {
+        const cs = getComputedStyle(menu);
+        btn.style.fontFamily = cs.fontFamily;
+        btn.style.fontSize = cs.fontSize;
+        btn.style.fontWeight = cs.fontWeight;
+        btn.style.lineHeight = cs.lineHeight;
+      }
+      menu.addEventListener('menu-action', (e) => {
+        const raw = String((e as CustomEvent<string>).detail ?? '');
+        const value = raw === ALL ? '' : raw;
+        const label = options.find((o) => o.value === value)?.label ?? value;
+        if (text) text.textContent = label;
+        btn?.setAttribute('aria-label', `${base}: ${label}`);
+        menu.dataset.value = value;
+        menu.dispatchEvent(new CustomEvent('sw:chip', { bubbles: true, detail: { name: menu.dataset.swChip, value, label } }));
+      });
+    });
+  });
+</script>
+
+<style>
+  .bcn-swsc__menu { display: inline-block; vertical-align: baseline; }
+  .bcn-swsc {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    padding: 2px var(--spacing-200);
+    background: color-mix(in srgb, var(--color-content-default) 5%, transparent);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    transition: background 120ms ease;
+  }
+  .bcn-swsc:hover { background: color-mix(in srgb, var(--color-content-default) 10%, transparent); }
+  .bcn-swsc:focus-visible { outline: 2px solid var(--color-background-brand); outline-offset: 2px; }
+  .bcn-swsc__label { min-width: 0; text-align: left; }
+  .bcn-swsc__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); }
+</style>

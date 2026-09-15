@@ -1,0 +1,265 @@
+---
+// Setup Wizard step 4 — Actions, in prod's own clothes.
+//
+// The page IS prod's actions step (actions-step.component, origin/develop): the
+// bordered top panel with the numeral, the serif title whose phase and type are inline
+// dropdown chips, the intro line, the collapsed "Create Actions with AI · EXPERIMENTAL"
+// band; then the two-column board, requirements at left as slim draggable cards,
+// actions at right as slim cards over the dashed drop zone, each column with its own
+// footer verbs. What the 2026-09-14 check-in changed sits inside that frame: the
+// actions arrive already drafted, the left column holds only the requirements that
+// still have nowhere to go, and each of those rows carries the two routing verbs
+// (to an obligation, or not applicable). Scope, exclusivity and publishing are gone.
+//
+// Every number is derived from the ITP fixture. Approval state is not in the model
+// (prod stores Action.IsPublished); two ids are pinned below so the pill, the card
+// tint and the footer legend all have something real to render.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
+import BcnSwSelectChip from '../../../components/bcn/BcnSwSelectChip.astro';
+import BcnSwCountBadge from '../../../components/bcn/BcnSwCountBadge.astro';
+import BcnSwAiPanel from '../../../components/bcn/BcnSwAiPanel.astro';
+import BcnSwBoard from '../../../components/bcn/BcnSwBoard.astro';
+import BcnSwRequirementRow from '../../../components/bcn/BcnSwRequirementRow.astro';
+import BcnSwActionCard from '../../../components/bcn/BcnSwActionCard.astro';
+import BcnSwActionsEditDialog from '../../../components/bcn/BcnSwActionsEditDialog.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import {
+  SETUP_STEPS,
+  STEP_GLYPH,
+  PHASES,
+  REQUIREMENT_TYPE_LABEL,
+  ITP,
+  ROUTE_OF,
+  ACTIONS_OF,
+  simpleTiming,
+  DEADLINE_LABEL,
+  CADENCE_LABEL,
+  type Phase,
+  type RequirementType,
+  type WizardAction,
+} from '../../../data/setup-wizard';
+
+const STEP = SETUP_STEPS.find((s) => s.id === 'actions')!;
+
+// Both title chips are static in this prototype; these two constants are what they read.
+const ACTIVE_PHASE: Phase = 'Construction';
+const ACTIVE_TYPE: RequirementType = 'AvoidanceAndBMPs';
+
+const requirementById = new Map(ITP.requirements.map((r) => [r.id, r]));
+const byLifecycle = (a: string, b: string) => PHASES.indexOf(a as Phase) - PHASES.indexOf(b as Phase);
+
+// The slice both columns are drawn from.
+const sliceRequirements = ITP.requirements.filter((r) => r.type === ACTIVE_TYPE && r.phases.includes(ACTIVE_PHASE));
+const unrouted = sliceRequirements.filter((r) => ROUTE_OF.get(r.id) === 'unrouted');
+
+// An action has no phases of its own; it inherits the union of its requirements'.
+const phasesOf = (a: WizardAction) =>
+  [...new Set(a.requirementIds.flatMap((id) => requirementById.get(id)?.phases ?? []))].sort(byLifecycle);
+
+const sliceActions = ITP.actions.filter(
+  (a) => a.type === ACTIVE_TYPE && a.requirementIds.some((id) => requirementById.get(id)?.phases.includes(ACTIVE_PHASE)),
+);
+const APPROVED = new Set(['act_01M2G6Y37DQ86DQQR0DMG43C04', 'act_01M2G6Y37E7QF03BCX148MFCQY']);
+const isApproved = (a: WizardAction) => APPROVED.has(a.id);
+const approvedCount = sliceActions.filter(isApproved).length;
+const draftCount = sliceActions.length - approvedCount;
+
+// The record the edit drawer holds: a relative deadline with a stated schedule, so
+// every part of the reduced timing model has something to show.
+const editing = ITP.actions.find((a) => a.id === 'act_01M2G6Y3H3KQ2JH8QCYXWA8G3R')!;
+const editingTiming = simpleTiming(editing.timing);
+const titleCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+---
+
+<!-- manifest:
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
+  sections:
+    - wizard chrome        -> bcn-setup-wizard-frame    # compass mark, serif title, five-step pill nav with step 4 active
+    - step panel           -> bcn-sw-step-panel         # numeral, serif title with phase / type chips (bcn-sw-select-chip) and count, intro
+    - AI band              -> bcn-sw-ai-panel           # collapsed "Create Actions with AI · Experimental"; composer + filters when open
+    - review board         -> bcn-sw-board              # 2fr / 3fr card: column headers, scrolling bodies, column footers
+    - unrouted requirement -> bcn-sw-requirement-row    # left column: slim draggable card with code chip and the two routing verbs
+    - drafted action       -> bcn-sw-action-card        # right column: slim card with status pill, name, tags, count
+    - edit one action      -> bcn-sw-actions-edit-dialog  # side drawer, closed until a pencil opens it
+-->
+
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
+  <PageLayout title="Setup Wizard" hideTitleRow>
+    <BcnSetupWizardFrame active="actions">
+      <div class="stack" data-gap="md">
+        <BcnSwStepPanel
+          n={STEP.n}
+          token={STEP.token}
+          intro="Review the actions drafted for this phase and type: approve the ones that are right, edit the ones that are not, and send each requirement still without a home to an obligation or mark it not applicable."
+        >
+          <Fragment slot="title">
+            <span>Actions during</span>
+            <BcnSwSelectChip label="Phase" value={ACTIVE_PHASE} />
+            <span>for</span>
+            <BcnSwSelectChip label="Requirement type" value={REQUIREMENT_TYPE_LABEL[ACTIVE_TYPE]} />
+            <BcnSwCountBadge value={sliceRequirements.length} label={`${sliceRequirements.length} requirements in this phase and type`} />
+          </Fragment>
+          <BcnSwAiPanel
+            label="Create Actions with AI"
+            placeholder="Describe how you'd like to group the remaining requirements (e.g., 'group by work area' or 'one action per BMP')"
+            chips={[
+              { text: 'Phase:', strong: ACTIVE_PHASE },
+              { text: 'Type:', strong: REQUIREMENT_TYPE_LABEL[ACTIVE_TYPE] },
+              { text: 'Requirements:', strong: String(unrouted.length) },
+            ]}
+            searchPlaceholder="Search requirements by name or text..."
+            pickers={[
+              { label: 'Species', value: 'Species' },
+              { label: 'Milestones', value: 'Milestones' },
+              { label: 'Activities', value: 'Activities' },
+            ]}
+          />
+        </BcnSwStepPanel>
+
+        <BcnSwBoard
+          left={{ title: 'Unrouted requirements', count: unrouted.length, countLabel: `${unrouted.length} requirements not yet routed` }}
+          right={{ title: 'Actions', count: sliceActions.length, countLabel: `${sliceActions.length} actions` }}
+        >
+          <Fragment slot="left-body">
+            {unrouted.map((r) => <BcnSwRequirementRow code={r.commitment} name={r.name} routable />)}
+            {unrouted.length === 0 && <p class="sw-empty">Every requirement in this phase and type has a home.</p>}
+          </Fragment>
+          <Fragment slot="left-foot">
+            <EsaButton variant="ghost" size="xs" title="Create one Draft action per unrouted requirement">
+              <span class="sw-verb"><EsaIcon name="list-tree" size="xs" paths={STEP_GLYPH['list-tree']} />Convert Each ({unrouted.length})</span>
+            </EsaButton>
+            <EsaButton variant="ghost" size="xs" title="Combine every unrouted requirement into one Draft action">
+              <span class="sw-verb"><span class="sw-verb__rot"><EsaIcon name="merge" size="xs" paths={STEP_GLYPH.merge} /></span>Combine All ({unrouted.length})</span>
+            </EsaButton>
+          </Fragment>
+
+          <Fragment slot="right-verbs">
+            <EsaButton variant="ghost" size="xs">
+              <span class="sw-verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />New Action</span>
+            </EsaButton>
+          </Fragment>
+          <Fragment slot="right-body">
+            <div class="sw-dropzone" aria-hidden="true">
+              <EsaIcon name="plus" size="md" paths={STEP_GLYPH.plus} />
+              Drag a requirement here to create a new action
+            </div>
+            <ul class="sw-action-list">
+              {sliceActions.map((a) => (
+                <BcnSwActionCard
+                  name={a.name}
+                  status={isApproved(a) ? 'approved' : 'draft'}
+                  tags={[REQUIREMENT_TYPE_LABEL[a.type], ...phasesOf(a)]}
+                  count={a.requirementIds.length}
+                  editTarget="swa-edit"
+                />
+              ))}
+            </ul>
+          </Fragment>
+          <Fragment slot="right-foot">
+            <div class="sw-legend">
+              <span class="sw-legend__stat"><span class="sw-legend__dot sw-legend__dot--approved"></span>{approvedCount} Approved</span>
+              <span class="sw-legend__sep">·</span>
+              <span class="sw-legend__stat"><span class="sw-legend__dot sw-legend__dot--draft"></span>{draftCount} Draft</span>
+            </div>
+            <div class="sw-foot-verbs">
+              <EsaButton variant="ghost" size="xs" title="Approve every Draft action in the current view">
+                <span class="sw-verb"><EsaIcon name="circle-check" size="xs" />Approve all ({draftCount})</span>
+              </EsaButton>
+              <EsaButton variant="ghost" size="xs" title="Delete every Draft action in the current view (Approved actions are unaffected)">
+                <span class="sw-verb"><EsaIcon name="undo" size="xs" paths={STEP_GLYPH.undo} />Discard all ({draftCount})</span>
+              </EsaButton>
+            </div>
+          </Fragment>
+        </BcnSwBoard>
+      </div>
+
+      <BcnSwActionsEditDialog
+        name={editing.name}
+        status={isApproved(editing) ? 'approved' : 'draft'}
+        statusLabel={isApproved(editing) ? 'Approved' : 'Draft'}
+        rail={{
+          title: 'Linked requirements',
+          items: editing.requirementIds.map((id) => {
+            const r = requirementById.get(id)!;
+            return { code: r.commitment, name: r.name, inActions: ACTIONS_OF.get(id)?.length ?? 1 };
+          }),
+        }}
+        tabs={['Details', 'Timing', 'Evidence']}
+        activeTab={1}
+        details={{
+          nameLabel: 'Name',
+          fields: [
+            { label: 'Requirement type', value: REQUIREMENT_TYPE_LABEL[editing.type] },
+            { label: 'Deliverable type', value: editing.deliverableType ? titleCase(editing.deliverableType) : 'Not stated' },
+          ],
+        }}
+        timing={{
+          deadline: {
+            label: 'Deadline',
+            options: [
+              { label: DEADLINE_LABEL.specific, value: 'specific' },
+              { label: DEADLINE_LABEL.relative, value: 'relative' },
+            ],
+            value: editingTiming.deadline,
+            field: { label: 'Milestone', value: editing.timing.deadline?.milestone ?? '' },
+          },
+          cadence: {
+            label: 'Cadence',
+            options: [
+              { label: CADENCE_LABEL['one-time'], value: 'one-time' },
+              { label: CADENCE_LABEL.recurring, value: 'recurring' },
+            ],
+            value: editingTiming.cadence,
+            field: { label: 'Recurrence' },
+          },
+          stated: { label: 'Stated schedule', value: editing.timing.stated ?? '' },
+        }}
+        evidence={{ label: 'Expected evidence', value: editing.expectedEvidence }}
+      />
+    </BcnSetupWizardFrame>
+  </PageLayout>
+</AppShell>
+
+<script>
+  // The pencil on any card opens the one edit drawer.
+  document.querySelectorAll<HTMLElement>('[data-open-dialog]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const dlg = document.getElementById(btn.dataset.openDialog!) as (HTMLElement & { open: boolean }) | null;
+      if (dlg) dlg.open = true;
+    });
+  });
+</script>
+
+<style>
+  /* Page-level glue for prod's board contents: the drop zone, the list, the legend. */
+  .sw-verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  .sw-verb__rot { display: inline-flex; transform: rotate(90deg); }
+  .sw-empty { margin: 0; padding: var(--spacing-300) 0; text-align: center; font-size: 0.875rem; color: var(--color-content-default-tertiary); }
+  .sw-dropzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-200);
+    flex-shrink: 0;
+    padding: var(--spacing-400);
+    border: 1px dashed var(--color-border-default);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--color-action) 3%, transparent);
+    color: var(--color-action);
+    font-size: 0.875rem;
+  }
+  .sw-action-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .sw-legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; color: var(--color-content-default-tertiary); }
+  .sw-legend__stat { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+  .sw-legend__sep { color: var(--bcn-gray-400); }
+  .sw-legend__dot { display: inline-block; width: 8px; height: 8px; border-radius: var(--radius-full); }
+  .sw-legend__dot--approved { background: var(--color-background-utility-success); }
+  .sw-legend__dot--draft { background: var(--bcn-status-not-started); }
+  .sw-foot-verbs { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+</style>

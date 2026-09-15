@@ -263,11 +263,13 @@ export const MODULES: Module[] = [
   },
 ];
 
-// ── Setup Wizard — the four-step setup pipeline ──────────────────────────────
+// ── Setup Wizard — the five-step setup pipeline ──────────────────────────────
 // Its own slim card (Andy, round 9), shaped like the wizard homepage's steps:
-// Source Documents → Commitments → Requirements → Actions. The figures are the
-// UN-TRIAGED pipeline — counts of existing entities not yet carried forward,
-// never "actions to create" (unknowable until triage).
+// Source Documents → Commitments → Requirements → Actions → Obligations (the
+// fifth step, PM check-in 2026-09-14: a requirement routes to an action OR an
+// obligation). The figures are the UN-TRIAGED pipeline — counts of existing
+// entities not yet carried forward, never "actions to create" (unknowable
+// until triage).
 export interface WizardStepStat {
   label: string;
   value: number;
@@ -279,10 +281,11 @@ export interface WizardStep {
   label: string;
   /**
    * The step's entity color — Beacon's setup ramp, exposed globally as
-   * --color-source / --color-commitment / --color-requirement / --color-action.
-   * The wizard homepage numbers its steps in these; the dashboard card matches.
+   * --color-source / --color-commitment / --color-requirement / --color-action /
+   * --color-obligation. The wizard homepage numbers its steps in these; the
+   * dashboard card matches.
    */
-  token: 'source' | 'commitment' | 'requirement' | 'action';
+  token: 'source' | 'commitment' | 'requirement' | 'action' | 'obligation';
   /** Per-entity rollup (Andy, round 11) — counts of real records at this step. */
   stats: WizardStepStat[];
   href: string;
@@ -320,15 +323,27 @@ export const WIZARD_STEPS: WizardStep[] = [
     label: 'Actions',
     token: 'action',
     stats: [
-      // The un-triaged pipeline: requirements not yet carried into any action.
-      { label: 'Requirements not in an action', value: 12, attention: true },
-      { label: 'Created', value: 142 },
-      { label: 'Approved', value: 138 },
+      // The un-triaged pipeline: requirements not yet routed to an action or an
+      // obligation (they go to one or the other, 2026-09-14).
+      { label: 'Not yet routed', value: 4, attention: true },
+      { label: 'Drafted', value: 267 },
+      { label: 'Approved', value: 0 },
     ],
-    href: '#setup-actions',
+    href: '/prototypes/setup-wizard/actions',
+  },
+  {
+    n: 5,
+    label: 'Obligations',
+    token: 'obligation',
+    stats: [
+      // Obligations are approved as one list, so "approved" is the list, not a count.
+      { label: 'Drafted', value: 402 },
+      { label: 'List approved', value: 0, attention: true },
+    ],
+    href: '/prototypes/setup-wizard/obligations',
   },
 ];
-export const WIZARD_HREF = '#project-setup';
+export const WIZARD_HREF = '/prototypes/setup-wizard';
 
 // ── Project map — the inset boundary map (product meeting: "we don't even have
 // footprint geometry … you should be able to upload a boundary") ─────────────

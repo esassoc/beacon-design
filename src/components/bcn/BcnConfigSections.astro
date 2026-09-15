@@ -1,0 +1,271 @@
+---
+// <BcnConfigSections> — the "Sections" block of the configure dialog: one full-width
+// bar per part of a widget, carrying a drag grip, an on/off switch, the section's
+// name, and (only where the section has settings) an expand caret over its own
+// fields.
+//
+// EVERY WIDGET'S LIST IS PRE-RENDERED HERE, and the page reveals the one matching
+// the open widget. That is the load-bearing decision in this component, so:
+//
+//   The dialog used to build its section rows in the page script —
+//   `document.createElement('esa-switch-toggle')` per section. That was fine for a
+//   bare switch and stops being fine now: a bar is a grip, a switch, a caret, a
+//   disclosure body and a select per setting. Building that in JS puts five nested
+//   elements per section into a page script, where the component-first gates cannot
+//   see them and no reviewer reads them as markup.
+//
+//   Pre-rendering is possible because the set is KNOWN AT BUILD TIME: sections come
+//   from the registry, not from user data. So the whole matrix — every widget, every
+//   section, every setting — is authored in Astro once, and opening the dialog is a
+//   matter of unhiding a block and setting values on controls that already exist.
+//   Same trick the board uses for its per-scope charts and its widget templates.
+//
+// WHAT THE PAGE STILL OWNS: which block is visible, each switch's `checked`, whether
+// a caret is enabled, whether a body is expanded, and every select's options and
+// value. This component renders hooks (`data-cfgsec-*`) and nothing else — the same
+// dumb-shell contract BcnConfigDialog itself follows.
+//
+// bcn-lego-checked: the switch IS esa-switch-toggle and the count field IS esa-select
+// — both composed, not reimplemented. esa-collapsible was checked FIRST for the
+// disclosure and does NOT fit twice over: it is an .astro lego built on
+// <details>/<summary>, so (1) its summary takes an icon and a title and has nowhere
+// to put an interactive switch or a grip, and an interactive control inside a
+// <summary> fights the disclosure it sits in — clicking the switch would toggle the
+// panel; and (2) the open state here has to be DRIVEN (a caret disabled until the
+// switch is on, auto-expanding when it flips), which a native <details> does not
+// expose. esa-card is chrome for a content block, not a list row. Checked Beacon
+// prod: its widget configuration is a fixed form with no per-section rows to port.
+// bcn-config-sections is the reusable home for the bar and its disclosure.
+import { WIDGETS, sectionDefs } from '../../data/monitoring-streams';
+---
+
+{/* One block per widget type; the page unhides the open one. */}
+{
+  WIDGETS.filter((w) => sectionDefs(w.id).length > 0).map((w) => (
+    <div class="bcn-cfgsec-list stack" data-cfgsec-list={w.id} hidden>
+      {sectionDefs(w.id).map((s) => (
+        <div class="bcn-cfgsec" data-cfgsec={s.id}>
+          <div class="bcn-cfgsec__bar">
+            {/* Pointer target for the reorder drag. A real button so it is reachable
+                by keyboard and announces itself; the page arms the pointer path. */}
+            <button
+              type="button"
+              class="bcn-cfgsec__grip"
+              data-cfgsec-grip
+              aria-label={`Reorder ${s.label}`}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <circle cx="9" cy="5" r="1.6" /><circle cx="15" cy="5" r="1.6" />
+                <circle cx="9" cy="12" r="1.6" /><circle cx="15" cy="12" r="1.6" />
+                <circle cx="9" cy="19" r="1.6" /><circle cx="15" cy="19" r="1.6" />
+              </svg>
+            </button>
+
+            {/* The switch carries the NAME, so the bar has one label rather than a
+                label and a separately-associated control. */}
+            <esa-switch-toggle
+              class="bcn-cfgsec__switch"
+              data-cfgsec-toggle
+              size="sm"
+              label={s.label}
+            ></esa-switch-toggle>
+
+            {s.settings && s.settings.length > 0 && (
+              <button
+                type="button"
+                class="bcn-cfgsec__caret"
+                data-cfgsec-expand
+                aria-expanded="false"
+                aria-label={`${s.label} settings`}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+            )}
+          </div>
+
+          {s.settings && s.settings.length > 0 && (
+            <div class="bcn-cfgsec__body stack" data-gap="sm" data-cfgsec-body hidden>
+              {s.settings.map((setting) =>
+                setting.kind === 'text' ? (
+                  /* EVERY section has one of these — the title input, synthesized by
+                     sectionDefs() rather than authored per section. Its default is
+                     the heading the board renders, so an untouched field and the
+                     board always agree. */
+                  <esa-text-field
+                    data-cfgsec-setting={setting.id}
+                    data-kind="text"
+                    label={setting.label}
+                    size="sm"
+                  ></esa-text-field>
+                ) : setting.kind === 'count' ? (
+                  /* Options are a RANGE, so they are assigned by the page from these
+                     bounds rather than written out here — esa-select takes `options`
+                     as a property, which markup cannot set. */
+                  <esa-select
+                    data-cfgsec-setting={setting.id}
+                    data-kind="count"
+                    data-min={String(setting.min)}
+                    data-max={String(setting.max)}
+                    label={setting.label}
+                    size="sm"
+                  ></esa-select>
+                ) : setting.kind === 'choice' ? (
+                  <esa-select
+                    data-cfgsec-setting={setting.id}
+                    data-kind="choice"
+                    data-options={JSON.stringify(setting.options)}
+                    label={setting.label}
+                    size="sm"
+                  ></esa-select>
+                ) : (
+                  <esa-switch-toggle
+                    data-cfgsec-setting={setting.id}
+                    data-kind="flag"
+                    size="sm"
+                    label={setting.label}
+                  ></esa-switch-toggle>
+                ),
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  ))
+}
+
+<script>
+  // Both are Lit custom elements, so the modules have to be registered for the tags
+  // to mean anything. Imported here rather than in the dialog because this component
+  // is what puts them in the markup.
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
+</script>
+
+<style>
+  /* ── [hidden] HAS TO BE RESTATED HERE, and this cost real time to find. Both the
+        per-widget lists and the settings bodies carry `.stack`, which is
+        `display: flex` from @esa/tokens/layouts.css — and a class beats the UA's
+        `[hidden] { display: none }`, so `hidden` painted anyway. Symptoms: every
+        widget's section list showed at once (all 11, 32 bars) and the expand caret
+        appeared dead because the body was never hidden to begin with.
+        BcnConfigDialog already carries a `.bcn-cfg [hidden]` rule for exactly this
+        trap — but Astro scopes it to the DIALOG's cid, so it cannot reach elements
+        this component rendered. A scoped fix does not cross a component boundary;
+        each component that uses a layout primitive plus `hidden` needs its own. ── */
+  [hidden] {
+    display: none !important;
+  }
+
+  /* ── A STACKED ROW LIST, not a stack of cards (Jamie, 2026-09-10). One continuous
+        band per widget: full-width rows sharing a single hairline between neighbours,
+        so the list reads as one object with parts rather than as N floating chips.
+        The border lives on the row that FOLLOWS, so the first row needs no reset and
+        adding a row never means re-tuning the one above it. ── */
+  .bcn-cfgsec-list {
+    /* NO enclosing border (Jamie, 2026-09-10). The rows sit directly on the panel:
+       a box around them made the list a card inside a card, competing with the
+       dialog's own surface for the same job. The hairlines between rows carry the
+       structure on their own.
+       No gap either — the rows ARE the list, and a gap would turn each divider into
+       a trough with a line in it. */
+    gap: 0;
+  }
+
+  .bcn-cfgsec + .bcn-cfgsec {
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* Dragging lifts the bar out of the flow visually; the page owns the class. */
+  .bcn-cfgsec.is-dragging {
+    opacity: 0.4;
+  }
+
+  .bcn-cfgsec__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    /* Flush to the panel: with no box around the list, an inline pad would indent
+       the rows from the fields above them for no reason the eye can see. */
+    padding-inline: 0;
+    /* 12px, up from 6 — a row carrying a grip, a switch and a caret needs the height
+       to read as a band rather than as three controls on a line. */
+    padding-block: var(--spacing-300);
+  }
+
+  /* The switch takes the slack so the caret sits at the trailing edge and every bar
+     in the list agrees about where its controls are. */
+  .bcn-cfgsec__switch {
+    flex: 1;
+    min-inline-size: 0;
+  }
+
+  .bcn-cfgsec__grip,
+  .bcn-cfgsec__caret {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+  }
+
+  .bcn-cfgsec__grip {
+    cursor: grab;
+    /* The pointer drag needs the browser to stop claiming the gesture for scrolling
+       on touch — same reason the widget grip sets it on the board. */
+    touch-action: none;
+  }
+
+  .bcn-cfgsec__caret svg {
+    transition: transform 120ms ease;
+  }
+  .bcn-cfgsec__caret[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+
+  /* DISABLED, NOT HIDDEN, when the section is off. The affordance staying put is
+     what tells a reader the section HAS settings — hiding it would make an off
+     section look identical to one with nothing to configure. */
+  .bcn-cfgsec__caret:disabled {
+    cursor: not-allowed;
+    color: var(--color-content-disabled);
+  }
+
+  .bcn-cfgsec__grip:focus-visible,
+  .bcn-cfgsec__caret:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  /* The indent is the ONLY thing that ties the settings to the row above them
+     (Jamie, 2026-09-10): the sunken background is gone, so nothing else marks the
+     disclosure as subordinate. 32px clears the grip and the switch, which is what
+     makes it read as "under this row" rather than as the next row. */
+  .bcn-cfgsec__body {
+    padding-inline: var(--spacing-600) 0;
+    padding-block: var(--spacing-200) var(--spacing-300);
+  }
+
+  /* ── DENSER, NOT NARROWER (Jamie, 2026-09-10). The field spans the column — a
+        6rem box next to a full-width text field above it read as a different KIND of
+        control rather than a smaller one. What a settings row wants is less HEIGHT.
+        esa-select has no size under `sm` (its own note: an xs block inverted the
+        height ramp, so sm is the floor by decision), and that decision is about the
+        size ATTRIBUTE ramp, not about local density — so the padding comes down here
+        instead. --_field-padding-y is PRIVATE to the lego: an outer-tree declaration
+        on the host wins over the shadow tree's :host rule regardless of specificity,
+        which is why this reaches. If the hub renames the var this silently reverts to
+        the sm height, which is a safe failure but a real one — a public density knob
+        on esa-select is the durable fix. ── */
+  .bcn-cfgsec__body [data-cfgsec-setting] {
+    --_field-padding-y: var(--spacing-150);
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+// Setup Wizard — overview. The wizard's welcome page with the five-step flow,
+// numbered in the entity colors, now including step 5 Obligations (Beacon PM
+// check-in, 2026-09-14). Prod's get-started page shows four; this one derives
+// its count from SETUP_STEPS so the card, the nav and this page always agree.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSetupWizardOverview from '../../../components/bcn/BcnSetupWizardOverview.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { SETUP_STEPS, COMPLETE_STEPS } from '../../../data/setup-wizard';
+
+const firstOpen = SETUP_STEPS.find((s) => !COMPLETE_STEPS.includes(s.id)) ?? SETUP_STEPS[0];
+---
+
+<!-- manifest:
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > overview   # SPINE
+  sections:
+    - wizard chrome     -> bcn-setup-wizard-frame     # compass mark + serif title, five-step pill nav (no active step here)
+    - welcome + flow    -> bcn-setup-wizard-overview  # hero, "How project setup works", five numbered columns, Continue setup CTA
+-->
+
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
+  <PageLayout title="Setup Wizard" hideTitleRow>
+    <BcnSetupWizardFrame>
+      <BcnSetupWizardOverview startHref={firstOpen.href} startLabel={`Continue with step ${firstOpen.n}: ${firstOpen.label}`} />
+    </BcnSetupWizardFrame>
+  </PageLayout>
+</AppShell>

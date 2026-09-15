@@ -1,0 +1,36 @@
+---
+// <BcnSwCountBadge> — prod's .count-badge (actions-step.component.scss, origin/develop):
+// an outlined 22px-min box, 11px medium, muted ink, 4px radius. It sits in the panel
+// title, the board column headers and on an action card as its linked count.
+//
+// bcn-lego-checked: esa-badge fills solid in every variant and esa-pill is a removable
+// tag; neither is prod's outlined count chip. Beacon HAS it (.count-badge); this is
+// that rule set under a bcn- name, reading only semantic tokens.
+interface Props {
+  value: number | string;
+  /** Accessible name when the number alone is not enough ("20 requirements"). */
+  label?: string;
+}
+const { value, label } = Astro.props;
+---
+
+<span class="bcn-swcb" aria-label={label}>{value}</span>
+
+<style>
+  .bcn-swcb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-width: 22px;
+    padding: 2px var(--spacing-150);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default-subtle);
+    color: var(--color-content-default-tertiary);
+    font-family: var(--typography-font-family-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+</style>

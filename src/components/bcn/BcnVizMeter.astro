@@ -8,6 +8,19 @@
 // numbers it encodes are already in the DOM beside it, so a role="img" summary
 // would only re-announce what the legend already says.
 //
+// EACH LEGEND ROW CARRIES A POPUP (2026-09-09, BcnVizTip) giving the segment's
+// SHARE. The share is what a part-to-whole bar is FOR and the legend states only
+// the count, so it is the reading the popup adds rather than repeats.
+//
+// ON THE LEGEND AND NOT THE BAR SEGMENTS, for two reasons that agree: the bar
+// clips its segments to its own rounded corners with `overflow: hidden`, so a
+// panel anchored inside one would be cut off at 14px unless that clipping were
+// toggled off mid-hover (which squares the corners as you point at them); and the
+// legend is the hover target BcnVizDonut uses for the same part-to-whole reading,
+// so the two charts answer a pointer the same way. Magnitude-over-time charts
+// (bcn-viz-trend, bcn-viz-stacked) put the popup on the mark, where the mark IS
+// the period being asked about.
+//
 // `color` is REQUIRED and caller-supplied because meter segments are STATUS colors
 // (Surveys: Final success / In QC warning / Draft gray) — the status system, not the
 // widget's category accent, so the component must not reach for --_accent. Every
@@ -21,6 +34,8 @@
 // Beacon prod (origin/develop shared/ui/components) — no meter, segmented bar, or
 // progress component exists there at all. bcn-viz-meter is the reusable home.
 
+import BcnVizTip from './BcnVizTip.astro';
+
 interface Segment {
   /** Names the count beside it — the legend row is a labeled pair, never a bare fact. */
   label: string;
@@ -31,14 +46,21 @@ interface Segment {
 
 interface Props {
   segments: Segment[];
+  /** What the popup's number IS, e.g. "Documents". The chart title says it once for the
+   *  whole meter; the popup has to say it again per segment. */
+  measure?: string;
 }
 
-const { segments } = Astro.props;
+const { segments, measure = 'Count' } = Astro.props;
 
 // Zero total renders an empty track and a legend of zeros rather than dividing by it.
 const total = segments.reduce((sum, s) => sum + s.value, 0);
 const shareOf = (value: number) =>
   total > 0 ? Math.round((value / total) * 10000) / 100 : 0;
+// The popup rounds to whole percents. Two decimals are right for a segment WIDTH (they
+// stop rounding from leaving a visible sliver of track showing through) and wrong for a
+// figure a person reads: "33.33%" claims a precision the eye cannot take off a 14px bar.
+const sharePct = (value: number): string => (total > 0 ? `${Math.round(shareOf(value))}%` : '—');
 ---
 
 <div class="bcn-viz-meter">
@@ -49,10 +71,24 @@ const shareOf = (value: number) =>
   </div>
   <div class="bcn-viz-meter__legend">
     {segments.map((segment) => (
-      <div class="bcn-viz-meter__row">
-        <span class="bcn-viz-meter__dot" style={`background:${segment.color}`}></span>
-        {segment.label}
-        <span class="bcn-viz-meter__n">{segment.value.toLocaleString('en-US')}</span>
+      <div class="bcn-viz-meter__slot">
+        <BcnVizTip
+          title={segment.label}
+          rows={[
+            {
+              label: measure,
+              value: segment.value.toLocaleString('en-US'),
+              color: segment.color,
+              note: sharePct(segment.value),
+            },
+          ]}
+        >
+          <span class="bcn-viz-meter__row">
+            <span class="bcn-viz-meter__dot" style={`background:${segment.color}`} />
+            {segment.label}
+            <span class="bcn-viz-meter__n">{segment.value.toLocaleString('en-US')}</span>
+          </span>
+        </BcnVizTip>
       </div>
     ))}
   </div>
@@ -92,12 +128,30 @@ const shareOf = (value: number) =>
     min-width: 0;
   }
 
+  /* One segment's CELL — the whole legend row is the popup's hit target, not the 10px dot.
+     The inline padding is cancelled by an equal negative margin, so the hover wash has room
+     to breathe without the legend text shifting off its current alignment. Same treatment
+     as BcnVizDonut's legend, so the two part-to-whole charts respond identically. */
+  .bcn-viz-meter__slot {
+    display: grid;
+    min-width: 0;
+    padding-inline: var(--spacing-100);
+    margin-inline: calc(var(--spacing-100) * -1);
+    border-radius: var(--radius-xs);
+  }
+
+  .bcn-viz-meter__slot:hover {
+    background: var(--color-background-elevation-sunken);
+  }
+
   .bcn-viz-meter__row {
     display: flex;
     align-items: center;
     gap: var(--spacing-250);
     font-size: var(--font-size-200);
     color: var(--color-content-default);
+    /* Nested inside the popover's anchor now rather than being the legend's flex child. */
+    width: 100%;
   }
 
   .bcn-viz-meter__dot {

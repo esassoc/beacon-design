@@ -1,0 +1,46 @@
+---
+// <BcnSwViewSwitch> — the two ways to read step 5: the registry (obligations filed by
+// category) and the chain (commitment > requirement > obligation). One esa-button-toggle
+// in the step panel's actions slot; picking a segment navigates, since each view is
+// its own page with its own script.
+//
+// bcn-lego-checked: this IS esa-button-toggle (segmented single-select); the options
+// are set as a property from data-options because `options` is a Lit array property.
+import { withBase } from '../../lib/base';
+
+export type SwView = 'registry' | 'chain';
+interface Props {
+  current: SwView;
+}
+const { current } = Astro.props;
+const VIEWS: { label: string; value: SwView; href: string }[] = [
+  { label: 'By category', value: 'registry', href: withBase('/prototypes/setup-wizard/obligations') },
+  { label: 'By commitment', value: 'chain', href: withBase('/prototypes/setup-wizard/obligations-chain') },
+];
+---
+
+<esa-button-toggle
+  class="bcn-swvs"
+  size="sm"
+  value={current}
+  aria-label="View"
+  data-sw-view-switch
+  data-options={JSON.stringify(VIEWS.map(({ label, value }) => ({ label, value })))}
+  data-hrefs={JSON.stringify(Object.fromEntries(VIEWS.map((v) => [v.value, v.href])))}></esa-button-toggle>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  type Toggle = HTMLElement & { options: unknown[]; value: string };
+  document.querySelectorAll<Toggle>('[data-sw-view-switch]').forEach((el) => {
+    const hrefs = JSON.parse(el.dataset.hrefs ?? '{}') as Record<string, string>;
+    const here = el.getAttribute('value') ?? '';
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      el.options = JSON.parse(el.dataset.options ?? '[]');
+      el.value = here;
+    });
+    el.addEventListener('change', () => {
+      const next = hrefs[el.value];
+      if (next && el.value !== here) window.location.href = next;
+    });
+  });
+</script>

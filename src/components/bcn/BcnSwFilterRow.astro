@@ -1,0 +1,65 @@
+---
+// <BcnSwFilterRow> — prod's .actions-step__filters (origin/develop): a search field
+// that grows first, then chip-style pickers, then whatever verbs the step adds, on
+// one wrapping line under a hairline. The search is esa-text-field at sm; the pickers
+// are esa-select at the same size, unlabelled with their "all" option showing, the way
+// prod's ui-search-select sits in this row; verbs arrive through the default slot.
+//
+// bcn-lego-checked: esa-search-panel is a full search surface with results; prod's
+// row is a flex line of independent controls. Beacon HAS the row; this is it under a
+// bcn- name. The `search-name` is the field's `name`, so page scripts can find it.
+
+interface Picker {
+  /** What the picker filters by ("Class"); its accessible name. */
+  label: string;
+  /** The option showing when nothing is picked ("All classes"). */
+  value: string;
+  /** The choices under it; the "all" option is prepended from `value`. */
+  options?: { label: string; value: string }[];
+}
+const optionsOf = (p: Picker) => JSON.stringify([{ label: p.value, value: '' }, ...(p.options ?? [])]);
+interface Props {
+  searchPlaceholder: string;
+  searchName: string;
+  pickers?: Picker[];
+  /** Inset variant: prod's row inside the AI band drops the top hairline. */
+  inset?: boolean;
+}
+const { searchPlaceholder, searchName, pickers = [], inset = false } = Astro.props;
+---
+
+<div class:list={['bcn-swfr', inset && 'bcn-swfr--inset']}>
+  <esa-text-field class="bcn-swfr__search" size="sm" name={searchName} placeholder={searchPlaceholder} aria-label={searchPlaceholder}></esa-text-field>
+  {pickers.map((p) => (
+    <esa-select class="bcn-swfr__picker" size="sm" name={`${searchName}-${p.label.toLowerCase()}`} options={optionsOf(p)} value="" placeholder={p.value} cue={`Filter by ${p.label.toLowerCase()}.`}></esa-select>
+  ))}
+  <div class="bcn-swfr__verbs"><slot /></div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+</script>
+
+<style>
+  .bcn-swfr {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+    padding: var(--spacing-300) var(--spacing-500);
+    border-top: 1px solid var(--color-border-default-subtle);
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+  }
+  .bcn-swfr--inset { border-top: none; }
+  .bcn-swfr__search { flex: 1 1 180px; max-width: 360px; }
+  .bcn-swfr__picker { flex: 0 1 180px; min-width: 140px; }
+  .bcn-swfr__verbs {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-left: auto;
+  }
+  .bcn-swfr__verbs:empty { display: none; }
+</style>

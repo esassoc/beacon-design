@@ -1,0 +1,374 @@
+---
+// <BcnVizStacked> — counts over time, stacked by category. Time on x, count on y,
+// one color per type.
+//
+// The "spread over time" reading for widgets that have NO date-range control
+// (2026-09-08). Those widgets report state or totals rather than a windowed
+// quantity, so a range selector could not honestly re-derive their figures — but
+// the shape of activity over time is still worth showing, and this is how they show
+// it. Where BcnVizTrend answers "how much per period", this answers "how much per
+// period, and of what".
+//
+// Bucketing is NOT done here: the caller passes points already through
+// `bucketStacked()`, which picks one unit from the combined span so every series
+// shares the same columns. Doing it here would hide the unit from the caller, and
+// the caller needs it for the chart title ("Observations per day" → "per week").
+//
+// SCALE: each column is a share of the tallest column's TOTAL, and segments within
+// a column are shares of that column. So height compares periods and the stack
+// compares composition — the two readings a stacked bar is for. The scale is local
+// to this chart, like BcnVizTrend's: counts of observations and counts of anything
+// else share no unit, so a scale shared across widgets would be meaningless.
+//
+// bcn-lego-checked: no esa-* lego draws a stacked time series — esa-progress-bar is
+// a single 0-100 bar (no time axis, no categories), esa-chart is the AG Charts
+// wrapper the dashboard spec rules out for micro-viz (§8: ~2.8MB peer dep for a
+// 30-column strip). Checked the spoke: BcnVizTrend is single-series columns,
+// BcnVizBars is horizontal categories with no time axis, BcnVizMeter is one
+// proportion bar, BcnVizStrip is per-day presence/absence. Checked Beacon prod: its
+// dashboard has a pie by type and no time series at all. bcn-viz-stacked is the
+// reusable home.
+import type { BucketUnit, StackPoint } from '../../lib/bucket-series';
+import { periodLabel } from '../../lib/period-label';
+import BcnVizTip from './BcnVizTip.astro';
+
+export interface StackSeries {
+  /** Matches a key in StackPoint.values. */
+  key: string;
+  /** Legend text. */
+  label: string;
+  /** Any CSS color. */
+  color: string;
+}
+
+interface Props {
+  /** Already bucketed — see the note above. Chronological. */
+  points: StackPoint[];
+  /** Stack order, bottom first. Also the legend order. */
+  series: StackSeries[];
+  /** Names the derivation for screen readers. */
+  label: string;
+  /** 'md' (96px, the default) or 'sm' (60px) for a tighter panel. */
+  height?: 'sm' | 'md';
+  /** First/last axis labels, already formatted by the caller. */
+  axisStart?: string;
+  axisEnd?: string;
+  /**
+   * The unit `points` were bucketed into — pass `bucketStacked()`'s own `unit`
+   * straight through. It exists ONLY for the popup title: a bucketed point carries
+   * its first day and nothing else, so without the unit a week's bar would be
+   * labelled as a single day and the popup would misstate the figure by seven.
+   * Defaults to 'day', which is what an unbucketed series is.
+   */
+  unit?: BucketUnit;
+  /** The popup's reading for a period with no records. Names the RECORD, since the
+   *  chart is generic: "No observations", "No reports". */
+  emptyLabel?: string;
+}
+
+const {
+  points,
+  series,
+  label,
+  height = 'md',
+  axisStart,
+  axisEnd,
+  unit = 'day',
+  emptyLabel = 'No records',
+} = Astro.props;
+
+const totalOf = (p: StackPoint): number =>
+  series.reduce((n, s) => n + (p.values[s.key] ?? 0), 0);
+
+const max = Math.max(1, ...points.map(totalOf));
+
+/**
+ * Strip height in PIXELS, not a percentage.
+ *
+ * The bars are wrapped in BcnVizTip, i.e. in esa-popover, whose host is a wrapper
+ * around a shadow-DOM anchor with auto height. A percentage height on the bar would
+ * have to resolve against that anchor, which has no definite height and is
+ * unreachable from outside — so the bars would collapse. Computing the height here
+ * removes the dependency on any ancestor's height, and the CSS reads the same number
+ * so the two cannot drift.
+ */
+const STRIP_PX = height === 'sm' ? 60 : 96;
+
+/**
+ * THE MIDDLE TICK IS CONDITIONAL. Three labels want roughly 3 line-heights plus air;
+ * below ~64px of strip they collide and the axis reads as a smudge rather than a
+ * scale, so short strips show only the bounds. Also skipped when max < 2, where a
+ * midpoint would either repeat a bound or invent a fraction of a countable thing.
+ */
+const MID_TICK_MIN_PX = 64;
+const showMid = STRIP_PX >= MID_TICK_MIN_PX && max >= 2;
+const midValue = Math.round(max / 2);
+
+const columns = points.map((p) => {
+  const total = totalOf(p);
+  const segments = series
+    .map((sr) => ({ key: sr.key, label: sr.label, color: sr.color, value: p.values[sr.key] ?? 0 }))
+    .filter((seg) => seg.value > 0);
+
+  // The popup gets STRUCTURE rather than a joined string: a period line, then one
+  // line per type, each keyed with the SAME colour that identifies it in the chart.
+  // BcnVizTip owns that shape now (and four sibling charts share it).
+
+  return {
+    date: p.date,
+    total,
+    zero: total === 0,
+    // Floored at 3px so a 1-count period is still a visible bar rather than a
+    // hairline indistinguishable from the empty-period stub.
+    heightPx: total === 0 ? 0 : Math.max(3, Math.round((total / max) * STRIP_PX)),
+    // flex-grow per segment, so the browser does the within-column proportions and
+    // rounding cannot make the parts disagree with the whole.
+    segments,
+    // The full period, spelled out: "September 8, 2026" rather than "Sep 8"
+    // (2026-09-09). The axis under the strip is where an abbreviation belongs —
+    // it has two labels and no room — but a popup is opened deliberately, one
+    // period at a time, and there the year is part of the answer rather than
+    // noise. periodLabel says the bucket in its own shape, so a coarsened series
+    // reads "Week of September 8, 2026" or "September 2026".
+    periodLabel: periodLabel(p.date, unit),
+  };
+});
+
+// A legend is required: color is the ONLY thing distinguishing the series, so
+// without it the chart is unreadable rather than merely undecorated.
+const legend = series;
+---
+
+{
+  points.length > 0 && (
+    <div class:list={['bcn-vizstack', height === 'sm' && 'bcn-vizstack--sm']}>
+      {/* role="img" + aria-label is the accessible reading: it replaces the subtree,
+          so the popovers below are a POINTER enhancement rather than the only
+          carrier. Deliberately no tabindex on the bars — esa-popover does open on
+          focus, but making every column a tab stop would put 31 of them in the
+          middle of the dashboard's tab order. If per-period detail needs keyboard
+          parity, the right fix is a visually-hidden table beside the strip, not tab
+          stops on the bars. */}
+      {/* The y-axis: the tallest column's TOTAL at the top, zero on the baseline.
+          The total is the right number to name because that is what the column
+          height encodes here — a segment is a share of it, and the popup breaks
+          the parts down one period at a time. Two labels only; intermediate ticks
+          would need gridlines behind a 96px strip. */}
+      <div class="bcn-vizstack__yaxis" aria-hidden="true" style={`block-size:${STRIP_PX}px`}>
+        <span>{max.toLocaleString('en-US')}</span>
+        {showMid && <span>{midValue.toLocaleString('en-US')}</span>}
+        <span>0</span>
+      </div>
+      <div class="bcn-vizstack__strip" role="img" aria-label={label} style={`--_stack-height:${STRIP_PX}px`}>
+        {columns.map((col) => (
+          <span class="bcn-vizstack__slot">
+            <BcnVizTip
+              title={col.periodLabel}
+              rows={col.segments.map((seg) => ({ label: seg.label, value: seg.value, color: seg.color }))}
+              empty={emptyLabel}
+            >
+              <span class="bcn-vizstack__cell" style={`block-size:${STRIP_PX}px`}>
+                {col.zero ? (
+                  <span class="bcn-vizstack__col bcn-vizstack__col--zero" />
+                ) : (
+                  <span class="bcn-vizstack__col" style={`block-size:${col.heightPx}px`}>
+                    {col.segments.map((seg) => (
+                      <span
+                        class="bcn-vizstack__seg"
+                        style={`flex:${seg.value};background:${seg.color}`}
+                      />
+                    ))}
+                  </span>
+                )}
+              </span>
+            </BcnVizTip>
+          </span>
+        ))}
+      </div>
+
+      {(axisStart || axisEnd) && (
+        <div class="bcn-vizstack__axis">
+          <span>{axisStart}</span>
+          {axisEnd && <span>{axisEnd}</span>}
+        </div>
+      )}
+
+      <ul class="bcn-vizstack__legend">
+        {legend.map((s) => (
+          <li class="bcn-vizstack__key">
+            <span class="bcn-vizstack__swatch" style={`background:${s.color}`} aria-hidden="true" />
+            {s.label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+<style>
+  /* A 2-column grid: the y-axis gutter, then the strip. The axis and legend rows
+     below are placed in the strip's column so their ends line up with the first and
+     last COLUMNS rather than with the gutter's edge. */
+  .bcn-vizstack {
+    /* Taller than BcnVizTrend's 72px: a stack has to resolve into parts, and at 72px
+       a two-count segment inside a nine-count column is a sliver. */
+    --_stack-height: 96px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    /* 8px right of the axis line — see BcnVizTrend's note. */
+    column-gap: var(--spacing-200);
+    row-gap: var(--spacing-200);
+    min-inline-size: 0;
+  }
+
+  /* The axis line rides the gutter's trailing edge — see BcnVizTrend's note. */
+  .bcn-vizstack__yaxis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-inline-end: var(--spacing-100);
+    border-inline-end: 1px solid var(--color-border-default);
+    /* 12px, BELOW the house 13px floor, and deliberate (Jamie). The floor governs
+       the smallest text a reader has to READ; an axis tick is a reference mark
+       consulted against the bar beside it, and at 13px these numbers competed with
+       the x-axis dates and the chart's own title for a strip 72px tall. The x-axis
+       stays at 13 — it names the window, which is read rather than referenced.
+       Written with a max() floor because --font-size-100 is fluid and bottoms out
+       near 10px; 12px is the intended size, not an accident of the viewport. */
+    font-size: max(0.75rem, var(--font-size-100));
+    color: var(--color-content-default-tertiary);
+    /* TABULAR-NUMS IS INERT HERE, and that is worth knowing before anyone chases the
+       alignment (measured 2026-09-09). DM Sans ships no `tnum` feature: forcing the
+       property on and off produces identical advances (0 = 10.94, 1 = 4.88, 2 = 9.22
+       at 12px), so the figures are proportional whatever we ask for. The labels are
+       right-aligned and their right edges match to 0.00px — but a lone "0" is the
+       WIDEST digit in the face, so its left edge sits ~1px outside a "2" and ~4px
+       outside a "1". No alignment fixes that; only uniform digit advances would, and
+       the only faces here that have them are monospace, which the house rules keep
+       out of chrome. The declaration stays because the intent is right and it starts
+       working the day the family gains the feature. */
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .bcn-vizstack__axis,
+  .bcn-vizstack__legend {
+    grid-column: 2; /* under the strip, not under the gutter */
+  }
+
+  .bcn-vizstack--sm {
+    --_stack-height: 60px;
+  }
+
+  .bcn-vizstack__strip {
+    display: flex;
+    align-items: flex-end;
+    /* 2px, matching BcnVizTrend — deliberately under the 4px spacing floor, because
+       at 4px a 30-column strip spends a third of its width on gaps. */
+    gap: 2px;
+    block-size: var(--_stack-height);
+  }
+
+  /* One column's CELL, and the cell is the hit target — not the bar. It fills the
+     strip's full height, so a 3px column is hovered anywhere in its column of space
+     rather than only on its three painted pixels (dataviz: the hit target is bigger
+     than the mark). BcnVizTip's own styles carry the grid and percentage traps that
+     make this work, and __cell below is the piece that makes it true.
+
+     CLIPPING: esa-card sets `overflow: hidden`, so a popup anchored inside a widget
+     would be cut off at the card edge. Nothing is needed here to fix it —
+     BcnDashboardWidget already carries
+     `.bcn-dwidget:has(esa-popover[open]) .esa-card { overflow: visible }` plus a
+     z-index lift, keyed on esa-popover's REFLECTED `open` attribute. So composing
+     the lego (rather than hand-rolling a panel) is what buys the overflow. */
+  .bcn-vizstack__slot {
+    flex: 1;
+    min-inline-size: 2px;
+    display: grid;
+    /* The strip is `align-items: flex-end`, which would otherwise shrink this to its own
+       bar's height. Stretched back so the popup host gets the full strip height; __cell
+       below is what turns that height into a hover target. */
+    align-self: stretch;
+  }
+
+  /* THE TRIGGER. esa-popover listens on the anchor wrapping whatever is slotted into it, so
+     the slotted thing must BE the full-height cell — otherwise a 3px bar is still only a
+     3px hover target however tall the host is. Transparent, full strip height, bar
+     bottom-aligned inside. Pixel height for the same reason the bar has one: a percentage
+     would resolve against the anchor, which has no definite height. */
+  .bcn-vizstack__cell {
+    display: flex;
+    align-items: flex-end;
+    inline-size: 100%;
+  }
+
+  /* The hovered mark responds, so the reader can see WHICH period the popup is
+     reading out — brightness rather than a color, because every segment carries a
+     different caller-supplied hue and there is no one outline that suits them all. */
+  .bcn-vizstack__cell:hover .bcn-vizstack__col {
+    filter: brightness(1.08);
+  }
+
+  .bcn-vizstack__col {
+    inline-size: 100%;
+    min-inline-size: 2px;
+    /* column-reverse so the FIRST series in the array sits at the bottom — stack
+       order matches the legend order the caller declared. */
+    display: flex;
+    flex-direction: column-reverse;
+    min-block-size: 3px;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .bcn-vizstack__seg {
+    display: block;
+    /* Without this a 1-count segment in a tall column can round to nothing and the
+       stack silently loses a category. */
+    min-block-size: 2px;
+  }
+
+  /* A period with no records, present and readable as empty — same idiom as
+     BcnVizTrend's zero day, so the two charts agree on what absence looks like. */
+  .bcn-vizstack__col--zero {
+    inline-size: 100%;
+    block-size: 2px;
+    min-block-size: 0;
+    background: var(--color-border-default);
+  }
+
+  .bcn-vizstack__axis {
+    display: flex;
+    justify-content: space-between;
+    font-size: max(0.8125rem, var(--font-size-100));
+    color: var(--color-content-default-tertiary);
+  }
+
+  .bcn-vizstack__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-100) var(--spacing-300);
+    font-size: max(0.8125rem, var(--font-size-100));
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-vizstack__key {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    min-inline-size: 0;
+  }
+
+  /* The LEGEND's key stays a filled box: there the swatch is the identity being
+     scanned for. The popup's key is a stroke instead — see BcnVizTip. */
+  .bcn-vizstack__swatch {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: var(--radius-xs); /* 2px, matching BcnGisLayerPanel's swatch */
+    flex: none;
+  }
+</style>

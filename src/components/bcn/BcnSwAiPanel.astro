@@ -1,0 +1,240 @@
+---
+// <BcnSwAiPanel> — prod's .ai-panel (actions-step, origin/develop), the collapsible
+// "Create Actions with AI · EXPERIMENTAL" band under the step header: the aldo mark,
+// the label, the amber EXPERIMENTAL tag, a chevron; expanded, the composer (a prompt
+// textarea whose footer carries the scope chips, Suggest a Prompt and the round send
+// button) beside a sidecar, then the inset filter row. Collapsed by default, as prod
+// ships it; the header toggles it.
+//
+// What it is FOR: prod's helper drafts action groupings from the requirements in the
+// current phase/type slice. In the 2026-09-14 model the actions arrive pre-drafted, so
+// this band is where a reviewer asks for a different grouping of what is left.
+//
+// bcn-lego-checked: esa-disclosure is a plain expander without a header row of mark,
+// tag and chevron; esa-textarea is a labelled field, not prod's borderless composer.
+// Beacon HAS the band; this is it under a bcn- name. The filter row inside is
+// bcn-sw-filter-row, the mark is esa-icon.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSwFilterRow from './BcnSwFilterRow.astro';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+
+interface Chip {
+  text: string;
+  strong: string;
+}
+interface Props {
+  label: string;
+  placeholder: string;
+  chips: Chip[];
+  suggestLabel?: string;
+  searchPlaceholder: string;
+  pickers: { label: string; value: string }[];
+  expanded?: boolean;
+}
+const { label, placeholder, chips, suggestLabel = 'Suggest a Prompt', searchPlaceholder, pickers, expanded = false } = Astro.props;
+---
+
+<section class="bcn-swai" data-expanded={expanded ? '' : undefined}>
+  <button type="button" class="bcn-swai__header" aria-expanded={expanded ? 'true' : 'false'} data-swai-toggle>
+    <span class="bcn-swai__mark" aria-hidden="true"><EsaIcon name="compass" size="xs" paths={STEP_GLYPH.compass} /></span>
+    <span class="bcn-swai__label">{label}</span>
+    <span class="bcn-swai__tag" title="This feature is experimental and subject to change.">
+      <EsaIcon name="flask-conical" size="xs" paths={STEP_GLYPH['flask-conical']} />
+      Experimental
+    </span>
+    <span class="bcn-swai__chevron bcn-swai__chevron--closed" aria-hidden="true"><EsaIcon name="chevron-right" size="md" /></span>
+    <span class="bcn-swai__chevron bcn-swai__chevron--open" aria-hidden="true"><EsaIcon name="chevron-down" size="md" /></span>
+  </button>
+
+  <div class="bcn-swai__panel" hidden={!expanded}>
+    <div class="bcn-swai__body">
+      <div class="bcn-swai__main">
+        <div class="bcn-swai__shell">
+          <textarea class="bcn-swai__textarea" rows="3" maxlength="2000" placeholder={placeholder} aria-label={label}></textarea>
+          <div class="bcn-swai__input-footer">
+            <div class="bcn-swai__chips">
+              {chips.map((c) => (
+                <span class="bcn-swai__chip">{c.text} <strong>{c.strong}</strong></span>
+              ))}
+            </div>
+            <div class="bcn-swai__footer-actions">
+              <button type="button" class="bcn-swai__suggest">
+                <EsaIcon name="lightbulb" size="sm" paths={STEP_GLYPH.lightbulb} />
+                {suggestLabel}
+              </button>
+              <button type="button" class="bcn-swai__send" aria-label="Send to AI">
+                <EsaIcon name="arrow-up" size="md" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="bcn-swai__sidecar" aria-hidden="true"></aside>
+    </div>
+    <div class="bcn-swai__divider" aria-hidden="true"></div>
+    <BcnSwFilterRow inset searchName="swai-search" searchPlaceholder={searchPlaceholder} pickers={pickers} />
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-swai-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const root = btn.closest('.bcn-swai') as HTMLElement;
+      const panel = root.querySelector('.bcn-swai__panel') as HTMLElement;
+      const open = root.hasAttribute('data-expanded');
+      root.toggleAttribute('data-expanded', !open);
+      btn.setAttribute('aria-expanded', String(!open));
+      panel.hidden = open;
+    });
+  });
+</script>
+
+<style>
+  .bcn-swai {
+    border-top: 1px solid color-mix(in srgb, var(--color-background-brand) 10%, var(--color-border-default-subtle));
+    background: color-mix(in srgb, var(--color-background-brand) 4%, var(--color-background-elevation-raised));
+  }
+  .bcn-swai__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    width: 100%;
+    padding: var(--spacing-300) var(--spacing-500);
+    border: none;
+    background: transparent;
+    color: var(--color-content-default);
+    font-family: inherit;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-swai__header:hover { background: color-mix(in srgb, var(--color-content-default) 4%, transparent); }
+  .bcn-swai__header:focus-visible { outline: 2px solid var(--color-background-brand); outline-offset: -2px; }
+  .bcn-swai__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-background-brand);
+    color: var(--color-content-default-knockout);
+  }
+  .bcn-swai__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-050);
+    flex-shrink: 0;
+    padding: 1px var(--spacing-150);
+    border-radius: var(--radius-100);
+    background: var(--bcn-flag-on-bg);
+    color: var(--bcn-flag-on-color);
+    font-size: 0.625rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .bcn-swai__chevron { display: inline-flex; flex-shrink: 0; margin-left: auto; color: var(--color-content-brand); }
+  .bcn-swai__chevron--open { display: none; }
+  .bcn-swai[data-expanded] .bcn-swai__chevron--closed { display: none; }
+  .bcn-swai[data-expanded] .bcn-swai__chevron--open { display: inline-flex; }
+
+  .bcn-swai__body {
+    display: flex;
+    gap: var(--spacing-400);
+    align-items: stretch;
+    padding: 0 var(--spacing-500) var(--spacing-400);
+  }
+  .bcn-swai__main { flex: 2 1 0; min-width: 0; display: flex; flex-direction: column; }
+  .bcn-swai__shell {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid color-mix(in srgb, var(--color-background-brand) 22%, var(--color-border-default-subtle));
+    border-radius: var(--radius-200);
+    overflow: hidden;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .bcn-swai__shell:focus-within {
+    border-color: var(--color-border-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-background-brand) 18%, transparent);
+  }
+  .bcn-swai__textarea {
+    width: 100%;
+    min-height: 96px;
+    padding: var(--spacing-300);
+    border: none;
+    background: transparent;
+    color: var(--color-content-default);
+    font-family: inherit;
+    font-size: 0.875rem;
+    resize: vertical;
+    outline: none;
+  }
+  .bcn-swai__textarea::placeholder { color: var(--color-content-default-tertiary); }
+  .bcn-swai__input-footer {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+    padding: var(--spacing-200) var(--spacing-300);
+    background: var(--color-background-default);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-swai__chips { display: flex; flex-wrap: wrap; gap: var(--spacing-200); flex: 1; min-width: 0; }
+  .bcn-swai__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    padding: var(--spacing-050) var(--spacing-200);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised);
+    color: var(--color-content-default);
+    font-size: 0.75rem;
+  }
+  .bcn-swai__chip strong { font-weight: 600; }
+  .bcn-swai__footer-actions { display: flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+  .bcn-swai__suggest {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    padding: var(--spacing-100) var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--color-content-default);
+    font-family: inherit;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .bcn-swai__suggest:hover { background: color-mix(in srgb, var(--color-content-default) 4%, transparent); }
+  .bcn-swai__send {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--color-background-brand);
+    color: var(--color-content-default-knockout);
+    cursor: pointer;
+  }
+  .bcn-swai__send:hover { background: var(--color-background-brand-hover); }
+  .bcn-swai__sidecar { flex: 1 1 0; min-width: 300px; }
+  .bcn-swai__divider {
+    height: 1px;
+    margin: 0 var(--spacing-500);
+    background: color-mix(in srgb, var(--color-background-brand) 22%, var(--color-background-elevation-sunken));
+  }
+  @media (max-width: 900px) {
+    .bcn-swai__body { flex-direction: column; }
+    .bcn-swai__sidecar { min-width: 0; }
+  }
+</style>

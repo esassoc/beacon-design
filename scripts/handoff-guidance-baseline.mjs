@@ -62,4 +62,12 @@ export default [
   'due-diligence-constraints',
   'due-diligence-permits',
   'due-diligence-report',
+  // Added 2026-09-14 with the Setup Wizard step 5 work (feat/setup-wizard-obligations).
+  // The four wizard pages are still moving — the obligations model was recast the
+  // same day — so a curated spec would be rewritten within the week. Remove each
+  // slug once its src/data/handoff/<slug>.mjs exists.
+  'setup-wizard-overview',
+  'setup-wizard-actions',
+  'setup-wizard-obligations',
+  'setup-wizard-obligations-chain',
 ];

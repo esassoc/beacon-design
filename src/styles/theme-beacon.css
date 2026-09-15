@@ -47,10 +47,9 @@
      that left every one of those components rendering the hub's default
      green (--color-grass-9 #46a758) instead of Beacon teal. Logged in
      docs/system-improvement-ledger.md (2026-08-24). */
-  --color-background-brand:             var(--color-background-brand);        /* teal-900 #005862 */
-  --color-background-brand-hover:       var(--color-background-brand-hover);  /* #00474f */
-  --color-background-brand-active:      var(--color-background-brand-active); /* #003940 */
-  --color-background-brand-subtle:      var(--color-background-brand-subtle); /* teal-50 */
+  /* --color-background-brand, -hover, -active and -subtle are set once, above. Re-declaring
+     them here as var() of themselves made each one cyclic (invalid at computed time), so
+     every primary esa-button fell back to the hub green #46a758 (fixed 2026-09-14). */
   --color-background-brand-muted:       var(--bcn-teal-100);         /* #eef5f4 */
   --color-background-brand-muted-hover: var(--bcn-teal-200);         /* #b9d6d2 */
   --color-content-brand:                var(--color-background-brand);        /* teal-900 — brand text/link/outline-label */
@@ -159,13 +158,17 @@
   --bcn-teal-800: #0a6562;
   --bcn-teal-900: #005862;
 
-  /* Setup-wizard step accents (Source → Commitment → Requirement → Action).
-     Beacon exposes these globally as --color-source etc.; keep the same names so
-     ported views match verbatim. */
+  /* Setup-wizard step accents (Source → Commitment → Requirement → Action →
+     Obligation). Beacon exposes the first four globally as --color-source etc.;
+     keep the same names so ported views match verbatim. Obligation is the next
+     rung of the same ramp (2026-09-14, the wizard's fifth step); white-on-color
+     contrast 3.1:1, one step down from Action's 4.0:1, so it is a badge and fill
+     color, never small text on white. */
   --color-source:      #003f5c;
   --color-commitment:  #58508d;
   --color-requirement: #a05195;
   --color-action:      #d45087;
+  --color-obligation:  #f95d6a;
 
   /* Semantic success ramp Beacon exposes as CSS vars. */
   --color-success-50:  #f0fdf4;
