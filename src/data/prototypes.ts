@@ -679,8 +679,17 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'setup-wizard-obligations',
         title: 'Step 5 — Obligations',
         description:
-          'One list, category > subcategory > obligation, 402 rows from the registry: view, add, edit, remove, move — then approve the taxonomy at once. Coverage shows every requirement routed somewhere.',
+          'One list, category > subcategory > obligation, 333 rows from the registry: view, add, edit, remove, move — then approve the taxonomy at once. Filters by category, class and search.',
         route: '/prototypes/setup-wizard/obligations',
+        createdAt: '2026-09-14',
+        status: 'live',
+      },
+      {
+        slug: 'setup-wizard-obligations-chain',
+        title: 'Step 5 — Obligations by Commitment',
+        description:
+          'The same obligations read from the other end: commitment > requirement > obligation. A scope chip narrows to orphaned requirements (in no obligation and no action) or requirements in multiple obligations; a requirement drawer adds, edits, unlinks and removes obligations in place.',
+        route: '/prototypes/setup-wizard/obligations-chain',
         createdAt: '2026-09-14',
         status: 'live',
       },
