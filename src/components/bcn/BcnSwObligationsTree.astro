@@ -9,8 +9,10 @@
 // Everything is native HTML5 drag and drop: an obligation drags into any subcategory;
 // a requirement drags into another obligation, or onto a subcategory row to start a
 // fresh obligation there. Holding Option while dropping COPIES instead of moving, and
-// the card's Duplicate verb makes a copy in place so it can be dragged elsewhere —
-// a requirement may sit in several obligations. Counts re-tally after every move.
+// the Duplicate verb — on a requirement row, on an obligation card, and in the editor's
+// footer — makes a copy in place so it can be dragged elsewhere: a requirement may sit
+// in several obligations, and an obligation may belong under more than one
+// subcategory. Counts re-tally after every move.
 //
 // The page's search box (name `swo-search`) filters cards, opens the branches that
 // still have matches, and wraps every hit in <mark> at all four levels.
@@ -176,6 +178,22 @@ const { title = 'Obligations' } = Astro.props;
     };
     // The editor's Remove routes here too (it dispatches this on the card).
     root.addEventListener('swo:remove-card', (e) => removeCard(e.target as HTMLElement));
+
+    // Duplicate an obligation: a full copy — class, title, every requirement — placed
+    // right after the original with a fresh id, so it can be dragged into another
+    // subcategory. The editor's Duplicate dispatches swo:duplicate-card on the card.
+    const duplicateCard = (card: HTMLElement) => {
+      const copy = card.cloneNode(true) as HTMLElement;
+      copy.classList.remove('is-dragging', 'is-over');
+      copy.dataset.id = `${card.dataset.id}-copy-${++seq}`;
+      card.after(copy);
+      flash(copy);
+      recount();
+      document.dispatchEvent(new CustomEvent('swo:changed'));
+      copy.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      return copy;
+    };
+    root.addEventListener('swo:duplicate-card', (e) => duplicateCard(e.target as HTMLElement));
 
     // ---- Counts: obligation = its requirements; subcategory = its cards; category = sum.
     const recount = () => {
@@ -417,6 +435,9 @@ const { title = 'Obligations' } = Astro.props;
         e.preventDefault();
         btn.closest('.bcn-swoc__req')?.remove();
         recount();
+      } else if (btn.matches('[data-swo-dup-card]')) {
+        e.preventDefault();
+        duplicateCard(btn.closest<HTMLElement>('[data-swo-card]')!);
       } else if (btn.matches('[data-swo-remove]')) {
         e.preventDefault();
         removeCard(btn.closest<HTMLElement>('[data-swo-card]')!);

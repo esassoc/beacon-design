@@ -83,7 +83,10 @@ const DATA = JSON.stringify({
   </form>
 
   <span slot="footer" class="bcn-swo-edit__foot">
-    <EsaButton variant="danger" appearance="soft" size="sm" data-swo-editor-remove>Remove obligation</EsaButton>
+    <span class="bcn-swo-edit__foot-left">
+      <EsaButton variant="danger" appearance="soft" size="sm" data-swo-editor-remove>Remove obligation</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-swo-editor-duplicate>Duplicate</EsaButton>
+    </span>
     <span class="bcn-swo-edit__foot-right">
       <EsaButton variant="ghost" size="sm" data-swo-editor-cancel>Cancel</EsaButton>
       <EsaButton variant="primary" size="sm" data-swo-editor-save>Save</EsaButton>
@@ -451,6 +454,12 @@ const DATA = JSON.stringify({
   editor?.querySelector('[data-swo-editor-remove]')?.addEventListener('click', () => {
     current?.dispatchEvent(new CustomEvent('swo:remove-card', { bubbles: true }));
   });
+  // Duplicate copies the card in the tree (the tree owns the copy) and closes the
+  // drawer so the copy is visible where it landed, beside the original.
+  editor?.querySelector('[data-swo-editor-duplicate]')?.addEventListener('click', () => {
+    current?.dispatchEvent(new CustomEvent('swo:duplicate-card', { bubbles: true }));
+    if (editor) editor.open = false;
+  });
   document.addEventListener('swo:changed', () => { if (editor?.open && current && !current.isConnected) editor.open = false; });
   // Save writes the title and class back onto the card, and refiles it if the
   // category or subcategory changed — the same move as a drag. Description and
@@ -544,7 +553,7 @@ const DATA = JSON.stringify({
 
   .bcn-swo-edit__foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-200); }
   .bcn-swo-edit__foot--end { justify-content: flex-end; }
-  .bcn-swo-edit__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-swo-edit__foot-left, .bcn-swo-edit__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }
 
   /* Picker rows: a button per option; the checkbox is state only, the row takes the click. */
   .bcn-swo-pick__group { padding: var(--spacing-200) var(--spacing-100) var(--spacing-100); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-content-default-tertiary); }

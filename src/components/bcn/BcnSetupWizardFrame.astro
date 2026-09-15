@@ -9,7 +9,10 @@
 // The step list is the shared SETUP_STEPS (src/data/setup-wizard.ts), so the
 // dashboard card, this nav and the overview page number the same five steps in
 // the same five colors. Prod's nav has four; the fifth, Obligations, is the
-// 2026-09-14 change this frame exists to carry.
+// 2026-09-14 change this frame exists to carry. Since 2026-09-15 the rail FORKS
+// after Requirements: Actions and Obligations are siblings, drawn one above the
+// other off a single dotted stem (SETUP_TRUNK / SETUP_BRANCHES), because a
+// requirement becomes one or the other and actions never lead to obligations.
 //
 // bcn-lego-checked: no esa-* lego is a horizontal step nav — esa-breadcrumbs is
 // path navigation, esa-tab-layout switches panels in place rather than routing,
@@ -19,7 +22,7 @@
 // esa-icon, and bcn-setup-wizard-frame is the reusable home for every wizard
 // step page.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
-import { SETUP_STEPS, COMPLETE_STEPS, STEP_GLYPH, type SetupStepId } from '../../data/setup-wizard';
+import { SETUP_TRUNK, SETUP_BRANCHES, COMPLETE_STEPS, STEP_GLYPH, type SetupStep, type SetupStepId } from '../../data/setup-wizard';
 import { withBase } from '../../lib/base';
 
 interface Props {
@@ -33,6 +36,12 @@ interface Props {
 
 const { active, complete = COMPLETE_STEPS, homeHref = '/prototypes/setup-wizard' } = Astro.props;
 const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
+const pill = (s: SetupStep) => ({
+  isActive: s.id === active,
+  isDone: complete.includes(s.id),
+  href: linkHref(s.href),
+  style: `--_step: var(--color-${s.token});`,
+});
 ---
 
 <div class="bcn-swf">
@@ -47,30 +56,57 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
   <nav class="bcn-swf__nav" aria-label="Setup wizard steps">
     <ol class="bcn-swf__steps">
       {
-        SETUP_STEPS.map((s, i) => {
-          const isActive = s.id === active;
-          const isDone = complete.includes(s.id);
+        SETUP_TRUNK.map((s) => {
+          const p = pill(s);
           return (
             <li class="bcn-swf__item">
               <a
                 class="bcn-swf__step"
-                data-active={isActive ? '' : undefined}
-                data-complete={isDone ? '' : undefined}
-                aria-current={isActive ? 'step' : undefined}
-                href={linkHref(s.href)}
-                style={`--_step: var(--color-${s.token});`}
+                data-active={p.isActive ? '' : undefined}
+                data-complete={p.isDone ? '' : undefined}
+                aria-current={p.isActive ? 'step' : undefined}
+                href={p.href}
+                style={p.style}
               >
                 <span class="bcn-swf__icon" aria-hidden="true"><EsaIcon name={s.id} size="sm" paths={s.iconPaths} /></span>
                 <span class="bcn-swf__label">{s.label}</span>
-                {isDone && (
+                {p.isDone && (
                   <span class="bcn-swf__check" aria-label="Step complete"><EsaIcon name="check" size="xs" paths={STEP_GLYPH.check} /></span>
                 )}
               </a>
-              {i < SETUP_STEPS.length - 1 && <span class="bcn-swf__connector" aria-hidden="true" />}
+              <span class="bcn-swf__connector" aria-hidden="true" />
             </li>
           );
         })
       }
+      <li class="bcn-swf__item bcn-swf__item--fork">
+        <ol class="bcn-swf__branches" aria-label="Either of">
+          {
+            SETUP_BRANCHES.map((s) => {
+              const p = pill(s);
+              return (
+                <li class="bcn-swf__branch">
+                  <span class="bcn-swf__tine" aria-hidden="true" />
+                  <a
+                    class="bcn-swf__step"
+                    data-active={p.isActive ? '' : undefined}
+                    data-complete={p.isDone ? '' : undefined}
+                    aria-current={p.isActive ? 'step' : undefined}
+                    href={p.href}
+                    style={p.style}
+                  >
+                    <span class="bcn-swf__icon" aria-hidden="true"><EsaIcon name={s.id} size="sm" paths={s.iconPaths} /></span>
+                    <span class="bcn-swf__label">{s.label}</span>
+                    {p.isDone && (
+                      <span class="bcn-swf__check" aria-label="Step complete"><EsaIcon name="check" size="xs" paths={STEP_GLYPH.check} /></span>
+                    )}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ol>
+      </li>
     </ol>
   </nav>
 
@@ -148,7 +184,7 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     flex: 1;
     min-width: 0;
   }
-  .bcn-swf__item:last-child { flex: 0 0 auto; }
+  .bcn-swf__item--fork { flex: 0 0 auto; }
 
   .bcn-swf__step {
     display: inline-flex;
@@ -190,6 +226,50 @@ const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href
     margin: 0 var(--spacing-200);
     border-top: 2px dotted var(--color-border-default);
   }
+
+  /* The fork: the trunk's last connector runs into a dotted upright, and one tine
+     per branch leaves it for that branch's pill. Each tine draws its own half of the
+     upright (down from centre on the first branch, up to centre on the last), so the
+     upright spans exactly from pill centre to pill centre whatever the pill height. */
+  .bcn-swf__branches {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-swf__branch {
+    display: flex;
+    align-items: center;
+  }
+  /* Both branch pills take the width of the wider one (the row stretches to it),
+     and each keeps clear air above and below so the two read as separate stops. */
+  .bcn-swf__branch .bcn-swf__step { flex: 1; margin: var(--spacing-150) 0; }
+  .bcn-swf__tine {
+    position: relative;
+    align-self: stretch;
+    flex: 0 0 auto;
+    width: 28px;
+    margin-right: var(--spacing-200);
+  }
+  .bcn-swf__tine::before {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto 0;
+    height: 0;
+    border-top: 2px dotted var(--color-border-default);
+  }
+  .bcn-swf__tine::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-left: 2px dotted var(--color-border-default);
+  }
+  .bcn-swf__branch:first-child .bcn-swf__tine::after { top: 50%; }
+  .bcn-swf__branch:last-child .bcn-swf__tine::after { bottom: 50%; }
 
   .bcn-swf__body { flex: 1; min-width: 0; }
 
