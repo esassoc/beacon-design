@@ -1,0 +1,128 @@
+---
+// <BcnListExportDialog>: what a Fulcrum form built from this list would contain,
+// shown as the form-field spec itself.
+//
+// The obligation-list detail page mounts one of these per list. It listens on
+// `document` for `list:export` and opens for detail 'json' ONLY; 'word' and 'csv'
+// ride the same event and are ignored here, because those two exports are stubs in
+// BcnListActions and have no surface yet.
+//
+// The body is `formFields(list)` serialized, computed in the FRONTMATTER from the
+// model. That is the whole point of the preview: it is a declared derivation of the
+// list -- rename a category, override a description, add a member, and this moves
+// with it. Nothing in this file authors a key, a label or a shape by hand, and no
+// script assembles one at runtime.
+//
+// bcn-lego-checked: esa-dialog is the shell (native <dialog> + showModal, so Esc,
+// click-outside, the close button and the full-viewport scrim all come with it) and
+// esa-button is the footer pair; .cluster is the footer row. Ecology has no code or
+// <pre> lego -- esa-card, esa-alert-box and esa-empty-state are all prose surfaces
+// on the floating/raised ramp, none of them a sunken monospaced scroller -- so the
+// block below is the one built thing here: a <pre> on the sunken rung, bounded and
+// scrollable.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { formFields, type ObligationList } from '../../data/lists';
+
+interface Props {
+  /** The list whose form fields are previewed. The spec is derived from it, never authored. */
+  list: ObligationList;
+}
+
+const { list } = Astro.props;
+const spec = JSON.stringify(formFields(list), null, 2);
+---
+
+<esa-dialog data-list-export-dialog heading="Form fields" size="lg" show-close-button>
+  {/* tabindex="0": a scrollable region has to be reachable without a pointer, and
+      Chrome does not make one focusable on its own. It keeps its focus ring below. */}
+  <pre class="bcn-list-export__spec" tabindex="0" data-list-export-spec>{spec}</pre>
+
+  <span slot="footer" class="cluster" data-gap="sm">
+    <EsaButton variant="primary" size="sm" type="button" data-list-export-copy>Copy</EsaButton>
+    <EsaButton variant="secondary" size="sm" type="button" data-list-export-close>Close</EsaButton>
+  </span>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+
+  type Dialog = HTMLElement & { show(): void; close(): void };
+
+  // Guarded: inert on any page that does not mount the dialog.
+  const dialog = document.querySelector<Dialog>('[data-list-export-dialog]');
+
+  if (dialog) {
+    const spec = dialog.querySelector<HTMLElement>('[data-list-export-spec]');
+    const copy = dialog.querySelector<HTMLButtonElement>('[data-list-export-copy]');
+    const close = dialog.querySelector<HTMLButtonElement>('[data-list-export-close]');
+
+    document.addEventListener('list:export', (event) => {
+      // One event carries all three formats; only the JSON preview has a surface.
+      if ((event as CustomEvent<string>).detail !== 'json') return;
+      dialog.show();
+    });
+
+    close?.addEventListener('click', () => dialog.close());
+
+    if (copy) {
+      // The label is the feedback. It lives inside esa-button's own label span, so
+      // the swap leaves the control's structure alone.
+      const label = copy.querySelector<HTMLElement>('.esa-button__label') ?? copy;
+      const RESTING = label.textContent ?? 'Copy';
+      let revert: number | undefined;
+
+      copy.addEventListener('click', async () => {
+        // The SAME string the block shows -- read off the block, so the clipboard
+        // cannot drift from the preview.
+        const text = spec?.textContent ?? '';
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          // Denied clipboard permission (or an insecure origin): leave the label
+          // resting rather than claiming a copy that did not happen.
+          return;
+        }
+        label.textContent = 'Copied';
+        window.clearTimeout(revert);
+        revert = window.setTimeout(() => {
+          label.textContent = RESTING;
+        }, 1500);
+      });
+    }
+  }
+</script>
+
+<style>
+  .bcn-list-export__spec {
+    margin: 0;
+    padding: var(--spacing-300);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    color: var(--color-content-default);
+    font-family: var(--typography-font-family-mono);
+    /* 13px, hard-coded the way the step 5 tree's dense scale is: the code ramp's
+       sizes are fluid clamps (--typography-code-sm-font-size runs 11px to 14px) and
+       a spec block wants one fixed size at every width. Code is the one place a
+       size under the 16px body floor is right -- it is scanned for structure, not
+       read as prose. */
+    font-size: 0.8125rem;
+    line-height: var(--line-height-normal);
+    /* Bounded but generous: the dialog keeps its own header and footer in view and
+       this is the only thing that scrolls. Lines are not wrapped, because a wrapped
+       line breaks the indent that carries the tree. */
+    max-block-size: 60vh;
+    overflow: auto;
+    /* pre-wrap, not pre. The descriptions are the reason this preview exists, and they
+       are the longest strings in the file: with `pre` they run past the right edge and
+       the reader has to scroll a line at a time to check the wording they just wrote.
+       Wrapping at whitespace keeps the indentation that shows the section nesting. */
+    white-space: pre-wrap;
+    tab-size: 2;
+  }
+
+  .bcn-list-export__spec:focus-visible {
+    outline: 2px solid var(--color-background-brand);
+    outline-offset: 2px;
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+// <BcnListActions>: the action group the obligation-list detail page sets in
+// PageLayout's `utilities` slot, on the title row: Edit details, Export, Add
+// obligations, left to right, lightest commitment to heaviest.
+//
+// It decides nothing and holds no list state. Each control announces itself on
+// `document` and the sibling that owns that surface answers:
+//   Edit details        -> `list:edit-details`   (no detail)              -> BcnListEditDetailsDialog
+//   Export > a format   -> `list:export`         ('word' | 'csv' | 'json') -> BcnListExportDialog
+//   Add obligations     -> `list:add-obligations` (no detail)             -> BcnListAddObligations
+// So the page can mount this before any of those exist; a format nobody listens
+// for just closes the menu.
+//
+// All three export rows are live. Word and CSV are prototype stubs whose handler
+// stops at closing the menu, which is the honest reading: a greyed row says a
+// feature broke, not that it has not been built yet.
+//
+// bcn-lego-checked: esa-button is all three controls, esa-dropdown-menu is the
+// export menu with the Export button slotted as its trigger (the lego resolves the
+// slot down to the native <button>, so the trigger keeps its own :focus-visible
+// ring and gains aria-haspopup / aria-expanded / arrow-key opening), and .cluster
+// is the row. What is left in this file is the composition and the event wiring,
+// which no lego provides.
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+/** The export menu's rows, in order. `action` rides out as the `list:export` detail. */
+const EXPORT_FORMATS = [
+  { label: 'Word document', action: 'word' },
+  { label: 'CSV', action: 'csv' },
+  { label: 'Form fields JSON', action: 'json' },
+];
+---
+
+<div class="cluster bcn-list-actions" data-gap="sm" data-list-actions>
+  <EsaButton variant="secondary" size="sm" type="button" data-list-edit-details>Edit details</EsaButton>
+
+  {/* position="below-end": this group sits at the right edge of the title row, so a
+      panel anchored to the trigger's start hangs off the page on a narrow window. */}
+  <esa-dropdown-menu
+    class="bcn-list-actions__export"
+    position="below-end"
+    data-list-export-menu
+    data-items={JSON.stringify(EXPORT_FORMATS)}
+  >
+    <EsaButton variant="secondary" size="sm" type="button" iconRight="chevron-down">Export</EsaButton>
+  </esa-dropdown-menu>
+
+  <EsaButton variant="primary" size="sm" type="button" data-list-add-obligations>Add obligations</EsaButton>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dropdown-menu';
+
+  type Menu = HTMLElement & { items: { label: string; action: string }[] };
+
+  // Guarded: on a page without this group the whole block is inert.
+  const root = document.querySelector<HTMLElement>('[data-list-actions]');
+
+  if (root) {
+    const announce = (type: string, detail?: string) =>
+      document.dispatchEvent(new CustomEvent(type, { bubbles: true, detail }));
+
+    root
+      .querySelector<HTMLButtonElement>('[data-list-edit-details]')
+      ?.addEventListener('click', () => announce('list:edit-details'));
+    root
+      .querySelector<HTMLButtonElement>('[data-list-add-obligations]')
+      ?.addEventListener('click', () => announce('list:add-obligations'));
+
+    customElements.whenDefined('esa-dropdown-menu').then(() => {
+      const menu = root.querySelector<Menu>('[data-list-export-menu]');
+      if (!menu) return;
+      // `items` is a PROPERTY on the lego, never an attribute. An array set as an
+      // attribute arrives as the string "[object Object]" and the panel renders empty.
+      // Authored in the frontmatter and handed over as JSON so the labels live next
+      // to the contract above rather than in two places.
+      menu.items = JSON.parse(menu.dataset.items ?? '[]') as Menu['items'];
+      // The lego only emits menu-action for a TRUTHY action, which is why
+      // BcnSwSelectChip needs a sentinel for its empty "All ..." row. Every row here
+      // carries a real format string, so nothing needs mapping back.
+      menu.addEventListener('menu-action', (event) => {
+        const format = String((event as CustomEvent<string>).detail ?? '');
+        if (!format) return;
+        announce('list:export', format);
+      });
+    });
+  }
+</script>
+
+<style>
+  /* No outer margin: PageLayout's `utilities` slot is itself a flex row inside a
+     space-between title row, so the title row already owns this group's placement.
+     flex-end is what keeps it against the right edge in the one case the parent
+     cannot cover -- when the three controls wrap onto their own line. */
+  .bcn-list-actions {
+    margin: 0;
+    justify-content: flex-end;
+  }
+</style>
