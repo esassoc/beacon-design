@@ -1,0 +1,250 @@
+---
+// <BcnListObligationCard> — one obligation as it sits in ONE LIST. The documented
+// sibling of <BcnSwObligationCard> (step 5, the registry tree): same 13px scale, same
+// class-tag tinting, same row rhythm, same <details> mechanics. Different verbs,
+// because a list has different semantics than the registry.
+//
+// A list cannot change filing, so everything the registry card offers for filing is
+// gone: no grip, no drag, no drop target, no duplicate, no unlink, no editor drawer,
+// and no verb of any kind on a requirement row. What remains is what a list owns.
+//
+// The card, top to bottom:
+//   1. the card line: class tag, the title as plain text, and one hover verb pushed
+//      right, the x that takes the obligation off this list;
+//   2. THE LIST DESCRIPTION, which is the subject of this card. Editable in place.
+//      Until it is edited it is the registry's wording and renders in tertiary ink,
+//      so it reads as the inherited default; committing an edit moves it to default
+//      ink and adds the faint "Edited for this list" mark beside it. Emptying the
+//      field returns it to the registry's wording;
+//   3. the requirements, collapsed, read only. They are reference under the
+//      description, never its equal, so they sit behind a disclosure and carry
+//      secondary ink and no verbs. That read only quality is the declared sacrifice
+//      of this page, not an omission.
+//
+// Contract with <BcnListObligationTree>: the card is presentational. The tree owns
+// every listener, exactly as step 5 splits card and tree, and reaches in through
+// `data-list-card`, `data-list-remove`, `data-list-desc`, `data-list-desc-edit`,
+// `data-list-edited` and `data-list-text`. The description keeps the registry's
+// sentence in `data-registry-desc` so the fallback needs no round trip.
+//
+// bcn-lego-checked: esa-card carries its own padding and type scale and has no
+// editable region; esa-collapsible is a panel, not a dense 13px disclosure row. The
+// count IS bcn-sw-count-badge, the commitment code IS bcn-commitment-badge, the
+// glyphs ARE esa-icon, the tooltips ARE esa-tooltip. The class tint below is copied
+// verbatim from BcnSwObligationCard so the two trees cannot drift apart.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import { OBLIGATION_CLASS_LABEL, STEP_GLYPH } from '../../data/setup-wizard';
+import type { ListObligation } from '../../data/lists';
+
+interface Props {
+  obligation: ListObligation;
+  /** Requirements folded open on load. Closed is the default, by design. */
+  open?: boolean;
+}
+const { obligation: o, open = false } = Astro.props;
+---
+
+<li class="bcn-loc" data-list-card data-id={o.id} data-class={o.class}>
+  <div class="bcn-loc__main">
+    <span class="bcn-loc__class" data-list-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
+    <span class="bcn-loc__title" data-list-title data-list-text={o.title}>{o.title}</span>
+    <esa-tooltip text="Remove from this list" align="end"><button
+      type="button"
+      class="bcn-loc__verb bcn-loc__verb--danger"
+      aria-label="Remove from this list"
+      data-list-remove
+      data-id={o.id}
+    ><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+  </div>
+
+  <div class="bcn-loc__body">
+    <span
+      class="bcn-loc__desc"
+      data-list-desc
+      data-list-text={o.listDescription}
+      data-registry-desc={o.description}
+      data-overridden={String(o.descriptionOverridden)}
+    >{o.listDescription}</span>
+    <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden}>Edited for this list</span>
+    <esa-tooltip text="Edit for this list"><button
+      type="button"
+      class="bcn-loc__verb"
+      aria-label="Edit this obligation's description for this list"
+      data-list-desc-edit
+    ><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+  </div>
+
+  <details class="bcn-loc__node" data-list-reqs-branch open={open}>
+    <summary class="bcn-loc__reqs-row">
+      <span class="bcn-loc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+      <span class="bcn-loc__reqs-label">Requirements</span>
+      <span data-list-count="obligation"><BcnSwCountBadge value={o.requirements.length} label={`${o.requirements.length} requirements`} /></span>
+    </summary>
+    <ul class="bcn-loc__reqs">
+      {o.requirements.map((r) => (
+        <li class="bcn-loc__req" data-list-req data-code={r.code}>
+          <BcnCommitmentBadge code={r.code} size="sm" />
+          <span class="bcn-loc__req-name" data-list-text={r.name}>{r.name}</span>
+        </li>
+      ))}
+    </ul>
+  </details>
+</li>
+
+<style>
+  .bcn-loc {
+    list-style: none;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: 6px;
+    background: var(--color-background-elevation-raised);
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+    transition: border-color 120ms ease;
+  }
+  .bcn-loc:hover { border-color: var(--color-border-default-strong); }
+  .bcn-loc[hidden] { display: none; }
+  .bcn-loc.is-new { animation: bcn-loc-flash 900ms ease-out; }
+
+  /* 1. The card line. No grip and no chevron here: nothing on this card drags, and
+     the disclosure lives on the requirements row further down. */
+  .bcn-loc__main {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-300) var(--spacing-100);
+    min-width: 0;
+  }
+
+  /* The class tag sits at its natural width, tinted from the obligation end of the
+     setup ramp: adhere in the step's own pink, then the ramp's next hues for the
+     others. Copied from BcnSwObligationCard so the two trees read as one system. */
+  .bcn-loc__class {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    background: color-mix(in srgb, var(--_hue) 14%, white);
+    color: color-mix(in srgb, var(--_hue) 78%, black);
+  }
+  .bcn-loc[data-class='adhere'] { --_hue: var(--color-obligation); }
+  .bcn-loc[data-class='monitor'] { --_hue: #ff7c43; }
+  .bcn-loc[data-class='notify'] { --_hue: #ffa600; }
+  .bcn-loc[data-class='roster'] { --_hue: var(--color-action); }
+
+  .bcn-loc__title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  /* 2. The list description: the subject of the card, so it runs the full width at
+     the card's own size and in default ink once this list has said it its own way.
+     The block sets its own leading, so the inline mark and the pencil beside the
+     text cannot pull the line box around. */
+  .bcn-loc__body {
+    padding: 0 var(--spacing-300) var(--spacing-150);
+    line-height: 1.5;
+  }
+  .bcn-loc__desc {
+    border-radius: 2px;
+    padding: 0 2px;
+    margin-left: -2px;
+    cursor: text;
+    color: var(--color-content-default);
+  }
+  /* Not yet said differently here: this is the registry's wording, showing as the
+     inherited default. */
+  .bcn-loc__desc[data-overridden='false'] { color: var(--color-content-default-tertiary); }
+  .bcn-loc__desc:hover { background: var(--color-background-default); }
+  .bcn-loc__desc.is-editing {
+    outline: 2px solid var(--color-obligation);
+    outline-offset: 0;
+    background: var(--color-background-elevation-raised);
+    color: var(--color-content-default);
+    user-select: text;
+  }
+  .bcn-loc__desc:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 0; }
+  .bcn-loc__edited {
+    margin-left: var(--spacing-100);
+    font-size: 0.6875rem;
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-loc__edited[hidden] { display: none; }
+
+  /* Verbs. Quiet until the card is hovered or the button itself takes focus. */
+  .bcn-loc esa-tooltip { display: inline-flex; }
+  .bcn-loc__verb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-100);
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 120ms ease, color 120ms ease, background-color 120ms ease;
+  }
+  .bcn-loc:hover .bcn-loc__verb,
+  .bcn-loc__verb:focus-visible { opacity: 1; }
+  .bcn-loc__verb:hover { background: var(--color-background-default); color: var(--color-content-default); }
+  .bcn-loc__verb:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 1px; }
+  .bcn-loc__verb--danger:hover { color: var(--color-background-utility-danger); }
+  /* The pencil rides the description's last line, so the tooltip host (not the
+     button inside it) carries the vertical alignment. */
+  .bcn-loc__body esa-tooltip { vertical-align: text-bottom; margin-left: var(--spacing-050); }
+
+  /* 3. Requirements: reference, not subject. A closed disclosure by default, a
+     tertiary label on the row, secondary ink on the names, and no verbs at all. */
+  .bcn-loc__reqs-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: var(--spacing-050) var(--spacing-300) var(--spacing-100);
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    color: var(--color-content-default-tertiary);
+    border-radius: 0 0 6px 6px;
+    transition: background-color 120ms ease;
+  }
+  .bcn-loc__reqs-row::-webkit-details-marker { display: none; }
+  .bcn-loc__reqs-row:hover { background: var(--color-background-default); }
+  .bcn-loc__reqs-row:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
+  .bcn-loc__chevron { display: inline-flex; flex-shrink: 0; transition: transform 120ms ease; }
+  details[open] > .bcn-loc__reqs-row .bcn-loc__chevron { transform: rotate(90deg); }
+  details[open] > .bcn-loc__reqs-row { border-radius: 0; }
+
+  .bcn-loc__reqs {
+    list-style: none;
+    margin: 0;
+    padding: 0 var(--spacing-300) var(--spacing-150) calc(var(--spacing-300) + 20px);
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-loc__req {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 26px;
+    padding: var(--spacing-050) var(--spacing-200);
+    border-top: 1px solid var(--color-border-default-subtle);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-loc__req-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @keyframes bcn-loc-flash { from { background: color-mix(in srgb, var(--color-obligation) 14%, transparent); } to { background: transparent; } }
+</style>

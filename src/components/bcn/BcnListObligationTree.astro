@@ -1,0 +1,617 @@
+---
+// <BcnListObligationTree> — the body of the obligation-list detail page: everything
+// ONE LIST holds, filed the way the registry files it. The documented sibling of
+// <BcnSwObligationsTree> (step 5, the registry tree). Same panel shell, same 13px
+// scale, same row rhythm, same <details> mechanics, same search and expand/collapse
+// wiring. Different verbs, because the registry tree edits the registry and this tree
+// edits the LIST.
+//
+// Gone, all of it, because filing belongs to the registry and this page cannot change
+// it: drag to refile, every drop target, duplicate, unlink, add and remove category,
+// add and remove subcategory, add and remove obligation, the editor drawer dispatch,
+// the grip handles, and every verb on a requirement row.
+//
+// What this tree owns instead:
+//   - REMOVE FROM LIST on an obligation, guarded by esa-confirm-dialog. Not the danger
+//     variant: nothing is destroyed. The member row comes off the list and the
+//     obligation stays in the project's registry, and the guard says so by name.
+//   - RENAME FOR THIS LIST ONLY on a category or a subcategory. A renamed row shows a
+//     quiet "Registry: {name}" beside it so the registry's own wording is never lost,
+//     and renaming a row that was not renamed before reveals that secondary.
+//   - The per obligation list description, edited in place on the card.
+//
+// A list shows only what it holds, so a subcategory whose last obligation is removed
+// drops out, and a category whose last subcategory drops out goes with it. Counts
+// re-tally off what is visible after every removal and every addition.
+//
+// Contract with siblings: listens on `document` for `list:members-added` with
+// `{ items: AddedItem[] }`, where an item carries everything needed to stamp a card
+// without a round trip: id, title, class, description, catId, catName, subId, subName
+// and reqs [{ code, name }]. An item whose card is present but removed is revealed
+// again; an item with no card is stamped from the templates below, creating its
+// subcategory and category rows if this list does not hold them yet. New cards flash.
+//
+// bcn-lego-checked: esa-tree-view is a selection tree with its own row chrome and no
+// card leaf; esa-accordion is one level of panels; esa-data-table has no nesting.
+// The leaf IS bcn-list-obligation-card, the filter line IS bcn-sw-filter-row, the
+// counts ARE bcn-sw-count-badge, the guard IS esa-confirm-dialog, the verbs ARE
+// esa-button, the glyphs ARE esa-icon, the tooltips ARE esa-tooltip.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnSwFilterRow from './BcnSwFilterRow.astro';
+import BcnListObligationCard from './BcnListObligationCard.astro';
+import { OBLIGATION_CLASS_LABEL, STEP_GLYPH } from '../../data/setup-wizard';
+import { listTree, type ListObligation, type ObligationList } from '../../data/lists';
+
+interface Props {
+  list: ObligationList;
+}
+const { list } = Astro.props;
+const tree = listTree(list);
+const categoryOptions = tree.map((c) => ({ label: c.name, value: c.id }));
+
+/**
+ * The blank card the script clones for an added member. Its one requirement row is
+ * the prototype the script copies per requirement, so the requirement row has exactly
+ * one definition and it lives in BcnListObligationCard.
+ */
+const CARD_STAMP: ListObligation = {
+  id: '',
+  title: '',
+  class: 'adhere',
+  phases: [],
+  species: [],
+  activities: [],
+  description: '',
+  trigger: '',
+  gate: false,
+  requirements: [{ id: '', code: '', name: '', text: '', inActions: 0, inObligations: 0 }],
+  listDescription: '',
+  descriptionOverridden: false,
+};
+---
+
+<section
+  class="bcn-lot"
+  aria-label={list.name}
+  data-list-label={list.name}
+  data-list-class-labels={JSON.stringify(OBLIGATION_CLASS_LABEL)}
+>
+  <div class="bcn-lot__filters">
+    <BcnSwFilterRow
+      searchName="list-search"
+      searchPlaceholder="Search obligations"
+      inset
+      pickers={[{ label: 'Category', value: 'All categories', options: categoryOptions }]}
+    >
+      <EsaButton variant="ghost" size="xs" data-list-expand>
+        <span class="bcn-lot__verb-label"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
+      </EsaButton>
+      <EsaButton variant="ghost" size="xs" data-list-collapse>
+        <span class="bcn-lot__verb-label"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
+      </EsaButton>
+    </BcnSwFilterRow>
+  </div>
+
+  <p class="bcn-lot__nomatch" data-list-nomatch hidden>No obligations match.</p>
+
+  <div class="bcn-lot__body" data-list-cats>
+    {tree.map((cat) => (
+      <details class="bcn-lot__cat" data-list-cat={cat.id} open>
+        <summary class="bcn-lot__row bcn-lot__row--cat">
+          <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <span class="bcn-lot__name" data-list-name data-list-text={cat.name} data-registry-name={cat.registryName}>{cat.name}</span>
+          <span class="bcn-lot__registry" data-list-registry hidden={!cat.renamed}>Registry: {cat.registryName}</span>
+          <span data-list-count="cat"><BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} /></span>
+          <span class="bcn-lot__verbs">
+            <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+          </span>
+        </summary>
+        <div class="bcn-lot__subs" data-list-subs>
+          {cat.subcategories.map((sub) => (
+            <details class="bcn-lot__sub" data-list-sub={sub.id}>
+              <summary class="bcn-lot__row bcn-lot__row--sub">
+                <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+                <span class="bcn-lot__name" data-list-name data-list-text={sub.name} data-registry-name={sub.registryName}>{sub.name}</span>
+                <span class="bcn-lot__registry" data-list-registry hidden={!sub.renamed}>Registry: {sub.registryName}</span>
+                <span data-list-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
+                <span class="bcn-lot__verbs">
+                  <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                </span>
+              </summary>
+              <ul class="bcn-lot__cards" data-list-cards>
+                {sub.obligations.map((o) => <BcnListObligationCard obligation={o} />)}
+              </ul>
+            </details>
+          ))}
+        </div>
+      </details>
+    ))}
+  </div>
+
+  <!-- Stamps for a member added from the picker: its category row, its subcategory
+       row, and its card. The card stamp carries one requirement row, which the script
+       lifts out as the prototype for the member's own requirements. -->
+  <template data-list-tpl="cat">
+    <details class="bcn-lot__cat" open>
+      <summary class="bcn-lot__row bcn-lot__row--cat">
+        <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+        <span class="bcn-lot__name" data-list-name></span>
+        <span class="bcn-lot__registry" data-list-registry hidden></span>
+        <span data-list-count="cat"><BcnSwCountBadge value={0} /></span>
+        <span class="bcn-lot__verbs">
+          <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+        </span>
+      </summary>
+      <div class="bcn-lot__subs" data-list-subs></div>
+    </details>
+  </template>
+  <template data-list-tpl="sub">
+    <details class="bcn-lot__sub" open>
+      <summary class="bcn-lot__row bcn-lot__row--sub">
+        <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+        <span class="bcn-lot__name" data-list-name></span>
+        <span class="bcn-lot__registry" data-list-registry hidden></span>
+        <span data-list-count="sub"><BcnSwCountBadge value={0} /></span>
+        <span class="bcn-lot__verbs">
+          <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+        </span>
+      </summary>
+      <ul class="bcn-lot__cards" data-list-cards></ul>
+    </details>
+  </template>
+  <template data-list-tpl="obl"><BcnListObligationCard obligation={CARD_STAMP} /></template>
+
+  <esa-confirm-dialog
+    data-list-confirm
+    heading="Remove from this list?"
+    confirm-label="Remove"
+    cancel-label="Cancel"
+    show-close-button
+    style="--z-modal: 1500; --z-modal-backdrop: 1450;"></esa-confirm-dialog>
+</section>
+
+<script>
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-tooltip';
+
+  interface AddedItem {
+    id: string;
+    title: string;
+    class: string;
+    description: string;
+    catId: string;
+    catName: string;
+    subId: string;
+    subName: string;
+    reqs: { code: string; name: string }[];
+  }
+
+  const root = document.querySelector<HTMLElement>('.bcn-lot');
+  if (root) {
+    const q = <T extends Element>(sel: string, from: ParentNode = root) => from.querySelector<T>(sel);
+    const qa = <T extends Element>(sel: string, from: ParentNode = root) => [...from.querySelectorAll<T>(sel)];
+    const tpl = (name: string) =>
+      (q<HTMLTemplateElement>(`template[data-list-tpl="${name}"]`)!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+    const badgeOf = (host: Element | null) => host?.querySelector<HTMLElement>('.bcn-swcb') ?? null;
+    const nomatch = q<HTMLElement>('[data-list-nomatch]');
+    const listName = root.dataset.listLabel ?? '';
+    const CLASS_LABEL: Record<string, string> = JSON.parse(root.dataset.listClassLabels || '{}');
+
+    // A card taken off the list stays in the DOM, marked, so the picker can put it
+    // back without a round trip. Marked cards never count and never show.
+    const gone = (card: HTMLElement) => card.hasAttribute('data-list-removed');
+    const cards = (from: ParentNode = root) => qa<HTMLElement>('[data-list-card]', from);
+    const flash = (el: HTMLElement) => { el.classList.add('is-new'); setTimeout(() => el.classList.remove('is-new'), 1000); };
+
+    // ---- Counts, always off what the list still holds. A branch that holds nothing
+    // is marked empty and the stylesheet drops it: a list never shows an empty branch.
+    const recount = () => {
+      cards().forEach((card) => {
+        const n = card.querySelectorAll('[data-list-req]').length;
+        const b = badgeOf(card.querySelector('[data-list-count="obligation"]'));
+        if (b) { b.textContent = String(n); b.setAttribute('aria-label', `${n} requirements`); }
+      });
+      let total = 0;
+      qa<HTMLDetailsElement>('[data-list-cat]').forEach((cat) => {
+        let catN = 0;
+        qa<HTMLDetailsElement>('[data-list-sub]', cat).forEach((sub) => {
+          const n = cards(sub).filter((c) => !gone(c)).length;
+          catN += n;
+          const b = badgeOf(sub.querySelector('[data-list-count="sub"]'));
+          if (b) { b.textContent = String(n); b.setAttribute('aria-label', `${n} obligations`); }
+          sub.toggleAttribute('data-list-empty', n === 0);
+        });
+        const b = badgeOf(cat.querySelector('[data-list-count="cat"]'));
+        if (b) { b.textContent = String(catN); b.setAttribute('aria-label', `${catN} obligations`); }
+        cat.toggleAttribute('data-list-empty', catN === 0);
+        total += catN;
+      });
+      // The page's title-row badge, the step 5 mechanism ([data-swo-count="title"]).
+      // Without this a remove or an add leaves the header claiming the seeded count
+      // while the tree below it shows another, which is the one disagreement on this
+      // page a reader would actually catch.
+      const tb = badgeOf(document.querySelector('[data-list-count="title"]'));
+      if (tb) { tb.textContent = String(total); tb.setAttribute('aria-label', `${total} obligations`); }
+    };
+
+    // ---- Search with <mark> hit highlighting, the step 5 mechanism: every searchable
+    // span keeps its own text in data-list-text and the query rewrites it with the
+    // hits wrapped.
+    const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+    const rx = (needle: string) => new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    const paint = (el: HTMLElement | null, needle: string) => {
+      if (!el || el.classList.contains('is-editing')) return false;
+      const text = el.dataset.listText ?? el.textContent ?? '';
+      if (!needle) { el.textContent = text; return false; }
+      if (!rx(needle).test(text)) { el.textContent = text; return false; }
+      el.innerHTML = esc(text).replace(rx(needle), (m) => `<mark class="bcn-lot__hit">${m}</mark>`);
+      return true;
+    };
+    const cardHit = (card: HTMLElement, needle: string) => {
+      const titleHit = paint(card.querySelector<HTMLElement>('[data-list-title]'), needle);
+      const descHit = paint(card.querySelector<HTMLElement>('[data-list-desc]'), needle);
+      const classHit = !!needle && (card.dataset.class ?? '').toLowerCase().includes(needle.toLowerCase());
+      let reqHit = false;
+      card.querySelectorAll<HTMLElement>('[data-list-req]').forEach((row) => {
+        const nameHit = paint(row.querySelector<HTMLElement>('.bcn-loc__req-name'), needle);
+        const codeHit = !!needle && (row.dataset.code ?? '').toLowerCase().includes(needle.toLowerCase());
+        row.querySelector<HTMLElement>('.bcn-cbadge')?.classList.toggle('bcn-lot__hit-chip', codeHit);
+        reqHit = reqHit || nameHit || codeHit;
+      });
+      if (needle && reqHit) (card.querySelector('details') as HTMLDetailsElement).open = true;
+      return titleHit || descHit || classHit || reqHit;
+    };
+    // Two filters share one pass: the search text and the category picker. A hit at
+    // any level keeps that level and everything under it.
+    const filters = { needle: '', cat: '' };
+    const apply = () => {
+      const { needle, cat } = filters;
+      const active = !!(needle || cat);
+      let shown = 0;
+      qa<HTMLDetailsElement>('[data-list-cat]').forEach((catEl) => {
+        if (cat && catEl.dataset.listCat !== cat) { catEl.hidden = true; return; }
+        const catHit = paint(catEl.querySelector<HTMLElement>(':scope > summary [data-list-name]'), needle);
+        let catAny = false;
+        qa<HTMLDetailsElement>('[data-list-sub]', catEl).forEach((sub) => {
+          const subHit = paint(sub.querySelector<HTMLElement>(':scope > summary [data-list-name]'), needle);
+          let subAny = false;
+          cards(sub).forEach((card) => {
+            if (gone(card)) { card.hidden = true; return; }
+            const own = cardHit(card, needle); // painted even when the branch above already matched
+            const hit = !needle || catHit || subHit || own;
+            card.hidden = !hit;
+            if (hit) { shown++; subAny = true; }
+          });
+          const keep = !needle || subHit || subAny;
+          sub.hidden = !keep;
+          if (active && keep) sub.open = true;
+          catAny = catAny || keep;
+        });
+        const keep = !needle || catHit || catAny;
+        catEl.hidden = !keep;
+        if (active && keep) catEl.open = true;
+      });
+      if (nomatch) nomatch.hidden = shown > 0 || !active;
+    };
+    const search = document.querySelector<HTMLElement & { value: string }>('esa-text-field[name="list-search"]');
+    if (search) {
+      const read = () => search.value ?? search.shadowRoot?.querySelector('input')?.value ?? '';
+      const on = () => { filters.needle = read().trim(); apply(); };
+      search.addEventListener('input', on);
+      search.addEventListener('change', on);
+    }
+    const catPick = document.querySelector<HTMLElement & { value: string; options: { label: string; value: string }[] }>(
+      'esa-select[name="list-search-category"]',
+    );
+    catPick?.addEventListener('change', () => { filters.cat = catPick.value ?? ''; apply(); });
+
+    // ---- Expand / collapse. With no per row disclosure verbs on this tree, the pair
+    // works both branch levels: open every category and every subcategory, or close
+    // them. The requirements stay where the reader left them; they are reference.
+    const setAll = (open: boolean) => {
+      qa<HTMLDetailsElement>('[data-list-cat]').forEach((c) => (c.open = open));
+      qa<HTMLDetailsElement>('[data-list-sub]').forEach((s) => (s.open = open));
+    };
+    document.querySelector('[data-list-expand]')?.addEventListener('click', () => setAll(true));
+    document.querySelector('[data-list-collapse]')?.addEventListener('click', () => setAll(false));
+
+    // ---- Editing in place. One mechanism, two subjects: a branch name renamed for
+    // this list, and an obligation's list description. Focus, select the contents,
+    // and commit on Enter, Escape or blur; emptied, each falls back to what the
+    // registry says rather than to a placeholder.
+    const startEdit = (el: HTMLElement, commit: (text: string) => void) => {
+      if (el.isContentEditable) return;
+      el.textContent = el.dataset.listText ?? el.textContent ?? '';
+      el.contentEditable = 'true';
+      el.classList.add('is-editing');
+      el.focus();
+      const sel = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      sel?.removeAllRanges();
+      sel?.addRange(range);
+      const done = () => {
+        el.contentEditable = 'false';
+        el.classList.remove('is-editing');
+        commit((el.textContent ?? '').replace(/\s+/g, ' ').trim());
+        apply();
+      };
+      el.addEventListener('blur', done, { once: true });
+      el.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === 'Escape') { ev.preventDefault(); el.blur(); }
+      });
+    };
+
+    // A renamed row shows the registry's own name beside it, labelled, so the two
+    // names are never set side by side for the reader to relate. Renaming a row that
+    // was not renamed before is what reveals that secondary.
+    const rename = (row: HTMLElement) => {
+      const name = row.querySelector<HTMLElement>('[data-list-name]');
+      if (!name) return;
+      startEdit(name, (text) => {
+        const registry = name.dataset.registryName ?? '';
+        const next = text || registry;
+        name.textContent = next;
+        name.dataset.listText = next;
+        const mark = row.querySelector<HTMLElement>('[data-list-registry]');
+        if (mark) {
+          mark.textContent = `Registry: ${registry}`;
+          mark.hidden = !registry || next === registry;
+        }
+      });
+    };
+
+    const editDescription = (card: HTMLElement) => {
+      const el = card.querySelector<HTMLElement>('[data-list-desc]');
+      if (!el) return;
+      startEdit(el, (text) => {
+        const registry = el.dataset.registryDesc ?? '';
+        const next = text || registry;
+        el.textContent = next;
+        el.dataset.listText = next;
+        const overridden = !!next && next !== registry;
+        el.dataset.overridden = String(overridden);
+        const mark = card.querySelector<HTMLElement>('[data-list-edited]');
+        if (mark) mark.hidden = !overridden;
+      });
+    };
+
+    // ---- Remove from list. The guard is not the danger variant: nothing is
+    // destroyed, the member row comes off and the obligation stays in the registry.
+    type Confirm = HTMLElement & { open: boolean; message: string };
+    const guard = q<Confirm>('[data-list-confirm]');
+    let pending: (() => void) | null = null;
+    guard?.addEventListener('confirm', () => { pending?.(); pending = null; });
+    guard?.addEventListener('cancel', () => { pending = null; });
+    guard?.addEventListener('dismiss', () => { pending = null; });
+    const drop = (card: HTMLElement) => {
+      card.setAttribute('data-list-removed', '');
+      card.hidden = true;
+      recount();
+      apply();
+    };
+    const removeFromList = (card: HTMLElement) => {
+      if (!guard) { drop(card); return; }
+      const title = card.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? '';
+      pending = () => drop(card);
+      guard.message = `"${title}" comes off ${listName}. The obligation stays in the project's obligation registry.`;
+      guard.open = true;
+    };
+
+    // ---- Members added from the picker. An item already on the page is revealed
+    // again; anything else is stamped, creating its subcategory and its category when
+    // this list does not hold them yet.
+    const setBranchName = (branch: HTMLElement, name: string) => {
+      const el = branch.querySelector<HTMLElement>('[data-list-name]')!;
+      el.textContent = name;
+      el.dataset.listText = name;
+      el.dataset.registryName = name;
+      const mark = branch.querySelector<HTMLElement>('[data-list-registry]');
+      if (mark) mark.hidden = true;
+    };
+    const buildCard = (item: AddedItem) => {
+      const card = tpl('obl');
+      card.dataset.id = item.id;
+      card.dataset.class = item.class;
+      const tag = card.querySelector<HTMLElement>('[data-list-class-tag]');
+      if (tag) tag.textContent = CLASS_LABEL[item.class] ?? item.class;
+      const title = card.querySelector<HTMLElement>('[data-list-title]')!;
+      title.textContent = item.title;
+      title.dataset.listText = item.title;
+      const remove = card.querySelector<HTMLElement>('[data-list-remove]');
+      if (remove) remove.dataset.id = item.id;
+      const desc = card.querySelector<HTMLElement>('[data-list-desc]')!;
+      desc.textContent = item.description;
+      desc.dataset.listText = item.description;
+      desc.dataset.registryDesc = item.description;
+      desc.dataset.overridden = 'false';
+      const edited = card.querySelector<HTMLElement>('[data-list-edited]');
+      if (edited) edited.hidden = true;
+      // The stamp ships one requirement row; it is the prototype for this member's own.
+      const list = card.querySelector<HTMLElement>('.bcn-loc__reqs')!;
+      const proto = list.querySelector<HTMLElement>('[data-list-req]')!;
+      proto.remove();
+      item.reqs.forEach((r) => {
+        const row = proto.cloneNode(true) as HTMLElement;
+        row.dataset.code = r.code;
+        const chip = row.querySelector<HTMLElement>('.bcn-cbadge');
+        if (chip) chip.textContent = r.code;
+        const name = row.querySelector<HTMLElement>('.bcn-loc__req-name')!;
+        name.textContent = r.name;
+        name.dataset.listText = r.name;
+        list.append(row);
+      });
+      return card;
+    };
+    const addItem = (item: AddedItem) => {
+      const existing = cards().find((c) => c.dataset.id === item.id);
+      if (existing) {
+        existing.removeAttribute('data-list-removed');
+        existing.hidden = false;
+        const sub = existing.closest<HTMLDetailsElement>('[data-list-sub]');
+        const cat = existing.closest<HTMLDetailsElement>('[data-list-cat]');
+        if (sub) sub.open = true;
+        if (cat) cat.open = true;
+        flash(existing);
+        return;
+      }
+      let cat = qa<HTMLDetailsElement>('[data-list-cat]').find((c) => c.dataset.listCat === item.catId) ?? null;
+      if (!cat) {
+        cat = tpl('cat') as HTMLDetailsElement;
+        cat.dataset.listCat = item.catId;
+        setBranchName(cat, item.catName);
+        q('[data-list-cats]')!.append(cat);
+        if (catPick) catPick.options = [...(catPick.options ?? []), { label: item.catName, value: item.catId }];
+      }
+      let sub = qa<HTMLDetailsElement>('[data-list-sub]', cat).find((s) => s.dataset.listSub === item.subId) ?? null;
+      if (!sub) {
+        sub = tpl('sub') as HTMLDetailsElement;
+        sub.dataset.listSub = item.subId;
+        setBranchName(sub, item.subName);
+        cat.querySelector('[data-list-subs]')!.append(sub);
+      }
+      const card = buildCard(item);
+      sub.querySelector('[data-list-cards]')!.append(card);
+      cat.open = true;
+      sub.open = true;
+      flash(card);
+    };
+    document.addEventListener('list:members-added', (e) => {
+      const items = (e as CustomEvent<{ items: AddedItem[] }>).detail?.items ?? [];
+      items.forEach(addItem);
+      recount();
+      apply();
+    });
+
+    // ---- Verbs. Three of them on the whole tree: rename a branch, edit a
+    // description, take an obligation off the list.
+    root.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('.is-editing')) { e.preventDefault(); return; }
+      const btn = t.closest<HTMLElement>('button');
+      if (btn?.matches('[data-list-rename]')) {
+        e.preventDefault();
+        rename(btn.closest('summary')!);
+        return;
+      }
+      if (btn?.matches('[data-list-desc-edit]')) {
+        e.preventDefault();
+        editDescription(btn.closest<HTMLElement>('[data-list-card]')!);
+        return;
+      }
+      if (btn?.matches('[data-list-remove]')) {
+        e.preventDefault();
+        removeFromList(btn.closest<HTMLElement>('[data-list-card]')!);
+        return;
+      }
+      // The description is its own affordance: clicking the sentence edits it.
+      const desc = t.closest<HTMLElement>('[data-list-desc]');
+      if (desc) editDescription(desc.closest<HTMLElement>('[data-list-card]')!);
+    });
+
+    recount();
+  }
+</script>
+
+<style>
+  .bcn-lot {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+  }
+  .bcn-lot__filters { border-bottom: 1px solid var(--color-border-default); }
+  .bcn-lot__verb-label { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  .bcn-lot__nomatch { margin: 0; padding: var(--spacing-300) var(--spacing-400); color: var(--color-content-default-tertiary); font-style: italic; }
+
+  .bcn-lot__body { display: flex; flex-direction: column; }
+  /* Categories: a full-strength rule between them, and every second one on a light
+     gray ground; subcategories separated by the subtle rule. Step 5's banding. */
+  .bcn-lot__cat { border-bottom: 1px solid var(--color-border-default); }
+  .bcn-lot__cat:nth-of-type(even) { background: color-mix(in srgb, var(--color-background-default) 50%, white); }
+  .bcn-lot__cat:nth-of-type(even) .bcn-lot__row:hover { background: var(--color-background-default); }
+  .bcn-lot__sub + .bcn-lot__sub { border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-lot__cat:last-of-type { border-bottom: none; }
+  .bcn-lot__cat[hidden], .bcn-lot__sub[hidden] { display: none; }
+  /* A list shows only what it holds: a branch holding no member drops out. */
+  .bcn-lot__cat[data-list-empty], .bcn-lot__sub[data-list-empty] { display: none; }
+
+  .bcn-lot__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 34px;
+    padding: var(--spacing-100) var(--spacing-400);
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 120ms ease;
+  }
+  .bcn-lot__row::-webkit-details-marker { display: none; }
+  .bcn-lot__row:hover { background: var(--color-background-default); }
+  .bcn-lot__row:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
+  .bcn-lot__row--cat { font-weight: 600; }
+  .bcn-lot__row--sub { padding-left: calc(var(--spacing-400) + 22px); }
+  .bcn-lot__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
+  details[open] > .bcn-lot__row .bcn-lot__chevron { transform: rotate(90deg); }
+  .bcn-lot__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-radius: 2px; padding: 0 2px; }
+  .bcn-lot__name.is-editing {
+    outline: 2px solid var(--color-obligation);
+    outline-offset: 0;
+    background: var(--color-background-elevation-raised);
+    font-weight: 500;
+    cursor: text;
+    user-select: text;
+  }
+  /* The registry's own name for a row this list renamed. Labelled, never a bare
+     second name set beside the first. */
+  .bcn-lot__registry {
+    flex-shrink: 0;
+    font-weight: 400;
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-lot__registry[hidden] { display: none; }
+
+  /* One verb per row, quiet until the row is hovered or holds focus. */
+  .bcn-lot__verbs { display: inline-flex; gap: 2px; margin-left: auto; }
+  .bcn-lot__verbs esa-tooltip { display: inline-flex; }
+  .bcn-lot__verb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-100);
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+  .bcn-lot__row:hover .bcn-lot__verb, .bcn-lot__row:focus-within .bcn-lot__verb { opacity: 1; }
+  .bcn-lot__verb:hover { background: var(--color-background-default-hover); color: var(--color-content-default); }
+  .bcn-lot__verb:focus-visible { opacity: 1; outline: 2px solid var(--color-obligation); outline-offset: 1px; }
+
+  .bcn-lot__subs { display: flex; flex-direction: column; }
+  .bcn-lot__cards {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-200) var(--spacing-400) var(--spacing-300) calc(var(--spacing-400) + 44px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+</style>
+
+<style is:global>
+  /* Search hits are painted by script, so they sit outside the scope id. */
+  .bcn-lot__hit { background: #fff176; color: inherit; border-radius: 2px; padding: 0 1px; }
+  .bcn-lot__hit-chip { box-shadow: 0 0 0 2px #fff176; }
+</style>
