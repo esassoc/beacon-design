@@ -1,0 +1,90 @@
+---
+// One obligation list.
+//
+// The list IS the export: a Word document for a construction kickoff, a CSV, and the
+// field elements of a Fulcrum form. So this page is where its contents and its wording
+// get right — not where the registry gets edited. Members can leave the list, categories
+// and subcategories can be renamed for this list alone, and every obligation carries a
+// description that overrides the registry's for this output. Nothing here changes the
+// registry, and nothing here refiles anything: filing belongs to the registry tree in
+// Setup Wizard step 5.
+//
+// Requirements render under each obligation for reference only. They are the reason an
+// obligation exists, so they are worth seeing while you write its description, but they
+// are not editable from a list.
+//
+// Every value is read from the ObligationList record in src/data/lists.ts. The tree is
+// listTree(list); the add drawer is candidateTree(list); the export preview is
+// formFields(list). All three are pure derivations, so the JSON a contractor's form is
+// built from cannot drift from what this page shows.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnSwCountBadge from '../../../components/bcn/BcnSwCountBadge.astro';
+import BcnListActions from '../../../components/bcn/BcnListActions.astro';
+import BcnListObligationTree from '../../../components/bcn/BcnListObligationTree.astro';
+import BcnListDetailsRail from '../../../components/bcn/BcnListDetailsRail.astro';
+import BcnListAddObligations from '../../../components/bcn/BcnListAddObligations.astro';
+import BcnListExportDialog from '../../../components/bcn/BcnListExportDialog.astro';
+import BcnListEditDetailsDialog from '../../../components/bcn/BcnListEditDetailsDialog.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { OBLIGATION_LISTS, memberCountLabel } from '../../../data/lists';
+import { withBase } from '../../../lib/base';
+
+export function getStaticPaths() {
+  return OBLIGATION_LISTS.map((list) => ({ params: { id: list.id }, props: { list } }));
+}
+
+const { list } = Astro.props;
+---
+
+<!-- manifest:
+  layout: PageLayout > sidebar(end)                        # SPINE
+  sections:
+    - title actions   -> bcn-list-actions                  # Edit details, Export menu, Add obligations
+    - obligation tree -> bcn-list-obligation-tree          # category > subcategory > bcn-list-obligation-card; rename for this list, remove from list, per-list description
+    - details rail    -> bcn-list-details-rail             # the list record: name, description, type, created, last updated, member count
+    - add members     -> bcn-list-add-obligations          # right drawer over candidateTree(list), checkboxes, emits list:members-added
+    - export preview  -> bcn-list-export-dialog            # formFields(list) as Fulcrum form elements
+    - edit details    -> bcn-list-edit-details-dialog      # name and description
+-->
+
+<AppShell
+  title={list.name}
+  tenantName={PROJECT.tenant}
+  projectName="Delta Conveyance"
+  activeNavId="lists"
+  expandedSections={['project']}
+>
+  <PageLayout
+    title={list.name}
+    icon="notepad-text"
+    breadcrumbs={[
+      { label: 'Project', href: '#project' },
+      { label: 'Lists', href: withBase('/prototypes/lists') },
+      { label: list.name },
+    ]}
+  >
+    <Fragment slot="title-badge">
+      {/* The tree rewrites this badge on every add and remove, so the header and the
+          tree can never report different member counts. */}
+      <span data-list-count="title">
+        <BcnSwCountBadge value={list.memberCount} label={memberCountLabel(list.type, list.memberCount)} />
+      </span>
+    </Fragment>
+    <Fragment slot="utilities">
+      <BcnListActions />
+    </Fragment>
+
+    {/* .sidebar puts its FIRST child in the aside slot; data-side="end" then orders that
+        child to the right. So the rail is first in the DOM and the tree is last. The rail
+        holds no focusable element, so the visual/DOM split costs nothing in tab order. */}
+    <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 18rem; --sidebar-content-min: 66%;">
+      <BcnListDetailsRail list={list} />
+      <BcnListObligationTree list={list} />
+    </div>
+
+    <BcnListAddObligations list={list} />
+    <BcnListExportDialog list={list} />
+    <BcnListEditDetailsDialog list={list} />
+  </PageLayout>
+</AppShell>

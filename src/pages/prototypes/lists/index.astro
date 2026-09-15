@@ -1,0 +1,49 @@
+---
+// Lists — one index for every list on the project, of any type.
+//
+// A list is a named subset of one of the project's three registries: actions,
+// obligations, commitments. Beacon ships Action Lists and Commitment Lists as
+// separate nav entries today; this page replaces both with a single index, because
+// the thing a user looks for is "the list called X", not "the action list called X".
+// The three types keep their own detail surfaces — they are different shapes and are
+// deliberately NOT unified into one editor.
+//
+// Only obligation lists have a detail page in this branch; action and commitment rows
+// carry stub hrefs.
+//
+// Every row is read from PROJECT_LISTS in src/data/lists.ts. The action lists and their
+// counts are the twelve on the live project.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnListIndexBoard from '../../../components/bcn/BcnListIndexBoard.astro';
+import BcnListCreateDialog from '../../../components/bcn/BcnListCreateDialog.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { PROJECT_LISTS } from '../../../data/lists';
+---
+
+<!-- manifest:
+  layout: PageLayout > stack(md)                      # SPINE
+  sections:
+    - lists index -> bcn-list-index-board             # segmented type filter over one flat stack of bcn-list-card rows
+    - add list    -> bcn-list-create-dialog           # type first, then name and description; bound to the title row's Add list
+-->
+
+<AppShell
+  title="Lists"
+  tenantName={PROJECT.tenant}
+  projectName="Delta Conveyance"
+  activeNavId="lists"
+  expandedSections={['project']}
+>
+  <PageLayout
+    title="Lists"
+    icon="notepad-text"
+    breadcrumbs={[{ label: 'Project', href: '#project' }, { label: 'Lists' }]}
+  >
+    <EsaButton slot="utilities" variant="primary" size="sm" data-list-create>Add list</EsaButton>
+
+    <BcnListIndexBoard lists={PROJECT_LISTS} />
+    <BcnListCreateDialog />
+  </PageLayout>
+</AppShell>

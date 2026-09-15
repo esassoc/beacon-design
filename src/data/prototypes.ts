@@ -695,4 +695,31 @@ export const prototypeGroups: PrototypeGroup[] = [
       },
     ],
   },
+  {
+    slug: 'lists',
+    tenant: 'dcp',
+    title: 'Lists',
+    description:
+      'One index for every list on a project, of any type: action, obligation or commitment. The obligation list opens to its own page, where the registry tree is scoped to the list, renamed and rewritten for this output, and exported as a Word document, a CSV, or the field elements of a Fulcrum form.',
+    pages: [
+      {
+        slug: 'lists-index',
+        title: 'Lists',
+        description:
+          'Every list on the project in one stack, filtered by type, each row carrying its name, its member count and when it last changed. Add list picks the type first, then the name and description.',
+        route: '/prototypes/lists',
+        createdAt: '2026-09-15',
+        status: 'in-progress',
+      },
+      {
+        slug: 'lists-obligation-detail',
+        title: 'Obligation list',
+        description:
+          'One obligation list as the registry tree scoped to its members: categories and subcategories renamed for this list alone, each obligation carrying its own description for the output, requirements shown for reference. Export previews the derived Fulcrum form fields.',
+        route: '/prototypes/lists/construction-kickoff-summary',
+        createdAt: '2026-09-15',
+        status: 'in-progress',
+      },
+    ],
+  },
 ];
