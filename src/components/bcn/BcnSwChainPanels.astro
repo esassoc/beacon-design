@@ -1,0 +1,630 @@
+---
+// <BcnSwChainPanels> — the drawers behind the chain view (bcn-sw-chain-tree). Three,
+// stacked right to left as they open:
+//
+//   1. The requirement panel. Opened from any requirement row: the commitment it
+//      came from, its exact source text, the obligations it is in (each with Edit and
+//      Unlink), the actions it is in (read-only context for why it may be in no
+//      obligation), and two verbs: Add to an obligation, New obligation from this one.
+//   2. The obligation editor, over it. The same anatomy as the registry's editor —
+//      Title, Description, Class, Category / Subcategory, Trigger, Requirements — but
+//      filled from this file's store rather than from a registry card, since the
+//      chain page has no cards. Save rewrites every requirement row the change
+//      touches; Remove asks first.
+//   3. The picker, over both: pick the obligation a requirement goes to, or the
+//      requirements an obligation links.
+//
+// The store is the JSON island below (every obligation with its requirement ids,
+// every requirement with its text and actions, the taxonomy). The tree's obligation
+// leaves are rewritten from it after every change, so the list and the drawers never
+// disagree; `swc:changed` tells the tree to recount.
+//
+// bcn-lego-checked: all three frames ARE esa-side-dialog; the controls are
+// esa-text-field, esa-textarea, esa-select, esa-checkbox, esa-button; the delete guard
+// IS esa-confirm-dialog. Rows are native buttons with role=option because
+// esa-list-item is not selectable.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import {
+  COMMITMENT_CHAIN,
+  OBLIGATION_CLASS_LABEL,
+  OBLIGATION_NODES,
+  OBLIGATION_FILING,
+  OBLIGATION_TREE,
+  REQUIREMENT_TYPE_LABEL,
+  STEP_GLYPH,
+} from '../../data/setup-wizard';
+
+const CLASS_OPTIONS = JSON.stringify(
+  (['adhere', 'monitor', 'notify', 'roster'] as const).map((c) => ({ label: OBLIGATION_CLASS_LABEL[c], value: c })),
+);
+const CATEGORY_OPTIONS = JSON.stringify(OBLIGATION_TREE.map((c) => ({ label: c.name, value: c.id })));
+
+const obligations: Record<string, unknown> = {};
+for (const o of OBLIGATION_NODES) {
+  const f = OBLIGATION_FILING.get(o.id);
+  obligations[o.id] = { title: o.title, description: o.description, class: o.class, trigger: o.trigger, cat: f?.catId ?? '', sub: f?.subId ?? '', reqIds: o.requirements.map((r) => r.id) };
+}
+const requirements: Record<string, unknown> = {};
+for (const c of COMMITMENT_CHAIN)
+  for (const r of c.requirements)
+    requirements[r.id] = { code: c.code, commitment: c.title, name: r.name, text: r.text, type: REQUIREMENT_TYPE_LABEL[r.type], actions: r.actions };
+const DATA = JSON.stringify({
+  obligations,
+  requirements,
+  classes: OBLIGATION_CLASS_LABEL,
+  taxonomy: OBLIGATION_TREE.map((c) => ({ id: c.id, name: c.name, subs: c.subcategories.map((s) => ({ id: s.id, name: s.name })) })),
+});
+---
+
+<!-- 1. The requirement. -->
+<esa-side-dialog
+  id="swc-req"
+  heading="Requirement"
+  position="right"
+  style="--_width: min(640px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
+  <div class="bcn-swcp">
+    <p class="bcn-swcp__meta">
+      <span class="bcn-swcp__code" data-swc-req-code></span>
+      <span class="bcn-swcp__cmt" data-swc-req-cmt></span>
+      <span class="bcn-swcp__sep">·</span>
+      <span data-swc-req-type></span>
+    </p>
+    <blockquote class="bcn-swcp__text" data-swc-req-text></blockquote>
+
+    <div class="bcn-swcp__section">
+      <div class="bcn-swcp__label-row">
+        <span class="bcn-swcp__label">Obligations <span class="bcn-swcp__label-n" data-swc-req-obl-n>0</span></span>
+        <span class="bcn-swcp__label-verbs">
+          <EsaButton variant="ghost" size="xs" data-swc-req-add>
+            <span class="bcn-swcp__verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />Add to an obligation</span>
+          </EsaButton>
+          <EsaButton variant="ghost" size="xs" data-swc-req-new>
+            <span class="bcn-swcp__verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />New obligation</span>
+          </EsaButton>
+        </span>
+      </div>
+      <div class="bcn-swcp__list" data-swc-req-obls></div>
+      <p class="bcn-swcp__empty" data-swc-req-obl-empty hidden>Not in any obligation.</p>
+    </div>
+
+    <div class="bcn-swcp__section">
+      <div class="bcn-swcp__label-row">
+        <span class="bcn-swcp__label">Actions <span class="bcn-swcp__label-n" data-swc-req-act-n>0</span></span>
+      </div>
+      <div class="bcn-swcp__list" data-swc-req-acts></div>
+      <p class="bcn-swcp__empty" data-swc-req-act-empty hidden>Not in any action.</p>
+    </div>
+  </div>
+  <span slot="footer" class="bcn-swcp__foot bcn-swcp__foot--end">
+    <EsaButton variant="ghost" size="sm" data-swc-req-close>Close</EsaButton>
+  </span>
+
+  <template data-swc-tpl="panel-obl">
+    <div class="bcn-swcp__row" data-obl="">
+      <span class="bcn-swcp__class"></span>
+      <button type="button" class="bcn-swcp__row-title" data-swc-panel-edit></button>
+      <span class="bcn-swcp__filing"></span>
+      <span class="bcn-swcp__row-verbs">
+        <esa-tooltip text="Edit"><button type="button" class="bcn-swcp__x" aria-label="Edit obligation" data-swc-panel-edit><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+        <esa-tooltip text="Unlink" align="end"><button type="button" class="bcn-swcp__x bcn-swcp__x--danger" aria-label="Unlink from this obligation" data-swc-panel-unlink><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+      </span>
+    </div>
+  </template>
+  <template data-swc-tpl="panel-act">
+    <div class="bcn-swcp__row bcn-swcp__row--quiet"><span class="bcn-swcp__row-name"></span></div>
+  </template>
+</esa-side-dialog>
+
+<!-- 2. The obligation, over the requirement. -->
+<esa-side-dialog
+  id="swc-obl"
+  heading="Obligation"
+  position="right"
+  style="--_width: min(600px, 92vw); --z-modal: 1400; --z-modal-backdrop: 1350;">
+  <form class="bcn-swcp bcn-swcp--form" data-swc-obl-form>
+    <esa-text-field label="Title" size="sm" name="swc-title" required></esa-text-field>
+    <esa-textarea label="Description" size="sm" rows={3} name="swc-description" placeholder="What the project is held to, in a sentence or two."></esa-textarea>
+    <esa-select label="Class" size="sm" options={CLASS_OPTIONS} name="swc-class" required></esa-select>
+    <div class="bcn-swcp__pair">
+      <esa-select label="Category" size="sm" options={CATEGORY_OPTIONS} name="swc-category" required></esa-select>
+      <esa-select label="Subcategory" size="sm" options="[]" name="swc-subcategory" required></esa-select>
+    </div>
+    <esa-textarea label="Trigger" size="sm" rows={2} name="swc-trigger"></esa-textarea>
+
+    <div class="bcn-swcp__section">
+      <div class="bcn-swcp__label-row">
+        <span class="bcn-swcp__label">Requirements <span class="bcn-swcp__label-n" data-swc-obl-req-n>0</span></span>
+        <EsaButton variant="ghost" size="xs" data-swc-obl-link>
+          <span class="bcn-swcp__verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />Link requirement</span>
+        </EsaButton>
+      </div>
+      <div class="bcn-swcp__list" data-swc-obl-reqs></div>
+      <p class="bcn-swcp__empty" data-swc-obl-req-empty hidden>No requirements linked. This obligation has nothing to stand on.</p>
+    </div>
+  </form>
+  <span slot="footer" class="bcn-swcp__foot">
+    <EsaButton variant="danger" appearance="soft" size="sm" data-swc-obl-remove>Remove obligation</EsaButton>
+    <span class="bcn-swcp__foot-right">
+      <EsaButton variant="ghost" size="sm" data-swc-obl-cancel>Cancel</EsaButton>
+      <EsaButton variant="primary" size="sm" data-swc-obl-save>Save</EsaButton>
+    </span>
+  </span>
+
+  <template data-swc-tpl="obl-req">
+    <details class="bcn-swcp__req" data-req="">
+      <summary class="bcn-swcp__row">
+        <span class="bcn-swcp__chev" aria-hidden="true"><EsaIcon name="chevron-right" size="xs" /></span>
+        <span class="bcn-swcp__code"></span>
+        <span class="bcn-swcp__row-name"></span>
+        <span class="bcn-swcp__row-verbs">
+          <esa-tooltip text="Unlink" align="end"><button type="button" class="bcn-swcp__x bcn-swcp__x--danger" aria-label="Unlink requirement" data-swc-obl-unlink><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+        </span>
+      </summary>
+      <blockquote class="bcn-swcp__text bcn-swcp__text--nested"></blockquote>
+    </details>
+  </template>
+</esa-side-dialog>
+
+<!-- 3. The picker, over both. -->
+<esa-side-dialog
+  id="swc-pick"
+  heading="Add to an obligation"
+  position="right"
+  style="--_width: min(460px, 90vw); --z-modal: 1500; --z-modal-backdrop: 1450;">
+  <div class="bcn-swcp bcn-swcp--pick">
+    <esa-text-field size="sm" name="swc-pick-search" placeholder="Search…" aria-label="Search"></esa-text-field>
+    <p class="bcn-swcp__meta bcn-swcp__meta--quiet" data-swc-pick-meta></p>
+    <div class="bcn-swcp__list" data-swc-pick-list role="listbox"></div>
+  </div>
+  <span slot="footer" class="bcn-swcp__foot bcn-swcp__foot--end">
+    <EsaButton variant="ghost" size="sm" data-swc-pick-cancel>Cancel</EsaButton>
+    <EsaButton variant="primary" size="sm" data-swc-pick-ok>Add</EsaButton>
+  </span>
+
+  <template data-swc-tpl="pick-obl">
+    <button type="button" class="bcn-swcp__opt" role="option" aria-selected="false">
+      <span class="bcn-swcp__class"></span>
+      <span class="bcn-swcp__row-name"></span>
+      <span class="bcn-swcp__n"></span>
+    </button>
+  </template>
+  <template data-swc-tpl="pick-req">
+    <button type="button" class="bcn-swcp__opt" role="option" aria-selected="false">
+      <esa-checkbox size="sm" aria-hidden="true" tabindex="-1"></esa-checkbox>
+      <span class="bcn-swcp__code"></span>
+      <span class="bcn-swcp__row-name"></span>
+    </button>
+  </template>
+  <template data-swc-tpl="pick-group"><div class="bcn-swcp__group" role="presentation"></div></template>
+</esa-side-dialog>
+
+<esa-confirm-dialog
+  data-swc-confirm
+  variant="danger"
+  heading="Remove this obligation?"
+  confirm-label="Remove"
+  cancel-label="Cancel"
+  show-close-button
+  style="--z-modal: 1600; --z-modal-backdrop: 1550;"></esa-confirm-dialog>
+
+<script type="application/json" id="swc-data" set:html={DATA}></script>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-tooltip';
+
+  type Obl = { title: string; description: string; class: string; trigger: string; cat: string; sub: string; reqIds: string[] };
+  type Req = { code: string; commitment: string; name: string; text: string; type: string; actions: { id: string; name: string }[] };
+  type Data = {
+    obligations: Record<string, Obl>;
+    requirements: Record<string, Req>;
+    classes: Record<string, string>;
+    taxonomy: { id: string; name: string; subs: { id: string; name: string }[] }[];
+  };
+  type Drawer = HTMLElement & { open: boolean; heading: string };
+  type Valued = HTMLElement & { value: string };
+  type Selectish = Valued & { options: unknown[] };
+  type Confirm = HTMLElement & { open: boolean; heading: string; message: string };
+
+  const data = JSON.parse(document.getElementById('swc-data')?.textContent ?? '{}') as Data;
+  const reqPanel = document.getElementById('swc-req') as Drawer | null;
+  const oblPanel = document.getElementById('swc-obl') as Drawer | null;
+  const picker = document.getElementById('swc-pick') as Drawer | null;
+  const confirm = document.querySelector<Confirm>('[data-swc-confirm]');
+  const tree = document.querySelector<HTMLElement>('[data-swc-tree]');
+
+  const q = <T extends HTMLElement = HTMLElement>(host: HTMLElement | null, sel: string) => host?.querySelector<T>(sel) ?? null;
+  const tpl = (host: HTMLElement | null, name: string) =>
+    (host?.querySelector<HTMLTemplateElement>(`template[data-swc-tpl="${name}"]`)!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+  const field = (name: string) => q<Valued>(oblPanel, `[name="${name}"]`);
+  const changed = () => document.dispatchEvent(new CustomEvent('swc:changed'));
+  const flat = (s: string) => s.replace(/\s*\n\s*/g, ' ');
+  const flash = (el: HTMLElement) => { el.classList.add('is-new'); setTimeout(() => el.classList.remove('is-new'), 1000); };
+  const ready = (tags: string[]) => Promise.all(tags.map((t) => customElements.whenDefined(t)));
+
+  const filing = (o: Obl) => {
+    const cat = data.taxonomy.find((c) => c.id === o.cat);
+    const sub = cat?.subs.find((s) => s.id === o.sub);
+    return `${cat?.name ?? 'Unfiled'} › ${sub?.name ?? 'Unfiled'}`;
+  };
+  const oblsOf = (reqId: string) => Object.entries(data.obligations).filter(([, o]) => o.reqIds.includes(reqId));
+
+  // ---- The tree's leaves are rewritten from the store, one requirement at a time.
+  const renderTreeReq = (reqId: string) => {
+    const row = tree?.querySelector<HTMLElement>(`[data-swc-req="${reqId}"]`);
+    const host = row?.querySelector<HTMLElement>('[data-swc-obls]');
+    if (!row || !host) return;
+    host.replaceChildren();
+    for (const [id, o] of oblsOf(reqId)) {
+      const li = tpl(tree, 'obl');
+      li.dataset.swcObl = id;
+      li.dataset.class = o.class;
+      li.querySelector('[data-swc-class]')!.textContent = data.classes[o.class] ?? o.class;
+      const t = li.querySelector<HTMLElement>('.bcn-swc__obl-title')!;
+      t.textContent = o.title;
+      t.dataset.swcText = o.title;
+      li.querySelector('[data-swc-filing]')!.textContent = filing(o);
+      host.append(li);
+    }
+  };
+  const renderTreeReqs = (ids: Iterable<string>) => { for (const id of new Set(ids)) renderTreeReq(id); changed(); };
+
+  // ---- 1. The requirement panel.
+  let currentReq: string | null = null;
+  const renderReqPanel = () => {
+    if (!reqPanel || !currentReq) return;
+    const r = data.requirements[currentReq];
+    if (!r) return;
+    reqPanel.heading = r.name;
+    q(reqPanel, '[data-swc-req-code]')!.textContent = r.code;
+    q(reqPanel, '[data-swc-req-cmt]')!.textContent = r.commitment;
+    q(reqPanel, '[data-swc-req-type]')!.textContent = r.type;
+    q(reqPanel, '[data-swc-req-text]')!.textContent = flat(r.text);
+    const obls = oblsOf(currentReq);
+    const oblHost = q(reqPanel, '[data-swc-req-obls]')!;
+    oblHost.replaceChildren();
+    for (const [id, o] of obls) {
+      const d = tpl(reqPanel, 'panel-obl');
+      d.dataset.obl = id;
+      d.querySelector('.bcn-swcp__class')!.textContent = data.classes[o.class] ?? o.class;
+      d.querySelector('.bcn-swcp__row-title')!.textContent = o.title;
+      d.querySelector('.bcn-swcp__filing')!.textContent = filing(o);
+      oblHost.append(d);
+    }
+    q(reqPanel, '[data-swc-req-obl-n]')!.textContent = String(obls.length);
+    q(reqPanel, '[data-swc-req-obl-empty]')!.hidden = obls.length > 0;
+    const actHost = q(reqPanel, '[data-swc-req-acts]')!;
+    actHost.replaceChildren();
+    for (const a of r.actions) {
+      const d = tpl(reqPanel, 'panel-act');
+      d.querySelector('.bcn-swcp__row-name')!.textContent = a.name;
+      actHost.append(d);
+    }
+    q(reqPanel, '[data-swc-req-act-n]')!.textContent = String(r.actions.length);
+    q(reqPanel, '[data-swc-req-act-empty]')!.hidden = r.actions.length > 0;
+  };
+  const openReq = (id: string) =>
+    ready(['esa-side-dialog']).then(() => {
+      currentReq = id;
+      renderReqPanel();
+      reqPanel!.open = true;
+    });
+
+  const unlink = (reqId: string, oblId: string) => {
+    const o = data.obligations[oblId];
+    if (!o) return;
+    o.reqIds = o.reqIds.filter((x) => x !== reqId);
+    renderTreeReqs([reqId]);
+    if (reqPanel?.open) renderReqPanel();
+  };
+
+  // ---- 2. The obligation editor. `draft` is the working copy; Save commits it.
+  let currentObl: string | null = null;
+  let draft: Obl | null = null;
+  let minted = 0;
+  const setHeading = (v: string) => { if (oblPanel) oblPanel.heading = v.trim() || 'Untitled obligation'; };
+  const titleField = field('swc-title');
+  titleField?.addEventListener('input', () => setHeading(titleField.value));
+  titleField?.addEventListener('change', () => setHeading(titleField.value));
+  const setSubOptions = (catId: string, subId?: string) => {
+    const sel = field('swc-subcategory') as Selectish | null;
+    const cat = data.taxonomy.find((c) => c.id === catId);
+    if (!sel) return;
+    sel.options = (cat?.subs ?? []).map((s) => ({ label: s.name, value: s.id }));
+    sel.value = subId && cat?.subs.some((s) => s.id === subId) ? subId : cat?.subs[0]?.id ?? '';
+  };
+  field('swc-category')?.addEventListener('change', (e) => setSubOptions((e.target as Valued).value));
+
+  const renderOblReqs = () => {
+    const host = q(oblPanel, '[data-swc-obl-reqs]');
+    if (!host || !draft) return;
+    host.replaceChildren();
+    for (const id of draft.reqIds) {
+      const r = data.requirements[id];
+      if (!r) continue;
+      const d = tpl(oblPanel, 'obl-req');
+      d.dataset.req = id;
+      d.querySelector('.bcn-swcp__code')!.textContent = r.code;
+      d.querySelector('.bcn-swcp__row-name')!.textContent = r.name;
+      d.querySelector('.bcn-swcp__text')!.textContent = flat(r.text);
+      host.append(d);
+    }
+    (host.firstElementChild as HTMLDetailsElement | null)?.setAttribute('open', '');
+    q(oblPanel, '[data-swc-obl-req-n]')!.textContent = String(draft.reqIds.length);
+    q(oblPanel, '[data-swc-obl-req-empty]')!.hidden = draft.reqIds.length > 0;
+  };
+  const openObl = (id: string | null, seedReq?: string) =>
+    ready(['esa-side-dialog', 'esa-select', 'esa-text-field', 'esa-textarea']).then(() => {
+      if (!oblPanel) return;
+      currentObl = id;
+      const base: Obl = id && data.obligations[id]
+        ? data.obligations[id]
+        : { title: '', description: '', class: 'adhere', trigger: '', cat: data.taxonomy[0]?.id ?? '', sub: data.taxonomy[0]?.subs[0]?.id ?? '', reqIds: seedReq ? [seedReq] : [] };
+      draft = { ...base, reqIds: [...base.reqIds] };
+      field('swc-title')!.value = draft.title;
+      setHeading(draft.title || (id ? '' : 'New obligation'));
+      field('swc-description')!.value = draft.description;
+      field('swc-class')!.value = draft.class;
+      field('swc-category')!.value = draft.cat;
+      setSubOptions(draft.cat, draft.sub);
+      field('swc-trigger')!.value = draft.trigger;
+      q<HTMLElement>(oblPanel, '[data-swc-obl-remove]')!.style.display = id ? '' : 'none';
+      renderOblReqs();
+      oblPanel.open = true;
+    });
+
+  q(oblPanel, '[data-swc-obl-reqs]')?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-swc-obl-unlink]');
+    if (!btn || !draft) return;
+    e.preventDefault();
+    const id = btn.closest<HTMLElement>('[data-req]')!.dataset.req!;
+    draft.reqIds = draft.reqIds.filter((x) => x !== id);
+    renderOblReqs();
+  });
+  q(oblPanel, '[data-swc-obl-link]')?.addEventListener('click', (e) => { e.preventDefault(); openPicker('link'); });
+  q(oblPanel, '[data-swc-obl-cancel]')?.addEventListener('click', () => (oblPanel!.open = false));
+  q(oblPanel, '[data-swc-obl-save]')?.addEventListener('click', () => {
+    if (!draft || !oblPanel) return;
+    const id = currentObl ?? `obl-new-${++minted}`;
+    const before = data.obligations[id]?.reqIds ?? [];
+    data.obligations[id] = {
+      title: field('swc-title')!.value.trim() || 'Untitled obligation',
+      description: field('swc-description')!.value,
+      class: field('swc-class')!.value || 'adhere',
+      trigger: field('swc-trigger')!.value,
+      cat: field('swc-category')!.value,
+      sub: field('swc-subcategory')!.value,
+      reqIds: [...draft.reqIds],
+    };
+    oblPanel.open = false;
+    renderTreeReqs([...before, ...draft.reqIds]);
+    draft.reqIds.forEach((rid) => {
+      tree?.querySelector<HTMLElement>(`[data-swc-req="${rid}"] [data-swc-obl="${id}"]`)?.classList.add('is-new');
+      const row = tree?.querySelector<HTMLDetailsElement>(`[data-swc-req="${rid}"]`);
+      if (row) { row.open = true; (row.closest('[data-swc-cmt]') as HTMLDetailsElement | null)?.setAttribute('open', ''); }
+    });
+    setTimeout(() => tree?.querySelectorAll('.is-new').forEach((el) => el.classList.remove('is-new')), 1000);
+    if (reqPanel?.open) renderReqPanel();
+  });
+  q(oblPanel, '[data-swc-obl-remove]')?.addEventListener('click', () => {
+    if (!confirm || !currentObl) return;
+    const o = data.obligations[currentObl];
+    confirm.heading = `Remove "${o?.title ?? 'this obligation'}"?`;
+    confirm.message = o?.reqIds.length
+      ? `Its ${o.reqIds.length} ${o.reqIds.length === 1 ? 'requirement stays' : 'requirements stay'} in the permit, no longer in this obligation.`
+      : 'It has no requirements.';
+    confirm.open = true;
+  });
+  confirm?.addEventListener('confirm', () => {
+    confirm.open = false;
+    if (!currentObl) return;
+    const before = data.obligations[currentObl]?.reqIds ?? [];
+    delete data.obligations[currentObl];
+    if (oblPanel) oblPanel.open = false;
+    renderTreeReqs(before);
+    if (reqPanel?.open) renderReqPanel();
+    currentObl = null;
+  });
+
+  // ---- 3. The picker: one list, two modes.
+  type Mode = 'add' | 'link';
+  let mode: Mode = 'add';
+  const selected = new Set<string>();
+  const pickList = q(picker, '[data-swc-pick-list]');
+  const pickMeta = q(picker, '[data-swc-pick-meta]');
+  const pickSearch = q<Valued>(picker, '[name="swc-pick-search"]');
+  const pickOk = q<HTMLButtonElement>(picker, '[data-swc-pick-ok]');
+  const CAP = 60;
+  if (pickOk) pickOk.disabled = true;
+  const paint = (b: HTMLElement) => {
+    const on = selected.has(b.dataset.id ?? '');
+    b.setAttribute('aria-selected', String(on));
+    const cb = b.querySelector('esa-checkbox') as (HTMLElement & { checked: boolean }) | null;
+    if (cb) cb.checked = on;
+  };
+  const syncOk = () => {
+    if (!pickOk) return;
+    pickOk.disabled = selected.size === 0;
+    pickOk.textContent = mode === 'add' ? 'Add' : selected.size > 1 ? `Link ${selected.size}` : 'Link';
+  };
+  const renderPick = () => {
+    if (!pickList || !pickMeta) return;
+    const needle = (pickSearch?.value ?? '').trim().toLowerCase();
+    pickList.replaceChildren();
+    if (mode === 'add') {
+      pickList.removeAttribute('aria-multiselectable');
+      const already = new Set(currentReq ? oblsOf(currentReq).map(([id]) => id) : []);
+      const groups = new Map<string, [string, Obl][]>();
+      for (const [id, o] of Object.entries(data.obligations)) {
+        if (already.has(id)) continue;
+        const where = filing(o);
+        if (needle && !`${where} ${o.title} ${data.classes[o.class] ?? ''}`.toLowerCase().includes(needle)) continue;
+        groups.set(where, [...(groups.get(where) ?? []), [id, o]]);
+      }
+      let n = 0;
+      [...groups.entries()].sort(([a], [b]) => a.localeCompare(b)).forEach(([where, rows]) => {
+        const g = tpl(picker, 'pick-group');
+        g.textContent = where;
+        pickList.append(g);
+        rows.sort(([, a], [, b]) => a.title.localeCompare(b.title)).forEach(([id, o]) => {
+          n++;
+          const b = tpl(picker, 'pick-obl');
+          b.dataset.id = id;
+          b.querySelector('.bcn-swcp__class')!.textContent = data.classes[o.class] ?? o.class;
+          b.querySelector('.bcn-swcp__row-name')!.textContent = o.title;
+          b.querySelector('.bcn-swcp__n')!.textContent = String(o.reqIds.length);
+          pickList.append(b);
+        });
+      });
+      pickMeta.textContent = `${n} ${n === 1 ? 'obligation' : 'obligations'}${needle ? ' match' : ''}${already.size ? `; already in ${already.size}` : ''}.`;
+    } else {
+      pickList.setAttribute('aria-multiselectable', 'true');
+      const linked = new Set(draft?.reqIds ?? []);
+      const all = Object.entries(data.requirements).filter(([id]) => !linked.has(id));
+      const hits = needle ? all.filter(([, r]) => `${r.code} ${r.commitment} ${r.name} ${r.text}`.toLowerCase().includes(needle)) : all;
+      hits.slice(0, CAP).forEach(([id, r]) => {
+        const b = tpl(picker, 'pick-req');
+        b.dataset.id = id;
+        b.querySelector('.bcn-swcp__code')!.textContent = r.code;
+        b.querySelector('.bcn-swcp__row-name')!.textContent = r.name;
+        pickList.append(b);
+      });
+      pickMeta.textContent = hits.length > CAP ? `Showing ${CAP} of ${hits.length}. Narrow the search.` : `${hits.length} of the permit's ${all.length + linked.size} requirements${linked.size ? `; ${linked.size} already linked here` : ''}.`;
+    }
+    pickList.querySelectorAll<HTMLElement>('[role="option"]').forEach(paint);
+  };
+  const openPicker = (m: Mode) => {
+    if (!picker) return;
+    mode = m;
+    selected.clear();
+    picker.heading = m === 'add' ? 'Add to an obligation' : 'Link requirements';
+    if (pickSearch) pickSearch.value = '';
+    ready(['esa-checkbox', 'esa-text-field', 'esa-side-dialog']).then(() => {
+      renderPick();
+      syncOk();
+      picker.open = true;
+    });
+  };
+  pickList?.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
+    if (!b) return;
+    e.preventDefault();
+    const id = b.dataset.id ?? '';
+    if (mode === 'link') {
+      if (selected.has(id)) selected.delete(id);
+      else selected.add(id);
+      paint(b);
+    } else {
+      selected.clear();
+      selected.add(id);
+      pickList.querySelectorAll<HTMLElement>('[role="option"]').forEach(paint);
+    }
+    syncOk();
+  });
+  pickSearch?.addEventListener('input', renderPick);
+  pickSearch?.addEventListener('change', renderPick);
+  q(picker, '[data-swc-pick-cancel]')?.addEventListener('click', () => (picker!.open = false));
+  pickOk?.addEventListener('click', () => {
+    if (!picker) return;
+    if (mode === 'add' && currentReq) {
+      const oblId = [...selected][0];
+      const o = oblId ? data.obligations[oblId] : null;
+      if (o && !o.reqIds.includes(currentReq)) o.reqIds.push(currentReq);
+      picker.open = false;
+      renderTreeReqs([currentReq]);
+      const row = tree?.querySelector<HTMLDetailsElement>(`[data-swc-req="${currentReq}"]`);
+      if (row) { row.open = true; const li = row.querySelector<HTMLElement>(`[data-swc-obl="${oblId}"]`); if (li) flash(li); }
+      renderReqPanel();
+    } else if (mode === 'link' && draft) {
+      selected.forEach((id) => { if (!draft!.reqIds.includes(id)) draft!.reqIds.push(id); });
+      picker.open = false;
+      renderOblReqs();
+    }
+  });
+
+  // ---- Wiring: the tree's rows and the requirement panel's rows.
+  document.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    const inTree = t.closest('[data-swc-tree]');
+    if (inTree) {
+      const reqId = t.closest<HTMLElement>('[data-swc-req]')?.dataset.swcReq ?? '';
+      const oblId = t.closest<HTMLElement>('[data-swc-obl]')?.dataset.swcObl ?? '';
+      if (t.closest('[data-swc-unlink]')) { e.preventDefault(); unlink(reqId, oblId); }
+      else if (t.closest('[data-swc-edit]')) { e.preventDefault(); openObl(oblId); }
+      else if (t.closest('[data-swc-add]')) { e.preventDefault(); openReq(reqId).then(() => openPicker('add')); }
+      else if (t.closest('[data-swc-open]')) { e.preventDefault(); openReq(reqId); }
+      return;
+    }
+    if (reqPanel && t.closest('#swc-req')) {
+      const oblId = t.closest<HTMLElement>('[data-obl]')?.dataset.obl ?? '';
+      if (t.closest('[data-swc-panel-unlink]') && currentReq) unlink(currentReq, oblId);
+      else if (t.closest('[data-swc-panel-edit]')) openObl(oblId);
+      else if (t.closest('[data-swc-req-add]')) openPicker('add');
+      else if (t.closest('[data-swc-req-new]') && currentReq) openObl(null, currentReq);
+      else if (t.closest('[data-swc-req-close]')) reqPanel.open = false;
+    }
+  });
+</script>
+
+<style>
+  .bcn-swcp { display: flex; flex-direction: column; gap: var(--spacing-400); font-size: 0.8125rem; }
+  .bcn-swcp--pick { gap: var(--spacing-200); }
+  .bcn-swcp__pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-300); align-items: start; }
+  .bcn-swcp__meta { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-200); color: var(--color-content-default-secondary); }
+  .bcn-swcp__meta--quiet { font-size: 0.75rem; color: var(--color-content-default-tertiary); }
+  .bcn-swcp__cmt { font-weight: 500; color: var(--color-content-default); }
+  .bcn-swcp__sep { color: var(--bcn-gray-400); }
+  .bcn-swcp__section { display: flex; flex-direction: column; gap: var(--spacing-150); min-width: 0; }
+  .bcn-swcp__label-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-200); flex-wrap: wrap; }
+  .bcn-swcp__label { font-size: 0.75rem; font-weight: 500; color: var(--form-label-color, #646464); }
+  .bcn-swcp__label-n { font-weight: 400; color: var(--color-content-default-tertiary); margin-left: var(--spacing-100); }
+  .bcn-swcp__label-verbs { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  .bcn-swcp__empty { margin: 0; font-size: 0.75rem; font-style: italic; color: var(--color-content-default-tertiary); }
+  .bcn-swcp__verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  .bcn-swcp__list { display: flex; flex-direction: column; border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-swcp__list:empty { border-top: none; }
+</style>
+
+<style is:global>
+  /* Rows in every drawer are stamped by script, outside the scope id. */
+  .bcn-swcp__row { display: flex; align-items: center; gap: var(--spacing-200); min-height: 30px; padding: var(--spacing-100) var(--spacing-100); border-bottom: 1px solid var(--color-border-default-subtle); list-style: none; font-size: 0.8125rem; }
+  .bcn-swcp__row::-webkit-details-marker { display: none; }
+  .bcn-swcp__row--quiet { color: var(--color-content-default-secondary); }
+  summary.bcn-swcp__row { cursor: pointer; }
+  summary.bcn-swcp__row:hover { background: var(--color-background-default); }
+  .bcn-swcp__chev { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
+  .bcn-swcp__req[open] > .bcn-swcp__row .bcn-swcp__chev { transform: rotate(90deg); }
+  .bcn-swcp__code { flex-shrink: 0; font-family: var(--typography-font-family-mono); font-weight: 600; font-size: 0.6875rem; color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); border-radius: var(--radius-100); padding: 1px 6px; }
+  .bcn-swcp__class { flex-shrink: 0; padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.6875rem; font-weight: 500; background: var(--bcn-gray-100); color: var(--color-content-default-secondary); }
+  .bcn-swcp__row-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-swcp__row-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0; border: none; background: transparent; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+  .bcn-swcp__row-title:hover { text-decoration: underline; }
+  .bcn-swcp__filing { flex-shrink: 0; font-size: 0.6875rem; color: var(--color-content-default-tertiary); white-space: nowrap; }
+  .bcn-swcp__n { flex-shrink: 0; font-size: 0.6875rem; color: var(--color-content-default-tertiary); }
+  .bcn-swcp__row-verbs { display: inline-flex; flex-shrink: 0; gap: 2px; opacity: 0; transition: opacity 120ms ease; }
+  .bcn-swcp__row-verbs esa-tooltip { display: inline-flex; }
+  .bcn-swcp__row:hover .bcn-swcp__row-verbs, .bcn-swcp__row:focus-within .bcn-swcp__row-verbs { opacity: 1; }
+  .bcn-swcp__x { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: none; background: transparent; border-radius: var(--radius-100); color: var(--color-content-default-tertiary); cursor: pointer; }
+  .bcn-swcp__x:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
+  .bcn-swcp__x--danger:hover { color: var(--color-background-utility-danger); }
+  .bcn-swcp__text { margin: 0; padding: var(--spacing-200) var(--spacing-300); border-left: 3px solid var(--color-commitment); background: var(--color-background-default); font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
+  .bcn-swcp__text--nested { margin: 0 0 var(--spacing-200) calc(var(--spacing-100) + 20px); }
+  .bcn-swcp__req { border-bottom: 1px solid var(--color-border-default-subtle); }
+  .bcn-swcp__req > .bcn-swcp__row { border-bottom: none; }
+
+  .bcn-swcp__foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-200); }
+  .bcn-swcp__foot--end { justify-content: flex-end; }
+  .bcn-swcp__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+
+  .bcn-swcp__group { padding: var(--spacing-200) var(--spacing-100) var(--spacing-100); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-content-default-tertiary); }
+  .bcn-swcp__opt { display: flex; align-items: center; gap: var(--spacing-200); width: 100%; min-height: 32px; padding: var(--spacing-100) var(--spacing-150); border: none; border-bottom: 1px solid var(--color-border-default-subtle); background: transparent; border-radius: 0; text-align: left; font: inherit; font-size: 0.8125rem; color: var(--color-content-default); cursor: pointer; }
+  .bcn-swcp__opt:hover { background: var(--color-background-default); }
+  .bcn-swcp__opt[aria-selected='true'] { background: color-mix(in srgb, var(--color-obligation) 8%, white); }
+  .bcn-swcp__opt esa-checkbox { pointer-events: none; flex-shrink: 0; }
+</style>

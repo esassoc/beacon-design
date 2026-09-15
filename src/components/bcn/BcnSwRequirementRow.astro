@@ -1,0 +1,93 @@
+---
+// <BcnSwRequirementRow> — prod's <requirement-row> in its draggable form
+// (requirement-row.component, origin/develop): a slim white card, 8×12 padding, 6px
+// radius; grip, chevron, the commitment-code chip, the one-line name. The 2026-09-14
+// addition is the pair of quiet routing verbs at the right, shown on hover the way
+// prod shows its remove control: send this requirement to an obligation, or mark it
+// not applicable with a reason. Both are static here.
+//
+// bcn-lego-checked: esa-list-item / esa-card carry their own padding and type scale;
+// prod's row is a bespoke 15px flex line. Beacon HAS the row; this is it under a bcn-
+// name. The code chip IS BcnCommitmentBadge (prod's client-commitment-id), the glyphs
+// are esa-icon, the verbs are esa-button.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+
+interface Props {
+  code: string;
+  name: string;
+  /** Show the routing verbs (step 4's left column); off for rows inside an action. */
+  routable?: boolean;
+}
+const { code, name, routable = false } = Astro.props;
+---
+
+<div class="bcn-swrr">
+  <div class="bcn-swrr__main" role="button" tabindex="0" aria-expanded="false" aria-label={`Expand ${name}`}>
+    <span class="bcn-swrr__grip" aria-hidden="true"><EsaIcon name="grip-vertical" size="md" paths={STEP_GLYPH['grip-vertical']} /></span>
+    <span class="bcn-swrr__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="md" /></span>
+    <BcnCommitmentBadge code={code} size="sm" />
+    <span class="bcn-swrr__name">{name}</span>
+    {routable && (
+      <span class="bcn-swrr__verbs">
+        <EsaButton variant="ghost" size="xs" title="Route to an obligation instead of an action">To obligation</EsaButton>
+        <EsaButton variant="ghost" size="xs" title="Mark not applicable, with a reason">Not applicable</EsaButton>
+      </span>
+    )}
+  </div>
+</div>
+
+<style>
+  .bcn-swrr {
+    flex-shrink: 0;
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: 6px;
+    background: var(--color-background-elevation-raised);
+    overflow: hidden;
+    transition: border-color 120ms ease;
+  }
+  .bcn-swrr:hover { border-color: var(--color-border-default); }
+  .bcn-swrr__main {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
+    cursor: pointer;
+    transition: background-color 120ms ease;
+  }
+  .bcn-swrr__main:hover { background: var(--color-background-default); }
+  .bcn-swrr__main:focus-visible { outline: 2px solid var(--color-action); outline-offset: -2px; }
+  .bcn-swrr__grip { display: inline-flex; flex-shrink: 0; color: var(--bcn-gray-400); cursor: grab; }
+  .bcn-swrr__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); }
+  .bcn-swrr__name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.9375rem;
+    color: var(--color-content-default);
+  }
+  /* The routing verbs float over the right edge on hover so the name keeps the row's width. */
+  .bcn-swrr__main { position: relative; }
+  .bcn-swrr__verbs {
+    position: absolute;
+    right: var(--spacing-200);
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    padding-left: var(--spacing-400);
+    background: linear-gradient(to right, transparent, var(--color-background-default) var(--spacing-300));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease;
+  }
+  .bcn-swrr__main:hover .bcn-swrr__verbs,
+  .bcn-swrr__main:focus-within .bcn-swrr__verbs { pointer-events: auto; }
+  .bcn-swrr__main:hover .bcn-swrr__verbs,
+  .bcn-swrr__main:focus-within .bcn-swrr__verbs { opacity: 1; }
+</style>

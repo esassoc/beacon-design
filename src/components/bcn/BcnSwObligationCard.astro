@@ -1,0 +1,191 @@
+---
+// <BcnSwObligationCard> — one obligation in the registry tree, with its requirements
+// as children, the way an action card carries its linked requirements. The card line:
+// grip, chevron, class tag, the one-line statement, the requirement count, and the
+// pencil and × that appear on hover. Clicking the statement or the pencil opens the
+// editor drawer; the chevron folds the children. Each child row is a requirement:
+// grip, commitment code, name, a faint "also in n actions" when it is, and two hover
+// verbs — Duplicate (a copy that can be dragged somewhere else, since a requirement
+// may sit in several obligations) and Unlink.
+//
+// Drag contract (wired by bcn-sw-obligations-tree): the card is draggable as an
+// obligation, each child as a requirement; the card line is a drop target for
+// requirements. Everything is 13px.
+//
+// bcn-lego-checked: esa-card / esa-list-item carry their own type scale; esa-tree-view
+// has no card leaf. Beacon HAS this card shape (action-card + linked requirements).
+// The code chip IS BcnCommitmentBadge, the count IS bcn-sw-count-badge, glyphs esa-icon.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import { OBLIGATION_CLASS_LABEL, STEP_GLYPH, type ObligationNode } from '../../data/setup-wizard';
+
+interface Props {
+  obligation: ObligationNode;
+  /** Children folded open on load. */
+  open?: boolean;
+}
+const { obligation: o, open = false } = Astro.props;
+---
+
+<li class="bcn-swoc" data-swo-card data-id={o.id} data-class={o.class} draggable="true" data-swo-drag="obligation">
+  <details class="bcn-swoc__node" data-swo-branch open={open}>
+    <summary class="bcn-swoc__main" data-swo-drop="obligation">
+      <esa-tooltip text="Drag to move"><span class="bcn-swoc__grip" aria-hidden="true"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span></esa-tooltip>
+      <span class="bcn-swoc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+      <span class="bcn-swoc__class" data-swo-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
+      <button type="button" class="bcn-swoc__title" data-swo-open data-swo-text={o.title}>{o.title}</button>
+      <span data-swo-count="obligation"><BcnSwCountBadge value={o.requirements.length} label={`${o.requirements.length} requirements`} /></span>
+      <esa-tooltip text="Edit"><button type="button" class="bcn-swoc__verb" aria-label="Edit obligation" data-swo-open>
+        <EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} />
+      </button></esa-tooltip>
+      <esa-tooltip text="Remove"><button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" aria-label="Remove obligation" data-swo-remove>
+        <EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} />
+      </button></esa-tooltip>
+    </summary>
+    <ul class="bcn-swoc__reqs">
+      {o.requirements.map((r) => (
+        <li class="bcn-swoc__req" draggable="true" data-swo-drag="requirement" data-req={r.id} data-code={r.code}>
+          <esa-tooltip text="Drag to move"><span class="bcn-swoc__grip" aria-hidden="true"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span></esa-tooltip>
+          <BcnCommitmentBadge code={r.code} size="sm" />
+          <span class="bcn-swoc__req-name" data-swo-text={r.name}>{r.name}</span>
+          {r.inActions > 0 && <span class="bcn-swoc__also">also in {r.inActions} {r.inActions === 1 ? 'action' : 'actions'}</span>}
+          <esa-tooltip text="Duplicate"><button type="button" class="bcn-swoc__verb" aria-label="Duplicate requirement" data-swo-dup>
+            <EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} />
+          </button></esa-tooltip>
+          <esa-tooltip text="Unlink"><button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" aria-label="Unlink requirement" data-swo-unlink>
+            <EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} />
+          </button></esa-tooltip>
+        </li>
+      ))}
+    </ul>
+  </details>
+</li>
+
+<style>
+  .bcn-swoc {
+    list-style: none;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border-default);
+    border-radius: 6px;
+    background: var(--color-background-elevation-raised);
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .bcn-swoc:hover { border-color: var(--color-border-default-strong); }
+  .bcn-swoc[hidden] { display: none; }
+  .bcn-swoc.is-dragging { opacity: 0.4; }
+  .bcn-swoc__node { min-width: 0; }
+
+  .bcn-swoc__main {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-300);
+    min-width: 0;
+    list-style: none;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 120ms ease, box-shadow 120ms ease;
+  }
+  .bcn-swoc__main::-webkit-details-marker { display: none; }
+  .bcn-swoc__main:hover { background: var(--color-background-default); }
+  .bcn-swoc__main.is-over { box-shadow: inset 0 0 0 2px var(--color-obligation); background: color-mix(in srgb, var(--color-obligation) 6%, transparent); }
+  .bcn-swoc__main:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
+  details[open] > .bcn-swoc__main { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+
+  .bcn-swoc__grip { display: inline-flex; flex-shrink: 0; color: var(--bcn-gray-400); cursor: grab; }
+  .bcn-swoc__grip:active { cursor: grabbing; }
+  .bcn-swoc__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
+  details[open] > summary .bcn-swoc__chevron { transform: rotate(90deg); }
+
+  /* The class tag sits at its natural width, tinted from the obligation end of the
+     setup ramp: adhere in the step's own pink, then the ramp's next hues for the others. */
+  .bcn-swoc__class {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    background: color-mix(in srgb, var(--_hue) 14%, white);
+    color: color-mix(in srgb, var(--_hue) 78%, black);
+  }
+  .bcn-swoc[data-class='adhere'] { --_hue: var(--color-obligation); }
+  .bcn-swoc[data-class='monitor'] { --_hue: #ff7c43; }
+  .bcn-swoc[data-class='notify'] { --_hue: #ffa600; }
+  .bcn-swoc[data-class='roster'] { --_hue: var(--color-action); }
+  .bcn-swoc__title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    border: none;
+    background: transparent;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  .bcn-swoc__title:hover { text-decoration: underline; text-underline-offset: 2px; }
+  .bcn-swoc__title:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 2px; border-radius: 2px; }
+
+  /* Each verb and grip sits in an esa-tooltip; inline-flex so the row has no text baseline to honour. */
+  .bcn-swoc esa-tooltip { display: inline-flex; }
+  .bcn-swoc__verb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-100);
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 120ms ease, color 120ms ease, background-color 120ms ease;
+  }
+  .bcn-swoc__main:hover .bcn-swoc__verb,
+  .bcn-swoc__req:hover .bcn-swoc__verb,
+  .bcn-swoc__verb:focus-visible { opacity: 1; }
+  .bcn-swoc__verb:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
+  .bcn-swoc__verb--danger:hover { color: var(--color-background-utility-danger); }
+
+  /* Children: the requirement rows, indented under the statement, hairline-separated. */
+  .bcn-swoc__reqs {
+    list-style: none;
+    margin: 0;
+    padding: 0 var(--spacing-300) var(--spacing-150) calc(var(--spacing-300) + 22px);
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-swoc__reqs:empty::after {
+    content: 'No requirements — drop one here or remove this obligation.';
+    display: block;
+    padding: var(--spacing-100) var(--spacing-200);
+    color: var(--color-content-default-tertiary);
+    font-style: italic;
+  }
+  .bcn-swoc__req {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 28px;
+    padding: var(--spacing-050) var(--spacing-200);
+    border-top: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-100);
+  }
+  .bcn-swoc__req:hover { background: var(--color-background-default); }
+  .bcn-swoc__req.is-dragging { opacity: 0.4; }
+  .bcn-swoc__req.is-new { animation: bcn-swoc-flash 900ms ease-out; }
+  .bcn-swoc__req-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-swoc__also { flex-shrink: 0; font-size: 0.6875rem; color: var(--color-content-default-tertiary); white-space: nowrap; }
+  @keyframes bcn-swoc-flash { from { background: color-mix(in srgb, var(--color-obligation) 14%, transparent); } to { background: transparent; } }
+</style>

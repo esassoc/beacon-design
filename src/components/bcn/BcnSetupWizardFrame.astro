@@ -1,0 +1,200 @@
+---
+// <BcnSetupWizardFrame> — the Setup Wizard's own chrome, ported from prod's
+// project-setup-layout + setup-wizard-step-nav (origin/develop): the compass
+// mark and serif title, the one-line subtitle, then the horizontal step nav —
+// five pills joined by dotted connectors, the active step filled in its entity
+// color, completed steps carrying a check. The page's content renders in the
+// default slot beneath it.
+//
+// The step list is the shared SETUP_STEPS (src/data/setup-wizard.ts), so the
+// dashboard card, this nav and the overview page number the same five steps in
+// the same five colors. Prod's nav has four; the fifth, Obligations, is the
+// 2026-09-14 change this frame exists to carry.
+//
+// bcn-lego-checked: no esa-* lego is a horizontal step nav — esa-breadcrumbs is
+// path navigation, esa-tab-layout switches panels in place rather than routing,
+// esa-progress-bar is a single ratio (catalog re-listed 2026-09-14, still no
+// stepper). Beacon prod HAS this exact component (setup-wizard-step-nav), so
+// this is a faithful port of it under a bcn- name; the mark and glyphs are
+// esa-icon, and bcn-setup-wizard-frame is the reusable home for every wizard
+// step page.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { SETUP_STEPS, COMPLETE_STEPS, STEP_GLYPH, type SetupStepId } from '../../data/setup-wizard';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** The step this page is; omitted on the overview, where no pill is filled. */
+  active?: SetupStepId;
+  /** Steps rendered complete (check mark). Defaults to the fixture's 1–3. */
+  complete?: SetupStepId[];
+  /** Root-relative route of the wizard home; the title links there. */
+  homeHref?: string;
+}
+
+const { active, complete = COMPLETE_STEPS, homeHref = '/prototypes/setup-wizard' } = Astro.props;
+const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
+---
+
+<div class="bcn-swf">
+  <header class="bcn-swf__head">
+    <a class="bcn-swf__home" href={linkHref(homeHref)}>
+      <span class="bcn-swf__mark" aria-hidden="true"><EsaIcon name="compass" size="xs" paths={STEP_GLYPH.compass} /></span>
+      <h1 class="bcn-swf__title">Setup Wizard</h1>
+    </a>
+    <p class="bcn-swf__sub">From source documents to trackable actions and obligations.</p>
+  </header>
+
+  <nav class="bcn-swf__nav" aria-label="Setup wizard steps">
+    <ol class="bcn-swf__steps">
+      {
+        SETUP_STEPS.map((s, i) => {
+          const isActive = s.id === active;
+          const isDone = complete.includes(s.id);
+          return (
+            <li class="bcn-swf__item">
+              <a
+                class="bcn-swf__step"
+                data-active={isActive ? '' : undefined}
+                data-complete={isDone ? '' : undefined}
+                aria-current={isActive ? 'step' : undefined}
+                href={linkHref(s.href)}
+                style={`--_step: var(--color-${s.token});`}
+              >
+                <span class="bcn-swf__icon" aria-hidden="true"><EsaIcon name={s.id} size="sm" paths={s.iconPaths} /></span>
+                <span class="bcn-swf__label">{s.label}</span>
+                {isDone && (
+                  <span class="bcn-swf__check" aria-label="Step complete"><EsaIcon name="check" size="xs" paths={STEP_GLYPH.check} /></span>
+                )}
+              </a>
+              {i < SETUP_STEPS.length - 1 && <span class="bcn-swf__connector" aria-hidden="true" />}
+            </li>
+          );
+        })
+      }
+    </ol>
+  </nav>
+
+  <div class="bcn-swf__body">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .bcn-swf {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  /* Header — prod's .setup-header: mark + serif title, subtitle beside it. */
+  .bcn-swf__head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-300);
+    padding: var(--spacing-200) 0 var(--spacing-400);
+  }
+  .bcn-swf__home {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    color: inherit;
+    text-decoration: none;
+    border-radius: var(--radius-200);
+  }
+  .bcn-swf__home:hover .bcn-swf__title { text-decoration: underline; }
+  .bcn-swf__home:focus-visible {
+    outline: 2px solid var(--color-background-brand);
+    outline-offset: 2px;
+  }
+  .bcn-swf__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--bcn-teal-600, var(--color-background-brand));
+    color: var(--color-content-default-knockout);
+  }
+  .bcn-swf__title {
+    margin: 0;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    line-height: 1.2;
+    color: var(--color-content-default);
+  }
+  .bcn-swf__sub {
+    margin: 0;
+    font-size: var(--font-size-150);
+    line-height: 1;
+    color: var(--color-content-default-secondary);
+  }
+
+  /* Step nav — prod's .step-nav, verbatim geometry. */
+  .bcn-swf__nav { padding: 0 0 var(--spacing-500); }
+  .bcn-swf__steps {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-swf__item {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-swf__item:last-child { flex: 0 0 auto; }
+
+  .bcn-swf__step {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
+    border-radius: var(--radius-200);
+    text-decoration: none;
+    font-size: var(--font-size-100);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+    white-space: nowrap;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+  .bcn-swf__icon { display: inline-flex; flex-shrink: 0; color: var(--_step); }
+  .bcn-swf__check { display: inline-flex; flex-shrink: 0; margin-left: var(--spacing-100); color: var(--_step); }
+  .bcn-swf__label { line-height: 1; }
+
+  /* Hover and active both fill the pill with the step color (prod). */
+  .bcn-swf__step:hover,
+  .bcn-swf__step[data-active] {
+    background: var(--_step);
+    color: var(--color-content-default-knockout);
+  }
+  .bcn-swf__step:hover .bcn-swf__icon,
+  .bcn-swf__step:hover .bcn-swf__check,
+  .bcn-swf__step[data-active] .bcn-swf__icon,
+  .bcn-swf__step[data-active] .bcn-swf__check {
+    color: var(--color-content-default-knockout);
+  }
+  .bcn-swf__step:focus-visible {
+    outline: 2px solid var(--color-background-brand);
+    outline-offset: 2px;
+  }
+
+  .bcn-swf__connector {
+    flex: 1;
+    height: 0;
+    margin: 0 var(--spacing-200);
+    border-top: 2px dotted var(--color-border-default);
+  }
+
+  .bcn-swf__body { flex: 1; min-width: 0; }
+
+  @media (max-width: 900px) {
+    .bcn-swf__label { display: none; }
+    .bcn-swf__step[data-active] .bcn-swf__label { display: inline; }
+  }
+</style>
