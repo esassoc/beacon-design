@@ -36,7 +36,7 @@
 // expose. esa-card is chrome for a content block, not a list row. Checked Beacon
 // prod: its widget configuration is a fixed form with no per-section rows to port.
 // bcn-config-sections is the reusable home for the bar and its disclosure.
-import { WIDGETS, sectionDefs } from '../../data/monitoring-streams';
+import { WIDGETS, sectionDefs, SECTION_DISPLAYS } from '../../data/monitoring-streams';
 ---
 
 {/* One block per widget type; the page unhides the open one. */}
@@ -61,14 +61,28 @@ import { WIDGETS, sectionDefs } from '../../data/monitoring-streams';
               </svg>
             </button>
 
-            {/* The switch carries the NAME, so the bar has one label rather than a
-                label and a separately-associated control. */}
-            <esa-switch-toggle
-              class="bcn-cfgsec__switch"
-              data-cfgsec-toggle
-              size="sm"
-              label={s.label}
-            ></esa-switch-toggle>
+            {/* TITLE OVER SUBTITLE (Jamie, 2026-09-10): the row says which part of the
+                widget it operates, then what KIND of display that part is. This is
+                where that pattern belongs — a row in a list has no chart beside it to
+                make "donut" obvious, which is exactly the ambiguity the subtitle
+                removes. (It was built on the board's headings first, on a misread.)
+
+                The switch keeps carrying the title as its own label so the control is
+                properly named and the words are part of its hit target — the subtitle
+                is descriptive text, not something to click. It takes `title`, the
+                concise form, rather than the verbose `label`: at 396px "Outstanding
+                issues needing attention" wrapped to two lines and collided with the
+                caret. `label` still names the grip and caret buttons below, where the
+                long form is the unambiguous one. */}
+            <span class="bcn-cfgsec__name">
+              <esa-switch-toggle
+                class="bcn-cfgsec__switch"
+                data-cfgsec-toggle
+                size="sm"
+                label={s.title}
+              ></esa-switch-toggle>
+              <span class="bcn-cfgsec__sub typography-microcopy-xs-subtle">{SECTION_DISPLAYS[s.display]}</span>
+            </span>
 
             {s.settings && s.settings.length > 0 && (
               <button
@@ -196,11 +210,60 @@ import { WIDGETS, sectionDefs } from '../../data/monitoring-streams';
     padding-block: var(--spacing-300);
   }
 
-  /* The switch takes the slack so the caret sits at the trailing edge and every bar
-     in the list agrees about where its controls are. */
-  .bcn-cfgsec__switch {
+  /* The NAME BLOCK takes the slack so the caret sits at the trailing edge and every
+     bar in the list agrees about where its controls are. It used to be the switch
+     itself; the switch is now inside it, with the subtitle under it. */
+  .bcn-cfgsec__name {
+    display: block;
     flex: 1;
     min-inline-size: 0;
+  }
+
+  .bcn-cfgsec__switch {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  /* ── THE TITLE, dropped a rung to what the subtitle used to wear (Jamie,
+        2026-09-10): label-sm in secondary ink. A row title is not a heading — it
+        names a control in a list of six, under a "Sections" group label that has
+        already said what the list is.
+        ::part(label) is the LEGO'S OWN PUBLIC SURFACE, not a reach-in: the span is
+        exposed as part="label" precisely so a consumer can restyle it, and outer-tree
+        ::part rules outrank the shadow tree's own typography-body-md class. The whole
+        composite is restated because a role is five properties, and taking the size
+        without the leading and letter-spacing is how a type ramp gets half-applied. ── */
+  .bcn-cfgsec__switch::part(label) {
+    font-family: var(--typography-label-sm-font-family);
+    font-size: var(--typography-label-sm-font-size);
+    font-weight: var(--typography-label-sm-font-weight);
+    line-height: var(--typography-label-sm-line-height);
+    letter-spacing: var(--typography-label-sm-letter-spacing);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* ── THE SUBTITLE, a rung below the title on all three axes: microcopy-xs-subtle is
+        font-size-100 (12px here) at weight 350 where label-sm is 14px at 500, and the
+        ink steps from secondary to tertiary. The class is applied in markup; only the
+        indent and colour are set here.
+
+        CHECK THE SPOKE, NOT THE HUB, before calling a token a dead end. In the hub's
+        own tokens.css `-tertiary` and `-muted` both alias --color-gray-11 — the same
+        value `-secondary` resolves to — so on that reading there was no lighter step
+        short of --color-content-disabled at 3.32:1, which fails AA at 12px. But
+        theme-beacon re-points them: measured in the browser, secondary is #525252
+        (7.81:1 on white) and tertiary is #656565 (5.83:1), a real step lighter that
+        still clears AA comfortably. The resolved value is the fact; the hub's
+        aliasing is not. ── */
+  .bcn-cfgsec__sub {
+    display: block;
+    /* Aligned under the switch's own label text, not under the switch. That text sits
+       inside the shadow root past the 32px sm track and the button's --spacing-200
+       gap, so the indent is reconstructed from the lego's published size ramp rather
+       than eyeballed — measured after the fact at 0px misalignment. If the hub
+       retunes the sm track this drifts by the difference, visibly and only here. */
+    padding-inline-start: calc(32px + var(--spacing-200));
+    color: var(--color-content-default-tertiary);
   }
 
   .bcn-cfgsec__grip,
