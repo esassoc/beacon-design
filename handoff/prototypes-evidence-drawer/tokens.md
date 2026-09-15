@@ -1,6 +1,6 @@
 # Token contract — prototypes-evidence-drawer
 
-The 127 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 128 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -11,7 +11,7 @@ The 127 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-accent` | `#f76b15` |
 | `--color-background-brand` | `#005862` |
 | `--color-background-brand-hover` | `#00474f` |
-| `--color-background-brand-muted` | `#00918b` |
+| `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-brand-subtle` | `#effefb` |
 | `--color-background-default` | `#fafafa` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
@@ -19,7 +19,7 @@ The 127 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-overlay-backdrop` | `#00000080` |
 | `--color-border-default` | `#dcdcdc` |
 | `--color-border-default-subtle` | `#efefef` |
-| `--color-content-brand` | `#2a7e3b` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
@@ -125,6 +125,7 @@ The 127 design tokens this page actually uses, resolved to their final values fo
 | `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--font-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
+| `--icon-size-lg` | `24px` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |

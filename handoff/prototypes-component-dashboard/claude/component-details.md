@@ -47,69 +47,69 @@ The quiet rail card of the Component record's own fields: start date, expected e
 ```css
 .bcn-pf__desc {
   margin: 0 0 var(--spacing-300);
-  font-size: var(--type-size-150);
+  font-size: var(--font-size-150);
   line-height: var(--line-height-normal);
-  color: var(--color-text-secondary);
+  color: var(--color-content-default-secondary);
 }
 .bcn-pf {
+  flex-direction: column;
   margin: 0;
   display: flex;
-  flex-direction: column;
 }
 .bcn-pf__fact {
-  display: flex;
+  padding: var(--spacing-250) 0;
   flex-direction: column;
   gap: 2px;
-  padding: var(--spacing-250) 0;
+  display: flex;
 }
 .bcn-pf__fact + .bcn-pf__fact {
-  border-top: 1px solid var(--color-border-light);
+  border-top: 1px solid var(--color-border-default-subtle);
 }
 .bcn-pf__label {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-tertiary);
 }
 .bcn-pf__value {
+  font-size: var(--font-size-200);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
   margin: 0;
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
 }
 .bcn-pf__files {
-  list-style: none;
-  margin: 0;
   padding: var(--spacing-250) 0 0;
-  border-top: 1px solid var(--color-border-light);
-  display: flex;
-  flex-direction: column;
+  border-top: 1px solid var(--color-border-default-subtle);
   gap: var(--spacing-200);
+  flex-direction: column;
+  margin: 0;
+  list-style: none;
+  display: flex;
 }
 .bcn-pf__file {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
-  color: var(--color-text-muted);
+  color: var(--bcn-content-muted);
   min-width: 0;
+  display: flex;
 }
 .bcn-pf__file-name {
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
-  overflow: hidden;
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 ```
 
 ## Tokens
-- `--color-border-light`: #efefef _(semantic)_
-- `--color-text-muted`: #7c7c7c _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--bcn-content-muted`: #7c7c7c _(component)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
 - `--line-height-normal`: 1.6 _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

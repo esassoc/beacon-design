@@ -132,79 +132,79 @@ One stacked status bar per path (route-miles by derived status), stacked top-to-
 ## Styles
 ```css
 .exec__paths {
-  list-style: none;
+  gap: var(--spacing-400);
+  flex-direction: column;
   margin: 0;
   padding: 0;
+  list-style: none;
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
 }
 .exec-path {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-150);
+  flex-direction: column;
+  display: flex;
 }
 .exec-path__head {
-  display: flex;
-  align-items: baseline;
   justify-content: space-between;
+  align-items: baseline;
   gap: var(--spacing-300);
+  display: flex;
 }
 .exec-path__name {
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-size: var(--font-size-250);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .exec-path__metric {
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
   font-variant-numeric: tabular-nums;
 }
 .exec-path__metric strong {
   color: var(--st-cleared);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--typography-font-weight-bold);
 }
 .exec-path__bar {
-  display: flex;
-  height: 18px;
   border-radius: var(--radius-100);
-  overflow: hidden;
   background: var(--bcn-gray-100);
+  height: 18px;
+  display: flex;
+  overflow: hidden;
 }
 .exec-path__seg {
   height: 100%;
 }
 .exec-path__seg + .exec-path__seg {
-  border-left: 1px solid var(--color-surface);
+  border-left: 1px solid var(--color-background-elevation-raised);
 }
 .exec-path__foot {
-  display: flex;
-  align-items: baseline;
   justify-content: space-between;
+  align-items: baseline;
   gap: var(--spacing-300);
-  font-size: var(--type-size-100);
-  color: var(--color-text-tertiary);
+  font-size: var(--font-size-100);
+  color: var(--color-content-default-tertiary);
+  display: flex;
 }
 .exec-path__clearby {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default-secondary);
   font-variant-numeric: tabular-nums;
 }
 ```
 
 ## Tokens
 - `--bcn-gray-100`: #efefef _(component)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-bold`: 650 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--font-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--st-cleared`: #1a9850 _(component)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--type-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(primitive)_
+- `--typography-font-weight-bold`: 650 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
