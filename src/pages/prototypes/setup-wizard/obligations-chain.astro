@@ -30,7 +30,7 @@ const total = CHAIN_TOTALS.requirements;
 // views share one h2 shape; the chip is a scope note, its rows the coverage picks.
 const COVERAGE_PICKS = [
   { label: 'All Requirements', value: '' },
-  { label: 'Orphans Only', value: 'unrouted' },
+  { label: 'Orphaned Requirements', value: 'unrouted' },
   { label: 'Multiple Obligations', value: 'several' },
 ];
 ---
@@ -39,7 +39,7 @@ const COVERAGE_PICKS = [
   layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
   sections:
     - wizard chrome     -> bcn-setup-wizard-frame     # compass mark, serif title, five-step pill nav with step 5 active
-    - step panel        -> bcn-sw-step-panel          # numeral, serif title "Obligations by Commitment" with coverage chip (bcn-sw-select-chip: All / Orphans Only / Multiple Obligations) and count, intro; actions: bcn-sw-view-switch
+    - step panel        -> bcn-sw-step-panel          # numeral, serif title "Obligations by Commitment" with coverage chip (bcn-sw-select-chip: All / Orphaned Requirements / Multiple Obligations) and count, intro; actions: bcn-sw-view-switch
     - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), expand / collapse verbs
     - chain tree        -> bcn-sw-chain-tree          # commitment > requirement > obligation leaves; route chips, gap chips, legend; foot: Approve obligations
     - drawers           -> bcn-sw-chain-panels        # requirement (its obligations and actions, Add to an obligation, New obligation) > obligation editor > picker
