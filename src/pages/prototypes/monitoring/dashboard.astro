@@ -541,7 +541,7 @@ const addCards = WIDGETS.map((w) => {
           {
             obsPins.length > 0 && (
               <div data-section="map" data-flow="full" class="stack" data-gap="sm">
-                <BcnSectionHeading title="Observation locations" />
+                <BcnSectionHeading title="Observation locations" visuallyHidden />
                 <BcnObservationMap observations={obsPins} mapId="mpdash-obs" height="220px" interactive={false} />
               </div>
             )

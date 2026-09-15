@@ -42,11 +42,15 @@ interface Props {
   /** A count worth stating beside the title (rows outstanding, items in a lane).
    *  Omit — do not pass 0 — when there is nothing to count. */
   count?: number;
+  /** Keep the heading in the DOM but stop painting it. For a section whose display
+   *  already says what it is LOUDER than a line of text could — the map. NOT the
+   *  same as omitting <BcnSectionHeading>: see the note above the recipe below. */
+  visuallyHidden?: boolean;
 }
-const { title, count } = Astro.props;
+const { title, count, visuallyHidden = false } = Astro.props;
 ---
 
-<span class="cluster bcn-shead__line" data-gap="sm">
+<span class:list={['cluster bcn-shead__line', { 'bcn-shead__line--vh': visuallyHidden }]} data-gap="sm">
   {/* The hook the page rewrites when a user renames the section. */}
   <span class="bcn-shead__title typography-label-md-strong" data-section-title>{title}</span>
   {count !== undefined && <EsaBadge value={count} size="sm" />}
@@ -64,5 +68,36 @@ const { title, count } = Astro.props;
     align-items: center;
     --badge-bg: var(--color-background-elevation-sunken);
     --badge-text-color: var(--color-content-default-secondary);
+  }
+
+  /* ── HIDDEN, NOT OMITTED (Jamie, 2026-09-15: "I don't want the title to show for
+        the map section"). A map is self-evidently a map, so the line is noise above
+        it — but DELETING the heading would cost two things that are not visual:
+
+        1. THE MAP'S NAME. BcnObservationMap takes no label prop and Leaflet builds
+           an unnamed div, so this heading is the only text naming it. Drop it and a
+           screen reader meets the section as an anonymous tile.
+        2. THE RENAME. Every section gets a `title` setting automatically
+           (monitoring-streams.ts — `titleSetting(s)` is prepended to all of them),
+           and the page rewrites it by querying [data-section-title]. With no hook
+           in the DOM, the configure form would offer the map a Title field that
+           silently did nothing.
+
+        So it stays and goes quiet. Same trade, same recipe as the hidden esa-stat
+        label in BcnDashboardWidget — @esa/tokens' own `.visually-hidden`
+        (src/a11y.css), inlined because BaseLayout imports tokens/layouts/type-roles
+        but NOT a11y.css, so the class does not exist on the page. Absolute
+        positioning also takes it out of flex flow, so the parent `.stack` gap
+        collapses instead of leaving a blank rung where the title used to be. ── */
+  .bcn-shead__line--vh {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
   }
 </style>
