@@ -566,7 +566,8 @@ export interface ChainCommitment {
   title: string;
   requirements: ChainRequirement[];
   /** Requirements in this commitment that are in no obligation. */
-  uncovered: number;
+  /** Requirements in no obligation and no action: the orphans. */
+  orphaned: number;
 }
 
 /** Where each obligation is filed in the registry, by id. */
@@ -589,7 +590,7 @@ const byCode = (a: string, b: string) => {
 export const COMMITMENT_CHAIN: ChainCommitment[] = (() => {
   const cmts = new Map<string, ChainCommitment>();
   for (const r of ITP.requirements) {
-    const c = cmts.get(r.commitment) ?? { code: r.commitment, title: r.commitmentTitle, requirements: [], uncovered: 0 };
+    const c = cmts.get(r.commitment) ?? { code: r.commitment, title: r.commitmentTitle, requirements: [], orphaned: 0 };
     cmts.set(r.commitment, c);
     const obligations: ChainObligation[] = (OBLIGATIONS_OF.get(r.id) ?? []).map((o) => ({
       id: o.id,
@@ -606,7 +607,7 @@ export const COMMITMENT_CHAIN: ChainCommitment[] = (() => {
       obligations,
       actions: (ACTIONS_OF.get(r.id) ?? []).map((a) => ({ id: a.id, name: a.name })),
     });
-    if (!obligations.length) c.uncovered += 1;
+    if (!obligations.length && !ACTIONS_OF.get(r.id)?.length) c.orphaned += 1;
   }
   return [...cmts.values()].sort((a, b) => byCode(a.code, b.code));
 })();

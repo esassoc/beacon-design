@@ -6,8 +6,8 @@
 // through the view switch in the panel's corner.
 //
 // Its job, in Andy's words (2026-09-14): see the chain top to bottom, and find the
-// requirements that are not part of any obligation. The Coverage picker narrows to
-// those; a requirement row opens a drawer that lists its obligations and lets it be
+// orphaned requirements, in no obligation and no action. The Coverage picker narrows
+// to those; a requirement row opens a drawer that lists its obligations and lets it be
 // added to one, or start a new one; obligations edit in a stacked drawer.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
@@ -26,8 +26,7 @@ import { SETUP_STEPS, STEP_GLYPH, CHAIN_TOTALS, OBLIGATION_TREE_TOTALS } from '.
 const STEP = SETUP_STEPS.find((s) => s.id === 'obligations')!;
 const total = CHAIN_TOTALS.requirements;
 const COVERAGE_PICKS = [
-  { label: 'Without an obligation', value: 'none' },
-  { label: 'Unrouted', value: 'unrouted' },
+  { label: 'Orphaned', value: 'unrouted' },
   { label: 'In more than one obligation', value: 'several' },
 ];
 ---
@@ -37,7 +36,7 @@ const COVERAGE_PICKS = [
   sections:
     - wizard chrome     -> bcn-setup-wizard-frame     # compass mark, serif title, five-step pill nav with step 5 active
     - step panel        -> bcn-sw-step-panel          # numeral, serif title with count, intro; actions: bcn-sw-view-switch (By category / By commitment)
-    - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), coverage picker, expand / collapse verbs
+    - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), coverage picker (orphaned / in more than one), expand / collapse verbs
     - chain tree        -> bcn-sw-chain-tree          # commitment > requirement > obligation leaves; route chips, gap chips, legend; foot: Approve obligations
     - drawers           -> bcn-sw-chain-panels        # requirement (its obligations and actions, Add to an obligation, New obligation) > obligation editor > picker
 -->
@@ -49,7 +48,7 @@ const COVERAGE_PICKS = [
         <BcnSwStepPanel
           n={STEP.n}
           token={STEP.token}
-          intro="Follow each commitment down to its requirements and the obligations they became. Filter to the requirements not yet in an obligation, and open any requirement to add it to one."
+          intro="Follow each commitment down to its requirements and the obligations they became. Filter to the orphans, requirements in no obligation and no action, and open any requirement to add it to an obligation."
         >
           <Fragment slot="title">
             <span>Requirements by commitment</span>

@@ -3,18 +3,19 @@
 // the requirements drafted from it, and under each requirement the obligation(s) it
 // became. Three levels, every line at one small size, in the registry tree's clothes.
 //
-// What it is for: seeing the chain end to end, and finding the requirements that
-// became nothing. Each commitment row carries "n without an obligation" while that is
-// true of any of its requirements; each requirement row carries its route (in n
-// obligations / action only / unrouted); the coverage picker in the filter row narrows
-// the list to just those. Clicking a requirement's name or pencil opens the requirement
+// What it is for: seeing the chain end to end, and finding the orphans: requirements
+// in no obligation and no action. Being in an action only is fine and reads as
+// neutral. Each commitment row carries "n orphaned" while that is true of any of its
+// requirements; each requirement row carries its route (in n obligations / action
+// only / orphaned); the coverage picker in the filter row narrows the list to the
+// orphans, or to requirements in more than one obligation. Clicking a requirement's name or pencil opens the requirement
 // panel (bcn-sw-chain-panels), where it is added to an obligation, used to start a new
 // one, or its obligations opened and edited. The obligation leaves here are stamped
 // from the template at the foot by that component when links change, so the tree and
 // the panels never disagree.
 //
 // Filter-row contract: `esa-text-field[name="swc-search"]` searches; the picker named
-// `swc-search-coverage` narrows (all / none / unrouted / several); `[data-swc-expand]`
+// `swc-search-coverage` narrows (all / orphaned / several); `[data-swc-expand]`
 // and `[data-swc-collapse]` work the commitment level. `swc:changed` recounts.
 //
 // bcn-lego-checked: esa-tree-view is a selection tree of uniform nodes with no card
@@ -27,7 +28,7 @@ import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import { COMMITMENT_CHAIN, CHAIN_TOTALS, OBLIGATION_CLASS_LABEL, STEP_GLYPH, type ChainRequirement } from '../../data/setup-wizard';
 
 const routeLabel = (r: ChainRequirement) =>
-  r.obligations.length ? `in ${r.obligations.length} ${r.obligations.length === 1 ? 'obligation' : 'obligations'}` : r.actions.length ? 'action only' : 'unrouted';
+  r.obligations.length ? `in ${r.obligations.length} ${r.obligations.length === 1 ? 'obligation' : 'obligations'}` : r.actions.length ? 'action only' : 'orphaned';
 const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' : r.actions.length ? 'action' : 'unrouted');
 ---
 
@@ -41,7 +42,7 @@ const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' 
           <BcnCommitmentBadge code={c.code} size="sm" />
           <span class="bcn-swc__name" data-swc-text={c.title}>{c.title}</span>
           <BcnSwCountBadge value={c.requirements.length} label={`${c.requirements.length} requirements`} />
-          <span class="bcn-swc__gap" data-swc-gap hidden={c.uncovered === 0}>{c.uncovered} without an obligation</span>
+          <span class="bcn-swc__gap" data-swc-gap hidden={c.orphaned === 0}>{c.orphaned} orphaned</span>
           <span class="bcn-swc__verbs">
             <esa-tooltip text="Expand to obligations"><button type="button" class="bcn-swc__verb" aria-label="Expand to obligations" data-swc-cmt-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
             <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-swc__verb" aria-label="Collapse" data-swc-cmt-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
@@ -85,7 +86,7 @@ const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' 
       <span class="bcn-swc__sep">·</span>
       <span class="bcn-swc__stat"><span class="bcn-swc__dot bcn-swc__dot--action"></span><span data-swc-legend="action">{CHAIN_TOTALS.actionOnly}</span> action only</span>
       <span class="bcn-swc__sep">·</span>
-      <span class="bcn-swc__stat"><span class="bcn-swc__dot bcn-swc__dot--unrouted"></span><span data-swc-legend="unrouted">{CHAIN_TOTALS.unrouted}</span> unrouted</span>
+      <span class="bcn-swc__stat"><span class="bcn-swc__dot bcn-swc__dot--unrouted"></span><span data-swc-legend="unrouted">{CHAIN_TOTALS.unrouted}</span> orphaned</span>
     </div>
     <div class="bcn-swc__foot-end"><slot name="foot" /></div>
   </footer>
@@ -126,16 +127,16 @@ const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' 
           const n = oblCount(req);
           const route = routeOf(req);
           totals[route] += 1;
-          if (!n) gap += 1;
+          if (route === 'unrouted') gap += 1;
           req.classList.toggle('is-leaf', n === 0);
           const chip = req.querySelector<HTMLElement>('[data-swc-route]');
           if (chip) {
             chip.className = `bcn-swc__route bcn-swc__route--${route}`;
-            chip.textContent = route === 'obligation' ? `in ${n} ${n === 1 ? 'obligation' : 'obligations'}` : route === 'action' ? 'action only' : 'unrouted';
+            chip.textContent = route === 'obligation' ? `in ${n} ${n === 1 ? 'obligation' : 'obligations'}` : route === 'action' ? 'action only' : 'orphaned';
           }
         });
         const gapEl = cmt.querySelector<HTMLElement>('[data-swc-gap]');
-        if (gapEl) { gapEl.hidden = gap === 0; gapEl.textContent = `${gap} without an obligation`; }
+        if (gapEl) { gapEl.hidden = gap === 0; gapEl.textContent = `${gap} orphaned`; }
       });
       (Object.keys(totals) as (keyof typeof totals)[]).forEach((k) => {
         const el = tree.querySelector(`[data-swc-legend="${k}"]`);
@@ -172,7 +173,7 @@ const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' 
 
     // ---- Search and coverage, together. Every searchable span keeps its original
     // text in data-swc-text; the query rewrites innerHTML with the hits wrapped.
-    type Coverage = 'all' | 'none' | 'unrouted' | 'several';
+    type Coverage = 'all' | 'unrouted' | 'several';
     let coverage: Coverage = 'all';
     let needle = '';
     const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
@@ -187,7 +188,6 @@ const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' 
     };
     const covers = (req: HTMLElement) => {
       const n = oblCount(req);
-      if (coverage === 'none') return n === 0;
       if (coverage === 'unrouted') return routeOf(req) === 'unrouted';
       if (coverage === 'several') return n > 1;
       return true;
