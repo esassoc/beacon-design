@@ -239,7 +239,11 @@ export const DASHBOARD: DashboardStats = {
       { label: 'UNK', value: 1, hex: '#bdbdbd' },
     ],
   },
-  complianceConcerns: { active: 1, total30d: 1 },
+  // Set from CONCERNS_ROLLUP (monitoring-streams.ts): 8 still open of 19 raised in
+  // the 30-day window. FINDS holds one concern record — the same relationship every
+  // other stream has between its sampleRecords and its rollup, so the stat counts
+  // the export while the "Latest open concerns" table shows the sample.
+  complianceConcerns: { active: 8, total30d: 19 },
   biologicalResources: {
     total: 3, total30d: 3,
     items: [

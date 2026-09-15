@@ -13,6 +13,14 @@
 // value as real DOM text, so the track is aria-hidden and no offscreen table is
 // needed — the spec's accessibility position for the micro-viz set.
 //
+// NO POPUP, and it briefly had one (2026-09-09). The popup's only addition here was the
+// untruncated category name — every row already states its name and its value as text, so
+// hovering returned what was on screen plus a few characters of an ellipsis. Jamie's call,
+// and the right one: a chart whose values are already readable does not need a second way
+// to read them, and 22 popovers that say nothing new are 22 things to hover by accident.
+// The charts that kept theirs (bcn-viz-trend, bcn-viz-stacked) are the ones whose per-period
+// figures are deliberately NOT in the DOM.
+//
 // bcn-lego-checked: esa-progress-bar is the only bar lego and it is the wrong
 // primitive twice over — it renders role="progressbar" with aria-valuenow (a
 // completion semantic, not a magnitude comparison between categories), and its fill

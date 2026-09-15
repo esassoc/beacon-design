@@ -2,9 +2,23 @@
 // <BcnDashboardWidget> — the shell every widget on the composable Monitoring Portal
 // dashboard is poured into: a card owning a FOOTPRINT on the page's 3-column grid.
 //
-// v2 (2026-08-24, remy's spec — specimens/spec.md §3): footprint is width 1|2|3 ×
-// height 2|3|4|5 row units; the page's grid-auto-rows floor (minmax(unit, auto))
-// lets a band grow to its tallest widget. Collapse is GONE — resize supersedes it.
+// v3 (2026-09-09): footprint is width 1|2|3 columns; HEIGHT IS NOT AUTHORED. The card
+// is sized by its own content and the page converts that height into a row span over a
+// fine 8px row unit (see measureSpans). So two cards in the same visual row can be
+// different heights, short widgets pack into the space beside a tall one — two or three
+// of them, whichever fits — and no number has to be kept in agreement with anything.
+//
+// WHY THE AUTHORED SPAN WENT AWAY. It was width 1|2|3 x height 2|3|4|5 "row units",
+// which paired a FIXED span with an ELASTIC unit — grid-auto-rows was
+// minmax(84px, auto), so a row sized to whatever content crossed it. Measured on one
+// board, the same `height: 3` came out 620px, 849px and 674px depending on which rows
+// it landed on. Two bugs followed, both reported: card bottoms aligned only when the
+// spans in one column happened to sum to the span beside them, and a card stretched to
+// a footprint bigger than its content carried interior whitespace with no visible
+// cause. Registry defaults and users' saved layouts then drifted apart, because the
+// number had to agree with a layout maintained separately from it.
+//
+// Collapse is GONE — resize supersedes it.
 // The header carries the stream glyph in the stream's stored mark color, the title,
 // and the hover-revealed ⋯ menu (prod's affordance): Configure, width presets,
 // Remove widget, Customize dashboard. Every widget links through to its stream via
@@ -28,13 +42,20 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnWidgetMenu from './BcnWidgetMenu.astro';
 
 interface Props {
-  /** WidgetDef.id — the page's handle on this tile (data-widget-id). */
+  /**
+   * INSTANCE id — the page's handle on this tile (data-widget-id). For the first
+   * instance of a widget this equals the WidgetDef.id; added copies carry a
+   * suffix (`obs-active~2`), which is why identity and type are separate props.
+   */
   id: string;
+  /**
+   * WidgetDef.id this tile renders. Defaults to `id` (the first instance case).
+   * Cloned instances need it to look up their sections, charts and scopes.
+   */
+  type?: string;
   title: string;
   /** Columns of the 3-column grid. */
   width: 1 | 2 | 3;
-  /** Row units (the page's grid-auto-rows floor). */
-  height: 2 | 3 | 4 | 5;
   /** The stream's stored mark color — becomes --_accent for every viz inside. */
   accent: string;
   /** Lucide inner-SVG for the stream glyph (STREAM_ICON_PATHS). */
@@ -46,13 +67,21 @@ interface Props {
   footHref?: string;
   footLabel?: string;
 }
-const { id, title, width, height, accent, iconName, iconPaths, footHref, footLabel } = Astro.props;
+const { id, type, title, width, accent, iconName, iconPaths, footHref, footLabel } = Astro.props;
+const widgetType = type ?? id;
 const hasFoot = Boolean(footHref && footLabel);
 ---
 
 {/* NO head-control slot (Andy round 5, rule for ALL widgets): tools/ui that
     operate a widget live in its BODY — the header carries identity (glyph,
-    title) and the widget chrome (grip, ⋯) only.
+    title) and the widget chrome (grip, ⋯) only. BcnComplianceList states the same
+    rule independently for its own Show control, which is why it reads as a general
+    ruling rather than a note about one widget.
+    The per-widget date range was trialled in this header twice on 2026-09-08 and
+    returned to the body both times, deliberately, on that rule. Don't re-add a
+    header slot without checking the ruling still stands — note that the rule
+    predates the chrome becoming permanently visible, so its original premise may
+    have been the hover-reveal.
 
     The card is rendered in TWO branches because of the conditional-slot quirk:
     `{cond && <a slot="footer">}` registers the slot even when falsy, so
@@ -61,8 +90,8 @@ const hasFoot = Boolean(footHref && footLabel);
 <section
   class="bcn-dwidget"
   data-widget-id={id}
+  data-widget-type={widgetType}
   data-w={width}
-  data-h={height}
   style={`--_accent: ${accent};`}
 >
   {hasFoot ? (
@@ -109,12 +138,28 @@ const hasFoot = Boolean(footHref && footLabel);
 </section>
 
 <style>
-  /* ── Grid footprint. The page owns the 3-column grid and the row-unit floor; the
-        widget owns its span, so a widget moves between dashboards without the page
-        knowing its size. ── */
+  /* ── Grid footprint. The page owns the 3-column grid and the 8px row unit; the
+        widget owns its column span, and its ROW span is measured from this card's
+        own content by the page (measureSpans) rather than declared anywhere. ── */
   .bcn-dwidget {
     min-width: 0; /* grid children default to min-content — wide bodies would blow the column out */
-    display: flex; /* the card stretches to the band the grid gives it */
+    display: flex;
+    /* NEVER STRETCH, and this is load-bearing rather than cosmetic. Removed as an
+       experiment (2026-09-09) and the whole board collapsed: every card fell to the
+       88px span floor with a 72px box while its body was still 1128px, so the content
+       painted straight out of the card and the board went from 4213px to 712px of
+       overlapping widgets.
+       The reason is a feedback loop. Stretching makes a card's height its GRID AREA,
+       which is the thing measureSpans is trying to compute — so the pass reads the
+       area, derives a span from it, which resizes the area, and the two chase each
+       other down to the floor and stabilise there (stable, and wrong: the spans stop
+       moving, which is why it looks fine until you measure the board). With
+       align-self: start the card is never sized by its area, so height depends only
+       on content and width, and the measurement has a fixed point. */
+    align-self: start;
+    /* The page zeroes row-gap and spaces rows with this instead, so the gap is part
+       of the footprint being converted into a span. See .mpdash's row-gap note. */
+    margin-block-end: var(--_gap);
     /* The widget is the QUERY CONTAINER for everything inside it (Andy round 4,
        X1): panel bodies reflow against the width this footprint actually got,
        not the viewport — so a squeezed widget stacks, and the config dialog's
@@ -126,13 +171,13 @@ const hasFoot = Boolean(footHref && footLabel);
   .bcn-dwidget[hidden] {
     display: none;
   }
+
   .bcn-dwidget[data-w='1'] { grid-column: span 1; }
   .bcn-dwidget[data-w='2'] { grid-column: span 2; }
   .bcn-dwidget[data-w='3'] { grid-column: span 3; }
-  .bcn-dwidget[data-h='2'] { grid-row: span 2; }
-  .bcn-dwidget[data-h='3'] { grid-row: span 3; }
-  .bcn-dwidget[data-h='4'] { grid-row: span 4; }
-  .bcn-dwidget[data-h='5'] { grid-row: span 5; }
+  /* No grid-row rule: the span is written inline by the page's measure pass, from
+     this card's own height. The [data-h] rules that used to be here are what made
+     card bottoms miss each other and short cards stretch. */
 
   /* Reflow with the page grid: at 2 columns a full-width widget spans both; at 1
      column everything spans one. (Same breakpoints as the page's --_col steps.) */
@@ -158,8 +203,91 @@ const hasFoot = Boolean(footHref && footLabel);
     --card-header-bg: var(--color-background-elevation-sunken);
     --_card-header-border: var(--color-border-default-strong);
   }
+
+  /* Body top padding is tightened (2026-09-08). esa-card's --card-padding is a
+     single public knob for all four sides, and the other three are right — only the
+     TOP needed to come in, because the header's own padding already separates the
+     title from the content and the two stacked together read as a gap. Applied at
+     the shell so all widgets agree; a per-widget version would make the tops
+     visibly uneven across the board.
+
+     History, because the value has moved several times: 24px (the --card-padding
+     default) → 12px → 0px BY ACCIDENT → 12px. The 0px was a real bug: this read
+     `var(--bcn-dwidget-body-pad-top)` after the token that defined it was deleted,
+     and an undefined var is invalid at computed-value time, which for a
+     non-inherited property like padding falls back to the INITIAL value (0) rather
+     than to the 24px anyone would assume. Hence a literal token here, not a var
+     indirection that can be orphaned again. */
   .bcn-dwidget :global(.esa-card__body) {
     flex: 1;
+    padding-block-start: var(--spacing-300);
+  }
+
+  /* Header vertical padding tightened (2026-09-08) for the stacked header + filter
+     bar look: the two bands sit closer so they read as one chrome block above the
+     content rule. esa-card fixes the header's block padding at --spacing-400 with
+     no knob for it (the inline axis is --card-padding), so only the block axis is
+     overridden here. */
+  .bcn-dwidget :global(.esa-card__header) {
+    /* min-height is the REASON the padding change looked like nothing: esa-card
+       hardcodes `min-height: 56px` on its header with no knob, so trimming the
+       padding just moved slack around inside a fixed 56px band. Zeroing the floor
+       is what actually lets the header shrink; the 28px content row (title, grip,
+       ⋯) plus this padding now sets the height. Another missing theming hook, same
+       family as the header border — a --card-header-min-height knob would retire it. */
+    min-height: 0;
+    padding-block: var(--spacing-200);
+  }
+
+  /* A switched-off SECTION must actually disappear. `hidden` alone is not enough:
+     the UA's `[hidden] { display: none }` loses to ANY author display declaration,
+     and a section is frequently also a layout primitive (`data-section="outstanding"`
+     is a `.stack`, which sets display:flex) — so the section stayed visible while
+     its hidden property read true. Caught in review 2026-09-08; the property was
+     right and the render was wrong, which is exactly the failure a `.hidden` check
+     cannot see. This selector outweighs the primitive classes without !important. */
+  .bcn-dwidget :global([data-section][hidden]) {
+    display: none;
+  }
+
+  /* ── THE LABEL IS HIDDEN, NOT STYLED (Jamie, 2026-09-10). Every section now carries
+        a BcnSectionHeading — a title naming the data and a subtitle naming the display
+        — and for a count section that heading sits directly above the figure. The
+        stat's own label would then say the same words twice.
+        It stays in the DOM rather than being emptied because it is what names the
+        number in READING ORDER: esa-stat wires no aria between value and label, so
+        the label is adjacent text, and adjacent text is how every other section here
+        names its element too. Hiding it visually keeps that and drops the repetition.
+        The recipe is @esa/tokens' own `.visually-hidden` (src/a11y.css), inlined
+        because the class cannot be put on markup this component does not own.
+        This REPLACES two rules: `order: -1`, which lifted the label above the value
+        (the heading does that now), and a `color` override that made the label dark
+        while the figure stayed red — the heading's title carries default ink, so
+        Compliance Concerns still reads dark-label / red-number as asked. ── */
+  .bcn-dwidget :global(.esa-stat__label) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+
+  .bcn-dwidget :global(.esa-stat) {
+    text-align: start;
+  }
+
+  /* A SMALL INDENT ON THE FIGURE ONLY (Jamie, 2026-09-10). Set flush, a display-sized
+     numeral reads as hanging LEFT of the label above it: its side bearings are a
+     fraction of its own size, so a 36px digit starts closer to the box edge than
+     16px text does. 4px puts the two optical left edges on the same line without the
+     number looking inset. On the value alone — the label is the thing the eye
+     measures the column from, so it stays on the margin. */
+  .bcn-dwidget :global(.esa-stat__value) {
+    padding-inline-start: var(--spacing-100);
   }
 
   /* ── Hover chrome: border steps on the card's public knob, a quiet lift, and the
@@ -173,13 +301,15 @@ const hasFoot = Boolean(footHref && footLabel);
   .bcn-dwidget:hover :global(.esa-card) {
     box-shadow: var(--elevation-2);
   }
+  /* Controls are ALWAYS visible (2026-09-08). They were hover-revealed, which was
+     defensible while the header held only chrome — but the date range now sits in
+     this group, and a data control that appears on hover is a control most people
+     never find. It also removed the reason the group could not be shared: the row
+     no longer changes width when the pointer enters, so nothing shifts.
+     The drag-mode rule further down still hides them while a widget is being
+     moved — that is transient state, not resting state. */
   .bcn-dwidget__tools {
-    opacity: 0;
     transition: opacity 120ms ease;
-  }
-  .bcn-dwidget:hover .bcn-dwidget__tools,
-  .bcn-dwidget:focus-within .bcn-dwidget__tools {
-    opacity: 1;
   }
 
   .bcn-dwidget__head {

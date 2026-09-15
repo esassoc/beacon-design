@@ -50,10 +50,13 @@
 //   • `minHeight` is a FLOOR, never a height. Same rule as the grid: the row unit
 //     is a minimum. The stage sets the floor, measures what the content actually
 //     took, and scales from the measurement.
-//   • Scale fits WIDTH ONLY. Height overflows into the well's scroll. Width is the
-//     axis the tabs choose, so it must always be fully visible; height is the axis
-//     the grid lets grow anyway. Fitting both axes made the dialog change height
-//     between tabs, which is what this replaced.
+//   • Scale fits WIDTH ONLY. Height overflows into the well's scroll — unless a
+//     caller sets --bcn-preview-stage-height: auto, in which case the stage sizes to
+//     the scaled guest and whatever is OUTSIDE it does the scrolling (pair it with
+//     --bcn-preview-stage-overflow: visible so no dead scrollbar track is drawn).
+//     Width is the axis the tabs choose, so it must always be fully visible; height
+//     is the axis the grid lets grow anyway. Fitting both axes made the dialog
+//     change height between tabs, which is what this replaced.
 //
 // bcn-lego-checked: no esa-* lego hosts or scales live cloned DOM — the closest are
 // esa-card and esa-empty-state, which are static content containers with no
@@ -78,11 +81,19 @@
   /* A FIXED viewport. Its height does not react to the guest, which is what keeps
      the dialog from resizing as the width tabs change what is inside. */
   .bcn-preview-stage {
+    /* The well's own chrome is RE-POINTABLE, because "a sunken framed well" is one
+       presentation of a stage, not the only one: the widget-config dialog now puts
+       the guest straight onto a tinted column with no frame at all. Consumers move
+       these three; nothing here is edited. --_bg is read by the overflow gradient
+       below too, so the fade always matches whatever surface it fades into. */
+    --_bg: var(--bcn-preview-stage-bg, var(--color-background-elevation-sunken));
+    --_border: var(--bcn-preview-stage-border, 1px solid var(--color-border-default));
+    --_radius: var(--bcn-preview-stage-radius, var(--radius-200));
     position: relative;
-    height: 520px;
-    background: var(--color-background-elevation-sunken);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-200);
+    height: var(--bcn-preview-stage-height, 520px);
+    background: var(--_bg);
+    border: var(--_border);
+    border-radius: var(--_radius);
     overflow: hidden;
   }
 
@@ -91,8 +102,14 @@
      which changes the scale, which can change whether it overflows. */
   .bcn-preview-stage__scroll {
     height: 100%;
-    overflow-y: auto;
-    padding: var(--spacing-500);
+    /* A KNOB because it has to move with the height. A caller that sets
+       --bcn-preview-stage-height: auto has no well to scroll inside, and Chrome draws
+       a `stable` gutter on an auto-overflow box as a greyed-out scrollbar track — a
+       second, dead scrollbar next to the real one (the configure dialog's, which
+       scrolls both its columns together). `visible` here retires the track and the
+       gutter with it; the gutter reservation below is inert unless this is `auto`. */
+    overflow-y: var(--bcn-preview-stage-overflow, auto);
+    padding: var(--bcn-preview-stage-padding, var(--spacing-500));
     scrollbar-gutter: stable;
   }
 
@@ -105,13 +122,9 @@
     right: 1px;
     bottom: 1px;
     height: 40px;
-    background: linear-gradient(
-      to top,
-      var(--color-background-elevation-sunken),
-      color-mix(in srgb, var(--color-background-elevation-sunken) 0%, transparent)
-    );
+    background: linear-gradient(to top, var(--_bg), color-mix(in srgb, var(--_bg) 0%, transparent));
     pointer-events: none;
-    border-radius: 0 0 var(--radius-200) var(--radius-200);
+    border-radius: 0 0 var(--_radius) var(--_radius);
   }
 
   /* The wrapper carries the SCALED box (a transform does not affect layout), so the
@@ -218,7 +231,15 @@
     s.well.style.width = `${Math.round(s.frameWidth * scale)}px`;
     s.well.style.height = `${Math.round(scaledH)}px`;
     s.well.style.marginTop = `${Math.max(0, (avail.height - scaledH) / 2)}px`;
-    root.dataset.overflow = scaledH > avail.height ? '1' : '0';
+    // ASK THE SCROLLER, don't infer from the heights. The old test was
+    // `scaledH > avail.height`, which reads the well's height against a measurement
+    // taken BEFORE this pass resized it — fine while the stage was a fixed 520px
+    // well, wrong the moment a caller sets --bcn-preview-stage-height: auto (the
+    // configure dialog does, so both its columns share one scroller). Auto height
+    // means the stage can never scroll, yet the comparison still said it did and the
+    // "there is more below" gradient sat over content that was fully visible.
+    // Scrollability is the thing the gradient actually claims, so measure that.
+    root.dataset.overflow = s.scroll.scrollHeight - s.scroll.clientHeight > 1 ? '1' : '0';
   }
 
   /** Coalesce bursts (a dialog opening fires several resizes) into one fit. */

@@ -22,12 +22,19 @@
 // open widget's colorMode is 'series' — labels are categories that exist in the
 // data, never invented palette names (spec §10.6).
 //
+// SIZE: esa-dialog offers xs|sm|md|lg|fullscreen, so `lg` IS the largest bounded
+// option — the width below is a spoke override on top of it (lg's own default is
+// 640px). Only `fullscreen` is larger, and it is deliberately not used: 100vw/100vh
+// with no radius turns a form into a page, and on a wide monitor it puts the two
+// columns an arm's length apart. Widen the override instead when this needs room.
+//
 // bcn-lego-checked: the shell is esa-dialog size="lg" with --dialog-width-lg
 // re-pointed (a documented public knob — a re-point, not a fork); tabs are
 // esa-button-toggle md; fields esa-text-field / esa-select md; footer buttons
 // esa-button; the stage is bcn-preview-stage and color is bcn-color-field. The
 // CSS below is the two-column body grid + footer arrangement only.
 import BcnPreviewStage from './BcnPreviewStage.astro';
+import BcnConfigSections from './BcnConfigSections.astro';
 import BcnColorField from './BcnColorField.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import { DASHBOARD } from '../../data/monitoring';
@@ -41,22 +48,41 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
   heading="Configure widget"
   size="lg"
   show-close-button
-  style="--dialog-width-lg: min(1140px, 94vw);"
+  style="--dialog-width-lg: min(1320px, 94vw);"
 >
   <div class="bcn-cfg">
-    <div class="bcn-cfg__preview stack" data-gap="md">
-      <esa-button-toggle data-cfg-tabs size="sm" aria-label="Preview width"></esa-button-toggle>
+    <div class="bcn-cfg__preview">
       <BcnPreviewStage />
     </div>
 
     <div class="bcn-cfg__options stack" data-gap="lg">
+      {/* TWO GROUPS (2026-09-10): Basics is what the widget IS — its name, its
+          footprint, its window, its colour. Sections is what it CONTAINS. The split
+          is worth a heading each because the second list grew from a handful of
+          switches into a reorderable set of bars with their own settings, and an
+          unlabelled run of controls that long reads as one undifferentiated form. */}
+      <span class="bcn-cfg__group typography-label-md-strong">Basics</span>
+
       <esa-text-field data-cfg-title label="Title" size="sm"></esa-text-field>
+
+      {/* The column selector lives with the other inputs (2026-09-08), not floating
+          above the preview. It is still the ONLY size control (Andy round 5) — it
+          just reads as the form field it always was, so it carries a visible label
+          rather than an aria-only one. Placed under Title because footprint is
+          structural: it belongs with what the widget IS, above how it looks. */}
+      <esa-button-toggle data-cfg-tabs size="sm" label="Columns"></esa-button-toggle>
 
       <div data-cfg-shows-field>
         <esa-select data-cfg-shows label="Shows" size="sm"></esa-select>
       </div>
 
-      <esa-select data-cfg-scope label="Date range" size="sm"></esa-select>
+      {/* Hidden for widgets that carry no date range — the page sets this from the
+          registry's `windowed` flag, the same flag that decides whether the widget
+          renders a range control at all. A form field setting a window the widget
+          cannot apply would be a dead control. */}
+      <div data-cfg-scope-field>
+        <esa-select data-cfg-scope label="Default date range" size="sm"></esa-select>
+      </div>
 
       <div class="stack" data-gap="sm" data-cfg-color-mono>
         <span class="bcn-cfg__label typography-label-md-strong">Color</span>
@@ -67,13 +93,28 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
         <span class="bcn-cfg__label typography-label-md-strong">Color</span>
         {seriesLabels.map((label) => <BcnColorField label={label} seriesKey={label} />)}
       </div>
+
+      {/* Sections (2026-09-08; rebuilt as bars 2026-09-10): which PARTS of the widget
+          are on, in what order, and how each is configured. Every widget's list is
+          pre-rendered inside BcnConfigSections and the page unhides the open one —
+          the whole block hides for a widget the registry gives no sections. */}
+      <div class="stack" data-gap="sm" data-cfg-sections-field hidden>
+        <span class="bcn-cfg__group typography-label-md-strong">Sections</span>
+        <div data-cfg-sections><BcnConfigSections /></div>
+      </div>
     </div>
   </div>
 
+  {/* Two footers, one dialog: the same surface both EDITS a placed widget and
+      CONFIGURES a new one before it is added (spec: pick a type, then see the
+      preview and choose sections). The page shows one pair and hides the other —
+      an add flow must not offer "Remove widget", and an edit must not say "Add".
+      Windows order in both: destructive far left, primary LEFT of Cancel. */}
   <div slot="footer" class="repel bcn-cfg__foot" data-gap="md">
     <span data-cfg-remove><EsaButton variant="danger" appearance="soft" size="sm">Remove widget</EsaButton></span>
     <span class="cluster" data-gap="sm">
       <span data-cfg-save><EsaButton variant="primary" size="sm">Save widget</EsaButton></span>
+      <span data-cfg-add hidden><EsaButton variant="primary" size="sm">Add to dashboard</EsaButton></span>
       <span data-cfg-cancel><EsaButton variant="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
     </span>
   </div>
@@ -85,6 +126,7 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-switch-toggle';
 
   interface Option {
     label: string;
@@ -119,20 +161,87 @@ const seriesLabels = DASHBOARD.observationBreakdown.map((b) => b.label);
 <style>
   /* Composition glue only: the §10.3 body grid (preview 1fr, options 348px) and
      the footer repel. Everything inside the columns is a component. */
+  /* The body grid BLEEDS out of esa-dialog's body padding so the divider and the
+     preview tint reach the dialog's own edges. The padding it cancels is
+     --_dialog-padding inside the lego (spacing-500) — a PRIVATE hook that also
+     drives the header and footer, so re-pointing it would strip those too; a
+     negative margin on the slotted content is the contained way to reclaim the
+     body alone. Each column then pays its own padding back.
+     align-items is stretch (was start) — that is what makes both columns full
+     height, and therefore the divider run top to bottom. */
   .bcn-cfg {
+    --_bleed: var(--spacing-500);
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 348px;
-    gap: var(--spacing-500);
-    align-items: start;
+    /* 396px, up from 348 (2026-09-10). The options column now carries the section
+       BARS — grip, switch, name, caret on one line — and 348 left the longer names
+       ("Outstanding issues needing attention") wrapping against the caret. The
+       preview keeps the remaining 1fr, which the wider dialog grew rather than
+       shrank. */
+    grid-template-columns: minmax(0, 1fr) 396px;
+    gap: 0;
+    align-items: stretch;
+    margin: calc(-1 * var(--_bleed));
   }
+
+  /* Very light gray, one step off white: the preview column reads as a surface the
+     widget card sits ON, which is the job the stage's own frame used to do. */
+  .bcn-cfg__preview {
+    background: var(--color-background-elevation-sunken);
+    padding: var(--_bleed);
+    min-inline-size: 0;
+    /* ── ONE SCROLLER FOR THE WHOLE DIALOG (Jamie, 2026-09-10). The stage defaults
+          to a fixed 520px well with its own overflow, so a tall widget scrolled
+          INSIDE the preview column while the options column sat still — two scroll
+          contexts side by side, and the widget's own footer unreachable without
+          finding the inner one first. Height `auto` lets the stage size to the
+          scaled clone, which makes esa-dialog's body (`overflow-y: auto`, capped at
+          85vh) the only scroller, so both columns move together.
+          The stage's scale math is unaffected: it fits WIDTH against the scroller's
+          content box and lets height overflow. Its "more below" gradient needed a
+          fix to go with this — it was derived from a height comparison that still
+          reported an overflow here; it now asks the scroller whether it can scroll,
+          which under `auto` it cannot. ── */
+    --bcn-preview-stage-height: auto;
+    --bcn-preview-stage-overflow: visible;
+    /* The stage keeps its scale math, but drops its frame — the card now sits
+       straight on this column instead of inside a well. */
+    --bcn-preview-stage-bg: transparent;
+    --bcn-preview-stage-border: 0;
+    --bcn-preview-stage-radius: 0;
+    --bcn-preview-stage-padding: 0;
+  }
+
+  /* The dividing line. On the options column's leading edge so it needs no element
+     of its own and no gap to sit in — the two columns butt against it. */
+  .bcn-cfg__options {
+    border-inline-start: 1px solid var(--color-border-default);
+    padding: var(--_bleed);
+    min-inline-size: 0;
+  }
+
   @media (max-width: 900px) {
     .bcn-cfg {
       grid-template-columns: minmax(0, 1fr);
+    }
+    /* Stacked, the divider is the seam BETWEEN them, so it rotates rather than
+       staying on an edge that is no longer shared. */
+    .bcn-cfg__options {
+      border-inline-start: 0;
+      border-block-start: 1px solid var(--color-border-default);
     }
   }
 
   .bcn-cfg__label {
     color: var(--color-content-default-primary);
+  }
+
+  /* A GROUP heading, one rung up from a field label: it names a run of controls
+     rather than a single input, so it takes default ink and a rule under it to close
+     the band off from the fields below. */
+  .bcn-cfg__group {
+    color: var(--color-content-default);
+    padding-block-end: var(--spacing-150);
+    border-block-end: 1px solid var(--color-border-default);
   }
 
   /* .stack's display:flex would out-cascade the UA [hidden] rule — restate it

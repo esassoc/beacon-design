@@ -217,11 +217,38 @@ const stackMeta = (members: Find[]) => {
   .bcn-cc {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-300);
+    /* 16px: the Show toggle is a CONTROL over the list, not another section of it, so
+       it does not take the 24px the lanes use between themselves. */
+    gap: var(--spacing-400);
   }
 
+  /* LABEL INLINE WITH THE SEGMENTS, CONTROL AT THE RIGHT EDGE (Jamie, 2026-09-09).
+     esa-button-toggle's :host is `display: flex; flex-direction: column`, which
+     stacks "Show" above the segment rail. Overriding the host from out here is legal
+     — an outer-document rule beats :host on the same element — and it is enough,
+     because the HOST is the flex container: its items are the shadow root's own
+     children (the label span and the segment group), so turning the axis puts them
+     side by side without reaching into the shadow DOM at all.
+     align-self moves the whole control to the trailing edge, matching
+     BcnWidgetDateRange — a control that operates a widget sits right-aligned above
+     the thing it operates. */
   .bcn-cc__show {
-    align-self: flex-start;
+    align-self: flex-end;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-200);
+    /* NO BRAND ON THE SELECTED SEGMENT (Jamie, 2026-09-09). esa-button-toggle paints
+       it `color: var(--color-content-brand, #2a7e3b)`, and in this app that token is
+       UNSET — theme-beacon.css re-points it through --color-background-brand, which is
+       itself declared as `var(--color-background-brand)`, a self-reference and so
+       invalid at computed-value time. The token therefore never resolves and the
+       component's hardcoded hub-green fallback is what renders. That is a THEME bug
+       with 172 consumers across the spoke and it is not this component's to fix.
+       Scoped re-point instead: the selected segment reads default ink, which is what
+       it should be regardless — selection is already carried by the raised white chip
+       and its shadow, so a brand tint on a quiet card control is a second signal for
+       something already said. Semantic token, never the raw --bcn-teal-* ramp. */
+    --color-content-brand: var(--color-content-default);
   }
 
   /* Both panes are in the DOM; the root attribute picks the one that paints. */
@@ -230,7 +257,18 @@ const stackMeta = (members: Find[]) => {
     display: none;
   }
 
-  .bcn-cc__pane,
+  /* A LANE IS THIS CARD'S SECTION, so the gap BETWEEN lanes is the board's section
+     rhythm — 24px, the same trough BcnWidgetFlow puts between sections (Jamie,
+     2026-09-09). This widget is ONE section (a continuous list, not
+     a stat rail beside a chart), so it never inherited that spacing and its lanes sat
+     8px apart: tight enough that two lanes read as one run of rows.
+     WITHIN a lane the gap stays small — the head and its rows are one unit. */
+  .bcn-cc__pane {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+
   .bcn-cc__lane {
     display: flex;
     flex-direction: column;
@@ -248,6 +286,14 @@ const stackMeta = (members: Find[]) => {
     font-size: var(--font-size-150);
     font-weight: var(--typography-font-weight-medium);
     color: var(--color-content-default-secondary);
+    /* The count badge takes the QUIET treatment the Active Observations card uses on
+       "Outstanding issues" (Jamie, 2026-09-09): a sunken chip in secondary ink rather
+       than esa-badge's default brand navy on white. A lane count says how many rows
+       follow — it is a label on a heading, not a status worth a brand fill, and nine
+       navy chips down one card read as nine things demanding attention.
+       Set here rather than inline per call site so every lane agrees. */
+    --badge-bg: var(--color-background-elevation-sunken);
+    --badge-text-color: var(--color-content-default-secondary);
   }
 
   .bcn-cc__rows {
