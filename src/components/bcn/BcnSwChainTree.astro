@@ -15,7 +15,8 @@
 // the panels never disagree.
 //
 // Filter-row contract: `esa-text-field[name="swc-search"]` searches; the picker named
-// `swc-search-coverage` narrows (all / orphaned / several); `[data-swc-expand]`
+// step title's chip (sw:chip, name "coverage") narrows (all / orphaned / several) and
+// the title's count (`[data-swc-count="title"]`) follows what is shown; `[data-swc-expand]`
 // and `[data-swc-collapse]` work the commitment level. `swc:changed` recounts.
 //
 // bcn-lego-checked: esa-tree-view is a selection tree of uniform nodes with no card
@@ -213,6 +214,8 @@ const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' 
         if (any && (needle || coverage !== 'all')) cmt.open = true;
       });
       if (nomatch) nomatch.hidden = shown > 0;
+      const tb = document.querySelector<HTMLElement>('[data-swc-count="title"] .bcn-swcb');
+      if (tb) { tb.textContent = String(shown); tb.setAttribute('aria-label', `${shown} requirements`); }
     };
     const search = document.querySelector<HTMLElement & { value: string }>('esa-text-field[name="swc-search"]');
     if (search) {
@@ -221,8 +224,13 @@ const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' 
       search.addEventListener('input', on);
       search.addEventListener('change', on);
     }
-    const picker = document.querySelector<HTMLElement & { value: string }>('esa-select[name="swc-search-coverage"]');
-    picker?.addEventListener('change', () => { coverage = (picker.value || 'all') as Coverage; apply(); });
+    // The pick lives in the step title's chip (bcn-sw-select-chip named "coverage").
+    document.addEventListener('sw:chip', (e) => {
+      const d = (e as CustomEvent<{ name: string; value: string }>).detail;
+      if (d?.name !== 'coverage') return;
+      coverage = (d.value || 'all') as Coverage;
+      apply();
+    });
 
     document.addEventListener('swc:changed', () => { recount(); apply(); });
     recount();

@@ -46,7 +46,11 @@ const { value, label, options, name = label.toLowerCase() } = Astro.props;
   customElements.whenDefined('esa-dropdown-menu').then(() => {
     document.querySelectorAll<Menu>('[data-sw-chip]').forEach((menu) => {
       const options = JSON.parse(menu.dataset.items ?? '[]') as { label: string; value: string }[];
-      menu.items = options.map((o) => ({ label: o.label, action: o.value }));
+      // The lego only emits menu-action for a truthy action, so the "All …" row
+      // (value '') would close the menu and change nothing. It rides as a sentinel
+      // and is mapped back to '' before anyone downstream sees it.
+      const ALL = '__all__';
+      menu.items = options.map((o) => ({ label: o.label, action: o.value || ALL }));
       const text = menu.querySelector<HTMLElement>('[data-sw-chip-label]');
       const btn = menu.querySelector<HTMLButtonElement>('button');
       const base = btn?.getAttribute('aria-label')?.split(':')[0] ?? '';
@@ -61,7 +65,8 @@ const { value, label, options, name = label.toLowerCase() } = Astro.props;
         btn.style.lineHeight = cs.lineHeight;
       }
       menu.addEventListener('menu-action', (e) => {
-        const value = String((e as CustomEvent<string>).detail ?? '');
+        const raw = String((e as CustomEvent<string>).detail ?? '');
+        const value = raw === ALL ? '' : raw;
         const label = options.find((o) => o.value === value)?.label ?? value;
         if (text) text.textContent = label;
         btn?.setAttribute('aria-label', `${base}: ${label}`);

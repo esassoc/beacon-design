@@ -6,7 +6,7 @@
 // through the view switch in the panel's corner.
 //
 // Its job, in Andy's words (2026-09-14): see the chain top to bottom, and find the
-// orphaned requirements, in no obligation and no action. The Coverage picker narrows
+// orphaned requirements, in no obligation and no action. The chip in the title narrows
 // to those; a requirement row opens a drawer that lists its obligations and lets it be
 // added to one, or start a new one; obligations edit in a stacked drawer.
 import AppShell from '../../../layouts/AppShell.astro';
@@ -16,6 +16,7 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
 import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
 import BcnSwCountBadge from '../../../components/bcn/BcnSwCountBadge.astro';
+import BcnSwSelectChip from '../../../components/bcn/BcnSwSelectChip.astro';
 import BcnSwFilterRow from '../../../components/bcn/BcnSwFilterRow.astro';
 import BcnSwViewSwitch from '../../../components/bcn/BcnSwViewSwitch.astro';
 import BcnSwChainTree from '../../../components/bcn/BcnSwChainTree.astro';
@@ -25,9 +26,12 @@ import { SETUP_STEPS, STEP_GLYPH, CHAIN_TOTALS, OBLIGATION_TREE_TOTALS } from '.
 
 const STEP = SETUP_STEPS.find((s) => s.id === 'obligations')!;
 const total = CHAIN_TOTALS.requirements;
+// The title reads "Obligations in [All requirements]" so the two views share one
+// h2 shape; the chip's rows are the coverage picks. Wording adjustable.
 const COVERAGE_PICKS = [
-  { label: 'Orphaned', value: 'unrouted' },
-  { label: 'In more than one obligation', value: 'several' },
+  { label: 'All requirements', value: '' },
+  { label: 'Orphaned requirements', value: 'unrouted' },
+  { label: 'Requirements in several obligations', value: 'several' },
 ];
 ---
 
@@ -35,8 +39,8 @@ const COVERAGE_PICKS = [
   layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
   sections:
     - wizard chrome     -> bcn-setup-wizard-frame     # compass mark, serif title, five-step pill nav with step 5 active
-    - step panel        -> bcn-sw-step-panel          # numeral, serif title with count, intro; actions: bcn-sw-view-switch (By category / By commitment)
-    - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), coverage picker (orphaned / in more than one), expand / collapse verbs
+    - step panel        -> bcn-sw-step-panel          # numeral, serif title "Obligations in" with coverage chip (bcn-sw-select-chip: all / orphaned / in several) and count, intro; actions: bcn-sw-view-switch
+    - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), expand / collapse verbs
     - chain tree        -> bcn-sw-chain-tree          # commitment > requirement > obligation leaves; route chips, gap chips, legend; foot: Approve obligations
     - drawers           -> bcn-sw-chain-panels        # requirement (its obligations and actions, Add to an obligation, New obligation) > obligation editor > picker
 -->
@@ -51,15 +55,12 @@ const COVERAGE_PICKS = [
           intro="Follow each commitment down to its requirements and the obligations they became. Filter to the orphans, requirements in no obligation and no action, and open any requirement to add it to an obligation."
         >
           <Fragment slot="title">
-            <span>Requirements by commitment</span>
-            <BcnSwCountBadge value={total} label={`${total} requirements`} />
+            <span>Obligations in</span>
+            <BcnSwSelectChip label="Coverage" name="coverage" value="All requirements" options={COVERAGE_PICKS} />
+            <span data-swc-count="title"><BcnSwCountBadge value={total} label={`${total} requirements`} /></span>
           </Fragment>
           <Fragment slot="actions"><BcnSwViewSwitch current="chain" /></Fragment>
-          <BcnSwFilterRow
-            searchPlaceholder="Search requirements"
-            searchName="swc-search"
-            pickers={[{ label: 'Coverage', value: 'All requirements', options: COVERAGE_PICKS }]}
-          >
+          <BcnSwFilterRow searchPlaceholder="Search requirements" searchName="swc-search">
             <EsaButton variant="ghost" size="xs" data-swc-expand title="Open every commitment">
               <span class="sw-verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
             </EsaButton>
