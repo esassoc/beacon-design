@@ -1,0 +1,362 @@
+---
+// <BcnListAddObligations> — the drawer that puts registry obligations ONTO an
+// obligation list. It renders `candidateTree(list)`: the project's obligation registry
+// minus everything this list already holds, filed the way the registry files it
+// (CATEGORY > SUBCATEGORY > obligation). Nothing in here is authored — every title,
+// class, description, category and requirement code is read off the registry node.
+//
+// The drawer opens on the document event `list:add-obligations` (fired by the page's
+// action bar) and is inert on any page that does not include it.
+//
+// WHAT IT SACRIFICES: expansion. There are ~290 candidates, so every category is
+// CLOSED on open and the search is the way in — an all-open drawer is a wall of
+// checkboxes nobody can aim at. The rows carry no class tag, no requirement list and
+// no description either: this is a picker, and the thing you pick by is the title. The
+// record's full shape lives in step 5's editor, not here.
+//
+// THE CONTRACT with the detail page's tree: on "Add to list" this dispatches a
+// bubbling `list:members-added` CustomEvent on `document` with
+//   detail = { items: AddedItem[] }
+//   AddedItem = { id, title, class, description, catId, catName, subId, subName,
+//                 reqs: { code, name }[] }
+// — everything the tree needs to stamp a real card where the registry files it,
+// without a round trip. Each field is stamped onto its row as a data attribute at
+// build time and read straight back off the checked rows. The add genuinely lands on
+// screen; this component never reports a success it did not cause.
+//
+// bcn-lego-checked: the frame IS esa-side-dialog (Esc, click-outside, close button and
+// a full-viewport scrim all come from the lego and none of them are touched); the
+// search IS esa-text-field; every option IS esa-checkbox; the footer verbs ARE
+// esa-button; the branch counts ARE BcnSwCountBadge; the chevron IS esa-icon. The
+// branches are native <details>, matching BcnSwObligationsTree exactly — esa-tree-view
+// is a selection tree with its own row chrome and no multi-select checkbox contract,
+// and esa-accordion is one level of panels with a heading scale this dense tree does
+// not want. The "No obligations match." line replicates .bcn-swot__nomatch from that
+// same tree rather than inventing a second empty voice.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import { candidateTree, type ObligationList } from '../../data/lists';
+
+interface Props {
+  /** The list being added to. Its members are what `candidateTree` subtracts. */
+  list: ObligationList;
+}
+const { list } = Astro.props;
+
+/** The registry minus what this list already holds. Nothing here is authored. */
+const tree = candidateTree(list);
+type CandidateCat = (typeof tree)[number];
+const catCount = (cat: CandidateCat) => cat.subcategories.reduce((n, s) => n + s.obligations.length, 0);
+const total = tree.reduce((n, c) => n + catCount(c), 0);
+---
+
+<esa-side-dialog
+  id="bcn-lao"
+  heading="Add obligations"
+  position="right"
+  show-close-button
+  style="--_width: min(680px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
+  <div class="bcn-lao">
+    <esa-text-field
+      size="sm"
+      name="lao-search"
+      aria-label="Search obligations"
+      placeholder="Search by obligation title"></esa-text-field>
+
+    <p class="bcn-lao__nomatch" data-lao-nomatch hidden={total > 0}>No obligations match.</p>
+
+    <div class="bcn-lao__tree" data-lao-tree>
+      {tree.map((cat) => (
+        <details class="bcn-lao__cat" data-lao-cat={cat.id}>
+          <summary class="bcn-lao__row bcn-lao__row--cat">
+            <span class="bcn-lao__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+            <span class="bcn-lao__name">{cat.name}</span>
+            <span data-lao-count><BcnSwCountBadge value={catCount(cat)} label={`${catCount(cat)} obligations available`} /></span>
+          </summary>
+          <div class="bcn-lao__subs">
+            {cat.subcategories.map((sub) => (
+              <details class="bcn-lao__sub" data-lao-sub={sub.id}>
+                <summary class="bcn-lao__row bcn-lao__row--sub">
+                  <span class="bcn-lao__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+                  <span class="bcn-lao__name">{sub.name}</span>
+                  <span data-lao-count><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations available`} /></span>
+                </summary>
+                <ul class="bcn-lao__opts">
+                  {sub.obligations.map((o) => (
+                    <li
+                      class="bcn-lao__opt"
+                      data-lao-opt
+                      data-id={o.id}
+                      data-title={o.title}
+                      data-class={o.class}
+                      data-description={o.description}
+                      data-cat-id={cat.id}
+                      data-cat-name={cat.name}
+                      data-sub-id={sub.id}
+                      data-sub-name={sub.name}
+                      data-reqs={JSON.stringify(o.requirements.map((r) => ({ code: r.code, name: r.name })))}>
+                      <esa-checkbox size="sm" label={o.title}></esa-checkbox>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <span slot="footer" class="bcn-lao__foot">
+    <span class="bcn-lao__selected">Selected: <span data-lao-n>0</span></span>
+    <span class="bcn-lao__foot-right">
+      <EsaButton variant="primary" size="sm" data-lao-add>Add to list</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-lao-cancel>Cancel</EsaButton>
+    </span>
+  </span>
+</esa-side-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-checkbox';
+
+  type Drawer = HTMLElement & { open: boolean };
+  type Valued = HTMLElement & { value: string };
+  type Checkbox = HTMLElement & { checked: boolean };
+
+  const drawer = document.getElementById('bcn-lao') as Drawer | null;
+  // Inert when the page does not include the drawer — every listener below hangs off
+  // this guard, including the document-level one.
+  if (drawer) {
+    const tree = drawer.querySelector<HTMLElement>('[data-lao-tree]')!;
+    const search = drawer.querySelector<Valued>('esa-text-field[name="lao-search"]');
+    const nomatch = drawer.querySelector<HTMLElement>('[data-lao-nomatch]')!;
+    const nOut = drawer.querySelector<HTMLElement>('[data-lao-n]')!;
+    // The disabled STATE is the native button's; the disabled LOOK is a class on
+    // esa-button's wrapper (.esa-button--disabled: opacity .5, not-allowed, no pointer
+    // events). Setting only the native property gave a control that could not be
+    // clicked and still painted as a live primary. Both move together, and the class
+    // comes back off when a row is ticked, so the wrapper's pointer-events returns
+    // with it.
+    const addBtn = drawer.querySelector<HTMLButtonElement>('button[data-lao-add]');
+    const cancelBtn = drawer.querySelector<HTMLButtonElement>('button[data-lao-cancel]');
+
+    const rows = () => [...tree.querySelectorAll<HTMLElement>('[data-lao-opt]')];
+    const boxOf = (row: HTMLElement) => row.querySelector('esa-checkbox') as Checkbox | null;
+    const checkedRows = () => rows().filter((r) => boxOf(r)?.checked);
+    // The lego mirrors its value to the host property; the shadow input is the fallback
+    // for the tick before the element upgrades.
+    const needleOf = () => (search?.value ?? search?.shadowRoot?.querySelector('input')?.value ?? '').trim().toLowerCase();
+
+    // ---- The live count, and the verb it gates.
+    const syncCount = () => {
+      const n = checkedRows().length;
+      nOut.textContent = String(n);
+      setAddEnabled(n > 0);
+    };
+    const setAddEnabled = (on: boolean) => {
+      if (!addBtn) return;
+      addBtn.disabled = !on;
+      addBtn.closest('.esa-button')?.classList.toggle('esa-button--disabled', !on);
+    };
+    setAddEnabled(false);
+    tree.addEventListener('change', syncCount);
+
+    // ---- Search. Filters by obligation title; a branch that still holds a hit opens
+    // itself, and a branch with none is hidden outright. Clearing the field puts every
+    // category back to CLOSED, which is the drawer's resting state.
+    const filter = () => {
+      const needle = needleOf();
+      let shown = 0;
+      for (const cat of tree.querySelectorAll<HTMLDetailsElement>('[data-lao-cat]')) {
+        let inCat = 0;
+        for (const sub of cat.querySelectorAll<HTMLDetailsElement>('[data-lao-sub]')) {
+          let inSub = 0;
+          for (const row of sub.querySelectorAll<HTMLElement>('[data-lao-opt]')) {
+            const hit = !needle || (row.dataset.title ?? '').toLowerCase().includes(needle);
+            row.hidden = !hit;
+            if (hit) inSub += 1;
+          }
+          sub.hidden = inSub === 0;
+          sub.open = !!needle && inSub > 0;
+          inCat += inSub;
+        }
+        cat.hidden = inCat === 0;
+        cat.open = !!needle && inCat > 0;
+        shown += inCat;
+      }
+      nomatch.hidden = shown > 0;
+    };
+    search?.addEventListener('input', filter);
+    search?.addEventListener('change', filter);
+
+    // ---- Re-tally. An obligation that has just landed on the list stops being a
+    // candidate, so its row leaves and the branch counts have to follow it down. A
+    // branch left holding nothing is removed outright — a drawer of candidates shows
+    // what is still available, never an empty shelf.
+    // The badge is BcnSwCountBadge's span, wrapped in the branch's [data-lao-count]
+    // hook; `:scope > summary` keeps a category's own badge from reading its
+    // subcategories'.
+    const setCount = (branch: HTMLElement, n: number) => {
+      const badge = branch.querySelector<HTMLElement>(':scope > summary [data-lao-count] > *');
+      if (!badge) return;
+      badge.textContent = String(n);
+      badge.setAttribute('aria-label', `${n} obligations available`);
+    };
+    const retally = () => {
+      for (const cat of tree.querySelectorAll<HTMLDetailsElement>('[data-lao-cat]')) {
+        let inCat = 0;
+        for (const sub of cat.querySelectorAll<HTMLDetailsElement>('[data-lao-sub]')) {
+          const inSub = sub.querySelectorAll('[data-lao-opt]').length;
+          if (!inSub) { sub.remove(); continue; }
+          setCount(sub, inSub);
+          inCat += inSub;
+        }
+        if (!inCat) { cat.remove(); continue; }
+        setCount(cat, inCat);
+      }
+    };
+
+    // ---- Reset: every box cleared, the search emptied, the tree back to closed.
+    const reset = () => {
+      for (const row of rows()) {
+        const box = boxOf(row);
+        if (box) box.checked = false;
+      }
+      if (search) search.value = '';
+      filter();
+      syncCount();
+    };
+
+    // ---- Open on the page's request.
+    document.addEventListener('list:add-obligations', () => {
+      Promise.all(
+        ['esa-side-dialog', 'esa-text-field', 'esa-checkbox'].map((t) => customElements.whenDefined(t)),
+      ).then(() => {
+        reset();
+        drawer.open = true;
+      });
+    });
+
+    cancelBtn?.addEventListener('click', () => {
+      drawer.open = false;
+    });
+
+    // ---- Add. The payload is read off the rows, never rebuilt from a lookup, so the
+    // tree stamps exactly the registry record that was ticked.
+    addBtn?.addEventListener('click', () => {
+      const items = checkedRows().map((row) => ({
+        id: row.dataset.id ?? '',
+        title: row.dataset.title ?? '',
+        class: row.dataset.class ?? '',
+        description: row.dataset.description ?? '',
+        catId: row.dataset.catId ?? '',
+        catName: row.dataset.catName ?? '',
+        subId: row.dataset.subId ?? '',
+        subName: row.dataset.subName ?? '',
+        reqs: JSON.parse(row.dataset.reqs || '[]') as { code: string; name: string }[],
+      }));
+      if (!items.length) return;
+      document.dispatchEvent(new CustomEvent('list:members-added', { detail: { items }, bubbles: true }));
+      for (const row of checkedRows()) row.remove();
+      retally();
+      reset();
+      drawer.open = false;
+    });
+  }
+</script>
+
+<style>
+  /* The drawer inherits step 5's dense 13px scale, the same declaration
+     BcnSwObligationsEditor makes on .bcn-swo-edit. This is a tree of ~290 rows read
+     next to the page's own 13px tree; a 16px picker beside a 13px tree would read as
+     two different products. */
+  .bcn-lao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+  }
+  .bcn-lao__nomatch {
+    margin: 0;
+    padding: var(--spacing-300) var(--spacing-100);
+    color: var(--color-content-default-tertiary);
+    font-style: italic;
+  }
+
+  /* Branches: the row grammar of BcnSwObligationsTree, replicated — chevron, name,
+     count badge, a full rule between categories and a subtle one between
+     subcategories. No verbs on these rows: filing belongs to the registry. */
+  .bcn-lao__tree {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-lao__cat { border-bottom: 1px solid var(--color-border-default); }
+  .bcn-lao__cat[hidden], .bcn-lao__sub[hidden], .bcn-lao__opt[hidden] { display: none; }
+  .bcn-lao__subs { display: flex; flex-direction: column; }
+  .bcn-lao__sub + .bcn-lao__sub { border-top: 1px solid var(--color-border-default-subtle); }
+
+  .bcn-lao__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 34px;
+    padding: var(--spacing-100) var(--spacing-200);
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 120ms ease;
+  }
+  .bcn-lao__row::-webkit-details-marker { display: none; }
+  .bcn-lao__row:hover { background: var(--color-background-default); }
+  .bcn-lao__row--cat { font-weight: 600; }
+  .bcn-lao__row--sub { padding-left: calc(var(--spacing-200) + 22px); }
+  .bcn-lao__row:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: calc(var(--focus-ring-offset, 2px) * -1);
+  }
+  .bcn-lao__chevron {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--color-content-default-tertiary);
+    transition: transform 120ms ease;
+  }
+  details[open] > .bcn-lao__row .bcn-lao__chevron { transform: rotate(90deg); }
+  .bcn-lao__name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Option rows: one checkbox, labelled with the obligation title. */
+  .bcn-lao__opts {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-150) var(--spacing-200) var(--spacing-300) calc(var(--spacing-200) + 44px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-lao__opts:empty { display: none; }
+  /* esa-checkbox size="sm" names typography-body-xs for its label, which resolves to
+     12px at the top of its clamp — under this tree's 13px step. Re-point the ROLE on
+     the row (custom properties cross the shadow boundary) rather than hand-styling the
+     label; the sm box geometry is what the size prop is really for and it stays. */
+  .bcn-lao__opt esa-checkbox { --typography-body-xs-font-size: 0.8125rem; display: block; }
+
+  .bcn-lao__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--spacing-200);
+    font-size: 0.8125rem;
+  }
+  .bcn-lao__selected { color: var(--color-content-default-secondary); }
+  .bcn-lao__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+</style>

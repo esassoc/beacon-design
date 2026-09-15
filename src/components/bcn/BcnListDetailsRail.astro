@@ -1,0 +1,82 @@
+---
+// <BcnListDetailsRail> — the identity card for one obligation list, sitting in the
+// detail page's rail beside the tree. It answers "which record am I looking at" and
+// then stops: name, description, type, created, last updated, obligation count. Six
+// labelled fields, read straight off the ObligationList the page hands it.
+//
+// What this rail SACRIFICES, deliberately: the files block, the owner, the activity
+// feed and the status chip a prod detail rail usually carries. A list has no state to
+// report and no lifecycle to show — it is a name over a set of members — so the rail
+// that reports one would be reporting nothing. There are no actions here either:
+// "Edit details" is a verb on the page's title row, where the record's name is, and a
+// verb gets exactly one home per surface.
+//
+// An absent description renders as an EN dash. Not "None", not a sentence about why
+// the field is empty: prod's Details panel shows a dash for an unfilled field and this
+// rail matches it.
+//
+// bcn-lego-checked: the frame IS esa-card (variant="outlined"), every row IS
+// BcnKeyValue (the documented label -> value tier, already used by the tracking
+// dialog and BcnComponentDataPanel), and the column IS the `.stack` primitive from
+// @esa/tokens/layouts.css. Checked Ecology for a description-list / key-value lego —
+// there is none; BcnKeyValue is the spoke's existing home for that tier, so this file
+// composes it rather than adding a second one. The only CSS below is the 16px floor
+// (see the note on the rule).
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import { LIST_TYPE_LABEL, type ObligationList } from '../../data/lists';
+
+interface Props {
+  /** The list this rail identifies. Every value below is read off it. */
+  list: ObligationList;
+}
+const { list } = Astro.props;
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/**
+ * "2026-08-19" -> "Aug 19, 2026". Split on the ISO parts rather than handing the
+ * string to `new Date()`: a bare date parses as UTC and renders a day early in every
+ * timezone west of Greenwich, which is every timezone this prototype is shown in.
+ */
+const fmtDate = (iso: string): string => {
+  const [y, m, d] = iso.split('-').map(Number);
+  if (!y || !m || !d) return '–';
+  return `${MONTHS[m - 1]} ${d}, ${y}`;
+};
+
+/** The dash is the empty value, everywhere a field can be blank. */
+const EN_DASH = '–';
+---
+
+<div class="bcn-ldr">
+  <EsaCard title="Details" variant="outlined">
+    <div class="stack" data-gap="md">
+      <BcnKeyValue label="Name" value={list.name} />
+      <BcnKeyValue label="Description" value={list.description || EN_DASH} />
+      <BcnKeyValue label="Type" value={LIST_TYPE_LABEL[list.type]} />
+      <BcnKeyValue label="Created" value={fmtDate(list.createdAt)} />
+      <BcnKeyValue label="Last updated" value={fmtDate(list.updatedAt)} />
+      <BcnKeyValue label="Obligations" value={String(list.memberCount)} />
+    </div>
+  </EsaCard>
+</div>
+
+<style>
+  /* The 16px floor. BcnKeyValue sets its label and value from
+     --typography-label-md-font-size so a read-only row matches an esa-select label;
+     that role resolves through --font-size-200, which clamps at 0.9375rem (15px).
+     Checked the ramp for a role that lands on 16px: --font-size-250 tops out at 17px
+     and bottoms at 13px, --font-size-300 at 18px — no token holds 16. So this is a
+     sanctioned hard-code, scoped to this rail only, and it moves BOTH tiers together
+     so the label -> value relationship BcnKeyValue draws is preserved. The rail is not
+     a dense surface: the dense 13px scale belongs to the tree next to it, not here. */
+  .bcn-ldr :global(.bcn-key-value__key),
+  .bcn-ldr :global(.bcn-key-value__val) {
+    font-size: 1rem; /* 16px */
+    line-height: 1.45;
+  }
+  /* A long description wraps rather than running out of the card. */
+  .bcn-ldr :global(.bcn-key-value__val) {
+    overflow-wrap: anywhere;
+  }
+</style>
