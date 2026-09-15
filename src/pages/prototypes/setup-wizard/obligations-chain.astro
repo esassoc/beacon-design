@@ -1,0 +1,89 @@
+---
+// Setup Wizard step 5 — Obligations, seen by commitment. The registry page files
+// obligations by subject; this one follows the chain top to bottom instead:
+// commitment > requirement > the obligation(s) it became. Same wizard chrome, same
+// step panel, same filter row; the list is bcn-sw-chain-tree and the two pages swap
+// through the view switch in the panel's corner.
+//
+// Its job, in Andy's words (2026-09-14): see the chain top to bottom, and find the
+// requirements that are not part of any obligation. The Coverage picker narrows to
+// those; a requirement row opens a drawer that lists its obligations and lets it be
+// added to one, or start a new one; obligations edit in a stacked drawer.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
+import BcnSwCountBadge from '../../../components/bcn/BcnSwCountBadge.astro';
+import BcnSwFilterRow from '../../../components/bcn/BcnSwFilterRow.astro';
+import BcnSwViewSwitch from '../../../components/bcn/BcnSwViewSwitch.astro';
+import BcnSwChainTree from '../../../components/bcn/BcnSwChainTree.astro';
+import BcnSwChainPanels from '../../../components/bcn/BcnSwChainPanels.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { SETUP_STEPS, STEP_GLYPH, CHAIN_TOTALS, OBLIGATION_TREE_TOTALS } from '../../../data/setup-wizard';
+
+const STEP = SETUP_STEPS.find((s) => s.id === 'obligations')!;
+const total = CHAIN_TOTALS.requirements;
+const COVERAGE_PICKS = [
+  { label: 'Without an obligation', value: 'none' },
+  { label: 'Unrouted', value: 'unrouted' },
+  { label: 'In more than one obligation', value: 'several' },
+];
+---
+
+<!-- manifest:
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
+  sections:
+    - wizard chrome     -> bcn-setup-wizard-frame     # compass mark, serif title, five-step pill nav with step 5 active
+    - step panel        -> bcn-sw-step-panel          # numeral, serif title with count, intro; actions: bcn-sw-view-switch (By category / By commitment)
+    - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), coverage picker, expand / collapse verbs
+    - chain tree        -> bcn-sw-chain-tree          # commitment > requirement > obligation leaves; route chips, gap chips, legend; foot: Approve obligations
+    - drawers           -> bcn-sw-chain-panels        # requirement (its obligations and actions, Add to an obligation, New obligation) > obligation editor > picker
+-->
+
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
+  <PageLayout title="Setup Wizard" hideTitleRow>
+    <BcnSetupWizardFrame active="obligations">
+      <div class="stack" data-gap="md">
+        <BcnSwStepPanel
+          n={STEP.n}
+          token={STEP.token}
+          intro="Follow each commitment down to its requirements and the obligations they became. Filter to the requirements not yet in an obligation, and open any requirement to add it to one."
+        >
+          <Fragment slot="title">
+            <span>Requirements by commitment</span>
+            <BcnSwCountBadge value={total} label={`${total} requirements`} />
+          </Fragment>
+          <Fragment slot="actions"><BcnSwViewSwitch current="chain" /></Fragment>
+          <BcnSwFilterRow
+            searchPlaceholder="Search requirements"
+            searchName="swc-search"
+            pickers={[{ label: 'Coverage', value: 'All requirements', options: COVERAGE_PICKS }]}
+          >
+            <EsaButton variant="ghost" size="xs" data-swc-expand title="Open every commitment">
+              <span class="sw-verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
+            </EsaButton>
+            <EsaButton variant="ghost" size="xs" data-swc-collapse title="Close every commitment">
+              <span class="sw-verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
+            </EsaButton>
+          </BcnSwFilterRow>
+        </BcnSwStepPanel>
+
+        <BcnSwChainTree>
+          <Fragment slot="foot">
+            <EsaButton variant="primary" size="sm" title="Approve every obligation in the registry">
+              <span class="sw-verb"><EsaIcon name="circle-check" size="xs" />Approve obligations ({OBLIGATION_TREE_TOTALS.obligations})</span>
+            </EsaButton>
+          </Fragment>
+        </BcnSwChainTree>
+      </div>
+
+      <BcnSwChainPanels />
+    </BcnSetupWizardFrame>
+  </PageLayout>
+</AppShell>
+
+<style>
+  .sw-verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+</style>

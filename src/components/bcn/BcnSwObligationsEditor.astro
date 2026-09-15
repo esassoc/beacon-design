@@ -6,7 +6,9 @@
 //
 // The fields are the anatomy of an obligation (projects/beacon/shaping/obligation-anatomy.md)
 // as it stands after the 2026-09-14 round: Title; Class; where it is filed (Category /
-// Subcategory); the Trigger a classifier matches evidence against; and the Requirements
+// Subcategory); a Description (one or two sentences on what the obligation holds the
+// project to, added at Andy's ask the same day); the Trigger a classifier matches
+// evidence against; and the Requirements
 // it derives from, each folding open to its exact source text. Scope (phases, species)
 // lives on the requirements; there is no Gate field, since whether an obligation waits on
 // an approved plan is read off its requirements' actions; and there is no Thresholds
@@ -40,7 +42,7 @@ for (const r of ITP.requirements) requirements[r.id] = { code: r.commitment, nam
 const obligations: Record<string, unknown> = {};
 for (const cat of OBLIGATION_TREE)
   for (const sub of cat.subcategories)
-    for (const o of sub.obligations) obligations[o.id] = { title: o.title, class: o.class, trigger: o.trigger, cat: cat.id, sub: sub.id };
+    for (const o of sub.obligations) obligations[o.id] = { title: o.title, class: o.class, description: o.description, trigger: o.trigger, cat: cat.id, sub: sub.id };
 const DATA = JSON.stringify({
   obligations,
   requirements,
@@ -63,6 +65,8 @@ const DATA = JSON.stringify({
       <esa-select label="Category" size="sm" options={CATEGORY_OPTIONS} name="swo-category" required></esa-select>
       <esa-select label="Subcategory" size="sm" options="[]" name="swo-subcategory" required></esa-select>
     </div>
+
+    <esa-textarea label="Description" size="sm" rows={3} name="swo-description" placeholder="What the project is held to, in a sentence or two."></esa-textarea>
 
     <esa-textarea label="Trigger" size="sm" rows={2} name="swo-trigger"></esa-textarea>
 
@@ -149,7 +153,7 @@ const DATA = JSON.stringify({
   import '@esa/ecology/esa-checkbox';
   import '@esa/ecology/esa-tooltip';
 
-  type Obl = { title: string; class: string; trigger: string; cat: string; sub: string };
+  type Obl = { title: string; class: string; description: string; trigger: string; cat: string; sub: string };
   type Req = { code: string; name: string; text: string; inActions: number };
   type Data = {
     obligations: Record<string, Obl>;
@@ -391,7 +395,7 @@ const DATA = JSON.stringify({
     const id = card.dataset.id ?? '';
     const o: Obl = data.obligations[id] ?? {
       title: card.querySelector('.bcn-swoc__title')?.textContent?.trim() ?? '',
-      class: card.dataset.class ?? 'adhere', trigger: '',
+      class: card.dataset.class ?? 'adhere', description: '', trigger: '',
       cat: card.closest<HTMLElement>('[data-swo-cat]')?.dataset.swoCat ?? '', sub: card.closest<HTMLElement>('[data-swo-sub]')?.dataset.swoSub ?? '',
     };
     // Where the card sits NOW wins over where the fixture filed it — it may have been dragged.
@@ -402,6 +406,7 @@ const DATA = JSON.stringify({
     field('swo-title')!.value = title;
     setHeading(title);
     field('swo-class')!.value = card.dataset.class ?? o.class;
+    field('swo-description')!.value = o.description;
     field('swo-trigger')!.value = o.trigger;
     const cat = field('swo-category') as Selectish | null;
     if (cat) {
@@ -448,11 +453,23 @@ const DATA = JSON.stringify({
   });
   document.addEventListener('swo:changed', () => { if (editor?.open && current && !current.isConnected) editor.open = false; });
   // Save writes the title and class back onto the card, and refiles it if the
-  // category or subcategory changed — the same move as a drag.
+  // category or subcategory changed — the same move as a drag. Description and
+  // trigger have no home on the card, so they are kept here for the next open.
+  let minted = 0;
   editor?.querySelector('[data-swo-editor-save]')?.addEventListener('click', () => {
     if (!current) return;
     const title = field('swo-title')!.value.trim();
     const cls = field('swo-class')!.value;
+    if (!current.dataset.id || current.dataset.id === 'new') current.dataset.id = `obl-new-${++minted}`;
+    const prior = data.obligations[current.dataset.id];
+    data.obligations[current.dataset.id] = {
+      title: title || prior?.title || 'Untitled obligation',
+      class: cls || prior?.class || 'adhere',
+      description: field('swo-description')!.value,
+      trigger: field('swo-trigger')!.value,
+      cat: field('swo-category')!.value,
+      sub: field('swo-subcategory')!.value,
+    };
     const t = current.querySelector<HTMLElement>('.bcn-swoc__title');
     if (t && title) { t.textContent = title; t.dataset.swoText = title; }
     if (cls) {

@@ -1,0 +1,385 @@
+---
+// <BcnSwChainTree> — step 5 read from the top of the permit down: every commitment,
+// the requirements drafted from it, and under each requirement the obligation(s) it
+// became. Three levels, every line at one small size, in the registry tree's clothes.
+//
+// What it is for: seeing the chain end to end, and finding the requirements that
+// became nothing. Each commitment row carries "n without an obligation" while that is
+// true of any of its requirements; each requirement row carries its route (in n
+// obligations / action only / unrouted); the coverage picker in the filter row narrows
+// the list to just those. Clicking a requirement's name or pencil opens the requirement
+// panel (bcn-sw-chain-panels), where it is added to an obligation, used to start a new
+// one, or its obligations opened and edited. The obligation leaves here are stamped
+// from the template at the foot by that component when links change, so the tree and
+// the panels never disagree.
+//
+// Filter-row contract: `esa-text-field[name="swc-search"]` searches; the picker named
+// `swc-search-coverage` narrows (all / none / unrouted / several); `[data-swc-expand]`
+// and `[data-swc-collapse]` work the commitment level. `swc:changed` recounts.
+//
+// bcn-lego-checked: esa-tree-view is a selection tree of uniform nodes with no card
+// leaf, no per-row verbs and its own type scale; this is native <details> with the
+// registry tree's row grammar. The code chip IS bcn-commitment-badge, counts ARE
+// bcn-sw-count-badge, glyphs esa-icon, hover labels esa-tooltip.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import { COMMITMENT_CHAIN, CHAIN_TOTALS, OBLIGATION_CLASS_LABEL, STEP_GLYPH, type ChainRequirement } from '../../data/setup-wizard';
+
+const routeLabel = (r: ChainRequirement) =>
+  r.obligations.length ? `in ${r.obligations.length} ${r.obligations.length === 1 ? 'obligation' : 'obligations'}` : r.actions.length ? 'action only' : 'unrouted';
+const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' : r.actions.length ? 'action' : 'unrouted');
+---
+
+<section class="bcn-swc" data-swc-tree>
+  <p class="bcn-swc__nomatch" data-swc-nomatch hidden>No requirements match.</p>
+  <div class="bcn-swc__body">
+    {COMMITMENT_CHAIN.map((c) => (
+      <details class="bcn-swc__cmt" data-swc-cmt data-code={c.code}>
+        <summary class="bcn-swc__row bcn-swc__row--cmt">
+          <span class="bcn-swc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <BcnCommitmentBadge code={c.code} size="sm" />
+          <span class="bcn-swc__name" data-swc-text={c.title}>{c.title}</span>
+          <BcnSwCountBadge value={c.requirements.length} label={`${c.requirements.length} requirements`} />
+          <span class="bcn-swc__gap" data-swc-gap hidden={c.uncovered === 0}>{c.uncovered} without an obligation</span>
+          <span class="bcn-swc__verbs">
+            <esa-tooltip text="Expand to obligations"><button type="button" class="bcn-swc__verb" aria-label="Expand to obligations" data-swc-cmt-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+            <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-swc__verb" aria-label="Collapse" data-swc-cmt-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
+          </span>
+        </summary>
+        <div class="bcn-swc__reqs">
+          {c.requirements.map((r) => (
+            <details class="bcn-swc__req" data-swc-req={r.id} data-code={c.code} data-actions={r.actions.length} class:list={{ 'is-leaf': r.obligations.length === 0 }}>
+              <summary class="bcn-swc__row bcn-swc__row--req">
+                <span class="bcn-swc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+                <button type="button" class="bcn-swc__title" data-swc-open data-swc-text={r.name}>{r.name}</button>
+                <span class={`bcn-swc__route bcn-swc__route--${routeTone(r)}`} data-swc-route>{routeLabel(r)}</span>
+                <span class="bcn-swc__verbs">
+                  <esa-tooltip text="Add to an obligation"><button type="button" class="bcn-swc__verb" aria-label="Add to an obligation" data-swc-add><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
+                  <esa-tooltip text="Open" align="end"><button type="button" class="bcn-swc__verb" aria-label="Open requirement" data-swc-open><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                </span>
+              </summary>
+              <ul class="bcn-swc__obls" data-swc-obls>
+                {r.obligations.map((o) => (
+                  <li class="bcn-swc__obl" data-swc-obl={o.id} data-class={o.class}>
+                    <span class="bcn-swc__class" data-swc-class>{OBLIGATION_CLASS_LABEL[o.class]}</span>
+                    <button type="button" class="bcn-swc__obl-title" data-swc-edit data-swc-text={o.title}>{o.title}</button>
+                    <span class="bcn-swc__filing" data-swc-filing>{o.catName} › {o.subName}</span>
+                    <span class="bcn-swc__verbs">
+                      <esa-tooltip text="Edit"><button type="button" class="bcn-swc__verb" aria-label="Edit obligation" data-swc-edit><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                      <esa-tooltip text="Unlink" align="end"><button type="button" class="bcn-swc__verb bcn-swc__verb--danger" aria-label="Unlink from this obligation" data-swc-unlink><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ))}
+        </div>
+      </details>
+    ))}
+  </div>
+
+  <footer class="bcn-swc__foot">
+    <div class="bcn-swc__legend">
+      <span class="bcn-swc__stat"><span class="bcn-swc__dot bcn-swc__dot--obligation"></span><span data-swc-legend="obligation">{CHAIN_TOTALS.inObligation}</span> in an obligation</span>
+      <span class="bcn-swc__sep">·</span>
+      <span class="bcn-swc__stat"><span class="bcn-swc__dot bcn-swc__dot--action"></span><span data-swc-legend="action">{CHAIN_TOTALS.actionOnly}</span> action only</span>
+      <span class="bcn-swc__sep">·</span>
+      <span class="bcn-swc__stat"><span class="bcn-swc__dot bcn-swc__dot--unrouted"></span><span data-swc-legend="unrouted">{CHAIN_TOTALS.unrouted}</span> unrouted</span>
+    </div>
+    <div class="bcn-swc__foot-end"><slot name="foot" /></div>
+  </footer>
+
+  <!-- The stamp for an obligation leaf: bcn-sw-chain-panels clones this whenever a
+       requirement's links change, so new rows carry this file's scope. -->
+  <template data-swc-tpl="obl">
+    <li class="bcn-swc__obl" data-swc-obl="" data-class="">
+      <span class="bcn-swc__class" data-swc-class></span>
+      <button type="button" class="bcn-swc__obl-title" data-swc-edit data-swc-text=""></button>
+      <span class="bcn-swc__filing" data-swc-filing></span>
+      <span class="bcn-swc__verbs">
+        <esa-tooltip text="Edit"><button type="button" class="bcn-swc__verb" aria-label="Edit obligation" data-swc-edit><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+        <esa-tooltip text="Unlink" align="end"><button type="button" class="bcn-swc__verb bcn-swc__verb--danger" aria-label="Unlink from this obligation" data-swc-unlink><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+      </span>
+    </li>
+  </template>
+</section>
+
+<script>
+  import '@esa/ecology/esa-tooltip';
+
+  const tree = document.querySelector<HTMLElement>('[data-swc-tree]');
+  if (tree) {
+    const qa = <T extends Element = HTMLElement>(sel: string, root: ParentNode = tree) => [...root.querySelectorAll<T>(sel)];
+    const nomatch = tree.querySelector<HTMLElement>('[data-swc-nomatch]');
+
+    // ---- Route and counts are read off the DOM: the obligation leaves under a
+    // requirement are the truth about where it went, and the panels rewrite them.
+    const oblCount = (req: HTMLElement) => req.querySelectorAll('.bcn-swc__obl').length;
+    const routeOf = (req: HTMLElement): 'obligation' | 'action' | 'unrouted' =>
+      oblCount(req) ? 'obligation' : Number(req.dataset.actions ?? 0) ? 'action' : 'unrouted';
+    const recount = () => {
+      const totals = { obligation: 0, action: 0, unrouted: 0 };
+      qa<HTMLDetailsElement>('[data-swc-cmt]').forEach((cmt) => {
+        let gap = 0;
+        qa<HTMLDetailsElement>('[data-swc-req]', cmt).forEach((req) => {
+          const n = oblCount(req);
+          const route = routeOf(req);
+          totals[route] += 1;
+          if (!n) gap += 1;
+          req.classList.toggle('is-leaf', n === 0);
+          const chip = req.querySelector<HTMLElement>('[data-swc-route]');
+          if (chip) {
+            chip.className = `bcn-swc__route bcn-swc__route--${route}`;
+            chip.textContent = route === 'obligation' ? `in ${n} ${n === 1 ? 'obligation' : 'obligations'}` : route === 'action' ? 'action only' : 'unrouted';
+          }
+        });
+        const gapEl = cmt.querySelector<HTMLElement>('[data-swc-gap]');
+        if (gapEl) { gapEl.hidden = gap === 0; gapEl.textContent = `${gap} without an obligation`; }
+      });
+      (Object.keys(totals) as (keyof typeof totals)[]).forEach((k) => {
+        const el = tree.querySelector(`[data-swc-legend="${k}"]`);
+        if (el) el.textContent = String(totals[k]);
+      });
+    };
+
+    // ---- Expand / collapse. The page's pair works the commitment level; each
+    // commitment row's pair goes the rest of the way down, to the obligations.
+    const setCmts = (open: boolean) => {
+      qa<HTMLDetailsElement>('[data-swc-cmt]').forEach((c) => (c.open = open));
+      qa<HTMLDetailsElement>('[data-swc-req]').forEach((r) => (r.open = false));
+    };
+    document.querySelector('[data-swc-expand]')?.addEventListener('click', () => setCmts(true));
+    document.querySelector('[data-swc-collapse]')?.addEventListener('click', () => setCmts(false));
+    tree.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-swc-cmt-expand], [data-swc-cmt-collapse]');
+      if (!btn) return;
+      e.preventDefault();
+      const cmt = btn.closest<HTMLDetailsElement>('[data-swc-cmt]')!;
+      const open = btn.matches('[data-swc-cmt-expand]');
+      cmt.open = open;
+      qa<HTMLDetailsElement>('[data-swc-req]', cmt).forEach((r) => (r.open = open && !r.classList.contains('is-leaf')));
+    });
+    // A leaf requirement has nothing to fold; its summary click opens the panel instead.
+    tree.addEventListener('click', (e) => {
+      const sum = (e.target as HTMLElement).closest<HTMLElement>('.bcn-swc__row--req');
+      const req = sum?.closest<HTMLElement>('[data-swc-req]');
+      if (!sum || !req || !req.classList.contains('is-leaf')) return;
+      if ((e.target as HTMLElement).closest('button')) return;
+      e.preventDefault();
+      sum.querySelector<HTMLElement>('[data-swc-open]')?.click();
+    });
+
+    // ---- Search and coverage, together. Every searchable span keeps its original
+    // text in data-swc-text; the query rewrites innerHTML with the hits wrapped.
+    type Coverage = 'all' | 'none' | 'unrouted' | 'several';
+    let coverage: Coverage = 'all';
+    let needle = '';
+    const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+    const rx = (n: string) => new RegExp(n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    const paint = (el: HTMLElement | null) => {
+      if (!el) return false;
+      const text = el.dataset.swcText ?? el.textContent ?? '';
+      if (!needle) { el.textContent = text; return false; }
+      if (!rx(needle).test(text)) { el.textContent = text; return false; }
+      el.innerHTML = esc(text).replace(rx(needle), (m) => `<mark class="bcn-swc__hit">${m}</mark>`);
+      return true;
+    };
+    const covers = (req: HTMLElement) => {
+      const n = oblCount(req);
+      if (coverage === 'none') return n === 0;
+      if (coverage === 'unrouted') return routeOf(req) === 'unrouted';
+      if (coverage === 'several') return n > 1;
+      return true;
+    };
+    const apply = () => {
+      let shown = 0;
+      qa<HTMLDetailsElement>('[data-swc-cmt]').forEach((cmt) => {
+        const cmtHit = paint(cmt.querySelector<HTMLElement>(':scope > summary .bcn-swc__name'));
+        const codeHit = !!needle && (cmt.dataset.code ?? '').toLowerCase().includes(needle.toLowerCase());
+        cmt.querySelector<HTMLElement>(':scope > summary .bcn-cbadge')?.classList.toggle('bcn-swc__hit-chip', codeHit);
+        let any = false;
+        qa<HTMLDetailsElement>('[data-swc-req]', cmt).forEach((req) => {
+          const nameHit = paint(req.querySelector<HTMLElement>(':scope > summary .bcn-swc__title'));
+          let oblHit = false;
+          qa<HTMLElement>('.bcn-swc__obl-title', req).forEach((t) => { oblHit = paint(t) || oblHit; });
+          const hit = !needle || cmtHit || codeHit || nameHit || oblHit;
+          const keep = hit && covers(req);
+          req.hidden = !keep;
+          if (keep) { shown++; any = true; }
+          if (keep && needle && oblHit) req.open = true;
+        });
+        cmt.hidden = !any;
+        if (any && (needle || coverage !== 'all')) cmt.open = true;
+      });
+      if (nomatch) nomatch.hidden = shown > 0;
+    };
+    const search = document.querySelector<HTMLElement & { value: string }>('esa-text-field[name="swc-search"]');
+    if (search) {
+      const read = () => search.value ?? search.shadowRoot?.querySelector('input')?.value ?? '';
+      const on = () => { needle = read().trim(); apply(); };
+      search.addEventListener('input', on);
+      search.addEventListener('change', on);
+    }
+    const picker = document.querySelector<HTMLElement & { value: string }>('esa-select[name="swc-search-coverage"]');
+    picker?.addEventListener('change', () => { coverage = (picker.value || 'all') as Coverage; apply(); });
+
+    document.addEventListener('swc:changed', () => { recount(); apply(); });
+    recount();
+  }
+</script>
+
+<style>
+  .bcn-swc {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+  }
+  .bcn-swc__nomatch { margin: 0; padding: var(--spacing-300) var(--spacing-400); color: var(--color-content-default-tertiary); font-style: italic; }
+  .bcn-swc__body { display: flex; flex-direction: column; }
+
+  /* Commitments: a full-strength rule between them, every second one on the light
+     gray ground the registry uses; requirements separated by the subtle rule. */
+  .bcn-swc__cmt { border-bottom: 1px solid var(--color-border-default); }
+  .bcn-swc__cmt:nth-of-type(even) { background: color-mix(in srgb, var(--bcn-gray-100) 50%, white); }
+  .bcn-swc__cmt:nth-of-type(even) .bcn-swc__row:hover { background: var(--bcn-gray-100); }
+  .bcn-swc__cmt:last-of-type { border-bottom: none; }
+  .bcn-swc__req + .bcn-swc__req { border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-swc__cmt[hidden], .bcn-swc__req[hidden] { display: none; }
+
+  .bcn-swc__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 34px;
+    padding: var(--spacing-100) var(--spacing-400);
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 120ms ease;
+  }
+  .bcn-swc__row::-webkit-details-marker { display: none; }
+  .bcn-swc__row:hover { background: var(--color-background-default); }
+  .bcn-swc__row--cmt { font-weight: 600; }
+  .bcn-swc__row--req { padding-left: calc(var(--spacing-400) + 22px); font-weight: 400; }
+  .bcn-swc__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
+  details[open] > .bcn-swc__row .bcn-swc__chevron { transform: rotate(90deg); }
+  /* A requirement in no obligation has nothing under it: the chevron fades to a stub. */
+  .bcn-swc__req.is-leaf > .bcn-swc__row .bcn-swc__chevron { opacity: 0.25; }
+  .bcn-swc__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-swc__title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .bcn-swc__title:hover { text-decoration: underline; }
+  .bcn-swc__title:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 2px; }
+
+  /* Where the requirement went, at the right of its row. */
+  .bcn-swc__route { flex-shrink: 0; margin-left: auto; padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.6875rem; font-weight: 500; white-space: nowrap; }
+  .bcn-swc__route--obligation { color: var(--color-obligation); background: color-mix(in srgb, var(--color-obligation) 10%, white); }
+  .bcn-swc__route--action { color: var(--color-content-default-secondary); background: var(--bcn-gray-100); }
+  .bcn-swc__route--unrouted { color: var(--color-background-utility-danger); background: color-mix(in srgb, var(--color-background-utility-danger) 10%, white); }
+  .bcn-swc__gap { flex-shrink: 0; margin-left: auto; font-size: 0.6875rem; font-weight: 500; color: var(--color-background-utility-danger); white-space: nowrap; }
+  .bcn-swc__gap[hidden] { display: none; }
+
+  /* One element per row takes the free space: the gap or route chip when shown, the
+     verbs otherwise; the filing line on an obligation leaf. */
+  .bcn-swc__verbs { display: inline-flex; flex-shrink: 0; gap: 2px; margin-left: auto; }
+  .bcn-swc__gap:not([hidden]) ~ .bcn-swc__verbs, .bcn-swc__route ~ .bcn-swc__verbs { margin-left: 0; }
+  .bcn-swc__verbs esa-tooltip { display: inline-flex; }
+  .bcn-swc__verb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-100);
+    color: var(--color-content-default-tertiary);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+  .bcn-swc__row:hover .bcn-swc__verb, .bcn-swc__row:focus-within .bcn-swc__verb,
+  .bcn-swc__obl:hover .bcn-swc__verb, .bcn-swc__obl:focus-within .bcn-swc__verb { opacity: 1; }
+  .bcn-swc__verb:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
+  .bcn-swc__verb--danger:hover { color: var(--color-background-utility-danger); }
+
+  /* Obligation leaves: class tag, title, where it is filed. */
+  .bcn-swc__reqs { display: flex; flex-direction: column; }
+  .bcn-swc__obls {
+    list-style: none;
+    margin: 0;
+    padding: 0 var(--spacing-400) var(--spacing-200) calc(var(--spacing-400) + 44px);
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-swc__obls:empty { display: none; }
+  .bcn-swc__obl {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 30px;
+    padding: var(--spacing-100) var(--spacing-200);
+    border-left: 2px solid color-mix(in srgb, var(--color-obligation) 40%, transparent);
+    transition: background-color 120ms ease;
+  }
+  .bcn-swc__obl:hover { background: var(--color-background-default); }
+  .bcn-swc__obl.is-new { background: color-mix(in srgb, var(--color-obligation) 10%, white); }
+  .bcn-swc__class { flex-shrink: 0; padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.6875rem; font-weight: 500; background: var(--bcn-gray-100); color: var(--color-content-default-secondary); }
+  .bcn-swc__obl-title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-swc__obl-title:hover { text-decoration: underline; }
+  .bcn-swc__filing { flex-shrink: 0; margin-left: auto; font-size: 0.6875rem; color: var(--color-content-default-tertiary); white-space: nowrap; }
+  .bcn-swc__filing + .bcn-swc__verbs { margin-left: 0; }
+
+  .bcn-swc__hit { background: color-mix(in srgb, var(--color-background-utility-warning) 35%, white); color: inherit; border-radius: 2px; padding: 0 1px; }
+  .bcn-swc__hit-chip { box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-background-utility-warning) 60%, white); }
+
+  .bcn-swc__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-top: 1px solid var(--color-border-default);
+    background: var(--color-background-default);
+    border-bottom-left-radius: var(--radius-200);
+    border-bottom-right-radius: var(--radius-200);
+  }
+  .bcn-swc__legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; color: var(--color-content-default-tertiary); }
+  .bcn-swc__stat { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+  .bcn-swc__sep { color: var(--bcn-gray-400); }
+  .bcn-swc__dot { display: inline-block; width: 8px; height: 8px; border-radius: var(--radius-full); }
+  .bcn-swc__dot--obligation { background: var(--color-obligation); }
+  .bcn-swc__dot--action { background: var(--bcn-gray-400); }
+  .bcn-swc__dot--unrouted { background: var(--color-background-utility-danger); }
+  .bcn-swc__foot-end { display: inline-flex; align-items: center; gap: var(--spacing-200); margin-left: auto; }
+  .bcn-swc__foot-end:empty { display: none; }
+</style>

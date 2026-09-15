@@ -442,6 +442,8 @@ export interface ObligationNode {
   phases: string[];
   species: string[];
   activities: string[];
+  /** One or two sentences on what the obligation holds the project to (added 2026-09-14). */
+  description: string;
   trigger: string;
   /** Waits on an approved plan before it is in force. */
   gate: boolean;
@@ -460,6 +462,19 @@ const triggerFrom = (text: string): string => {
 };
 
 const GATE_RE = /\b(approved (?:plan|by)|approval of the|prior to approval|upon approval|once approved|plan is approved)\b/i;
+
+// The fixture carries no description; until a pass writes one, the first
+// requirement's opening sentences stand in, so the field has something to show.
+const describe = (text: string): string => {
+  const flat = text.replace(/\s*\n\s*/g, ' ').trim();
+  const sentences = flat.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [flat];
+  let out = '';
+  for (const sn of sentences) {
+    if (out && (out + sn).length > 240) break;
+    out += sn;
+  }
+  return out.trim();
+};
 
 const uniq = (xs: string[]) => [...new Set(xs)];
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -484,6 +499,7 @@ export const OBLIGATION_NODES: ObligationNode[] = ITP.obligations.map((o) => {
     phases: o.phases,
     species: uniq(reqs.flatMap((r) => r.species)),
     activities: uniq(reqs.flatMap((r) => r.activities)),
+    description: reqs[0] ? describe(reqs[0].text) : '',
     trigger: reqs.map((r) => triggerFrom(r.text)).find(Boolean) ?? '',
     gate: GATE_RE.test(allText),
     requirements,
@@ -526,3 +542,83 @@ export const OBLIGATION_TREE_TOTALS = {
   requirementLinks: OBLIGATION_NODES.reduce((n, o) => n + o.requirements.length, 0),
   withTrigger: OBLIGATION_NODES.filter((o) => o.trigger).length,
 };
+
+// ── The chain: commitment > requirement > obligation ─────────────────────────
+// The registry files obligations by subject; this reads the same fixture from the
+// top of the permit down, so a reviewer can follow one commitment to the requirements
+// drafted from it and on to the obligations each became — and see which requirements
+// became nothing. A requirement can sit in several obligations (or in an action
+// instead), so the leaf list is per requirement, not per obligation.
+
+export interface ObligationFiling { catId: string; subId: string; catName: string; subName: string }
+export interface ChainObligation extends ObligationFiling { id: string; title: string; class: ObligationClass }
+export interface ChainRequirement {
+  id: string;
+  name: string;
+  text: string;
+  type: RequirementType;
+  route: Route;
+  obligations: ChainObligation[];
+  actions: { id: string; name: string }[];
+}
+export interface ChainCommitment {
+  code: string;
+  title: string;
+  requirements: ChainRequirement[];
+  /** Requirements in this commitment that are in no obligation. */
+  uncovered: number;
+}
+
+/** Where each obligation is filed in the registry, by id. */
+export const OBLIGATION_FILING = new Map<string, ObligationFiling>();
+for (const cat of OBLIGATION_TREE)
+  for (const sub of cat.subcategories)
+    for (const o of sub.obligations) OBLIGATION_FILING.set(o.id, { catId: cat.id, subId: sub.id, catName: cat.name, subName: sub.name });
+
+// "COA 4" before "COA 10.18": compare the numeric runs, not the strings.
+const codeKey = (code: string) => (code.match(/\d+/g) ?? []).map(Number);
+const byCode = (a: string, b: string) => {
+  const ka = codeKey(a), kb = codeKey(b);
+  for (let i = 0; i < Math.max(ka.length, kb.length); i++) {
+    const d = (ka[i] ?? -1) - (kb[i] ?? -1);
+    if (d) return d;
+  }
+  return a.localeCompare(b);
+};
+
+export const COMMITMENT_CHAIN: ChainCommitment[] = (() => {
+  const cmts = new Map<string, ChainCommitment>();
+  for (const r of ITP.requirements) {
+    const c = cmts.get(r.commitment) ?? { code: r.commitment, title: r.commitmentTitle, requirements: [], uncovered: 0 };
+    cmts.set(r.commitment, c);
+    const obligations: ChainObligation[] = (OBLIGATIONS_OF.get(r.id) ?? []).map((o) => ({
+      id: o.id,
+      title: o.name,
+      class: o.class,
+      ...(OBLIGATION_FILING.get(o.id) ?? { catId: '', subId: '', catName: 'Unfiled', subName: 'Unfiled' }),
+    }));
+    c.requirements.push({
+      id: r.id,
+      name: r.name,
+      text: r.text,
+      type: r.type,
+      route: ROUTE_OF.get(r.id) ?? 'unrouted',
+      obligations,
+      actions: (ACTIONS_OF.get(r.id) ?? []).map((a) => ({ id: a.id, name: a.name })),
+    });
+    if (!obligations.length) c.uncovered += 1;
+  }
+  return [...cmts.values()].sort((a, b) => byCode(a.code, b.code));
+})();
+
+export const CHAIN_TOTALS = (() => {
+  const reqs = COMMITMENT_CHAIN.flatMap((c) => c.requirements);
+  return {
+    commitments: COMMITMENT_CHAIN.length,
+    requirements: reqs.length,
+    inObligation: reqs.filter((r) => r.obligations.length > 0).length,
+    actionOnly: reqs.filter((r) => !r.obligations.length && r.actions.length > 0).length,
+    unrouted: reqs.filter((r) => !r.obligations.length && !r.actions.length).length,
+    inSeveral: reqs.filter((r) => r.obligations.length > 1).length,
+  };
+})();

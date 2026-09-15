@@ -11,6 +11,8 @@
 // are linked, duplicated, moved and unlinked. In the list, obligations drag between
 // subcategories; requirements drag between obligations (or onto a subcategory to start
 // a new one). Deleting anything asks first. "New category" closes the list panel.
+// The view switch in the panel's corner swaps to obligations-chain, the same registry
+// read top-down from the commitments (added 2026-09-14).
 //
 // The tree and every count are derived from the ITP fixture (OBLIGATION_TREE): the 333
 // obligations the actions pass wrote, filed into the registry's subject taxonomy, each
@@ -24,6 +26,7 @@ import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
 import BcnSwSelectChip from '../../../components/bcn/BcnSwSelectChip.astro';
 import BcnSwCountBadge from '../../../components/bcn/BcnSwCountBadge.astro';
 import BcnSwFilterRow from '../../../components/bcn/BcnSwFilterRow.astro';
+import BcnSwViewSwitch from '../../../components/bcn/BcnSwViewSwitch.astro';
 import BcnSwObligationsTree from '../../../components/bcn/BcnSwObligationsTree.astro';
 import BcnSwObligationsEditor from '../../../components/bcn/BcnSwObligationsEditor.astro';
 import { PROJECT } from '../../../data/project-dashboard';
@@ -38,7 +41,7 @@ const CLASS_PICKS = Object.entries(OBLIGATION_CLASS_LABEL).map(([value, label]) 
   layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
   sections:
     - wizard chrome     -> bcn-setup-wizard-frame     # compass mark, serif title, five-step pill nav with step 5 active
-    - step panel        -> bcn-sw-step-panel          # numeral, serif title with category chip (bcn-sw-select-chip) and count, intro
+    - step panel        -> bcn-sw-step-panel          # numeral, serif title with category chip (bcn-sw-select-chip) and count, intro; actions: bcn-sw-view-switch (By category / By commitment)
     - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), class picker, expand / collapse verbs
     - obligation tree   -> bcn-sw-obligations-tree    # category > subcategory > bcn-sw-obligation-card > requirement rows; drag to refile; foot: New category (ghost) left, Approve obligations right
     - edit one          -> bcn-sw-obligations-editor  # side drawer a title or pencil opens, headed by the title: class, filing, trigger, requirements (duplicate / move / unlink, Link from the permit via a stacked drawer) with source text
@@ -58,6 +61,7 @@ const CLASS_PICKS = Object.entries(OBLIGATION_CLASS_LABEL).map(([value, label]) 
             <BcnSwSelectChip label="Category" value="All categories" />
             <span data-swo-count="title"><BcnSwCountBadge value={total} label={`${total} obligations`} /></span>
           </Fragment>
+          <Fragment slot="actions"><BcnSwViewSwitch current="registry" /></Fragment>
           <BcnSwFilterRow
             searchPlaceholder="Search obligations"
             searchName="swo-search"
