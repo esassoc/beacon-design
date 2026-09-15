@@ -1,0 +1,158 @@
+---
+// <BcnListCreateDialog> is the "Add list" surface for the Lists index. One small modal
+// holding three answers, in the order the decision is actually made: which registry the
+// list draws from, what it is called, and what it is for.
+//
+// THE TYPE IS THE POINT, SO IT IS THE FIRST THING AND IT IS ALL VISIBLE. A list is a
+// subset of ONE registry and can never change which, so the type is the only choice in
+// here that is irreversible. It is a segmented control with all three options on screen
+// at once rather than a picker that hides two of them behind a click, and the line under
+// it names what the selected type holds.
+//
+// WHY A SEGMENTED CONTROL AND NOT RADIOS: esa-radio-group would let each option carry
+// its basis line on its own row, which reads better, but its option shape is
+// { label, value, disabled } and it has no description field. Checked
+// node_modules/@esa/ecology/src/components/esa-radio-group.ts directly. So the basis is
+// one cue line under an esa-button-toggle, swapped on `change`, which is the brief's
+// stated fallback.
+//
+// IT BINDS ITS OWN TRIGGER. The page puts data-list-create on a button in the layout's
+// utilities slot; this component finds every such element and opens on click. Nothing is
+// passed in and nothing is dispatched out, so the page carries no script for it.
+//
+// PROTOTYPE HONESTY: "Create list" checks that Name has something in it and then closes.
+// It writes no row, it navigates nowhere, and it shows no success message, because none
+// of that happened.
+//
+// bcn-lego-checked: the frame IS esa-dialog (its own Esc, light dismiss, close button and
+// scrim, none of it re-implemented or disabled), the type control IS esa-button-toggle,
+// the fields ARE esa-text-field and esa-textarea, the footer verbs ARE esa-button, and
+// the body and footer rows ARE the .stack and .cluster primitives. The one authored
+// element is the basis cue line: esa-button-toggle has a help-text slot for exactly this
+// job, but it renders at typography-body-sm, under this branch's body floor, and the lego
+// exposes no CSS part to restyle it through. A light-DOM line at typography-body-md with
+// aria-live is the size-honest version.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { LIST_TYPE_BASIS, LIST_TYPE_LABEL, type ListType } from '../../data/lists';
+
+// Labels and basis strings are read off the data module. Nothing here is typed by hand.
+const TYPES = (Object.keys(LIST_TYPE_LABEL) as ListType[]).map((value) => ({
+  label: LIST_TYPE_LABEL[value],
+  value,
+}));
+const DEFAULT_TYPE: ListType = TYPES[0].value;
+---
+
+<esa-dialog data-list-create-dialog heading="Add list" size="sm" show-close-button>
+  <div class="bcn-list-create stack" data-gap="lg">
+    {/* The toggle and the line that explains its selection are one answer, so they sit
+        closer to each other than either does to Name. */}
+    <div class="stack" data-gap="sm">
+      <esa-button-toggle
+        data-list-create-type
+        label="Type"
+        size="sm"
+        value={DEFAULT_TYPE}
+        data-options={JSON.stringify(TYPES)}
+        data-basis={JSON.stringify(LIST_TYPE_BASIS)}></esa-button-toggle>
+      <p
+        class="bcn-list-create__basis typography-body-md"
+        data-list-create-basis
+        aria-live="polite"
+      >
+        {LIST_TYPE_BASIS[DEFAULT_TYPE]}
+      </p>
+    </div>
+
+    <esa-text-field data-list-create-name label="Name" size="md" required></esa-text-field>
+    <esa-textarea data-list-create-description label="Description" size="md" rows="3"></esa-textarea>
+  </div>
+
+  {/* Windows order: primary left of Cancel, the pair pushed to the trailing edge. */}
+  <div class="cluster bcn-list-create__foot" slot="footer" data-gap="sm">
+    <EsaButton variant="primary" size="sm" data-list-create-submit>Create list</EsaButton>
+    <EsaButton variant="ghost" appearance="outline" size="sm" data-list-create-cancel>Cancel</EsaButton>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+
+  type Dialog = HTMLElement & { show(): void; close(): void };
+  type Toggle = HTMLElement & { options: unknown[]; value: string };
+  type Field = HTMLElement & { value: string; errorText: string };
+
+  // Inert on any page that does not render the dialog.
+  const dialog = document.querySelector<Dialog>('[data-list-create-dialog]');
+  if (dialog) {
+    const toggle = dialog.querySelector<Toggle>('[data-list-create-type]');
+    const basisLine = dialog.querySelector<HTMLElement>('[data-list-create-basis]');
+    const name = dialog.querySelector<Field>('[data-list-create-name]');
+    const description = dialog.querySelector<Field>('[data-list-create-description]');
+    const basis = JSON.parse(toggle?.dataset.basis ?? '{}') as Record<string, string>;
+    const initialType = toggle?.getAttribute('value') ?? '';
+
+    // `options` is a Lit array property, so it is handed over after upgrade; the value is
+    // re-set behind it so the default segment is the selected one on first paint.
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      if (!toggle) return;
+      toggle.options = JSON.parse(toggle.dataset.options ?? '[]');
+      toggle.value = initialType;
+    });
+
+    toggle?.addEventListener('change', () => {
+      if (basisLine) basisLine.textContent = basis[toggle.value] ?? '';
+    });
+
+    // The validation message is the answer to an empty field, so it goes as soon as the
+    // field stops being empty.
+    name?.addEventListener('input', () => {
+      if (name.value.trim()) name.errorText = '';
+    });
+
+    // Closing abandons the draft, whichever way it closed: Cancel, the close button, Esc
+    // or a click on the scrim. esa-dialog's `close` event is the one exit all four end at.
+    dialog.addEventListener('close', () => {
+      if (name) {
+        name.value = '';
+        name.errorText = '';
+      }
+      if (description) description.value = '';
+      if (toggle) toggle.value = initialType;
+      if (basisLine) basisLine.textContent = basis[initialType] ?? '';
+    });
+
+    document.querySelectorAll('[data-list-create]').forEach((trigger) => {
+      trigger.addEventListener('click', () => dialog.show());
+    });
+
+    dialog
+      .querySelector('[data-list-create-cancel]')
+      ?.addEventListener('click', () => dialog.close());
+
+    dialog.querySelector('[data-list-create-submit]')?.addEventListener('click', () => {
+      if (!name) return;
+      if (!name.value.trim()) {
+        name.errorText = 'Enter a name.';
+        (name as unknown as HTMLElement).focus();
+        return;
+      }
+      dialog.close();
+    });
+  }
+</script>
+
+<style>
+  /* Composition glue only. Every control in here is a lego at its own defaults. */
+  .bcn-list-create__basis {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-list-create__foot {
+    --justify: flex-end;
+  }
+</style>

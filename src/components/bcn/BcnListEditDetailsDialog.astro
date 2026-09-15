@@ -1,0 +1,110 @@
+---
+// <BcnListEditDetailsDialog> is the "Edit details" surface on a list detail page. Two
+// fields, both prefilled from the list record: the name the list is known by, and the
+// description that heads its exported document.
+//
+// NO TYPE CONTROL, AND NOT A DISABLED ONE EITHER. A list is a subset of exactly one
+// registry; changing its type would mean discarding every member, so there is no such
+// operation to offer. A greyed picker plus a sentence saying why it is grey is two pieces
+// of furniture standing in for a control that does not exist, so the field is simply not
+// here. The type is stated on the detail page, where it is a fact rather than a form.
+//
+// CONTRACT: opens on the document-level `list:edit-details` event, which BcnListActions
+// fires. Detail is empty, since the page renders one list and this dialog already holds
+// it. Nothing is dispatched back.
+//
+// PROTOTYPE HONESTY: Save checks Name is non-empty and closes. It updates no record and
+// no heading, so closing restores what was passed in rather than leaving an abandoned
+// edit sitting in the fields.
+//
+// bcn-lego-checked: the frame IS esa-dialog (Esc, light dismiss, close button and scrim
+// are all the lego's, untouched), the fields ARE esa-text-field and esa-textarea, the
+// footer verbs ARE esa-button, and the rows ARE the .stack and .cluster primitives. This
+// file authors no UI of its own.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import type { ProjectList } from '../../data/lists';
+
+interface Props {
+  /** The list being edited. Both fields are prefilled from it. */
+  list: ProjectList;
+}
+const { list } = Astro.props;
+---
+
+<esa-dialog data-list-edit-dialog heading="Edit details" size="sm" show-close-button>
+  <div class="bcn-list-edit stack" data-gap="lg">
+    <esa-text-field
+      data-list-edit-name
+      label="Name"
+      size="md"
+      required
+      value={list.name}></esa-text-field>
+    <esa-textarea
+      data-list-edit-description
+      label="Description"
+      size="md"
+      rows="3"
+      value={list.description}></esa-textarea>
+  </div>
+
+  {/* Windows order: primary left of Cancel, the pair pushed to the trailing edge. */}
+  <div class="cluster bcn-list-edit__foot" slot="footer" data-gap="sm">
+    <EsaButton variant="primary" size="sm" data-list-edit-save>Save</EsaButton>
+    <EsaButton variant="ghost" appearance="outline" size="sm" data-list-edit-cancel>Cancel</EsaButton>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+
+  type Dialog = HTMLElement & { show(): void; close(): void };
+  type Field = HTMLElement & { value: string; errorText: string };
+
+  // Inert on any page that does not render the dialog.
+  const dialog = document.querySelector<Dialog>('[data-list-edit-dialog]');
+  if (dialog) {
+    const name = dialog.querySelector<Field>('[data-list-edit-name]');
+    const description = dialog.querySelector<Field>('[data-list-edit-description]');
+    // `value` is a plain Lit property, never reflected, so the markup attribute still
+    // holds what the record was rendered with. That is the restore point.
+    const storedName = name?.getAttribute('value') ?? '';
+    const storedDescription = description?.getAttribute('value') ?? '';
+
+    document.addEventListener('list:edit-details', () => dialog.show());
+
+    name?.addEventListener('input', () => {
+      if (name.value.trim()) name.errorText = '';
+    });
+
+    // Cancel, the close button, Esc and a scrim click all arrive here, so the fields go
+    // back to the record in one place.
+    dialog.addEventListener('close', () => {
+      if (name) {
+        name.value = storedName;
+        name.errorText = '';
+      }
+      if (description) description.value = storedDescription;
+    });
+
+    dialog.querySelector('[data-list-edit-cancel]')?.addEventListener('click', () => dialog.close());
+
+    dialog.querySelector('[data-list-edit-save]')?.addEventListener('click', () => {
+      if (!name) return;
+      if (!name.value.trim()) {
+        name.errorText = 'Enter a name.';
+        (name as unknown as HTMLElement).focus();
+        return;
+      }
+      dialog.close();
+    });
+  }
+</script>
+
+<style>
+  /* Composition glue only. Both controls sit at their lego defaults. */
+  .bcn-list-edit__foot {
+    --justify: flex-end;
+  }
+</style>
