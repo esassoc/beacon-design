@@ -30,7 +30,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
       ><span class="ctb-tick" style="left: 50.2732%">Sep</span
       ><span class="ctb-tick" style="left: 66.6667%">Oct</span
       ><span class="ctb-tick" style="left: 83.6066%">Nov</span
-      ><span class="ctb-tick ctb-tick--today" style="left: 55.1913%">Today</span>
+      ><span class="ctb-tick ctb-tick--today" style="left: 57.9235%">Today</span>
     </div>
     <span></span>
   </div>
@@ -44,7 +44,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 0.546448087431694%;
-            width: 54.6448087431694%;
+            width: 57.377049180327866%;
             background: var(--st-cleared);
           "
         ></span>
@@ -64,7 +64,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 0.546448087431694%;
-            width: 54.6448087431694%;
+            width: 57.377049180327866%;
             background: var(--st-cleared);
           "
         ></span>
@@ -84,7 +84,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 0.546448087431694%;
-            width: 54.6448087431694%;
+            width: 57.377049180327866%;
             background: var(--st-cleared);
           "
         ></span>
@@ -104,7 +104,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 26.775956284153008%;
-            width: 28.415300546448083%;
+            width: 31.14754098360655%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -124,7 +124,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 43.71584699453552%;
-            width: 11.475409836065573%;
+            width: 14.20765027322404%;
             background: var(--st-under-review);
           "
         ></span>
@@ -144,7 +144,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 49.18032786885246%;
-            width: 6.010928961748633%;
+            width: 8.7431693989071%;
             background: var(--st-under-review);
           "
         ></span>
@@ -164,7 +164,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 49.18032786885246%;
-            width: 6.010928961748633%;
+            width: 8.7431693989071%;
             background: var(--st-under-review);
           "
         ></span>
@@ -184,7 +184,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 52.459016393442624%;
-            width: 2.7322404371584668%;
+            width: 5.4644808743169335%;
             background: var(--st-submitted);
           "
         ></span>
@@ -202,7 +202,11 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
       <span class="ctb-row__track"
         ><span
           class="ctb-row__bar"
-          style="left: 55.19125683060109%; width: 0.5%; background: var(--st-submitted)"
+          style="
+            left: 55.19125683060109%;
+            width: 2.7322404371584668%;
+            background: var(--st-submitted);
+          "
         ></span>
         <span
           class="ctb-row__dot"
@@ -218,7 +222,11 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
       <span class="ctb-row__track"
         ><span
           class="ctb-row__bar"
-          style="left: 55.19125683060109%; width: 0.5%; background: var(--st-submitted)"
+          style="
+            left: 55.19125683060109%;
+            width: 2.7322404371584668%;
+            background: var(--st-submitted);
+          "
         ></span>
         <span
           class="ctb-row__dot"
@@ -235,8 +243,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 8.196721311475414%;
+            left: 57.92349726775956%;
+            width: 5.464480874316948%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -255,8 +263,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 8.196721311475414%;
+            left: 57.92349726775956%;
+            width: 5.464480874316948%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -275,8 +283,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 8.196721311475414%;
+            left: 57.92349726775956%;
+            width: 5.464480874316948%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -295,8 +303,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 19.125683060109296%;
+            left: 57.92349726775956%;
+            width: 16.39344262295083%;
             background: var(--st-not-started);
           "
         ></span>
@@ -315,8 +323,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 19.125683060109296%;
+            left: 57.92349726775956%;
+            width: 16.39344262295083%;
             background: var(--st-not-started);
           "
         ></span>
@@ -335,8 +343,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 19.125683060109296%;
+            left: 57.92349726775956%;
+            width: 16.39344262295083%;
             background: var(--st-not-started);
           "
         ></span>
@@ -355,8 +363,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 28.415300546448094%;
+            left: 57.92349726775956%;
+            width: 25.683060109289627%;
             background: var(--st-not-started);
           "
         ></span>
@@ -375,8 +383,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 28.415300546448094%;
+            left: 57.92349726775956%;
+            width: 25.683060109289627%;
             background: var(--st-not-started);
           "
         ></span>
@@ -395,8 +403,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 55.19125683060109%;
-            width: 28.415300546448094%;
+            left: 57.92349726775956%;
+            width: 25.683060109289627%;
             background: var(--st-not-started);
           "
         ></span>
@@ -535,6 +543,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
 
 ## Tokens
 - `--bcn-gray-100`: #efefef _(component)_
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_

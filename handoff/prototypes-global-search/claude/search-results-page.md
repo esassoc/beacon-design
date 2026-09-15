@@ -11266,6 +11266,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 ```
 
 ## Tokens
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-subtle`: #effefb _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_

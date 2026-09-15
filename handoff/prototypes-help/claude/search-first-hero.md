@@ -976,6 +976,7 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 - `--bcn-helpbar-fg`: #ffffffeb _(component)_
 - `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
 - `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -984,6 +985,8 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-link`: #005862 _(semantic)_
+- `--color-content-link-hover`: #00474f _(semantic)_
 - `--elevation-3`: 0 4px 20px -4px #0000000f _(semantic)_
 - `--gap`: 3rem _(component)_
 - `--icon-size-lg`: 24px _(primitive)_

@@ -194,6 +194,7 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
 ```
 
 ## Tokens
+- `--color-background-brand`: #005862 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_

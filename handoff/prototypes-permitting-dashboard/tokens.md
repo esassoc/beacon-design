@@ -1,6 +1,6 @@
 # Token contract — prototypes-permitting-dashboard
 
-The 111 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 115 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,6 +9,8 @@ The 111 design tokens this page actually uses, resolved to their final values fo
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
 | `--color-background-accent` | `#f76b15` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
 | `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
@@ -16,10 +18,12 @@ The 111 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-utility-warning` | `#f59e0b` |
 | `--color-border-default` | `#dcdcdc` |
 | `--color-border-default-subtle` | `#efefef` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
 | `--color-content-default-tertiary` | `#656565` |
+| `--color-content-link` | `#005862` |
 | `--elevation-4` | `0 6px 24px -6px #00000012` |
 | `--elevation-5` | `0 8px 32px -8px #00000014` |
 | `--radius-md` | `.25rem` |
@@ -136,10 +140,6 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-inset`
 - `--bcn-bottom-drawer-width`
 - `--bcn-bottom-drawer-z`
-- `--color-background-brand`
-- `--color-background-brand-hover`
-- `--color-content-brand`
-- `--color-content-link`
 - `--gap`
 - `--grid-min`
 - `--page-title-icon-color`

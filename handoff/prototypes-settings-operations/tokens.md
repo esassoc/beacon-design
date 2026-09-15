@@ -1,6 +1,6 @@
 # Token contract — prototypes-settings-operations
 
-The 139 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 143 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,6 +9,8 @@ The 139 design tokens this page actually uses, resolved to their final values fo
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
 | `--color-background-accent` | `#f76b15` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
 | `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-floating` | `#fcfcfc` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
@@ -21,10 +23,12 @@ The 139 design tokens this page actually uses, resolved to their final values fo
 | `--color-border-default-subtle` | `#efefef` |
 | `--color-border-utility-info` | `#acd8fc` |
 | `--color-border-utility-warning` | `#f3d673` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
 | `--color-content-default-tertiary` | `#656565` |
+| `--color-content-link` | `#005862` |
 | `--color-content-utility-danger` | `#ce2c31` |
 | `--color-content-utility-info` | `#0d74ce` |
 | `--color-content-utility-warning` | `#ab6400` |
@@ -165,10 +169,6 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-inset`
 - `--bcn-bottom-drawer-width`
 - `--bcn-bottom-drawer-z`
-- `--color-background-brand`
-- `--color-background-brand-hover`
-- `--color-content-brand`
-- `--color-content-link`
 - `--gap`
 - `--grid-min`
 - `--justify`

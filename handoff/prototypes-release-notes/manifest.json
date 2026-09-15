@@ -34,6 +34,11 @@
       },
       "tokens": [
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-elevation-sunken",
           "value": "#efefef",
           "tier": "semantic"
@@ -56,6 +61,11 @@
         {
           "name": "--color-content-default-tertiary",
           "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -196,6 +206,11 @@
           "tier": "component"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-elevation-raised",
           "value": "#fcfcfc",
           "tier": "semantic"
@@ -238,6 +253,11 @@
         {
           "name": "--color-content-default-tertiary",
           "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -618,6 +638,11 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-content-link",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--font-decorative",
           "value": "\"Besley\", serif",
           "tier": "component"
@@ -763,6 +788,11 @@
           "name": "--bcn-helpbar-hover-bg",
           "value": "#ffffff1a",
           "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
         },
         {
           "name": "--color-background-elevation-sunken",

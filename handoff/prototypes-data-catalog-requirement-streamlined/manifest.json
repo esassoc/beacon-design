@@ -113,6 +113,16 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-brand-muted",
           "value": "#eef5f4",
           "tier": "semantic"
@@ -190,6 +200,11 @@
         {
           "name": "--color-content-ai",
           "value": "#7d5e54",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -530,6 +545,16 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-brand-muted",
           "value": "#eef5f4",
           "tier": "semantic"
@@ -612,6 +637,11 @@
         {
           "name": "--color-content-ai",
           "value": "#7d5e54",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -937,6 +967,11 @@
           "tier": "component"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-brand-muted",
           "value": "#eef5f4",
           "tier": "semantic"
@@ -1085,6 +1120,11 @@
         {
           "name": "--border-width-default",
           "value": "1px",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -1303,6 +1343,11 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-elevation-raised",
           "value": "#fcfcfc",
           "tier": "semantic"
@@ -1513,6 +1558,11 @@
           "tier": "component"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-utility-danger",
           "value": "#ce2c31",
           "tier": "semantic"
@@ -1698,6 +1748,16 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-brand-muted",
           "value": "#eef5f4",
           "tier": "semantic"
@@ -1780,6 +1840,11 @@
         {
           "name": "--color-content-ai",
           "value": "#7d5e54",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -2224,6 +2289,16 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-brand-muted",
           "value": "#eef5f4",
           "tier": "semantic"
@@ -2296,6 +2371,11 @@
         {
           "name": "--color-content-ai",
           "value": "#7d5e54",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
           "tier": "semantic"
         },
         {

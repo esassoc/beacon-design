@@ -52,6 +52,11 @@
           "tier": "component"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-brand-muted",
           "value": "#eef5f4",
           "tier": "semantic"
@@ -79,6 +84,11 @@
         {
           "name": "--color-border-default-subtle",
           "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -193,7 +203,7 @@
         },
         {
           "name": "--stat-accent-color",
-          "value": "#3a7c59",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -515,6 +525,16 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-brand-muted",
           "value": "#eef5f4",
           "tier": "semantic"
@@ -595,6 +615,11 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-content-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-content-default",
           "value": "#3d3d3d",
           "tier": "semantic"
@@ -612,6 +637,11 @@
         {
           "name": "--color-content-default-tertiary",
           "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link",
+          "value": "#005862",
           "tier": "semantic"
         },
         {
@@ -1224,6 +1254,16 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-brand-muted",
           "value": "#eef5f4",
           "tier": "semantic"
@@ -1296,6 +1336,11 @@
         {
           "name": "--color-content-ai",
           "value": "#7d5e54",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-brand",
+          "value": "#005862",
           "tier": "semantic"
         },
         {

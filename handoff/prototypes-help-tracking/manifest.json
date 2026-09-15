@@ -68,6 +68,11 @@
           "tier": "component"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-utility-danger",
           "value": "#ce2c31",
           "tier": "semantic"
@@ -172,6 +177,11 @@
           "tier": "semantic"
         },
         {
+          "name": "--color-content-link",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--radius-100",
           "value": ".25rem",
           "tier": "primitive"
@@ -226,7 +236,7 @@
       "tokens": [
         {
           "name": "--badge-bg",
-          "value": "#43608a",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -278,6 +288,16 @@
           "name": "--bcn-helpbar-hover-bg",
           "value": "#ffffff1a",
           "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
@@ -402,6 +422,16 @@
         {
           "name": "--color-content-default-tertiary",
           "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link-hover",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {
@@ -726,7 +756,7 @@
       "tokens": [
         {
           "name": "--badge-bg",
-          "value": "#43608a",
+          "value": "#005862",
           "tier": "component"
         },
         {
@@ -778,6 +808,16 @@
           "name": "--bcn-helpbar-hover-bg",
           "value": "#ffffff1a",
           "tier": "component"
+        },
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
         },
         {
           "name": "--color-background-brand-muted",
@@ -902,6 +942,16 @@
         {
           "name": "--color-content-default-tertiary",
           "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-content-link-hover",
+          "value": "#00474f",
           "tier": "semantic"
         },
         {

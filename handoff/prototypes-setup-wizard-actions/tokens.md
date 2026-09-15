@@ -1,0 +1,160 @@
+# Token contract — prototypes-setup-wizard-actions
+
+The 132 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+
+## Semantic
+
+| Token | Value |
+|---|---|
+| `--animation-overlay-enter` | `.25s ease-out` |
+| `--border-width-default` | `1px` |
+| `--color-background-accent` | `#f76b15` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
+| `--color-background-brand-muted` | `#eef5f4` |
+| `--color-background-brand-muted-hover` | `#b9d6d2` |
+| `--color-background-default` | `#fafafa` |
+| `--color-background-elevation-raised` | `#fcfcfc` |
+| `--color-background-elevation-sunken` | `#efefef` |
+| `--color-background-overlay-backdrop` | `#00000080` |
+| `--color-background-utility-danger` | `#ce2c31` |
+| `--color-background-utility-danger-hover` | `#641723` |
+| `--color-background-utility-success` | `#2e7571` |
+| `--color-border-default` | `#dcdcdc` |
+| `--color-border-default-strong` | `#bdbdbd` |
+| `--color-border-default-subtle` | `#efefef` |
+| `--color-content-brand` | `#005862` |
+| `--color-content-default` | `#3d3d3d` |
+| `--color-content-default-knockout` | `#fcfcfc` |
+| `--color-content-default-secondary` | `#525252` |
+| `--color-content-default-tertiary` | `#656565` |
+| `--color-content-link` | `#005862` |
+| `--color-content-on-brand-muted` | `#203c25` |
+| `--color-content-utility-danger` | `#ce2c31` |
+| `--elevation-4` | `0 6px 24px -6px #00000012` |
+| `--elevation-5` | `0 8px 32px -8px #00000014` |
+| `--radius-chip` | `.25rem` |
+| `--radius-md` | `.25rem` |
+| `--radius-sm` | `.25rem` |
+| `--transition-fast` | `.15s ease` |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--typography-body-sm-font-weight` | `350` |
+| `--typography-body-sm-letter-spacing` | `.01em` |
+| `--typography-body-sm-line-height` | `1.6` |
+| `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` |
+| `--typography-font-weight-bold` | `650` |
+| `--typography-font-weight-medium` | `500` |
+| `--typography-font-weight-regular` | `350` |
+| `--typography-font-weight-semibold` | `550` |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-label-md-font-weight` | `500` |
+| `--typography-label-md-letter-spacing` | `.01em` |
+| `--typography-label-md-line-height` | `1.6` |
+| `--typography-label-md-strong-font-family` | `"DM Sans", sans-serif` |
+| `--typography-label-md-strong-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-label-md-strong-font-weight` | `550` |
+| `--typography-label-md-strong-letter-spacing` | `.01em` |
+| `--typography-label-md-strong-line-height` | `1.6` |
+| `--typography-microcopy-2xs-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-2xs-font-size` | `clamp(.5rem, .44rem + .3vw, .625rem)` |
+| `--typography-microcopy-2xs-font-weight` | `500` |
+| `--typography-microcopy-2xs-letter-spacing` | `.01em` |
+| `--typography-microcopy-2xs-line-height` | `1` |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-microcopy-md-font-weight` | `500` |
+| `--typography-microcopy-md-letter-spacing` | `.01em` |
+| `--typography-microcopy-md-line-height` | `1` |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-microcopy-xs-strong-font-weight` | `550` |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` |
+| `--typography-microcopy-xs-strong-line-height` | `1` |
+| `--typography-title-strong-font-family` | `"DM Sans", sans-serif` |
+| `--typography-title-strong-font-size` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
+| `--typography-title-strong-font-weight` | `550` |
+| `--typography-title-strong-letter-spacing` | `.01em` |
+| `--typography-title-strong-line-height` | `1.6` |
+
+## Component
+
+| Token | Value |
+|---|---|
+| `--badge-bg` | `#005862` |
+| `--badge-text-color` | `#fcfcfc` |
+| `--bcn-aldo` | `#08908b` |
+| `--bcn-aldo-100` | `#cfeceb` |
+| `--bcn-aldo-50` | `#e8f6f5` |
+| `--bcn-flag-on-bg` | `#fff3e0` |
+| `--bcn-flag-on-color` | `#b05000` |
+| `--bcn-gray-100` | `#efefef` |
+| `--bcn-gray-200` | `#dcdcdc` |
+| `--bcn-gray-300` | `#bdbdbd` |
+| `--bcn-gray-400` | `#989898` |
+| `--bcn-gray-50` | `#fafafa` |
+| `--bcn-gray-500` | `#7c7c7c` |
+| `--bcn-gray-600` | `#656565` |
+| `--bcn-gray-700` | `#525252` |
+| `--bcn-gray-900` | `#3d3d3d` |
+| `--bcn-gray-950` | `#292929` |
+| `--bcn-helpbar-bg` | `#17191bc7` |
+| `--bcn-helpbar-bg-solid` | `#1f2224` |
+| `--bcn-helpbar-border` | `#ffffff1f` |
+| `--bcn-helpbar-divider` | `#ffffff29` |
+| `--bcn-helpbar-fg` | `#ffffffeb` |
+| `--bcn-status-not-started` | `#bdbdbd` |
+| `--bcn-teal-600` | `#0e807b` |
+| `--button-radius-md` | `.25rem` |
+| `--button-radius-xs` | `.25rem` |
+| `--color-action` | `#d45087` |
+| `--color-commitment` | `#58508d` |
+| `--color-success-100` | `#dcfce7` |
+| `--color-success-200` | `#bbf7d0` |
+| `--color-success-50` | `#f0fdf4` |
+| `--font-decorative` | `"Besley", serif` |
+| `--form-label-color` | `#525252` |
+| `--side-dialog-inset` | `16px` |
+| `--side-dialog-width` | `400px` |
+| `--side-dialog-width-lg` | `520px` |
+
+## Primitive
+
+| Token | Value |
+|---|---|
+| `--font-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--font-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--font-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
+| `--font-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
+| `--icon-size-md` | `20px` |
+| `--icon-size-sm` | `16px` |
+| `--icon-size-xs` | `14px` |
+| `--radius-100` | `.25rem` |
+| `--radius-200` | `.5rem` |
+| `--radius-300` | `.5rem` |
+| `--radius-400` | `.75rem` |
+| `--radius-full` | `9999px` |
+| `--spacing-050` | `.125rem` |
+| `--spacing-100` | `.25rem` |
+| `--spacing-150` | `.375rem` |
+| `--spacing-200` | `.5rem` |
+| `--spacing-250` | `.625rem` |
+| `--spacing-300` | `.75rem` |
+| `--spacing-400` | `1rem` |
+| `--spacing-500` | `1.5rem` |
+| `--spacing-600` | `2rem` |
+| `--spacing-700` | `3rem` |
+
+## Component-scoped
+
+Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
+
+- `--bcn-bottom-drawer-height`
+- `--bcn-bottom-drawer-inset`
+- `--bcn-bottom-drawer-width`
+- `--bcn-bottom-drawer-z`
+- `--gap`

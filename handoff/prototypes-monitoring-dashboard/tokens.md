@@ -1,6 +1,6 @@
 # Token contract — prototypes-monitoring-dashboard
 
-The 164 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 169 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,6 +9,8 @@ The 164 design tokens this page actually uses, resolved to their final values fo
 | `--animation-overlay-enter` | `.25s ease-out` |
 | `--border-width-default` | `1px` |
 | `--color-background-accent` | `#f76b15` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
 | `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-floating` | `#fcfcfc` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
@@ -20,10 +22,12 @@ The 164 design tokens this page actually uses, resolved to their final values fo
 | `--color-border-default` | `#dcdcdc` |
 | `--color-border-default-strong` | `#bdbdbd` |
 | `--color-border-default-subtle` | `#efefef` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
 | `--color-content-default-tertiary` | `#656565` |
+| `--color-content-link` | `#005862` |
 | `--color-content-utility-danger` | `#ce2c31` |
 | `--elevation-4` | `0 6px 24px -6px #00000012` |
 | `--elevation-5` | `0 8px 32px -8px #00000014` |
@@ -109,7 +113,7 @@ The 164 design tokens this page actually uses, resolved to their final values fo
 
 | Token | Value |
 |---|---|
-| `--badge-bg` | `#43608a` |
+| `--badge-bg` | `#005862` |
 | `--badge-text-color` | `#fcfcfc` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
@@ -142,10 +146,11 @@ The 164 design tokens this page actually uses, resolved to their final values fo
 | `--form-error-color` | `#ce2c31` |
 | `--form-help-color` | `#525252` |
 | `--form-label-color` | `#525252` |
+| `--form-placeholder-color` | `#525252` |
 | `--form-text-color` | `#3d3d3d` |
 | `--side-dialog-inset` | `16px` |
 | `--side-dialog-width` | `400px` |
-| `--stat-accent-color` | `#3a7c59` |
+| `--stat-accent-color` | `#005862` |
 | `--stat-value-color` | `#3d3d3d` |
 | `--stat-value-size` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` |
 
@@ -200,12 +205,8 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-preview-stage-radius`
 - `--bcn-viz-seasons-bar-height`
 - `--bcn-wdate-width`
-- `--color-background-brand`
-- `--color-background-brand-hover`
 - `--color-background-elevation-base`
-- `--color-content-brand`
 - `--color-content-default-primary`
-- `--color-content-link`
 - `--gap`
 - `--justify`
 - `--page-title-icon-color`

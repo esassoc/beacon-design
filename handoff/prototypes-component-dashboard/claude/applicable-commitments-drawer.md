@@ -8169,7 +8169,7 @@ summary.esa-button--variant-chrome:focus-visible {
 ## Tokens
 - `--animation-indeterminate`: 1.5s ease-in-out infinite _(semantic)_
 - `--animation-spin`: .75s linear infinite _(semantic)_
-- `--badge-bg`: #43608a _(component)_
+- `--badge-bg`: #005862 _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-citation-bg`: #f6f3ed _(component)_
 - `--bcn-content-muted`: #7c7c7c _(component)_
@@ -8191,6 +8191,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -8219,6 +8221,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-utility-warning`: #f3d673 _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
@@ -8272,7 +8275,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-600`: 2rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
 - `--spacing-800`: 4rem _(primitive)_
-- `--stat-accent-color`: #3a7c59 _(component)_
+- `--stat-accent-color`: #005862 _(component)_
 - `--stat-value-color`: #3d3d3d _(component)_
 - `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
 - `--transition-fast`: .15s ease _(semantic)_

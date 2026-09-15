@@ -1,12 +1,15 @@
 # Token contract — prototypes-homepage
 
-The 66 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 71 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
 | `--border-width-default` | `1px` |
+| `--color-background-brand` | `#005862` |
+| `--color-background-brand-hover` | `#00474f` |
+| `--color-background-brand-subtle` | `#effefb` |
 | `--color-background-elevation-floating` | `#fcfcfc` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
@@ -19,10 +22,12 @@ The 66 design tokens this page actually uses, resolved to their final values for
 | `--color-border-default-subtle` | `#efefef` |
 | `--color-border-utility-danger` | `#fdbdbe` |
 | `--color-border-utility-success` | `#adddc0` |
+| `--color-content-brand` | `#005862` |
 | `--color-content-default` | `#3d3d3d` |
 | `--color-content-default-knockout` | `#fcfcfc` |
 | `--color-content-default-secondary` | `#525252` |
 | `--color-content-default-tertiary` | `#656565` |
+| `--color-content-link` | `#005862` |
 | `--color-content-utility-danger` | `#ce2c31` |
 | `--color-content-utility-success` | `#218358` |
 | `--radius-lg` | `.75rem` |
@@ -88,10 +93,5 @@ The 66 design tokens this page actually uses, resolved to their final values for
 Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
 
 - `--align`
-- `--color-background-brand`
-- `--color-background-brand-hover`
-- `--color-background-brand-subtle`
-- `--color-content-brand`
-- `--color-content-link`
 - `--gap`
 - `--justify`

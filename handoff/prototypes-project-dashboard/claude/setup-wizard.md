@@ -43,7 +43,7 @@ The project's SETUP PIPELINE as its own slim card — Source Documents → Commi
         class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
         ><a
           class="esa-button__native typography-microcopy-md"
-          href="#project-setup"
+          href="/beacon-design/prototypes/setup-wizard"
           role="button"
           ><span class="esa-button__label">Continue setup</span></a
         ></span
@@ -102,26 +102,41 @@ The project's SETUP PIPELINE as its own slim card — Source Documents → Commi
       >
     </li>
     <li class="bcn-swc__step" style="--_step: var(--color-action)">
-      <a class="bcn-swc__link" href="#setup-actions"
+      <a class="bcn-swc__link" href="/beacon-design/prototypes/setup-wizard/actions"
         ><span class="bcn-swc__label-row"
           ><span class="bcn-swc__n">4</span
           ><span class="bcn-swc__label">Actions</span></span
         >
         <dl class="bcn-swc__stats">
           <div class="bcn-swc__stat">
-            <dt>
-              <span class="bcn-swc__attn" aria-hidden="true"></span>Requirements not in an
-              action
-            </dt>
-            <dd>12</dd>
+            <dt><span class="bcn-swc__attn" aria-hidden="true"></span>Not yet routed</dt>
+            <dd>4</dd>
           </div>
           <div class="bcn-swc__stat">
-            <dt>Created</dt>
-            <dd>142</dd>
+            <dt>Drafted</dt>
+            <dd>267</dd>
           </div>
           <div class="bcn-swc__stat">
             <dt>Approved</dt>
-            <dd>138</dd>
+            <dd>0</dd>
+          </div>
+        </dl></a
+      >
+    </li>
+    <li class="bcn-swc__step" style="--_step: var(--color-obligation)">
+      <a class="bcn-swc__link" href="/beacon-design/prototypes/setup-wizard/obligations"
+        ><span class="bcn-swc__label-row"
+          ><span class="bcn-swc__n">5</span
+          ><span class="bcn-swc__label">Obligations</span></span
+        >
+        <dl class="bcn-swc__stats">
+          <div class="bcn-swc__stat">
+            <dt>Drafted</dt>
+            <dd>402</dd>
+          </div>
+          <div class="bcn-swc__stat">
+            <dt><span class="bcn-swc__attn" aria-hidden="true"></span>List approved</dt>
+            <dd>0</dd>
           </div>
         </dl></a
       >
@@ -435,6 +450,7 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: var(--radius-300);
   flex-direction: column;
   display: flex;
+  container-type: inline-size;
 }
 .bcn-swc__head {
   align-items: center;
@@ -465,8 +481,8 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-swc__steps {
   padding: var(--spacing-400) 0 0;
   border-top: 1px solid var(--color-border-default-subtle);
-  gap: var(--spacing-400);
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-300);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   margin: 0;
   list-style: none;
   display: grid;
@@ -634,6 +650,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
@@ -650,6 +668,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #005862 _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_

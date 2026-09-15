@@ -419,6 +419,8 @@ The same 30/60/90-day near-term timeline as the project dashboard, scoped to thi
 ## Tokens
 - `--bcn-content-muted`: #7c7c7c _(component)_
 - `--bcn-teal-800`: #0a6562 _(component)_
+- `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-brand-hover`: #00474f _(semantic)_
 - `--color-background-brand-muted`: #eef5f4 _(semantic)_
 - `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_

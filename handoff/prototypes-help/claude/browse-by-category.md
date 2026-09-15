@@ -379,6 +379,8 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-link`: #005862 _(semantic)_
+- `--color-content-link-hover`: #00474f _(semantic)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_

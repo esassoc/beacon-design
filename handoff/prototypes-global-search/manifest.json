@@ -63,6 +63,11 @@
           "tier": "component"
         },
         {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
           "name": "--color-background-elevation-raised",
           "value": "#fcfcfc",
           "tier": "semantic"
@@ -194,6 +199,16 @@
         ]
       },
       "tokens": [
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
         {
           "name": "--color-background-elevation-raised",
           "value": "#fcfcfc",
@@ -361,6 +376,16 @@
         ]
       },
       "tokens": [
+        {
+          "name": "--color-background-brand",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-background-brand-subtle",
+          "value": "#effefb",
+          "tier": "semantic"
+        },
         {
           "name": "--color-background-elevation-raised",
           "value": "#fcfcfc",

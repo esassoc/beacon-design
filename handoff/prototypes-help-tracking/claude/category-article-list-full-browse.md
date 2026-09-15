@@ -135,6 +135,7 @@ The comprehensive list for one category: a quiet article count, then EVERY artic
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-link`: #005862 _(semantic)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
