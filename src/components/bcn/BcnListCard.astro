@@ -1,0 +1,117 @@
+---
+// <BcnListCard> — one project list as it sits in the Lists index stack.
+//
+// The whole card is one line: the list's NAME as the only link on it, the member
+// COUNT, the NOUN that names which registry those members came from, and the date
+// the list last changed, pushed to the far right and labelled "Updated". A second
+// line appears only when the list carries a description, and it is clamped to one.
+//
+// WHY THERE IS NO TYPE PILL. The noun after the count — "44 obligations", "8
+// actions" — already says the type, in the same phrase that reports the size. A
+// badge or a coloured dot beside it would mark the same fact twice, so the noun IS
+// the type mark here and there is no pill, chip, icon or dot to add. Nothing else
+// rides on the card either: no status, no owner, no "view" affordance.
+//
+// EMPTY IS HONEST. A list with no description renders the first line and stops. No
+// placeholder sentence is ever substituted for the missing one.
+//
+// Contract with <BcnListIndexBoard>: the root carries `data-list-row` and
+// `data-type`, which is the whole surface the board's type filter touches — it sets
+// `hidden` on this element and reads nothing else.
+//
+// bcn-lego-checked: the shell IS esa-card (variant="outlined", padding="compact",
+// default slot only, header slot deliberately unfilled — see the note in the style
+// block); the count IS bcn-sw-count-badge; the rows ARE `.stack` / `.repel` /
+// `.cluster` from @esa/tokens/layouts.css and the type is typography composites.
+// Checked Ecology — esa-link-column is a nav column of bare links, and esa-card's
+// own `meta` pairs take strings, so neither can hold the count badge — and Beacon,
+// whose Lists page is an AG Grid rather than a card stack. What this file adds over
+// the legos is the link ink and the one-line clamp.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import { LIST_MEMBER_NOUN, memberCountLabel, type ProjectList } from '../../data/lists';
+
+interface Props {
+  list: ProjectList;
+  /** Where the name links. */
+  href: string;
+}
+const { list, href } = Astro.props;
+
+// The badge carries the whole phrase as its accessible name, so the visible noun is
+// the same words a second time and is hidden from assistive tech rather than read
+// twice.
+const countLabel = memberCountLabel(list.type, list.memberCount);
+const noun = LIST_MEMBER_NOUN[list.type][list.memberCount === 1 ? 0 : 1];
+const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+});
+---
+
+<article class="bcn-lc" data-list-row data-type={list.type}>
+  <EsaCard variant="outlined" padding="compact">
+    <div class="stack" data-gap="2xs">
+      <div class="bcn-lc__head repel" data-gap="sm">
+        <div class="cluster" data-gap="xs">
+          <a class="bcn-lc__name typography-title-sm-strong" href={href}>{list.name}</a>
+          <span class="cluster" data-gap="2xs">
+            <BcnSwCountBadge value={list.memberCount} label={countLabel} />
+            <span class="bcn-lc__noun typography-body-md" aria-hidden="true">{noun}</span>
+          </span>
+        </div>
+        <span class="bcn-lc__updated typography-body-md">Updated {updated}</span>
+      </div>
+      {list.description && <p class="bcn-lc__desc typography-body-md">{list.description}</p>}
+    </div>
+  </EsaCard>
+</article>
+
+<style>
+  /* Everything sits in esa-card's DEFAULT slot, and the header slot is left unfilled.
+     That is the density decision. A filled header slot is a titled band: 56px min-height,
+     1rem block padding and a hairline under it, which turned a one-line row into two
+     stacked bands about 135px tall. On an index of nineteen rows that band is the whole
+     budget. Leaving the header out drops the card to the compact body padding and the
+     lego renders no header at all (esa-card only emits one for a title, meta, or a
+     filled header/actions slot), so there is nothing to override and no empty-body
+     case to hide. */
+  .bcn-lc__head {
+    align-items: baseline;
+  }
+
+  .bcn-lc__name {
+    color: var(--color-content-link);
+    text-decoration: none;
+  }
+
+  .bcn-lc__name:hover {
+    text-decoration: underline;
+  }
+
+  .bcn-lc__name:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-sm);
+  }
+
+  .bcn-lc__noun {
+    color: var(--color-content-default-secondary);
+  }
+
+  .bcn-lc__updated {
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+
+  /* One line. A list's description is a handle, not a paragraph; the full text is on
+     the list's own page. */
+  .bcn-lc__desc {
+    margin: 0;
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
