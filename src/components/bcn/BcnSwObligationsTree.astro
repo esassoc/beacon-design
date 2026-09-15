@@ -214,7 +214,7 @@ const { title = 'Obligations' } = Astro.props;
       sub.open = open;
       qa<HTMLDetailsElement>('.bcn-swoc__node', sub).forEach((d) => (d.open = open));
     };
-    document.addEventListener('swo:changed', recount);
+    document.addEventListener('swo:changed', () => { recount(); apply(); });
     document.querySelector('[data-swo-expand]')?.addEventListener('click', () => setCats(true));
     document.querySelector('[data-swo-collapse]')?.addEventListener('click', () => setCats(false));
 
@@ -248,38 +248,57 @@ const { title = 'Obligations' } = Astro.props;
       if (needle && reqHit) (card.querySelector('details') as HTMLDetailsElement).open = true;
       return titleHit || classHit || reqHit;
     };
-    const applyQuery = (raw: string) => {
-      const needle = raw.trim();
+    // Three filters share one pass: the search text, the class picker in the filter
+    // row, and the category chip in the title (its sw:chip event). Any of them active
+    // narrows the tree; the title count follows what is shown.
+    const filters = { needle: '', cls: '', cat: '' };
+    const apply = () => {
+      const { needle, cls, cat } = filters;
+      const active = !!(needle || cls || cat);
       let shown = 0;
-      qa<HTMLDetailsElement>('[data-swo-cat]').forEach((cat) => {
-        const catHit = paint(cat.querySelector<HTMLElement>(':scope > summary [data-swo-name]')!, needle);
+      qa<HTMLDetailsElement>('[data-swo-cat]').forEach((catEl) => {
+        if (cat && catEl.dataset.swoCat !== cat) { catEl.hidden = true; return; }
+        const catHit = paint(catEl.querySelector<HTMLElement>(':scope > summary [data-swo-name]')!, needle);
         let catAny = false;
-        qa<HTMLDetailsElement>('.bcn-swot__sub', cat).forEach((sub) => {
+        qa<HTMLDetailsElement>('.bcn-swot__sub', catEl).forEach((sub) => {
           const subHit = paint(sub.querySelector<HTMLElement>(':scope > summary [data-swo-name]')!, needle);
           let subAny = false;
           qa<HTMLElement>('[data-swo-card]', sub).forEach((card) => {
             const own = cardHit(card, needle); // painted even when the branch above already matched
-            const hit = !needle || catHit || subHit || own;
+            const textHit = !needle || catHit || subHit || own;
+            const classHit = !cls || card.dataset.class === cls;
+            const hit = textHit && classHit;
             card.hidden = !hit;
             if (hit) { shown++; subAny = true; }
           });
-          const keep = !needle || subHit || subAny;
+          const keep = cls ? subAny : !needle || subHit || subAny;
           sub.hidden = !keep;
-          if (needle && keep) sub.open = true;
+          if (active && keep) sub.open = true;
           catAny = catAny || keep;
         });
-        const keep = !needle || catHit || catAny;
-        cat.hidden = !keep;
-        if (needle && keep) cat.open = true;
+        const keep = cls ? catAny : !needle || catHit || catAny;
+        catEl.hidden = !keep;
+        if (active && keep) catEl.open = true;
       });
-      if (nomatch) nomatch.hidden = shown > 0 || !needle;
+      if (nomatch) nomatch.hidden = shown > 0 || !active;
+      const tb = badgeOf(document.querySelector('[data-swo-count="title"]'));
+      if (tb) tb.textContent = String(active ? shown : qa('[data-swo-card]').length);
     };
     const search = document.querySelector<HTMLElement & { value: string }>('esa-text-field[name="swo-search"]');
     if (search) {
       const read = () => search.value ?? search.shadowRoot?.querySelector('input')?.value ?? '';
-      search.addEventListener('input', () => applyQuery(read()));
-      search.addEventListener('change', () => applyQuery(read()));
+      const on = () => { filters.needle = read().trim(); apply(); };
+      search.addEventListener('input', on);
+      search.addEventListener('change', on);
     }
+    const classPick = document.querySelector<HTMLElement & { value: string }>('esa-select[name="swo-search-class"]');
+    classPick?.addEventListener('change', () => { filters.cls = classPick.value ?? ''; apply(); });
+    document.addEventListener('sw:chip', (e) => {
+      const d = (e as CustomEvent<{ name: string; value: string }>).detail;
+      if (d?.name !== 'category') return;
+      filters.cat = d.value;
+      apply();
+    });
 
     // ---- Drag and drop. `dragged` is the element in flight; its kind decides which
     // targets accept it. Option at drop time copies instead of moving.

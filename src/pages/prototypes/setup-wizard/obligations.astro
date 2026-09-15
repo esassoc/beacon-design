@@ -30,19 +30,20 @@ import BcnSwViewSwitch from '../../../components/bcn/BcnSwViewSwitch.astro';
 import BcnSwObligationsTree from '../../../components/bcn/BcnSwObligationsTree.astro';
 import BcnSwObligationsEditor from '../../../components/bcn/BcnSwObligationsEditor.astro';
 import { PROJECT } from '../../../data/project-dashboard';
-import { SETUP_STEPS, STEP_GLYPH, OBLIGATION_TREE_TOTALS, OBLIGATION_CLASS_LABEL } from '../../../data/setup-wizard';
+import { SETUP_STEPS, STEP_GLYPH, OBLIGATION_TREE, OBLIGATION_TREE_TOTALS, OBLIGATION_CLASS_LABEL } from '../../../data/setup-wizard';
 
 const STEP = SETUP_STEPS.find((s) => s.id === 'obligations')!;
 const total = OBLIGATION_TREE_TOTALS.obligations;
 const CLASS_PICKS = Object.entries(OBLIGATION_CLASS_LABEL).map(([value, label]) => ({ label, value }));
+const CATEGORY_PICKS = [{ label: 'All categories', value: '' }, ...OBLIGATION_TREE.map((c) => ({ label: c.name, value: c.id }))];
 ---
 
 <!-- manifest:
   layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
   sections:
     - wizard chrome     -> bcn-setup-wizard-frame     # compass mark, serif title, five-step pill nav with step 5 active
-    - step panel        -> bcn-sw-step-panel          # numeral, serif title with category chip (bcn-sw-select-chip) and count, intro; actions: bcn-sw-view-switch (By category / By commitment)
-    - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), class picker, expand / collapse verbs
+    - step panel        -> bcn-sw-step-panel          # numeral, serif title with category chip (bcn-sw-select-chip, a working menu that filters the tree) and count, intro; actions: bcn-sw-view-switch (By category / By commitment)
+    - filter row        -> bcn-sw-filter-row          # search (yellow hit highlighting), class picker (filters), expand / collapse verbs
     - obligation tree   -> bcn-sw-obligations-tree    # category > subcategory > bcn-sw-obligation-card > requirement rows; drag to refile; foot: New category (ghost) left, Approve obligations right
     - edit one          -> bcn-sw-obligations-editor  # side drawer a title or pencil opens, headed by the title: class, filing, trigger, requirements (duplicate / move / unlink, Link from the permit via a stacked drawer) with source text
 -->
@@ -58,7 +59,7 @@ const CLASS_PICKS = Object.entries(OBLIGATION_CLASS_LABEL).map(([value, label]) 
         >
           <Fragment slot="title">
             <span>Obligations in</span>
-            <BcnSwSelectChip label="Category" value="All categories" />
+            <BcnSwSelectChip label="Category" name="category" value="All categories" options={CATEGORY_PICKS} />
             <span data-swo-count="title"><BcnSwCountBadge value={total} label={`${total} obligations`} /></span>
           </Fragment>
           <Fragment slot="actions"><BcnSwViewSwitch current="registry" /></Fragment>
