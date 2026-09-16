@@ -10,11 +10,21 @@ interface Props {
   value: number | string;
   /** Accessible name when the number alone is not enough ("20 requirements"). */
   label?: string;
+  /**
+   * `md` is prod's chip and the default everywhere it already sits. `sm` is the same
+   * chip re-cut for a row whose title is 14px: at prod's 11px on 22px the box stands
+   * taller than the line it annotates and reads as the loudest thing in the row.
+   */
+  size?: 'sm' | 'md';
+  /** Anything else lands on the span — a page script's hook, mostly. */
+  [key: string]: unknown;
 }
-const { value, label } = Astro.props;
+const { value, label, size = 'md', ...rest } = Astro.props;
 ---
 
-<span class="bcn-swcb" aria-label={label}>{value}</span>
+<span class:list={['bcn-swcb', size === 'sm' && 'bcn-swcb--sm']} aria-label={label} {...rest}
+  >{value}</span
+>
 
 <style>
   .bcn-swcb {
@@ -32,5 +42,11 @@ const { value, label } = Astro.props;
     font-size: 0.6875rem;
     font-weight: 500;
     line-height: 1;
+  }
+
+  .bcn-swcb--sm {
+    min-width: 18px;
+    padding: 2px var(--spacing-100);
+    font-size: var(--font-size-050);
   }
 </style>
