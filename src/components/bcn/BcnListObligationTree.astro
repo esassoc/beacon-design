@@ -26,8 +26,9 @@
 //     quiet "Registry: {name}" beside it so the registry's own wording is never lost,
 //     and renaming a row that was not renamed before reveals that secondary.
 //   - The per obligation list description. No longer edited in place: the card stopped
-//     printing the sentence on 2026-09-16, keeps it as data, and the side panel reads
-//     and writes it. The card keeps only the "Edited for this list" signal.
+//     printing the sentence on 2026-09-16, keeps it as data, and <BcnListObligationPanel>
+//     reads and writes it. The card keeps only the "Edited for this list" signal. The
+//     title and the pencil both open that panel, the way step 5's card opens its editor.
 //   - EXPAND TO REQUIREMENTS and COLLAPSE on a branch, step 5's verbs with step 5's
 //     glyphs and reach: the row, every branch inside it, and every card's requirement
 //     list. One level deeper than the chevron on a subcategory, two on a category.
@@ -576,6 +577,31 @@ const CARD_STAMP: ListObligation = {
       sub.open = true;
       flash(card);
     };
+    // ---- What the panel sends back. The panel writes one datum — the list's own
+    // wording for one member — and asks for the other two verbs rather than doing
+    // them, so Remove still routes through this tree's guard and a duplicate is still
+    // filed by the same code path as the card's own copy verb.
+    const byMember = (id: string) => cards().find((c) => c.dataset.memberId === id) ?? null;
+    document.addEventListener('list:obligation-saved', (e) => {
+      const { memberId, listDescription } = (e as CustomEvent<{ memberId: string; listDescription: string }>).detail;
+      const card = byMember(memberId);
+      if (!card) return;
+      const registry = card.dataset.registryDesc ?? '';
+      // Emptied, the member falls back to the registry's wording — which is also what
+      // makes the two attributes agree again, and the mark below go away.
+      card.dataset.listDescription = listDescription || registry;
+      const mark = card.querySelector<HTMLElement>('[data-list-edited]');
+      if (mark) mark.hidden = (card.dataset.listDescription ?? '') === registry;
+    });
+    document.addEventListener('list:remove-member', (e) => {
+      const card = byMember((e as CustomEvent<string>).detail);
+      if (card) removeFromList(card);
+    });
+    document.addEventListener('list:duplicate-member', (e) => {
+      const card = byMember((e as CustomEvent<string>).detail);
+      if (card) duplicate(card);
+    });
+
     document.addEventListener('list:members-added', (e) => {
       const items = (e as CustomEvent<{ items: AddedItem[] }>).detail?.items ?? [];
       items.forEach(addItem);
@@ -583,9 +609,9 @@ const CARD_STAMP: ListObligation = {
       apply();
     });
 
-    // ---- Verbs. Five of them on the whole tree: open a branch to its requirements,
-    // close it again, rename a branch for this list, duplicate a membership, and take
-    // one off the list.
+    // ---- Verbs. Six of them on the whole tree: open a branch to its requirements,
+    // close it again, rename a branch for this list, open a membership in the panel,
+    // duplicate one, and take one off the list.
     root.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;
       if (t.closest('.is-editing')) { e.preventDefault(); return; }
@@ -598,6 +624,12 @@ const CARD_STAMP: ListObligation = {
       if (btn?.matches('[data-list-rename]')) {
         e.preventDefault();
         rename(btn.closest('summary')!);
+        return;
+      }
+      if (btn?.matches('[data-list-edit]')) {
+        e.preventDefault();
+        const card = btn.closest<HTMLElement>('[data-list-card]')!;
+        document.dispatchEvent(new CustomEvent('list:edit-obligation', { detail: card.dataset.memberId, bubbles: true }));
         return;
       }
       if (btn?.matches('[data-list-duplicate]')) {

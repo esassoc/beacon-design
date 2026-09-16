@@ -12,8 +12,9 @@
 // The card, top to bottom:
 //   1. the card row: chevron, class chip, title, the "Edited for this list" mark, the
 //      copy marker when this list holds the obligation more than once, the requirement
-//      count, and two hover verbs pushed right — duplicate, and the x that takes this
-//      membership off the list. The whole row is the disclosure;
+//      count, and three hover verbs pushed right — edit, duplicate, and the x that
+//      takes this membership off the list. The row is the disclosure; the title is not,
+//      it opens the panel, exactly as the wizard's title opens its editor;
 //   2. the requirements as DIRECT CHILDREN: commitment code, then the requirement's
 //      name. Read only — no drag, no duplicate, no unlink, no verb of any kind —
 //      because a list cannot change what an obligation derives from. That read-only
@@ -27,12 +28,15 @@
 //
 // The LIST DESCRIPTION is no longer printed here. It is a stored field, so it stays on
 // the card as data — data-list-description, with the registry's own sentence in
-// data-registry-desc — and it is read and written in the side panel. What survives on
-// the row is the SIGNAL that this list said it differently.
+// data-registry-desc — and it is read and written in <BcnListObligationPanel>, which
+// reads both attributes straight off this element. What survives on the row is the
+// SIGNAL that this list said it differently. The two attributes are also the whole
+// override test: the member has its own wording exactly when they disagree, so there is
+// no third attribute to keep in step with them.
 //
 // Contract with <BcnListObligationTree>: the card is presentational. The tree owns
 // every listener, exactly as step 5 splits card and tree, and reaches in through
-// `data-list-card`, `data-list-duplicate`, `data-list-remove`, `data-list-edited`,
+// `data-list-card`, `data-list-edit`, `data-list-duplicate`, `data-list-remove`, `data-list-edited`,
 // `data-list-copy`, `data-list-req` and `data-list-text`.
 //
 // IDENTITY: the card is keyed by `data-member-id`, NOT by `data-id`. `data-id` is the
@@ -71,10 +75,16 @@ const { obligation: o, open = false } = Astro.props;
     <summary class="bcn-loc__main">
       <span class="bcn-loc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
       <span class="bcn-loc__class" data-list-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
-      <span class="bcn-loc__title" data-list-title data-list-text={o.title}>{o.title}</span>
+      <button type="button" class="bcn-loc__title" data-list-edit data-list-title data-list-text={o.title}>{o.title}</button>
       <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden}>Edited for this list</span>
       <span class="bcn-loc__copy" data-list-copy hidden={o.copies < 2}>{o.copies > 1 ? `Copy ${o.occurrence} of ${o.copies}` : ''}</span>
       <span data-list-count="obligation"><BcnSwCountBadge value={o.requirements.length} label={`${o.requirements.length} requirements`} /></span>
+      <esa-tooltip text="Edit for this list"><button
+        type="button"
+        class="bcn-loc__verb"
+        aria-label="Edit this obligation for this list"
+        data-list-edit
+      ><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
       <esa-tooltip text="Duplicate for this list"><button
         type="button"
         class="bcn-loc__verb"
@@ -108,10 +118,6 @@ const { obligation: o, open = false } = Astro.props;
      the wizard's own relationship — there the 22px clears a grip, here it clears the
      chevron, and both land in the same place. A 24px "correction" for the missing grip
      moved it 2px and broke the rhyme. */
-
-  /* Not a control yet: on this card the title is part of the disclosure, so it drops
-     the shared hover underline, which promises a thing that opens. */
-  .bcn-loc__title:hover { text-decoration: none; }
 
   /* This list said it differently. The only trace of the list description on the row,
      now that the sentence itself is read and written in the panel. */

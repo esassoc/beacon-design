@@ -13,6 +13,10 @@
 // obligation exists, so they are worth seeing while you write its description, but they
 // are not editable from a list.
 //
+// A list may hold the same registry obligation more than once, each copy carrying its own
+// wording, so one form can ask about one duty twice. Both copies sit where the registry
+// files the obligation, because this page does not refile.
+//
 // Every value is read from the ObligationList record in src/data/lists.ts. The tree is
 // listTree(list); the add drawer is candidateTree(list); the export preview is
 // formFields(list). All three are pure derivations, so the JSON a contractor's form is
@@ -26,6 +30,7 @@ import BcnListDetailsRail from '../../../components/bcn/BcnListDetailsRail.astro
 import BcnListAddObligations from '../../../components/bcn/BcnListAddObligations.astro';
 import BcnListExportPanel from '../../../components/bcn/BcnListExportPanel.astro';
 import BcnListEditDetailsDialog from '../../../components/bcn/BcnListEditDetailsDialog.astro';
+import BcnListObligationPanel from '../../../components/bcn/BcnListObligationPanel.astro';
 import { PROJECT } from '../../../data/project-dashboard';
 import { OBLIGATION_LISTS, memberCountLabel } from '../../../data/lists';
 import { withBase } from '../../../lib/base';
@@ -46,6 +51,7 @@ const { list } = Astro.props;
     - export panel    -> bcn-list-export-panel             # Word, CSV, and the JSON endpoint: key, URL, formFields(list) preview
     - add members     -> bcn-list-add-obligations          # right drawer over candidateTree(list), checkboxes, emits list:members-added
     - edit details    -> bcn-list-edit-details-panel       # right panel, name and description
+    - obligation panel-> bcn-list-obligation-panel         # right panel over one member; registry fields read-only, list description the one live control
 -->
 
 <AppShell
@@ -96,5 +102,6 @@ const { list } = Astro.props;
 
     <BcnListAddObligations list={list} />
     <BcnListEditDetailsDialog list={list} />
+    <BcnListObligationPanel list={list} />
   </PageLayout>
 </AppShell>

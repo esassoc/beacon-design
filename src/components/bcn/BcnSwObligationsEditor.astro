@@ -28,6 +28,8 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { ACTIONS_OF, ITP, OBLIGATION_CLASS_LABEL, OBLIGATION_TREE, STEP_GLYPH } from '../../data/setup-wizard';
+// The drawer anatomy this editor shares, verbatim, with <BcnListObligationPanel>.
+import '../../styles/bcn-obligation-drawer.css';
 
 const CLASS_OPTIONS = JSON.stringify(
   (['adhere', 'monitor', 'notify', 'roster'] as const).map((c) => ({ label: OBLIGATION_CLASS_LABEL[c], value: c })),
@@ -499,61 +501,19 @@ const DATA = JSON.stringify({
 </script>
 
 <style>
-  .bcn-swo-edit {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-400);
-    font-size: 0.8125rem;
-  }
-  .bcn-swo-edit__pair {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-300);
-    align-items: start;
-  }
-  .bcn-swo-edit__section { display: flex; flex-direction: column; gap: var(--spacing-150); min-width: 0; }
-  .bcn-swo-edit__label-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-200); }
-  /* The same label a lego draws, so the two sections read as fields. */
-  .bcn-swo-edit__label { font-size: 0.75rem; font-weight: 500; color: var(--form-label-color, #646464); }
-  .bcn-swo-edit__label-n { font-weight: 400; color: var(--color-content-default-tertiary); margin-left: var(--spacing-100); }
-  .bcn-swo-edit__empty { margin: 0; font-size: 0.75rem; font-style: italic; color: var(--color-content-default-tertiary); }
-  .bcn-swo-edit__verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
-
-  /* Requirements: a code, a name, then the exact text folded under it. */
-  .bcn-swo-edit__reqs { display: flex; flex-direction: column; border-top: 1px solid var(--color-border-default-subtle); }
-  .bcn-swo-edit__reqs:empty { border-top: none; }
-
+  /* Everything this editor shares with the list's panel is in
+     src/styles/bcn-obligation-drawer.css. What is left here is the PICKER, which only
+     the registry editor has: a list cannot link a requirement or move one. */
   .bcn-swo-pick { display: flex; flex-direction: column; gap: var(--spacing-200); font-size: 0.8125rem; }
   .bcn-swo-pick__meta { margin: 0; font-size: 0.75rem; color: var(--color-content-default-tertiary); }
   .bcn-swo-pick__list { display: flex; flex-direction: column; border-top: 1px solid var(--color-border-default-subtle); }
 </style>
 
 <style is:global>
-  /* Rows in both drawers are stamped by script, outside the scope id. */
-  .bcn-swo-edit__req-verbs esa-tooltip { display: inline-flex; }
-  .bcn-swo-edit__x { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: none; background: transparent; border-radius: var(--radius-100); color: var(--color-content-default-tertiary); cursor: pointer; }
-  .bcn-swo-edit__x:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
-  .bcn-swo-edit__x--danger:hover { color: var(--color-background-utility-danger); }
-
-  .bcn-swo-edit__req { border-bottom: 1px solid var(--color-border-default-subtle); }
-  .bcn-swo-edit__req.is-new { background: color-mix(in srgb, var(--color-obligation) 10%, white); }
-  .bcn-swo-edit__req-row { display: flex; align-items: center; gap: var(--spacing-200); min-height: 30px; padding: var(--spacing-100) var(--spacing-100); list-style: none; cursor: pointer; font-size: 0.8125rem; }
-  .bcn-swo-edit__req-row::-webkit-details-marker { display: none; }
-  .bcn-swo-edit__req-row:hover { background: var(--color-background-default); }
-  .bcn-swo-edit__chev { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
-  .bcn-swo-edit__req[open] > .bcn-swo-edit__req-row .bcn-swo-edit__chev { transform: rotate(90deg); }
-  .bcn-swo-edit__code { flex-shrink: 0; font-family: var(--typography-font-family-mono); font-weight: 600; font-size: 0.6875rem; color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); border-radius: var(--radius-100); padding: 1px 6px; }
-  .bcn-swo-edit__req-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .bcn-swo-edit__also { flex-shrink: 0; font-size: 0.6875rem; color: var(--color-content-default-tertiary); }
-  .bcn-swo-edit__also:empty { display: none; }
-  .bcn-swo-edit__req-verbs { display: inline-flex; flex-shrink: 0; gap: 2px; opacity: 0; transition: opacity 120ms ease; }
-  .bcn-swo-edit__req-row:hover .bcn-swo-edit__req-verbs,
-  .bcn-swo-edit__req-row:focus-within .bcn-swo-edit__req-verbs { opacity: 1; }
-  .bcn-swo-edit__text { margin: 0 0 var(--spacing-200) calc(var(--spacing-100) + 20px); padding: var(--spacing-200) var(--spacing-300); border-left: 3px solid var(--color-commitment); background: var(--color-background-default); font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
-
-  .bcn-swo-edit__foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-200); }
-  .bcn-swo-edit__foot--end { justify-content: flex-end; }
-  .bcn-swo-edit__foot-left, .bcn-swo-edit__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+  /* The drawer's own rows moved to src/styles/bcn-obligation-drawer.css, shared with
+     <BcnListObligationPanel>. These are the PICKER's rows, which only this editor
+     stamps, and they stay global for the same reason: a stamped node carries no
+     scope id. */
 
   /* Picker rows: a button per option; the checkbox is state only, the row takes the click. */
   .bcn-swo-pick__group { padding: var(--spacing-200) var(--spacing-100) var(--spacing-100); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-content-default-tertiary); }

@@ -1,0 +1,283 @@
+---
+// <BcnListObligationPanel> — one MEMBERSHIP, opened from the list tree. Andy, 2026-09-16:
+// "essentially use the same sidepanel as the edit one from the setup wizard, except
+// class, description should be read-only, and there should be a secondary list
+// description that one could fill in."
+//
+// So it is the wizard's drawer — same frame, same width, same field order, same section
+// rhythm, same requirement rows, same footer split — and its anatomy is not copied but
+// shared, in src/styles/bcn-obligation-drawer.css, which <BcnSwObligationsEditor> imports
+// too.
+//
+// WHERE IT DIVERGES, AND WHY. The registry-owned fields render as read-only text, not as
+// disabled inputs. esa-text-field has no readonly mode and `disabled` says "you could
+// type here, just not now" — which is false: a list can never write the registry, from
+// here or anywhere. So the panel holds exactly ONE control that takes a keystroke, the
+// list description, and being the only bordered thing on the panel is how it says so.
+//
+// Fields, in the editor's own order: Title, Class, Category / Subcategory, the registry's
+// Description, the LIST description directly under the sentence it overrides, Trigger,
+// and the Requirements folding open to their exact source text. Read only there as well,
+// with no verb of any kind: a list cannot change what an obligation derives from. Phases,
+// species and gate are absent here exactly as they are absent from the wizard's editor.
+//
+// LIVE, NOT SNAPSHOT. The frontmatter blob carries only the REGISTRY record, keyed by
+// obligation id, because that is the part no screen can change. Everything the page can
+// change is read off the card at open time: which copy this is, what this list currently
+// says, and what this list currently calls the category and subcategory. That is also why
+// a duplicate made in the browser — whose member id no server render has ever seen —
+// opens correctly.
+//
+// Contract with <BcnListObligationTree>, on `document`:
+//   in   list:edit-obligation   detail: memberId
+//   out  list:obligation-saved  detail: { memberId, listDescription }
+//   out  list:remove-member     detail: memberId   (the tree owns the confirm)
+//   out  list:duplicate-member  detail: memberId
+//
+// bcn-lego-checked: the frame IS esa-side-dialog, the one control IS esa-textarea, the
+// buttons ARE esa-button, the glyphs ARE esa-icon. bcn-key-value was checked and NOT
+// used: its key is --typography-label-md-font-size (15px) against the 12px label an
+// esa-textarea at size sm draws, and a read-only label larger than the live field's
+// inverts the one hierarchy this panel exists to state. The read-only rows use the
+// drawer's own .bcn-swo-edit__label instead, which is that same lego label.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { OBLIGATION_CLASS_LABEL } from '../../data/setup-wizard';
+import { listTree, type ObligationList } from '../../data/lists';
+import '../../styles/bcn-obligation-drawer.css';
+import '../../styles/bcn-obligation-card.css';
+
+interface Props {
+  /** The list being edited. The registry records below are read off its own tree. */
+  list: ObligationList;
+}
+const { list } = Astro.props;
+
+// The registry record for every obligation this list holds, keyed by OBLIGATION id —
+// not member id. Two copies of one obligation share every field in here; what differs
+// between them lives on the card and is read from the DOM.
+const records: Record<string, unknown> = {};
+for (const cat of listTree(list))
+  for (const sub of cat.subcategories)
+    for (const o of sub.obligations)
+      records[o.id] = {
+        title: o.title,
+        class: o.class,
+        classLabel: OBLIGATION_CLASS_LABEL[o.class],
+        description: o.description,
+        trigger: o.trigger,
+        reqs: o.requirements.map((r) => ({ code: r.code, name: r.name, text: r.text, inActions: r.inActions })),
+      };
+const DATA = JSON.stringify({ records });
+---
+
+<esa-side-dialog
+  id="lob-editor"
+  heading="Obligation"
+  position="right"
+  show-close-button
+  style="--_width: min(640px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;"
+>
+  <form class="bcn-swo-edit bcn-lob" data-list-obl-panel data-lob-data={DATA}>
+    <div class="bcn-lob__field">
+      <span class="bcn-swo-edit__label">Title</span>
+      <span class="bcn-lob__value" data-lob="title"></span>
+    </div>
+
+    <div class="bcn-lob__field">
+      <span class="bcn-swo-edit__label">Class</span>
+      <span><span class="bcn-lob__class" data-lob="class"></span></span>
+    </div>
+
+    <div class="bcn-swo-edit__pair">
+      <div class="bcn-lob__field">
+        <span class="bcn-swo-edit__label">Category</span>
+        <span class="bcn-lob__value" data-lob="cat"></span>
+        <span class="bcn-lob__registry" data-lob="cat-registry" hidden></span>
+      </div>
+      <div class="bcn-lob__field">
+        <span class="bcn-swo-edit__label">Subcategory</span>
+        <span class="bcn-lob__value" data-lob="sub"></span>
+        <span class="bcn-lob__registry" data-lob="sub-registry" hidden></span>
+      </div>
+    </div>
+
+    <div class="bcn-lob__field">
+      <span class="bcn-swo-edit__label">Registry description</span>
+      <p class="bcn-lob__prose" data-lob="description"></p>
+    </div>
+
+    <esa-textarea
+      label="List description"
+      size="sm"
+      rows={4}
+      name="lob-description"
+      help-text="Leave this empty and the list uses the registry description."
+    ></esa-textarea>
+
+    <div class="bcn-lob__field">
+      <span class="bcn-swo-edit__label">Trigger</span>
+      <p class="bcn-lob__prose" data-lob="trigger"></p>
+    </div>
+
+    <div class="bcn-swo-edit__section">
+      <div class="bcn-swo-edit__label-row">
+        <span class="bcn-swo-edit__label">Requirements <span class="bcn-swo-edit__label-n" data-lob-req-n>0</span></span>
+      </div>
+      <div class="bcn-swo-edit__reqs" data-lob-reqs></div>
+    </div>
+  </form>
+
+  <span slot="footer" class="bcn-swo-edit__foot">
+    <span class="bcn-swo-edit__foot-left">
+      <EsaButton variant="danger" appearance="soft" size="sm" data-lob-remove>Remove from this list</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-lob-duplicate>Duplicate</EsaButton>
+    </span>
+    <span class="bcn-swo-edit__foot-right">
+      <EsaButton variant="ghost" size="sm" data-lob-cancel>Cancel</EsaButton>
+      <EsaButton variant="primary" size="sm" data-lob-save>Save</EsaButton>
+    </span>
+  </span>
+
+  <template data-lob-tpl="req">
+    <details class="bcn-swo-edit__req">
+      <summary class="bcn-swo-edit__req-row">
+        <span class="bcn-swo-edit__chev" aria-hidden="true"><EsaIcon name="chevron-right" size="xs" /></span>
+        <span class="bcn-swo-edit__code"></span>
+        <span class="bcn-swo-edit__req-name"></span>
+        <span class="bcn-swo-edit__also"></span>
+      </summary>
+      <blockquote class="bcn-swo-edit__text"></blockquote>
+    </details>
+  </template>
+</esa-side-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-textarea';
+
+  interface Req { code: string; name: string; text: string; inActions: number }
+  interface Record_ { title: string; class: string; classLabel: string; description: string; trigger: string; reqs: Req[] }
+
+  const form = document.querySelector<HTMLFormElement>('[data-list-obl-panel]');
+  if (form) {
+    const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('#lob-editor')!;
+    const field = form.querySelector<HTMLElement & { value: string }>('esa-textarea[name="lob-description"]')!;
+    const { records } = JSON.parse(form.dataset.lobData || '{"records":{}}') as { records: Record<string, Record_> };
+    const reqsHost = form.querySelector<HTMLElement>('[data-lob-reqs]')!;
+    // The template is the dialog's child, not the form's — scoping this to `form` is
+    // how it came back null and took the whole open handler down with it.
+    const reqTpl = dialog.querySelector<HTMLTemplateElement>('[data-lob-tpl="req"]')!;
+    const slot = (key: string) => form.querySelector<HTMLElement>(`[data-lob="${key}"]`)!;
+    // Absence renders as absence. The EN dash is this system's no-value mark.
+    const DASH = '–';
+    const also = (n: number) => (n > 0 ? `also in ${n} ${n === 1 ? 'action' : 'actions'}` : '');
+
+    let member = '';
+    let card: HTMLElement | null = null;
+
+    // The branch row's own name, and the registry's beneath it when this list renamed
+    // it — the same pairing the tree shows, read live so a rename made a moment ago is
+    // already here.
+    const branch = (from: Element | null, valueKey: string, registryKey: string) => {
+      const name = from?.querySelector<HTMLElement>(':scope > summary [data-list-name]');
+      const shown = name?.dataset.listText ?? name?.textContent ?? '';
+      const registry = name?.dataset.registryName ?? '';
+      slot(valueKey).textContent = shown || DASH;
+      const mark = slot(registryKey);
+      mark.textContent = `Registry: ${registry}`;
+      mark.hidden = !registry || registry === shown;
+    };
+
+    const fill = (memberId: string) => {
+      card = document.querySelector<HTMLElement>(`[data-list-card][data-member-id="${memberId}"]`);
+      const rec = records[card?.dataset.id ?? ''];
+      if (!card || !rec) return false;
+      member = memberId;
+
+      dialog.heading = rec.title;
+      slot('title').textContent = rec.title;
+      const chip = slot('class');
+      chip.textContent = rec.classLabel;
+      form.dataset.class = rec.class;
+      branch(card.closest('[data-list-cat]'), 'cat', 'cat-registry');
+      branch(card.closest('[data-list-sub]'), 'sub', 'sub-registry');
+
+      const registryDesc = card.dataset.registryDesc ?? '';
+      const exported = card.dataset.listDescription ?? registryDesc;
+      const desc = slot('description');
+      desc.textContent = registryDesc || DASH;
+      // Default ink when this sentence is the one the list exports, tertiary when the
+      // list has said it differently and this is only the record it came from.
+      desc.dataset.superseded = String(exported !== registryDesc);
+      // The field holds the MEMBER's own wording, so an empty field means "not said
+      // differently here" rather than "say it again".
+      field.value = exported === registryDesc ? '' : exported;
+
+      slot('trigger').textContent = rec.trigger || DASH;
+
+      reqsHost.textContent = '';
+      rec.reqs.forEach((r) => {
+        const row = reqTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        row.querySelector('.bcn-swo-edit__code')!.textContent = r.code;
+        row.querySelector('.bcn-swo-edit__req-name')!.textContent = r.name;
+        row.querySelector('.bcn-swo-edit__also')!.textContent = also(r.inActions);
+        row.querySelector('.bcn-swo-edit__text')!.textContent =
+          (r.text || '').replace(/\s*\n\s*/g, ' ') || DASH;
+        reqsHost.append(row);
+      });
+      form.querySelector<HTMLElement>('[data-lob-req-n]')!.textContent = String(rec.reqs.length);
+      return true;
+    };
+
+    const close = () => {
+      dialog.open = false;
+      // Deferred past the slide-out, so the form is never seen resetting.
+      setTimeout(() => { member = ''; card = null; field.value = ''; }, 200);
+    };
+    const emit = (name: string, detail: unknown) =>
+      document.dispatchEvent(new CustomEvent(name, { detail, bubbles: true }));
+
+    document.addEventListener('list:edit-obligation', (e) => {
+      const id = (e as CustomEvent<string>).detail;
+      if (fill(id)) dialog.open = true;
+    });
+
+    form.addEventListener('submit', (e) => e.preventDefault());
+    document.querySelector('[data-lob-save]')?.addEventListener('click', () => {
+      if (!member) return;
+      emit('list:obligation-saved', { memberId: member, listDescription: (field.value ?? '').trim() });
+      close();
+    });
+    document.querySelector('[data-lob-cancel]')?.addEventListener('click', close);
+    document.querySelector('[data-lob-remove]')?.addEventListener('click', () => {
+      if (!member) return;
+      const id = member;
+      close();
+      emit('list:remove-member', id);
+    });
+    document.querySelector('[data-lob-duplicate]')?.addEventListener('click', () => {
+      if (!member) return;
+      const id = member;
+      close();
+      emit('list:duplicate-member', id);
+    });
+  }
+</script>
+
+<style>
+  /* The drawer's frame, labels, requirement rows and footer are shared with the
+     wizard's editor in src/styles/bcn-obligation-drawer.css, and the class chip with the
+     two cards in bcn-obligation-card.css. What is here is the READ-ONLY tier, which only
+     this panel has, because only this panel shows a record it cannot write. */
+  .bcn-lob__field { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
+  .bcn-lob__value { font-size: 0.8125rem; color: var(--color-content-default); }
+  .bcn-lob__prose { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
+
+  /* This sentence is no longer the one the list exports; the field below it is. */
+  .bcn-lob__prose[data-superseded='true'] { color: var(--color-content-default-tertiary); }
+
+  /* The registry's own name for a branch this list renamed. Same pairing as the tree. */
+  .bcn-lob__registry { font-size: 0.6875rem; color: var(--color-content-default-tertiary); }
+  .bcn-lob__registry[hidden] { display: none; }
+</style>

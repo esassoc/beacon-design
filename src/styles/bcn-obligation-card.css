@@ -79,9 +79,13 @@ details[open] > summary .bcn-swoc__chevron,
 details[open] > summary .bcn-loc__chevron { transform: rotate(90deg); }
 
 /* The class chip sits at its natural width, tinted from the obligation end of the
-   setup ramp: adhere in the step's own pink, then the ramp's next hues for the others. */
+   setup ramp: adhere in the step's own pink, then the ramp's next hues for the others.
+   <BcnListObligationPanel> (.bcn-lob) shows the same chip rather than spelling the class
+   out as text, so its namespace is paired in here too — one chip, three surfaces, and
+   the hue map written once. */
 .bcn-swoc__class,
-.bcn-loc__class {
+.bcn-loc__class,
+.bcn-lob__class {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
@@ -94,13 +98,17 @@ details[open] > summary .bcn-loc__chevron { transform: rotate(90deg); }
   color: color-mix(in srgb, var(--_hue) 78%, black);
 }
 .bcn-swoc[data-class='adhere'],
-.bcn-loc[data-class='adhere'] { --_hue: var(--color-obligation); }
+.bcn-loc[data-class='adhere'],
+.bcn-lob[data-class='adhere'] { --_hue: var(--color-obligation); }
 .bcn-swoc[data-class='monitor'],
-.bcn-loc[data-class='monitor'] { --_hue: #ff7c43; }
+.bcn-loc[data-class='monitor'],
+.bcn-lob[data-class='monitor'] { --_hue: #ff7c43; }
 .bcn-swoc[data-class='notify'],
-.bcn-loc[data-class='notify'] { --_hue: #ffa600; }
+.bcn-loc[data-class='notify'],
+.bcn-lob[data-class='notify'] { --_hue: #ffa600; }
 .bcn-swoc[data-class='roster'],
-.bcn-loc[data-class='roster'] { --_hue: var(--color-action); }
+.bcn-loc[data-class='roster'],
+.bcn-lob[data-class='roster'] { --_hue: var(--color-action); }
 
 .bcn-swoc__title,
 .bcn-loc__title {
