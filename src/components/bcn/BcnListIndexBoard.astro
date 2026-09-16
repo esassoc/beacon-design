@@ -1,49 +1,67 @@
 ---
 // <BcnListIndexBoard> — the Lists index: every list a project keeps, filed under the
-// registry it draws from. Three groups, in the order setup fills them: Commitments,
-// Actions, Obligations.
+// registry it draws from. A keyword search across all of them, then three groups, in
+// the order setup fills them: Commitments, Actions, Obligations.
 //
 // WHAT THIS SECTION SACRIFICED. Completeness of arrangement. There is one axis and it
 // is the registry, so the index cannot be read by recency across all nineteen lists any
-// more, and there is no search field and no second filter. What it buys is that the
-// type is now structural rather than something the reader has to infer from a row, and
-// that each group carries its own verb: the button that makes a commitment list sits
-// on the commitments heading, so the type of the new list is chosen by which button was
-// pressed rather than inside the dialog.
+// more, and there is no second facet — no type picker, no owner, no date range. What it
+// buys is that the type is structural rather than something the reader infers from a
+// row, and that each group carries its own verb: the button that makes a commitment
+// list sits on the commitments heading, so the type of the new list is chosen by which
+// button was pressed rather than inside the dialog.
+//
+// THE SEARCH IS THE WIZARD'S. Same control (bcn-sw-filter-row), same behaviour as step
+// 5's obligations search: type and the rows narrow live, every hit wrapped in <mark>.
+// It reads a list's NAME and its DESCRIPTION, the two strings a row shows, so what is
+// searched is exactly what is on screen.
+//
+// A GROUP WITH NO HITS IS HIDDEN, not collapsed to its heading. Three headings and two
+// "no matches" blocks around one surviving row is a page reporting on its own filing
+// system instead of answering the question; the drawer with nothing in it does not need
+// to say so. The cost is real and deliberate: a group's add button rides its heading, so
+// while a search is running you cannot start a list of a type that has no hits. Clearing
+// the field brings every heading and every verb back.
 //
 // ORDER INSIDE A GROUP is newest change first — `listsOfType` filters PROJECT_LISTS,
 // which is already sorted that way, and this board never re-sorts it.
 //
 // EVERY NUMBER COUNTS ITSELF. A heading's badge is the length of its own group, so a
-// seed added to src/data/lists.ts moves the heading without anyone editing this file.
-// The badge beside a heading counts LISTS and the badge on a row counts that list's
-// MEMBERS; the two are told apart by their accessible names ("4 commitment lists" vs
-// "64 commitments"), which is why both carry one.
+// seed added to src/data/lists.ts moves the heading without anyone editing this file,
+// and while a search is running the badge counts the HITS — a heading reading 12 over
+// two visible rows is a heading telling the reader something untrue. The badge beside a
+// heading counts LISTS and the badge on a row counts that list's MEMBERS; the two are
+// told apart by their accessible names ("4 commitment lists" vs "64 commitments"), which
+// is why both carry one and why the script rewrites the label along with the number.
 //
-// AN EMPTY GROUP KEEPS ITS HEADING. The heading is where the add verb lives, so hiding
-// the group would hide the only way to make the first list of that type. The rows are
-// replaced by an empty state; the heading and its button stay.
+// AN EMPTY GROUP KEEPS ITS HEADING. Empty for want of lists, that is, not for want of
+// hits. The heading is where the add verb lives, so hiding the group would hide the only
+// way to make the first list of that type. The rows are replaced by an empty state; the
+// heading and its button stay.
 //
 // HREFS. Obligation lists have a detail page on this branch. Action and commitment
 // lists link to "#" on purpose: those detail pages are prod's and out of scope here,
 // so the row is present and findable while the destination stays unbuilt.
 //
-// Contract with siblings: each row is a <BcnListCard>. Each heading's button carries
+// Contract with siblings: each row is a <BcnListCard> and carries `data-list-row`, with
+// its searchable strings marked `data-list-text`. Each heading's button carries
 // `data-list-create="<type>"`, which is <BcnListCreateDialog>'s trigger hook — the
 // attribute's VALUE is the type the dialog opens preset to. The page carries no script
 // for any of it.
 //
-// bcn-lego-checked: the headings' verbs ARE esa-button, the empty IS esa-empty-state,
-// the stacks and heading rows ARE `.stack` / `.repel` / `.cluster` from
-// @esa/tokens/layouts.css, the counts ARE bcn-sw-count-badge and the rows ARE
-// bcn-list-card. Checked Ecology for a grouped-index lego — esa-filter-container pairs
-// a filter bar with an AG Grid, which this index deliberately is not, and esa-card's
-// header slot is a titled band too tall to use as a group heading — and Beacon, whose
-// Lists page is that grid plus an info callout, and the callout is cut.
+// bcn-lego-checked: the search row IS bcn-sw-filter-row (the step-5 control, in its new
+// page-level `flush` presentation), the headings' verbs ARE esa-button, both empties ARE
+// esa-empty-state, the stacks and heading rows ARE `.stack` / `.repel` / `.cluster` from
+// @esa/tokens/layouts.css, the counts ARE bcn-sw-count-badge at its new `sm` cut and the
+// rows ARE bcn-list-card. Checked Ecology for a grouped-index lego — esa-filter-container
+// pairs a filter bar with an AG Grid, which this index deliberately is not, and
+// esa-card's header slot is a titled band too tall to use as a group heading — and
+// Beacon, whose Lists page is that grid plus an info callout, and the callout is cut.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnListCard from './BcnListCard.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnSwFilterRow from './BcnSwFilterRow.astro';
 import {
   LIST_GROUP_LABEL,
   LIST_GROUP_ORDER,
@@ -62,40 +80,126 @@ const hrefFor = (list: ProjectList): string =>
 const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
   type,
   label: LIST_GROUP_LABEL[type],
+  // "commitment list" — the singular the badge's accessible name is rebuilt from when a
+  // search changes the number it reports.
+  noun: LIST_TYPE_LABEL[type].toLowerCase(),
   lists: listsOfType(type),
 }));
 ---
 
-<div class="stack" data-gap="xl" data-list-index>
-  {
-    GROUPS.map((group) => (
-      <section class="stack" data-gap="sm" aria-labelledby={`lists-${group.type}`}>
-        <div class="bcn-lib__head repel" data-gap="sm">
-          <div class="cluster" data-gap="xs">
-            <h2 class="bcn-lib__title typography-title-strong" id={`lists-${group.type}`}>
-              {group.label}
-            </h2>
-            <BcnSwCountBadge
-              value={group.lists.length}
-              label={listCountLabel(group.type, group.lists.length)}
-            />
-          </div>
-          <EsaButton variant="ghost" appearance="outline" size="sm" data-list-create={group.type}>
-            {addListLabel(group.type)}
-          </EsaButton>
-        </div>
+<div class="stack" data-gap="lg" data-list-index>
+  <BcnSwFilterRow flush searchPlaceholder="Search lists" searchName="lists-search" />
 
-        <div class="stack" data-gap="sm">
-          {group.lists.length > 0 ? (
-            group.lists.map((list) => <BcnListCard list={list} href={hrefFor(list)} />)
-          ) : (
-            <EsaEmptyState title={`No ${LIST_TYPE_LABEL[group.type].toLowerCase()}s`} size="sm" />
-          )}
-        </div>
-      </section>
-    ))
-  }
+  <div class="stack" data-gap="2xl">
+    {
+      GROUPS.map((group) => (
+        <section
+          class="stack"
+          data-gap="sm"
+          aria-labelledby={`lists-${group.type}`}
+          data-list-group={group.type}
+          data-list-noun={group.noun}
+        >
+          <div class="bcn-lib__head repel" data-gap="sm">
+            <div class="cluster" data-gap="xs">
+              <h2 class="bcn-lib__title typography-title-strong" id={`lists-${group.type}`}>
+                {group.label}
+              </h2>
+              <BcnSwCountBadge
+                value={group.lists.length}
+                label={listCountLabel(group.type, group.lists.length)}
+                data-group-count
+                data-total={group.lists.length}
+              />
+            </div>
+            <EsaButton variant="ghost" appearance="outline" size="sm" data-list-create={group.type}>
+              {addListLabel(group.type)}
+            </EsaButton>
+          </div>
+
+          <div class="stack" data-gap="xs">
+            {group.lists.length > 0 ? (
+              group.lists.map((list) => <BcnListCard list={list} href={hrefFor(list)} />)
+            ) : (
+              <EsaEmptyState title={`No ${group.noun}s`} size="sm" />
+            )}
+          </div>
+        </section>
+      ))
+    }
+
+    <div data-list-nomatch hidden>
+      <EsaEmptyState title="No lists match" description="Try a different keyword." size="sm" />
+    </div>
+  </div>
 </div>
+
+<script>
+  // Keyword search across all three groups. Lifted from the setup wizard's obligations
+  // tree so the two behave identically: the query narrows what is shown and every hit is
+  // repainted with a <mark>, live on each keystroke.
+  const root = document.querySelector<HTMLElement>('[data-list-index]');
+  if (root) {
+    const qa = <T extends HTMLElement>(sel: string, scope: ParentNode = root): T[] =>
+      Array.from(scope.querySelectorAll<T>(sel));
+
+    const esc = (s: string) =>
+      s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+    const rx = (needle: string) => new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+
+    // Every searchable string is plain text between queries, so textContent is always the
+    // original: a <mark> is inline and contributes its own text back. No copy is kept.
+    const paint = (el: HTMLElement, needle: string): boolean => {
+      const text = el.textContent ?? '';
+      if (!needle || !rx(needle).test(text)) {
+        el.textContent = text;
+        return false;
+      }
+      el.innerHTML = esc(text).replace(rx(needle), (m) => `<mark class="bcn-lib__hit">${m}</mark>`);
+      return true;
+    };
+
+    const nomatch = root.querySelector<HTMLElement>('[data-list-nomatch]');
+
+    const apply = (needle: string) => {
+      let total = 0;
+      qa<HTMLElement>('[data-list-group]').forEach((group) => {
+        let shown = 0;
+        qa<HTMLElement>('[data-list-row]', group).forEach((row) => {
+          // Both strings are repainted on every pass whatever the first one returned —
+          // a hit on the name must not leave a stale <mark> in the description.
+          let hit = !needle;
+          qa<HTMLElement>('[data-list-text]', row).forEach((el) => {
+            hit = paint(el, needle) || hit;
+          });
+          row.hidden = !hit;
+          if (hit) shown++;
+        });
+        group.hidden = !!needle && shown === 0;
+        total += shown;
+
+        const badge = group.querySelector<HTMLElement>('[data-group-count]');
+        if (badge) {
+          const n = needle ? shown : Number(badge.dataset.total ?? 0);
+          const noun = group.dataset.listNoun ?? '';
+          badge.textContent = String(n);
+          badge.setAttribute('aria-label', `${n} ${noun}${n === 1 ? '' : 's'}`);
+        }
+      });
+      if (nomatch) nomatch.hidden = !needle || total > 0;
+    };
+
+    const search = document.querySelector<HTMLElement & { value: string }>(
+      'esa-text-field[name="lists-search"]',
+    );
+    if (search) {
+      const read = () => search.value ?? search.shadowRoot?.querySelector('input')?.value ?? '';
+      const on = () => apply(read().trim());
+      search.addEventListener('input', on);
+      search.addEventListener('change', on);
+    }
+  }
+</script>
 
 <style>
   /* Composition glue only: the heading row is a .repel, and this is the hairline that
@@ -109,5 +213,30 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
   .bcn-lib__title {
     margin: 0;
     color: var(--color-content-default);
+  }
+
+  /* A group is a `.stack`, and `.stack { display: flex }` is an author rule, so it
+     outranks the user agent's `[hidden] { display: none }` and a hidden group would
+     keep rendering. Every element the search hides needs this; the rows do not, because
+     a row is a plain <article> with no display rule of its own. */
+  [data-list-group][hidden] {
+    display: none;
+  }
+
+  /* The hit mark, same yellow as the setup wizard's — there is no highlight token in
+     @esa/tokens, and a search on two surfaces of the same product that highlights in two
+     colours is worse than one hard-coded hex in each.
+
+     `:global` is load-bearing, not tidiness. The <mark> is injected by the script above,
+     at runtime, into a SIBLING component's row, so it carries neither this component's
+     scope attribute nor that one's. Astro sometimes leaves a class like this unscoped on
+     its own — the wizard's identical rule ships global — but it scoped this one, and the
+     measured result was a browser-default pure-yellow highlight. Declared global, it is
+     not a coin flip. */
+  :global(mark.bcn-lib__hit) {
+    background: #fff176;
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
   }
 </style>
