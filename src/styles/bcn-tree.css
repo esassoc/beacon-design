@@ -1,0 +1,219 @@
+/* bcn-tree — ONE definition of the obligation-tree row.
+ *
+ * Two components render this tree: <BcnSwObligationsTree> (setup wizard, step 5 —
+ * edits the REGISTRY) and <BcnListObligationTree> (list detail page — edits a LIST).
+ * Their mechanics differ on purpose: one drags, refiles and creates; the other only
+ * takes members off and renames them for its own list. Their ROW does not differ, and
+ * when each kept its own copy of the row it drifted — the list tree's zebra band ended
+ * up pointing at --color-background-default (#fcfcfc), which mixed 50% with white is
+ * #fdfdfd: one value off the panel it sits on, so the banding was invisible on screen
+ * while the rule read as present in the file.
+ *
+ * So the row lives here once, and the two class namespaces are listed side by side in
+ * every selector. That pairing IS the statement: .bcn-swot__row and .bcn-lot__row are
+ * the same row. A component's own <style> is scoped, which Astro compiles with an extra
+ * attribute selector, so anything a component needs to override still wins from there —
+ * drag-and-drop states, the list's "Registry: …" secondary, the empty-branch rule.
+ *
+ * Verb visibility is a contract, not a default: `--quiet` verbs appear on row hover or
+ * focus; every other verb is always on. The wizard's markup has carried the `--quiet`
+ * modifier since it was written, but never a rule for it — so ALL of its verbs hid, and
+ * its own comment ("add / expand / collapse always showing") described a state the CSS
+ * never produced. The rule exists now, and both trees show their right-hand icon set.
+ */
+
+.bcn-swot,
+.bcn-lot {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-200);
+  font-size: 0.8125rem;
+  color: var(--color-content-default);
+}
+
+.bcn-swot__nomatch,
+.bcn-lot__nomatch {
+  margin: 0;
+  padding: var(--spacing-300) var(--spacing-400);
+  color: var(--color-content-default-tertiary);
+  font-style: italic;
+}
+
+.bcn-swot__body,
+.bcn-lot__body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Categories: a full-strength rule between them, and every second one on a light gray
+   ground (between the page's off-white and gray-100); subcategories on the subtle rule. */
+.bcn-swot__cat,
+.bcn-lot__cat {
+  border-bottom: 1px solid var(--color-border-default);
+}
+.bcn-swot__cat:nth-of-type(even),
+.bcn-lot__cat:nth-of-type(even) {
+  background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
+}
+.bcn-swot__cat:nth-of-type(even) .bcn-swot__row:hover,
+.bcn-lot__cat:nth-of-type(even) .bcn-lot__row:hover {
+  background: var(--bcn-gray-100);
+}
+.bcn-swot__sub + .bcn-swot__sub,
+.bcn-lot__sub + .bcn-lot__sub {
+  border-top: 1px solid var(--color-border-default-subtle);
+}
+.bcn-swot__cat:last-of-type,
+.bcn-lot__cat:last-of-type {
+  border-bottom: none;
+}
+.bcn-swot__cat[hidden],
+.bcn-swot__sub[hidden],
+.bcn-lot__cat[hidden],
+.bcn-lot__sub[hidden] {
+  display: none;
+}
+
+.bcn-swot__row,
+.bcn-lot__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-height: 34px;
+  padding: var(--spacing-100) var(--spacing-400);
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 120ms ease, box-shadow 120ms ease;
+}
+.bcn-swot__row::-webkit-details-marker,
+.bcn-lot__row::-webkit-details-marker {
+  display: none;
+}
+.bcn-swot__row:hover,
+.bcn-lot__row:hover {
+  background: var(--color-background-default);
+}
+.bcn-swot__row--cat,
+.bcn-lot__row--cat {
+  font-weight: 600;
+}
+.bcn-swot__row--sub,
+.bcn-lot__row--sub {
+  padding-left: calc(var(--spacing-400) + 22px);
+}
+
+.bcn-swot__chevron,
+.bcn-lot__chevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-content-default-tertiary);
+  transition: transform 120ms ease;
+}
+details[open] > .bcn-swot__row .bcn-swot__chevron,
+details[open] > .bcn-lot__row .bcn-lot__chevron {
+  transform: rotate(90deg);
+}
+
+.bcn-swot__name,
+.bcn-lot__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+.bcn-swot__name.is-editing,
+.bcn-lot__name.is-editing {
+  outline: 2px solid var(--color-obligation);
+  outline-offset: 0;
+  background: var(--color-background-elevation-raised);
+  font-weight: 500;
+  cursor: text;
+  user-select: text;
+}
+
+/* Right-aligned icon set. Each button sits in an esa-tooltip, whose host is
+   inline-block by default — that would give the row a text baseline to align to. */
+.bcn-swot__verbs,
+.bcn-lot__verbs {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: auto;
+}
+.bcn-swot__verbs esa-tooltip,
+.bcn-lot__verbs esa-tooltip {
+  display: inline-flex;
+}
+.bcn-swot__verb,
+.bcn-lot__verb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-100);
+  color: var(--color-content-default-tertiary);
+  cursor: pointer;
+}
+/* Only a --quiet verb waits for the row. */
+.bcn-swot__verb--quiet,
+.bcn-lot__verb--quiet {
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.bcn-swot__row:hover .bcn-swot__verb--quiet,
+.bcn-swot__row:focus-within .bcn-swot__verb--quiet,
+.bcn-lot__row:hover .bcn-lot__verb--quiet,
+.bcn-lot__row:focus-within .bcn-lot__verb--quiet {
+  opacity: 1;
+}
+.bcn-swot__verb:hover,
+.bcn-lot__verb:hover {
+  background: var(--bcn-gray-100);
+  color: var(--color-content-default);
+}
+.bcn-swot__verb:focus-visible,
+.bcn-lot__verb:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--color-obligation);
+  outline-offset: 1px;
+}
+.bcn-swot__verb--danger:hover,
+.bcn-lot__verb--danger:hover {
+  color: var(--color-background-utility-danger);
+}
+
+.bcn-swot__subs,
+.bcn-lot__subs {
+  display: flex;
+  flex-direction: column;
+}
+.bcn-swot__cards,
+.bcn-lot__cards {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-200) var(--spacing-400) var(--spacing-300) calc(var(--spacing-400) + 44px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+}
+
+/* Search hits are painted by script after the page is scoped, so they are global in
+   both trees anyway; one definition here retires the two duplicated <style is:global>. */
+.bcn-swot__hit,
+.bcn-lot__hit {
+  background: #fff176;
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.bcn-swot__hit-chip,
+.bcn-lot__hit-chip {
+  box-shadow: 0 0 0 2px #fff176;
+}

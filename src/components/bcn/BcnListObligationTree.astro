@@ -1,10 +1,17 @@
 ---
 // <BcnListObligationTree> — the body of the obligation-list detail page: everything
 // ONE LIST holds, filed the way the registry files it. The documented sibling of
-// <BcnSwObligationsTree> (step 5, the registry tree). Same panel shell, same 13px
-// scale, same row rhythm, same <details> mechanics, same search and expand/collapse
-// wiring. Different verbs, because the registry tree edits the registry and this tree
-// edits the LIST.
+// <BcnSwObligationsTree> (step 5, the registry tree).
+//
+// The ROW is not a sibling: it is one definition, in src/styles/bcn-tree.css, which
+// both components import. They kept their own copies until 2026-09-16 and the copies
+// drifted — this one's zebra band pointed at --color-background-default, which mixed
+// 50% with white is one value off the panel under it, so the banding read as present
+// in the file and as absent on the screen. Panel shell, banding, row rhythm, chevron,
+// name, the right-hand verb set and the card padding all come from there now.
+//
+// What is still this tree's own is the MECHANICS, because the registry tree edits the
+// registry and this tree edits the LIST.
 //
 // Gone, all of it, because filing belongs to the registry and this page cannot change
 // it: drag to refile, every drop target, duplicate, unlink, add and remove category,
@@ -19,6 +26,9 @@
 //     quiet "Registry: {name}" beside it so the registry's own wording is never lost,
 //     and renaming a row that was not renamed before reveals that secondary.
 //   - The per obligation list description, edited in place on the card.
+//   - EXPAND TO REQUIREMENTS and COLLAPSE on a branch, step 5's verbs with step 5's
+//     glyphs and reach: the row, every branch inside it, and every card's requirement
+//     list. One level deeper than the chevron on a subcategory, two on a category.
 //
 // A list shows only what it holds, so a subcategory whose last obligation is removed
 // drops out, and a category whose last subcategory drops out goes with it. Counts
@@ -43,6 +53,8 @@ import BcnSwFilterRow from './BcnSwFilterRow.astro';
 import BcnListObligationCard from './BcnListObligationCard.astro';
 import { OBLIGATION_CLASS_LABEL, STEP_GLYPH } from '../../data/setup-wizard';
 import { listTree, type ListObligation, type ObligationList } from '../../data/lists';
+// The row anatomy this tree shares, verbatim, with <BcnSwObligationsTree>.
+import '../../styles/bcn-tree.css';
 
 interface Props {
   list: ObligationList;
@@ -105,7 +117,9 @@ const CARD_STAMP: ListObligation = {
           <span class="bcn-lot__registry" data-list-registry hidden={!cat.renamed}>Registry: {cat.registryName}</span>
           <span data-list-count="cat"><BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} /></span>
           <span class="bcn-lot__verbs">
-            <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+            <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+            <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this category to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+            <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this category" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
           </span>
         </summary>
         <div class="bcn-lot__subs" data-list-subs>
@@ -117,7 +131,9 @@ const CARD_STAMP: ListObligation = {
                 <span class="bcn-lot__registry" data-list-registry hidden={!sub.renamed}>Registry: {sub.registryName}</span>
                 <span data-list-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
                 <span class="bcn-lot__verbs">
-                  <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                  <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                  <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+                  <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
                 </span>
               </summary>
               <ul class="bcn-lot__cards" data-list-cards>
@@ -141,7 +157,9 @@ const CARD_STAMP: ListObligation = {
         <span class="bcn-lot__registry" data-list-registry hidden></span>
         <span data-list-count="cat"><BcnSwCountBadge value={0} /></span>
         <span class="bcn-lot__verbs">
-          <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+          <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+          <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this category to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+          <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this category" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
         </span>
       </summary>
       <div class="bcn-lot__subs" data-list-subs></div>
@@ -155,7 +173,9 @@ const CARD_STAMP: ListObligation = {
         <span class="bcn-lot__registry" data-list-registry hidden></span>
         <span data-list-count="sub"><BcnSwCountBadge value={0} /></span>
         <span class="bcn-lot__verbs">
-          <esa-tooltip text="Rename for this list" align="end"><button type="button" class="bcn-lot__verb" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+          <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+          <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+          <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
         </span>
       </summary>
       <ul class="bcn-lot__cards" data-list-cards></ul>
@@ -307,9 +327,18 @@ const CARD_STAMP: ListObligation = {
     );
     catPick?.addEventListener('change', () => { filters.cat = catPick.value ?? ''; apply(); });
 
-    // ---- Expand / collapse. With no per row disclosure verbs on this tree, the pair
-    // works both branch levels: open every category and every subcategory, or close
-    // them. The requirements stay where the reader left them; they are reference.
+    // ---- Expand / collapse. The filter row's pair works both branch levels: open
+    // every category and every subcategory, or close them. The requirements stay where
+    // the reader left them; they are reference.
+    //
+    // The per row pair reaches one level deeper, which is the point of it: a branch
+    // verb opens the row it sits on, every branch inside that row, and every card's
+    // requirement list. On a subcategory that is one level deeper than the chevron;
+    // on a category it is two. Same verbs, same glyphs and same reach as step 5.
+    const setBranch = (branch: HTMLDetailsElement, open: boolean) => {
+      branch.open = open;
+      qa<HTMLDetailsElement>('details', branch).forEach((d) => (d.open = open));
+    };
     const setAll = (open: boolean) => {
       qa<HTMLDetailsElement>('[data-list-cat]').forEach((c) => (c.open = open));
       qa<HTMLDetailsElement>('[data-list-sub]').forEach((s) => (s.open = open));
@@ -485,12 +514,18 @@ const CARD_STAMP: ListObligation = {
       apply();
     });
 
-    // ---- Verbs. Three of them on the whole tree: rename a branch, edit a
-    // description, take an obligation off the list.
+    // ---- Verbs. Five of them on the whole tree: open a branch to its requirements,
+    // close it again, rename a branch for this list, edit a description, and take an
+    // obligation off the list.
     root.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;
       if (t.closest('.is-editing')) { e.preventDefault(); return; }
       const btn = t.closest<HTMLElement>('button');
+      if (btn?.matches('[data-list-branch-expand], [data-list-branch-collapse]')) {
+        e.preventDefault();
+        setBranch(btn.closest<HTMLDetailsElement>('details')!, btn.matches('[data-list-branch-expand]'));
+        return;
+      }
       if (btn?.matches('[data-list-rename]')) {
         e.preventDefault();
         rename(btn.closest('summary')!);
@@ -516,58 +551,19 @@ const CARD_STAMP: ListObligation = {
 </script>
 
 <style>
-  .bcn-lot {
-    display: flex;
-    flex-direction: column;
-    background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-200);
-    font-size: 0.8125rem;
-    color: var(--color-content-default);
-  }
+  /* The row anatomy — panel shell, zebra banding, rows, chevron, name, the right-hand
+     verb set and the card padding — is ONE definition in src/styles/bcn-tree.css,
+     shared verbatim with <BcnSwObligationsTree>. What stays scoped here is what only
+     the list tree has: the filter line's rule, the registry's own name beside a
+     renamed row, and the empty-branch rule that keeps a list to what it holds. */
   .bcn-lot__filters { border-bottom: 1px solid var(--color-border-default); }
   .bcn-lot__verb-label { display: inline-flex; align-items: center; gap: var(--spacing-100); }
-  .bcn-lot__nomatch { margin: 0; padding: var(--spacing-300) var(--spacing-400); color: var(--color-content-default-tertiary); font-style: italic; }
 
-  .bcn-lot__body { display: flex; flex-direction: column; }
-  /* Categories: a full-strength rule between them, and every second one on a light
-     gray ground; subcategories separated by the subtle rule. Step 5's banding. */
-  .bcn-lot__cat { border-bottom: 1px solid var(--color-border-default); }
-  .bcn-lot__cat:nth-of-type(even) { background: color-mix(in srgb, var(--color-background-default) 50%, white); }
-  .bcn-lot__cat:nth-of-type(even) .bcn-lot__row:hover { background: var(--color-background-default); }
-  .bcn-lot__sub + .bcn-lot__sub { border-top: 1px solid var(--color-border-default-subtle); }
-  .bcn-lot__cat:last-of-type { border-bottom: none; }
-  .bcn-lot__cat[hidden], .bcn-lot__sub[hidden] { display: none; }
   /* A list shows only what it holds: a branch holding no member drops out. */
   .bcn-lot__cat[data-list-empty], .bcn-lot__sub[data-list-empty] { display: none; }
 
-  .bcn-lot__row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    min-height: 34px;
-    padding: var(--spacing-100) var(--spacing-400);
-    list-style: none;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 120ms ease;
-  }
-  .bcn-lot__row::-webkit-details-marker { display: none; }
-  .bcn-lot__row:hover { background: var(--color-background-default); }
   .bcn-lot__row:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
-  .bcn-lot__row--cat { font-weight: 600; }
-  .bcn-lot__row--sub { padding-left: calc(var(--spacing-400) + 22px); }
-  .bcn-lot__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
-  details[open] > .bcn-lot__row .bcn-lot__chevron { transform: rotate(90deg); }
-  .bcn-lot__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-radius: 2px; padding: 0 2px; }
-  .bcn-lot__name.is-editing {
-    outline: 2px solid var(--color-obligation);
-    outline-offset: 0;
-    background: var(--color-background-elevation-raised);
-    font-weight: 500;
-    cursor: text;
-    user-select: text;
-  }
+
   /* The registry's own name for a row this list renamed. Labelled, never a bare
      second name set beside the first. */
   .bcn-lot__registry {
@@ -577,41 +573,4 @@ const CARD_STAMP: ListObligation = {
     white-space: nowrap;
   }
   .bcn-lot__registry[hidden] { display: none; }
-
-  /* One verb per row, quiet until the row is hovered or holds focus. */
-  .bcn-lot__verbs { display: inline-flex; gap: 2px; margin-left: auto; }
-  .bcn-lot__verbs esa-tooltip { display: inline-flex; }
-  .bcn-lot__verb {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    border: none;
-    background: transparent;
-    border-radius: var(--radius-100);
-    color: var(--color-content-default-tertiary);
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 120ms ease;
-  }
-  .bcn-lot__row:hover .bcn-lot__verb, .bcn-lot__row:focus-within .bcn-lot__verb { opacity: 1; }
-  .bcn-lot__verb:hover { background: var(--color-background-default-hover); color: var(--color-content-default); }
-  .bcn-lot__verb:focus-visible { opacity: 1; outline: 2px solid var(--color-obligation); outline-offset: 1px; }
-
-  .bcn-lot__subs { display: flex; flex-direction: column; }
-  .bcn-lot__cards {
-    list-style: none;
-    margin: 0;
-    padding: var(--spacing-200) var(--spacing-400) var(--spacing-300) calc(var(--spacing-400) + 44px);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-150);
-  }
-</style>
-
-<style is:global>
-  /* Search hits are painted by script, so they sit outside the scope id. */
-  .bcn-lot__hit { background: #fff176; color: inherit; border-radius: 2px; padding: 0 1px; }
-  .bcn-lot__hit-chip { box-shadow: 0 0 0 2px #fff176; }
 </style>

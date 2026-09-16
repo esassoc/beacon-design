@@ -29,6 +29,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import BcnSwObligationCard from './BcnSwObligationCard.astro';
 import { OBLIGATION_TREE, STEP_GLYPH } from '../../data/setup-wizard';
+// The row anatomy this tree shares, verbatim, with <BcnListObligationTree>.
+import '../../styles/bcn-tree.css';
 
 interface Props {
   title?: string;
@@ -492,93 +494,19 @@ const { title = 'Obligations' } = Astro.props;
 </script>
 
 <style>
-  .bcn-swot {
-    display: flex;
-    flex-direction: column;
-    background: var(--color-background-elevation-raised);
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-200);
-    font-size: 0.8125rem;
-    color: var(--color-content-default);
-  }
-  .bcn-swot__nomatch { margin: 0; padding: var(--spacing-300) var(--spacing-400); color: var(--color-content-default-tertiary); font-style: italic; }
-
-  .bcn-swot__body { display: flex; flex-direction: column; }
-  /* Categories: a full-strength rule between them, and every second one on a light
-     gray ground (between the page's off-white and gray-100); subcategories separated
-     by the subtle rule. */
-  .bcn-swot__cat { border-bottom: 1px solid var(--color-border-default); }
-  .bcn-swot__cat:nth-of-type(even) { background: color-mix(in srgb, var(--bcn-gray-100) 50%, white); }
-  .bcn-swot__cat:nth-of-type(even) .bcn-swot__row:hover { background: var(--bcn-gray-100); }
-  .bcn-swot__sub + .bcn-swot__sub { border-top: 1px solid var(--color-border-default-subtle); }
-  .bcn-swot__cat:last-of-type { border-bottom: none; }
-  .bcn-swot__cat[hidden], .bcn-swot__sub[hidden] { display: none; }
-
-  .bcn-swot__row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    min-height: 34px;
-    padding: var(--spacing-100) var(--spacing-400);
-    list-style: none;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 120ms ease, box-shadow 120ms ease;
-  }
-  .bcn-swot__row::-webkit-details-marker { display: none; }
-  .bcn-swot__row:hover { background: var(--color-background-default); }
-  .bcn-swot__row--cat { font-weight: 600; }
-  .bcn-swot__row--sub { padding-left: calc(var(--spacing-400) + 22px); }
+  /* The row anatomy — panel shell, zebra banding, rows, chevron, name, the right-hand
+     verb set and the card padding — is ONE definition in src/styles/bcn-tree.css,
+     shared verbatim with <BcnListObligationTree>. What stays scoped here is what only
+     the registry tree has: the drag-and-drop drop states, the empty drop zone that
+     invites one, and the footer. */
   .bcn-swot__row.is-over { box-shadow: inset 0 0 0 2px var(--color-obligation); background: color-mix(in srgb, var(--color-obligation) 6%, transparent); }
-  .bcn-swot__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
-  details[open] > .bcn-swot__row .bcn-swot__chevron { transform: rotate(90deg); }
-  .bcn-swot__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-radius: 2px; padding: 0 2px; }
-  .bcn-swot__name.is-editing {
-    outline: 2px solid var(--color-obligation);
-    outline-offset: 0;
-    background: var(--color-background-elevation-raised);
-    font-weight: 500;
-    cursor: text;
-    user-select: text;
-  }
 
-  /* Right-aligned icon set: add / expand / collapse always showing; rename and remove on hover. */
-  .bcn-swot__verbs { display: inline-flex; gap: 2px; margin-left: auto; }
-  /* Each icon button sits in an esa-tooltip; the host is inline-block by default, which
-     would give the row a text baseline to align to. */
-  .bcn-swot__verbs esa-tooltip { display: inline-flex; }
-  /* Every row verb is quiet: it appears when the row is hovered or holds focus. */
-  .bcn-swot__verb { opacity: 0; transition: opacity 120ms ease; }
-  .bcn-swot__row:hover .bcn-swot__verb, .bcn-swot__row:focus-within .bcn-swot__verb { opacity: 1; }
-  .bcn-swot__verb {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    border: none;
-    background: transparent;
-    border-radius: var(--radius-100);
-    color: var(--color-content-default-tertiary);
-    cursor: pointer;
-  }
-  .bcn-swot__verb:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
-  .bcn-swot__verb--danger:hover { color: var(--color-background-utility-danger); }
-
-  .bcn-swot__subs { display: flex; flex-direction: column; }
-  .bcn-swot__cards {
-    list-style: none;
-    margin: 0;
-    padding: var(--spacing-200) var(--spacing-400) var(--spacing-300) calc(var(--spacing-400) + 44px);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-150);
-    min-height: 34px;
-    border-radius: 6px;
-  }
+  /* A drop target has to be a target even when it holds nothing, so an empty card list
+     keeps a row's worth of height and a radius for the drop ring to trace. */
+  .bcn-swot__cards { min-height: 34px; border-radius: 6px; }
   .bcn-swot__cards.is-over { box-shadow: inset 0 0 0 2px var(--color-obligation); background: color-mix(in srgb, var(--color-obligation) 4%, transparent); }
   .bcn-swot__cards:empty::after {
-    content: 'No obligations — drop one here.';
+    content: 'No obligations yet. Drop one here.';
     color: var(--color-content-default-tertiary);
     font-style: italic;
     padding: var(--spacing-100) 0;
@@ -598,10 +526,4 @@ const { title = 'Obligations' } = Astro.props;
   .bcn-swot__foot-verb { display: inline-flex; align-items: center; gap: var(--spacing-100); }
   .bcn-swot__foot-end { display: inline-flex; align-items: center; gap: var(--spacing-200); margin-left: auto; }
   .bcn-swot__foot-end:empty { display: none; }
-</style>
-
-<style is:global>
-  /* Search hits are painted by script, so they sit outside the scope id. */
-  .bcn-swot__hit { background: #fff176; color: inherit; border-radius: 2px; padding: 0 1px; }
-  .bcn-swot__hit-chip { box-shadow: 0 0 0 2px #fff176; }
 </style>

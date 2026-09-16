@@ -38,7 +38,7 @@ const { list } = Astro.props;
 ---
 
 <!-- manifest:
-  layout: PageLayout > sidebar(end)                        # SPINE
+  layout: PageLayout > sidebar(end)                        # SPINE — tree is the content column, rail the aside
   sections:
     - title actions   -> bcn-list-actions                  # Edit details, Export menu, Add obligations
     - obligation tree -> bcn-list-obligation-tree          # category > subcategory > bcn-list-obligation-card; rename for this list, remove from list, per-list description
@@ -75,12 +75,19 @@ const { list } = Astro.props;
       <BcnListActions />
     </Fragment>
 
-    {/* .sidebar puts its FIRST child in the aside slot; data-side="end" then orders that
-        child to the right. So the rail is first in the DOM and the tree is last. The rail
-        holds no focusable element, so the visual/DOM split costs nothing in tab order. */}
-    <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 18rem; --sidebar-content-min: 66%;">
+    {/* The tree is the content column and the rail is the aside. .sidebar keys those
+        two roles off :first-child and :last-child, and Astro emits a component's
+        <script> in place — so the tree's own script, not the tree, was the last child
+        the content rules landed on. The tree fell back to shrink-to-fit (flex-grow 0)
+        and the rail grew into everything left over: measured 546px of tree against
+        526px of rail, which is also why a collapsed tree did not fill its column.
+        Wrapping the tree puts its script inside the flex item, so the element that
+        grows is the tree. data-side="end" keeps the rail on the right while it stays
+        first in the DOM; the rail holds no focusable element, so the visual/DOM split
+        costs nothing in tab order. */}
+    <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 22rem; --sidebar-content-min: 55%;">
       <BcnListDetailsRail list={list} />
-      <BcnListObligationTree list={list} />
+      <div><BcnListObligationTree list={list} /></div>
     </div>
 
     <BcnListAddObligations list={list} />
