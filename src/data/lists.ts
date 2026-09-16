@@ -44,6 +44,13 @@ export const LIST_TYPE_LABEL: Record<ListType, string> = {
   commitment: 'Commitment list',
 };
 
+/**
+ * Title Case, where LIST_TYPE_LABEL is sentence case. Declared here rather than beside
+ * its callers because LIST_GROUP_LABEL reads it at module evaluation and a `const` arrow
+ * declared below would still be in its temporal dead zone.
+ */
+const titleCase = (s: string): string => s.replace(/\b[a-z]/g, (c) => c.toUpperCase());
+
 /** What the type holds, one line, shown beside the type in the create dialog. */
 export const LIST_TYPE_BASIS: Record<ListType, string> = {
   action: 'Actions tracked together on the Tracker pages.',
@@ -337,11 +344,19 @@ const stepFor = (type: ListType) => {
   return step;
 };
 
-/** The group heading: the registry's own plural, spelled the way the wizard spells it. */
+/**
+ * The group heading: "Commitment Lists", not "Commitments".
+ *
+ * It names LISTS, and it used to name the registry — the wizard's own step label — which
+ * put the heading "Commitments" over a stack of commitment LISTS and the button "Add
+ * Commitment List" beside it. Singular noun, plural List, is also what Beacon already
+ * ships: prod's nav reads "Action Lists" and its release notes read "Commitment Lists".
+ * Built from LIST_TYPE_LABEL so the heading and the verb under it cannot drift.
+ */
 export const LIST_GROUP_LABEL: Record<ListType, string> = {
-  commitment: stepFor('commitment').label,
-  action: stepFor('action').label,
-  obligation: stepFor('obligation').label,
+  commitment: `${titleCase(LIST_TYPE_LABEL.commitment)}s`,
+  action: `${titleCase(LIST_TYPE_LABEL.action)}s`,
+  obligation: `${titleCase(LIST_TYPE_LABEL.obligation)}s`,
 };
 
 /** The entity mark a list row carries. */
@@ -369,13 +384,12 @@ export const LIST_TYPE_MARK: Record<ListType, ListTypeMark> = {
  * The verb on a group header, and the create dialog's heading once that verb opened it:
  * "Add Commitment List".
  *
- * Title Case, where LIST_TYPE_LABEL is sentence case. The label is prose everywhere else
- * — a row in the details rail, a segment in the dialog, the tail of an empty state — and
- * prose is sentence case; a BUTTON is a named command and takes the case Beacon's other
- * verbs take. Casing the label here rather than storing a second string keeps one source
- * for what a type is called.
+ * Title Cased (see `titleCase`, declared above), where LIST_TYPE_LABEL is sentence case.
+ * The label is prose everywhere else — a row in the details rail, a segment in the dialog,
+ * the tail of an empty state — and prose is sentence case; a BUTTON is a named command and
+ * takes the case Beacon's other verbs take. Casing the label at the call rather than
+ * storing a second string keeps one source for what a type is called.
  */
-const titleCase = (s: string): string => s.replace(/\b[a-z]/g, (c) => c.toUpperCase());
 export const addListLabel = (type: ListType): string => `Add ${titleCase(LIST_TYPE_LABEL[type])}`;
 
 /**
