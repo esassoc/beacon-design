@@ -432,6 +432,23 @@ const CARD_STAMP: ListObligation = {
     // ---- Members added from the picker. An item already on the page is revealed
     // again; anything else is stamped, creating its subcategory and its category when
     // this list does not hold them yet.
+    //
+    // A stamped row is FILED, never appended. OBLIGATION_TREE sorts categories and
+    // subcategories by name and obligations by title, all through localeCompare, so the
+    // seeded tree is already in that order and a row that landed at the end would be
+    // the one row in the tree out of the registry's filing. The comparison runs on the
+    // REGISTRY name, not the shown one: a branch this list renamed keeps the registry's
+    // slot, which is why "Chemicals and fuels on site" sits between "Fire prevention"
+    // and "Refueling and equipment servicing" — it files under "Hazardous materials".
+    const filingName = (branch: Element) => {
+      const el = branch.querySelector<HTMLElement>('[data-list-name]');
+      return el?.dataset.registryName || el?.dataset.listText || el?.textContent || '';
+    };
+    const file = (parent: Element, row: HTMLElement, sel: string, key: (el: Element) => string) => {
+      const name = key(row);
+      const after = qa<HTMLElement>(sel, parent).find((s) => key(s).localeCompare(name) > 0);
+      parent.insertBefore(row, after ?? null);
+    };
     const setBranchName = (branch: HTMLElement, name: string) => {
       const el = branch.querySelector<HTMLElement>('[data-list-name]')!;
       el.textContent = name;
@@ -491,18 +508,26 @@ const CARD_STAMP: ListObligation = {
         cat = tpl('cat') as HTMLDetailsElement;
         cat.dataset.listCat = item.catId;
         setBranchName(cat, item.catName);
-        q('[data-list-cats]')!.append(cat);
-        if (catPick) catPick.options = [...(catPick.options ?? []), { label: item.catName, value: item.catId }];
+        file(q('[data-list-cats]')!, cat, ':scope > [data-list-cat]', filingName);
+        if (catPick) {
+          catPick.options = [...(catPick.options ?? []), { label: item.catName, value: item.catId }]
+            .sort((a, b) => a.label.localeCompare(b.label));
+        }
       }
       let sub = qa<HTMLDetailsElement>('[data-list-sub]', cat).find((s) => s.dataset.listSub === item.subId) ?? null;
       if (!sub) {
         sub = tpl('sub') as HTMLDetailsElement;
         sub.dataset.listSub = item.subId;
         setBranchName(sub, item.subName);
-        cat.querySelector('[data-list-subs]')!.append(sub);
+        file(cat.querySelector('[data-list-subs]')!, sub, ':scope > [data-list-sub]', filingName);
       }
       const card = buildCard(item);
-      sub.querySelector('[data-list-cards]')!.append(card);
+      file(
+        sub.querySelector('[data-list-cards]')!,
+        card,
+        ':scope > [data-list-card]',
+        (el) => el.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? '',
+      );
       cat.open = true;
       sub.open = true;
       flash(card);
