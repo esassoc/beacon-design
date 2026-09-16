@@ -62,17 +62,21 @@ const EN_DASH = '–';
 </div>
 
 <style>
-  /* The 16px floor. BcnKeyValue sets its label and value from
-     --typography-label-md-font-size so a read-only row matches an esa-select label;
-     that role resolves through --font-size-200, which clamps at 0.9375rem (15px).
-     Checked the ramp for a role that lands on 16px: --font-size-250 tops out at 17px
-     and bottoms at 13px, --font-size-300 at 18px — no token holds 16. So this is a
-     sanctioned hard-code, scoped to this rail only, and it moves BOTH tiers together
-     so the label -> value relationship BcnKeyValue draws is preserved. The rail is not
-     a dense surface: the dense 13px scale belongs to the tree next to it, not here. */
+  /* 14px, the scale the index row uses for a list's name — Andy's 2026-09-16 call for
+     this rail, and inside his record-panel carve-out from the 16px floor. Measured
+     before and after: the card title is 17px/550, so at 16px these rows sat ONE pixel
+     under the head that names them and the card had no hierarchy left. At 14px the
+     title leads, the six fields read as the record, and the rail stops competing with
+     the tree beside it.
+
+     Hard-coded rather than pointed at --typography-label-sm-font-size, which is a
+     fluid clamp (11px to 14px): it happens to resolve to 14 at this width and would
+     shrink the rail's type on a narrower one. An identity record wants one size at
+     every width. Both tiers move together, so the label -> value relationship
+     BcnKeyValue draws survives the step. */
   .bcn-ldr :global(.bcn-key-value__key),
   .bcn-ldr :global(.bcn-key-value__val) {
-    font-size: 1rem; /* 16px */
+    font-size: 0.875rem; /* 14px */
     line-height: 1.45;
   }
   /* A long description wraps rather than running out of the card. */

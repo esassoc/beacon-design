@@ -267,15 +267,16 @@ const generated = `Generated ${fmtDateTime(list.apiKeyGeneratedAt)}`;
 
 <style>
   /* ── Type ────────────────────────────────────────────────────────────────────
-     THE 16px FLOOR, the same sanctioned hard-code BcnListDetailsRail carries and for
-     the same reason: the label roles resolve through --font-size-200, which clamps at
-     15px, and no token on the ramp holds a fixed 16 (--font-size-250 tops out at 17,
-     --font-size-300 at 18). Scoped to this panel, and applied to the format names AND
-     to BcnKeyValue's labels together, so the two cards in the rail agree. */
+     14px, stepped with BcnListDetailsRail so the two cards in the rail stay one
+     surface — Andy's 2026-09-16 call, and inside his record-panel carve-out from the
+     16px floor. Hard-coded for the same reason that file gives: the label roles are
+     fluid clamps that would shrink this rail on a narrow viewport, and a record wants
+     one size at every width. Format names move with the labels so "Microsoft Word"
+     and "API Key" stay the same tier. */
   .bcn-lxp__format,
   .bcn-lxp :global(.bcn-key-value__key),
   .bcn-lxp :global(.bcn-key-value__val) {
-    font-size: 1rem;
+    font-size: 0.875rem; /* 14px */
     line-height: 1.45;
   }
 
@@ -290,12 +291,10 @@ const generated = `Generated ${fmtDateTime(list.apiKeyGeneratedAt)}`;
     gap: var(--spacing-100);
   }
 
-  /* The generated-at caption. BcnKeyValue sets its hint at 12px; a timestamp is
-     genuine meta and may go under the body size, but 12px against a 16px label in a
-     narrow rail reads as a misprint. 14px is the floor for meta and this takes it. */
-  .bcn-lxp :global(.bcn-key-value__hint) {
-    font-size: 0.875rem;
-  }
+  /* The generated-at caption keeps BcnKeyValue's own 12px. It was lifted to 14 when
+     the labels were 16, because a two-step drop in a narrow rail read as a misprint.
+     Now that the label is 14, 12 IS the one step below it — the same 14/12 pairing
+     the index row draws between a list's name and its timestamp. */
 
   /* ── Format marks ────────────────────────────────────────────────────────────
      Sized off the row's own type (em, not px) so mark and label scale together. */
@@ -335,12 +334,14 @@ const generated = `Generated ${fmtDateTime(list.apiKeyGeneratedAt)}`;
     border-radius: var(--radius-sm);
     color: var(--color-content-default);
     font-family: var(--typography-font-family-mono);
-    /* 13px, the one place a size under the body floor is right: a key and a URL are
-       scanned character by
-       character, not read as prose. The code ramp's own sizes are fluid clamps
-       (--typography-code-sm-font-size runs 11px to 14px) and an identifier wants one
-       fixed size at every width. */
-    font-size: 0.8125rem;
+    /* 12px. An identifier block is the other half of Andy's carve-out: a key and a URL
+       are scanned character by character, not read as prose. It steps with the sans
+       around it — at 13px against a 14px label the mono read LARGER, because DM Mono's
+       x-height runs well above DM Sans's at the same nominal size, which put the
+       machine-readable strings at the top of the card's hierarchy. The code ramp's own
+       sizes are fluid clamps (--typography-code-sm-font-size runs 11px to 14px) and an
+       identifier wants one fixed size at every width. */
+    font-size: 0.75rem;
     line-height: var(--line-height-normal);
     /* A GUID and a 90-character URL both have to break inside the box. */
     overflow-wrap: anywhere;
@@ -362,7 +363,7 @@ const generated = `Generated ${fmtDateTime(list.apiKeyGeneratedAt)}`;
     border-radius: var(--radius-md);
     color: var(--color-content-default);
     font-family: var(--typography-font-family-mono);
-    font-size: 0.8125rem; /* the same sanctioned code size as the fields above */
+    font-size: 0.75rem; /* the same sanctioned code size as the fields above */
     line-height: var(--line-height-normal);
     /* Short on purpose: this sits in a rail beside a tree that is the page's subject,
        and a preview that outruns it would take the page over. */
