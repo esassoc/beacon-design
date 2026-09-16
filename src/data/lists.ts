@@ -561,8 +561,11 @@ export function candidateTree(list: ObligationList): { id: string; name: string;
  * monitor records whether a duty was met on a given day. The list supplies the
  * structure (a section per category, a nested section per subcategory, a field
  * per obligation) and the wording (label from the obligation title, description
- * from the list's description for it). Everything else — logic, layout, the
- * form's own id — is Fulcrum's, set when the form is created.
+ * from the list's description for it), and the IDENTITY a monitoring observation
+ * needs to link back: the list's GUID at the top, and on every field the registry
+ * obligation, the list membership, and the requirements behind it. Everything
+ * else — logic, layout, the form's own id — is Fulcrum's, set when the form is
+ * created.
  */
 export interface FormFieldElement {
   type: 'YesNoField';
@@ -570,6 +573,15 @@ export interface FormFieldElement {
   label: string;
   description: string;
   required: boolean;
+  /**
+   * What an observation recorded against this field links back to. `key` is
+   * Fulcrum's and only unique within the form; these three are Beacon's, so a
+   * monitoring record can be joined to the registry without the form in between.
+   * `obligationId` is shared by copies of one obligation; `memberId` is this row's.
+   */
+  obligationId: string;
+  memberId: string;
+  requirements: { id: string; code: string }[];
 }
 
 export interface FormSectionElement {
@@ -580,6 +592,8 @@ export interface FormSectionElement {
 }
 
 export interface FormFieldSpec {
+  /** The list's public GUID — the same one in the endpoint URL. */
+  listId: string;
   name: string;
   description: string;
   elements: FormSectionElement[];
@@ -608,6 +622,7 @@ export const endpointUrl = (list: ObligationList): string =>
 
 export function formFields(list: ObligationList): FormFieldSpec {
   return {
+    listId: list.publicId,
     name: list.name,
     description: list.description,
     elements: listTree(list).map((cat) => ({
@@ -624,6 +639,9 @@ export function formFields(list: ObligationList): FormFieldSpec {
           label: o.title,
           description: o.listDescription,
           required: false,
+          obligationId: o.id,
+          memberId: o.memberId,
+          requirements: o.requirements.map((r) => ({ id: r.id, code: r.code })),
         })),
       })),
     })),
