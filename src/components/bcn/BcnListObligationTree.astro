@@ -349,12 +349,15 @@ const CARD_STAMP: ListObligation = {
       branch.open = open;
       qa<HTMLDetailsElement>('details', branch).forEach((d) => (d.open = open));
     };
-    const setAll = (open: boolean) => {
+    // The filter bar's pair works the category level, as step 5's does: expanded shows
+    // every subcategory row and nothing beneath it, collapsed shows only the categories.
+    // Each subcategory row's own pair goes the rest of the way down.
+    const setCats = (open: boolean) => {
       qa<HTMLDetailsElement>('[data-list-cat]').forEach((c) => (c.open = open));
-      qa<HTMLDetailsElement>('[data-list-sub]').forEach((s) => (s.open = open));
+      qa<HTMLDetailsElement>('[data-list-sub]').forEach((s) => setBranch(s, false));
     };
-    document.querySelector('[data-list-expand]')?.addEventListener('click', () => setAll(true));
-    document.querySelector('[data-list-collapse]')?.addEventListener('click', () => setAll(false));
+    document.querySelector('[data-list-expand]')?.addEventListener('click', () => setCats(true));
+    document.querySelector('[data-list-collapse]')?.addEventListener('click', () => setCats(false));
 
     // ---- Editing in place. One mechanism, two subjects: a branch name renamed for
     // this list, and an obligation's list description. Focus, select the contents,
