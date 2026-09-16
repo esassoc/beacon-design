@@ -3,6 +3,27 @@
 // fields, both prefilled from the list record: the name the list is known by, and the
 // description that heads its exported document.
 //
+// A SIDE PANEL, NOT A CENTRED MODAL. Every other editing surface in this spoke slides
+// in from the right, including the "Add obligations" drawer on this same page. A lone
+// centred modal here read as a second product. What it costs is the modal's "this is
+// the only thing on screen now" emphasis, which a two-field correction never needed:
+// the list behind the scrim is the thing being renamed, and a panel lets it stay in
+// view while you rename it.
+//
+// WIDTH is min(440px, 92vw). The sibling drawer on this page is 680px because it
+// carries a tree of ~290 candidates; the project and component data panels are 480px
+// because they carry a whole record. This one carries a name and a three-row
+// description, so it takes the narrowest width that still lets a sentence of
+// description wrap twice rather than five times. The lego's own default (400px) is
+// tight for the textarea and its size="sm" (320px) is a sliver, so the width is set
+// directly; an inline --_width outranks the :host([size]) rule, which is why no size
+// attribute is declared here to sit dead next to it.
+//
+// STACKING: the app's fixed topbar is z 1100, and the lego defaults to --z-modal 400 /
+// --z-modal-backdrop 300. Left alone, the topbar paints over the panel AND its scrim,
+// lit and clickable. 1300 / 1250 clear it, and they are the same pair the "Add
+// obligations" drawer uses, so the two panels on this page agree.
+//
 // NO TYPE CONTROL, AND NOT A DISABLED ONE EITHER. A list is a subset of exactly one
 // registry; changing its type would mean discarding every member, so there is no such
 // operation to offer. A greyed picker plus a sentence saying why it is grey is two pieces
@@ -10,17 +31,20 @@
 // here. The type is stated on the detail page, where it is a fact rather than a form.
 //
 // CONTRACT: opens on the document-level `list:edit-details` event, which BcnListActions
-// fires. Detail is empty, since the page renders one list and this dialog already holds
+// fires. Detail is empty, since the page renders one list and this panel already holds
 // it. Nothing is dispatched back.
 //
 // PROTOTYPE HONESTY: Save checks Name is non-empty and closes. It updates no record and
 // no heading, so closing restores what was passed in rather than leaving an abandoned
 // edit sitting in the fields.
 //
-// bcn-lego-checked: the frame IS esa-dialog (Esc, light dismiss, close button and scrim
-// are all the lego's, untouched), the fields ARE esa-text-field and esa-textarea, the
-// footer verbs ARE esa-button, and the rows ARE the .stack and .cluster primitives. This
-// file authors no UI of its own.
+// bcn-lego-checked: the frame IS esa-side-dialog (Esc, light dismiss, the close button,
+// the full-viewport scrim and the slide-out are all the lego's, untouched, and its
+// slot="footer" is a real slot so the verbs keep their hairline-separated strip). The
+// fields ARE esa-text-field and esa-textarea, the footer verbs ARE esa-button, and the
+// rows ARE the .stack and .cluster primitives. esa-dialog was the old frame and is the
+// wrong one for this: it centres, and nothing in the kit makes it slide. This file
+// authors no UI of its own.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import type { ProjectList } from '../../data/lists';
 
@@ -31,7 +55,12 @@ interface Props {
 const { list } = Astro.props;
 ---
 
-<esa-dialog data-list-edit-dialog heading="Edit details" size="sm" show-close-button>
+<esa-side-dialog
+  id="bcn-led"
+  heading="Edit details"
+  position="right"
+  show-close-button
+  style="--_width: min(440px, 92vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
   <div class="bcn-list-edit stack" data-gap="lg">
     <esa-text-field
       data-list-edit-name
@@ -52,27 +81,31 @@ const { list } = Astro.props;
     <EsaButton variant="primary" size="sm" data-list-edit-save>Save</EsaButton>
     <EsaButton variant="ghost" appearance="outline" size="sm" data-list-edit-cancel>Cancel</EsaButton>
   </div>
-</esa-dialog>
+</esa-side-dialog>
 
 <script>
-  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-textarea';
 
-  type Dialog = HTMLElement & { show(): void; close(): void };
+  // show() / close() are the same two method names esa-dialog exposed, so the verbs
+  // below did not have to change shape. show() is used rather than `open = true`
+  // because it also clears the lego's pending exit timer; close() rather than
+  // `open = false` because only close() plays the slide-out.
+  type Panel = HTMLElement & { show(): void; close(): void };
   type Field = HTMLElement & { value: string; errorText: string };
 
-  // Inert on any page that does not render the dialog.
-  const dialog = document.querySelector<Dialog>('[data-list-edit-dialog]');
-  if (dialog) {
-    const name = dialog.querySelector<Field>('[data-list-edit-name]');
-    const description = dialog.querySelector<Field>('[data-list-edit-description]');
+  // Inert on any page that does not render the panel.
+  const panel = document.getElementById('bcn-led') as Panel | null;
+  if (panel) {
+    const name = panel.querySelector<Field>('[data-list-edit-name]');
+    const description = panel.querySelector<Field>('[data-list-edit-description]');
     // `value` is a plain Lit property, never reflected, so the markup attribute still
     // holds what the record was rendered with. That is the restore point.
     const storedName = name?.getAttribute('value') ?? '';
     const storedDescription = description?.getAttribute('value') ?? '';
 
-    document.addEventListener('list:edit-details', () => dialog.show());
+    document.addEventListener('list:edit-details', () => panel.show());
 
     name?.addEventListener('input', () => {
       if (name.value.trim()) name.errorText = '';
@@ -80,24 +113,39 @@ const { list } = Astro.props;
 
     // Cancel, the close button, Esc and a scrim click all arrive here, so the fields go
     // back to the record in one place.
-    dialog.addEventListener('close', () => {
-      if (name) {
-        name.value = storedName;
-        name.errorText = '';
-      }
-      if (description) description.value = storedDescription;
+    //
+    // THE WAIT IS NEW, AND THE SHELL IS WHY. esa-dialog left the screen on the same
+    // frame it emitted `close`, so restoring immediately was never seen. This lego
+    // emits `close` at the START of a 200ms slide-out and keeps painting for all of
+    // it, so an immediate restore is watched: the name snaps back to the record while
+    // the panel is still on its way out. The write waits for the panel to clear the
+    // edge. Reopening inside that window is harmless, because a fresh open should show
+    // the record either way.
+    const SLIDE_OUT_MS = 200;
+    let restoreTimer: ReturnType<typeof setTimeout> | undefined;
+    panel.addEventListener('close', () => {
+      clearTimeout(restoreTimer);
+      restoreTimer = setTimeout(() => {
+        if (name) {
+          name.value = storedName;
+          name.errorText = '';
+        }
+        if (description) description.value = storedDescription;
+      }, SLIDE_OUT_MS);
     });
 
-    dialog.querySelector('[data-list-edit-cancel]')?.addEventListener('click', () => dialog.close());
+    panel.querySelector('[data-list-edit-cancel]')?.addEventListener('click', () => panel.close());
 
-    dialog.querySelector('[data-list-edit-save]')?.addEventListener('click', () => {
+    panel.querySelector('[data-list-edit-save]')?.addEventListener('click', () => {
       if (!name) return;
       if (!name.value.trim()) {
         name.errorText = 'Enter a name.';
-        (name as unknown as HTMLElement).focus();
+        // esa-text-field overrides focus() to forward to its inner control, so this
+        // lands in the field rather than no-opping on an unfocusable custom element.
+        name.focus();
         return;
       }
-      dialog.close();
+      panel.close();
     });
   }
 </script>
