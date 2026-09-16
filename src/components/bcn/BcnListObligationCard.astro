@@ -10,7 +10,7 @@
 // second disclosure — is gone. One row, and the requirements are its children.
 //
 // The card, top to bottom:
-//   1. the card row: chevron, class chip, title, the "Edited for this list" mark, the
+//   1. the card row: chevron, class chip, title, the dirty dot, the
 //      copy marker when this list holds the obligation more than once, the requirement
 //      count, and three hover verbs pushed right — edit, duplicate, and the x that
 //      takes this membership off the list. The row is the disclosure; the title is not,
@@ -76,7 +76,7 @@ const { obligation: o, open = false } = Astro.props;
       <span class="bcn-loc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
       <span class="bcn-loc__class" data-list-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
       <button type="button" class="bcn-loc__title" data-list-edit data-list-title data-list-text={o.title}>{o.title}</button>
-      <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden}>Edited for this list</span>
+      <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden}><esa-tooltip text="Edited for this list"><span class="bcn-loc__dot" role="img" aria-label="Edited for this list"></span></esa-tooltip></span>
       <span data-list-count="obligation"><BcnSwCountBadge value={o.requirements.length} label={`${o.requirements.length} requirements`} /></span>
       <esa-tooltip text="Edit for this list"><button
         type="button"
@@ -120,13 +120,29 @@ const { obligation: o, open = false } = Astro.props;
 
   /* This list said it differently. The only trace of the list description on the row,
      now that the sentence itself is read and written in the panel. */
-  .bcn-loc__edited {
-    flex-shrink: 0;
-    font-size: 0.6875rem;
-    color: var(--color-content-default-tertiary);
-    white-space: nowrap;
-  }
+  /* The dirty mark: a filled dot after the title when this list carries its own
+     description for the member. The dot is 6px; the span around it is the 16px hit
+     area the tooltip needs. Same green as the page's title mark. */
+  /* The shared sheet lets the title fill the row, which would push the dot to the
+     badge; here the title takes its own width (still ellipsised) and the badge pushes
+     itself to the end, so the dot sits at the title's heel. */
+  .bcn-loc__title { flex: 0 1 auto; }
+  [data-list-count] { margin-inline-start: auto; }
+  .bcn-loc__edited { flex-shrink: 0; display: inline-flex; }
   .bcn-loc__edited[hidden] { display: none; }
+  .bcn-loc__dot {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+  .bcn-loc__dot::before {
+    content: '';
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: 50%;
+    background: var(--color-content-brand);
+  }
 
   /* Requirements are reference here, never the subject, so they carry secondary ink.
      The wizard's own rows stay at default: there they ARE the thing being edited. */
