@@ -192,14 +192,7 @@ const DATA = JSON.stringify({ records });
       if (!card || !rec) return false;
       member = memberId;
 
-      // Two members can share a title, so the title alone does not say which one is
-      // open. The card's own copy marker is the answer and it is already kept current
-      // by the tree's recount — read it rather than deriving a second copy of the
-      // same count. Same phrasing the remove guard uses, so both name a member the
-      // same way.
-      const copy = card.querySelector<HTMLElement>('[data-list-copy]');
-      const which = copy && !copy.hidden ? copy.textContent?.trim().toLowerCase() : '';
-      dialog.heading = which ? `${rec.title} (${which})` : rec.title;
+      dialog.heading = rec.title;
       const chip = slot('class');
       chip.textContent = rec.classLabel;
       form.dataset.class = rec.class;

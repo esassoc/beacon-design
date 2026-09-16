@@ -255,27 +255,6 @@ const CARD_STAMP: ListObligation = {
         cat.toggleAttribute('data-list-empty', catN === 0);
         total += catN;
       });
-      // Copy markers. A list may hold one obligation more than once, and once the
-      // description comes off the card the rows are otherwise identical — so each
-      // card says which copy it is, and says nothing at all when there is only one.
-      // Recomputed here rather than stamped once, because removing one of two copies
-      // has to take the marker off the survivor.
-      const byObligation = new Map<string, HTMLElement[]>();
-      cards().filter((c) => !gone(c)).forEach((c) => {
-        const id = c.dataset.id ?? '';
-        const kept = byObligation.get(id);
-        if (kept) kept.push(c);
-        else byObligation.set(id, [c]);
-      });
-      byObligation.forEach((group) => {
-        group.forEach((card, i) => {
-          const mark = card.querySelector<HTMLElement>('[data-list-copy]');
-          if (!mark) return;
-          mark.textContent = `Copy ${i + 1} of ${group.length}`;
-          mark.hidden = group.length < 2;
-        });
-      });
-
       // The page's title-row badge, the step 5 mechanism ([data-swo-count="title"]).
       // Without this a remove or an add leaves the header claiming the seeded count
       // while the tree below it shows another, which is the one disagreement on this
@@ -468,12 +447,8 @@ const CARD_STAMP: ListObligation = {
     const removeFromList = (card: HTMLElement) => {
       if (!guard) { drop(card); return; }
       const title = card.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? '';
-      // When the list holds this obligation more than once the title alone does not
-      // say which row is going, so the guard names the copy the marker is showing.
-      const mark = card.querySelector<HTMLElement>('[data-list-copy]');
-      const which = mark && !mark.hidden ? ` (${(mark.textContent ?? '').toLowerCase()})` : '';
       pending = () => drop(card);
-      guard.message = `"${title}"${which} comes off ${listName}. The obligation stays in the project's obligation registry.`;
+      guard.message = `"${title}" comes off ${listName}. The obligation stays in the project's obligation registry.`;
       guard.open = true;
     };
 

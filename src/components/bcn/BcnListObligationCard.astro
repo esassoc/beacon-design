@@ -37,7 +37,7 @@
 // Contract with <BcnListObligationTree>: the card is presentational. The tree owns
 // every listener, exactly as step 5 splits card and tree, and reaches in through
 // `data-list-card`, `data-list-edit`, `data-list-duplicate`, `data-list-remove`, `data-list-edited`,
-// `data-list-copy`, `data-list-req` and `data-list-text`.
+// `data-list-req` and `data-list-text`.
 //
 // IDENTITY: the card is keyed by `data-member-id`, NOT by `data-id`. `data-id` is the
 // registry obligation and two cards may share it; the member id is this row's alone.
@@ -77,7 +77,6 @@ const { obligation: o, open = false } = Astro.props;
       <span class="bcn-loc__class" data-list-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
       <button type="button" class="bcn-loc__title" data-list-edit data-list-title data-list-text={o.title}>{o.title}</button>
       <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden}>Edited for this list</span>
-      <span class="bcn-loc__copy" data-list-copy hidden={o.copies < 2}>{o.copies > 1 ? `Copy ${o.occurrence} of ${o.copies}` : ''}</span>
       <span data-list-count="obligation"><BcnSwCountBadge value={o.requirements.length} label={`${o.requirements.length} requirements`} /></span>
       <esa-tooltip text="Edit for this list"><button
         type="button"
@@ -128,17 +127,6 @@ const { obligation: o, open = false } = Astro.props;
     white-space: nowrap;
   }
   .bcn-loc__edited[hidden] { display: none; }
-
-  /* Which copy this is, shown only when the list holds more than one. Two rows
-     carrying the same title are otherwise indistinguishable once the description
-     comes off the card, and the reader has to be able to tell them apart. */
-  .bcn-loc__copy {
-    flex-shrink: 0;
-    font-size: 0.6875rem;
-    color: var(--color-content-default-tertiary);
-    white-space: nowrap;
-  }
-  .bcn-loc__copy[hidden] { display: none; }
 
   /* Requirements are reference here, never the subject, so they carry secondary ink.
      The wizard's own rows stay at default: there they ARE the thing being edited. */
