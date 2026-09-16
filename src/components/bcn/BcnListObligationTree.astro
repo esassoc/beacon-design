@@ -79,6 +79,9 @@ const CARD_STAMP: ListObligation = {
   trigger: '',
   gate: false,
   requirements: [{ id: '', code: '', name: '', text: '', inActions: 0, inObligations: 0 }],
+  memberId: '',
+  occurrence: 1,
+  copies: 1,
   listDescription: '',
   descriptionOverridden: false,
 };
@@ -248,6 +251,27 @@ const CARD_STAMP: ListObligation = {
         cat.toggleAttribute('data-list-empty', catN === 0);
         total += catN;
       });
+      // Copy markers. A list may hold one obligation more than once, and once the
+      // description comes off the card the rows are otherwise identical — so each
+      // card says which copy it is, and says nothing at all when there is only one.
+      // Recomputed here rather than stamped once, because removing one of two copies
+      // has to take the marker off the survivor.
+      const byObligation = new Map<string, HTMLElement[]>();
+      cards().filter((c) => !gone(c)).forEach((c) => {
+        const id = c.dataset.id ?? '';
+        const kept = byObligation.get(id);
+        if (kept) kept.push(c);
+        else byObligation.set(id, [c]);
+      });
+      byObligation.forEach((group) => {
+        group.forEach((card, i) => {
+          const mark = card.querySelector<HTMLElement>('[data-list-copy]');
+          if (!mark) return;
+          mark.textContent = `Copy ${i + 1} of ${group.length}`;
+          mark.hidden = group.length < 2;
+        });
+      });
+
       // The page's title-row badge, the step 5 mechanism ([data-swo-count="title"]).
       // Without this a remove or an add leaves the header claiming the seeded count
       // while the tree below it shows another, which is the one disagreement on this
@@ -407,6 +431,34 @@ const CARD_STAMP: ListObligation = {
       });
     };
 
+    // ---- Duplicate. A second MEMBERSHIP pointing at the same registry obligation,
+    // so one form can ask about one duty twice with different instructions. It is not
+    // a filing verb and it does not touch the registry: the copy lands immediately
+    // after the row it was made from, inside the same subcategory, because filing is
+    // the registry's and this page cannot change it.
+    //
+    // The new member id continues the obligation's own run rather than counting live
+    // cards, so a member removed earlier can never have its id handed to a later copy.
+    const nextMemberId = (obligationId: string) => {
+      const used = cards()
+        .filter((c) => c.dataset.id === obligationId)
+        .map((c) => Number((c.dataset.memberId ?? '').split('-m').pop()) || 0);
+      return `${obligationId}-m${Math.max(0, ...used) + 1}`;
+    };
+    const duplicate = (card: HTMLElement) => {
+      const copy = card.cloneNode(true) as HTMLElement;
+      copy.dataset.memberId = nextMemberId(card.dataset.id ?? '');
+      copy.removeAttribute('data-list-removed');
+      copy.hidden = false;
+      // A duplicate inherits the wording it was copied from — including the "edited"
+      // state, because a copy of an edited member IS edited. It is changed from the
+      // panel, which is the only place a list description is written.
+      card.after(copy);
+      recount();
+      apply();
+      flash(copy);
+    };
+
     // ---- Remove from list. The guard is not the danger variant: nothing is
     // destroyed, the member row comes off and the obligation stays in the registry.
     type Confirm = HTMLElement & { open: boolean; message: string };
@@ -424,8 +476,12 @@ const CARD_STAMP: ListObligation = {
     const removeFromList = (card: HTMLElement) => {
       if (!guard) { drop(card); return; }
       const title = card.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? '';
+      // When the list holds this obligation more than once the title alone does not
+      // say which row is going, so the guard names the copy the marker is showing.
+      const mark = card.querySelector<HTMLElement>('[data-list-copy]');
+      const which = mark && !mark.hidden ? ` (${(mark.textContent ?? '').toLowerCase()})` : '';
       pending = () => drop(card);
-      guard.message = `"${title}" comes off ${listName}. The obligation stays in the project's obligation registry.`;
+      guard.message = `"${title}"${which} comes off ${listName}. The obligation stays in the project's obligation registry.`;
       guard.open = true;
     };
 
@@ -460,14 +516,13 @@ const CARD_STAMP: ListObligation = {
     const buildCard = (item: AddedItem) => {
       const card = tpl('obl');
       card.dataset.id = item.id;
+      card.dataset.memberId = nextMemberId(item.id);
       card.dataset.class = item.class;
       const tag = card.querySelector<HTMLElement>('[data-list-class-tag]');
       if (tag) tag.textContent = CLASS_LABEL[item.class] ?? item.class;
       const title = card.querySelector<HTMLElement>('[data-list-title]')!;
       title.textContent = item.title;
       title.dataset.listText = item.title;
-      const remove = card.querySelector<HTMLElement>('[data-list-remove]');
-      if (remove) remove.dataset.id = item.id;
       const desc = card.querySelector<HTMLElement>('[data-list-desc]')!;
       desc.textContent = item.description;
       desc.dataset.listText = item.description;
@@ -492,7 +547,7 @@ const CARD_STAMP: ListObligation = {
       return card;
     };
     const addItem = (item: AddedItem) => {
-      const existing = cards().find((c) => c.dataset.id === item.id);
+      const existing = cards().find((c) => c.dataset.id === item.id && gone(c));
       if (existing) {
         existing.removeAttribute('data-list-removed');
         existing.hidden = false;
@@ -559,6 +614,11 @@ const CARD_STAMP: ListObligation = {
       if (btn?.matches('[data-list-desc-edit]')) {
         e.preventDefault();
         editDescription(btn.closest<HTMLElement>('[data-list-card]')!);
+        return;
+      }
+      if (btn?.matches('[data-list-duplicate]')) {
+        e.preventDefault();
+        duplicate(btn.closest<HTMLElement>('[data-list-card]')!);
         return;
       }
       if (btn?.matches('[data-list-remove]')) {

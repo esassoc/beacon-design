@@ -4,13 +4,18 @@
 // class-tag tinting, same row rhythm, same <details> mechanics. Different verbs,
 // because a list has different semantics than the registry.
 //
-// A list cannot change filing, so everything the registry card offers for filing is
-// gone: no grip, no drag, no drop target, no duplicate, no unlink, no editor drawer,
-// and no verb of any kind on a requirement row. What remains is what a list owns.
+// A list cannot change filing, so everything the registry card offers for FILING is
+// gone: no grip, no drag, no drop target, no unlink, and no verb of any kind on a
+// requirement row. What remains is what a list owns — which, since 2026-09-16,
+// includes DUPLICATE. That verb is not a filing verb: it adds a second MEMBERSHIP
+// pointing at the same registry obligation, so one form can ask about one duty twice
+// with different instructions. Both copies stay in the subcategory the registry files
+// the obligation under, because that is filing and filing is not this page's.
 //
 // The card, top to bottom:
-//   1. the card line: class tag, the title as plain text, and one hover verb pushed
-//      right, the x that takes the obligation off this list;
+//   1. the card line: class tag, the title as plain text, the copy marker when this
+//      list holds the obligation more than once, and two hover verbs pushed right —
+//      duplicate, and the x that takes this membership off the list;
 //   2. THE LIST DESCRIPTION, which is the subject of this card. Editable in place.
 //      Until it is edited it is the registry's wording and renders in tertiary ink,
 //      so it reads as the inherited default; committing an edit moves it to default
@@ -23,9 +28,14 @@
 //
 // Contract with <BcnListObligationTree>: the card is presentational. The tree owns
 // every listener, exactly as step 5 splits card and tree, and reaches in through
-// `data-list-card`, `data-list-remove`, `data-list-desc`, `data-list-desc-edit`,
-// `data-list-edited` and `data-list-text`. The description keeps the registry's
-// sentence in `data-registry-desc` so the fallback needs no round trip.
+// `data-list-card`, `data-list-duplicate`, `data-list-remove`, `data-list-desc`,
+// `data-list-desc-edit`, `data-list-edited`, `data-list-copy` and `data-list-text`.
+// The description keeps the registry's sentence in `data-registry-desc` so the
+// fallback needs no round trip.
+//
+// IDENTITY: the card is keyed by `data-member-id`, NOT by `data-id`. `data-id` is the
+// registry obligation and two cards may share it; the member id is this row's alone.
+// Every verb the tree wires reads the member.
 //
 // bcn-lego-checked: esa-card carries its own padding and type scale and has no
 // editable region; esa-collapsible is a panel, not a dense 13px disclosure row. The
@@ -46,16 +56,28 @@ interface Props {
 const { obligation: o, open = false } = Astro.props;
 ---
 
-<li class="bcn-loc" data-list-card data-id={o.id} data-class={o.class}>
+<li
+  class="bcn-loc"
+  data-list-card
+  data-member-id={o.memberId}
+  data-id={o.id}
+  data-class={o.class}
+>
   <div class="bcn-loc__main">
     <span class="bcn-loc__class" data-list-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
     <span class="bcn-loc__title" data-list-title data-list-text={o.title}>{o.title}</span>
+    <span class="bcn-loc__copy" data-list-copy hidden={o.copies < 2}>{o.copies > 1 ? `Copy ${o.occurrence} of ${o.copies}` : ''}</span>
+    <esa-tooltip text="Duplicate for this list"><button
+      type="button"
+      class="bcn-loc__verb"
+      aria-label="Hold this obligation again with its own wording"
+      data-list-duplicate
+    ><EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} /></button></esa-tooltip>
     <esa-tooltip text="Remove from this list" align="end"><button
       type="button"
       class="bcn-loc__verb bcn-loc__verb--danger"
       aria-label="Remove from this list"
       data-list-remove
-      data-id={o.id}
     ><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
   </div>
 
@@ -174,6 +196,17 @@ const { obligation: o, open = false } = Astro.props;
     user-select: text;
   }
   .bcn-loc__desc:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 0; }
+  /* Which copy this is, shown only when the list holds more than one. Two rows
+     carrying the same title are otherwise indistinguishable once the description
+     comes off the card, and the reader has to be able to tell them apart. */
+  .bcn-loc__copy {
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-loc__copy[hidden] { display: none; }
+
   .bcn-loc__edited {
     margin-left: var(--spacing-100);
     font-size: 0.6875rem;

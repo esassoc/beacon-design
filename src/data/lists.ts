@@ -84,8 +84,19 @@ export interface ProjectList {
   memberCount: number;
 }
 
-/** One obligation's membership in one list. */
+/**
+ * One obligation's membership in one list.
+ *
+ * A MEMBER IS NOT AN OBLIGATION. A list may hold the same registry obligation more
+ * than once, each copy carrying its own wording, so the member's identity is its
+ * own and every screen verb, count and export key runs off `memberId`. Keying any
+ * of them off `obligationId` is what made duplicates impossible before 2026-09-16:
+ * a Map keyed by obligation id silently keeps the last copy and drops the rest.
+ */
 export interface ObligationListMember {
+  /** Unique within the list. `{obligationId}-m{n}`, minted in seed order. */
+  memberId: string;
+  /** The registry obligation this member points at. NOT unique within the list. */
   obligationId: string;
   /**
    * What this list says about the obligation. Overrides the registry description
@@ -120,8 +131,18 @@ export interface ObligationList extends ProjectList {
 
 /* ── The derived tree the detail page renders ───────────────────────────── */
 
-/** An obligation as it sits in one list: the registry record plus this list's copy. */
+/**
+ * An obligation as it sits in one list: the registry record plus this list's copy.
+ * ONE PER MEMBER, so an obligation this list holds twice renders twice. `id` is the
+ * registry obligation's and is shared by the copies; `memberId` is this row's.
+ */
 export interface ListObligation extends ObligationNode {
+  /** This membership's own id. Unique within the list; `id` is not. */
+  memberId: string;
+  /** 1 for the first copy, 2 for the next, in the order the list holds them. */
+  occurrence: number;
+  /** How many copies of this obligation the list holds. 1 unless duplicated. */
+  copies: number;
   /** The description this list exports: the member's, when it has one. */
   listDescription: string;
   /** True when the member carries its own description rather than the registry's. */
@@ -173,6 +194,14 @@ for (const cat of OBLIGATION_TREE)
     for (const node of sub.obligations)
       FILED.push({ path: `${cat.name}${PATH_SEP}${sub.name}`, catId: cat.id, subId: sub.id, node });
 
+/** A member's id: the obligation it points at, plus which copy of it this is. */
+const memberIdFor = (obligationId: string, copy: number) => `${obligationId}-m${copy}`;
+
+/**
+ * Resolve the picks to members. The dedupe here is a SEED hygiene check — a pick that
+ * overlaps another should not quietly double the list — and is the only dedupe left in
+ * this file. A second copy is deliberate, and arrives through `duplicates` below.
+ */
 const pickMembers = (picks: MemberPick[]): ObligationListMember[] => {
   const out: ObligationListMember[] = [];
   const seen = new Set<string>();
@@ -183,8 +212,31 @@ const pickMembers = (picks: MemberPick[]): ObligationListMember[] => {
     for (const h of hits) {
       if (seen.has(h.node.id)) continue;
       seen.add(h.node.id);
-      out.push({ obligationId: h.node.id });
+      out.push({ memberId: memberIdFor(h.node.id, 1), obligationId: h.node.id });
     }
+  }
+  return out;
+};
+
+/**
+ * A second membership for an obligation the list already holds, with its own wording.
+ *
+ * What a duplicate is FOR: the same duty asked about twice in one form, because the
+ * two askings want different instructions. What it is NOT for is filing the obligation
+ * somewhere else — filing belongs to the registry, and both copies sit in the
+ * subcategory the registry files the obligation under.
+ */
+const duplicateByTitle = (
+  members: ObligationListMember[],
+  copies: Record<string, string>,
+): ObligationListMember[] => {
+  const out = [...members];
+  for (const [title, description] of Object.entries(copies)) {
+    const filed = FILED.find((f) => f.node.title === title);
+    if (!filed) continue;
+    const held = out.filter((m) => m.obligationId === filed.node.id).length;
+    if (!held) continue;
+    out.push({ memberId: memberIdFor(filed.node.id, held + 1), obligationId: filed.node.id, description });
   }
   return out;
 };
@@ -213,10 +265,12 @@ const obligationList = (
     copy?: Record<string, string>;
     /** "Category › Subcategory" path → the name this list uses. */
     renames?: Record<string, string>;
+    /** Obligation title → the wording on a SECOND copy of it this list holds. */
+    duplicates?: Record<string, string>;
   },
 ): ObligationList => {
-  const { picks, copy = {}, renames = {}, ...rest } = seed;
-  const members = describeByTitle(pickMembers(picks), copy);
+  const { picks, copy = {}, renames = {}, duplicates = {}, ...rest } = seed;
+  const members = duplicateByTitle(describeByTitle(pickMembers(picks), copy), duplicates);
   const nameOverrides: Record<string, string> = {};
   for (const [path, name] of Object.entries(renames)) {
     const id = idOfPath(path);
@@ -259,6 +313,11 @@ export const OBLIGATION_LISTS: ObligationList[] = [
       'Refueling Practices': 'Refuel at least 100 feet from any water body, over secondary containment, with an attendant present.',
       'Fire Suppression Supplies On Site': 'An extinguisher and a shovel ride with every crew working in dry vegetation.',
       'Night Lighting Spill Control': 'Shield and aim every night fixture down and inward. No light crosses the work-area boundary.',
+    },
+    duplicates: {
+      // The same duty asked twice in one form: once as the standing condition above,
+      // once as the shift-end check. Two members, two instructions, one obligation.
+      'Spill Kits On Site': 'At shift end, confirm every kit drawn from today was restocked before the crew leaves.',
     },
   }),
   obligationList({
@@ -438,21 +497,32 @@ export const listsOfType = (type: ListType): ProjectList[] =>
  * DROPS OUT — a list shows what it holds, never what it does not.
  */
 export function listTree(list: ObligationList): ListTreeCat[] {
-  const copy = new Map(list.members.map((m) => [m.obligationId, m.description]));
+  // Members grouped by the obligation they point at — a LIST of members per id, never
+  // one member per id. A Map<obligationId, member> is the shape that made a duplicate
+  // impossible: it keeps the last copy and drops every earlier one without erroring.
+  const held = new Map<string, ObligationListMember[]>();
+  for (const m of list.members) {
+    const kept = held.get(m.obligationId);
+    if (kept) kept.push(m);
+    else held.set(m.obligationId, [m]);
+  }
   const cats: ListTreeCat[] = [];
   for (const cat of OBLIGATION_TREE) {
     const subs: ListTreeSub[] = [];
     for (const sub of cat.subcategories) {
-      const obligations: ListObligation[] = sub.obligations
-        .filter((o) => copy.has(o.id))
-        .map((o) => {
-          const override = copy.get(o.id);
-          return {
-            ...o,
-            listDescription: override || o.description,
-            descriptionOverridden: !!override,
-          };
-        });
+      // flatMap, so an obligation held twice emits two rows — adjacent, because the
+      // registry's own ordering places the obligation once and its copies follow it.
+      const obligations: ListObligation[] = sub.obligations.flatMap((o) => {
+        const members = held.get(o.id) ?? [];
+        return members.map((m, i) => ({
+          ...o,
+          memberId: m.memberId,
+          occurrence: i + 1,
+          copies: members.length,
+          listDescription: m.description || o.description,
+          descriptionOverridden: !!m.description,
+        }));
+      });
       if (!obligations.length) continue;
       const renamed = list.nameOverrides[sub.id];
       subs.push({ id: sub.id, name: renamed ?? sub.name, registryName: sub.name, renamed: !!renamed, obligations });
@@ -515,8 +585,13 @@ export interface FormFieldSpec {
   elements: FormSectionElement[];
 }
 
-/** Fulcrum keys are short and stable; the obligation's ULID tail serves. */
-const fieldKey = (id: string) => id.slice(-8).toLowerCase();
+/**
+ * Fulcrum keys are short, stable, and UNIQUE WITHIN A FORM. The obligation's ULID
+ * tail serves for the first copy; a second copy appends its number, because two
+ * fields sharing a key is a form that silently overwrites one answer with the other.
+ */
+const fieldKey = (o: ListObligation) =>
+  o.id.slice(-8).toLowerCase() + (o.occurrence > 1 ? `-${o.occurrence}` : '');
 
 /**
  * The host the public read API is served from. One constant, so the three endpoint
@@ -545,7 +620,7 @@ export function formFields(list: ObligationList): FormFieldSpec {
         label: sub.name,
         elements: sub.obligations.map((o) => ({
           type: 'YesNoField',
-          key: fieldKey(o.id),
+          key: fieldKey(o),
           label: o.title,
           description: o.listDescription,
           required: false,
