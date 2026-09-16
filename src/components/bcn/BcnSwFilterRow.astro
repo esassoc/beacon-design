@@ -61,13 +61,13 @@ const { searchPlaceholder, searchName, pickers = [], inset = false, panel = fals
     color: var(--color-content-default);
   }
   .bcn-swfr--inset { border-top: none; }
-  /* Permit tracking's `.map-filterbar`, rule for rule. The `border` shorthand is what
-     clears the base rule's top hairline — same specificity, later in source order. */
+  /* Permit tracking's `.map-filterbar` geometry, on the sunken gray surface (Andy, 2026-09-16).
+     The `border` shorthand clears the base rule's top hairline — same specificity, later in source order. */
   .bcn-swfr--panel {
     padding: var(--spacing-250) var(--spacing-400);
     border: 1px solid var(--color-border-default);
     border-radius: var(--radius-200);
-    background: var(--color-background-elevation-raised);
+    background: var(--color-background-elevation-sunken);
   }
   .bcn-swfr__search { flex: 1 1 180px; max-width: 360px; }
   .bcn-swfr__picker { flex: 0 1 180px; min-width: 140px; }
