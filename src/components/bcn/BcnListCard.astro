@@ -23,8 +23,18 @@
 // EMPTY IS HONEST. A list with no description renders the first line and stops. No
 // placeholder sentence is ever substituted for the missing one.
 //
-// Contract with <BcnListIndexBoard>: the root carries `data-list-row` and
-// `data-type`. The board renders it and touches nothing else on it.
+// THE ROW IS A GRID ROW WITH A SECOND LINE. Title 14px semibold in the page's own dark
+// ink, description and date 12px, 8px of block padding, 2px between the two lines. The
+// name is not link-coloured: nineteen green names down a page read as nineteen calls to
+// action, so the affordance is the row's hover tint, the pointer, and an underline on
+// hover. What this pays is the at-a-glance scannability of a larger title — a reader
+// hunting one list by name now reads a denser column — and it is the trade the page
+// asked for: nineteen rows the eye can take in at once beats nineteen rows that read
+// comfortably four at a time.
+//
+// Contract with <BcnListIndexBoard>: the root carries `data-list-row` and `data-type`;
+// the two searchable strings carry `data-list-text`, which is what the board's keyword
+// filter reads and repaints with <mark> hits. The board touches nothing else on it.
 //
 // bcn-lego-checked: the shell IS esa-card (variant="outlined", padding="compact",
 // default slot only, header slot deliberately unfilled — see the note in the style
@@ -59,20 +69,28 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
 ---
 
 <article class="bcn-lc" data-list-row data-type={list.type}>
-  <EsaCard variant="outlined" padding="compact">
-    <div class="bcn-lc__row cluster" data-gap="sm" style={`--_mark: var(--color-${mark.token});`}>
+  <EsaCard variant="outlined" padding="none">
+    <div class="bcn-lc__row cluster" data-gap="xs" style={`--_mark: var(--color-${mark.token});`}>
       <span class="bcn-lc__mark">
-        <EsaIcon name={mark.iconName} paths={mark.iconPaths} size="md" />
+        <EsaIcon name={mark.iconName} paths={mark.iconPaths} size="sm" />
       </span>
-      <div class="bcn-lc__body stack" data-gap="2xs">
+      <div class="bcn-lc__body stack" data-gap="3xs">
         <div class="bcn-lc__head repel" data-gap="sm">
-          <div class="cluster" data-gap="xs">
-            <a class="bcn-lc__name typography-title-sm-strong" href={href}>{list.name}</a>
-            <BcnSwCountBadge value={list.memberCount} label={countLabel} />
+          <div class="cluster" data-gap="2xs">
+            <a class="bcn-lc__name typography-label-sm-strong" href={href} data-list-text>
+              {list.name}
+            </a>
+            <BcnSwCountBadge value={list.memberCount} label={countLabel} size="sm" />
           </div>
-          <span class="bcn-lc__updated typography-body-sm">Updated {updated}</span>
+          <span class="bcn-lc__updated typography-body-xs">Updated {updated}</span>
         </div>
-        {list.description && <p class="bcn-lc__desc typography-body-md">{list.description}</p>}
+        {
+          list.description && (
+            <p class="bcn-lc__desc typography-body-xs" data-list-text>
+              {list.description}
+            </p>
+          )
+        }
       </div>
     </div>
   </EsaCard>
@@ -83,14 +101,31 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
      That is the density decision. A filled header slot is a titled band: 56px min-height,
      1rem block padding and a hairline under it, which turned a one-line row into two
      stacked bands about 135px tall. On an index of nineteen rows that band is the whole
-     budget. Leaving the header out drops the card to the compact body padding and the
-     lego renders no header at all (esa-card only emits one for a title, meta, or a
-     filled header/actions slot), so there is nothing to override and no empty-body
-     case to hide. */
+     budget. Leaving the header out drops the card to its body padding and the lego
+     renders no header at all (esa-card only emits one for a title, meta, or a filled
+     header/actions slot), so there is nothing to override and no empty-body case to
+     hide.
+
+     The card takes padding="none" and the ROW pays its own. esa-card sets --_card-padding
+     from a class on its own root, so an inherited override cannot reach it and its
+     tightest step, "compact", is 12px on all four sides — square, where a row wants more
+     inline than block. Zeroing the lego's padding and setting it here is the only way to
+     get 8/12 without reaching into the lego's internals. */
+
+  .bcn-lc__row {
+    padding: var(--spacing-200) var(--spacing-300);
+  }
 
   .bcn-lc__body {
     flex: 1;
     min-width: 0;
+  }
+
+  /* The row is the target, not just the name: the title is dark ink like every other
+     word on the page, so the hover tint and the pointer are what say it is clickable.
+     Pointer-events stay on the anchor — the tint is a hint, the link is the link. */
+  .bcn-lc:hover .bcn-lc__row {
+    background: var(--color-background-default-hover);
   }
 
   /* `--_mark` is set inline from the list's type, the same idiom the Setup Wizard card
@@ -106,7 +141,7 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
     display: inline-flex;
     align-items: center;
     align-self: flex-start;
-    block-size: calc(1rem * var(--line-height-normal));
+    block-size: calc(var(--font-size-150) * var(--line-height-normal));
     color: var(--_mark);
     flex-shrink: 0;
   }
@@ -115,13 +150,13 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
     align-items: baseline;
   }
 
+  /* Dark ink, not link ink. Nineteen green names stacked down a page read as nineteen
+     calls to action; in dark ink they read as nineteen list names, which is what they
+     are. The affordance moves to the row hover and the pointer, and the underline still
+     appears on hover for anyone who needs the confirmation before they click. */
   .bcn-lc__name {
-    color: var(--color-content-link);
+    color: var(--color-content-default);
     text-decoration: none;
-    /* The ramp has no 16px rung: --font-size-200 clamps at 15px and the next step,
-       which this composite reads, is 17px. Sixteen is the floor, so the size is set
-       here and the composite keeps the family, weight and leading. */
-    font-size: 1rem;
   }
 
   .bcn-lc__name:hover {
@@ -134,19 +169,16 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
     border-radius: var(--radius-sm);
   }
 
-  /* A date is meta, so it takes the small step the dense floor still allows. */
   .bcn-lc__updated {
     color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
 
   /* One line. A list's description is a handle, not a paragraph; the full text is on
-     the list's own page. Same 16px note as the name: .typography-body-md resolves to
-     15px here, under the floor. */
+     the list's own page. */
   .bcn-lc__desc {
     margin: 0;
     color: var(--color-content-default-secondary);
-    font-size: 1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
