@@ -32,7 +32,11 @@ const EXPORT_FORMATS = [
 ---
 
 <div class="cluster bcn-list-actions" data-gap="sm" data-list-actions>
-  <EsaButton variant="secondary" size="sm" type="button" data-list-edit-details>Edit details</EsaButton>
+  {/* Ghost, not secondary. esa-button's secondary paints --color-background-brand-subtle
+      (#effefb) inside --color-border-brand (#b9d6d2) — a pale green outline, which is a
+      banned accent in this house and read as a second primary beside the real one. Ghost
+      puts the weight where the commitment is: one filled button on this row. */}
+  <EsaButton variant="ghost" size="sm" type="button" data-list-edit-details>Edit details</EsaButton>
 
   {/* position="below-end": this group sits at the right edge of the title row, so a
       panel anchored to the trigger's start hangs off the page on a narrow window. */}
