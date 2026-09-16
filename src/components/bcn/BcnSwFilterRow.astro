@@ -69,6 +69,9 @@ const { searchPlaceholder, searchName, pickers = [], inset = false, panel = fals
     border-radius: var(--radius-200);
     background: var(--color-background-elevation-sunken);
   }
+  /* The field reads --color-background-field (fallback transparent), so on the gray panel it
+     would take the panel colour; the raised surface keeps it white. */
+  .bcn-swfr--panel .bcn-swfr__search { --color-background-field: var(--color-background-elevation-raised); }
   .bcn-swfr__search { flex: 1 1 180px; max-width: 360px; }
   .bcn-swfr__picker { flex: 0 1 180px; min-width: 140px; }
   .bcn-swfr__verbs {
