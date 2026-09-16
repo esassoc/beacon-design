@@ -1,0 +1,397 @@
+---
+// <BcnListExportPanel> — the three ways an obligation list leaves Beacon, as a block
+// in the detail page's rail. It replaces the Export dropdown that sat on the page's
+// title row: a menu hid the fact that one of the three formats is not a download at
+// all but a configured integration, and a menu row has nowhere to put a key.
+//
+// PARTI (the shaping decision, recorded here and NOT stated on the page).
+//   Job        — hand this list to a downstream system in the shape that system reads.
+//   Rivalry    — completeness against hierarchy.
+//   Winner     — hierarchy. The three formats are not peers. Word and CSV are one-click
+//                file pulls and take one line each. JSON is an endpoint a contractor
+//                configures once, so it carries the key that authenticates it, the URL
+//                it is read from, and the payload it returns.
+//   Sacrifice  — symmetry. The block reads lopsided: two short rows, then a section
+//                four times their height. Inflating the file rows or folding the API
+//                apparatus behind a disclosure would even it out and lie about it.
+//   Where it shows — the file rows carry a format mark and a verb; JSON carries neither,
+//                because it is not a file and nothing is fetched by pressing it. The
+//                missing mark is the first signal that the third one is different.
+//
+// Word and CSV are prototype stubs: each button announces `list:export` with its format
+// and stops, which is all it can honestly do here. They are NOT greyed out — a disabled
+// row reads as "this broke", not "not built yet". Roll Key and Revoke carry no handler
+// at all: this prototype has no store to roll a key in, and the only event this file is
+// allowed to emit is `list:export`, which is not what they mean.
+//
+// The two Download buttons are ghost + outline, NOT `secondary`: secondary resolves to
+// --color-background-brand-muted, which the Beacon theme points at pale teal (#eef5f4), and a
+// pale mint control is a banned accent here. Neutral also serves the hierarchy — the only
+// colored controls in this block are the destructive pair, which is where the weight belongs.
+// They carry no leading icon either: with one, the label wraps under the format name at 300px.
+//
+// Every visible string is a field on the list, a declared derivation of it, or the label
+// of a control. There is no sentence explaining what an API key is or what to do with
+// the endpoint.
+//
+// DATE FORMATTING — the opposite call from BcnListDetailsRail, deliberately. That file
+// splits its ISO string on the parts because a DATE-only string ("2026-08-19") parses as
+// UTC and renders a day early west of Greenwich. `apiKeyGeneratedAt` carries a TIME and
+// no Z ("2026-04-21T16:26:00"), and a date-time with no offset is parsed as LOCAL, so
+// `new Date(iso)` is safe here and is what gives us the hour and minute the caption needs.
+//
+// bcn-lego-checked:
+//   · esa-card is the frame (variant="outlined", the Details card's own setting), esa-button
+//     is every control — including the copy glyphs, as iconOnly + label, since esa-icon-button
+//     cannot take a custom glyph or forward attributes — and esa-icon supplies the copy and
+//     check glyphs from the shared registry. .stack / .cluster / .repel from layouts.css are
+//     the rows and the column.
+//   · BcnKeyValue is the label -> field tier, the same one the Details rail above it uses, so
+//     "API Key" reads identically to "Last updated" one card up. Its `hint` slot is the
+//     generated-at caption.
+//   · Checked Ecology for a read-only field-with-copy lego: esa-text-field is the nearest and
+//     is wrong twice over — it has no readonly mode, and an <input> cannot wrap, which the
+//     endpoint URL must do in a 300px rail. Checked Beacon prod: commitment-category-map-edit
+//     renders exactly this as <code> in a bordered box with the copy button OUTSIDE it, and
+//     that is what is ported below.
+//   · The <pre> is built rather than borrowed: Ecology has no code block, and esa-card /
+//     esa-alert-box / esa-empty-state are all prose surfaces on the raised ramp, not a
+//     sunken monospaced scroller. (The export modal this panel replaces reached the same
+//     conclusion; it was deleted with the dropdown.)
+//   · The two format marks are inline SVG because they are brand/format marks, not UI icons,
+//     and the registry holds no file-type glyph.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import { endpointUrl, formFields, type ObligationList } from '../../data/lists';
+// The Astro half of the typography-composite mechanism, the way esa-button imports it.
+import '@esa/tokens/typography.css';
+
+interface Props {
+  /** The list being exported. Every value below is read off it or derived from it. */
+  list: ObligationList;
+}
+const { list } = Astro.props;
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/** The dash is the empty value, the same mark the Details rail uses for a blank field. */
+const EN_DASH = '–';
+/** "2026-04-21T16:26:00" -> "Apr 21, 2026 at 4:26 PM" — prod's caption format. */
+const fmtDateTime = (iso: string): string => {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return EN_DASH;
+  const h = d.getHours();
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  return `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} at ${hour12}:${minutes} ${h < 12 ? 'AM' : 'PM'}`;
+};
+
+const endpoint = endpointUrl(list);
+// Serialized in the FRONTMATTER from the model: rename a category or
+// edit a member's description and this moves with it. No script assembles it at runtime.
+const spec = JSON.stringify(formFields(list), null, 2);
+const generated = `Generated ${fmtDateTime(list.apiKeyGeneratedAt)}`;
+---
+
+<section class="bcn-lxp" data-list-export-panel>
+  <EsaCard title="Export" variant="outlined">
+    <div class="stack" data-gap="md">
+      <div class="repel" data-gap="sm" data-list-export="word">
+        <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
+          {/* The row's text names the format, so the mark is decorative. */}
+          <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+              <path d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z" />
+              <path d="M13.8 2.8V8h5.4" />
+            </g>
+            <text x="12" y="18" text-anchor="middle" font-size="7.5">W</text>
+          </svg>
+          Microsoft Word
+        </h4>
+        <EsaButton variant="ghost" appearance="outline" size="sm" type="button" data-list-export-download>
+          Download
+        </EsaButton>
+      </div>
+
+      <hr class="bcn-lxp__rule" />
+
+      <div class="repel" data-gap="sm" data-list-export="csv">
+        <h4 class="cluster bcn-lxp__format typography-label-md-strong" data-gap="xs">
+          {/* No vendor owns CSV, so this is a document glyph carrying the format's
+              letters rather than an invented logo. */}
+          <svg class="bcn-lxp__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+              <path d="M14 2.8H6.5A1.7 1.7 0 0 0 4.8 4.5v15a1.7 1.7 0 0 0 1.7 1.7h11a1.7 1.7 0 0 0 1.7-1.7V8Z" />
+              <path d="M13.8 2.8V8h5.4" />
+            </g>
+            <text x="12" y="18" text-anchor="middle" font-size="6" letter-spacing="-0.3">CSV</text>
+          </svg>
+          CSV
+        </h4>
+        <EsaButton variant="ghost" appearance="outline" size="sm" type="button" data-list-export-download>
+          Download
+        </EsaButton>
+      </div>
+
+      <hr class="bcn-lxp__rule" />
+
+      <div class="stack" data-gap="md">
+        <h4 class="bcn-lxp__format typography-label-md-strong">JSON</h4>
+
+        <div class="stack" data-gap="sm">
+          <BcnKeyValue label="API Key" hint={generated}>
+            <div class="cluster bcn-lxp__field-row" data-gap="2xs" data-list-export-field>
+              <code class="bcn-lxp__field">{list.apiKey}</code>
+              <EsaButton
+                variant="ghost"
+                size="sm"
+                type="button"
+                iconOnly
+                icon="copy"
+                label="Copy API key"
+                data-list-export-copy
+              />
+              {/* The copy confirmation for a screen reader. The glyph swap beside it is the
+                  sighted half; an icon-only button has no label to swap. Recipe inlined from
+                  @esa/tokens src/a11y.css .visually-hidden, which is not loaded globally here. */}
+              <span class="bcn-lxp__status" role="status" data-list-export-status></span>
+            </div>
+          </BcnKeyValue>
+
+          <div class="cluster" data-gap="xs">
+            <EsaButton variant="danger" appearance="outline" size="sm" type="button" data-list-key-roll>
+              Roll Key
+            </EsaButton>
+            <EsaButton variant="danger" appearance="outline" size="sm" type="button" data-list-key-revoke>
+              Revoke
+            </EsaButton>
+          </div>
+        </div>
+
+        <BcnKeyValue label="Endpoint URL">
+          <div class="cluster bcn-lxp__field-row" data-gap="2xs" data-list-export-field>
+            <code class="bcn-lxp__field">{endpoint}</code>
+            <EsaButton
+              variant="ghost"
+              size="sm"
+              type="button"
+              iconOnly
+              icon="copy"
+              label="Copy endpoint URL"
+              data-list-export-copy
+            />
+            <span class="bcn-lxp__status" role="status" data-list-export-status></span>
+          </div>
+        </BcnKeyValue>
+
+        <BcnKeyValue label="JSON Preview">
+          {/* tabindex="0": a scrollable region has to be reachable without a pointer, and
+              Chrome does not make one focusable on its own. It keeps its focus ring below. */}
+          <pre class="bcn-lxp__preview" tabindex="0">{spec}</pre>
+        </BcnKeyValue>
+      </div>
+    </div>
+  </EsaCard>
+
+  {/* The copied-state glyph, taken from the same registry the resting glyph comes from
+      rather than pasted in as a path. Cloned by the script, never rendered as itself. */}
+  <template data-list-export-copied><EsaIcon name="check" size="sm" /></template>
+</section>
+
+<script>
+  // Guarded: inert on any page that does not mount the panel.
+  const root = document.querySelector<HTMLElement>('[data-list-export-panel]');
+
+  if (root) {
+    /* ── The two file rows. Each announces its format on `document` and stops. The
+          sibling that owns a surface for that format answers; nothing listens for
+          'word' or 'csv' yet, which is the honest state of those two exports. ── */
+    root.querySelectorAll<HTMLElement>('[data-list-export]').forEach((row) => {
+      const format = row.dataset.listExport;
+      if (!format) return;
+      row.querySelector<HTMLButtonElement>('[data-list-export-download]')?.addEventListener('click', () => {
+        document.dispatchEvent(new CustomEvent('list:export', { bubbles: true, detail: format }));
+      });
+    });
+
+    /* ── Copy. Carried over from the export modal this panel replaces, including the
+          part that matters: a rejected clipboard permission returns SILENTLY rather
+          than claiming a copy that did not happen. What changes is the feedback. That
+          button had a text label to swap to "Copied"; these are icon-only, so the glyph
+          swaps to a check and turns green for 1500ms, and a role="status" region
+          carries the same word to a screen reader, which an accessible-name change
+          alone is not reliably announced as. ── */
+    const copiedGlyph =
+      root.querySelector<HTMLTemplateElement>('[data-list-export-copied]')?.content.querySelector('.esa-icon')
+        ?.innerHTML ?? '';
+
+    root.querySelectorAll<HTMLButtonElement>('[data-list-export-copy]').forEach((button) => {
+      const field = button.closest<HTMLElement>('[data-list-export-field]');
+      // The SAME node the reader is looking at, so the clipboard cannot drift from the
+      // value on screen.
+      const source = field?.querySelector<HTMLElement>('.bcn-lxp__field');
+      const status = field?.querySelector<HTMLElement>('[data-list-export-status]');
+      const glyph = button.querySelector<HTMLElement>('.esa-icon');
+      const restingGlyph = glyph?.innerHTML ?? '';
+      const restingName = button.getAttribute('aria-label') ?? '';
+      let revert: number | undefined;
+
+      button.addEventListener('click', async () => {
+        const text = source?.textContent ?? '';
+        if (!text) return;
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          // Denied permission, or an insecure origin. Say nothing.
+          return;
+        }
+        if (glyph && copiedGlyph) glyph.innerHTML = copiedGlyph;
+        button.dataset.copied = 'true';
+        button.setAttribute('aria-label', 'Copied');
+        button.setAttribute('title', 'Copied');
+        if (status) status.textContent = 'Copied';
+
+        window.clearTimeout(revert);
+        revert = window.setTimeout(() => {
+          if (glyph) glyph.innerHTML = restingGlyph;
+          delete button.dataset.copied;
+          button.setAttribute('aria-label', restingName);
+          button.setAttribute('title', restingName);
+          if (status) status.textContent = '';
+        }, 1500);
+      });
+    });
+  }
+</script>
+
+<style>
+  /* ── Type ────────────────────────────────────────────────────────────────────
+     THE 16px FLOOR, the same sanctioned hard-code BcnListDetailsRail carries and for
+     the same reason: the label roles resolve through --font-size-200, which clamps at
+     15px, and no token on the ramp holds a fixed 16 (--font-size-250 tops out at 17,
+     --font-size-300 at 18). Scoped to this panel, and applied to the format names AND
+     to BcnKeyValue's labels together, so the two cards in the rail agree. */
+  .bcn-lxp__format,
+  .bcn-lxp :global(.bcn-key-value__key),
+  .bcn-lxp :global(.bcn-key-value__val) {
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .bcn-lxp__format {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+
+  /* BcnKeyValue's own gap is 2px, tuned for a label sitting on its value. Here the
+     label sits on a bordered box, which needs the room a box needs. */
+  .bcn-lxp :global(.bcn-key-value) {
+    gap: var(--spacing-100);
+  }
+
+  /* The generated-at caption. BcnKeyValue sets its hint at 12px; a timestamp is
+     genuine meta and may go under the body size, but 12px against a 16px label in a
+     narrow rail reads as a misprint. 14px is the floor for meta and this takes it. */
+  .bcn-lxp :global(.bcn-key-value__hint) {
+    font-size: 0.875rem;
+  }
+
+  /* ── Format marks ────────────────────────────────────────────────────────────
+     Sized off the row's own type (em, not px) so mark and label scale together. */
+  .bcn-lxp__mark {
+    inline-size: 1.5em;
+    block-size: 1.5em;
+    flex: none;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-lxp__mark text {
+    fill: currentColor;
+    font-family: var(--typography-font-family-sans);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+
+  /* ── Rules between the three formats ─────────────────────────────────────── */
+  .bcn-lxp__rule {
+    margin: 0;
+    border: 0;
+    border-block-start: 1px solid var(--color-border-default-subtle);
+  }
+
+  /* ── Read-only fields (ported from prod's commitment-category-map details panel:
+        a bordered inset box with the copy control OUTSIDE it, to the right) ──── */
+  .bcn-lxp__field-row {
+    /* The row must survive a 300px rail: the box takes what is left after the button
+       and breaks its own string rather than pushing the button onto a second line. */
+    flex-wrap: nowrap;
+  }
+
+  .bcn-lxp__field {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    padding: var(--spacing-100) var(--spacing-200);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    color: var(--color-content-default);
+    font-family: var(--typography-font-family-mono);
+    /* 13px, the one place a size under the body floor is right: a key and a URL are
+       scanned character by
+       character, not read as prose. The code ramp's own sizes are fluid clamps
+       (--typography-code-sm-font-size runs 11px to 14px) and an identifier wants one
+       fixed size at every width. */
+    font-size: 0.8125rem;
+    line-height: var(--line-height-normal);
+    /* A GUID and a 90-character URL both have to break inside the box. */
+    overflow-wrap: anywhere;
+  }
+
+  /* The copied state: the glyph the script swaps in, in the success color. Set on the
+     native button, whose `color` the icon inherits through stroke="currentColor". */
+  .bcn-lxp :global([data-list-export-copy][data-copied]) {
+    color: var(--color-content-utility-success);
+  }
+
+  /* ── JSON preview ───────────────────────────────────────────────────────────
+     The sunken rung, bounded and scrollable. */
+  .bcn-lxp__preview {
+    margin: 0;
+    padding: var(--spacing-300);
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    color: var(--color-content-default);
+    font-family: var(--typography-font-family-mono);
+    font-size: 0.8125rem; /* the same sanctioned code size as the fields above */
+    line-height: var(--line-height-normal);
+    /* Short on purpose: this sits in a rail beside a tree that is the page's subject,
+       and a preview that outruns it would take the page over. */
+    max-block-size: 18rem;
+    overflow: auto;
+    /* pre-wrap, not pre: the labels and descriptions are the
+       longest strings in the payload, and at rail width `pre` means reading them one
+       horizontal scroll at a time. Wrapping at whitespace keeps the indentation. */
+    white-space: pre-wrap;
+    tab-size: 2;
+  }
+
+  .bcn-lxp__preview:focus-visible {
+    outline: 2px solid var(--color-background-brand);
+    outline-offset: 2px;
+  }
+
+  /* Inlined from @esa/tokens src/a11y.css — the class cannot be used directly because
+     that sheet is not among the globals BaseLayout loads. NOT display:none, which would
+     drop the region from the accessibility tree and defeat the point of it. */
+  .bcn-lxp__status {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+</style>

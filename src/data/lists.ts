@@ -99,6 +99,23 @@ export interface ObligationList extends ProjectList {
   members: ObligationListMember[];
   /** Category or subcategory id → the name this list uses instead of the registry's. */
   nameOverrides: Record<string, string>;
+  /**
+   * The GUID the public API addresses this list by. Separate from `id`, which is the
+   * slug the app routes on: prod's public endpoints take a GUID, and a slug that can be
+   * changed by a rename is not a stable address for a form a contractor already built.
+   */
+  publicId: string;
+  /**
+   * The key that authenticates a read of the endpoint. Rolled and revoked from the rail.
+   *
+   * SEEDED VALUES ARE FABRICATED ON PURPOSE, and so are every `publicId` below: repeating
+   * hex runs, valid v4 shape, 36 characters so the field wraps the way a real one does.
+   * Never paste a key or a list GUID off a running environment into this file. A prototype
+   * only needs the SHAPE of a credential, and a real one in git is a real one leaked.
+   */
+  apiKey: string;
+  /** When `apiKey` was last issued. ISO datetime — the rail shows date and time. */
+  apiKeyGeneratedAt: string;
 }
 
 /* ── The derived tree the detail page renders ───────────────────────────── */
@@ -211,6 +228,9 @@ const obligationList = (
 export const OBLIGATION_LISTS: ObligationList[] = [
   obligationList({
     id: 'construction-kickoff-summary',
+    publicId: '11111111-1111-4111-8111-111111111111',
+    apiKey: '0f0f0f0f-0f0f-4f0f-8f0f-0f0f0f0f0f0f',
+    apiKeyGeneratedAt: '2026-08-19T16:26:00',
     name: 'Construction Kickoff Summary',
     description: 'Issued to each prime contractor at kickoff, and re-issued when a permit amendment changes a duty.',
     createdAt: '2026-08-19',
@@ -243,6 +263,9 @@ export const OBLIGATION_LISTS: ObligationList[] = [
   }),
   obligationList({
     id: 'biological-monitoring-field-form',
+    publicId: '22222222-2222-4222-8222-222222222222',
+    apiKey: '1a1a1a1a-1a1a-4a1a-8a1a-1a1a1a1a1a1a',
+    apiKeyGeneratedAt: '2026-08-26T09:12:00',
     name: 'Biological Monitoring Field Form',
     description: 'The daily monitoring form the designated biologists submit from Fulcrum.',
     createdAt: '2026-08-26',
@@ -261,6 +284,9 @@ export const OBLIGATION_LISTS: ObligationList[] = [
   }),
   obligationList({
     id: 'contractor-daily-checklist',
+    publicId: '33333333-3333-4333-8333-333333333333',
+    apiKey: '2b2b2b2b-2b2b-4b2b-8b2b-2b2b2b2b2b2b',
+    apiKeyGeneratedAt: '2026-09-02T11:47:00',
     name: 'Contractor Daily Checklist',
     description: '',
     createdAt: '2026-09-02',
@@ -491,6 +517,19 @@ export interface FormFieldSpec {
 
 /** Fulcrum keys are short and stable; the obligation's ULID tail serves. */
 const fieldKey = (id: string) => id.slice(-8).toLowerCase();
+
+/**
+ * The host the public read API is served from. One constant, so the three endpoint
+ * URLs on this prototype cannot disagree about which environment they address.
+ */
+export const PUBLIC_API_HOST = 'https://beacon-api-v1.qa.esassoc.dev';
+
+/**
+ * Where a contractor's form reads this list from. Derived, never authored: the path
+ * mirrors prod's commitment-category endpoint, with the list's own GUID.
+ */
+export const endpointUrl = (list: ObligationList): string =>
+  `${PUBLIC_API_HOST}/api/public/obligation-lists/${list.publicId}.json`;
 
 export function formFields(list: ObligationList): FormFieldSpec {
   return {

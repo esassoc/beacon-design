@@ -24,7 +24,7 @@ import BcnListActions from '../../../components/bcn/BcnListActions.astro';
 import BcnListObligationTree from '../../../components/bcn/BcnListObligationTree.astro';
 import BcnListDetailsRail from '../../../components/bcn/BcnListDetailsRail.astro';
 import BcnListAddObligations from '../../../components/bcn/BcnListAddObligations.astro';
-import BcnListExportDialog from '../../../components/bcn/BcnListExportDialog.astro';
+import BcnListExportPanel from '../../../components/bcn/BcnListExportPanel.astro';
 import BcnListEditDetailsDialog from '../../../components/bcn/BcnListEditDetailsDialog.astro';
 import { PROJECT } from '../../../data/project-dashboard';
 import { OBLIGATION_LISTS, memberCountLabel } from '../../../data/lists';
@@ -40,12 +40,12 @@ const { list } = Astro.props;
 <!-- manifest:
   layout: PageLayout > sidebar(end)                        # SPINE — tree is the content column, rail the aside
   sections:
-    - title actions   -> bcn-list-actions                  # Edit details, Export menu, Add obligations
+    - title actions   -> bcn-list-actions                  # Edit details, Add obligations
     - obligation tree -> bcn-list-obligation-tree          # category > subcategory > bcn-list-obligation-card; rename for this list, remove from list, per-list description
     - details rail    -> bcn-list-details-rail             # the list record: name, description, type, created, last updated, member count
+    - export panel    -> bcn-list-export-panel             # Word, CSV, and the JSON endpoint: key, URL, formFields(list) preview
     - add members     -> bcn-list-add-obligations          # right drawer over candidateTree(list), checkboxes, emits list:members-added
-    - export preview  -> bcn-list-export-dialog            # formFields(list) as Fulcrum form elements
-    - edit details    -> bcn-list-edit-details-dialog      # name and description
+    - edit details    -> bcn-list-edit-details-panel       # right panel, name and description
 -->
 
 <AppShell
@@ -84,15 +84,17 @@ const { list } = Astro.props;
         526px of rail, which is also why a collapsed tree did not fill its column.
         Wrapping the tree puts its script inside the flex item, so the element that
         grows is the tree. data-side="end" keeps the rail on the right while it stays
-        first in the DOM; the rail holds no focusable element, so the visual/DOM split
-        costs nothing in tab order. */}
+        first in the DOM. The rail column is a .stack of two cards — the list record,
+        then the three ways it leaves Beacon — so the aside stays ONE sidebar child. */}
     <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 22rem; --sidebar-content-min: 55%;">
-      <BcnListDetailsRail list={list} />
+      <div class="stack" data-gap="md">
+        <BcnListDetailsRail list={list} />
+        <BcnListExportPanel list={list} />
+      </div>
       <div><BcnListObligationTree list={list} /></div>
     </div>
 
     <BcnListAddObligations list={list} />
-    <BcnListExportDialog list={list} />
     <BcnListEditDetailsDialog list={list} />
   </PageLayout>
 </AppShell>
