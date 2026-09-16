@@ -16,9 +16,14 @@
 // one cue line under an esa-button-toggle, swapped on `change`, which is the brief's
 // stated fallback.
 //
-// IT BINDS ITS OWN TRIGGER. The page puts data-list-create on a button in the layout's
-// utilities slot; this component finds every such element and opens on click. Nothing is
-// passed in and nothing is dispatched out, so the page carries no script for it.
+// IT BINDS ITS OWN TRIGGERS, AND THEY CARRY THE TYPE. The index puts
+// data-list-create="<type>" on the add button of each group heading; this component finds
+// every such element, opens on click, and presets the toggle and its own heading to the
+// type the attribute names. So "Add commitment list" opens a dialog that already says
+// commitment list, while the toggle stays on screen and stays changeable, because the
+// choice is still the irreversible one and hiding it would make it look decided rather
+// than defaulted. A trigger with no value opens on the first type. Nothing is passed in
+// as a prop and nothing is dispatched out, so the page carries no script for it.
 //
 // PROTOTYPE HONESTY: "Create list" checks that Name has something in it and then closes.
 // It writes no row, it navigates nowhere, and it shows no success message, because none
@@ -33,17 +38,35 @@
 // exposes no CSS part to restyle it through. A light-DOM line at typography-body-md with
 // aria-live is the size-honest version.
 import EsaButton from '@esa/ecology/esa-button.astro';
-import { LIST_TYPE_BASIS, LIST_TYPE_LABEL, type ListType } from '../../data/lists';
+import {
+  LIST_GROUP_ORDER,
+  LIST_TYPE_BASIS,
+  LIST_TYPE_LABEL,
+  addListLabel,
+  type ListType,
+} from '../../data/lists';
 
-// Labels and basis strings are read off the data module. Nothing here is typed by hand.
-const TYPES = (Object.keys(LIST_TYPE_LABEL) as ListType[]).map((value) => ({
-  label: LIST_TYPE_LABEL[value],
-  value,
-}));
+// Labels and basis strings are read off the data module. Nothing here is typed by hand,
+// and the segments run in LIST_GROUP_ORDER so the three types sit in the same order here
+// as they do on the index behind the dialog.
+const TYPES = LIST_GROUP_ORDER.map((value) => ({ label: LIST_TYPE_LABEL[value], value }));
 const DEFAULT_TYPE: ListType = TYPES[0].value;
+
+// The heading is the verb that was pressed, so the dialog names the thing it is about to
+// make rather than the category of things it can make. Read off the same helper the group
+// buttons use, so the two strings can never disagree.
+const HEADINGS = Object.fromEntries(
+  (Object.keys(LIST_TYPE_LABEL) as ListType[]).map((t) => [t, addListLabel(t)]),
+) as Record<ListType, string>;
 ---
 
-<esa-dialog data-list-create-dialog heading="Add list" size="sm" show-close-button>
+<esa-dialog
+  data-list-create-dialog
+  heading={HEADINGS[DEFAULT_TYPE]}
+  size="sm"
+  show-close-button
+  data-headings={JSON.stringify(HEADINGS)}
+>
   <div class="bcn-list-create stack" data-gap="lg">
     {/* The toggle and the line that explains its selection are one answer, so they sit
         closer to each other than either does to Name. */}
@@ -93,7 +116,12 @@ const DEFAULT_TYPE: ListType = TYPES[0].value;
     const name = dialog.querySelector<Field>('[data-list-create-name]');
     const description = dialog.querySelector<Field>('[data-list-create-description]');
     const basis = JSON.parse(toggle?.dataset.basis ?? '{}') as Record<string, string>;
+    const headings = JSON.parse(dialog.dataset.headings ?? '{}') as Record<string, string>;
     const initialType = toggle?.getAttribute('value') ?? '';
+    // The type the dialog was last OPENED on. Closing abandons the draft and returns the
+    // form to this, not to the first type, so reopening the same group's button twice
+    // shows the same thing both times.
+    let openedType = initialType;
 
     // `options` is a Lit array property, so it is handed over after upgrade; the value is
     // re-set behind it so the default segment is the selected one on first paint.
@@ -121,12 +149,25 @@ const DEFAULT_TYPE: ListType = TYPES[0].value;
         name.errorText = '';
       }
       if (description) description.value = '';
-      if (toggle) toggle.value = initialType;
-      if (basisLine) basisLine.textContent = basis[initialType] ?? '';
+      applyType(openedType);
     });
 
-    document.querySelectorAll('[data-list-create]').forEach((trigger) => {
-      trigger.addEventListener('click', () => dialog.show());
+    // One place that puts the whole form on a type: the segment, the line under it and
+    // the dialog's own heading. Every entry point goes through here.
+    function applyType(type: string) {
+      if (toggle) toggle.value = type;
+      if (basisLine) basisLine.textContent = basis[type] ?? '';
+      if (headings[type]) dialog!.setAttribute('heading', headings[type]);
+    }
+
+    // The trigger's value IS the type. Every add button on the index carries one; a
+    // trigger with an empty value falls back to the first type.
+    document.querySelectorAll<HTMLElement>('[data-list-create]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        openedType = trigger.getAttribute('data-list-create') || initialType;
+        applyType(openedType);
+        dialog.show();
+      });
     });
 
     dialog
