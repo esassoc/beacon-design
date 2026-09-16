@@ -365,8 +365,18 @@ export const LIST_TYPE_MARK: Record<ListType, ListTypeMark> = {
   obligation: markFor('obligation'),
 };
 
-/** The verb on a group header: "Add commitment list". */
-export const addListLabel = (type: ListType): string => `Add ${LIST_TYPE_LABEL[type].toLowerCase()}`;
+/**
+ * The verb on a group header, and the create dialog's heading once that verb opened it:
+ * "Add Commitment List".
+ *
+ * Title Case, where LIST_TYPE_LABEL is sentence case. The label is prose everywhere else
+ * — a row in the details rail, a segment in the dialog, the tail of an empty state — and
+ * prose is sentence case; a BUTTON is a named command and takes the case Beacon's other
+ * verbs take. Casing the label here rather than storing a second string keeps one source
+ * for what a type is called.
+ */
+const titleCase = (s: string): string => s.replace(/\b[a-z]/g, (c) => c.toUpperCase());
+export const addListLabel = (type: ListType): string => `Add ${titleCase(LIST_TYPE_LABEL[type])}`;
 
 /**
  * "4 commitment lists" — a GROUP's count. It names lists, where memberCountLabel names
