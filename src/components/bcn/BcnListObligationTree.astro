@@ -128,8 +128,6 @@ const CARD_STAMP: ListObligation = {
             <span data-list-count="cat"><BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} /></span>
             <span class="bcn-lot__verbs">
               <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-              <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this category to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
-              <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this category" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
             </span>
           </summary>
           <div class="bcn-lot__subs" data-list-subs>
@@ -142,8 +140,8 @@ const CARD_STAMP: ListObligation = {
                   <span data-list-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
                   <span class="bcn-lot__verbs">
                     <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-                    <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
-                    <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
+                    <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+                    <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
                   </span>
                 </summary>
                 <ul class="bcn-lot__cards" data-list-cards>
@@ -168,8 +166,6 @@ const CARD_STAMP: ListObligation = {
           <span data-list-count="cat"><BcnSwCountBadge value={0} /></span>
           <span class="bcn-lot__verbs">
             <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-            <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this category to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
-            <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this category" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
           </span>
         </summary>
         <div class="bcn-lot__subs" data-list-subs></div>
@@ -184,8 +180,8 @@ const CARD_STAMP: ListObligation = {
           <span data-list-count="sub"><BcnSwCountBadge value={0} /></span>
           <span class="bcn-lot__verbs">
             <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-            <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
-            <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
+            <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+            <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
           </span>
         </summary>
         <ul class="bcn-lot__cards" data-list-cards></ul>
@@ -658,7 +654,15 @@ const CARD_STAMP: ListObligation = {
      verb set and the card padding — is ONE definition in src/styles/bcn-tree.css,
      shared verbatim with <BcnSwObligationsTree>. What stays scoped here is what only
      the list tree has: the registry's own name beside a renamed row, and the
-     empty-branch rule that keeps a list to what it holds. */
+     empty-branch rule that keeps a list to what it holds.
+
+     VERBS ON A BRANCH ROW — a list-tree-only departure, made in the markup so the
+     wizard keeps its own behaviour. Deep expand/collapse is a SUBCATEGORY verb here:
+     a subcategory holds obligations, so "expand to requirements" has a definite
+     meaning on it. A category holds subcategories, so the same pair on a category row
+     was a second, louder way to do what its own chevron already does. The pair that
+     remains carries `--quiet`, like the rename beside it, so a branch row rests as
+     chevron / name / count and answers on hover or keyboard focus. */
   .bcn-lot__verb-label { display: inline-flex; align-items: center; gap: var(--spacing-100); }
 
   /* A list shows only what it holds: a branch holding no member drops out. */
