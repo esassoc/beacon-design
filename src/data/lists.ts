@@ -24,7 +24,13 @@
  * page renders, `formFields` is what the JSON export shows. No screen value is
  * authored anywhere but here.
  */
-import { OBLIGATION_TREE, type ObligationClass, type ObligationNode } from './setup-wizard';
+import {
+  OBLIGATION_TREE,
+  SETUP_STEPS,
+  type ObligationClass,
+  type ObligationNode,
+  type SetupStepToken,
+} from './setup-wizard';
 
 /* ── Types ──────────────────────────────────────────────────────────────── */
 
@@ -310,6 +316,69 @@ export const LIST_TYPE_COUNTS: Record<ListType, number> = {
 
 export const obligationListById = (id: string): ObligationList | undefined =>
   OBLIGATION_LISTS.find((l) => l.id === id);
+
+/* ── The index's groups ─────────────────────────────────────────── */
+
+/**
+ * The order the index stacks its three groups in: the registries in the order the
+ * setup wizard fills them, so a reader who came through setup meets them again in
+ * the sequence they built them.
+ */
+export const LIST_GROUP_ORDER: readonly ListType[] = ['commitment', 'action', 'obligation'];
+
+// Every list type IS one of the setup wizard's entities, so its plural name, its glyph
+// and its accent are read off the wizard's own step rather than restated here. Change a
+// glyph or a colour in SETUP_STEPS and the Lists index moves with it; the two cannot
+// drift apart, which is the whole point of reusing the marks.
+const STEP_BY_TOKEN = new Map(SETUP_STEPS.map((s) => [s.token, s]));
+const stepFor = (type: ListType) => {
+  const step = STEP_BY_TOKEN.get(type as SetupStepToken);
+  if (!step) throw new Error(`No setup wizard step carries the entity token "${type}".`);
+  return step;
+};
+
+/** The group heading: the registry's own plural, spelled the way the wizard spells it. */
+export const LIST_GROUP_LABEL: Record<ListType, string> = {
+  commitment: stepFor('commitment').label,
+  action: stepFor('action').label,
+  obligation: stepFor('obligation').label,
+};
+
+/** The entity mark a list row carries. */
+export interface ListTypeMark {
+  /** `--color-<token>`: Beacon's setup-ramp accent for this entity. */
+  token: SetupStepToken;
+  /** The glyph's Lucide name. */
+  iconName: string;
+  /** Inline Lucide path markup for the entity glyph. */
+  iconPaths: string;
+}
+
+const markFor = (type: ListType): ListTypeMark => {
+  const { token, iconName, iconPaths } = stepFor(type);
+  return { token, iconName, iconPaths };
+};
+
+export const LIST_TYPE_MARK: Record<ListType, ListTypeMark> = {
+  commitment: markFor('commitment'),
+  action: markFor('action'),
+  obligation: markFor('obligation'),
+};
+
+/** The verb on a group header: "Add commitment list". */
+export const addListLabel = (type: ListType): string => `Add ${LIST_TYPE_LABEL[type].toLowerCase()}`;
+
+/**
+ * "4 commitment lists" — a GROUP's count. It names lists, where memberCountLabel names
+ * the rows inside one; the two numbers sit near each other on the index and the accessible
+ * name is what keeps them apart.
+ */
+export const listCountLabel = (type: ListType, n: number): string =>
+  `${n} ${LIST_TYPE_LABEL[type].toLowerCase()}${n === 1 ? '' : 's'}`;
+
+/** Every list of one type, still in the index's order: newest change first. */
+export const listsOfType = (type: ListType): ProjectList[] =>
+  PROJECT_LISTS.filter((l) => l.type === type);
 
 /* ── Derivations ────────────────────────────────────────────────────────── */
 

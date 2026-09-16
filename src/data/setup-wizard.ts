@@ -36,6 +36,13 @@ export interface SetupStep {
   href: string;
   /** Inline Lucide path markup for the step's entity glyph. */
   iconPaths: string;
+  /**
+   * The glyph's Lucide name, the key `iconPaths` was taken from. None of the entity
+   * glyphs ship in esa-icon's registry, so `paths` is what actually renders — but the
+   * name is what an `<EsaIcon name=... paths=...>` call is supposed to say, and keeping
+   * the pair together here is what stops a consumer inventing a placeholder for it.
+   */
+  iconName: string;
 }
 
 // Lucide glyphs — inner SVG markup only, the same idiom AppShell uses. The four
@@ -89,6 +96,7 @@ export const SETUP_STEPS: SetupStep[] = [
     line: 'Upload permits, plans and agreements. Beacon reads them page by page.',
     href: '#setup-source-documents',
     iconPaths: STEP_GLYPH['file-text'],
+    iconName: 'file-text',
   },
   {
     id: 'commitments',
@@ -98,6 +106,7 @@ export const SETUP_STEPS: SetupStep[] = [
     line: 'Every enforceable commitment, cited to the page it came from.',
     href: '#setup-commitments',
     iconPaths: STEP_GLYPH['clipboard-list'],
+    iconName: 'clipboard-list',
   },
   {
     id: 'requirements',
@@ -107,6 +116,7 @@ export const SETUP_STEPS: SetupStep[] = [
     line: 'Each commitment split into what, when and who — one requirement per duty.',
     href: '#setup-requirements',
     iconPaths: STEP_GLYPH['clipboard-check'],
+    iconName: 'clipboard-check',
   },
   {
     id: 'actions',
@@ -116,6 +126,7 @@ export const SETUP_STEPS: SetupStep[] = [
     line: 'Dated work with a deliverable — plans, reports, approvals — drafted for review.',
     href: '/prototypes/setup-wizard/actions',
     iconPaths: STEP_GLYPH.radar,
+    iconName: 'radar',
   },
   {
     id: 'obligations',
@@ -125,6 +136,7 @@ export const SETUP_STEPS: SetupStep[] = [
     line: 'Standing duties in effect while the work runs — reviewed as one list, approved at once.',
     href: '/prototypes/setup-wizard/obligations',
     iconPaths: STEP_GLYPH['shield-check'],
+    iconName: 'shield-check',
   },
 ];
 
