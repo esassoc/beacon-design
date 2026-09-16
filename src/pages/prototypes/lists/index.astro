@@ -8,6 +8,10 @@
 // The three types keep their own detail surfaces — they are different shapes and are
 // deliberately NOT unified into one editor.
 //
+// The index files them under the registry they draw from: Commitments, Actions,
+// Obligations, in the order setup fills those registries. Each heading carries the verb
+// that makes a list of its own type.
+//
 // Only obligation lists have a detail page in this branch; action and commitment rows
 // carry stub hrefs.
 //
@@ -15,18 +19,16 @@
 // counts are the twelve on the live project.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
-import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnListIndexBoard from '../../../components/bcn/BcnListIndexBoard.astro';
 import BcnListCreateDialog from '../../../components/bcn/BcnListCreateDialog.astro';
 import { PROJECT } from '../../../data/project-dashboard';
-import { PROJECT_LISTS } from '../../../data/lists';
 ---
 
 <!-- manifest:
   layout: PageLayout > stack(md)                      # SPINE
   sections:
-    - lists index -> bcn-list-index-board             # segmented type filter over one flat stack of bcn-list-card rows
-    - add list    -> bcn-list-create-dialog           # type first, then name and description; bound to the title row's Add list
+    - lists index -> bcn-list-index-board             # three groups, one per registry, each heading carrying its own add verb
+    - add list    -> bcn-list-create-dialog           # name and description, preset to the type of the heading that opened it
 -->
 
 <AppShell
@@ -41,9 +43,7 @@ import { PROJECT_LISTS } from '../../../data/lists';
     icon="notepad-text"
     breadcrumbs={[{ label: 'Project', href: '#project' }, { label: 'Lists' }]}
   >
-    <EsaButton slot="utilities" variant="primary" size="sm" data-list-create>Add list</EsaButton>
-
-    <BcnListIndexBoard lists={PROJECT_LISTS} />
+    <BcnListIndexBoard />
     <BcnListCreateDialog />
   </PageLayout>
 </AppShell>

@@ -1,106 +1,113 @@
 ---
-// <BcnListIndexBoard> — the Lists index: every list a project keeps, one flat stack,
-// newest change first, under a segmented type filter.
+// <BcnListIndexBoard> — the Lists index: every list a project keeps, filed under the
+// registry it draws from. Three groups, in the order setup fills them: Commitments,
+// Actions, Obligations.
 //
-// WHAT THIS SECTION SACRIFICED. Hierarchy. The job is to find one list among
-// nineteen and to see which registry it draws from, so density wins: no hero, no
-// stats band, no grouping headers, no search field. Nineteen rows do not earn a
-// search box and prod does not have one; grouping headers would spend a third of
-// the vertical run on chrome the type filter already covers.
+// WHAT THIS SECTION SACRIFICED. Completeness of arrangement. There is one axis and it
+// is the registry, so the index cannot be read by recency across all nineteen lists any
+// more, and there is no search field and no second filter. What it buys is that the
+// type is now structural rather than something the reader has to infer from a row, and
+// that each group carries its own verb: the button that makes a commitment list sits
+// on the commitments heading, so the type of the new list is chosen by which button was
+// pressed rather than inside the dialog.
 //
-// ORDER is `lists` exactly as it arrives — PROJECT_LISTS is already sorted newest
-// change first — and this board never re-sorts it.
+// ORDER INSIDE A GROUP is newest change first — `listsOfType` filters PROJECT_LISTS,
+// which is already sorted that way, and this board never re-sorts it.
 //
-// THE SEGMENTS COUNT THEMSELVES. Every number in the filter is read at build time
-// from LIST_TYPE_COUNTS and `lists.length`, so a seed added to src/data/lists.ts
-// moves the labels without anyone editing this file. Picking a segment sets `hidden`
-// on every row whose `data-type` does not match; when a facet matches nothing, the
-// empty state below the stack takes the stack's place.
+// EVERY NUMBER COUNTS ITSELF. A heading's badge is the length of its own group, so a
+// seed added to src/data/lists.ts moves the heading without anyone editing this file.
+// The badge beside a heading counts LISTS and the badge on a row counts that list's
+// MEMBERS; the two are told apart by their accessible names ("4 commitment lists" vs
+// "64 commitments"), which is why both carry one.
+//
+// AN EMPTY GROUP KEEPS ITS HEADING. The heading is where the add verb lives, so hiding
+// the group would hide the only way to make the first list of that type. The rows are
+// replaced by an empty state; the heading and its button stay.
 //
 // HREFS. Obligation lists have a detail page on this branch. Action and commitment
 // lists link to "#" on purpose: those detail pages are prod's and out of scope here,
 // so the row is present and findable while the destination stays unbuilt.
 //
-// Contract with siblings: each row is a <BcnListCard>, and the card exposes its own
-// filter root (`[data-list-row][data-type]`) — this board touches nothing else on
-// it. The index's "Add list" verb is NOT here: it lives in the page's `utilities`
-// slot, where <BcnListCreateDialog> binds `[data-list-create]` itself. There is no
-// heading either; the page's H1 already says Lists.
+// Contract with siblings: each row is a <BcnListCard>. Each heading's button carries
+// `data-list-create="<type>"`, which is <BcnListCreateDialog>'s trigger hook — the
+// attribute's VALUE is the type the dialog opens preset to. The page carries no script
+// for any of it.
 //
-// bcn-lego-checked: the filter IS esa-button-toggle (`options` set as a property
-// from script, since it is a Lit array); the empty IS esa-empty-state; the stack IS
-// `.stack` from @esa/tokens/layouts.css; the rows ARE bcn-list-card. Checked Ecology
-// for a whole-index lego — esa-filter-container pairs a filter bar with an AG Grid,
-// which this index deliberately is not — and Beacon, whose Lists page is that grid
-// plus an info callout, and the callout is cut. Nothing here is a new primitive and
-// the file needs no CSS of its own.
+// bcn-lego-checked: the headings' verbs ARE esa-button, the empty IS esa-empty-state,
+// the stacks and heading rows ARE `.stack` / `.repel` / `.cluster` from
+// @esa/tokens/layouts.css, the counts ARE bcn-sw-count-badge and the rows ARE
+// bcn-list-card. Checked Ecology for a grouped-index lego — esa-filter-container pairs
+// a filter bar with an AG Grid, which this index deliberately is not, and esa-card's
+// header slot is a titled band too tall to use as a group heading — and Beacon, whose
+// Lists page is that grid plus an info callout, and the callout is cut.
+import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnListCard from './BcnListCard.astro';
-import { LIST_TYPE_COUNTS, type ProjectList } from '../../data/lists';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import {
+  LIST_GROUP_LABEL,
+  LIST_GROUP_ORDER,
+  LIST_TYPE_LABEL,
+  addListLabel,
+  listCountLabel,
+  listsOfType,
+  type ListType,
+  type ProjectList,
+} from '../../data/lists';
 import { withBase } from '../../lib/base';
-
-interface Props {
-  lists: ProjectList[];
-}
-const { lists } = Astro.props;
 
 const hrefFor = (list: ProjectList): string =>
   list.type === 'obligation' ? withBase(`/prototypes/lists/${list.id}`) : '#';
 
-const TYPE_OPTIONS = [
-  { label: `All (${lists.length})`, value: '' },
-  { label: `Actions (${LIST_TYPE_COUNTS.action})`, value: 'action' },
-  { label: `Obligations (${LIST_TYPE_COUNTS.obligation})`, value: 'obligation' },
-  { label: `Commitments (${LIST_TYPE_COUNTS.commitment})`, value: 'commitment' },
-];
+const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
+  type,
+  label: LIST_GROUP_LABEL[type],
+  lists: listsOfType(type),
+}));
 ---
 
-<section class="stack" data-gap="md" aria-label="Lists" data-list-index>
-  <esa-button-toggle
-    size="sm"
-    label="List type"
-    value=""
-    data-list-filter
-    data-options={JSON.stringify(TYPE_OPTIONS)}></esa-button-toggle>
+<div class="stack" data-gap="xl" data-list-index>
+  {
+    GROUPS.map((group) => (
+      <section class="stack" data-gap="sm" aria-labelledby={`lists-${group.type}`}>
+        <div class="bcn-lib__head repel" data-gap="sm">
+          <div class="cluster" data-gap="xs">
+            <h2 class="bcn-lib__title typography-title-strong" id={`lists-${group.type}`}>
+              {group.label}
+            </h2>
+            <BcnSwCountBadge
+              value={group.lists.length}
+              label={listCountLabel(group.type, group.lists.length)}
+            />
+          </div>
+          <EsaButton variant="ghost" appearance="outline" size="sm" data-list-create={group.type}>
+            {addListLabel(group.type)}
+          </EsaButton>
+        </div>
 
-  <div class="stack" data-gap="sm" data-list-stack>
-    {lists.map((list) => <BcnListCard list={list} href={hrefFor(list)} />)}
-  </div>
+        <div class="stack" data-gap="sm">
+          {group.lists.length > 0 ? (
+            group.lists.map((list) => <BcnListCard list={list} href={hrefFor(list)} />)
+          ) : (
+            <EsaEmptyState title={`No ${LIST_TYPE_LABEL[group.type].toLowerCase()}s`} size="sm" />
+          )}
+        </div>
+      </section>
+    ))
+  }
+</div>
 
-  <div data-list-empty hidden>
-    {/* Title only. The filter that produced the empty facet is directly above it, so a
-        second line telling the reader to pick another type restates what they can see. */}
-    <EsaEmptyState title="No lists of this type" size="sm" />
-  </div>
-</section>
+<style>
+  /* Composition glue only: the heading row is a .repel, and this is the hairline that
+     separates a group's verb row from its rows. */
+  .bcn-lib__head {
+    align-items: baseline;
+    padding-block-end: var(--spacing-200);
+    border-block-end: 1px solid var(--color-border-default-subtle);
+  }
 
-<script>
-  import '@esa/ecology/esa-button-toggle';
-
-  type Toggle = HTMLElement & { options: unknown[]; value: string };
-
-  // Guarded per board, so the component is inert on a page that does not include it.
-  document.querySelectorAll<HTMLElement>('[data-list-index]').forEach((board) => {
-    const filter = board.querySelector<Toggle>('[data-list-filter]');
-    const empty = board.querySelector<HTMLElement>('[data-list-empty]');
-    const rows = Array.from(board.querySelectorAll<HTMLElement>('[data-list-row]'));
-    if (!filter || !rows.length) return;
-
-    // `options` is a Lit array property, never an attribute.
-    customElements.whenDefined('esa-button-toggle').then(() => {
-      filter.options = JSON.parse(filter.dataset.options ?? '[]');
-      filter.value = '';
-    });
-
-    filter.addEventListener('change', () => {
-      const type = filter.value;
-      let shown = 0;
-      for (const row of rows) {
-        const match = !type || row.dataset.type === type;
-        row.hidden = !match;
-        if (match) shown += 1;
-      }
-      if (empty) empty.hidden = shown > 0;
-    });
-  });
-</script>
+  .bcn-lib__title {
+    margin: 0;
+    color: var(--color-content-default);
+  }
+</style>
