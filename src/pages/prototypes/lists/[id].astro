@@ -58,6 +58,7 @@ const { list } = Astro.props;
   <PageLayout
     title={list.name}
     icon="notepad-text"
+    iconColor="var(--color-content-brand)"
     breadcrumbs={[
       { label: 'Project', href: '#project' },
       { label: 'Lists', href: withBase('/prototypes/lists') },
