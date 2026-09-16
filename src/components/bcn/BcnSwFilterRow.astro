@@ -25,17 +25,18 @@ interface Props {
   /** Inset variant: prod's row inside the AI band drops the top hairline. */
   inset?: boolean;
   /**
-   * Page variant: the row sits directly on the page rather than inside a panel, so it
-   * drops both the hairline and the panel gutter and its controls line up with the page
-   * content under it. Without this the search field is indented 24px from every heading
-   * below it, which is the panel's padding showing through on a surface that has none.
+   * Page variant: the row sits directly on the page rather than inside a wizard panel,
+   * so it stops borrowing the panel's hairline-and-gutter and takes the surface Beacon's
+   * other page-level filter bars take — permit tracking's `.map-filterbar`: the raised
+   * elevation rung, a full border, an 8px radius and 10/16 padding. The chrome is what
+   * makes it a filter zone rather than a stray field floating over the first heading.
    */
-  flush?: boolean;
+  panel?: boolean;
 }
-const { searchPlaceholder, searchName, pickers = [], inset = false, flush = false } = Astro.props;
+const { searchPlaceholder, searchName, pickers = [], inset = false, panel = false } = Astro.props;
 ---
 
-<div class:list={['bcn-swfr', inset && 'bcn-swfr--inset', flush && 'bcn-swfr--flush']}>
+<div class:list={['bcn-swfr', inset && 'bcn-swfr--inset', panel && 'bcn-swfr--panel']}>
   <esa-text-field class="bcn-swfr__search" size="sm" name={searchName} placeholder={searchPlaceholder} aria-label={searchPlaceholder}></esa-text-field>
   {pickers.map((p) => (
     <esa-select class="bcn-swfr__picker" size="sm" name={`${searchName}-${p.label.toLowerCase()}`} options={optionsOf(p)} value="" placeholder={p.value} cue={`Filter by ${p.label.toLowerCase()}.`}></esa-select>
@@ -60,7 +61,14 @@ const { searchPlaceholder, searchName, pickers = [], inset = false, flush = fals
     color: var(--color-content-default);
   }
   .bcn-swfr--inset { border-top: none; }
-  .bcn-swfr--flush { padding: 0; border-top: none; }
+  /* Permit tracking's `.map-filterbar`, rule for rule. The `border` shorthand is what
+     clears the base rule's top hairline — same specificity, later in source order. */
+  .bcn-swfr--panel {
+    padding: var(--spacing-250) var(--spacing-400);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
   .bcn-swfr__search { flex: 1 1 180px; max-width: 360px; }
   .bcn-swfr__picker { flex: 0 1 180px; min-width: 140px; }
   .bcn-swfr__verbs {
