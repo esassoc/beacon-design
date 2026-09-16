@@ -1,0 +1,187 @@
+/* bcn-obligation-card — ONE definition of the obligation card.
+ *
+ * Two components render this card: <BcnSwObligationCard> (setup wizard, step 5 — a
+ * registry obligation) and <BcnListObligationCard> (list detail page — one MEMBERSHIP
+ * in one list). Andy, 2026-09-16, on the two side by side: "Much prefer setup wizard."
+ * They are now one anatomy, for the same reason the tree ROW became one definition in
+ * bcn-tree.css a day earlier: two copies of a shape drift, and the drift is invisible
+ * in the files because each one reads correct on its own.
+ *
+ * The anatomy: ONE row — chevron, class chip, title, count, verbs — and the
+ * requirements as its direct children, each a hairline-separated row carrying the
+ * commitment code and the requirement's name. There is no description line and no
+ * "Requirements (n)" header: the count rides the card row and the chevron on that row
+ * folds the children, which is one disclosure where there were two.
+ *
+ * As in bcn-tree.css, the two class namespaces are listed side by side in every
+ * selector, and that pairing IS the statement. A component's own <style> is scoped,
+ * which Astro compiles with an extra attribute selector, so anything a component needs
+ * to override still wins from there.
+ *
+ * What each component keeps for itself, because it is genuinely not shared:
+ *   wizard — the grips and every drag state, the empty-requirements message, and the
+ *            duplicate/unlink verbs on a requirement row;
+ *   list   — the copy marker, the "Edited for this list" mark, and the requirement
+ *            indent, which has no grip to clear.
+ */
+
+.bcn-swoc,
+.bcn-loc {
+  --_req-indent: 22px;
+  list-style: none;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  background: var(--color-background-elevation-raised);
+  font-size: 0.8125rem;
+  color: var(--color-content-default);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+.bcn-swoc:hover,
+.bcn-loc:hover { border-color: var(--color-border-default-strong); }
+.bcn-swoc[hidden],
+.bcn-loc[hidden] { display: none; }
+.bcn-swoc.is-new,
+.bcn-loc.is-new { animation: bcn-obl-flash 900ms ease-out; }
+.bcn-swoc__node,
+.bcn-loc__node { min-width: 0; }
+
+/* The card row. One row, and the whole of it is the disclosure. */
+.bcn-swoc__main,
+.bcn-loc__main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-150) var(--spacing-300);
+  min-width: 0;
+  list-style: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 120ms ease, box-shadow 120ms ease;
+}
+.bcn-swoc__main::-webkit-details-marker,
+.bcn-loc__main::-webkit-details-marker { display: none; }
+.bcn-swoc__main:hover,
+.bcn-loc__main:hover { background: var(--color-background-default); }
+.bcn-swoc__main:focus-visible,
+.bcn-loc__main:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
+details[open] > .bcn-swoc__main,
+details[open] > .bcn-loc__main { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+
+.bcn-swoc__chevron,
+.bcn-loc__chevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-content-default-tertiary);
+  transition: transform 120ms ease;
+}
+details[open] > summary .bcn-swoc__chevron,
+details[open] > summary .bcn-loc__chevron { transform: rotate(90deg); }
+
+/* The class chip sits at its natural width, tinted from the obligation end of the
+   setup ramp: adhere in the step's own pink, then the ramp's next hues for the others. */
+.bcn-swoc__class,
+.bcn-loc__class {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 1px var(--spacing-200);
+  border-radius: var(--radius-100);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  background: color-mix(in srgb, var(--_hue) 14%, white);
+  color: color-mix(in srgb, var(--_hue) 78%, black);
+}
+.bcn-swoc[data-class='adhere'],
+.bcn-loc[data-class='adhere'] { --_hue: var(--color-obligation); }
+.bcn-swoc[data-class='monitor'],
+.bcn-loc[data-class='monitor'] { --_hue: #ff7c43; }
+.bcn-swoc[data-class='notify'],
+.bcn-loc[data-class='notify'] { --_hue: #ffa600; }
+.bcn-swoc[data-class='roster'],
+.bcn-loc[data-class='roster'] { --_hue: var(--color-action); }
+
+.bcn-swoc__title,
+.bcn-loc__title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  color: inherit;
+  cursor: pointer;
+}
+.bcn-swoc__title:hover,
+.bcn-loc__title:hover { text-decoration: underline; text-underline-offset: 2px; }
+.bcn-swoc__title:focus-visible,
+.bcn-loc__title:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 2px; border-radius: 2px; }
+
+/* Each verb and grip sits in an esa-tooltip; inline-flex so the row has no text
+   baseline to honour. Verbs are quiet until their own row is hovered. */
+.bcn-swoc esa-tooltip,
+.bcn-loc esa-tooltip { display: inline-flex; }
+.bcn-swoc__verb,
+.bcn-loc__verb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-100);
+  color: var(--color-content-default-tertiary);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease, color 120ms ease, background-color 120ms ease;
+}
+.bcn-swoc__main:hover .bcn-swoc__verb,
+.bcn-swoc__req:hover .bcn-swoc__verb,
+.bcn-swoc__verb:focus-visible,
+.bcn-loc__main:hover .bcn-loc__verb,
+.bcn-loc__verb:focus-visible { opacity: 1; }
+.bcn-swoc__verb:hover,
+.bcn-loc__verb:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
+.bcn-swoc__verb:focus-visible,
+.bcn-loc__verb:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 1px; }
+.bcn-swoc__verb--danger:hover,
+.bcn-loc__verb--danger:hover { color: var(--color-background-utility-danger); }
+
+/* Children: the requirement rows, indented under the card row, hairline-separated. */
+.bcn-swoc__reqs,
+.bcn-loc__reqs {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--spacing-300) var(--spacing-150) calc(var(--spacing-300) + var(--_req-indent));
+  display: flex;
+  flex-direction: column;
+}
+.bcn-swoc__req,
+.bcn-loc__req {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-height: 28px;
+  padding: var(--spacing-050) var(--spacing-200);
+  border-top: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-100);
+}
+.bcn-swoc__req:hover,
+.bcn-loc__req:hover { background: var(--color-background-default); }
+.bcn-swoc__req-name,
+.bcn-loc__req-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bcn-swoc__also,
+.bcn-loc__also { flex-shrink: 0; font-size: 0.6875rem; color: var(--color-content-default-tertiary); white-space: nowrap; }
+
+@keyframes bcn-obl-flash {
+  from { background: color-mix(in srgb, var(--color-obligation) 14%, transparent); }
+  to { background: transparent; }
+}

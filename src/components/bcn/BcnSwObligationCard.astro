@@ -13,6 +13,14 @@
 // obligation, each child as a requirement; the card line is a drop target for
 // requirements. Everything is 13px.
 //
+// The SHAPE of this card — shell, row, chevron, class chip, title, verbs and the
+// requirement children — moved to src/styles/bcn-obligation-card.css on 2026-09-16,
+// where it is defined once with <BcnListObligationCard>'s namespace paired into every
+// selector. Andy asked for the list's card to present exactly like this one; pairing
+// the selectors is what makes that true rather than true-for-now. What is still
+// scoped here is what only the REGISTRY card has: the grips, every drag state, the
+// empty-requirements message, and the verbs on a requirement row.
+//
 // bcn-lego-checked: esa-card / esa-list-item carry their own type scale; esa-tree-view
 // has no card leaf. Beacon HAS this card shape (action-card + linked requirements).
 // The code chip IS BcnCommitmentBadge, the count IS bcn-sw-count-badge, glyphs esa-icon.
@@ -20,6 +28,8 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import { OBLIGATION_CLASS_LABEL, STEP_GLYPH, type ObligationNode } from '../../data/setup-wizard';
+// The card anatomy this card shares, verbatim, with <BcnListObligationCard>.
+import '../../styles/bcn-obligation-card.css';
 
 interface Props {
   obligation: ObligationNode;
@@ -67,110 +77,21 @@ const { obligation: o, open = false } = Astro.props;
 </li>
 
 <style>
-  .bcn-swoc {
-    list-style: none;
-    flex-shrink: 0;
-    border: 1px solid var(--color-border-default);
-    border-radius: 6px;
-    background: var(--color-background-elevation-raised);
-    font-size: 0.8125rem;
-    color: var(--color-content-default);
-    transition: border-color 120ms ease, box-shadow 120ms ease;
-  }
-  .bcn-swoc:hover { border-color: var(--color-border-default-strong); }
-  .bcn-swoc[hidden] { display: none; }
-  .bcn-swoc.is-dragging { opacity: 0.4; }
-  .bcn-swoc.is-new { animation: bcn-swoc-flash 900ms ease-out; }
-  .bcn-swoc__node { min-width: 0; }
+  /* Everything this card shares with the list's is in bcn-obligation-card.css.
+     What is left here is what only the REGISTRY card has, because only it can refile,
+     drop, empty out and edit a requirement in place. */
 
-  .bcn-swoc__main {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    padding: var(--spacing-150) var(--spacing-300);
-    min-width: 0;
-    list-style: none;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background-color 120ms ease, box-shadow 120ms ease;
+  .bcn-swoc.is-dragging { opacity: 0.4; }
+  .bcn-swoc__main.is-over {
+    box-shadow: inset 0 0 0 2px var(--color-obligation);
+    background: color-mix(in srgb, var(--color-obligation) 6%, transparent);
   }
-  .bcn-swoc__main::-webkit-details-marker { display: none; }
-  .bcn-swoc__main:hover { background: var(--color-background-default); }
-  .bcn-swoc__main.is-over { box-shadow: inset 0 0 0 2px var(--color-obligation); background: color-mix(in srgb, var(--color-obligation) 6%, transparent); }
-  .bcn-swoc__main:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
-  details[open] > .bcn-swoc__main { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 
   .bcn-swoc__grip { display: inline-flex; flex-shrink: 0; color: var(--bcn-gray-400); cursor: grab; }
   .bcn-swoc__grip:active { cursor: grabbing; }
-  .bcn-swoc__chevron { display: inline-flex; flex-shrink: 0; color: var(--color-content-default-tertiary); transition: transform 120ms ease; }
-  details[open] > summary .bcn-swoc__chevron { transform: rotate(90deg); }
 
-  /* The class tag sits at its natural width, tinted from the obligation end of the
-     setup ramp: adhere in the step's own pink, then the ramp's next hues for the others. */
-  .bcn-swoc__class {
-    display: inline-flex;
-    align-items: center;
-    flex-shrink: 0;
-    padding: 1px var(--spacing-200);
-    border-radius: var(--radius-100);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    line-height: 1.5;
-    background: color-mix(in srgb, var(--_hue) 14%, white);
-    color: color-mix(in srgb, var(--_hue) 78%, black);
-  }
-  .bcn-swoc[data-class='adhere'] { --_hue: var(--color-obligation); }
-  .bcn-swoc[data-class='monitor'] { --_hue: #ff7c43; }
-  .bcn-swoc[data-class='notify'] { --_hue: #ffa600; }
-  .bcn-swoc[data-class='roster'] { --_hue: var(--color-action); }
-  .bcn-swoc__title {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    text-align: left;
-    border: none;
-    background: transparent;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    cursor: pointer;
-  }
-  .bcn-swoc__title:hover { text-decoration: underline; text-underline-offset: 2px; }
-  .bcn-swoc__title:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 2px; border-radius: 2px; }
-
-  /* Each verb and grip sits in an esa-tooltip; inline-flex so the row has no text baseline to honour. */
-  .bcn-swoc esa-tooltip { display: inline-flex; }
-  .bcn-swoc__verb {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    border: none;
-    background: transparent;
-    border-radius: var(--radius-100);
-    color: var(--color-content-default-tertiary);
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 120ms ease, color 120ms ease, background-color 120ms ease;
-  }
-  .bcn-swoc__main:hover .bcn-swoc__verb,
-  .bcn-swoc__req:hover .bcn-swoc__verb,
-  .bcn-swoc__verb:focus-visible { opacity: 1; }
-  .bcn-swoc__verb:hover { background: var(--bcn-gray-100); color: var(--color-content-default); }
-  .bcn-swoc__verb--danger:hover { color: var(--color-background-utility-danger); }
-
-  /* Children: the requirement rows, indented under the statement, hairline-separated. */
-  .bcn-swoc__reqs {
-    list-style: none;
-    margin: 0;
-    padding: 0 var(--spacing-300) var(--spacing-150) calc(var(--spacing-300) + 22px);
-    display: flex;
-    flex-direction: column;
-  }
+  /* A registry obligation may legitimately be emptied out mid-edit; a list's may not,
+     because a list holds the obligation whole or not at all. */
   .bcn-swoc__reqs:empty::after {
     content: 'No requirements — drop one here or remove this obligation.';
     display: block;
@@ -178,19 +99,6 @@ const { obligation: o, open = false } = Astro.props;
     color: var(--color-content-default-tertiary);
     font-style: italic;
   }
-  .bcn-swoc__req {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    min-height: 28px;
-    padding: var(--spacing-050) var(--spacing-200);
-    border-top: 1px solid var(--color-border-default-subtle);
-    border-radius: var(--radius-100);
-  }
-  .bcn-swoc__req:hover { background: var(--color-background-default); }
   .bcn-swoc__req.is-dragging { opacity: 0.4; }
-  .bcn-swoc__req.is-new { animation: bcn-swoc-flash 900ms ease-out; }
-  .bcn-swoc__req-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .bcn-swoc__also { flex-shrink: 0; font-size: 0.6875rem; color: var(--color-content-default-tertiary); white-space: nowrap; }
-  @keyframes bcn-swoc-flash { from { background: color-mix(in srgb, var(--color-obligation) 14%, transparent); } to { background: transparent; } }
+  .bcn-swoc__req.is-new { animation: bcn-obl-flash 900ms ease-out; }
 </style>

@@ -25,7 +25,9 @@
 //   - RENAME FOR THIS LIST ONLY on a category or a subcategory. A renamed row shows a
 //     quiet "Registry: {name}" beside it so the registry's own wording is never lost,
 //     and renaming a row that was not renamed before reveals that secondary.
-//   - The per obligation list description, edited in place on the card.
+//   - The per obligation list description. No longer edited in place: the card stopped
+//     printing the sentence on 2026-09-16, keeps it as data, and the side panel reads
+//     and writes it. The card keeps only the "Edited for this list" signal.
 //   - EXPAND TO REQUIREMENTS and COLLAPSE on a branch, step 5's verbs with step 5's
 //     glyphs and reach: the row, every branch inside it, and every card's requirement
 //     list. One level deeper than the chevron on a subcategory, two on a category.
@@ -293,9 +295,12 @@ const CARD_STAMP: ListObligation = {
       el.innerHTML = esc(text).replace(rx(needle), (m) => `<mark class="bcn-lot__hit">${m}</mark>`);
       return true;
     };
+    // The description is NOT searched. The card no longer prints it, and a card that
+    // appears in the results with nothing on it matching the query is worse than a
+    // miss: the reader cannot tell why it is there. Title, class and the requirement
+    // code and name are all visible on the card, so a hit on any of them shows.
     const cardHit = (card: HTMLElement, needle: string) => {
       const titleHit = paint(card.querySelector<HTMLElement>('[data-list-title]'), needle);
-      const descHit = paint(card.querySelector<HTMLElement>('[data-list-desc]'), needle);
       const classHit = !!needle && (card.dataset.class ?? '').toLowerCase().includes(needle.toLowerCase());
       let reqHit = false;
       card.querySelectorAll<HTMLElement>('[data-list-req]').forEach((row) => {
@@ -305,7 +310,7 @@ const CARD_STAMP: ListObligation = {
         reqHit = reqHit || nameHit || codeHit;
       });
       if (needle && reqHit) (card.querySelector('details') as HTMLDetailsElement).open = true;
-      return titleHit || descHit || classHit || reqHit;
+      return titleHit || classHit || reqHit;
     };
     // Two filters share one pass: the search text and the category picker. A hit at
     // any level keeps that level and everything under it.
@@ -416,21 +421,6 @@ const CARD_STAMP: ListObligation = {
       });
     };
 
-    const editDescription = (card: HTMLElement) => {
-      const el = card.querySelector<HTMLElement>('[data-list-desc]');
-      if (!el) return;
-      startEdit(el, (text) => {
-        const registry = el.dataset.registryDesc ?? '';
-        const next = text || registry;
-        el.textContent = next;
-        el.dataset.listText = next;
-        const overridden = !!next && next !== registry;
-        el.dataset.overridden = String(overridden);
-        const mark = card.querySelector<HTMLElement>('[data-list-edited]');
-        if (mark) mark.hidden = !overridden;
-      });
-    };
-
     // ---- Duplicate. A second MEMBERSHIP pointing at the same registry obligation,
     // so one form can ask about one duty twice with different instructions. It is not
     // a filing verb and it does not touch the registry: the copy lands immediately
@@ -523,11 +513,10 @@ const CARD_STAMP: ListObligation = {
       const title = card.querySelector<HTMLElement>('[data-list-title]')!;
       title.textContent = item.title;
       title.dataset.listText = item.title;
-      const desc = card.querySelector<HTMLElement>('[data-list-desc]')!;
-      desc.textContent = item.description;
-      desc.dataset.listText = item.description;
-      desc.dataset.registryDesc = item.description;
-      desc.dataset.overridden = 'false';
+      // A member added from the picker starts on the registry's own wording, so the
+      // two fields agree and nothing is marked as edited for this list.
+      card.dataset.listDescription = item.description;
+      card.dataset.registryDesc = item.description;
       const edited = card.querySelector<HTMLElement>('[data-list-edited]');
       if (edited) edited.hidden = true;
       // The stamp ships one requirement row; it is the prototype for this member's own.
@@ -595,8 +584,8 @@ const CARD_STAMP: ListObligation = {
     });
 
     // ---- Verbs. Five of them on the whole tree: open a branch to its requirements,
-    // close it again, rename a branch for this list, edit a description, and take an
-    // obligation off the list.
+    // close it again, rename a branch for this list, duplicate a membership, and take
+    // one off the list.
     root.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;
       if (t.closest('.is-editing')) { e.preventDefault(); return; }
@@ -611,11 +600,6 @@ const CARD_STAMP: ListObligation = {
         rename(btn.closest('summary')!);
         return;
       }
-      if (btn?.matches('[data-list-desc-edit]')) {
-        e.preventDefault();
-        editDescription(btn.closest<HTMLElement>('[data-list-card]')!);
-        return;
-      }
       if (btn?.matches('[data-list-duplicate]')) {
         e.preventDefault();
         duplicate(btn.closest<HTMLElement>('[data-list-card]')!);
@@ -626,9 +610,6 @@ const CARD_STAMP: ListObligation = {
         removeFromList(btn.closest<HTMLElement>('[data-list-card]')!);
         return;
       }
-      // The description is its own affordance: clicking the sentence edits it.
-      const desc = t.closest<HTMLElement>('[data-list-desc]');
-      if (desc) editDescription(desc.closest<HTMLElement>('[data-list-card]')!);
     });
 
     recount();
