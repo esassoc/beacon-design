@@ -90,113 +90,118 @@ const CARD_STAMP: ListObligation = {
 };
 ---
 
-<section
-  class="bcn-lot"
-  aria-label={list.name}
-  data-list-label={list.name}
-  data-list-class-labels={JSON.stringify(OBLIGATION_CLASS_LABEL)}
->
-  <div class="bcn-lot__filters">
-    <BcnSwFilterRow
-      searchName="list-search"
-      searchPlaceholder="Search obligations"
-      inset
-      pickers={[{ label: 'Category', value: 'All categories', options: categoryOptions }]}
-    >
-      <EsaButton variant="ghost" size="xs" data-list-expand>
-        <span class="bcn-lot__verb-label"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
-      </EsaButton>
-      <EsaButton variant="ghost" size="xs" data-list-collapse>
-        <span class="bcn-lot__verb-label"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
-      </EsaButton>
-    </BcnSwFilterRow>
-  </div>
+<!-- The controls are their own surface above the object they act on, the way the
+  index puts its filter panel above the list groups and the wizard puts its filter
+  row in the step panel above the tree. Inside the tree's own border it would be a
+  rounded box inside a rounded box. -->
+<div class="stack" data-gap="md">
+  <BcnSwFilterRow
+    searchName="list-search"
+    searchPlaceholder="Search obligations"
+    panel
+    pickers={[{ label: 'Category', value: 'All categories', options: categoryOptions }]}
+  >
+    <EsaButton variant="ghost" size="xs" data-list-expand>
+      <span class="bcn-lot__verb-label"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
+    </EsaButton>
+    <EsaButton variant="ghost" size="xs" data-list-collapse>
+      <span class="bcn-lot__verb-label"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
+    </EsaButton>
+  </BcnSwFilterRow>
 
-  <p class="bcn-lot__nomatch" data-list-nomatch hidden>No obligations match.</p>
+  <section
+    class="bcn-lot"
+    aria-label={list.name}
+    data-list-label={list.name}
+    data-list-class-labels={JSON.stringify(OBLIGATION_CLASS_LABEL)}
+  >
 
-  <div class="bcn-lot__body" data-list-cats>
-    {tree.map((cat) => (
-      <details class="bcn-lot__cat" data-list-cat={cat.id} open>
+    <p class="bcn-lot__nomatch" data-list-nomatch hidden>No obligations match.</p>
+
+    <div class="bcn-lot__body" data-list-cats>
+      {tree.map((cat) => (
+        <details class="bcn-lot__cat" data-list-cat={cat.id} open>
+          <summary class="bcn-lot__row bcn-lot__row--cat">
+            <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+            <span class="bcn-lot__name" data-list-name data-list-text={cat.name} data-registry-name={cat.registryName}>{cat.name}</span>
+            <span class="bcn-lot__registry" data-list-registry hidden={!cat.renamed}>Registry: {cat.registryName}</span>
+            <span data-list-count="cat"><BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} /></span>
+            <span class="bcn-lot__verbs">
+              <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+              <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this category to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+              <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this category" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
+            </span>
+          </summary>
+          <div class="bcn-lot__subs" data-list-subs>
+            {cat.subcategories.map((sub) => (
+              <details class="bcn-lot__sub" data-list-sub={sub.id}>
+                <summary class="bcn-lot__row bcn-lot__row--sub">
+                  <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+                  <span class="bcn-lot__name" data-list-name data-list-text={sub.name} data-registry-name={sub.registryName}>{sub.name}</span>
+                  <span class="bcn-lot__registry" data-list-registry hidden={!sub.renamed}>Registry: {sub.registryName}</span>
+                  <span data-list-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
+                  <span class="bcn-lot__verbs">
+                    <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                    <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+                    <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
+                  </span>
+                </summary>
+                <ul class="bcn-lot__cards" data-list-cards>
+                  {sub.obligations.map((o) => <BcnListObligationCard obligation={o} />)}
+                </ul>
+              </details>
+            ))}
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <!-- Stamps for a member added from the picker: its category row, its subcategory
+         row, and its card. The card stamp carries one requirement row, which the script
+         lifts out as the prototype for the member's own requirements. -->
+    <template data-list-tpl="cat">
+      <details class="bcn-lot__cat" open>
         <summary class="bcn-lot__row bcn-lot__row--cat">
           <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
-          <span class="bcn-lot__name" data-list-name data-list-text={cat.name} data-registry-name={cat.registryName}>{cat.name}</span>
-          <span class="bcn-lot__registry" data-list-registry hidden={!cat.renamed}>Registry: {cat.registryName}</span>
-          <span data-list-count="cat"><BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} /></span>
+          <span class="bcn-lot__name" data-list-name></span>
+          <span class="bcn-lot__registry" data-list-registry hidden></span>
+          <span data-list-count="cat"><BcnSwCountBadge value={0} /></span>
           <span class="bcn-lot__verbs">
             <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
             <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this category to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
             <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this category" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
           </span>
         </summary>
-        <div class="bcn-lot__subs" data-list-subs>
-          {cat.subcategories.map((sub) => (
-            <details class="bcn-lot__sub" data-list-sub={sub.id}>
-              <summary class="bcn-lot__row bcn-lot__row--sub">
-                <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
-                <span class="bcn-lot__name" data-list-name data-list-text={sub.name} data-registry-name={sub.registryName}>{sub.name}</span>
-                <span class="bcn-lot__registry" data-list-registry hidden={!sub.renamed}>Registry: {sub.registryName}</span>
-                <span data-list-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
-                <span class="bcn-lot__verbs">
-                  <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-                  <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
-                  <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
-                </span>
-              </summary>
-              <ul class="bcn-lot__cards" data-list-cards>
-                {sub.obligations.map((o) => <BcnListObligationCard obligation={o} />)}
-              </ul>
-            </details>
-          ))}
-        </div>
+        <div class="bcn-lot__subs" data-list-subs></div>
       </details>
-    ))}
-  </div>
+    </template>
+    <template data-list-tpl="sub">
+      <details class="bcn-lot__sub" open>
+        <summary class="bcn-lot__row bcn-lot__row--sub">
+          <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <span class="bcn-lot__name" data-list-name></span>
+          <span class="bcn-lot__registry" data-list-registry hidden></span>
+          <span data-list-count="sub"><BcnSwCountBadge value={0} /></span>
+          <span class="bcn-lot__verbs">
+            <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+            <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+            <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
+          </span>
+        </summary>
+        <ul class="bcn-lot__cards" data-list-cards></ul>
+      </details>
+    </template>
+    <template data-list-tpl="obl"><BcnListObligationCard obligation={CARD_STAMP} /></template>
 
-  <!-- Stamps for a member added from the picker: its category row, its subcategory
-       row, and its card. The card stamp carries one requirement row, which the script
-       lifts out as the prototype for the member's own requirements. -->
-  <template data-list-tpl="cat">
-    <details class="bcn-lot__cat" open>
-      <summary class="bcn-lot__row bcn-lot__row--cat">
-        <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
-        <span class="bcn-lot__name" data-list-name></span>
-        <span class="bcn-lot__registry" data-list-registry hidden></span>
-        <span data-list-count="cat"><BcnSwCountBadge value={0} /></span>
-        <span class="bcn-lot__verbs">
-          <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-          <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this category to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
-          <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this category" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
-        </span>
-      </summary>
-      <div class="bcn-lot__subs" data-list-subs></div>
-    </details>
-  </template>
-  <template data-list-tpl="sub">
-    <details class="bcn-lot__sub" open>
-      <summary class="bcn-lot__row bcn-lot__row--sub">
-        <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
-        <span class="bcn-lot__name" data-list-name></span>
-        <span class="bcn-lot__registry" data-list-registry hidden></span>
-        <span data-list-count="sub"><BcnSwCountBadge value={0} /></span>
-        <span class="bcn-lot__verbs">
-          <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-          <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
-          <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
-        </span>
-      </summary>
-      <ul class="bcn-lot__cards" data-list-cards></ul>
-    </details>
-  </template>
-  <template data-list-tpl="obl"><BcnListObligationCard obligation={CARD_STAMP} /></template>
-
-  <esa-confirm-dialog
-    data-list-confirm
-    heading="Remove from this list?"
-    confirm-label="Remove"
-    cancel-label="Cancel"
-    show-close-button
-    style="--z-modal: 1500; --z-modal-backdrop: 1450;"></esa-confirm-dialog>
-</section>
+    <esa-confirm-dialog
+      data-list-confirm
+      heading="Remove from this list?"
+      confirm-label="Remove"
+      cancel-label="Cancel"
+      show-close-button
+      style="--z-modal: 1500; --z-modal-backdrop: 1450;"></esa-confirm-dialog>
+  </section>
+</div>
 
 <script>
   import '@esa/ecology/esa-confirm-dialog';
@@ -652,9 +657,8 @@ const CARD_STAMP: ListObligation = {
   /* The row anatomy — panel shell, zebra banding, rows, chevron, name, the right-hand
      verb set and the card padding — is ONE definition in src/styles/bcn-tree.css,
      shared verbatim with <BcnSwObligationsTree>. What stays scoped here is what only
-     the list tree has: the filter line's rule, the registry's own name beside a
-     renamed row, and the empty-branch rule that keeps a list to what it holds. */
-  .bcn-lot__filters { border-bottom: 1px solid var(--color-border-default); }
+     the list tree has: the registry's own name beside a renamed row, and the
+     empty-branch rule that keeps a list to what it holds. */
   .bcn-lot__verb-label { display: inline-flex; align-items: center; gap: var(--spacing-100); }
 
   /* A list shows only what it holds: a branch holding no member drops out. */
