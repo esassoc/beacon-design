@@ -36,9 +36,9 @@
 // the two searchable strings carry `data-list-text`, which is what the board's keyword
 // filter reads and repaints with <mark> hits. The board touches nothing else on it.
 //
-// bcn-lego-checked: the shell IS esa-card (variant="outlined", padding="compact",
-// default slot only, header slot deliberately unfilled — see the note in the style
-// block); the mark IS esa-icon fed the wizard's Lucide paths; the count IS
+// bcn-lego-checked: the shell IS esa-card (variant="outlined", padding="none" with the
+// row paying its own, default slot only, header slot deliberately unfilled — see the
+// note in the style block); the mark IS esa-icon fed the wizard's Lucide paths; the count IS
 // bcn-sw-count-badge; the rows ARE `.stack` / `.repel` / `.cluster` from
 // @esa/tokens/layouts.css and the type is typography composites. Checked Ecology —
 // esa-link-column is a nav column of bare links, and esa-card's own `meta` pairs take
@@ -61,6 +61,13 @@ const mark = LIST_TYPE_MARK[list.type];
 // The badge carries the whole phrase as its accessible name; the visible glyph is the
 // number alone.
 const countLabel = memberCountLabel(list.type, list.memberCount);
+// The date's field label. `updatedAt` is a stored field on ProjectList and this is what
+// it is called; without the word the row shows a bare date and the reader has to guess
+// whether it is a due date, a created date or a review date. The design gate reads the
+// word alone as provenance about the page — the genre it exists to catch, "last updated
+// 12 Sept" in a footer — and it is not that here, so the string is exempted rather than
+// renamed: a correct domain label traded away for gate silence is the worse outcome.
+// verbal-restraint-allow: Updated
 const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US', {
   month: 'short',
   day: 'numeric',
