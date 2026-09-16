@@ -22,9 +22,9 @@
 //   - REMOVE FROM LIST on an obligation, guarded by esa-confirm-dialog. Not the danger
 //     variant: nothing is destroyed. The member row comes off the list and the
 //     obligation stays in the project's registry, and the guard says so by name.
-//   - RENAME FOR THIS LIST ONLY on a category or a subcategory. A renamed row shows a
-//     quiet "Registry: {name}" beside it so the registry's own wording is never lost,
-//     and renaming a row that was not renamed before reveals that secondary.
+//   - RENAME FOR THIS LIST ONLY on a category or a subcategory. The registry's own
+//     wording is kept on the row (data-registry-name) and shown in the obligation
+//     panel; clearing a rename restores it. The row itself carries no second name.
 //   - The per obligation list description. No longer edited in place: the card stopped
 //     printing the sentence on 2026-09-16, keeps it as data, and <BcnListObligationPanel>
 //     reads and writes it. The card keeps only the "Edited for this list" signal. The
@@ -124,7 +124,6 @@ const CARD_STAMP: ListObligation = {
           <summary class="bcn-lot__row bcn-lot__row--cat">
             <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
             <span class="bcn-lot__name" data-list-name data-list-text={cat.name} data-registry-name={cat.registryName}>{cat.name}</span>
-            <span class="bcn-lot__registry" data-list-registry hidden={!cat.renamed}>Registry: {cat.registryName}</span>
             <span data-list-count="cat"><BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} /></span>
             <span class="bcn-lot__verbs">
               <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
@@ -136,7 +135,6 @@ const CARD_STAMP: ListObligation = {
                 <summary class="bcn-lot__row bcn-lot__row--sub">
                   <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
                   <span class="bcn-lot__name" data-list-name data-list-text={sub.name} data-registry-name={sub.registryName}>{sub.name}</span>
-                  <span class="bcn-lot__registry" data-list-registry hidden={!sub.renamed}>Registry: {sub.registryName}</span>
                   <span data-list-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
                   <span class="bcn-lot__verbs">
                     <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
@@ -162,7 +160,6 @@ const CARD_STAMP: ListObligation = {
         <summary class="bcn-lot__row bcn-lot__row--cat">
           <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
           <span class="bcn-lot__name" data-list-name></span>
-          <span class="bcn-lot__registry" data-list-registry hidden></span>
           <span data-list-count="cat"><BcnSwCountBadge value={0} /></span>
           <span class="bcn-lot__verbs">
             <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this category for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
@@ -176,7 +173,6 @@ const CARD_STAMP: ListObligation = {
         <summary class="bcn-lot__row bcn-lot__row--sub">
           <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
           <span class="bcn-lot__name" data-list-name></span>
-          <span class="bcn-lot__registry" data-list-registry hidden></span>
           <span data-list-count="sub"><BcnSwCountBadge value={0} /></span>
           <span class="bcn-lot__verbs">
             <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
@@ -397,11 +393,6 @@ const CARD_STAMP: ListObligation = {
         const next = text || registry;
         name.textContent = next;
         name.dataset.listText = next;
-        const mark = row.querySelector<HTMLElement>('[data-list-registry]');
-        if (mark) {
-          mark.textContent = `Registry: ${registry}`;
-          mark.hidden = !registry || next === registry;
-        }
       });
     };
 
@@ -480,8 +471,6 @@ const CARD_STAMP: ListObligation = {
       el.textContent = name;
       el.dataset.listText = name;
       el.dataset.registryName = name;
-      const mark = branch.querySelector<HTMLElement>('[data-list-registry]');
-      if (mark) mark.hidden = true;
     };
     const buildCard = (item: AddedItem) => {
       const card = tpl('obl');
@@ -647,14 +636,4 @@ const CARD_STAMP: ListObligation = {
   .bcn-lot__cat[data-list-empty], .bcn-lot__sub[data-list-empty] { display: none; }
 
   .bcn-lot__row:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: -2px; }
-
-  /* The registry's own name for a row this list renamed. Labelled, never a bare
-     second name set beside the first. */
-  .bcn-lot__registry {
-    flex-shrink: 0;
-    font-weight: 400;
-    color: var(--color-content-default-tertiary);
-    white-space: nowrap;
-  }
-  .bcn-lot__registry[hidden] { display: none; }
 </style>
