@@ -1,35 +1,44 @@
 ---
-// <BcnListCard> — one project list as it sits in the Lists index stack.
+// <BcnListCard> — one project list as it sits in a group on the Lists index.
 //
-// The whole card is one line: the list's NAME as the only link on it, the member
-// COUNT, the NOUN that names which registry those members came from, and the date
-// the list last changed, pushed to the far right and labelled "Updated". A second
-// line appears only when the list carries a description, and it is clamped to one.
+// The row is one line: the ENTITY MARK of the registry the list draws from, the
+// list's NAME as the only link on it, the member COUNT, and the date the list last
+// changed, pushed to the far right and labelled "Updated". A second line appears
+// only when the list carries a description, and it is clamped to one.
 //
-// WHY THERE IS NO TYPE PILL. The noun after the count — "44 obligations", "8
-// actions" — already says the type, in the same phrase that reports the size. A
-// badge or a coloured dot beside it would mark the same fact twice, so the noun IS
-// the type mark here and there is no pill, chip, icon or dot to add. Nothing else
-// rides on the card either: no status, no owner, no "view" affordance.
+// THE MARK IS THE WIZARD'S, NOT A NEW ONE. The glyph and the accent come from
+// LIST_TYPE_MARK, which reads SETUP_STEPS — so a commitment list is marked with the
+// same clipboard and the same purple the setup wizard uses for commitments, an
+// action list with the wizard's radar and pink, an obligation list with its shield
+// and coral. Nothing about the type is re-decided here. The mark is a tinted stroke
+// only: no fill, no dot, and never a coloured border on the card, which is a banned
+// pattern. It is decorative to assistive tech, because the group heading directly
+// above the row already says which registry these lists come from.
+//
+// THE TYPE NOUN IS GONE FROM THE COUNT. It used to read "44 obligations", which was
+// the type mark before the index had groups. The group heading carries the type now,
+// so the visible number stands alone and the noun survives only in the badge's
+// accessible name, where a screen reader still hears "44 obligations".
 //
 // EMPTY IS HONEST. A list with no description renders the first line and stops. No
 // placeholder sentence is ever substituted for the missing one.
 //
 // Contract with <BcnListIndexBoard>: the root carries `data-list-row` and
-// `data-type`, which is the whole surface the board's type filter touches — it sets
-// `hidden` on this element and reads nothing else.
+// `data-type`. The board renders it and touches nothing else on it.
 //
 // bcn-lego-checked: the shell IS esa-card (variant="outlined", padding="compact",
 // default slot only, header slot deliberately unfilled — see the note in the style
-// block); the count IS bcn-sw-count-badge; the rows ARE `.stack` / `.repel` /
-// `.cluster` from @esa/tokens/layouts.css and the type is typography composites.
-// Checked Ecology — esa-link-column is a nav column of bare links, and esa-card's
-// own `meta` pairs take strings, so neither can hold the count badge — and Beacon,
-// whose Lists page is an AG Grid rather than a card stack. What this file adds over
-// the legos is the link ink and the one-line clamp.
+// block); the mark IS esa-icon fed the wizard's Lucide paths; the count IS
+// bcn-sw-count-badge; the rows ARE `.stack` / `.repel` / `.cluster` from
+// @esa/tokens/layouts.css and the type is typography composites. Checked Ecology —
+// esa-link-column is a nav column of bare links, and esa-card's own `meta` pairs take
+// strings, so neither can hold the count badge — and Beacon, whose Lists page is an
+// AG Grid rather than a card stack. What this file adds over the legos is the link
+// ink, the mark's tint and the one-line clamp.
 import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
-import { LIST_MEMBER_NOUN, memberCountLabel, type ProjectList } from '../../data/lists';
+import { LIST_TYPE_MARK, memberCountLabel, type ProjectList } from '../../data/lists';
 
 interface Props {
   list: ProjectList;
@@ -38,11 +47,10 @@ interface Props {
 }
 const { list, href } = Astro.props;
 
-// The badge carries the whole phrase as its accessible name, so the visible noun is
-// the same words a second time and is hidden from assistive tech rather than read
-// twice.
+const mark = LIST_TYPE_MARK[list.type];
+// The badge carries the whole phrase as its accessible name; the visible glyph is the
+// number alone.
 const countLabel = memberCountLabel(list.type, list.memberCount);
-const noun = LIST_MEMBER_NOUN[list.type][list.memberCount === 1 ? 0 : 1];
 const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US', {
   month: 'short',
   day: 'numeric',
@@ -52,18 +60,20 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
 
 <article class="bcn-lc" data-list-row data-type={list.type}>
   <EsaCard variant="outlined" padding="compact">
-    <div class="stack" data-gap="2xs">
-      <div class="bcn-lc__head repel" data-gap="sm">
-        <div class="cluster" data-gap="xs">
-          <a class="bcn-lc__name typography-title-sm-strong" href={href}>{list.name}</a>
-          <span class="cluster" data-gap="2xs">
+    <div class="bcn-lc__row cluster" data-gap="sm" style={`--_mark: var(--color-${mark.token});`}>
+      <span class="bcn-lc__mark">
+        <EsaIcon name={mark.iconName} paths={mark.iconPaths} size="md" />
+      </span>
+      <div class="bcn-lc__body stack" data-gap="2xs">
+        <div class="bcn-lc__head repel" data-gap="sm">
+          <div class="cluster" data-gap="xs">
+            <a class="bcn-lc__name typography-title-sm-strong" href={href}>{list.name}</a>
             <BcnSwCountBadge value={list.memberCount} label={countLabel} />
-            <span class="bcn-lc__noun typography-body-md" aria-hidden="true">{noun}</span>
-          </span>
+          </div>
+          <span class="bcn-lc__updated typography-body-sm">Updated {updated}</span>
         </div>
-        <span class="bcn-lc__updated typography-body-md">Updated {updated}</span>
+        {list.description && <p class="bcn-lc__desc typography-body-md">{list.description}</p>}
       </div>
-      {list.description && <p class="bcn-lc__desc typography-body-md">{list.description}</p>}
     </div>
   </EsaCard>
 </article>
@@ -77,6 +87,30 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
      lego renders no header at all (esa-card only emits one for a title, meta, or a
      filled header/actions slot), so there is nothing to override and no empty-body
      case to hide. */
+
+  .bcn-lc__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* `--_mark` is set inline from the list's type, the same idiom the Setup Wizard card
+     uses for its numerals. The accent is a stroke on white at 3.1:1, which clears the
+     3:1 minimum for a graphical object; it is never used for text.
+
+     It is pinned to the NAME's line, not centred on the card: a described row is two
+     lines and an undescribed one is a single line, and a mark centred on the card would
+     sit at a different height in each — the column would jog as you scan it. The box is
+     one line of the name tall, which is the name's own size times the leading token, so
+     nothing here is a measured offset. */
+  .bcn-lc__mark {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    block-size: calc(1rem * var(--line-height-normal));
+    color: var(--_mark);
+    flex-shrink: 0;
+  }
+
   .bcn-lc__head {
     align-items: baseline;
   }
@@ -84,6 +118,10 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
   .bcn-lc__name {
     color: var(--color-content-link);
     text-decoration: none;
+    /* The ramp has no 16px rung: --font-size-200 clamps at 15px and the next step,
+       which this composite reads, is 17px. Sixteen is the floor, so the size is set
+       here and the composite keeps the family, weight and leading. */
+    font-size: 1rem;
   }
 
   .bcn-lc__name:hover {
@@ -96,20 +134,19 @@ const updated = new Date(`${list.updatedAt}T00:00:00`).toLocaleDateString('en-US
     border-radius: var(--radius-sm);
   }
 
-  .bcn-lc__noun {
-    color: var(--color-content-default-secondary);
-  }
-
+  /* A date is meta, so it takes the small step the dense floor still allows. */
   .bcn-lc__updated {
     color: var(--color-content-default-tertiary);
     white-space: nowrap;
   }
 
   /* One line. A list's description is a handle, not a paragraph; the full text is on
-     the list's own page. */
+     the list's own page. Same 16px note as the name: .typography-body-md resolves to
+     15px here, under the floor. */
   .bcn-lc__desc {
     margin: 0;
     color: var(--color-content-default-secondary);
+    font-size: 1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
