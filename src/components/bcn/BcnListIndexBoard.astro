@@ -16,12 +16,14 @@
 // It reads a list's NAME and its DESCRIPTION, the two strings a row shows, so what is
 // searched is exactly what is on screen.
 //
-// A GROUP WITH NO HITS IS HIDDEN, not collapsed to its heading. Three headings and two
-// "no matches" blocks around one surviving row is a page reporting on its own filing
-// system instead of answering the question; the drawer with nothing in it does not need
-// to say so. The cost is real and deliberate: a group's add button rides its heading, so
-// while a search is running you cannot start a list of a type that has no hits. Clearing
-// the field brings every heading and every verb back.
+// A GROUP WITH NO HITS KEEPS ITS HEADING AND ITS VERB, and puts a dashed box where its
+// rows were. This reverses an earlier cut that hid the whole group: hiding it also hid
+// the add button that rides its heading, so a search — the exact moment a reader has
+// discovered the list they want does not exist — was the one moment they could not start
+// it. The page also stopped holding still; three headings became one and the eye had to
+// re-find the surface on every keystroke. What it costs is the thing that cut bought:
+// two "no lists match" boxes now sit around one surviving row, and the answer is less
+// concentrated than it was.
 //
 // ORDER INSIDE A GROUP is newest change first — `listsOfType` filters PROJECT_LISTS,
 // which is already sorted that way, and this board never re-sorts it.
@@ -34,10 +36,11 @@
 // told apart by their accessible names ("4 commitment lists" vs "64 commitments"), which
 // is why both carry one and why the script rewrites the label along with the number.
 //
-// AN EMPTY GROUP KEEPS ITS HEADING. Empty for want of lists, that is, not for want of
-// hits. The heading is where the add verb lives, so hiding the group would hide the only
-// way to make the first list of that type. The rows are replaced by an empty state; the
-// heading and its button stay.
+// ONE EMPTY BOX PER GROUP, AND ITS WORDS ARE SETTLED AT BUILD TIME. A group that holds
+// lists can only ever be emptied by a search, so its box reads "No lists match". A group
+// that holds none is empty whether or not anything was typed, so its box reads "No
+// commitment lists" and keeps saying that through a search, which is still true. Nothing
+// rewrites a string at runtime; the script only shows and hides.
 //
 // HREFS. Obligation lists have a detail page on this branch. Action and commitment
 // lists link to "#" on purpose: those detail pages are prod's and out of scope here,
@@ -50,13 +53,17 @@
 // for any of it.
 //
 // bcn-lego-checked: the search row IS bcn-sw-filter-row (the step-5 control, in its new
-// page-level `flush` presentation), the headings' verbs ARE esa-button, both empties ARE
-// esa-empty-state, the stacks and heading rows ARE `.stack` / `.repel` / `.cluster` from
-// @esa/tokens/layouts.css, the counts ARE bcn-sw-count-badge at its new `sm` cut and the
-// rows ARE bcn-list-card. Checked Ecology for a grouped-index lego — esa-filter-container
-// pairs a filter bar with an AG Grid, which this index deliberately is not, and
-// esa-card's header slot is a titled band too tall to use as a group heading — and
-// Beacon, whose Lists page is that grid plus an info callout, and the callout is cut.
+// page-level `panel` presentation, which is permit tracking's filter-bar surface), the
+// headings' verbs ARE esa-button with its own `icon` prop feeding esa-icon's registered
+// "plus", the empty copy IS esa-empty-state, the stacks and heading rows ARE `.stack` /
+// `.repel` / `.cluster` from @esa/tokens/layouts.css, the counts ARE bcn-sw-count-badge
+// at its `sm` cut and the rows ARE bcn-list-card. Checked Ecology for a grouped-index
+// lego — esa-filter-container pairs a filter bar with an AG Grid, which this index
+// deliberately is not, and esa-card's header slot is a titled band too tall to use as a
+// group heading — and Beacon, whose Lists page is that grid plus an info callout, and
+// the callout is cut. The one thing esa-empty-state does NOT carry is the dashed box
+// Andy asked for: it is a centred column with padding and no border and no minimum
+// height, so the box is this file's, and the lego sits inside it.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnListCard from './BcnListCard.astro';
@@ -88,7 +95,7 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
 ---
 
 <div class="stack" data-gap="lg" data-list-index>
-  <BcnSwFilterRow flush searchPlaceholder="Search lists" searchName="lists-search" />
+  <BcnSwFilterRow panel searchPlaceholder="Search lists" searchName="lists-search" />
 
   <div class="stack" data-gap="2xl">
     {
@@ -112,25 +119,31 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
                 data-total={group.lists.length}
               />
             </div>
-            <EsaButton variant="ghost" appearance="outline" size="sm" data-list-create={group.type}>
+            <EsaButton
+              variant="ghost"
+              appearance="outline"
+              size="sm"
+              icon="plus"
+              data-list-create={group.type}
+            >
               {addListLabel(group.type)}
             </EsaButton>
           </div>
 
           <div class="stack" data-gap="xs">
-            {group.lists.length > 0 ? (
-              group.lists.map((list) => <BcnListCard list={list} href={hrefFor(list)} />)
-            ) : (
-              <EsaEmptyState title={`No ${group.noun}s`} size="sm" />
-            )}
+            {group.lists.map((list) => (
+              <BcnListCard list={list} href={hrefFor(list)} />
+            ))}
+            <div class="bcn-lib__empty" data-group-empty hidden={group.lists.length > 0}>
+              <EsaEmptyState
+                title={group.lists.length > 0 ? 'No lists match' : `No ${group.noun}s`}
+                size="sm"
+              />
+            </div>
           </div>
         </section>
       ))
     }
-
-    <div data-list-nomatch hidden>
-      <EsaEmptyState title="No lists match" description="Try a different keyword." size="sm" />
-    </div>
   </div>
 </div>
 
@@ -159,10 +172,7 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
       return true;
     };
 
-    const nomatch = root.querySelector<HTMLElement>('[data-list-nomatch]');
-
     const apply = (needle: string) => {
-      let total = 0;
       qa<HTMLElement>('[data-list-group]').forEach((group) => {
         let shown = 0;
         qa<HTMLElement>('[data-list-row]', group).forEach((row) => {
@@ -175,8 +185,10 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
           row.hidden = !hit;
           if (hit) shown++;
         });
-        group.hidden = !!needle && shown === 0;
-        total += shown;
+        // The heading and its add button never move. Only the rows go, and the box that
+        // stands in their place has its wording already — see the note at the top.
+        const empty = group.querySelector<HTMLElement>('[data-group-empty]');
+        if (empty) empty.hidden = shown > 0;
 
         const badge = group.querySelector<HTMLElement>('[data-group-count]');
         if (badge) {
@@ -186,7 +198,6 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
           badge.setAttribute('aria-label', `${n} ${noun}${n === 1 ? '' : 's'}`);
         }
       });
-      if (nomatch) nomatch.hidden = !needle || total > 0;
     };
 
     const search = document.querySelector<HTMLElement & { value: string }>(
@@ -215,11 +226,25 @@ const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
     color: var(--color-content-default);
   }
 
-  /* A group is a `.stack`, and `.stack { display: flex }` is an author rule, so it
-     outranks the user agent's `[hidden] { display: none }` and a hidden group would
-     keep rendering. Every element the search hides needs this; the rows do not, because
-     a row is a plain <article> with no display rule of its own. */
-  [data-list-group][hidden] {
+  /* The box that stands where a group's rows were. esa-empty-state centres its own
+     column but carries no border and no minimum height, so both are here: a dashed rule
+     says "nothing is filed here" without drawing a card that looks like a row, and the
+     floor keeps the group from collapsing to a heading and a line of text as you type —
+     the three headings hold their positions through a search, which is the whole point
+     of keeping them. Radius matches the filter panel above, not the rows: this is a
+     container standing in for a stack, not one more row. */
+  .bcn-lib__empty {
+    display: grid;
+    place-items: center;
+    min-block-size: 88px;
+    border: 1px dashed var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+
+  /* `display: grid` above is an author rule and outranks the user agent's
+     `[hidden] { display: none }`, so without this the box renders while `hidden` is
+     set. The rows do not need it — a row is a plain <article> with no display rule. */
+  .bcn-lib__empty[hidden] {
     display: none;
   }
 
