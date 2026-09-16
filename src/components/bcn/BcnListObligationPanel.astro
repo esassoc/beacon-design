@@ -79,11 +79,8 @@ const DATA = JSON.stringify({ records });
   style="--_width: min(640px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;"
 >
   <form class="bcn-swo-edit bcn-lob" data-list-obl-panel data-lob-data={DATA}>
-    <div class="bcn-lob__field">
-      <span class="bcn-swo-edit__label">Title</span>
-      <span class="bcn-lob__value" data-lob="title"></span>
-    </div>
-
+    <!-- No Title row: the dialog heading IS the title, and a record that prints its
+      own name twice is the panel arguing with itself. -->
     <div class="bcn-lob__field">
       <span class="bcn-swo-edit__label">Class</span>
       <span><span class="bcn-lob__class" data-lob="class"></span></span>
@@ -195,8 +192,14 @@ const DATA = JSON.stringify({ records });
       if (!card || !rec) return false;
       member = memberId;
 
-      dialog.heading = rec.title;
-      slot('title').textContent = rec.title;
+      // Two members can share a title, so the title alone does not say which one is
+      // open. The card's own copy marker is the answer and it is already kept current
+      // by the tree's recount — read it rather than deriving a second copy of the
+      // same count. Same phrasing the remove guard uses, so both name a member the
+      // same way.
+      const copy = card.querySelector<HTMLElement>('[data-list-copy]');
+      const which = copy && !copy.hidden ? copy.textContent?.trim().toLowerCase() : '';
+      dialog.heading = which ? `${rec.title} (${which})` : rec.title;
       const chip = slot('class');
       chip.textContent = rec.classLabel;
       form.dataset.class = rec.class;
