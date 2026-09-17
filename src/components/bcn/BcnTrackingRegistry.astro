@@ -30,17 +30,50 @@
 // reveal a panel instead of navigating, which is the one thing that component cannot do.
 // Checked Ecology for an in-page view switcher (esa-tab-layout is the tab host already used
 // twice above; a third nesting is what this avoids).
+import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnSwObligationsTree from './BcnSwObligationsTree.astro';
 import BcnSwChainTree from './BcnSwChainTree.astro';
 import BcnSwFilterRow from './BcnSwFilterRow.astro';
 import BcnSwSelectChip from './BcnSwSelectChip.astro';
-import { OBLIGATION_CLASS_LABEL, OBLIGATION_TREE, STEP_GLYPH } from '../../data/setup-wizard';
+import {
+  CHAIN_TOTALS,
+  OBLIGATION_CLASS_LABEL,
+  OBLIGATION_TREE,
+  OBLIGATION_TREE_TOTALS,
+  STEP_GLYPH,
+} from '../../data/setup-wizard';
 
 const VIEWS = [
   { label: 'By category', value: 'category' },
   { label: 'By commitment', value: 'commitment' },
+];
+
+/**
+ * WHAT THE REGISTRY HOLDS, stated once at the top of it.
+ *
+ * The controls were lifted wholesale from setup step 5 and arrived without the PANEL the wizard
+ * puts them in — a bordered, raised surface with a header row — so on this page they were loose
+ * controls floating on the page ground, and bcn-sw-filter-row's top hairline had nothing above
+ * it to separate from. This restores the panel and gives the view switch a home in its header.
+ *
+ * WHAT DOES NOT COME WITH IT. The wizard's header is step furniture: a numbered step token in
+ * the step's entity colour, a serif h2 reading "Obligations in [All categories]", and an intro
+ * line telling a reviewer what to do ("Review and approve Obligations and their proposed
+ * categorizations"). None of that is true here — nothing is being approved, this is not step 5
+ * of anything, and a line explaining what the view is would be the byline this page has pruned
+ * five times. The CATEGORY PICKER survives, because it is a control rather than a sentence; it
+ * already sits in the filter row below.
+ *
+ * WHAT REPLACES IT: the registry's own shape, as facts. These do NOT vary by view — the two
+ * views are two orderings of one permit, not two datasets (§10) — so one set states it honestly
+ * for both and nothing has to swap when the switch moves.
+ */
+const REGISTRY_META = [
+  { label: 'Requirements', value: String(CHAIN_TOTALS.requirements) },
+  { label: 'Obligations', value: String(OBLIGATION_TREE_TOTALS.obligations) },
+  { label: 'Commitments', value: String(CHAIN_TOTALS.commitments) },
 ];
 
 const CLASS_PICKS = Object.entries(OBLIGATION_CLASS_LABEL).map(([value, label]) => ({ label, value }));
@@ -55,48 +88,63 @@ const COVERAGE_PICKS = [
 ];
 ---
 
-<section class="bcn-treg">
-  <header class="bcn-treg__bar">
-    <esa-button-toggle
-      class="bcn-treg__switch"
-      size="sm"
-      value="category"
-      aria-label="Registry view"
-      data-treg-switch
-      data-options={JSON.stringify(VIEWS)}></esa-button-toggle>
-  </header>
+<section class="bcn-treg stack" data-gap="md">
+  {/* THE CONTROL PANEL. esa-card outlined, padding="none" — the bordered raised surface the
+      wizard's controls sit on, which this page had been missing. `meta` is the lego's own
+      contract for "identifying facts about the record", which is exactly what the counts are,
+      and `actions` is its right-aligned header slot, which is where the view switch belongs.
+      padding="none" because bcn-sw-filter-row brings its own inset and its own top hairline —
+      the hairline that had nothing above it to separate from until now. */}
+  <EsaCard variant="outlined" padding="none" meta={REGISTRY_META}>
+    <Fragment slot="actions">
+      <esa-button-toggle
+        class="bcn-treg__switch"
+        size="sm"
+        value="category"
+        aria-label="Registry view"
+        data-treg-switch
+        data-options={JSON.stringify(VIEWS)}></esa-button-toggle>
+    </Fragment>
 
-  <!-- ── By category ─────────────────────────────────────────────────────── -->
+    {/* EACH VIEW BRINGS ITS OWN FILTER ROW, because the two trees listen on different field
+        names (swo-search / swc-search) and narrow by different things: class and category for
+        the taxonomy, coverage for the chain. */}
+    <div class="bcn-treg__filters" data-treg-view="category">
+      <BcnSwFilterRow
+        searchPlaceholder="Search obligations"
+        searchName="swo-search"
+        pickers={[{ label: 'Class', value: 'All classes', options: CLASS_PICKS }]}
+      >
+        <BcnSwSelectChip slot="filters" label="Category" name="category" value="All categories" options={CATEGORY_PICKS} />
+        <EsaButton variant="ghost" size="xs" data-swo-expand title="Open every category">
+          <span class="bcn-treg__verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
+        </EsaButton>
+        <EsaButton variant="ghost" size="xs" data-swo-collapse title="Close every category">
+          <span class="bcn-treg__verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
+        </EsaButton>
+      </BcnSwFilterRow>
+    </div>
+
+    <div class="bcn-treg__filters" data-treg-view="commitment" hidden>
+      <BcnSwFilterRow searchPlaceholder="Search requirements" searchName="swc-search">
+        <BcnSwSelectChip slot="filters" label="Coverage" name="coverage" value="All requirements" options={COVERAGE_PICKS} />
+        <EsaButton variant="ghost" size="xs" data-swc-expand title="Open every commitment">
+          <span class="bcn-treg__verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
+        </EsaButton>
+        <EsaButton variant="ghost" size="xs" data-swc-collapse title="Close every commitment">
+          <span class="bcn-treg__verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
+        </EsaButton>
+      </BcnSwFilterRow>
+    </div>
+  </EsaCard>
+
+  {/* THE TREES SIT OUTSIDE THE PANEL, as they do in the wizard — the panel holds the controls,
+      the tree is the content they act on. */}
   <div class="bcn-treg__view" data-treg-view="category">
-    <BcnSwFilterRow
-      searchPlaceholder="Search obligations"
-      searchName="swo-search"
-      pickers={[{ label: 'Class', value: 'All classes', options: CLASS_PICKS }]}
-    >
-      <BcnSwSelectChip label="Category" name="category" value="All categories" options={CATEGORY_PICKS} />
-      <EsaButton variant="ghost" size="xs" data-swo-expand title="Open every category">
-        <span class="bcn-treg__verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
-      </EsaButton>
-      <EsaButton variant="ghost" size="xs" data-swo-collapse title="Close every category">
-        <span class="bcn-treg__verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
-      </EsaButton>
-    </BcnSwFilterRow>
-
     <BcnSwObligationsTree mode="browse" title="Obligation registry" />
   </div>
 
-  <!-- ── By commitment ───────────────────────────────────────────────────── -->
   <div class="bcn-treg__view" data-treg-view="commitment" hidden>
-    <BcnSwFilterRow searchPlaceholder="Search requirements" searchName="swc-search">
-      <BcnSwSelectChip label="Coverage" name="coverage" value="All requirements" options={COVERAGE_PICKS} />
-      <EsaButton variant="ghost" size="xs" data-swc-expand title="Open every commitment">
-        <span class="bcn-treg__verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
-      </EsaButton>
-      <EsaButton variant="ghost" size="xs" data-swc-collapse title="Close every commitment">
-        <span class="bcn-treg__verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
-      </EsaButton>
-    </BcnSwFilterRow>
-
     <BcnSwChainTree mode="browse" />
   </div>
 </section>
@@ -124,14 +172,11 @@ const COVERAGE_PICKS = [
 </script>
 
 <style>
-  .bcn-treg__bar {
-    display: flex;
-    justify-content: flex-end;
-    padding-block-end: var(--spacing-200);
-  }
-
-  /* [hidden] loses to an author display rule, so the visible state is guarded. */
-  .bcn-treg__view:not([hidden]) { display: block; }
+  /* [hidden] loses to an author display rule, so every visible state is guarded. The switch
+     drives FOUR elements, not two — each view owns a filter row inside the panel and a tree
+     below it, and they carry the same data-treg-view so one listener reveals both. */
+  .bcn-treg__view:not([hidden]),
+  .bcn-treg__filters:not([hidden]) { display: block; }
 
   .bcn-treg__verb {
     display: inline-flex;

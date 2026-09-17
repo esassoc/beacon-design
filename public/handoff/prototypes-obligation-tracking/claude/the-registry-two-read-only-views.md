@@ -24,133 +24,267 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
 
 ## Markup
 ```html
-<section class="bcn-treg">
-  <header class="bcn-treg__bar">
-    <esa-button-toggle
-      class="bcn-treg__switch"
-      size="sm"
-      value="category"
-      aria-label="Registry view"
-      data-treg-switch="true"
-      data-options='[{"label":"By category","value":"category"},{"label":"By commitment","value":"commitment"}]'
-    ></esa-button-toggle>
-  </header>
-  <!-- ── By category ─────────────────────────────────────────────────────── -->
-  <div class="bcn-treg__view" data-treg-view="category">
-    <div class="bcn-swfr">
-      <esa-text-field
-        class="bcn-swfr__search"
-        size="sm"
-        name="swo-search"
-        placeholder="Search obligations"
-        aria-label="Search obligations"
-      ></esa-text-field
-      ><esa-select
-        class="bcn-swfr__picker"
-        size="sm"
-        name="swo-search-class"
-        options='[{"label":"All classes","value":""},{"label":"Adhere","value":"adhere"},{"label":"Monitor","value":"monitor"},{"label":"Notify","value":"notify"},{"label":"Roster","value":"roster"}]'
-        value=""
-        placeholder="All classes"
-        cue="Filter by class."
-      ></esa-select>
-      <div class="bcn-swfr__verbs">
-        <esa-dropdown-menu
-          class="bcn-swsc__menu"
-          position="below-start"
-          data-sw-chip="category"
-          data-items='[{"label":"All categories","value":""},{"label":"Agency reporting and approvals","value":"agency"},{"label":"Air quality","value":"air"},{"label":"Amphibians and reptiles","value":"herps"},{"label":"Birds","value":"birds"},{"label":"Fish","value":"fish"},{"label":"Habitat protection","value":"habitat"},{"label":"Hazards","value":"hazards"},{"label":"Lighting","value":"lighting"},{"label":"Mitigation and restoration","value":"mitigation"},{"label":"Noise and vibration","value":"noise"},{"label":"People and qualifications","value":"people"},{"label":"Plants and invertebrates","value":"plants-inverts"},{"label":"Site conduct","value":"site"},{"label":"Water","value":"water"},{"label":"Water operations","value":"operations"}]'
-          data-value=""
-          width="auto"
-          ><button
-            type="button"
-            class="bcn-swsc"
-            aria-label="Category: All categories"
-            aria-haspopup="menu"
-            aria-expanded="false"
-            aria-controls="menu"
-            style="
-              font-family: &quot;Times New Roman&quot;;
-              font-size: 13px;
-              font-weight: 400;
-              line-height: normal;
-            "
-          >
-            <span class="bcn-swsc__label" data-sw-chip-label="">All categories</span
-            ><span class="bcn-swsc__chevron" aria-hidden="true"
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m6 9 6 6 6-6"></path></svg></span
-            ></span></button></esa-dropdown-menu
-        ><span
-          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-          ><button
-            class="esa-button__native typography-microcopy-2xs"
-            type="button"
-            data-swo-expand="true"
-            title="Open every category"
-          >
-            <span class="esa-button__label"
-              ><span class="bcn-treg__verb"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m7 15 5 5 5-5"></path>
-                    <path d="m7 9 5-5 5 5"></path></svg></span
-                >Expand all</span
-              ></span
-            >
-          </button></span
-        ><span
-          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-          ><button
-            class="esa-button__native typography-microcopy-2xs"
-            type="button"
-            data-swo-collapse="true"
-            title="Close every category"
-          >
-            <span class="esa-button__label"
-              ><span class="bcn-treg__verb"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m7 20 5-5 5 5"></path>
-                    <path d="m7 4 5 5 5-5"></path></svg></span
-                >Collapse all</span
-              ></span
-            >
-          </button></span
-        >
+<section class="bcn-treg stack" data-gap="md">
+  <div class="esa-card esa-card--outlined esa-card--padding-none">
+    <div class="esa-card__header">
+      <div class="esa-card__header-content">
+        <div class="esa-card__titles">
+          <dl class="esa-card__meta">
+            <div class="esa-card__meta-pair">
+              <dt>Requirements</dt>
+              <dd>854</dd>
+            </div>
+            <div class="esa-card__meta-pair">
+              <dt>Obligations</dt>
+              <dd>333</dd>
+            </div>
+            <div class="esa-card__meta-pair">
+              <dt>Commitments</dt>
+              <dd>294</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="esa-card__actions typography-label-md">
+        <esa-button-toggle
+          class="bcn-treg__switch"
+          size="sm"
+          value="category"
+          aria-label="Registry view"
+          data-treg-switch="true"
+          data-options='[{"label":"By category","value":"category"},{"label":"By commitment","value":"commitment"}]'
+        ></esa-button-toggle>
       </div>
     </div>
+    <div class="esa-card__body typography-body-md">
+      <div class="bcn-treg__filters" data-treg-view="category">
+        <div class="bcn-swfr">
+          <esa-text-field
+            class="bcn-swfr__search"
+            size="sm"
+            name="swo-search"
+            placeholder="Search obligations"
+            aria-label="Search obligations"
+          ></esa-text-field
+          ><esa-select
+            class="bcn-swfr__picker"
+            size="sm"
+            name="swo-search-class"
+            options='[{"label":"All classes","value":""},{"label":"Adhere","value":"adhere"},{"label":"Monitor","value":"monitor"},{"label":"Notify","value":"notify"},{"label":"Roster","value":"roster"}]'
+            value=""
+            placeholder="All classes"
+            cue="Filter by class."
+          ></esa-select
+          ><esa-dropdown-menu
+            class="bcn-swsc__menu"
+            position="below-start"
+            data-sw-chip="category"
+            data-items='[{"label":"All categories","value":""},{"label":"Agency reporting and approvals","value":"agency"},{"label":"Air quality","value":"air"},{"label":"Amphibians and reptiles","value":"herps"},{"label":"Birds","value":"birds"},{"label":"Fish","value":"fish"},{"label":"Habitat protection","value":"habitat"},{"label":"Hazards","value":"hazards"},{"label":"Lighting","value":"lighting"},{"label":"Mitigation and restoration","value":"mitigation"},{"label":"Noise and vibration","value":"noise"},{"label":"People and qualifications","value":"people"},{"label":"Plants and invertebrates","value":"plants-inverts"},{"label":"Site conduct","value":"site"},{"label":"Water","value":"water"},{"label":"Water operations","value":"operations"}]'
+            data-value=""
+            width="auto"
+            ><button
+              type="button"
+              class="bcn-swsc"
+              aria-label="Category: All categories"
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-controls="menu"
+              style="
+                font-family: &quot;Times New Roman&quot;;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: normal;
+              "
+            >
+              <span class="bcn-swsc__label" data-sw-chip-label="">All categories</span
+              ><span class="bcn-swsc__chevron" aria-hidden="true"
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m6 9 6 6 6-6"></path></svg></span
+              ></span></button
+          ></esa-dropdown-menu>
+          <div class="bcn-swfr__verbs">
+            <span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+              ><button
+                class="esa-button__native typography-microcopy-2xs"
+                type="button"
+                data-swo-expand="true"
+                title="Open every category"
+              >
+                <span class="esa-button__label"
+                  ><span class="bcn-treg__verb"
+                    ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                      ><svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path d="m7 15 5 5 5-5"></path>
+                        <path d="m7 9 5-5 5 5"></path></svg></span
+                    >Expand all</span
+                  ></span
+                >
+              </button></span
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+              ><button
+                class="esa-button__native typography-microcopy-2xs"
+                type="button"
+                data-swo-collapse="true"
+                title="Close every category"
+              >
+                <span class="esa-button__label"
+                  ><span class="bcn-treg__verb"
+                    ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                      ><svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path d="m7 20 5-5 5 5"></path>
+                        <path d="m7 4 5 5 5-5"></path></svg></span
+                    >Collapse all</span
+                  ></span
+                >
+              </button></span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="bcn-treg__filters" data-treg-view="commitment" hidden="">
+        <div class="bcn-swfr">
+          <esa-text-field
+            class="bcn-swfr__search"
+            size="sm"
+            name="swc-search"
+            placeholder="Search requirements"
+            aria-label="Search requirements"
+          ></esa-text-field
+          ><esa-dropdown-menu
+            class="bcn-swsc__menu"
+            position="below-start"
+            data-sw-chip="coverage"
+            data-items='[{"label":"All requirements","value":""},{"label":"Orphaned requirements","value":"unrouted"},{"label":"In several obligations","value":"several"}]'
+            data-value=""
+            width="auto"
+            ><button
+              type="button"
+              class="bcn-swsc"
+              aria-label="Coverage: All requirements"
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-controls="menu"
+              style="
+                font-family: &quot;Times New Roman&quot;;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: normal;
+              "
+            >
+              <span class="bcn-swsc__label" data-sw-chip-label="">All requirements</span
+              ><span class="bcn-swsc__chevron" aria-hidden="true"
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m6 9 6 6 6-6"></path></svg></span
+              ></span></button
+          ></esa-dropdown-menu>
+          <div class="bcn-swfr__verbs">
+            <span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+              ><button
+                class="esa-button__native typography-microcopy-2xs"
+                type="button"
+                data-swc-expand="true"
+                title="Open every commitment"
+              >
+                <span class="esa-button__label"
+                  ><span class="bcn-treg__verb"
+                    ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                      ><svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path d="m7 15 5 5 5-5"></path>
+                        <path d="m7 9 5-5 5 5"></path></svg></span
+                    >Expand all</span
+                  ></span
+                >
+              </button></span
+            ><span
+              class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+              ><button
+                class="esa-button__native typography-microcopy-2xs"
+                type="button"
+                data-swc-collapse="true"
+                title="Close every commitment"
+              >
+                <span class="esa-button__label"
+                  ><span class="bcn-treg__verb"
+                    ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                      ><svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path d="m7 20 5-5 5 5"></path>
+                        <path d="m7 4 5 5 5-5"></path></svg></span
+                    >Collapse all</span
+                  ></span
+                >
+              </button></span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bcn-treg__view" data-treg-view="category">
     <section class="bcn-swot" aria-label="Obligation registry" data-swo-mode="browse">
       <p class="bcn-swot__nomatch" data-swo-nomatch="" hidden="">No obligations match.</p>
       <div class="bcn-swot__body" data-swo-cats="">
@@ -22236,113 +22370,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
       <footer class="bcn-swot__foot"><div class="bcn-swot__foot-end"></div></footer>
     </section>
   </div>
-  <!-- ── By commitment ───────────────────────────────────────────────────── -->
   <div class="bcn-treg__view" data-treg-view="commitment" hidden="">
-    <div class="bcn-swfr">
-      <esa-text-field
-        class="bcn-swfr__search"
-        size="sm"
-        name="swc-search"
-        placeholder="Search requirements"
-        aria-label="Search requirements"
-      ></esa-text-field>
-      <div class="bcn-swfr__verbs">
-        <esa-dropdown-menu
-          class="bcn-swsc__menu"
-          position="below-start"
-          data-sw-chip="coverage"
-          data-items='[{"label":"All requirements","value":""},{"label":"Orphaned requirements","value":"unrouted"},{"label":"In several obligations","value":"several"}]'
-          data-value=""
-          width="auto"
-          ><button
-            type="button"
-            class="bcn-swsc"
-            aria-label="Coverage: All requirements"
-            aria-haspopup="menu"
-            aria-expanded="false"
-            aria-controls="menu"
-            style="
-              font-family: &quot;Times New Roman&quot;;
-              font-size: 13px;
-              font-weight: 400;
-              line-height: normal;
-            "
-          >
-            <span class="bcn-swsc__label" data-sw-chip-label="">All requirements</span
-            ><span class="bcn-swsc__chevron" aria-hidden="true"
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                ><svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m6 9 6 6 6-6"></path></svg></span
-            ></span></button></esa-dropdown-menu
-        ><span
-          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-          ><button
-            class="esa-button__native typography-microcopy-2xs"
-            type="button"
-            data-swc-expand="true"
-            title="Open every commitment"
-          >
-            <span class="esa-button__label"
-              ><span class="bcn-treg__verb"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m7 15 5 5 5-5"></path>
-                    <path d="m7 9 5-5 5 5"></path></svg></span
-                >Expand all</span
-              ></span
-            >
-          </button></span
-        ><span
-          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-          ><button
-            class="esa-button__native typography-microcopy-2xs"
-            type="button"
-            data-swc-collapse="true"
-            title="Close every commitment"
-          >
-            <span class="esa-button__label"
-              ><span class="bcn-treg__verb"
-                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                  ><svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m7 20 5-5 5 5"></path>
-                    <path d="m7 4 5 5 5-5"></path></svg></span
-                >Collapse all</span
-              ></span
-            >
-          </button></span
-        >
-      </div>
-    </div>
     <section class="bcn-swc" data-swc-tree="" data-swc-mode="browse">
       <p class="bcn-swc__nomatch" data-swc-nomatch="" hidden="">No requirements match.</p>
       <div class="bcn-swc__body">
@@ -100073,6 +100101,27 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
 
 ## Styles
 ```css
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);
@@ -100114,6 +100163,123 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
   color: var(--color-content-default-tertiary);
   flex: none;
 }
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
+  --_card-radius: var(--radius-md, 0.5rem);
+  --_card-padding: var(--spacing-500, 1.5rem);
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--color-content-default, #202020);
+  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
+  --_card-meta-label-color: var(--color-content-default-secondary, #646464);
+  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);
+  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);
+  background: var(--_card-bg);
+  border: var(--border-width-default, 1px) solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  display: block;
+  overflow: hidden;
+}
+.esa-card--outlined {
+  --_card-border: var(--color-border-default, #cecece);
+}
+.esa-card--elevated {
+  --_card-border: transparent;
+  box-shadow: var(--elevation-2, 0 2px 12px 0 #0000000a);
+}
+.esa-card--filled {
+  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  --_card-border: transparent;
+}
+.esa-card--header-primary .esa-card__header {
+  --_card-header-bg: var(--color-background-brand, #46a758);
+  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-card--header-muted .esa-card__header {
+  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-card--padding-none {
+  --_card-padding: 0;
+}
+.esa-card--padding-compact {
+  --_card-padding: var(--spacing-300, 0.75rem);
+}
+.esa-card--padding-spacious {
+  --_card-padding: var(--spacing-700, 3rem);
+}
+.esa-card__header {
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);
+  justify-content: space-between;
+  align-items: center;
+  min-height: 56px;
+  display: flex;
+}
+.esa-card__header-content {
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+  display: flex;
+}
+.esa-card__titles {
+  gap: var(--spacing-050, 0.125rem);
+  flex-direction: column;
+  display: flex;
+}
+.esa-card__title {
+  color: inherit;
+  margin: 0;
+}
+.esa-card__subtitle {
+  color: var(--color-content-default-secondary, #646464);
+  margin: 0;
+}
+.esa-card--header-primary .esa-card__subtitle {
+  color: var(--color-content-on-brand, #fffc);
+}
+.esa-card__meta {
+  gap: var(--spacing-100, 0.25rem) var(--spacing-500, 1.5rem);
+  margin: var(--spacing-050, 0.125rem) 0 0;
+  flex-wrap: wrap;
+  display: flex;
+}
+.esa-card__meta-pair {
+  align-items: baseline;
+  gap: var(--spacing-100, 0.25rem);
+  min-width: 0;
+  display: flex;
+}
+.esa-card__meta dt {
+  font-size: var(--_card-meta-label-size);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--_card-meta-label-color);
+}
+.esa-card__meta dd {
+  font-size: var(--_card-meta-value-size);
+  color: inherit;
+  margin: 0;
+}
+.esa-card--header-primary .esa-card__meta dt {
+  color: #fffc;
+}
+.esa-card__icon {
+  color: inherit;
+  flex-shrink: 0;
+}
+.esa-card__actions {
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  display: flex;
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.esa-card__footer {
+  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
+  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+}
 .bcn-disclosure .esa-icon {
   transition: transform 0.15s;
 }
@@ -100123,6 +100289,9 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
 .bcn-ev-staging__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
+}
+.bcn-ev-staging__item .esa-card {
+  overflow: visible;
 }
 .bcn-cbadge {
   font-family: var(--typography-font-family-mono);
@@ -100150,6 +100319,16 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
 .bcn-ev-targets__title .esa-icon {
   color: var(--color-content-default-tertiary);
   flex: none;
+}
+.bcn-ev-targets__item[data-receiving] .esa-card {
+  border-color: var(--color-background-brand-muted);
+  background: color-mix(in srgb, var(--color-background-brand-muted) 5%, transparent);
+}
+.bcn-ev-targets__item[data-blocked] .esa-card {
+  opacity: 0.45;
+}
+.bcn-ev-targets__item .esa-card {
+  overflow: visible;
 }
 .topbar__right .esa-icon-button {
   color: var(--color-content-default-secondary);
@@ -101078,18 +101257,35 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
-.bcn-treg__bar {
-  justify-content: flex-end;
-  padding-block-end: var(--spacing-200);
-  display: flex;
-}
-.bcn-treg__view:not([hidden]) {
+.bcn-treg__view:not([hidden]),
+.bcn-treg__filters:not([hidden]) {
   display: block;
 }
 .bcn-treg__verb {
   align-items: center;
   gap: var(--spacing-100);
   display: inline-flex;
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -101230,6 +101426,15 @@ summary.esa-button--variant-chrome:focus-visible {
   color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
+}
+.stack[data-split] > [data-split] {
+  margin-block-end: auto;
+}
 ```
 
 ## Tokens
@@ -101250,6 +101455,9 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-md`: .25rem _(component)_
 - `--button-radius-sm`: .25rem _(component)_
 - `--button-radius-xs`: .25rem _(component)_
+- `--card-bg`: #fcfcfc _(component)_
+- `--card-border-color`: #dcdcdc _(component)_
+- `--card-header-bg`: transparent _(component)_
 - `--color-action`: #d45087 _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
@@ -101278,6 +101486,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-on-brand`: #fcfcfc _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_
 - `--color-content-on-utility-warning`: #4f3422 _(semantic)_
@@ -101286,10 +101495,13 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-content-utility-success`: #218358 _(semantic)_
 - `--color-content-utility-warning`: #ab6400 _(semantic)_
 - `--color-obligation`: #f95d6a _(component)_
+- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
 - `--focus-ring-color`: #3e9b4f _(component)_
 - `--focus-ring-offset`: 2px _(component)_
 - `--focus-ring-width`: 2px _(component)_
 - `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-weight-medium`: 500 _(component)_
+- `--gap`: 1rem _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-sm`: 16px _(primitive)_
@@ -101298,6 +101510,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
+- `--radius-md`: .25rem _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -101306,10 +101519,27 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
+- `--spacing-700`: 3rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
+- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-letter-spacing`: .01em _(semantic)_
+- `--typography-body-md-line-height`: 1.6 _(semantic)_
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-font-weight`: 500 _(semantic)_
+- `--typography-label-md-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
 - `--typography-microcopy-2xs-font-weight`: 500 _(semantic)_

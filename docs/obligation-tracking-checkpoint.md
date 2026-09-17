@@ -876,3 +876,66 @@ the summary line. Same reasoning that shows the absolute date in one direction a
 The feed exercises **three of the five live topics.** `surveys` and `processedreports` have a
 listener in prod and no seed here — `EventSource` is `'observation' | 'site report' | 'dmr'`.
 Nobody has asked what a survey event would raise.
+
+---
+
+## 24. The Registry's controls get their panel back (2026-09-17)
+
+Kim: the filters area *"was copied directly from the setup wizard page and while its
+functionality and general layout are good, it still needs adjustments"* — the wizard version has
+a notable background and outline; this one had neither.
+
+**What had happened.** The controls were lifted wholesale from setup step 5 and arrived
+**without the panel the wizard puts them in.** In the wizard they sit inside `BcnSwStepPanel` —
+a bordered, raised surface with a header row. On this page they were loose controls on the page
+ground, and `bcn-sw-filter-row`'s own `border-top` had nothing above it to separate from, so its
+hairline read as a stray line.
+
+**The panel is `esa-card`, not a copy of `BcnSwStepPanel`.** `variant="outlined"`,
+`padding="none"` — the lego already is a bordered raised surface with a header row, a
+right-aligned `actions` slot and a body. `padding="none"` because the filter row brings its own
+inset and its own top hairline, which now separates the header from the controls exactly as it
+does in the wizard. The view switch moved out of its floating `.bcn-treg__bar` into the card's
+`actions` slot; that bar is deleted.
+
+`BcnSwStepPanel` was the wrong thing to reuse: its header is **step furniture** — a numbered
+token in the step's entity colour, a serif h2, and a required `intro` line telling a reviewer
+what to do. None of that is true here.
+
+### What replaced "Obligations in —"
+
+Kim asked for the wizard's step title to go and for something more appropriate. The wizard's
+header reads *"⑤ Obligations in [All categories] 333"* over *"Review and approve Obligations and
+their proposed categorizations."* On this page nothing is being approved, this is not step 5 of
+anything, and a line explaining what the view is would be the byline the design record has
+pruned five times.
+
+What the header carries instead is **the registry's own shape, as facts** — `esa-card`'s `meta`
+contract, which is literally "identifying facts about the record":
+
+> Requirements 854 · Obligations 333 · Commitments 294
+
+**These deliberately do NOT vary by view.** The two views are two orderings of one permit, not
+two datasets (§10), so one set is honest for both and nothing has to swap when the switch moves.
+(Measured from `CHAIN_TOTALS` and `OBLIGATION_TREE_TOTALS`. Note `OBLIGATION_TOTALS` is the OLD
+402-row hand registry — not this fixture, and not what these read.)
+
+### A second fix the panel exposed: filters left, verbs right
+
+With the panel in place the grouping was visibly wrong — search and the class picker on the
+left, and the **Category chip stranded on the right beside Expand all / Collapse all**. That is
+`bcn-sw-filter-row`'s doing: its only slot lands in `.bcn-swfr__verbs`, which is
+`margin-left: auto`. Right for a verb, wrong for a filter.
+
+The row now has a **`filters` named slot** ahead of the verbs group. Additive and safe — the
+wizard does not use it, because there the category chip lives in the step title. The rule is
+worth keeping: **anything that NARROWS the list goes in `filters`; anything that ACTS on it goes
+in the default slot.**
+
+**The chip stays a chip and must.** `BcnSwObligationsTree` filters by category off a bubbling
+`sw:chip` event (`detail.name === 'category'`), so turning it into an `esa-select` picker to
+match "All classes" would have silently broken the filter.
+
+**Verified:** build green at 626 pages; the switch drives **four** elements now (a filter row and
+a tree per view) and all four swap together; both views render their own controls; the old
+`.bcn-treg__bar` is gone from the built HTML.

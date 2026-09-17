@@ -33,6 +33,11 @@ const { searchPlaceholder, searchName, pickers = [], inset = false } = Astro.pro
   {pickers.map((p) => (
     <esa-select class="bcn-swfr__picker" size="sm" name={`${searchName}-${p.label.toLowerCase()}`} options={optionsOf(p)} value="" placeholder={p.value} cue={`Filter by ${p.label.toLowerCase()}.`}></esa-select>
   ))}
+  {/* FILTERS LEFT, VERBS RIGHT. The default slot is pushed right with the verbs, which is right
+      for Expand all / Collapse all and wrong for another filter — a slotted bcn-sw-select-chip
+      landed across the row from the search and the picker it belongs beside. Anything that
+      NARROWS the list goes here; anything that ACTS on it goes in the default slot. */}
+  <slot name="filters" />
   <div class="bcn-swfr__verbs"><slot /></div>
 </div>
 
