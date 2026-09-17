@@ -5,7 +5,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
 ## Key decisions
 - THE TWO HALVES ARE PEERS, NOT A SURFACE WITH AN APPENDIX. Stacking them made the registry read as a footnote you scroll past. Tabs say what is true: you are either asking what is happening or what the project is signed up to.
 - TWO LEVELS OF TAB, DELIBERATELY DIFFERENT IN APPEARANCE. The outer row is SEGMENTED and the inner row (the four feed views) is UNDERLINE, so a nested tablist reads as a second level rather than one confusing row of six. Both are esa-tab-layout; only the appearance prop differs.
-- THE OUTER TABS CARRY COUNTS OF DIFFERENT THINGS — Feed is events, Registry is obligations. Both now come from ONE fixture, so a duty in the feed is a duty in the tree and the numbers reconcile.
+- NO COUNT ON EITHER OUTER TAB. Registry briefly carried one — the project’s obligation total, the page’s single honest number — while Feed carried none, because its four views count four different slices and any one figure would imply it was the total. Once the volumes were realistic even that one stopped telling a reader anything before they clicked (Kim, 2026-09-16).
 - The shell decides nothing else. The feed owns its views; the registry owns its tree and its provenance note.
 
 ## Gotchas
@@ -13,39 +13,16 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
 - The page also carries an unrelated esa-tab-layout in the staging chrome (data-staging-tabs). Do not count it when testing, and do not confuse it for a third level.
 
 ## Done when
-- Two tab rows: an outer segmented row reading Feed (5) / Registry (333), and inside Feed an underline row reading All (5) / Important (54) / To-do (4).
+- Two tab rows: an outer segmented row reading Feed / Registry, and inside Feed an underline row reading All / Important / To-do / Pinned. No badge on any of them.
 - Selecting Registry swaps the whole area for the four-level read-only tree.
 
 ## Markup
 ```html
 <div class="bcn-tsh">
-  <script type="module">
-    for (let e of document.querySelectorAll(`.bcn-tw`)) {
-      let t = [...e.querySelectorAll(`[data-tw-pick]`)],
-        n = [...e.querySelectorAll(`[data-tw-pane]`)],
-        r = (e) => {
-          for (let n of t)
-            n.setAttribute(`aria-selected`, String(n.dataset.twPick === e));
-          for (let t of n) t.hidden = t.dataset.twPane !== e;
-        };
-      for (let e of t) e.addEventListener(`click`, () => r(e.dataset.twPick));
-      for (let t of e.querySelectorAll(`[data-tw-expand], [data-tw-collapse]`)) {
-        let e = t.hasAttribute(`data-tw-expand`);
-        t.addEventListener(`click`, () => {
-          let n = t.closest(`[data-tw-pane]`);
-          if (n) for (let t of n.querySelectorAll(`details[data-swo-branch]`)) t.open = e;
-        });
-      }
-      e.querySelector(`.bcn-tw__list`)?.addEventListener(`keydown`, (e) => {
-        let n = e;
-        if (n.key !== `ArrowDown` && n.key !== `ArrowUp`) return;
-        let i = t.findIndex((e) => e.getAttribute(`aria-selected`) === `true`),
-          a =
-            t[n.key === `ArrowDown` ? Math.min(i + 1, t.length - 1) : Math.max(i - 1, 0)];
-        a && (n.preventDefault(), r(a.dataset.twPick), a.focus());
-      });
-    }
-  </script>
+  <script
+    type="module"
+    src="/beacon-design/_astro/BcnTrackingWorkspace.astro_astro_type_script_index_0_lang.CyrdtaVt.js"
+  ></script>
   <script type="module">
     document.addEventListener(`click`, (e) => {
       let t = e.target.closest?.(`[data-esa-alert-dismiss]`);
@@ -97,4186 +74,9454 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
     ><div slot="panel-0">
       <section class="bcn-tf">
         <esa-tab-layout
-          tabs='[{"label":"All"},{"label":"Important"},{"label":"To-do"},{"label":"Ongoing"}]'
+          tabs='[{"label":"All"},{"label":"Important"},{"label":"To-do"},{"label":"Pinned"}]'
           appearance="underline"
           size="md"
           active-index="0"
           variant="underline"
           ><div slot="panel-0">
             <div class="bcn-tw" data-tw-view="all">
-              <div class="bcn-tw__panes sidebar" data-gap="md">
-                <div class="bcn-tw__rail">
-                  <h3 class="typography-label-sm bcn-tw__rail-label">Events</h3>
-                  <ul class="bcn-tw__list" role="listbox" aria-label="Events">
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="true"
-                        data-tw-pick="obs-ggs"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+              <header class="bcn-tw__bar">
+                <esa-button-toggle
+                  class="bcn-tw__switch"
+                  size="sm"
+                  value="event"
+                  aria-label="How to read events"
+                  data-tw-switch="true"
+                  data-options='[{"label":"By event","value":"event"},{"label":"By obligation","value":"obligation"}]'
+                ></esa-button-toggle>
+              </header>
+              <div class="bcn-tw__side" data-tw-side="event">
+                <div class="bcn-tw__panes sidebar" data-gap="md">
+                  <div class="bcn-tw__rail">
+                    <h3 class="typography-label-sm bcn-tw__rail-label">Events</h3>
+                    <ul class="bcn-tw__list" role="listbox" aria-label="Events">
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="true"
+                          data-tw-pick="obs-ggs"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                ></path>
+                                <path
+                                  d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                ></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Giant garter snake seen in an irrigation canal at the work
+                            edge</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obs-hawk"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                ></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M12 17h.01"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Injured Swainson's hawk recovered near a haul road</span
+                          ><span class="bcn-tw__row-when">2h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="dmr-daily"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                ></path>
+                                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                <path d="M16 13H8"></path>
+                                <path d="M16 17H8"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Daily monitoring report — in-water work at the intake</span
+                          ><span class="bcn-tw__row-when">16h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obs-trbl"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                ></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Active tricolored blackbird colony found in the staging
+                            buffer</span
+                          ><span class="bcn-tw__row-when">18h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="sr-turbid"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <rect
+                                  width="8"
+                                  height="4"
+                                  x="8"
+                                  y="2"
+                                  rx="1"
+                                  ry="1"
+                                ></rect>
+                                <path
+                                  d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                                ></path>
+                                <path d="M12 11h4"></path>
+                                <path d="M12 16h4"></path>
+                                <path d="M8 11h.01"></path>
+                                <path d="M8 16h.01"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Turbidity above the approved threshold downstream of
+                            dewatering</span
+                          ><span class="bcn-tw__row-when">22h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obs-cts"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                ></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M12 17h.01"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >California tiger salamander found inside exclusion
+                            fencing</span
+                          ><span class="bcn-tw__row-when">2d ago</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="bcn-tw__detail">
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obs-ggs"
+                      aria-label="Giant garter snake seen in an irrigation canal at the work edge"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Giant garter snake seen in an irrigation canal at the work edge
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Resource</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Reach 3 — canal crossing</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">giant garter snake</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Buffer</dt>
+                            <dd class="typography-body-sm">200 ft</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">
+                              A. Mendes, biological monitor
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
                             >
-                              <path
-                                d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
-                              ></path>
-                              <path
-                                d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
-                              ></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Giant garter snake seen in an irrigation canal at the work
-                          edge</span
-                        ><span class="bcn-tw__row-when">45m ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="obs-hawk"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
                             >
-                              <path
-                                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-                              ></path>
-                              <path d="M12 9v4"></path>
-                              <path d="M12 17h.01"></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Injured Swainson's hawk recovered near a haul road</span
-                        ><span class="bcn-tw__row-when">2h ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="dmr-daily"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEH"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Avoidance Measures in Unmapped Habitat"
+                                >Avoidance Measures in Unmapped Habitat</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="2 requirements"
+                                  >2</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMEQGNEXHJ6WJ7QGSE8T9"
+                                data-code="COA 10.7"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 10.7</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Apply Avoidance Measures to Unmapped Species Occurrences"
+                                  >Apply Avoidance Measures to Unmapped Species
+                                  Occurrences</span
+                                >
+                              </li>
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMES8P77HCP3S39H7JS59"
+                                data-code="COA 10.8"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 10.8</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Apply Avoidance Measures to Unmapped Suitable Habitat"
+                                  >Apply Avoidance Measures to Unmapped Suitable
+                                  Habitat</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Work Stoppage on Covered Species Encounter"
+                                >Work Stoppage on Covered Species Encounter</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
+                                >Ongoing demonstration of mitigation performance during
+                                the permit term</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
+                                data-code="COA 13.3"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
+                                  >Provide Ongoing Demonstration of Mitigation
+                                  Performance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obs-hawk"
+                      hidden=""
+                      aria-label="Injured Swainson's hawk recovered near a haul road"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Injured Swainson's hawk recovered near a haul road
+                        </h3>
+                        <p class="bcn-tw__pane-when">2h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Compliance Concern</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">North haul road</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">swainson's hawk</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">
+                              R. Osei, biological monitor
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
                             >
-                              <path
-                                d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                              ></path>
-                              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                              <path d="M16 13H8"></path>
-                              <path d="M16 17H8"></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Daily monitoring report — in-water work at the intake</span
-                        ><span class="bcn-tw__row-when">16h ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="obs-trbl"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
                             >
-                              <path
-                                d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
-                              ></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Active tricolored blackbird colony found in the staging
-                          buffer</span
-                        ><span class="bcn-tw__row-when">18h ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="sr-turbid"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3K6F3VSR2GCE566TNFW"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Care of covered species injured by covered activities"
+                                >Care of covered species injured by covered
+                                activities</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHV7XKMQW8P8NFN047XX"
+                                data-code="COA 11.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Transport Injured Covered Species to Rehabilitation Facility"
+                                  >Transport Injured Covered Species to Rehabilitation
+                                  Facility</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Work Stoppage on Covered Species Encounter"
+                                >Work Stoppage on Covered Species Encounter</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
+                                >Ongoing demonstration of mitigation performance during
+                                the permit term</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
+                                data-code="COA 13.3"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
+                                  >Provide Ongoing Demonstration of Mitigation
+                                  Performance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="dmr-daily"
+                      hidden=""
+                      aria-label="Daily monitoring report — in-water work at the intake"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Daily monitoring report — in-water work at the intake
+                        </h3>
+                        <p class="bcn-tw__pane-when">16h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Package</dt>
+                            <dd class="typography-body-sm">CP-2 Intake</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Weather</dt>
+                            <dd class="typography-body-sm">Overcast, light wind</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Air temp</dt>
+                            <dd class="typography-body-sm">68°F</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Precipitation</dt>
+                            <dd class="typography-body-sm">None</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Field person</dt>
+                            <dd class="typography-body-sm">D. Vance, field person</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
                             >
-                              <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-                              <path
-                                d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
-                              ></path>
-                              <path d="M12 11h4"></path>
-                              <path d="M12 16h4"></path>
-                              <path d="M8 11h.01"></path>
-                              <path d="M8 16h.01"></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Turbidity above the approved threshold downstream of
-                          dewatering</span
-                        ><span class="bcn-tw__row-when">22h ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="obs-cts"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
                             >
-                              <path
-                                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-                              ></path>
-                              <path d="M12 9v4"></path>
-                              <path d="M12 17h.01"></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >California tiger salamander found inside exclusion
-                          fencing</span
-                        ><span class="bcn-tw__row-when">2d ago</span>
-                      </button>
-                    </li>
-                  </ul>
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3GTRYAK61ZHAYGX6G9X"
+                          data-class="monitor"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Monitor</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Watch for distressed or injured fish during pile driving"
+                                >Watch for distressed or injured fish during pile
+                                driving</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMKSA5B31E9JAZ7XQPKZH"
+                                data-code="COA 11.33"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.33</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Monitor Work Area for Distressed or Injured Fish"
+                                  >Monitor Work Area for Distressed or Injured Fish</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3757AMQWDRRZPPRX5X5"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Dewatering pump shutdown"
+                                >Dewatering pump shutdown</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMP4K7W5XYW0R2Z17AQ14"
+                                data-code="COA 11.61"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.61</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Shut Down Pump and Contact Biologist if GGS Seen at Intake Screen"
+                                  >Shut Down Pump and Contact Biologist if GGS Seen at
+                                  Intake Screen</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obs-trbl"
+                      hidden=""
+                      aria-label="Active tricolored blackbird colony found in the staging buffer"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Active tricolored blackbird colony found in the staging buffer
+                        </h3>
+                        <p class="bcn-tw__pane-when">18h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Nesting Bird</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Staging area 2</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">tricolored blackbird</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Buffer</dt>
+                            <dd class="typography-body-sm">1300 ft</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">J. Whitfield, avian lead</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
+                                >Ongoing demonstration of mitigation performance during
+                                the permit term</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
+                                data-code="COA 13.3"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
+                                  >Provide Ongoing Demonstration of Mitigation
+                                  Performance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="sr-turbid"
+                      hidden=""
+                      aria-label="Turbidity above the approved threshold downstream of dewatering"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Turbidity above the approved threshold downstream of dewatering
+                        </h3>
+                        <p class="bcn-tw__pane-when">22h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Compliance point 3</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Activity</dt>
+                            <dd class="typography-body-sm">
+                              Dewatering and fish isolation
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">On site</dt>
+                            <dd class="typography-body-sm">
+                              Water quality team, M. Okafor
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">Water quality team</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKM0HYHZPHBXBXTP9J36"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Storm Onset Work Restriction"
+                                >Storm Onset Work Restriction</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDND6Q88AT76ZWVB5VRY"
+                                data-code="COA 9.7"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.7</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Restrict Sediment-Generating Work Ahead of Storm Onset"
+                                  >Restrict Sediment-Generating Work Ahead of Storm
+                                  Onset</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obs-cts"
+                      hidden=""
+                      aria-label="California tiger salamander found inside exclusion fencing"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          California tiger salamander found inside exclusion fencing
+                        </h3>
+                        <p class="bcn-tw__pane-when">2d ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Compliance Concern</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Reach 1 — upland margin</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">
+                              california tiger salamander
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">Wildlife capture crew</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Work Stoppage on Covered Species Encounter"
+                                >Work Stoppage on Covered Species Encounter</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
+                                >Ongoing demonstration of mitigation performance during
+                                the permit term</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
+                                data-code="COA 13.3"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
+                                  >Provide Ongoing Demonstration of Mitigation
+                                  Performance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                  </div>
                 </div>
-                <div class="bcn-tw__detail">
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="obs-ggs"
-                    aria-label="Giant garter snake seen in an irrigation canal at the work edge"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Giant garter snake seen in an irrigation canal at the work edge
-                      </h3>
-                      <p class="bcn-tw__pane-when">45m ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Resource</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Reach 3 — canal crossing</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">giant garter snake</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Buffer</dt>
-                          <dd class="typography-body-sm">200 ft</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">
-                            A. Mendes, biological monitor
-                          </dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Flagged</dt>
-                          <dd class="typography-body-sm">Concern</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
+              </div>
+              <div class="bcn-tw__side" data-tw-side="obligation" hidden="">
+                <div class="bcn-tw__panes sidebar" data-gap="md">
+                  <div class="bcn-tw__rail">
+                    <h3 class="typography-label-sm bcn-tw__rail-label">Duties reached</h3>
+                    <ul class="bcn-tw__list" role="listbox" aria-label="Duties reached">
+                      <li>
+                        <button
                           type="button"
-                          data-tw-expand="true"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="true"
+                          data-tw-pick="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
-                          >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
+                          <span class="bcn-tw__row-label"
+                            >Ongoing demonstration of mitigation performance during the
+                            permit term</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
                           type="button"
-                          data-tw-collapse="true"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
-                          >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEH"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Avoidance Measures in Unmapped Habitat"
-                              >Avoidance Measures in Unmapped Habitat</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="2 requirements"
-                                >2</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMEQGNEXHJ6WJ7QGSE8T9"
-                              data-code="COA 10.7"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 10.7</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Apply Avoidance Measures to Unmapped Species Occurrences"
-                                >Apply Avoidance Measures to Unmapped Species
-                                Occurrences</span
-                              >
-                            </li>
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMES8P77HCP3S39H7JS59"
-                              data-code="COA 10.8"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 10.8</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Apply Avoidance Measures to Unmapped Suitable Habitat"
-                                >Apply Avoidance Measures to Unmapped Suitable
-                                Habitat</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                          <span class="bcn-tw__row-label"
+                            >Biological Monitor daily communication and immediate reports
+                            to the Designated Biologist</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Work Stoppage on Covered Species Encounter"
-                              >Work Stoppage on Covered Species Encounter</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Covered Species Encounter Reporting to the Biologist</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
-                              >Ongoing demonstration of mitigation performance during the
-                              permit term</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
-                              data-code="COA 13.3"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
-                                >Provide Ongoing Demonstration of Mitigation
-                                Performance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Work Stoppage on Covered Species Encounter</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6Y3GTRYAK61ZHAYGX6G9X"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Watch for distressed or injured fish during pile
+                            driving</span
+                          ><span class="bcn-tw__row-when">16h ago</span>
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEH"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Avoidance Measures in Unmapped Habitat</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6Y3K6F3VSR2GCE566TNFW"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Care of covered species injured by covered activities</span
+                          ><span class="bcn-tw__row-when">2h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6Y3757AMQWDRRZPPRX5X5"
+                        >
+                          <span class="bcn-tw__row-label">Dewatering pump shutdown</span
+                          ><span class="bcn-tw__row-when">16h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKM0HYHZPHBXBXTP9J36"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Storm Onset Work Restriction</span
+                          ><span class="bcn-tw__row-when">22h ago</span>
+                        </button>
                       </li>
                     </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="obs-hawk"
-                    hidden=""
-                    aria-label="Injured Swainson's hawk recovered near a haul road"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Injured Swainson's hawk recovered near a haul road
-                      </h3>
-                      <p class="bcn-tw__pane-when">2h ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Compliance Concern</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">North haul road</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">swainson's hawk</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">R. Osei, biological monitor</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Flagged</dt>
-                          <dd class="typography-body-sm">Concern</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
+                  </div>
+                  <div class="bcn-tw__detail">
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                      aria-label="Ongoing demonstration of mitigation performance during the permit term"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Ongoing demonstration of mitigation performance during the
+                          permit term
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Notify</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Mitigation and restoration › Mitigation lands
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A field event — the one class that is genuinely event-driven
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Any covered species</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              During the permit term, Permittee shall demonstrate to CDFW
+                              that Covered Species’ requirements have been satisfied on an
+                              ongoing basis and consistent with the require
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
                           >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3K6F3VSR2GCE566TNFW"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Care of covered species injured by covered activities"
-                              >Care of covered species injured by covered activities</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHV7XKMQW8P8NFN047XX"
-                              data-code="COA 11.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Transport Injured Covered Species to Rehabilitation Facility"
-                                >Transport Injured Covered Species to Rehabilitation
-                                Facility</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Work Stoppage on Covered Species Encounter"
-                              >Work Stoppage on Covered Species Encounter</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
-                              >Ongoing demonstration of mitigation performance during the
-                              permit term</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
-                              data-code="COA 13.3"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
-                                >Provide Ongoing Demonstration of Mitigation
-                                Performance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="dmr-daily"
-                    hidden=""
-                    aria-label="Daily monitoring report — in-water work at the intake"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Daily monitoring report — in-water work at the intake
-                      </h3>
-                      <p class="bcn-tw__pane-when">16h ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Package</dt>
-                          <dd class="typography-body-sm">CP-2 Intake</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Weather</dt>
-                          <dd class="typography-body-sm">Overcast, light wind</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Air temp</dt>
-                          <dd class="typography-body-sm">68°F</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Precipitation</dt>
-                          <dd class="typography-body-sm">None</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Field person</dt>
-                          <dd class="typography-body-sm">D. Vance, field person</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Active tricolored blackbird colony found in the staging
+                                  buffer</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>18h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Nesting Bird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Staging area 2</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">tricolored blackbird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">1300 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    J. Whitfield, avian lead
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                      hidden=""
+                      aria-label="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Biological Monitor daily communication and immediate reports to
+                          the Designated Biologist
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Notify</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Agency reporting and approvals › Species sightings and CNDDB
+                              reporting
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A field event — the one class that is genuinely event-driven
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Any covered species</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Active tricolored blackbird colony found in the staging
+                                  buffer</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>18h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Nesting Bird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Staging area 2</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">tricolored blackbird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">1300 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    J. Whitfield, avian lead
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                      hidden=""
+                      aria-label="Covered Species Encounter Reporting to the Biologist"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Covered Species Encounter Reporting to the Biologist
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Notify</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Wildlife encounters and handling
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A field event — the one class that is genuinely event-driven
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Any covered species</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If they encounter any Covered Species within or near the
+                              Project site
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3GTRYAK61ZHAYGX6G9X"
-                        data-class="monitor"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Monitor</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Watch for distressed or injured fish during pile driving"
-                              >Watch for distressed or injured fish during pile
-                              driving</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMKSA5B31E9JAZ7XQPKZH"
-                              data-code="COA 11.33"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.33</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Monitor Work Area for Distressed or Injured Fish"
-                                >Monitor Work Area for Distressed or Injured Fish</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3757AMQWDRRZPPRX5X5"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Dewatering pump shutdown"
-                              >Dewatering pump shutdown</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMP4K7W5XYW0R2Z17AQ14"
-                              data-code="COA 11.61"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.61</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Shut Down Pump and Contact Biologist if GGS Seen at Intake Screen"
-                                >Shut Down Pump and Contact Biologist if GGS Seen at
-                                Intake Screen</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="obs-trbl"
-                    hidden=""
-                    aria-label="Active tricolored blackbird colony found in the staging buffer"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Active tricolored blackbird colony found in the staging buffer
-                      </h3>
-                      <p class="bcn-tw__pane-when">18h ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Nesting Bird</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Staging area 2</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">tricolored blackbird</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Buffer</dt>
-                          <dd class="typography-body-sm">1300 ft</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">J. Whitfield, avian lead</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Active tricolored blackbird colony found in the staging
+                                  buffer</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>18h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Nesting Bird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Staging area 2</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">tricolored blackbird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">1300 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    J. Whitfield, avian lead
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                      hidden=""
+                      aria-label="Work Stoppage on Covered Species Encounter"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Work Stoppage on Covered Species Encounter
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Wildlife encounters and handling
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If they encounter any Covered Species within or near the
+                              Project site
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
-                          >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
-                              >Ongoing demonstration of mitigation performance during the
-                              permit term</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
-                              data-code="COA 13.3"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
-                                >Provide Ongoing Demonstration of Mitigation
-                                Performance</span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Work stops on encountering any covered species, whatever
+                                the species is.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Work stops on encountering any covered species — a listed
+                                hawk on a haul road is one.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="sr-turbid"
-                    hidden=""
-                    aria-label="Turbidity above the approved threshold downstream of dewatering"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Turbidity above the approved threshold downstream of dewatering
-                      </h3>
-                      <p class="bcn-tw__pane-when">22h ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Compliance point 3</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Activity</dt>
-                          <dd class="typography-body-sm">
-                            Dewatering and fish isolation
-                          </dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">On site</dt>
-                          <dd class="typography-body-sm">
-                            Water quality team, M. Okafor
-                          </dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">Water quality team</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKM0HYHZPHBXBXTP9J36"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Storm Onset Work Restriction"
-                              >Storm Onset Work Restriction</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDND6Q88AT76ZWVB5VRY"
-                              data-code="COA 9.7"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.7</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Restrict Sediment-Generating Work Ahead of Storm Onset"
-                                >Restrict Sediment-Generating Work Ahead of Storm
-                                Onset</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Work stops on encountering any covered species; the animal
+                                was inside the exclusion.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3GTRYAK61ZHAYGX6G9X"
+                      hidden=""
+                      aria-label="Watch for distressed or injured fish during pile driving"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Watch for distressed or injured fish during pile driving
+                        </h3>
+                        <p class="bcn-tw__pane-when">16h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Monitor</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Noise and vibration › Pile driving and underwater sound
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              Evidence arriving, or failing to. Beacon publishes no
+                              evidence event
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              When distressed or injured fish are observed, for example,
+                              if injured fish are seen floating near the surface
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="" open="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                    ></path>
+                                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                    <path d="M16 13H8"></path>
+                                    <path d="M16 17H8"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Daily monitoring report — in-water work at the
+                                  intake</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind"
+                                    >Daily monitoring report</span
+                                  ><span aria-hidden="true">·</span><span>16h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="obs-cts"
-                    hidden=""
-                    aria-label="California tiger salamander found inside exclusion fencing"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        California tiger salamander found inside exclusion fencing
-                      </h3>
-                      <p class="bcn-tw__pane-when">2d ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Compliance Concern</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Reach 1 — upland margin</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">california tiger salamander</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">Wildlife capture crew</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Flagged</dt>
-                          <dd class="typography-body-sm">Concern</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
-                          >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
-                          >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Work Stoppage on Covered Species Encounter"
-                              >Work Stoppage on Covered Species Encounter</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                In-water work at the intake is the condition this watch is
+                                written for.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Package</dt>
+                                  <dd class="typography-body-sm">CP-2 Intake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Weather</dt>
+                                  <dd class="typography-body-sm">Overcast, light wind</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Air temp</dt>
+                                  <dd class="typography-body-sm">68°F</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Precipitation</dt>
+                                  <dd class="typography-body-sm">None</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Field person</dt>
+                                  <dd class="typography-body-sm">
+                                    D. Vance, field person
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEH"
+                      hidden=""
+                      aria-label="Avoidance Measures in Unmapped Habitat"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Avoidance Measures in Unmapped Habitat
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Habitat avoidance and work footprint
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">2 requirements</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If a Covered Species occurrence(s) is observed within a
+                              Project construction site outside of the modeled habitat
+                              areas shown in Attachment 5, all avoidance and mi
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="" open="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
-                              >Ongoing demonstration of mitigation performance during the
-                              permit term</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
-                              data-code="COA 13.3"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
-                                >Provide Ongoing Demonstration of Mitigation
-                                Performance</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                A canal at the work edge is outside the modelled habitat,
+                                which is what this duty covers.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3K6F3VSR2GCE566TNFW"
+                      hidden=""
+                      aria-label="Care of covered species injured by covered activities"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Care of covered species injured by covered activities
+                        </h3>
+                        <p class="bcn-tw__pane-when">2h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Wildlife encounters and handling
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If a Covered Species is injured as a result of Covered
+                              Activities, the Designated Biologist shall immediately take
+                              it to a CDFW-approved wildlife rehabilitation o
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="" open="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                The duty is written for an injured covered species; this
+                                bird was recovered injured.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3757AMQWDRRZPPRX5X5"
+                      hidden=""
+                      aria-label="Dewatering pump shutdown"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">Dewatering pump shutdown</h3>
+                        <p class="bcn-tw__pane-when">16h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">Water › Dewatering</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If Project personnel see GGS at the screen during
+                              dewatering, they shall shut down the pump and contact the
+                              Designated Biologist(s) to relocate the snake (see Con
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="" open="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                    ></path>
+                                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                    <path d="M16 13H8"></path>
+                                    <path d="M16 17H8"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Daily monitoring report — in-water work at the
+                                  intake</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind"
+                                    >Daily monitoring report</span
+                                  ><span aria-hidden="true">·</span><span>16h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                The report logs in-water work with dewatering under way,
+                                which is when this duty applies.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Package</dt>
+                                  <dd class="typography-body-sm">CP-2 Intake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Weather</dt>
+                                  <dd class="typography-body-sm">Overcast, light wind</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Air temp</dt>
+                                  <dd class="typography-body-sm">68°F</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Precipitation</dt>
+                                  <dd class="typography-body-sm">None</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Field person</dt>
+                                  <dd class="typography-body-sm">
+                                    D. Vance, field person
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKM0HYHZPHBXBXTP9J36"
+                      hidden=""
+                      aria-label="Storm Onset Work Restriction"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">Storm Onset Work Restriction</h3>
+                        <p class="bcn-tw__pane-when">22h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Water › Erosion and sediment control
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If that phase and its associated erosion control measures
+                              cannot be completed prior to the onset of a storm (rainfall
+                              exceeding 0
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="" open="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <rect
+                                      width="8"
+                                      height="4"
+                                      x="8"
+                                      y="2"
+                                      rx="1"
+                                      ry="1"
+                                    ></rect>
+                                    <path
+                                      d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                                    ></path>
+                                    <path d="M12 11h4"></path>
+                                    <path d="M12 16h4"></path>
+                                    <path d="M8 11h.01"></path>
+                                    <path d="M8 16h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Turbidity above the approved threshold downstream of
+                                  dewatering</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Site report</span
+                                  ><span aria-hidden="true">·</span><span>22h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Erosion and turbidity controls are what this duty governs;
+                                the threshold was exceeded downstream of dewatering.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Compliance point 3</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Activity</dt>
+                                  <dd class="typography-body-sm">
+                                    Dewatering and fish isolation
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">On site</dt>
+                                  <dd class="typography-body-sm">
+                                    Water quality team, M. Okafor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">Water quality team</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div slot="panel-1">
             <div class="bcn-tw" data-tw-view="important">
-              <div class="bcn-tw__panes sidebar" data-gap="md">
-                <div class="bcn-tw__rail">
-                  <h3 class="typography-label-sm bcn-tw__rail-label">In your filter</h3>
-                  <ul class="bcn-tw__list" role="listbox" aria-label="In your filter">
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="true"
-                        data-tw-pick="imp-obs-ggs"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+              <header class="bcn-tw__bar">
+                <esa-button-toggle
+                  class="bcn-tw__switch"
+                  size="sm"
+                  value="event"
+                  aria-label="How to read in your filter"
+                  data-tw-switch="true"
+                  data-options='[{"label":"By event","value":"event"},{"label":"By obligation","value":"obligation"}]'
+                ></esa-button-toggle>
+              </header>
+              <div class="bcn-tw__side" data-tw-side="event">
+                <div class="bcn-tw__panes sidebar" data-gap="md">
+                  <div class="bcn-tw__rail">
+                    <h3 class="typography-label-sm bcn-tw__rail-label">In your filter</h3>
+                    <ul class="bcn-tw__list" role="listbox" aria-label="In your filter">
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="true"
+                          data-tw-pick="imp-obs-ggs"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                ></path>
+                                <path
+                                  d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                ></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Giant garter snake seen in an irrigation canal at the work
+                            edge</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="imp-obs-hawk"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                ></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M12 17h.01"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Injured Swainson's hawk recovered near a haul road</span
+                          ><span class="bcn-tw__row-when">2h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="imp-obs-trbl"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                ></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Active tricolored blackbird colony found in the staging
+                            buffer</span
+                          ><span class="bcn-tw__row-when">18h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="imp-obs-cts"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                ></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M12 17h.01"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >California tiger salamander found inside exclusion
+                            fencing</span
+                          ><span class="bcn-tw__row-when">2d ago</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="bcn-tw__detail">
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="imp-obs-ggs"
+                      aria-label="Giant garter snake seen in an irrigation canal at the work edge"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Giant garter snake seen in an irrigation canal at the work edge
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Resource</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Reach 3 — canal crossing</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">giant garter snake</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Buffer</dt>
+                            <dd class="typography-body-sm">200 ft</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">
+                              A. Mendes, biological monitor
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
                             >
-                              <path
-                                d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
-                              ></path>
-                              <path
-                                d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
-                              ></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Giant garter snake seen in an irrigation canal at the work
-                          edge</span
-                        ><span class="bcn-tw__row-when">45m ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="imp-obs-hawk"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
                             >
-                              <path
-                                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-                              ></path>
-                              <path d="M12 9v4"></path>
-                              <path d="M12 17h.01"></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Injured Swainson's hawk recovered near a haul road</span
-                        ><span class="bcn-tw__row-when">2h ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="imp-obs-trbl"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEH"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Avoidance Measures in Unmapped Habitat"
+                                >Avoidance Measures in Unmapped Habitat</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="2 requirements"
+                                  >2</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMEQGNEXHJ6WJ7QGSE8T9"
+                                data-code="COA 10.7"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 10.7</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Apply Avoidance Measures to Unmapped Species Occurrences"
+                                  >Apply Avoidance Measures to Unmapped Species
+                                  Occurrences</span
+                                >
+                              </li>
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMES8P77HCP3S39H7JS59"
+                                data-code="COA 10.8"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 10.8</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Apply Avoidance Measures to Unmapped Suitable Habitat"
+                                  >Apply Avoidance Measures to Unmapped Suitable
+                                  Habitat</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Work Stoppage on Covered Species Encounter"
+                                >Work Stoppage on Covered Species Encounter</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="imp-obs-hawk"
+                      hidden=""
+                      aria-label="Injured Swainson's hawk recovered near a haul road"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Injured Swainson's hawk recovered near a haul road
+                        </h3>
+                        <p class="bcn-tw__pane-when">2h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Compliance Concern</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">North haul road</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">swainson's hawk</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">
+                              R. Osei, biological monitor
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
                             >
-                              <path
-                                d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
-                              ></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Active tricolored blackbird colony found in the staging
-                          buffer</span
-                        ><span class="bcn-tw__row-when">18h ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="imp-obs-cts"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
                             >
-                              <path
-                                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-                              ></path>
-                              <path d="M12 9v4"></path>
-                              <path d="M12 17h.01"></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >California tiger salamander found inside exclusion
-                          fencing</span
-                        ><span class="bcn-tw__row-when">2d ago</span>
-                      </button>
-                    </li>
-                  </ul>
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3K6F3VSR2GCE566TNFW"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Care of covered species injured by covered activities"
+                                >Care of covered species injured by covered
+                                activities</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHV7XKMQW8P8NFN047XX"
+                                data-code="COA 11.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Transport Injured Covered Species to Rehabilitation Facility"
+                                  >Transport Injured Covered Species to Rehabilitation
+                                  Facility</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Work Stoppage on Covered Species Encounter"
+                                >Work Stoppage on Covered Species Encounter</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="imp-obs-trbl"
+                      hidden=""
+                      aria-label="Active tricolored blackbird colony found in the staging buffer"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Active tricolored blackbird colony found in the staging buffer
+                        </h3>
+                        <p class="bcn-tw__pane-when">18h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Nesting Bird</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Staging area 2</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">tricolored blackbird</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Buffer</dt>
+                            <dd class="typography-body-sm">1300 ft</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">J. Whitfield, avian lead</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="imp-obs-cts"
+                      hidden=""
+                      aria-label="California tiger salamander found inside exclusion fencing"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          California tiger salamander found inside exclusion fencing
+                        </h3>
+                        <p class="bcn-tw__pane-when">2d ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Compliance Concern</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Reach 1 — upland margin</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">
+                              california tiger salamander
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">Wildlife capture crew</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Work Stoppage on Covered Species Encounter"
+                                >Work Stoppage on Covered Species Encounter</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                  </div>
                 </div>
-                <div class="bcn-tw__detail">
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="imp-obs-ggs"
-                    aria-label="Giant garter snake seen in an irrigation canal at the work edge"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Giant garter snake seen in an irrigation canal at the work edge
-                      </h3>
-                      <p class="bcn-tw__pane-when">45m ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Resource</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Reach 3 — canal crossing</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">giant garter snake</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Buffer</dt>
-                          <dd class="typography-body-sm">200 ft</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">
-                            A. Mendes, biological monitor
-                          </dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Flagged</dt>
-                          <dd class="typography-body-sm">Concern</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
+              </div>
+              <div class="bcn-tw__side" data-tw-side="obligation" hidden="">
+                <div class="bcn-tw__panes sidebar" data-gap="md">
+                  <div class="bcn-tw__rail">
+                    <h3 class="typography-label-sm bcn-tw__rail-label">
+                      Your duties reached
+                    </h3>
+                    <ul
+                      class="bcn-tw__list"
+                      role="listbox"
+                      aria-label="Your duties reached"
+                    >
+                      <li>
+                        <button
                           type="button"
-                          data-tw-expand="true"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="true"
+                          data-tw-pick="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
-                          >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
+                          <span class="bcn-tw__row-label"
+                            >Biological Monitor daily communication and immediate reports
+                            to the Designated Biologist</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
                           type="button"
-                          data-tw-collapse="true"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
-                          >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEH"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Avoidance Measures in Unmapped Habitat"
-                              >Avoidance Measures in Unmapped Habitat</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="2 requirements"
-                                >2</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMEQGNEXHJ6WJ7QGSE8T9"
-                              data-code="COA 10.7"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 10.7</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Apply Avoidance Measures to Unmapped Species Occurrences"
-                                >Apply Avoidance Measures to Unmapped Species
-                                Occurrences</span
-                              >
-                            </li>
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMES8P77HCP3S39H7JS59"
-                              data-code="COA 10.8"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 10.8</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Apply Avoidance Measures to Unmapped Suitable Habitat"
-                                >Apply Avoidance Measures to Unmapped Suitable
-                                Habitat</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                          <span class="bcn-tw__row-label"
+                            >Covered Species Encounter Reporting to the Biologist</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Work Stoppage on Covered Species Encounter"
-                              >Work Stoppage on Covered Species Encounter</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Work Stoppage on Covered Species Encounter</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEH"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Avoidance Measures in Unmapped Habitat</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6Y3K6F3VSR2GCE566TNFW"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Care of covered species injured by covered activities</span
+                          ><span class="bcn-tw__row-when">2h ago</span>
+                        </button>
                       </li>
                     </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="imp-obs-hawk"
-                    hidden=""
-                    aria-label="Injured Swainson's hawk recovered near a haul road"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Injured Swainson's hawk recovered near a haul road
-                      </h3>
-                      <p class="bcn-tw__pane-when">2h ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Compliance Concern</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">North haul road</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">swainson's hawk</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">R. Osei, biological monitor</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Flagged</dt>
-                          <dd class="typography-body-sm">Concern</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
+                  </div>
+                  <div class="bcn-tw__detail">
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                      aria-label="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Biological Monitor daily communication and immediate reports to
+                          the Designated Biologist
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Notify</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Agency reporting and approvals › Species sightings and CNDDB
+                              reporting
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A field event — the one class that is genuinely event-driven
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Any covered species</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
                           >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3K6F3VSR2GCE566TNFW"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Care of covered species injured by covered activities"
-                              >Care of covered species injured by covered activities</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHV7XKMQW8P8NFN047XX"
-                              data-code="COA 11.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Transport Injured Covered Species to Rehabilitation Facility"
-                                >Transport Injured Covered Species to Rehabilitation
-                                Facility</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Work Stoppage on Covered Species Encounter"
-                              >Work Stoppage on Covered Species Encounter</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="imp-obs-trbl"
-                    hidden=""
-                    aria-label="Active tricolored blackbird colony found in the staging buffer"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Active tricolored blackbird colony found in the staging buffer
-                      </h3>
-                      <p class="bcn-tw__pane-when">18h ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Nesting Bird</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Staging area 2</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">tricolored blackbird</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Buffer</dt>
-                          <dd class="typography-body-sm">1300 ft</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">J. Whitfield, avian lead</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Active tricolored blackbird colony found in the staging
+                                  buffer</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>18h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Nesting Bird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Staging area 2</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">tricolored blackbird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">1300 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    J. Whitfield, avian lead
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                      hidden=""
+                      aria-label="Covered Species Encounter Reporting to the Biologist"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Covered Species Encounter Reporting to the Biologist
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Notify</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Wildlife encounters and handling
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A field event — the one class that is genuinely event-driven
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Any covered species</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If they encounter any Covered Species within or near the
+                              Project site
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Active tricolored blackbird colony found in the staging
+                                  buffer</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>18h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Nesting Bird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Staging area 2</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">tricolored blackbird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">1300 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    J. Whitfield, avian lead
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                      hidden=""
+                      aria-label="Work Stoppage on Covered Species Encounter"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Work Stoppage on Covered Species Encounter
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Wildlife encounters and handling
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If they encounter any Covered Species within or near the
+                              Project site
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="imp-obs-cts"
-                    hidden=""
-                    aria-label="California tiger salamander found inside exclusion fencing"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        California tiger salamander found inside exclusion fencing
-                      </h3>
-                      <p class="bcn-tw__pane-when">2d ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Compliance Concern</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Reach 1 — upland margin</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">california tiger salamander</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">Wildlife capture crew</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Flagged</dt>
-                          <dd class="typography-body-sm">Concern</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
-                          >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
-                          >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Work Stoppage on Covered Species Encounter"
-                              >Work Stoppage on Covered Species Encounter</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Work stops on encountering any covered species, whatever
+                                the species is.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Work stops on encountering any covered species — a listed
+                                hawk on a haul road is one.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Work stops on encountering any covered species; the animal
+                                was inside the exclusion.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEH"
+                      hidden=""
+                      aria-label="Avoidance Measures in Unmapped Habitat"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Avoidance Measures in Unmapped Habitat
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Habitat avoidance and work footprint
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">2 requirements</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If a Covered Species occurrence(s) is observed within a
+                              Project construction site outside of the modeled habitat
+                              areas shown in Attachment 5, all avoidance and mi
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="" open="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                A canal at the work edge is outside the modelled habitat,
+                                which is what this duty covers.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3K6F3VSR2GCE566TNFW"
+                      hidden=""
+                      aria-label="Care of covered species injured by covered activities"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Care of covered species injured by covered activities
+                        </h3>
+                        <p class="bcn-tw__pane-when">2h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Wildlife encounters and handling
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If a Covered Species is injured as a result of Covered
+                              Activities, the Designated Biologist shall immediately take
+                              it to a CDFW-approved wildlife rehabilitation o
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="" open="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                The duty is written for an injured covered species; this
+                                bird was recovered injured.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div slot="panel-2" class="stack" data-gap="md">
             <div class="bcn-tw" data-tw-view="todo">
-              <div class="bcn-tw__panes sidebar" data-gap="md">
-                <div class="bcn-tw__rail">
-                  <h3 class="typography-label-sm bcn-tw__rail-label">
-                    Events that owe a notice
-                  </h3>
-                  <ul
-                    class="bcn-tw__list"
-                    role="listbox"
-                    aria-label="Events that owe a notice"
-                  >
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="true"
-                        data-tw-pick="todo-obs-ggs"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+              <header class="bcn-tw__bar">
+                <esa-button-toggle
+                  class="bcn-tw__switch"
+                  size="sm"
+                  value="event"
+                  aria-label="How to read events that owe a notice"
+                  data-tw-switch="true"
+                  data-options='[{"label":"By event","value":"event"},{"label":"By obligation","value":"obligation"}]'
+                ></esa-button-toggle>
+              </header>
+              <div class="bcn-tw__side" data-tw-side="event">
+                <div class="bcn-tw__panes sidebar" data-gap="md">
+                  <div class="bcn-tw__rail">
+                    <h3 class="typography-label-sm bcn-tw__rail-label">
+                      Events that owe a notice
+                    </h3>
+                    <ul
+                      class="bcn-tw__list"
+                      role="listbox"
+                      aria-label="Events that owe a notice"
+                    >
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="true"
+                          data-tw-pick="todo-obs-ggs"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                ></path>
+                                <path
+                                  d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                ></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Giant garter snake seen in an irrigation canal at the work
+                            edge</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="todo-obs-hawk"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                ></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M12 17h.01"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Injured Swainson's hawk recovered near a haul road</span
+                          ><span class="bcn-tw__row-when">2h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="todo-obs-trbl"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                ></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Active tricolored blackbird colony found in the staging
+                            buffer</span
+                          ><span class="bcn-tw__row-when">18h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="todo-obs-cts"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                ></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M12 17h.01"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >California tiger salamander found inside exclusion
+                            fencing</span
+                          ><span class="bcn-tw__row-when">2d ago</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="bcn-tw__detail">
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="todo-obs-ggs"
+                      aria-label="Giant garter snake seen in an irrigation canal at the work edge"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Giant garter snake seen in an irrigation canal at the work edge
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Resource</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Reach 3 — canal crossing</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">giant garter snake</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Buffer</dt>
+                            <dd class="typography-body-sm">200 ft</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">
+                              A. Mendes, biological monitor
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
                             >
-                              <path
-                                d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
-                              ></path>
-                              <path
-                                d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
-                              ></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Giant garter snake seen in an irrigation canal at the work
-                          edge</span
-                        ><span class="bcn-tw__row-when">45m ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="todo-obs-hawk"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
                             >
-                              <path
-                                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-                              ></path>
-                              <path d="M12 9v4"></path>
-                              <path d="M12 17h.01"></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Injured Swainson's hawk recovered near a haul road</span
-                        ><span class="bcn-tw__row-when">2h ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="todo-obs-trbl"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
+                                >Ongoing demonstration of mitigation performance during
+                                the permit term</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
+                                data-code="COA 13.3"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
+                                  >Provide Ongoing Demonstration of Mitigation
+                                  Performance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="todo-obs-hawk"
+                      hidden=""
+                      aria-label="Injured Swainson's hawk recovered near a haul road"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Injured Swainson's hawk recovered near a haul road
+                        </h3>
+                        <p class="bcn-tw__pane-when">2h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Compliance Concern</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">North haul road</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">swainson's hawk</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">
+                              R. Osei, biological monitor
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
                             >
-                              <path
-                                d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
-                              ></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >Active tricolored blackbird colony found in the staging
-                          buffer</span
-                        ><span class="bcn-tw__row-when">18h ago</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="todo-obs-cts"
-                      >
-                        <span class="bcn-tw__row-glyph" aria-hidden="true"
-                          ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                            ><svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
                             >
-                              <path
-                                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-                              ></path>
-                              <path d="M12 9v4"></path>
-                              <path d="M12 17h.01"></path></svg></span></span
-                        ><span class="bcn-tw__row-label"
-                          >California tiger salamander found inside exclusion
-                          fencing</span
-                        ><span class="bcn-tw__row-when">2d ago</span>
-                      </button>
-                    </li>
-                  </ul>
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
+                                >Ongoing demonstration of mitigation performance during
+                                the permit term</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
+                                data-code="COA 13.3"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
+                                  >Provide Ongoing Demonstration of Mitigation
+                                  Performance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="todo-obs-trbl"
+                      hidden=""
+                      aria-label="Active tricolored blackbird colony found in the staging buffer"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Active tricolored blackbird colony found in the staging buffer
+                        </h3>
+                        <p class="bcn-tw__pane-when">18h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Nesting Bird</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Staging area 2</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">tricolored blackbird</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Buffer</dt>
+                            <dd class="typography-body-sm">1300 ft</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">J. Whitfield, avian lead</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
+                                >Ongoing demonstration of mitigation performance during
+                                the permit term</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
+                                data-code="COA 13.3"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
+                                  >Provide Ongoing Demonstration of Mitigation
+                                  Performance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="todo-obs-cts"
+                      hidden=""
+                      aria-label="California tiger salamander found inside exclusion fencing"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          California tiger salamander found inside exclusion fencing
+                        </h3>
+                        <p class="bcn-tw__pane-when">2d ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Compliance Concern</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Reach 1 — upland margin</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">
+                              california tiger salamander
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">Wildlife capture crew</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
+                                >Ongoing demonstration of mitigation performance during
+                                the permit term</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
+                                data-code="COA 13.3"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
+                                  >Provide Ongoing Demonstration of Mitigation
+                                  Performance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                                >Biological Monitor daily communication and immediate
+                                reports to the Designated Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMDCKEBRF744X854M9ESF"
+                                data-code="COA 9.2.2"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
+                                  >Report Daily to Designated Biologist and Flag
+                                  Non-Compliance</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                  </div>
                 </div>
-                <div class="bcn-tw__detail">
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="todo-obs-ggs"
-                    aria-label="Giant garter snake seen in an irrigation canal at the work edge"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Giant garter snake seen in an irrigation canal at the work edge
-                      </h3>
-                      <p class="bcn-tw__pane-when">45m ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Resource</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Reach 3 — canal crossing</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">giant garter snake</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Buffer</dt>
-                          <dd class="typography-body-sm">200 ft</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">
-                            A. Mendes, biological monitor
-                          </dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Flagged</dt>
-                          <dd class="typography-body-sm">Concern</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
+              </div>
+              <div class="bcn-tw__side" data-tw-side="obligation" hidden="">
+                <div class="bcn-tw__panes sidebar" data-gap="md">
+                  <div class="bcn-tw__rail">
+                    <h3 class="typography-label-sm bcn-tw__rail-label">
+                      Duties owing a notice
+                    </h3>
+                    <ul
+                      class="bcn-tw__list"
+                      role="listbox"
+                      aria-label="Duties owing a notice"
+                    >
+                      <li>
+                        <button
                           type="button"
-                          data-tw-expand="true"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="true"
+                          data-tw-pick="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
-                          >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
+                          <span class="bcn-tw__row-label"
+                            >Ongoing demonstration of mitigation performance during the
+                            permit term</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
                           type="button"
-                          data-tw-collapse="true"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
-                          >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
-                              >Ongoing demonstration of mitigation performance during the
-                              permit term</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
-                              data-code="COA 13.3"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
-                                >Provide Ongoing Demonstration of Mitigation
-                                Performance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                          <span class="bcn-tw__row-label"
+                            >Biological Monitor daily communication and immediate reports
+                            to the Designated Biologist</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Covered Species Encounter Reporting to the Biologist</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
                       </li>
                     </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="todo-obs-hawk"
-                    hidden=""
-                    aria-label="Injured Swainson's hawk recovered near a haul road"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Injured Swainson's hawk recovered near a haul road
-                      </h3>
-                      <p class="bcn-tw__pane-when">2h ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Compliance Concern</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">North haul road</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">swainson's hawk</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">R. Osei, biological monitor</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Flagged</dt>
-                          <dd class="typography-body-sm">Concern</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
+                  </div>
+                  <div class="bcn-tw__detail">
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
+                      aria-label="Ongoing demonstration of mitigation performance during the permit term"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Ongoing demonstration of mitigation performance during the
+                          permit term
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Notify</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Mitigation and restoration › Mitigation lands
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A field event — the one class that is genuinely event-driven
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Any covered species</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              During the permit term, Permittee shall demonstrate to CDFW
+                              that Covered Species’ requirements have been satisfied on an
+                              ongoing basis and consistent with the require
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
                           >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
-                              >Ongoing demonstration of mitigation performance during the
-                              permit term</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
-                              data-code="COA 13.3"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
-                                >Provide Ongoing Demonstration of Mitigation
-                                Performance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="todo-obs-trbl"
-                    hidden=""
-                    aria-label="Active tricolored blackbird colony found in the staging buffer"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Active tricolored blackbird colony found in the staging buffer
-                      </h3>
-                      <p class="bcn-tw__pane-when">18h ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Nesting Bird</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Staging area 2</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">tricolored blackbird</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Buffer</dt>
-                          <dd class="typography-body-sm">1300 ft</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">J. Whitfield, avian lead</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Active tricolored blackbird colony found in the staging
+                                  buffer</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>18h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Nesting Bird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Staging area 2</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">tricolored blackbird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">1300 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    J. Whitfield, avian lead
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
+                      hidden=""
+                      aria-label="Biological Monitor daily communication and immediate reports to the Designated Biologist"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Biological Monitor daily communication and immediate reports to
+                          the Designated Biologist
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Notify</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Agency reporting and approvals › Species sightings and CNDDB
+                              reporting
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A field event — the one class that is genuinely event-driven
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Any covered species</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Active tricolored blackbird colony found in the staging
+                                  buffer</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>18h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Nesting Bird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Staging area 2</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">tricolored blackbird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">1300 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    J. Whitfield, avian lead
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                      hidden=""
+                      aria-label="Covered Species Encounter Reporting to the Biologist"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Covered Species Encounter Reporting to the Biologist
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Notify</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Wildlife encounters and handling
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A field event — the one class that is genuinely event-driven
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Any covered species</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If they encounter any Covered Species within or near the
+                              Project site
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
-                              >Ongoing demonstration of mitigation performance during the
-                              permit term</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
-                              data-code="COA 13.3"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
-                                >Provide Ongoing Demonstration of Mitigation
-                                Performance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="todo-obs-cts"
-                    hidden=""
-                    aria-label="California tiger salamander found inside exclusion fencing"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        California tiger salamander found inside exclusion fencing
-                      </h3>
-                      <p class="bcn-tw__pane-when">2d ago</p>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Type</dt>
-                          <dd class="typography-body-sm">Compliance Concern</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Site</dt>
-                          <dd class="typography-body-sm">Reach 1 — upland margin</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Species</dt>
-                          <dd class="typography-body-sm">california tiger salamander</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Reported by</dt>
-                          <dd class="typography-body-sm">Wildlife capture crew</dd>
-                        </div>
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">Flagged</dt>
-                          <dd class="typography-body-sm">Concern</dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
-                          >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
-                          >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYV"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Ongoing demonstration of mitigation performance during the permit term"
-                              >Ongoing demonstration of mitigation performance during the
-                              permit term</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMXB61WXZTSWY83SJ53JY"
-                              data-code="COA 13.3"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 13.3</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Provide Ongoing Demonstration of Mitigation Performance"
-                                >Provide Ongoing Demonstration of Mitigation
-                                Performance</span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3QSDK9GEQ62EWCXSKYW"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor daily communication and immediate reports to the Designated Biologist"
-                              >Biological Monitor daily communication and immediate
-                              reports to the Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCKEBRF744X854M9ESF"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Daily to Designated Biologist and Flag Non-Compliance"
-                                >Report Daily to Designated Biologist and Flag
-                                Non-Compliance</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
-                        data-class="notify"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Notify</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Covered Species Encounter Reporting to the Biologist"
-                              >Covered Species Encounter Reporting to the Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
-                              data-code="COA 11.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Report Covered Species Encounters and Halt Work"
-                                >Report Covered Species Encounters and Halt Work</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Active tricolored blackbird colony found in the staging
+                                  buffer</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>18h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Nesting Bird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Staging area 2</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">tricolored blackbird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">1300 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    J. Whitfield, avian lead
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                  </div>
                 </div>
               </div>
             </div>
@@ -4300,1183 +9545,2107 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                 </svg>
               </div>
               <div class="esa-alert-box__body">
+                <strong class="esa-alert-box__title typography-label-sm-strong"
+                  >Notify only</strong
+                >
                 <div class="esa-alert-box__message">
                   A duty reaches this view when an event leaves somebody owing a notice —
-                  class Notify, and only Notify. Monitor is a standing cadence: something
-                  that is ON rather than owed, so it sits in Ongoing. Adhere is a rule you
-                  comply with, and Roster is a standing qualification. This permit drafted
-                  3 Notify duties out of333, against 64 Monitor — which is why this view
-                  is short. The hand-built registry of the same permits had 50 notices;
-                  nobody has yet checked whether the drafting pass routes them to Actions
-                  instead.
+                  class Notify, and only Notify. Monitor is a standing cadence — something
+                  that is ON rather than owed, which is why it reaches you by being pinned
+                  rather than by appearing here. Adhere is a rule you comply with, and
+                  Roster is a standing qualification. This permit drafted 3 Notify duties
+                  out of333, against 64 Monitor — which is why this view is short. The
+                  hand-built registry of the same permits had 50 notices; nobody has yet
+                  checked whether the drafting pass routes them to Actions instead.
                 </div>
               </div>
             </div>
           </div>
           <div slot="panel-3" class="stack" data-gap="md">
-            <div class="bcn-tw" data-tw-view="ongoing">
-              <div class="bcn-tw__panes sidebar" data-gap="md">
-                <div class="bcn-tw__rail">
-                  <h3 class="typography-label-sm bcn-tw__rail-label">
-                    Why these are in force
-                  </h3>
-                  <ul
-                    class="bcn-tw__list"
-                    role="listbox"
-                    aria-label="Why these are in force"
-                  >
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="true"
-                        data-tw-pick="act-dewatering-and-fish-isolation"
-                      >
-                        <span class="bcn-tw__row-label"
-                          >Dewatering and fish isolation is under way</span
+            <div class="bcn-tw" data-tw-view="pinned">
+              <header class="bcn-tw__bar">
+                <esa-button-toggle
+                  class="bcn-tw__switch"
+                  size="sm"
+                  value="event"
+                  aria-label="How to read events touching your pins"
+                  data-tw-switch="true"
+                  data-options='[{"label":"By event","value":"event"},{"label":"By obligation","value":"obligation"}]'
+                ></esa-button-toggle>
+              </header>
+              <div class="bcn-tw__side" data-tw-side="event">
+                <div class="bcn-tw__panes sidebar" data-gap="md">
+                  <div class="bcn-tw__rail">
+                    <h3 class="typography-label-sm bcn-tw__rail-label">
+                      Events touching your pins
+                    </h3>
+                    <ul
+                      class="bcn-tw__list"
+                      role="listbox"
+                      aria-label="Events touching your pins"
+                    >
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="true"
+                          data-tw-pick="pin-obs-ggs"
                         >
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="act-in-water-and-in-channel-work"
-                      >
-                        <span class="bcn-tw__row-label"
-                          >In-water and in-channel work is under way</span
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                ></path>
+                                <path
+                                  d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                ></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Giant garter snake seen in an irrigation canal at the work
+                            edge</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="pin-obs-hawk"
                         >
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        class="bcn-tw__row"
-                        role="option"
-                        aria-selected="false"
-                        data-tw-pick="roster-standing"
-                      >
-                        <span class="bcn-tw__row-label"
-                          >Who is qualified to do the work</span
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                ></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M12 17h.01"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Injured Swainson's hawk recovered near a haul road</span
+                          ><span class="bcn-tw__row-when">2h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="pin-dmr-daily"
                         >
-                      </button>
-                    </li>
-                  </ul>
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                ></path>
+                                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                <path d="M16 13H8"></path>
+                                <path d="M16 17H8"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Daily monitoring report — in-water work at the intake</span
+                          ><span class="bcn-tw__row-when">16h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="pin-obs-trbl"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                ></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >Active tricolored blackbird colony found in the staging
+                            buffer</span
+                          ><span class="bcn-tw__row-when">18h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="pin-obs-cts"
+                        >
+                          <span class="bcn-tw__row-glyph" aria-hidden="true"
+                            ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                              ><svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                ></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M12 17h.01"></path></svg></span></span
+                          ><span class="bcn-tw__row-label"
+                            >California tiger salamander found inside exclusion
+                            fencing</span
+                          ><span class="bcn-tw__row-when">2d ago</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="bcn-tw__detail">
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="pin-obs-ggs"
+                      aria-label="Giant garter snake seen in an irrigation canal at the work edge"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Giant garter snake seen in an irrigation canal at the work edge
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Resource</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Reach 3 — canal crossing</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">giant garter snake</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Buffer</dt>
+                            <dd class="typography-body-sm">200 ft</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">
+                              A. Mendes, biological monitor
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Work Stoppage on Covered Species Encounter"
+                                >Work Stoppage on Covered Species Encounter</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="pin-obs-hawk"
+                      hidden=""
+                      aria-label="Injured Swainson's hawk recovered near a haul road"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Injured Swainson's hawk recovered near a haul road
+                        </h3>
+                        <p class="bcn-tw__pane-when">2h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Compliance Concern</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">North haul road</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">swainson's hawk</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">
+                              R. Osei, biological monitor
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Work Stoppage on Covered Species Encounter"
+                                >Work Stoppage on Covered Species Encounter</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="pin-dmr-daily"
+                      hidden=""
+                      aria-label="Daily monitoring report — in-water work at the intake"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Daily monitoring report — in-water work at the intake
+                        </h3>
+                        <p class="bcn-tw__pane-when">16h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Package</dt>
+                            <dd class="typography-body-sm">CP-2 Intake</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Weather</dt>
+                            <dd class="typography-body-sm">Overcast, light wind</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Air temp</dt>
+                            <dd class="typography-body-sm">68°F</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Precipitation</dt>
+                            <dd class="typography-body-sm">None</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Field person</dt>
+                            <dd class="typography-body-sm">D. Vance, field person</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6Y3757AMQWDRRZPPRX5X5"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Dewatering pump shutdown"
+                                >Dewatering pump shutdown</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMP4K7W5XYW0R2Z17AQ14"
+                                data-code="COA 11.61"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.61</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Shut Down Pump and Contact Biologist if GGS Seen at Intake Screen"
+                                  >Shut Down Pump and Contact Biologist if GGS Seen at
+                                  Intake Screen</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="pin-obs-trbl"
+                      hidden=""
+                      aria-label="Active tricolored blackbird colony found in the staging buffer"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Active tricolored blackbird colony found in the staging buffer
+                        </h3>
+                        <p class="bcn-tw__pane-when">18h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Nesting Bird</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Staging area 2</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">tricolored blackbird</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Buffer</dt>
+                            <dd class="typography-body-sm">1300 ft</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">J. Whitfield, avian lead</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="pin-obs-cts"
+                      hidden=""
+                      aria-label="California tiger salamander found inside exclusion fencing"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          California tiger salamander found inside exclusion fencing
+                        </h3>
+                        <p class="bcn-tw__pane-when">2d ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Type</dt>
+                            <dd class="typography-body-sm">Compliance Concern</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Site</dt>
+                            <dd class="typography-body-sm">Reach 1 — upland margin</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Species</dt>
+                            <dd class="typography-body-sm">
+                              california tiger salamander
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reported by</dt>
+                            <dd class="typography-body-sm">Wildlife capture crew</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Flagged</dt>
+                            <dd class="typography-body-sm">Concern</dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
+                        >
+                      </div>
+                      <ul class="bcn-tw__duties">
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                          data-class="adhere"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Adhere</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Work Stoppage on Covered Species Encounter"
+                                >Work Stoppage on Covered Species Encounter</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                        <li
+                          class="bcn-swoc"
+                          data-swo-card=""
+                          data-id="obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                          data-class="notify"
+                          draggable="false"
+                        >
+                          <details class="bcn-swoc__node" data-swo-branch="">
+                            <summary class="bcn-swoc__main">
+                              <span class="bcn-swoc__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-swoc__class" data-swo-class-tag=""
+                                >Notify</span
+                              ><span
+                                class="bcn-swoc__title bcn-swoc__title--static"
+                                data-swo-text="Covered Species Encounter Reporting to the Biologist"
+                                >Covered Species Encounter Reporting to the
+                                Biologist</span
+                              ><span data-swo-count="obligation"
+                                ><span class="bcn-swcb" aria-label="1 requirements"
+                                  >1</span
+                                ></span
+                              >
+                            </summary>
+                            <ul class="bcn-swoc__reqs">
+                              <li
+                                class="bcn-swoc__req"
+                                draggable="false"
+                                data-req="req_01M2ESMHSDAW774SZWKJC8RQZB"
+                                data-code="COA 11.1"
+                              >
+                                <span class="bcn-cbadge bcn-cbadge--sm">COA 11.1</span
+                                ><span
+                                  class="bcn-swoc__req-name"
+                                  data-swo-text="Report Covered Species Encounters and Halt Work"
+                                  >Report Covered Species Encounters and Halt Work</span
+                                >
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                  </div>
                 </div>
-                <div class="bcn-tw__detail">
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="act-dewatering-and-fish-isolation"
-                    aria-label="Dewatering and fish isolation is under way"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        Dewatering and fish isolation is under way
-                      </h3>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">In force because</dt>
-                          <dd class="typography-body-sm">
-                            In force while this activity is happening on site.
-                          </dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
+              </div>
+              <div class="bcn-tw__side" data-tw-side="obligation" hidden="">
+                <div class="bcn-tw__panes sidebar" data-gap="md">
+                  <div class="bcn-tw__rail">
+                    <h3 class="typography-label-sm bcn-tw__rail-label">
+                      Duties you are watching
+                    </h3>
+                    <ul
+                      class="bcn-tw__list"
+                      role="listbox"
+                      aria-label="Duties you are watching"
+                    >
+                      <li>
+                        <button
                           type="button"
-                          data-tw-expand="true"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="true"
+                          data-tw-pick="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
-                          >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
+                          <span class="bcn-tw__row-label"
+                            >Covered Species Encounter Reporting to the Biologist</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
                           type="button"
-                          data-tw-collapse="true"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
+                          <span class="bcn-tw__row-label"
+                            >Work Stoppage on Covered Species Encounter</span
+                          ><span class="bcn-tw__row-when">45m ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6Y3757AMQWDRRZPPRX5X5"
+                        >
+                          <span class="bcn-tw__row-label">Dewatering pump shutdown</span
+                          ><span class="bcn-tw__row-when">16h ago</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6Y3GVB9GY756CNBCP3TGT"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >Biologist present to salvage snakes during dewatering</span
                           >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3GTRYAK61ZHAYGX6GA0"
-                        data-class="monitor"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Monitor</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Fisheries biologist present to rescue fish during dewatering"
-                              >Fisheries biologist present to rescue fish during
-                              dewatering</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMM0FVKV7MZMMSVC11NPB"
-                              data-code="COA 11.37"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.37</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Station Fisheries Biologist Onsite to Rescue Fish During Dewatering"
-                                >Station Fisheries Biologist Onsite to Rescue Fish During
-                                Dewatering</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3GVB9GY756CNBCP3TGT"
-                        data-class="monitor"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Monitor</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biologist present to salvage snakes during dewatering"
-                              >Biologist present to salvage snakes during dewatering</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMP4K7W5XYW0R2Z17AQ13"
-                              data-code="COA 11.61"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.61</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Station Biologist to Salvage GGS During Dewatering"
-                                >Station Biologist to Salvage GGS During Dewatering</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKYBZ9A7EECEZB6FGXQ"
+                        >
+                          <span class="bcn-tw__row-label"
+                            >In-Water Work Window During Construction</span
+                          >
+                        </button>
                       </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y374X4RKETDHB3S1M1MZ"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Dewatering rate limit"
-                              >Dewatering rate limit</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMM0FVKV7MZMMSVC11NPC"
-                              data-code="COA 11.37"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.37</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Halt Dewatering When Water Levels Drop Too Quickly for Salvage"
-                                >Halt Dewatering When Water Levels Drop Too Quickly for
-                                Salvage</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3757AMQWDRRZPPRX5X5"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Dewatering pump shutdown"
-                              >Dewatering pump shutdown</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMP4K7W5XYW0R2Z17AQ14"
-                              data-code="COA 11.61"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.61</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Shut Down Pump and Contact Biologist if GGS Seen at Intake Screen"
-                                >Shut Down Pump and Contact Biologist if GGS Seen at
-                                Intake Screen</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGXZ"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Dewatering Pump Intake Screening"
-                              >Dewatering Pump Intake Screening</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMM0FVKV7MZMMSVC11NPA"
-                              data-code="COA 11.37"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.37</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Screen Dewatering Pump Intakes to Prevent Fish Entrainment"
-                                >Screen Dewatering Pump Intakes to Prevent Fish
-                                Entrainment</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYG0"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Dewatering Window"
-                              >Dewatering Window</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMP4K7W5XYW0R2Z17AQ16"
-                              data-code="COA 11.61"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.61</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Limit Dewatering to the April 15–October 1 Window"
-                                >Limit Dewatering to the April 15–October 1 Window</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
+                      <li>
+                        <button
+                          type="button"
+                          class="bcn-tw__row"
+                          role="option"
+                          aria-selected="false"
+                          data-tw-pick="obl-obl_01M2G6YKKZS8T1WDX0E4QXHYGC"
+                        >
+                          <span class="bcn-tw__row-label">Approved Wildlife Handler</span>
+                        </button>
                       </li>
                     </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="act-in-water-and-in-channel-work"
-                    hidden=""
-                    aria-label="In-water and in-channel work is under way"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">
-                        In-water and in-channel work is under way
-                      </h3>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">In force because</dt>
-                          <dd class="typography-body-sm">
-                            In force while this activity is happening on site.
-                          </dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
+                  </div>
+                  <div class="bcn-tw__detail">
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEK"
+                      aria-label="Covered Species Encounter Reporting to the Biologist"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Covered Species Encounter Reporting to the Biologist
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Notify</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Wildlife encounters and handling
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A field event — the one class that is genuinely event-driven
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Any covered species</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If they encounter any Covered Species within or near the
+                              Project site
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
-                        >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
                           >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKXGW0MHG5S1F0JJR7H"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Oil Absorbent Booms in Place"
-                              >Oil Absorbent Booms in Place</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
                               ></span
                             >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMK3ZJQ9BHNEKAKFQY2VM"
-                              data-code="COA 11.22"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.22</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Use Oil-Absorbent Booms Near Water"
-                                >Use Oil-Absorbent Booms Near Water</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGXN"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Daily In-Water Work Limit"
-                              >Daily In-Water Work Limit</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="2 requirements"
-                                >2</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMKM1QM5KYNMAGYR6THA7"
-                              data-code="COA 11.31.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.31.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Enforce Daily Sunset-to-Sunrise In-Water Work Curfew"
-                                >Enforce Daily Sunset-to-Sunrise In-Water Work
-                                Curfew</span
-                              >
-                            </li>
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMKQJF35M22DBMHN9PNW7"
-                              data-code="COA 11.32"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.32</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Enforce Daily Sunset-to-Sunrise In-Water Work Curfew"
-                                >Enforce Daily Sunset-to-Sunrise In-Water Work
-                                Curfew</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGXQ"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="In-Water Work Window During Construction"
-                              >In-Water Work Window During Construction</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMKNRCMV0V8XY1Q4V7P6R"
-                              data-code="COA 11.31.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.31.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Restrict In-Water Construction to June 1–Oct 31 Window"
-                                >Restrict In-Water Construction to June 1–Oct 31
-                                Window</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYFX"
-                        data-class="adhere"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Adhere</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="In-Channel Work Window"
-                              >In-Channel Work Window</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMP2T4KRS4836CF7YNNNX"
-                              data-code="COA 11.60"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.60</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Confine In-Channel Work to the Inactive-Season Window and Scope"
-                                >Confine In-Channel Work to the Inactive-Season Window and
-                                Scope</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
-                  <section
-                    class="bcn-tw__pane"
-                    data-tw-pane="roster-standing"
-                    hidden=""
-                    aria-label="Who is qualified to do the work"
-                  >
-                    <header class="bcn-tw__pane-head">
-                      <h3 class="bcn-tw__pane-title">Who is qualified to do the work</h3>
-                      <dl class="bcn-tw__facts">
-                        <div class="bcn-tw__fact">
-                          <dt class="typography-label-xs">In force because</dt>
-                          <dd class="typography-body-sm">
-                            Standing qualifications — always in force. These move when
-                            staff change, not when something is seen, and Beacon has no
-                            personnel event today.
-                          </dd>
-                        </div>
-                      </dl>
-                    </header>
-                    <div class="bcn-tw__verbs">
-                      <span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-expand="true"
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 15 5 5 5-5"></path>
-                                  <path d="m7 9 5-5 5 5"></path></svg></span
-                              >Expand all</span
-                            ></span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Active tricolored blackbird colony found in the staging
+                                  buffer</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>18h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Nesting Bird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">Staging area 2</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">tricolored blackbird</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">1300 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    J. Whitfield, avian lead
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
+                              >
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKH7P3XH3JHE4Y9KPEM"
+                      hidden=""
+                      aria-label="Work Stoppage on Covered Species Encounter"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Work Stoppage on Covered Species Encounter
+                        </h3>
+                        <p class="bcn-tw__pane-when">45m ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              Habitat protection › Wildlife encounters and handling
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If they encounter any Covered Species within or near the
+                              Project site
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <div class="bcn-tw__verbs">
+                        <span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-expand="true"
                           >
-                        </button></span
-                      ><span
-                        class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
-                        ><button
-                          class="esa-button__native typography-microcopy-2xs"
-                          type="button"
-                          data-tw-collapse="true"
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 15 5 5 5-5"></path>
+                                    <path d="m7 9 5-5 5 5"></path></svg></span
+                                >Expand all</span
+                              ></span
+                            >
+                          </button></span
+                        ><span
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-fill esa-button--xs"
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            data-tw-collapse="true"
+                          >
+                            <span class="esa-button__label"
+                              ><span class="bcn-tw__verb"
+                                ><span class="esa-icon esa-icon--xs" aria-hidden="true"
+                                  ><svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m7 20 5-5 5 5"></path>
+                                    <path d="m7 4 5 5 5-5"></path></svg></span
+                                >Collapse all</span
+                              ></span
+                            >
+                          </button></span
                         >
-                          <span class="esa-button__label"
-                            ><span class="bcn-tw__verb"
-                              ><span class="esa-icon esa-icon--xs" aria-hidden="true"
-                                ><svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m7 20 5-5 5 5"></path>
-                                  <path d="m7 4 5 5 5-5"></path></svg></span
-                              >Collapse all</span
-                            ></span
-                          >
-                        </button></span
-                      >
-                    </div>
-                    <ul class="bcn-tw__duties">
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y34HZ9RH8ZC58QF7AHXD"
-                        data-class="roster"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Roster</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Permitted personnel for studies that may take Covered Fish Species"
-                              >Permitted personnel for studies that may take Covered Fish
-                              Species</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMGSM98FYZAKW9PV13PEW"
-                              data-code="COA 10.22"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 10.22</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Ensure Permitted Personnel Conduct Covered Species Studies"
-                                >Ensure Permitted Personnel Conduct Covered Species
-                                Studies</span
+                      </div>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                                    ></path>
+                                    <path
+                                      d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+                                    ></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Giant garter snake seen in an irrigation canal at the
+                                  work edge</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>45m ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y34JV1PFVYQEE7T447XE"
-                        data-class="roster"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Roster</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Designated Biologist and Fisheries Biologist qualifications and responsibilities"
-                              >Designated Biologist and Fisheries Biologist qualifications
-                              and responsibilities</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDAT8XEFVPD8J1CHZG7X"
-                              data-code="COA 9.2.1"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.1</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Maintain Qualified Designated/Fisheries Biologist Credentials"
-                                >Maintain Qualified Designated/Fisheries Biologist
-                                Credentials</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Work stops on encountering any covered species, whatever
+                                the species is.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Resource</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 3 — canal crossing
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">giant garter snake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Buffer</dt>
+                                  <dd class="typography-body-sm">200 ft</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    A. Mendes, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Injured Swainson's hawk recovered near a haul
+                                  road</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>16 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y34JV1PFVYQEE7T447XF"
-                        data-class="roster"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Roster</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Biological Monitor qualifications and permitted scope"
-                              >Biological Monitor qualifications and permitted scope</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMDCJSES4G0RSSPXC7J7J"
-                              data-code="COA 9.2.2"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 9.2.2</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Maintain Qualified Biological Monitor Scope of Work"
-                                >Maintain Qualified Biological Monitor Scope of Work</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Work stops on encountering any covered species — a listed
+                                hawk on a haul road is one.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">North haul road</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">swainson's hawk</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    R. Osei, biological monitor
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                    ></path>
+                                    <path d="M12 9v4"></path>
+                                    <path d="M12 17h.01"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >California tiger salamander found inside exclusion
+                                  fencing</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind">Observation</span
+                                  ><span aria-hidden="true">·</span><span>2d ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>14 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6Y3TQ8SHJTZ29GDGETEXW"
-                        data-class="roster"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Roster</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Handling and relocation restricted to the approved Designated Biologist"
-                              >Handling and relocation restricted to the approved
-                              Designated Biologist</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMS9PZAA7R0G27BRK7FGS"
-                              data-code="COA 11.108"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.108</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Collect, Handle and Relocate Threatened MALI Plants"
-                                >Collect, Handle and Relocate Threatened MALI Plants</span
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                Work stops on encountering any covered species; the animal
+                                was inside the exclusion.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Type</dt>
+                                  <dd class="typography-body-sm">Compliance Concern</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Site</dt>
+                                  <dd class="typography-body-sm">
+                                    Reach 1 — upland margin
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Species</dt>
+                                  <dd class="typography-body-sm">
+                                    california tiger salamander
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Reported by</dt>
+                                  <dd class="typography-body-sm">
+                                    Wildlife capture crew
+                                  </dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Flagged</dt>
+                                  <dd class="typography-body-sm">Concern</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3757AMQWDRRZPPRX5X5"
+                      hidden=""
+                      aria-label="Dewatering pump shutdown"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">Dewatering pump shutdown</h3>
+                        <p class="bcn-tw__pane-when">16h ago</p>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">Water › Dewatering</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Reached by</dt>
+                            <dd class="typography-body-sm">Trigger</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              If Project personnel see GGS at the screen during
+                              dewatering, they shall shut down the pump and contact the
+                              Designated Biologist(s) to relocate the snake (see Con
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events">
+                        <li class="bcn-tev">
+                          <details class="bcn-tev__node" data-swo-branch="" open="">
+                            <summary class="bcn-tev__main">
+                              <span class="bcn-tev__chevron" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m9 18 6-6-6-6"></path></svg></span></span
+                              ><span class="bcn-tev__glyph" aria-hidden="true"
+                                ><span class="esa-icon esa-icon--sm" aria-hidden="true"
+                                  ><svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path
+                                      d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                                    ></path>
+                                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                    <path d="M16 13H8"></path>
+                                    <path d="M16 17H8"></path></svg></span></span
+                              ><span class="bcn-tev__head"
+                                ><span class="bcn-tev__title typography-body-sm"
+                                  >Daily monitoring report — in-water work at the
+                                  intake</span
+                                ><span class="bcn-tev__meta typography-label-xs"
+                                  ><span class="bcn-tev__kind"
+                                    >Daily monitoring report</span
+                                  ><span aria-hidden="true">·</span><span>16h ago</span
+                                  ><span aria-hidden="true">·</span
+                                  ><span>15 Sept 2026</span></span
+                                ></span
                               >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKYBZ9A7EECEZB6FGY2"
-                        data-class="roster"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Roster</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Licensed Pesticide Applicator"
-                              >Licensed Pesticide Applicator</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="2 requirements"
-                                >2</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHYSHPSSPHZ1CGQNSKGV"
-                              data-code="COA 11.4"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.4</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Apply Sprays via Licensed Applicator Within Wind Speed Limit"
-                                >Apply Sprays via Licensed Applicator Within Wind Speed
-                                Limit</span
-                              >
-                            </li>
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMHYSHPSSPHZ1CGQNSKGX"
-                              data-code="COA 11.4"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.4</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Keep Herbicide and Pesticide Application 300 Feet from Aquatic Habitat"
-                                >Keep Herbicide and Pesticide Application 300 Feet from
-                                Aquatic Habitat</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                      <li
-                        class="bcn-swoc"
-                        data-swo-card=""
-                        data-id="obl_01M2G6YKKZS8T1WDX0E4QXHYGC"
-                        data-class="roster"
-                        draggable="false"
-                      >
-                        <details class="bcn-swoc__node" data-swo-branch="">
-                          <summary class="bcn-swoc__main">
-                            <span class="bcn-swoc__chevron" aria-hidden="true"
-                              ><span class="esa-icon esa-icon--sm" aria-hidden="true"
-                                ><svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path></svg></span></span
-                            ><span class="bcn-swoc__class" data-swo-class-tag=""
-                              >Roster</span
-                            ><span
-                              class="bcn-swoc__title bcn-swoc__title--static"
-                              data-swo-text="Approved Wildlife Handler"
-                              >Approved Wildlife Handler</span
-                            ><span data-swo-count="obligation"
-                              ><span class="bcn-swcb" aria-label="1 requirements"
-                                >1</span
-                              ></span
-                            >
-                          </summary>
-                          <ul class="bcn-swoc__reqs">
-                            <li
-                              class="bcn-swoc__req"
-                              draggable="false"
-                              data-req="req_01M2ESMRD7GNZNESZEXHQR204E"
-                              data-code="COA 11.92"
-                            >
-                              <span class="bcn-cbadge bcn-cbadge--sm">COA 11.92</span
-                              ><span
-                                class="bcn-swoc__req-name"
-                                data-swo-text="Restrict TRBL Handling to CDFW-Approved Biologist"
-                                >Restrict TRBL Handling to CDFW-Approved Biologist</span
-                              >
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </section>
+                            </summary>
+                            <div class="bcn-tev__body">
+                              <p class="bcn-tev__why typography-body-sm">
+                                The report logs in-water work with dewatering under way,
+                                which is when this duty applies.
+                              </p>
+                              <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Package</dt>
+                                  <dd class="typography-body-sm">CP-2 Intake</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Weather</dt>
+                                  <dd class="typography-body-sm">Overcast, light wind</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Air temp</dt>
+                                  <dd class="typography-body-sm">68°F</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Precipitation</dt>
+                                  <dd class="typography-body-sm">None</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Field person</dt>
+                                  <dd class="typography-body-sm">
+                                    D. Vance, field person
+                                  </dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </details>
+                        </li>
+                      </ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6Y3GVB9GY756CNBCP3TGT"
+                      hidden=""
+                      aria-label="Biologist present to salvage snakes during dewatering"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          Biologist present to salvage snakes during dewatering
+                        </h3>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Monitor</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">Water › Dewatering</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              Evidence arriving, or failing to. Beacon publishes no
+                              evidence event
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Trigger</dt>
+                            <dd class="typography-body-sm">
+                              During all dewatering activities, particularly when
+                              dewatering begins and when the level of water reaches the
+                              level of the intake, to salvage and relocate any GGS tha
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Events</dt>
+                            <dd class="typography-body-sm">
+                              None. Nothing has reached this duty
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events"></ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKYBZ9A7EECEZB6FGXQ"
+                      hidden=""
+                      aria-label="In-Water Work Window During Construction"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">
+                          In-Water Work Window During Construction
+                        </h3>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Adhere</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">Water › In-water work</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A breach. Beacon publishes no breach event, so sightings
+                              stand in
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Events</dt>
+                            <dd class="typography-body-sm">
+                              None. Nothing has reached this duty
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events"></ul>
+                    </section>
+                    <section
+                      class="bcn-tw__pane"
+                      data-tw-pane="obl-obl_01M2G6YKKZS8T1WDX0E4QXHYGC"
+                      hidden=""
+                      aria-label="Approved Wildlife Handler"
+                    >
+                      <header class="bcn-tw__pane-head">
+                        <h3 class="bcn-tw__pane-title">Approved Wildlife Handler</h3>
+                        <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Class</dt>
+                            <dd class="typography-body-sm">Roster</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Filed under</dt>
+                            <dd class="typography-body-sm">
+                              People and qualifications › Designated biologists and
+                              monitors
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Drafted from</dt>
+                            <dd class="typography-body-sm">1 requirement</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Moved by</dt>
+                            <dd class="typography-body-sm">
+                              A change of staff. Beacon publishes no personnel event
+                            </dd>
+                          </div>
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Events</dt>
+                            <dd class="typography-body-sm">
+                              None. Nothing has reached this duty
+                            </dd>
+                          </div>
+                        </dl>
+                      </header>
+                      <ul class="bcn-tw__events"></ul>
+                    </section>
+                  </div>
                 </div>
               </div>
             </div>
@@ -5500,13 +11669,16 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                 </svg>
               </div>
               <div class="esa-alert-box__body">
+                <strong class="esa-alert-box__title typography-label-sm-strong"
+                  >Pins are authored</strong
+                >
                 <div class="esa-alert-box__message">
-                  The duties in each group are read from the data — a construction
-                  activity group holds the obligations whose requirements name that
-                  activity, and the qualifications group holds every Roster duty. What is
-                  AUTHORED is which activities are under way today: none of the333
-                  obligations records that it is currently in force, and that gap is the
-                  last thing between this view and a working one.
+                  Beacon has no pin table, so these 6 are a stand-in for a reader's own
+                  selection. What each pin then shows is real: the events that reached it
+                  are the same matches the other views run. This view replaced Ongoing,
+                  which listed what was in force by authoring which activities were under
+                  way — none of the 333 obligations records that it is currently live, so
+                  the page no longer claims to know.
                 </div>
               </div>
             </div>
@@ -109996,6 +116168,262 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
+.bcn-tev__node {
+  border-block-end: 1px solid var(--color-border-default-subtle);
+}
+.bcn-tev:last-child .bcn-tev__node {
+  border-block-end: none;
+}
+.bcn-tev__main {
+  align-items: baseline;
+  gap: var(--spacing-200);
+  padding: var(--spacing-300) var(--spacing-200);
+  cursor: pointer;
+  grid-template-columns: auto auto 1fr auto;
+  list-style: none;
+  display: grid;
+}
+.bcn-tev__main::-webkit-details-marker {
+  display: none;
+}
+.bcn-tev__main:hover {
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-tev__main:focus-visible {
+  outline: 2px solid var(--color-border-default-focus);
+  outline-offset: -2px;
+}
+.bcn-tev__chevron {
+  color: var(--color-content-default-tertiary);
+  transition: transform 0.12s;
+}
+.bcn-tev__node[open] > .bcn-tev__main .bcn-tev__chevron {
+  transform: rotate(90deg);
+}
+.bcn-tev__glyph {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-tev__head {
+  min-width: 0;
+}
+.bcn-tev__title {
+  color: var(--color-content-default);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  overflow: hidden;
+}
+.bcn-tev__meta {
+  gap: var(--spacing-100);
+  color: var(--color-content-default-tertiary);
+  flex-wrap: wrap;
+  margin-block-start: var(--spacing-050);
+  display: flex;
+}
+.bcn-tev__kind {
+  color: var(--color-content-default-secondary);
+}
+.bcn-tev__reached {
+  padding: var(--spacing-050) var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-background-elevation-sunken);
+  color: var(--color-content-default-secondary);
+  white-space: nowrap;
+  justify-self: end;
+}
+.bcn-tev__reached[data-trigger] {
+  background: color-mix(in srgb, var(--color-obligation) 14%, white);
+  color: var(--color-content-default);
+}
+.bcn-tev__body {
+  padding: 0 var(--spacing-200) var(--spacing-300) var(--spacing-600);
+}
+.bcn-tev__why {
+  margin: 0 0 var(--spacing-300);
+  color: var(--color-content-default-secondary);
+}
+.bcn-tev__facts {
+  gap: var(--spacing-200) var(--spacing-500);
+  flex-wrap: wrap;
+  margin: 0;
+  display: flex;
+}
+.bcn-tev__fact {
+  min-width: 0;
+  max-inline-size: 100%;
+}
+.bcn-tev__fact dt {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-tev__fact dd {
+  margin: var(--spacing-050) 0 0;
+  color: var(--color-content-default);
+}
+.bcn-tev__reached {
+  grid-column: 3;
+  justify-self: start;
+}
+.bcn-tw__bar {
+  justify-content: flex-end;
+  padding-block-end: var(--spacing-200);
+  display: flex;
+}
+.bcn-tw__side:not([hidden]) {
+  display: block;
+}
+.bcn-tw__panes {
+  --sidebar-width: 22rem;
+  --sidebar-content-min: 50%;
+  align-items: stretch;
+}
+.bcn-tw__rail,
+.bcn-tw__detail {
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default-subtle);
+  border-radius: var(--radius-md);
+  block-size: 38rem;
+  min-block-size: 0;
+  overflow: hidden;
+}
+.bcn-tw__rail {
+  flex-direction: column;
+  display: flex;
+}
+.bcn-tw__rail-label {
+  padding: var(--spacing-300);
+  border-bottom: 1px solid var(--color-border-default-subtle);
+  color: var(--color-content-default-tertiary);
+  flex: none;
+  margin: 0;
+}
+.bcn-tw__list {
+  flex: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+.bcn-tw__row {
+  align-items: baseline;
+  gap: var(--spacing-050) var(--spacing-200);
+  inline-size: 100%;
+  padding: var(--spacing-300);
+  border: none;
+  border-block-end: 1px solid var(--color-border-default-subtle);
+  text-align: start;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: 0 0;
+  grid-template-columns: auto 1fr auto;
+  display: grid;
+}
+.bcn-tw__row:hover {
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-tw__row:focus-visible {
+  outline: 2px solid var(--color-border-default-focus);
+  outline-offset: -2px;
+}
+.bcn-tw__row[aria-selected="true"] {
+  background: var(--color-background-elevation-sunken);
+}
+.bcn-tw__row[aria-selected="true"] .bcn-tw__row-label {
+  font-weight: 600;
+}
+.bcn-tw__row-glyph {
+  color: var(--color-content-default-tertiary);
+  grid-column: 1;
+}
+.bcn-tw__row-label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  grid-column: 2;
+  min-width: 0;
+  line-height: 1.4;
+  overflow: hidden;
+}
+.bcn-tw__row-when {
+  color: var(--color-content-default-tertiary);
+  white-space: nowrap;
+  grid-column: 3;
+}
+.bcn-tw__detail {
+  overflow-y: auto;
+}
+.bcn-tw__pane:not([hidden]) {
+  display: block;
+}
+.bcn-tw__pane-head {
+  padding: var(--spacing-300);
+  border-bottom: 1px solid var(--color-border-default-subtle);
+}
+.bcn-tw__pane-title {
+  color: var(--color-content-default);
+  margin: 0;
+  line-height: 1.35;
+}
+.bcn-tw__pane-when {
+  margin: var(--spacing-050) 0 0;
+  color: var(--color-content-default-tertiary);
+}
+.bcn-tw__facts {
+  gap: var(--spacing-200) var(--spacing-500);
+  margin: var(--spacing-300) 0 0;
+  flex-wrap: wrap;
+  display: flex;
+}
+.bcn-tw__fact {
+  min-width: 0;
+  max-inline-size: 100%;
+}
+.bcn-tw__verbs {
+  justify-content: flex-end;
+  gap: var(--spacing-200);
+  padding: var(--spacing-200) var(--spacing-400) 0;
+  display: flex;
+}
+.bcn-tw__verb {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
+.bcn-tw__duties {
+  gap: var(--spacing-200);
+  padding: var(--spacing-300) var(--spacing-400) var(--spacing-400);
+  flex-direction: column;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+.bcn-tw__events {
+  padding: 0 var(--spacing-200) var(--spacing-300);
+  margin: 0;
+  list-style: none;
+}
+.bcn-tw__blank {
+  padding: var(--spacing-500);
+}
+.bcn-tw__fact dt {
+  color: var(--color-content-default-tertiary);
+}
+.bcn-tw__fact dd {
+  margin: var(--spacing-050) 0 0;
+  color: var(--color-content-default);
+}
+.bcn-treg__bar {
+  justify-content: flex-end;
+  padding-block-end: var(--spacing-200);
+  display: flex;
+}
+.bcn-treg__view:not([hidden]) {
+  display: block;
+}
+.bcn-treg__verb {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
 .typography-body-sm {
   font-family: var(--typography-body-sm-font-family);
   font-size: var(--typography-body-sm-font-size);
@@ -110162,153 +116590,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-tw__panes {
-  --sidebar-width: 22rem;
-  --sidebar-content-min: 50%;
-  align-items: stretch;
-}
-.bcn-tw__rail,
-.bcn-tw__detail {
-  background: var(--color-background-elevation-raised);
-  border: 1px solid var(--color-border-default-subtle);
-  border-radius: var(--radius-md);
-  block-size: 38rem;
-  min-block-size: 0;
-  overflow: hidden;
-}
-.bcn-tw__rail {
-  flex-direction: column;
-  display: flex;
-}
-.bcn-tw__rail-label {
-  padding: var(--spacing-300);
-  border-bottom: 1px solid var(--color-border-default-subtle);
-  color: var(--color-content-default-tertiary);
-  flex: none;
-  margin: 0;
-}
-.bcn-tw__list {
-  flex: auto;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow-y: auto;
-}
-.bcn-tw__row {
-  align-items: baseline;
-  gap: var(--spacing-050) var(--spacing-200);
-  inline-size: 100%;
-  padding: var(--spacing-300);
-  border: none;
-  border-block-end: 1px solid var(--color-border-default-subtle);
-  text-align: start;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-  background: 0 0;
-  grid-template-columns: auto 1fr auto;
-  display: grid;
-}
-.bcn-tw__row:hover {
-  background: var(--color-background-elevation-sunken);
-}
-.bcn-tw__row:focus-visible {
-  outline: 2px solid var(--color-border-default-focus);
-  outline-offset: -2px;
-}
-.bcn-tw__row[aria-selected="true"] {
-  background: var(--color-background-elevation-sunken);
-}
-.bcn-tw__row[aria-selected="true"] .bcn-tw__row-label {
-  font-weight: 600;
-}
-.bcn-tw__row-glyph {
-  color: var(--color-content-default-tertiary);
-  grid-column: 1;
-}
-.bcn-tw__row-label {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  grid-column: 2;
-  min-width: 0;
-  line-height: 1.4;
-  overflow: hidden;
-}
-.bcn-tw__row-when {
-  color: var(--color-content-default-tertiary);
-  white-space: nowrap;
-  grid-column: 3;
-}
-.bcn-tw__detail {
-  overflow-y: auto;
-}
-.bcn-tw__pane:not([hidden]) {
-  display: block;
-}
-.bcn-tw__pane-head {
-  padding: var(--spacing-300);
-  border-bottom: 1px solid var(--color-border-default-subtle);
-}
-.bcn-tw__pane-title {
-  color: var(--color-content-default);
-  margin: 0;
-  line-height: 1.35;
-}
-.bcn-tw__pane-when {
-  margin: var(--spacing-050) 0 0;
-  color: var(--color-content-default-tertiary);
-}
-.bcn-tw__facts {
-  gap: var(--spacing-200) var(--spacing-500);
-  margin: var(--spacing-300) 0 0;
-  flex-wrap: wrap;
-  display: flex;
-}
-.bcn-tw__fact {
-  min-width: 0;
-}
-.bcn-tw__verbs {
-  justify-content: flex-end;
-  gap: var(--spacing-200);
-  padding: var(--spacing-200) var(--spacing-400) 0;
-  display: flex;
-}
-.bcn-tw__verb {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
-}
-.bcn-tw__duties {
-  gap: var(--spacing-200);
-  padding: var(--spacing-300) var(--spacing-400) var(--spacing-400);
-  flex-direction: column;
-  margin: 0;
-  list-style: none;
-  display: flex;
-}
-.bcn-tw__fact dt {
-  color: var(--color-content-default-tertiary);
-}
-.bcn-tw__fact dd {
-  margin: var(--spacing-050) 0 0;
-  color: var(--color-content-default);
-}
-.bcn-tw__blank {
-  padding: var(--spacing-500);
-}
-.bcn-treg__bar {
-  justify-content: flex-end;
-  padding-block-end: var(--spacing-200);
-  display: flex;
-}
-.bcn-treg__view:not([hidden]) {
-  display: block;
-}
-.bcn-treg__verb {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
 }
 .esa-alert-box {
   --_alert-bg: var(--color-background-utility-info-subtle, #fbfdff);
@@ -110512,6 +116793,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
+- `--spacing-600`: 2rem _(primitive)_
 - `--transition-fast`: .15s ease _(semantic)_
 - `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_

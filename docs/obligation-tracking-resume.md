@@ -1,7 +1,7 @@
 # Resume prompt — Obligation Tracking build
 
 **Paste everything below the line into a fresh Claude Code session started in
-`C:\Users\kim.bordon\Dev\beacon-design`.** Last updated 2026-09-16.
+`C:\Users\kim.bordon\Dev\beacon-design`.** Last updated 2026-09-17.
 
 ---
 
@@ -11,9 +11,10 @@ the Obligation record type. It is at `/prototypes/obligation-tracking` on branch
 
 ## Read these first, in this order
 
-1. **`docs/obligation-tracking-checkpoint.md`** — 16 sections, the authority on this build. What
+1. **`docs/obligation-tracking-checkpoint.md`** — 21 sections, the authority on this build. What
    is on disk, every design decision and why, the bugs not to reintroduce, and what is open.
-   **Read §14 and §16 before touching anything**: they list mistakes I made and debris I left.
+   **Read §14, §18 and §19 before touching anything**: they list bugs that shipped silently,
+   including four that only a type-checker could see. §20 is the pivot, §21 is Pinned.
 2. **`C:\Users\kim.bordon\Desktop\obligations\obligations-exploration-notes.md`** — the entity
    deliberation, 20 sections, not in this repo. Still the authority on the entity's *shape*.
    §13 lists claims that turned out wrong; do not carry them forward.
@@ -26,12 +27,17 @@ the Obligation record type. It is at `/prototypes/obligation-tracking` on branch
   `git show origin/develop:<path>`, never from the working tree.
 - **`beacon-design` has no `develop` branch.** Its integration branch is `main`;
   `origin/main` was merged into `proto/obligations` cleanly on 2026-09-15.
-- **Nothing is committed.** 15 files: 8 new, 6 modified, plus the generated handoff bundle.
-  `package-lock.json` is dirty from an unrelated Astro bump and stays uncommitted.
+- **The build is committed** on `proto/obligations`. `package-lock.json` is still deliberately
+  uncommitted — dirty from an unrelated Astro bump, and now from the type-checker install too.
+  See "Pick up here" #2; treat it as a loose end, not a settled convention.
+- **`npx astro check` now runs** — `@astrojs/check` + `typescript` were installed 2026-09-17.
+  Nothing type-checked this repo before that, and the build CANNOT fail on a type error because
+  esbuild strips types. Run it before believing a type.
 - Dev server: `npm run dev` → **http://localhost:4330** (base `/` in dev). Stop with
   `astro dev stop`. It serves stale CSS across long sessions — restart before diagnosing a
   rendering fault.
-- Verify with `npm run build` (626 pages) and `npm run handoff:check`.
+- Verify with `npm run build` (626 pages), `npm run handoff:check`, and `npx astro check`
+  (253 pre-existing errors elsewhere in the repo; the tracking files are clean).
 
 ## How I want you to work
 
@@ -54,13 +60,29 @@ the Obligation record type. It is at `/prototypes/obligation-tracking` on branch
 
 **Two tabs.** FEED (four views) and REGISTRY, no counts on either row.
 
-- **All (6 events)** — a timeline. An event surfaces only what it made newly true: Notify duties
-  and trigger matches, 1–5 per event. Adhere and Monitor duties that merely *match* an event are
-  deliberately not surfaced; they are standing, and Ongoing is for standing.
-- **Important (4)** — the same events, narrowed to the reader's saved subject areas.
-- **To-do (4)** — Notify only. A Monitor duty is a cadence that is ON, not a task that is OWED.
-- **Ongoing (3 groups, 16 duties)** — the inventory: two active activities plus standing
-  qualifications. Phase groups were removed; "the project is in Construction" swept in 260.
+**Every view reads two ways** — an `esa-button-toggle` reading *By event | By obligation*
+(checkpoint §20). By event, a pane is a thing that happened and its children are the duties it
+raised; by obligation, a pane is a duty and its children are the events that reached it. The
+index is derived from the same array both directions read, so they cannot disagree. **Not
+sticky:** four independent switches, all starting on By event.
+
+| | By event | By obligation |
+|---|---|---|
+| **All** | 6 panes, 20 rows | 9 panes, 20 rows |
+| **Important** | 4, 13 | 5, 13 |
+| **To-do** | 4, 12 | 3, 12 |
+| **Pinned** | 5, 8 | 6, 8 — **3 with no events at all** |
+
+- **All** — a timeline. An event surfaces only what it made newly true: Notify duties and
+  trigger matches, 1–5 per event. Adhere and Monitor duties that merely *match* an event are
+  deliberately not surfaced; they are standing, and a standing duty reaches you by being pinned.
+- **Important** — the same events, narrowed to the reader's saved subject areas.
+- **To-do** — Notify only. A Monitor duty is a cadence that is ON, not a task that is OWED.
+- **Pinned (6 duties)** — **replaced Ongoing on 2026-09-17** (checkpoint §21). Ongoing answered
+  "what is in force right now" and had to author which activities were under way to do it.
+  Pinning does not close that gap, it stops pretending to. The cost: the page now answers
+  "what is on right now" for nobody. The pins are authored, resolved by title, and throw on a
+  miss.
 - **Registry** — both wizard views (By category / By commitment), read-only, each with its own
   filter row. Both trees are the wizard's own components in `mode="browse"`.
 
@@ -78,33 +100,30 @@ prose like *"if there are any…"* on 157 of 333 duties.
 `dmrs`, `sitereports`, `surveys`, `processedreports`. The three payloads are **not the same
 shape**, so the facts band is per-source — see the checkpoint §15 table.
 
-## Pick up here — in this order
+## Pick up here
 
-1. ~~Sweep for duplicated blocks~~ — **done 2026-09-17, checkpoint §17.** 67 lines out of
-   `BcnTrackingWorkspace.astro`: four copies of one rule, two of another, and a 48-line dead
-   `.bcn-tw__group` block left over from the class groups §15 deleted. One duplicate was NOT
-   harmless — two `.bcn-tw__row` rules disagreed about `grid-template-columns`.
-2. ~~Repoint the handoff spec's "Duty row" section~~ — **done 2026-09-17.** Now
-   **"Duty card" → `.bcn-swoc`**, and the body was rewritten as well: every claim in it
-   described the deleted wrapper (a filing line, codes capped at four, de-duplicated codes —
-   none of which the wizard card does).
-3. **Commit.** A day of reasoning lives only in the working tree.
+Everything on the old list is done and committed. What is left:
 
-**The pre-commit review ran too, and found five real bugs — checkpoint §18.** A pane background
-that never rendered (`--color-surface-raised` does not exist), Ongoing's rail heading missing
-entirely, both alert boxes asserting things the code had already reversed, banned ornamental
-micro-labels, and dead tab-badge CSS under a comment contradicting its own code. All fixed.
+1. **Decide where the pivot lives.** It is on all four views. Kim's instinct mid-build was to
+   restrict it to the user-specified ones (Important + Pinned) — deferred until Pinned existed,
+   which it now does. Restricting it is one prop. **The cost of restricting:** To-do is where it
+   pays most (12 rows saying 3 things becomes 3 rows), and All's inverse is the cheapest way to
+   ask "what has this permit actually touched" (20 rows → 9 duties).
+2. **Decide on `package-lock.json`.** `package.json` now commits `@astrojs/check` and
+   `typescript` as devDependencies, but **the lock is still uncommitted** — the standing
+   convention, because it is dirty from an unrelated Astro bump. A fresh clone therefore
+   resolves those two unpinned. Either commit the lock (taking the Astro bump with it) or back
+   the devDeps out.
+3. **Work the 253 `astro check` errors, or decide not to.** Almost all are pre-existing debt in
+   other prototypes — `monitoring/dashboard.astro` is the worst. The tracking files are clean.
 
-**Left for Kim to call:**
+**Still Kim's call, unchanged:** the three pane builders in `obligation-tracking.ts` share seven
+identical field assignments (§17). That is the shared spine, not debris — a
+`pane(e, prefix, rows)` helper would take ~20 lines out at the cost of one indirection.
 
-- The three pane builders in `obligation-tracking.ts` share seven identical field assignments
-  (§17). That is the shared spine, not debris — a `pane(e, prefix, rows)` helper would take
-  ~20 lines out, at the cost of one indirection.
-- **Install `@astrojs/check` + `typescript` so `npx astro check` can run.** The missing
-  `RAIL.ongoing` key was a plain type error that shipped because esbuild strips types and the
-  build cannot fail on one. It is the second bug of that shape.
-- The To-do alert box still stands (checkpoint §6.5, unruled). It is now TRUE, but it is still
-  text about the page.
+**Open questions 1–6 below are unchanged**, except that #2 ("nothing records why an obligation
+is live") is now *acknowledged* rather than papered over — see §21. Pinning sidesteps it; it
+does not answer it.
 
 ## Open questions — mine to answer, not yours to assume
 

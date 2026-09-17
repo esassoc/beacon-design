@@ -26,13 +26,20 @@
 // rather than reimplemented. The rail rows are native buttons with role="option" for the
 // same reason BcnSwObligationsEditor's picker rows are: esa-list-item is not selectable.
 // Checked Beacon (its list/detail surfaces inline this same glue per page).
-import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnSwObligationCard from './BcnSwObligationCard.astro';
+import BcnTrackingEvent from './BcnTrackingEvent.astro';
 import { STEP_GLYPH } from '../../data/setup-wizard';
-import { EMPTY, PANES, type TrackingViewId } from '../../data/obligation-tracking';
+import {
+  EMPTY,
+  EMPTY_BY_OBLIGATION,
+  OBLIGATION_PANES,
+  PANES,
+  RAIL_BY_OBLIGATION,
+  type TrackingViewId,
+} from '../../data/obligation-tracking';
 
 interface Props {
   view: TrackingViewId;
@@ -43,85 +50,164 @@ interface Props {
 const { view, railLabel } = Astro.props;
 const panes = PANES[view];
 const empty = EMPTY[view];
+
+// THE INVERSE — the same data with the parent and the child swapped. Both directions render at
+// build time and the switch only reveals, exactly as the Registry tab's two trees do.
+const oblPanes = OBLIGATION_PANES[view];
+const oblEmpty = EMPTY_BY_OBLIGATION[view];
+const oblRail = RAIL_BY_OBLIGATION[view];
+
+// NOT STICKY, at Kim's call (2026-09-17). Each view owns its own switch and every one of them
+// starts on By event; nothing is remembered across a tab change or a reload. A pivot that
+// followed the reader between views would mean arriving at To-do in a direction they chose
+// while reading All, which is a surprise for the sake of saving one click.
+const PIVOT = [
+  { label: 'By event', value: 'event' },
+  { label: 'By obligation', value: 'obligation' },
+];
+
+// ONE FRAME, WRITTEN ONCE. The two directions differ in exactly one place — what a pane's
+// CHILDREN are — so the rail, the pane head and the facts band are shared markup rather than
+// copied. TrackingPane and ObligationPane already agree on `id`, `label`, `when` and `details`
+// for this reason; `glyph` is simply absent on a duty, and the rail renders it conditionally.
+const SIDES = [
+  { key: 'event', panes, railLabel, empty, children: 'duties' },
+  { key: 'obligation', panes: oblPanes, railLabel: oblRail, empty: oblEmpty, children: 'events' },
+] as const;
 ---
 
 <div class="bcn-tw" data-tw-view={view}>
-  {panes.length === 0 ? (
-    <div class="bcn-tw__blank"><EsaEmptyState heading={empty.heading} message={empty.message} /></div>
-  ) : (
-    <div class="bcn-tw__panes sidebar" data-gap="md">
-      <div class="bcn-tw__rail">
-        <h3 class="typography-label-sm bcn-tw__rail-label">{railLabel}</h3>
-        <ul class="bcn-tw__list" role="listbox" aria-label={railLabel}>
-          {panes.map((p, i) => (
-            <li>
-              <button
-                type="button"
-                class="bcn-tw__row"
-                role="option"
-                aria-selected={i === 0 ? 'true' : 'false'}
-                data-tw-pick={p.id}
-              >
-                {p.glyph && (
-                  <span class="bcn-tw__row-glyph" aria-hidden="true">
-                    <EsaIcon name="event" paths={p.glyph} size="sm" />
-                  </span>
-                )}
-                <span class="bcn-tw__row-label">{p.label}</span>
-                {p.when && <span class="bcn-tw__row-when">{p.when}</span>}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+  {/* THE PIVOT. Same lego and same wiring as the Registry tab's By category / By commitment
+      switch — it reveals a panel that is already rendered rather than navigating, which is the
+      one thing bcn-sw-view-switch cannot do. */}
+  <header class="bcn-tw__bar">
+    <esa-button-toggle
+      class="bcn-tw__switch"
+      size="sm"
+      value="event"
+      aria-label={`How to read ${railLabel.toLowerCase()}`}
+      data-tw-switch
+      data-options={JSON.stringify(PIVOT)}></esa-button-toggle>
+  </header>
 
-      <div class="bcn-tw__detail">
-        {panes.map((p, i) => (
-          <section class="bcn-tw__pane" data-tw-pane={p.id} hidden={i !== 0} aria-label={p.label}>
-            <header class="bcn-tw__pane-head">
-              <h3 class="bcn-tw__pane-title">{p.label}</h3>
-              {p.when && <p class="bcn-tw__pane-when">{p.when}</p>}
-              {p.details.length > 0 && (
-                <dl class="bcn-tw__facts">
-                  {p.details.map((d) => (
-                    <div class="bcn-tw__fact">
-                      <dt class="typography-label-xs">{d.label}</dt>
-                      <dd class="typography-body-sm">{d.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
-            </header>
-            {/* ONE LIST, NO CLASS GROUPS. Collapsible Notify / Monitor / Adhere sections earned
-                their place when an event raised seventy duties; once it surfaces three to five,
-                the headings outnumbered the rows. Order still carries what they said: trigger
-                matches first, then Notify, Monitor, Adhere, Roster. (Kim, 2026-09-16.) */}
-            {/* THE WIZARD'S OWN CARD, RENDERED DIRECTLY. bcn-tracking-duty used to wrap it to
-                add a Trigger marker; with the marker gone the wrapper added nothing, so it was
-                deleted rather than left as a passthrough. A duty reads identically here, in the
-                Registry tab and in setup step 5, because it is the same component. */}
-            {p.duties.length > 1 && (
-              <div class="bcn-tw__verbs">
-                <EsaButton variant="ghost" size="xs" data-tw-expand>
-                  <span class="bcn-tw__verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
-                </EsaButton>
-                <EsaButton variant="ghost" size="xs" data-tw-collapse>
-                  <span class="bcn-tw__verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
-                </EsaButton>
-              </div>
-            )}
-
-            <ul class="bcn-tw__duties">
-              {p.duties.map((d) => <BcnSwObligationCard obligation={d.obligation} mode="browse" />)}
+  {SIDES.map((side) => (
+    <div class="bcn-tw__side" data-tw-side={side.key} hidden={side.key !== 'event'}>
+      {side.panes.length === 0 ? (
+        <div class="bcn-tw__blank"><EsaEmptyState title={side.empty} /></div>
+      ) : (
+        <div class="bcn-tw__panes sidebar" data-gap="md">
+          <div class="bcn-tw__rail">
+            <h3 class="typography-label-sm bcn-tw__rail-label">{side.railLabel}</h3>
+            <ul class="bcn-tw__list" role="listbox" aria-label={side.railLabel}>
+              {side.panes.map((p, i) => (
+                <li>
+                  <button
+                    type="button"
+                    class="bcn-tw__row"
+                    role="option"
+                    aria-selected={i === 0 ? 'true' : 'false'}
+                    data-tw-pick={p.id}
+                  >
+                    {'glyph' in p && p.glyph && (
+                      <span class="bcn-tw__row-glyph" aria-hidden="true">
+                        <EsaIcon name="event" paths={p.glyph} size="sm" />
+                      </span>
+                    )}
+                    <span class="bcn-tw__row-label">{p.label}</span>
+                    {p.when && <span class="bcn-tw__row-when">{p.when}</span>}
+                  </button>
+                </li>
+              ))}
             </ul>
-          </section>
-        ))}
-      </div>
+          </div>
+
+          <div class="bcn-tw__detail">
+            {side.panes.map((p, i) => (
+              <section class="bcn-tw__pane" data-tw-pane={p.id} hidden={i !== 0} aria-label={p.label}>
+                <header class="bcn-tw__pane-head">
+                  <h3 class="bcn-tw__pane-title">{p.label}</h3>
+                  {p.when && <p class="bcn-tw__pane-when">{p.when}</p>}
+                  {p.details.length > 0 && (
+                    <dl class="bcn-tw__facts">
+                      {p.details.map((d) => (
+                        <div class="bcn-tw__fact">
+                          <dt class="typography-label-xs">{d.label}</dt>
+                          <dd class="typography-body-sm">{d.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                </header>
+
+                {/* ONE LIST, NO CLASS GROUPS. Collapsible Notify / Monitor / Adhere sections
+                    earned their place when an event raised seventy duties; once it surfaces
+                    three to five, the headings outnumbered the rows. Order still carries what
+                    they said: trigger matches first, then Notify, Monitor, Adhere, Roster.
+                    (Kim, 2026-09-16.) */}
+                {'duties' in p && (
+                  <Fragment>
+                    {p.duties.length > 1 && (
+                      <div class="bcn-tw__verbs">
+                        <EsaButton variant="ghost" size="xs" data-tw-expand>
+                          <span class="bcn-tw__verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
+                        </EsaButton>
+                        <EsaButton variant="ghost" size="xs" data-tw-collapse>
+                          <span class="bcn-tw__verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
+                        </EsaButton>
+                      </div>
+                    )}
+                    {/* THE WIZARD'S OWN CARD, RENDERED DIRECTLY. bcn-tracking-duty used to wrap
+                        it to add a Trigger marker; with the marker gone the wrapper added
+                        nothing, so it was deleted rather than left as a passthrough. A duty
+                        reads identically here, in the Registry tab and in setup step 5. */}
+                    <ul class="bcn-tw__duties">
+                      {p.duties.map((d) => <BcnSwObligationCard obligation={d.obligation} mode="browse" />)}
+                    </ul>
+                  </Fragment>
+                )}
+
+                {'events' in p && (
+                  <Fragment>
+                    {p.events.length > 1 && (
+                      <div class="bcn-tw__verbs">
+                        <EsaButton variant="ghost" size="xs" data-tw-expand>
+                          <span class="bcn-tw__verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
+                        </EsaButton>
+                        <EsaButton variant="ghost" size="xs" data-tw-collapse>
+                          <span class="bcn-tw__verb"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
+                        </EsaButton>
+                      </div>
+                    )}
+                    {/* NO EMPTY STATE COMPONENT HERE. A duty with no events is not a failed
+                        lookup — it is the answer, and the pane's own "Moved by" and "Events"
+                        facts above state it in the structured band rather than as prose. 15 of
+                        Ongoing's 16 duties land here, which is the finding, not a gap. */}
+                    <ul class="bcn-tw__events">
+                      {p.events.map((ev) => <BcnTrackingEvent event={ev} open={p.events.length === 1} />)}
+                    </ul>
+                  </Fragment>
+                )}
+              </section>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
-  )}
+  ))}
 </div>
 
 <style>
+  /* The pivot sits above the frame, right-aligned — the same bar geometry the Registry tab's
+     view switch uses, so the two switches on this page read as the same control. */
+  .bcn-tw__bar {
+    display: flex;
+    justify-content: flex-end;
+    padding-block-end: var(--spacing-200);
+  }
+
+  /* [hidden] loses to an author display rule, so the visible state is guarded. */
+  .bcn-tw__side:not([hidden]) { display: block; }
+
   /* A FIXED frame — neither selection nor a thirty-duty pane may resize the page. */
   .bcn-tw__panes {
     --sidebar-width: 22rem;
@@ -236,7 +322,14 @@ const empty = EMPTY[view];
     margin: var(--spacing-300) 0 0;
   }
 
-  .bcn-tw__fact { min-width: 0; }
+  /* A flex item sizes to MAX-CONTENT, so a long value — the Trigger is scraped permit prose and
+     runs to a full sentence — took one unbroken line and was clipped by the pane's overflow
+     rather than wrapping. `min-width: 0` alone does not fix that: it permits shrinking but the
+     auto basis still asks for max-content. Capping the item at the row width makes it wrap. */
+  .bcn-tw__fact {
+    min-width: 0;
+    max-inline-size: 100%;
+  }
 
 
 
@@ -262,6 +355,14 @@ const empty = EMPTY[view];
     list-style: none;
   }
 
+  /* The event rows carry their own dividers and their own padding, so this list only stacks
+     them — unlike the duty list above, whose cards are separate objects needing a gap. */
+  .bcn-tw__events {
+    margin: 0;
+    padding: 0 var(--spacing-200) var(--spacing-300);
+    list-style: none;
+  }
+
   .bcn-tw__blank { padding: var(--spacing-500); }
 
   /* THE ROLE CARRIES THE TYPE, not a raw size. These were `font-size: 0.78rem` + uppercase +
@@ -275,8 +376,6 @@ const empty = EMPTY[view];
     margin: var(--spacing-050) 0 0;
     color: var(--color-content-default);
   }
-
-  .bcn-tw__blank { padding: var(--spacing-500); }
 
   /* REMOVED 2026-09-17 — the class groups this styled are gone (checkpoint §15): the workspace
      renders bcn-sw-obligation-card directly, so nothing here is an esa-collapsible any more and
@@ -294,8 +393,37 @@ const empty = EMPTY[view];
 </style>
 
 <script>
-  // Reveal only. Every pane is already in the DOM — see the header note.
+  import '@esa/ecology/esa-button-toggle';
+
+  type Toggle = HTMLElement & { options: unknown[]; value: string };
+
+  // THE PIVOT — reveal only, like everything else on this page. Both directions are already in
+  // the DOM. Scoped to `.bcn-tw` so each view's switch drives its own sides and no other's:
+  // the pivot is deliberately NOT sticky, so four independent switches is the correct shape,
+  // not an oversight.
   for (const ws of document.querySelectorAll<HTMLElement>('.bcn-tw')) {
+    const sw = ws.querySelector<Toggle>('[data-tw-switch]');
+    const sides = [...ws.querySelectorAll<HTMLElement>('[data-tw-side]')];
+
+    if (sw) {
+      customElements.whenDefined('esa-button-toggle').then(() => {
+        sw.options = JSON.parse(sw.dataset.options ?? '[]');
+        sw.value = 'event';
+      });
+
+      sw.addEventListener('change', () => {
+        for (const s of sides) s.hidden = s.dataset.twSide !== sw.value;
+      });
+    }
+  }
+
+  // Reveal only. Every pane is already in the DOM — see the header note.
+  //
+  // SCOPED PER SIDE, not per workspace. Both directions render their own rail and their own
+  // panes into the same `.bcn-tw`; querying the workspace would let a click in the by-event
+  // rail hide the by-obligation pane sitting behind the switch, and the selected row of the
+  // hidden side would silently unselect.
+  for (const ws of document.querySelectorAll<HTMLElement>('[data-tw-side]')) {
     const rows = [...ws.querySelectorAll<HTMLButtonElement>('[data-tw-pick]')];
     const panes = [...ws.querySelectorAll<HTMLElement>('[data-tw-pane]')];
 

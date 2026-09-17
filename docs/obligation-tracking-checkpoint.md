@@ -646,3 +646,134 @@ pulled**. Nothing to do; the numbers here supersede §13's.
 built HTML, all four listboxes with an `aria-label`; **zero** undefined and **zero** deprecated
 tokens referenced by any tracking file; 75 fact labels carrying `typography-label-xs`; handoff
 bundle regenerated; `handoff:check` clean for this slug.
+
+---
+
+## 19. The repo now type-checks, and it found four more (2026-09-17)
+
+**`typescript` was never installed.** Not a dependency, not in `node_modules`. Astro compiles
+`.ts` and `.astro` frontmatter with **esbuild, which strips types without reading them**, so
+every type in this repo was documentation. `@astrojs/check` (the `.astro`-aware wrapper) and
+`typescript` are now devDependencies, and `npx astro check` runs.
+
+**It reports 253 errors across 382 files.** Almost all are pre-existing debt in other
+prototypes — `monitoring/dashboard.astro` alone carries a pile. **Do not treat that number as
+this build's.** Scoped to the tracking files it found four real bugs, all now fixed:
+
+1. **`FeedEvent` declared `type` twice** — once required, once optional. TS2300. Not cosmetic:
+   the required one asserts every event has an ObservationType, which is the assumption §15
+   spent a session demolishing. The site-report and DMR seeds set no `type` at all.
+2. **The object literal building a `FeedEvent` from a seed also set `type` twice** (ts1117) —
+   the same fault one layer down.
+3. **`PaneDetail` was referenced three times and defined nowhere.** Another declaration an
+   index-splicing patch script dropped (§16), invisible because nothing resolved types.
+4. **`esa-empty-state` takes `title` / `description`; the page passed `heading` / `message`.**
+   Astro drops unknown props silently, so **every empty state on the page rendered with no text
+   at all.** `esa-alert-box` takes `title`, not `heading` — so both alert boxes had been
+   rendering untitled too. Their headings were also sentences, where the lego contracts the
+   title as 1–3 words; they are now "Notify only" and "Pins are authored".
+
+`EMPTY` is now a title-only map. `esa-empty-state`'s `description` is contracted as **one
+imperative recovery action, ≤12 words** — "not a description of the missing feature" — and none
+of these views has a recovery action, since a reader cannot make an event arrive. Each old
+`message` was a restatement of its own heading anyway.
+
+**Run `npx astro check` before believing a type.** It is the only thing in this repo that reads
+them.
+
+---
+
+## 20. The pivot — reading a view the other way round (2026-09-17)
+
+Kim: *"in the way that we see an event, and can see its related obligations, we should be able
+to see that obligation, and all its events."*
+
+**Built as a PIVOT, not a fifth view** — an `esa-button-toggle` above every view reading
+**By event | By obligation**, the same lego and wiring as the Registry tab's By category / By
+commitment switch. A tab says "here is a different thing"; this is a transpose, and the page
+already has two tab levels. **Not sticky, at Kim's call**: each view owns its switch, all four
+start on By event, nothing is remembered across a tab change.
+
+**The index is derived, never authored** — built by walking the same `EVENTS[].raised` array
+the forward panes read, so the two directions cannot disagree. Row totals match in both
+directions (20, 13, 12, 8), which is the check that proves it.
+
+**Components.** `BcnTrackingEvent.astro` is new: one event as a child of a duty. A native
+`<details>` carrying `data-swo-branch`, deliberately matching `BcnSwObligationCard` — that is
+the hook the pane's Expand all / Collapse all already drive, so both kinds of child open with no
+new wiring. The workspace writes its frame ONCE for both directions; `TrackingPane` and
+`ObligationPane` agree on `id`, `label`, `when` and `details` so only the children branch.
+
+**The absolute date came back, in this direction only.** §15 dropped the calendar date from the
+rail because a timeline is scanned by recency. A duty's history is read the other way — four
+events across days, where "1d ago" beside "2d ago" is arithmetic. Both are shown here, the
+relative one alone there. That is a considered difference, not an inconsistency.
+
+### The basis rule, asserted wrongly and then measured
+
+The first pass claimed the inverse **reverses** §11: that since the pane is one duty and the
+events vary, why each reached it is the whole content of a row. **Measured, that is false.** Of
+the nine duties in All, five have a single event and the other four are **uniform** — 4×"Any
+covered species", 3×"Trigger". **Not one pane has a varying basis.** The per-row badge was 46
+copies of 9 facts: the identical noise §11 removed from the forward view.
+
+So the rule is the **same** rule, applied in the other direction: where every event reached the
+duty the same way it is hoisted to the pane and stated once; where they differ the rows carry
+it. 46 badges became 18 pane facts. Real data will produce the varied case; this fixture never
+does.
+
+**A layout trap worth keeping:** a flex item's auto basis is **max-content**, so a long value
+takes one unbroken line. `min-width: 0` does not fix it — it permits shrinking but the basis
+still asks for max-content. Both facts bands cap the item at `100%`.
+
+---
+
+## 21. Pinned replaces Ongoing (2026-09-17)
+
+Kim, mid-build: *"maybe it's more useful to have this only available for important and pinned
+after all, because those obligations that we want to track are specified by the user."*
+
+There was no Pinned. Asked rather than assumed, and the answer was the stronger reading:
+**a user-pinned list replaces Ongoing outright.**
+
+**Why it is the right trade.** Ongoing answered "what is in force right now", and to answer it
+at all it had to **author which activities were under way** — §6's second open question, the
+thing the page had been papering over. Pinning does not close that gap; **it stops pretending
+to.** The reader names what they are watching, which is a claim this system can actually keep.
+"What am I tracking" is a smaller question than "what is in force", and it is one we are in a
+position to answer honestly.
+
+**What was lost, stated plainly.** The activity groups derived their MEMBERSHIP from real data —
+duties under "Dewatering and fish isolation" genuinely name that activity in their requirements.
+Only the claim that the activity was happening today was invented. **The page now answers "what
+is on right now" for nobody.** That is a deliberate subtraction and should be reversed the moment
+obligations carry in-effect conditions.
+
+**Pinned rejoins the spine.** Ongoing shared nothing with the other three — its parents were
+reasons. All four views are now cuts of one event set: everything, my subject areas, what is
+owed, and what I pinned. Pinned is the one view whose **by-obligation side is native** and whose
+by-event side is the transpose; every other view is the reverse.
+
+**The pins are authored, and the page says so.** Six, resolved **by title** with a throw on a
+miss — a list of ULIDs is unreadable in source and fails silently when the fixture is redrafted,
+and §3's first lesson is that a silent filter fallback is worse than a crash. A pin is UI state
+rather than permit data, which is why authoring it is legitimate where inventing an observation
+type was not.
+
+| | By event | By obligation |
+|---|---|---|
+| All | 6 panes, 20 rows | 9 panes, 20 rows |
+| Important | 4 panes, 13 rows | 5 panes, 13 rows |
+| To-do | 4 panes, 12 rows | 3 panes, 12 rows |
+| **Pinned** | 5 panes, 8 rows | **6 panes, 8 rows — 3 with no events at all** |
+
+**Those three empty pins are the sharpest thing the page says.** The set spans the four classes
+and mixes reached with unreached deliberately: *you chose to watch this, and in the whole event
+log nothing has ever touched it.* The pane then names what WOULD move it — and for three of the
+four classes that is a topic Beacon does not publish (a staff change, a breach, evidence
+arriving). §9's table, rendered as something a reader finds by looking.
+
+`ONGOING`, `OngoingGroup`, `ACTIVE_ACTIVITIES` and `asDuties` are all deleted.
+
+**Still open:** whether the pivot stays on all four views or only the user-specified ones
+(Important + Pinned) — Kim's call, deferred until Pinned existed. It now does.

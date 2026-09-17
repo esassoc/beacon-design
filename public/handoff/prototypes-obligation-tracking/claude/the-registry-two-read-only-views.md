@@ -101078,6 +101078,19 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
+.bcn-treg__bar {
+  justify-content: flex-end;
+  padding-block-end: var(--spacing-200);
+  display: flex;
+}
+.bcn-treg__view:not([hidden]) {
+  display: block;
+}
+.bcn-treg__verb {
+  align-items: center;
+  gap: var(--spacing-100);
+  display: inline-flex;
+}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);
@@ -101209,19 +101222,6 @@ summary.esa-button--variant-chrome:focus-visible {
   width: var(--_icon-size);
   height: var(--_icon-size);
   display: block;
-}
-.bcn-treg__bar {
-  justify-content: flex-end;
-  padding-block-end: var(--spacing-200);
-  display: flex;
-}
-.bcn-treg__view:not([hidden]) {
-  display: block;
-}
-.bcn-treg__verb {
-  align-items: center;
-  gap: var(--spacing-100);
-  display: inline-flex;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

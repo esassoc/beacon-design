@@ -78,9 +78,11 @@
 // prioritising an action. Whether an obligation can trigger an action at all is unsettled
 // while the trigger is a text field, and there is no obligation-instance concept.
 //
-// SEASONS AND PHASES ARE IN ONGOING FOR NOW, not in the timeline — Kim, 2026-09-16, with a
-// note to revisit against the meeting notes, which list seasons under NEW FEEDS with their own
-// lead-up events. That would make them timeline rows instead.
+// SEASONS AND PHASES ARE IN NEITHER THE TIMELINE NOR A VIEW, as of 2026-09-17. They lived in
+// Ongoing until Pinned replaced it. The meeting notes list seasons under NEW FEEDS with their
+// own lead-up events (7 days out, 1 day before, day of), which would make them timeline rows;
+// that is unresolved. Phase was never a row and should not become one — "the project is in
+// Construction" scopes 260 duties and says nothing about which are live.
 
 import {
   OBLIGATION_CLASS_LABEL,
@@ -140,10 +142,6 @@ export const OBSERVATION_TYPES = {
 } as const;
 
 type ObservationTypeKey = (typeof OBSERVATION_TYPES)[keyof typeof OBSERVATION_TYPES]['key'];
-
-const TYPE_LABEL: Record<string, string> = Object.fromEntries(
-  Object.values(OBSERVATION_TYPES).map((t) => [t.key, t.label]),
-);
 
 interface EventSeed {
   id: string;
@@ -356,7 +354,8 @@ export const UNVERIFIED_SCOPE = {
  * changes one is A CHANGE IN STAFF: somebody joins, leaves, or their permit lapses.
  *
  * That is a fifth event source nobody has listed — not in the meeting notes, and not a Fulcrum
- * topic. Until it exists, roster duties belong in Ongoing and never in the timeline.
+ * topic. Until it exists, a roster duty reaches a reader only because they pinned it — never
+ * through the timeline.
  */
 const isEventDriven = (o: ObligationNode) => o.class !== 'roster';
 
@@ -464,13 +463,17 @@ export interface FeedEvent {
   id: string;
   what: string;
   source: EventSource;
-  type: string;
   where: string;
   reportedBy: string;
   concern: boolean;
   at: string;
   when: string;
-  /** Present on observations only. */
+  /**
+   * Present on OBSERVATIONS ONLY — site reports and DMRs carry no ObservationType, and neither
+   * seed sets one. This was declared TWICE, once as a required `type: string` (the leftover from
+   * when every event was assumed to be an observation) and once as this optional. TypeScript
+   * calls that TS2300 and rejects it; esbuild strips types, so it compiled for a day.
+   */
   type?: string;
   /** Present on site reports only. */
   reportType?: string;
@@ -506,7 +509,7 @@ const relative = (iso: string) => {
  * particular place.
  *
  * This is the same argument that moved Monitor out of To-do and Roster out of the timeline,
- * applied one level up. A standing rule belongs in Ongoing. What an EVENT surfaces is what the
+ * applied one level up. What an EVENT surfaces is what the
  * event made newly true:
  *
  *   · NOTIFY        somebody must report this, because this happened
@@ -517,7 +520,7 @@ const relative = (iso: string) => {
  *
  * THE COST, STATED: the association-matched duties are no longer reachable from the feed at
  * all. They are correct and they are real — the join is sound — but they are only in force when
- * their activity is under way, which is what Ongoing is for. If a reader needs "everything this
+ * their activity is under way. If a reader needs "everything this
  * species touches", that is a registry query, not a timeline.
  */
 const surfaces = (r: RaisedDuty) =>
@@ -547,7 +550,6 @@ export const EVENTS: FeedEvent[] = SEEDS.map((e) => {
     id: e.id,
     what: e.what,
     source: e.source,
-    type: e.type,
     where: e.where,
     reportedBy: e.reportedBy,
     concern: e.concern,
@@ -584,7 +586,7 @@ export const EVENTS: FeedEvent[] = SEEDS.map((e) => {
 //
 // The volume target is the smaller argument; the definition is the real one. A MONITOR duty is
 // a standing cadence: somebody surveys on a schedule for as long as the duty holds. That is
-// something that is ON, not something that is OWED, and it belongs in Ongoing. A NOTIFY duty
+// something that is ON, not something that is OWED. A NOTIFY duty
 // is owed BECAUSE THIS EVENT HAPPENED, and stops being owed once it is done. Only the second
 // is a to-do.
 //
@@ -613,55 +615,65 @@ export const TODO_SHORTFALL = {
   total: OBLIGATION_NODES.length,
 };
 
-// ── Ongoing: what is in force, and why ───────────────────────────────────────────────
+// ── Pinned: the duties this reader is watching ───────────────────────────────────────
 //
-// The inventory half (called Standing until 2026-09-16). Grouped by whatever put each duty in
-// force, because a reverse-chronological list of things that barely change is not useful.
+// REPLACES ONGOING (Kim, 2026-09-17). Ongoing was the inventory half — "what is in force right
+// now" — built as Standing, removed, restored, and finally removed again because of what it had
+// to invent to exist. It grouped duties by the condition that put them in force, and NOTHING IN
+// THE FIXTURE RECORDS THAT CONDITION. Which activities are under way today was authored; the
+// checkpoint's second open question is exactly this gap, and the page had been papering over it.
 //
-// PHASE IS REAL DATA — all 333 carry the phases they attach to. What is AUTHORED is which
-// phases and activities are under way today; nothing in the fixture records that.
-
-export interface OngoingGroup {
-  id: string;
-  reason: string;
-  source: 'phase' | 'activity' | 'roster';
-  detail: string;
-  duties: ObligationNode[];
-}
+// PINNING DOES NOT SOLVE THAT GAP — IT STOPS PRETENDING TO. An in-effect condition is a real
+// piece of missing domain data and no UI decision creates it. What changes is who answers the
+// question: instead of the page asserting which duties are live, the reader says which ones they
+// are watching. That claim the software can actually keep. "What am I tracking" is a smaller
+// question than "what is in force", and it is one this system is in a position to answer
+// honestly, which the other was not.
+//
+// WHAT WAS LOST, STATED PLAINLY. The activity groups derived their MEMBERSHIP from real data —
+// the duties under "Dewatering and fish isolation" genuinely name that activity in their
+// requirements. Only the claim that the activity was happening today was invented. So the page
+// no longer answers "what is on right now" at all, for anybody. That is a deliberate subtraction,
+// not an oversight, and it should come back the moment obligations carry in-effect conditions.
+//
+// THE PINS THEMSELVES ARE AUTHORED, and the page says so. Beacon has no pin table and the
+// fixture has no per-user state, so this is the same kind of stand-in as IMPORTANT_AREAS: a
+// plausible reader's selection, marked as such. A pin is UI state rather than permit data, which
+// is why authoring it is legitimate where inventing an observation type was not.
 
 /**
- * NO PHASE GROUPS. "The project is in Construction" swept in 260 duties — four fifths of the
- * permit — and a list of everything the phase could ever require is not a statement of what is
- * in force today. Phase SCOPES which duties can apply; it does not say which are live. Removing
- * the two phase groups is what took Ongoing from 317 to a readable number (Kim, 2026-09-16:
- * "ongoing obligations is more likely to be 15 in total").
+ * PINNED BY TITLE, NOT BY ID, and validated at module load.
  *
- * What is left are conditions narrow enough to be TRUE RIGHT NOW and few enough to read. Still
- * AUTHORED — nothing in the fixture records which activities are under way — but authored at a
- * scale that matches how a project actually looks on a given day.
+ * A list of ULIDs is unreadable in source and fails silently when the fixture is redrafted — the
+ * pin simply vanishes and the view quietly shrinks. Titles are legible, and the resolution below
+ * THROWS on a miss. That is §3's first lesson: a silent filter fallback is worse than a crash,
+ * and it was learned when Important named a subject area that does not exist and fell back to
+ * the largest category, so the page named a filter it was not applying.
+ *
+ * The selection spans the four classes and deliberately mixes duties that HAVE been reached with
+ * duties that have not — three of each. A pin with no history is the sharpest thing this view
+ * says: you chose to watch this, and in the whole event log nothing has ever touched it.
  */
-const ACTIVE_ACTIVITIES = [
-  'Dewatering and fish isolation',
-  'In-water and in-channel work',
+const PINNED_TITLES = [
+  'Covered Species Encounter Reporting to the Biologist',
+  'Work Stoppage on Covered Species Encounter',
+  'Dewatering pump shutdown',
+  'Biologist present to salvage snakes during dewatering',
+  'In-Water Work Window During Construction',
+  'Approved Wildlife Handler',
 ] as const;
 
-export const ONGOING: OngoingGroup[] = [
-  ...ACTIVE_ACTIVITIES.map((a) => ({
-    id: `act-${a.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-    reason: `${a} is under way`,
-    source: 'activity' as const,
-    detail: 'In force while this activity is happening on site.',
-    duties: OBLIGATION_NODES.filter((o) => o.activities.includes(a)),
-  })),
-  {
-    id: 'roster-standing',
-    reason: 'Who is qualified to do the work',
-    source: 'roster' as const,
-    detail:
-      'Standing qualifications — always in force. These move when staff change, not when something is seen, and Beacon has no personnel event today.',
-    duties: OBLIGATION_NODES.filter((o) => o.class === 'roster'),
-  },
-].filter((g) => g.duties.length > 0);
+export const PINNED: ObligationNode[] = PINNED_TITLES.map((t) => {
+  const found = OBLIGATION_NODES.find((o) => o.title === t);
+  if (!found) {
+    throw new Error(
+      `PINNED_TITLES names "${t}", which is not in the fixture. A pin that cannot be resolved must fail loudly — see the Important-areas fallback in checkpoint §3.`,
+    );
+  }
+  return found;
+});
+
+const isPinned = (o: ObligationNode) => PINNED.some((p) => p.id === o.id);
 
 // ── Important: the reader's own slice of what is happening ───────────────────────────
 //
@@ -724,6 +736,24 @@ const ordered = (duties: PaneDuty[]): PaneDuty[] =>
       CLASS_RANK[a.obligation.class] - CLASS_RANK[b.obligation.class],
   );
 
+/**
+ * ONE LABELLED FACT in a pane's facts band, rendered as a `dt`/`dd` pair.
+ *
+ * THE BAND IS PER-SOURCE, so this carries no notion of which field it is — each source
+ * contributes only the facts it actually has (see `eventDetails`). Observations have a species
+ * and a buffer; a DMR has neither and has weather instead. Rendering one fixed list for all
+ * three was a latent bug that only looked right because the single site report happened to use
+ * the two fields every source shares.
+ *
+ * This interface was REFERENCED IN THREE PLACES AND DEFINED IN NONE until 2026-09-17 — one of
+ * the declarations an index-splicing patch script dropped (§16). esbuild does not resolve
+ * types, so it compiled for a day.
+ */
+export interface PaneDetail {
+  label: string;
+  value: string;
+}
+
 export interface TrackingPane {
   id: string;
   /** Inner SVG markup for the row's leading glyph. */
@@ -758,12 +788,9 @@ const basisOf = (facts: MatchFact[]) => (facts.some((f) => f.kind === 'trigger')
 /** The model's stated reason, on trigger matches only. */
 const triggerWhy = (facts: MatchFact[]) => facts.find((f) => f.kind === 'trigger')?.value ?? '';
 
-const asDuties = (duties: ObligationNode[]): PaneDuty[] =>
-  duties.map((o) => ({
-    obligation: o,
-    detail: detailOf(o),
-    codes: codesOf(o),
-  }));
+// asDuties() lived here — a plain duty list with no event behind it. Its only caller was
+// Ongoing's activity groups, and it went with them on 2026-09-17. Every pane now descends from
+// an event or from a pin, and both carry more than a bare obligation.
 
 /**
  * NO GROUP NOTES. Every one of them was removed by 2026-09-16.
@@ -820,8 +847,6 @@ const asRaised = (rows: RaisedDuty[]): PaneDuty[] => {
 };
 
 const DATE_FMT = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-const TIME_FMT = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
-
 const dateOf = (iso: string) => DATE_FMT.format(new Date(iso));
 
 /**
@@ -969,29 +994,277 @@ const todoPanes: TrackingPane[] = EVENTS.map((e) => {
   };
 }).filter((p) => p.total > 0);
 
-const ongoingPanes: TrackingPane[] = ONGOING.map((g) => ({
-  id: g.id,
-  kind: g.source === 'roster' ? 'Qualification' : 'Construction activity',
-  label: g.reason,
-  total: g.duties.length,
-  details: [{ label: 'In force because', value: g.detail }],
-  duties: ordered(asDuties(g.duties)),
-}));
+/**
+ * PINNED, BY EVENT — the same spine as All and Important, narrowed to the pinned duties.
+ *
+ * Ongoing had no by-event direction at all: its parents were reasons, so it shared nothing with
+ * the other three views. Pinned rejoins them. A pin is a duty, so the by-obligation direction is
+ * its NATIVE reading and this one is the transpose — the reverse of every other view, where the
+ * event direction is native. Both are honest; only one is the obvious way in.
+ */
+const pinnedPanes: TrackingPane[] = EVENTS.map((e) => {
+  const rows = e.raised.filter((r) => isPinned(r.obligation));
+  return {
+    id: `pin-${e.id}`,
+    glyph: glyphOf(e),
+    kind: kindOf(e),
+    label: e.what,
+    when: e.when,
+    total: rows.length,
+    details: eventDetails(e),
+    duties: ordered(asRaised(rows)),
+  };
+}).filter((p) => p.total > 0);
 
-export type TrackingViewId = 'all' | 'important' | 'todo' | 'ongoing';
+export type TrackingViewId = 'all' | 'important' | 'todo' | 'pinned';
 
 export const PANES: Record<TrackingViewId, TrackingPane[]> = {
   all: allPanes,
   important: importantPanes,
   todo: todoPanes,
-  ongoing: ongoingPanes,
+  pinned: pinnedPanes,
 };
 
-export const EMPTY: Record<TrackingViewId, { heading: string; message: string }> = {
-  all: { heading: 'Nothing has happened', message: 'No observation, site report or DMR has arrived.' },
-  important: { heading: 'Nothing in your areas', message: 'No event has raised a duty in your saved subject areas.' },
-  todo: { heading: 'No follow-up is owed', message: 'No event has raised a duty that requires somebody to report.' },
-  ongoing: { heading: 'Nothing is in force', message: 'No phase or activity is currently switching duties on.' },
+/**
+ * TITLE ONLY — esa-empty-state's `description` is contracted as ONE IMPERATIVE RECOVERY ACTION
+ * (≤12 words), explicitly "not a description of the missing feature". None of these views has a
+ * recovery action: the reader cannot make an event arrive, and the saved subject areas are not
+ * editable on this page. Each old `message` was a restatement of its own heading anyway.
+ *
+ * These were passed as `heading` / `message` until 2026-09-17. The lego's props are `title` /
+ * `description`, so EVERY empty state rendered with no text at all — Astro drops unknown props
+ * silently and esbuild never checked the types.
+ */
+export const EMPTY: Record<TrackingViewId, string> = {
+  all: 'Nothing has happened',
+  important: 'Nothing in your areas',
+  todo: 'No follow-up is owed',
+  pinned: 'Nothing is pinned',
+};
+
+// ── The inverse: one duty, and every event that reached it ───────────────────────────
+//
+// THE SAME DATA READ THE OTHER WAY ROUND. Forward, a pane is an EVENT and its children are the
+// duties it raised. Inverted, a pane is a DUTY and its children are the events that reached it.
+// Nothing new is authored here — the index is built by walking `EVENTS[].raised`, the identical
+// array the forward panes read, so the two directions CANNOT disagree. Authoring it separately
+// would repeat exactly the mistake that the one-fixture alignment of 2026-09-15 fixed, where
+// one page held two answers to the same question.
+//
+// WHY IT EARNS ITS PLACE, measured rather than assumed:
+//
+//   To-do    12 rows for 3 distinct duties. The same Notify duty appears under four separate
+//            events, so the forward view spends four rows saying one thing. Inverted it is
+//            three rows, each carrying its four triggers. This is the biggest win on the page.
+//   All      20 rows -> 9 duties.   Important  13 rows -> 5 duties.
+//   Ongoing  16 duties, and FIFTEEN OF THEM HAVE NO EVENTS AT ALL.
+//
+// THAT LAST NUMBER IS THE POINT, not a defect. Every Roster duty has zero events, both Monitor
+// duties have zero, and seven of eight Adhere have zero — because the events that would move
+// them do not exist in Beacon. §9 of the checkpoint worked this out as a table; inverting the
+// view renders it as something a reader discovers by looking, which is worth more than a
+// paragraph nobody opens. The empty pane states which source is missing.
+
+/**
+ * WHAT ACTUALLY MOVES A DUTY OF THIS CLASS — and, where nothing does, why.
+ *
+ * Adhere and Monitor duties ARE currently raised by sightings, and that is a placeholder: what
+ * they should answer to is a breach event and an evidence event, neither of which Beacon
+ * publishes. Roster is excluded from event matching altogether (it is a standing qualification;
+ * a snake does not change who is permitted to handle one), which is why its panes are always
+ * empty and why personnel changes are the fifth event source nobody has listed.
+ */
+const MOVED_BY: Record<ObligationClass, string> = {
+  notify: 'A field event — the one class that is genuinely event-driven',
+  adhere: 'A breach. Beacon publishes no breach event, so sightings stand in',
+  monitor: 'Evidence arriving, or failing to. Beacon publishes no evidence event',
+  roster: 'A change of staff. Beacon publishes no personnel event',
+};
+
+/** One event, as a CHILD of a duty rather than as the subject of its own pane. */
+export interface PaneEvent {
+  id: string;
+  /** Inner SVG markup for the leading glyph — the Event Hub source. */
+  glyph: string;
+  /** The source label: Observation, Site report, DMR. */
+  kind: string;
+  label: string;
+  /** "4h ago" — what a reader scans. */
+  when: string;
+  /**
+   * "15 Sep 2026" — and here it is NOT redundant. §15 dropped the calendar date from the feed's
+   * rail because a timeline is read by recency. A duty's history is read the other way: four
+   * events spread over days, where "1d ago / 2d ago" stops being a date and starts being a
+   * riddle. The absolute date earns its place in this direction and not in the other.
+   */
+  on: string;
+  /** The per-source facts band — observations, site reports and DMRs carry different fields. */
+  details: PaneDetail[];
+  /** ['Trigger'] where the relevance service is what reached this duty; otherwise empty. */
+  basis: string[];
+  /** The model's stated reason, on trigger matches only. */
+  why: string;
+  /** The stage-1 joins that reached this duty from this event. */
+  matchedOn: MatchFact[];
+  /**
+   * WHY THIS EVENT REACHED THIS DUTY, in one phrase, on the summary line rather than behind the
+   * fold. It is the only thing that varies down a duty's history, so hiding it would leave a
+   * list of four events with nothing to tell them apart.
+   */
+  reached: string;
+}
+
+/**
+ * The join that reached the duty, named. 'Trigger' outranks the rest: where the relevance
+ * service is the reason, no join was involved at all — those duties carry no species and no
+ * activity, so nothing else could have found them.
+ */
+const reachedBy = (facts: MatchFact[]): string => {
+  if (facts.some((f) => f.kind === 'trigger')) return 'Trigger';
+  const species = facts.filter((f) => f.kind === 'species').map((f) => f.value);
+  if (species.length > 0) return species.join(', ');
+  if (facts.some((f) => f.kind === 'any-species')) return 'Any covered species';
+  const activity = facts.find((f) => f.kind === 'activity')?.value;
+  return activity ?? 'Named in this event';
+};
+
+/** One duty, with every event that reached it. The inverse of TrackingPane. */
+export interface ObligationPane {
+  id: string;
+  kind: string;
+  label: string;
+  cls: ObligationClass;
+  /** Most recent event, relative — absent when nothing has ever reached this duty. */
+  when?: string;
+  total: number;
+  details: PaneDetail[];
+  events: PaneEvent[];
+}
+
+/**
+ * A ROW STATES ITS BASIS ONLY WHEN THE PANE'S EVENTS DISAGREE — the SAME rule as §11, applied
+ * in the other direction rather than reversed.
+ *
+ * The first pass here asserted the opposite: that inverting the view makes the basis the whole
+ * content of a row, since the pane is one duty and the events are what vary. Measured against
+ * the fixture that is simply false. Of the nine duties in All, five have a single event and the
+ * other four are UNIFORM — four rows of "Any covered species", three of "Trigger". **Not one
+ * pane has a basis that varies.** So the per-row badge was 46 copies of 9 facts, which is the
+ * identical noise §11 removed from the forward view.
+ *
+ * Where every event reached the duty the same way, the fact is hoisted to the pane and stated
+ * ONCE. Where they genuinely differ the rows carry it, because then it is the thing that tells
+ * them apart. Real data will produce the varied case; this fixture never does.
+ */
+const asEvent = (e: FeedEvent, r: RaisedDuty): PaneEvent => ({
+  id: `${e.id}--${r.obligation.id}`,
+  glyph: glyphOf(e),
+  kind: kindOf(e),
+  label: e.what,
+  when: relative(e.at),
+  on: dateOf(e.at),
+  details: eventDetails(e),
+  basis: basisOf(r.matchedOn),
+  why: triggerWhy(r.matchedOn),
+  matchedOn: r.matchedOn,
+  reached: reachedBy(r.matchedOn),
+});
+
+/** obligation id -> the events that reached it, newest first. Derived, never authored. */
+const EVENTS_BY_OBLIGATION = new Map<string, PaneEvent[]>();
+for (const e of [...EVENTS].sort((a, b) => b.at.localeCompare(a.at))) {
+  for (const r of e.raised) {
+    const rows = EVENTS_BY_OBLIGATION.get(r.obligation.id) ?? [];
+    rows.push(asEvent(e, r));
+    EVENTS_BY_OBLIGATION.set(r.obligation.id, rows);
+  }
+}
+
+/**
+ * THE DUTY'S OWN FACTS, in the band the forward view gives the event.
+ *
+ * "Moved by" is the one that does work: on a pane with no events it is the whole answer, and it
+ * is a statement about the DATA (which topics Beacon publishes), not a note about the page.
+ * The trigger sits here too — §11 pruned it from 209 duty rows as the bulkiest, least useful
+ * element on the page, but on a pane whose subject IS this duty it appears exactly once, which
+ * is the case that was always worth making.
+ */
+const obligationDetails = (o: ObligationNode, events: PaneEvent[], shared: string): PaneDetail[] => {
+  const d: PaneDetail[] = [
+    { label: 'Class', value: OBLIGATION_CLASS_LABEL[o.class] },
+    { label: 'Filed under', value: `${majorOf(o)} › ${minorOf(o)}` },
+    { label: 'Drafted from', value: `${o.requirements.length} ${o.requirements.length === 1 ? 'requirement' : 'requirements'}` },
+    { label: 'Moved by', value: MOVED_BY[o.class] },
+  ];
+  if (shared) d.push({ label: 'Reached by', value: shared });
+  if (o.trigger) d.push({ label: 'Trigger', value: o.trigger });
+  if (events.length === 0) d.push({ label: 'Events', value: 'None. Nothing has reached this duty' });
+  return d;
+};
+
+const asObligationPane = (o: ObligationNode): ObligationPane => {
+  const events = EVENTS_BY_OBLIGATION.get(o.id) ?? [];
+
+  // ONE BASIS FOR THE WHOLE PANE, OR ONE PER ROW — never both. See reachedBy's note.
+  const distinct = [...new Set(events.map((e) => e.reached))];
+  const shared = events.length > 0 && distinct.length === 1 ? distinct[0] : '';
+
+  return {
+    id: `obl-${o.id}`,
+    kind: OBLIGATION_CLASS_LABEL[o.class],
+    label: o.title,
+    cls: o.class,
+    when: events[0]?.when,
+    total: events.length,
+    details: obligationDetails(o, events, shared),
+    events: shared ? events.map((e) => ({ ...e, reached: '' })) : events,
+  };
+};
+
+/** Duties with the most history first; duties with none keep their incoming order. */
+const byHistory = (a: ObligationPane, b: ObligationPane) =>
+  b.events.length - a.events.length || CLASS_RANK[a.cls] - CLASS_RANK[b.cls];
+
+const touched = (pick: (o: ObligationNode) => boolean): ObligationPane[] => {
+  const seen = new Map<string, ObligationNode>();
+  for (const e of EVENTS) for (const r of e.raised) if (pick(r.obligation)) seen.set(r.obligation.id, r.obligation);
+  return [...seen.values()].map(asObligationPane).sort(byHistory);
+};
+
+/**
+ * PINNED INVERTS DIFFERENTLY — it is the one view whose BY-OBLIGATION side is the native one.
+ *
+ * The other three are lists of events that happen to reach duties, so `touched()` derives their
+ * inverse from the event log and a duty with no events simply is not in them. Pinned is a list
+ * of DUTIES that may or may not have been reached, so it is authored directly from PINNED and
+ * every pin appears whether or not anything has ever touched it.
+ *
+ * KEEPING THE EMPTY PINS IS THE ENTIRE VALUE. Three of the six have no events at all, and a pin
+ * with no history is the sharpest thing this page says: you chose to watch this, and in the whole
+ * event log nothing has reached it. The pane then names what WOULD move it — a change of staff, a
+ * breach, evidence arriving — and three of those four are topics Beacon does not publish.
+ */
+export const OBLIGATION_PANES: Record<TrackingViewId, ObligationPane[]> = {
+  all: touched(() => true),
+  important: touched(isMine),
+  todo: touched(hasFollowUp),
+  pinned: PINNED.map(asObligationPane).sort(byHistory),
+};
+
+/** Title only, for the same reason as EMPTY — there is no recovery action on any of these. */
+export const EMPTY_BY_OBLIGATION: Record<TrackingViewId, string> = {
+  all: 'No duty has been reached',
+  important: 'No duty in your areas has been reached',
+  todo: 'No duty owes a notice',
+  pinned: 'Nothing is pinned',
+};
+
+/** The rail heading for each view's inverse — a parent is a DUTY in every one of them. */
+export const RAIL_BY_OBLIGATION: Record<TrackingViewId, string> = {
+  all: 'Duties reached',
+  important: 'Your duties reached',
+  todo: 'Duties owing a notice',
+  pinned: 'Duties you are watching',
 };
 
 // ── View definitions ─────────────────────────────────────────────────────────────────
@@ -1012,7 +1285,7 @@ export const VIEWS: TrackingView[] = [
   { id: 'all', label: 'All', count: distinctIn(allPanes) },
   { id: 'important', label: 'Important', count: distinctIn(importantPanes) },
   { id: 'todo', label: 'To-do', count: distinctIn(todoPanes) },
-  { id: 'ongoing', label: 'Ongoing', count: distinctIn(ongoingPanes) },
+  { id: 'pinned', label: 'Pinned', count: distinctIn(pinnedPanes) },
 ];
 
 export const TRACKING_TOTALS = {
