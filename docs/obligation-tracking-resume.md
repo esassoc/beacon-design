@@ -27,18 +27,29 @@ the Obligation record type. It is at `/prototypes/obligation-tracking` on branch
   `git show origin/develop:<path>`, never from the working tree.
 - **`beacon-design` has no `develop` branch.** Its integration branch is `main`;
   `origin/main` was merged into `proto/obligations` cleanly on 2026-09-15.
-- **The build is committed** on `proto/obligations`. `package-lock.json` is uncommitted, and
-  **its diff is now almost entirely the type-checker install** — see "Pick up here" #2. The
-  older note that it was dirty from an unrelated Astro bump is WRONG: the committed lock already
-  carries astro 7.2.6. Treat this as an open loose end, not a settled convention.
-- **`npx astro check` now runs** — `@astrojs/check` + `typescript` were installed 2026-09-17.
-  Nothing type-checked this repo before that, and the build CANNOT fail on a type error because
-  esbuild strips types. Run it before believing a type.
+- **The build is committed** on `proto/obligations`, and `package.json` and `package-lock.json`
+  are both back to exactly what the team has. An earlier note claiming the lock was dirty from
+  an unrelated Astro bump was WRONG — the committed lock already carries astro 7.2.6.
+- **NOTHING TYPE-CHECKS THIS REPO.** `typescript` is not a dependency, and Astro compiles with
+  esbuild, which strips types without reading them — so every type here is documentation and the
+  build CANNOT fail on a type error. A type checker was installed on 2026-09-17, found four real
+  bugs in a few minutes (checkpoint §19), and was then **backed out at Kim's call**: it is a
+  team-wide dependency change that came out of a debugging detour rather than a decision.
+  **To use it for a session without committing anything:**
+
+  ```sh
+  npm i --no-save @astrojs/check typescript && npx astro check
+  git checkout -- package.json package-lock.json   # if npm touches them
+  ```
+
+  Expect ~253 pre-existing errors elsewhere in the repo; the tracking files are clean. **Run it
+  before believing a type**, and see §19 for the four bugs it caught — all of the kind that
+  render silently rather than failing.
 - Dev server: `npm run dev` → **http://localhost:4330** (base `/` in dev). Stop with
   `astro dev stop`. It serves stale CSS across long sessions — restart before diagnosing a
   rendering fault.
-- Verify with `npm run build` (626 pages), `npm run handoff:check`, and `npx astro check`
-  (253 pre-existing errors elsewhere in the repo; the tracking files are clean).
+- Verify with `npm run build` (626 pages) and `npm run handoff:check`. For types, see the
+  no-save recipe above.
 
 ## How I want you to work
 
@@ -109,18 +120,16 @@ Everything on the old list is done and committed. What is left:
 1. ~~Decide where the pivot lives~~ — **done: Important and Pinned only** (§22). The cost is
    recorded there: To-do is where the transpose paid most, and that repetition is back.
    `OBLIGATION_PANES` still builds all four, so restoring a switch is one prop.
-2. **Decide on the type-checker dependency — KIM HAS NOT RULED, and this is team-wide.**
-   Commit `a319eb73` put `@astrojs/check` and `typescript` into `package.json`, which every
-   teammate inherits. The lock is uncommitted, so a fresh clone resolves both unpinned.
-   MEASURED, because the earlier claim here was wrong: the lock diff is +1038/-14, and it is
-   the type checker's tree (volar, the vscode language services, yaml-language-server) plus
-   typescript. The 14 removals are npm re-serialising — `leaflet` moved, `gh-pages` shifted,
-   a few `optional` flags reordered. **There is no unrelated Astro bump in it.** Three ways out:
-   commit the lock; back the devDeps out of `package.json` (the four bugs they found are fixed
-   and committed independently, and reinstalling later is one command with no commit); or raise
-   it with the team as its own change.
-3. **Work the 253 `astro check` errors, or decide not to.** Almost all are pre-existing debt in
-   other prototypes — `monitoring/dashboard.astro` is the worst. The tracking files are clean.
+2. ~~Decide on the type-checker dependency~~ — **backed out at Kim's call, 2026-09-17.**
+   `package.json` and `package-lock.json` are byte-identical to the team's again. It was a
+   team-wide dependency change that came out of a debugging detour rather than a decision, and
+   nothing depends on it: the four bugs it found are fixed in their own commits and stay fixed.
+   The no-save recipe under Hard constraints runs it for a session without committing anything.
+   **If the team ever wants it standing, raise it as its own change** — it earns its keep
+   (four silent bugs in one pass) but that is the team's call, not this build's.
+3. **The ~253 repo-wide type errors are still there**, unmeasured since the checker came out.
+   Almost all are pre-existing debt in other prototypes — `monitoring/dashboard.astro` is the
+   worst. The tracking files were clean when it last ran.
 
 **Still Kim's call, unchanged:** the three pane builders in `obligation-tracking.ts` share seven
 identical field assignments (§17). That is the shared spine, not debris — a

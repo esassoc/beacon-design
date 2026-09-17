@@ -591,9 +591,9 @@ saw it**; the fourth rail rendered `<h3></h3>` and its `role="listbox"` had no `
 Added: **"Why these are in force"** — Ongoing's parent is a reason, not an event.
 
 This is the second time the type system would have caught something the build could not
-(§4 already notes the build cannot fail on a type error). `npx astro check` wants
-`@astrojs/check` + `typescript` installed and prompts interactively; **it has not been run,
-and installing it is Kim's call.**
+(§4 already notes the build cannot fail on a type error). A checker was installed later the
+same day and then backed out — see §19 for what it found and for the no-save recipe that runs
+it without committing anything.
 
 ### 3. Both alert boxes stated things that are false
 
@@ -654,7 +654,8 @@ bundle regenerated; `handoff:check` clean for this slug.
 **`typescript` was never installed.** Not a dependency, not in `node_modules`. Astro compiles
 `.ts` and `.astro` frontmatter with **esbuild, which strips types without reading them**, so
 every type in this repo was documentation. `@astrojs/check` (the `.astro`-aware wrapper) and
-`typescript` are now devDependencies, and `npx astro check` runs.
+`typescript` were installed as devDependencies on 2026-09-17, run once, and then **backed out
+at Kim's call** — see the end of this section. Everything below is what that one pass found.
 
 **It reports 253 errors across 382 files.** Almost all are pre-existing debt in other
 prototypes — `monitoring/dashboard.astro` alone carries a pile. **Do not treat that number as
@@ -678,14 +679,25 @@ imperative recovery action, ≤12 words** — "not a description of the missing 
 of these views has a recovery action, since a reader cannot make an event arrive. Each old
 `message` was a restatement of its own heading anyway.
 
-**Run `npx astro check` before believing a type.** It is the only thing in this repo that reads
-them.
+**Run the checker before believing a type.** Nothing else in this repo reads them.
 
-**The dependency itself is UNSETTLED and is Kim's to rule on.** `package.json` now carries both
-as devDependencies, which every teammate inherits — a team-wide change that came out of a
-debugging detour rather than a decision. The four bugs are fixed and committed independently of
-it, and reinstalling later is one command with no commit, so backing it out costs nothing but
-the convenience.
+**THE DEPENDENCY WAS BACKED OUT, at Kim's call the same day.** `package.json` and
+`package-lock.json` are byte-identical to the team's again. Kim's reason is the right one: this
+is a team-wide project, and adding a dependency every teammate inherits is not something that
+should fall out of one session's debugging detour. Nothing depends on it — the four bugs are
+fixed in their own commits and stay fixed.
+
+**So this repo type-checks nothing again.** To run the checker for a session without committing
+anything:
+
+```sh
+npm i --no-save @astrojs/check typescript && npx astro check
+git checkout -- package.json package-lock.json   # if npm touches them
+```
+
+Expect ~253 pre-existing errors elsewhere in the repo. **If the team ever wants it standing,
+raise it as its own change** — one pass found four bugs that all rendered silently rather than
+failing, which is a real argument. It is just not this build's to make.
 
 **A claim in §5 that turned out false, corrected by measuring.** "`package-lock.json` is dirty
 from an unrelated Astro bump" was carried forward from note to note and repeated to Kim. **The
