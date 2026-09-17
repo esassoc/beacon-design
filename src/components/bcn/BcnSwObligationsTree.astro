@@ -30,11 +30,22 @@ import { OBLIGATION_TREE, STEP_GLYPH } from '../../data/setup-wizard';
 
 interface Props {
   title?: string;
+  /**
+   * 'review' - setup step 5: rename, remove, add, drag, and the editor drawer.
+   * 'browse' - the Obligation Tracking page's registry section: the SAME four levels,
+   * the same cards, the same requirement children, read-only. Nothing to decide.
+   *
+   * This is the same argument BcnRegistryTree already makes with its own mode, and the
+   * reason to make it a prop rather than a second component: setup approves along this
+   * tree and the tracking page reads along it, so they must not be free to drift.
+   */
+  mode?: 'review' | 'browse';
 }
-const { title = 'Obligations' } = Astro.props;
+const { title = 'Obligations', mode = 'review' } = Astro.props;
+const review = mode === 'review';
 ---
 
-<section class="bcn-swot" aria-label={title}>
+<section class="bcn-swot" aria-label={title} data-swo-mode={mode}>
   <p class="bcn-swot__nomatch" data-swo-nomatch hidden>No obligations match.</p>
   <div class="bcn-swot__body" data-swo-cats>
     {OBLIGATION_TREE.map((cat) => (
@@ -43,11 +54,13 @@ const { title = 'Obligations' } = Astro.props;
           <span class="bcn-swot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
           <span class="bcn-swot__name" data-swo-name>{cat.name}</span>
           <span data-swo-count="cat"><BcnSwCountBadge value={cat.count} label={`${cat.count} obligations`} /></span>
-          <span class="bcn-swot__verbs">
-            <esa-tooltip text="Rename"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" aria-label="Rename category" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-            <esa-tooltip text="Remove"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" aria-label="Remove category" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
-            <esa-tooltip text="Add subcategory" align="end"><button type="button" class="bcn-swot__verb" aria-label="Add a subcategory" data-swo-add-sub><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
-          </span>
+          {review && (
+            <span class="bcn-swot__verbs">
+              <esa-tooltip text="Rename"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" aria-label="Rename category" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+              <esa-tooltip text="Remove"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" aria-label="Remove category" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+              <esa-tooltip text="Add subcategory" align="end"><button type="button" class="bcn-swot__verb" aria-label="Add a subcategory" data-swo-add-sub><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
+            </span>
+          )}
         </summary>
         <div class="bcn-swot__subs" data-swo-subs>
           {cat.subcategories.map((sub) => (
@@ -57,15 +70,22 @@ const { title = 'Obligations' } = Astro.props;
                 <span class="bcn-swot__name" data-swo-name>{sub.name}</span>
                 <span data-swo-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
                 <span class="bcn-swot__verbs">
-                  <esa-tooltip text="Rename"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" aria-label="Rename subcategory" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-                  <esa-tooltip text="Remove"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" aria-label="Remove subcategory" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+                  {review && (
+                    <Fragment>
+                      <esa-tooltip text="Rename"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet" aria-label="Rename subcategory" data-swo-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                      <esa-tooltip text="Remove"><button type="button" class="bcn-swot__verb bcn-swot__verb--quiet bcn-swot__verb--danger" aria-label="Remove subcategory" data-swo-remove-branch><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+                    </Fragment>
+                  )}
+                  {/* Expand / collapse survive browse: they navigate, they do not decide. */}
                   <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-swot__verb" aria-label="Expand to requirements" data-swo-sub-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
                   <esa-tooltip text="Collapse"><button type="button" class="bcn-swot__verb" aria-label="Collapse" data-swo-sub-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
-                  <esa-tooltip text="Add obligation" align="end"><button type="button" class="bcn-swot__verb" aria-label="Add an obligation" data-swo-add-obl><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
+                  {review && (
+                    <esa-tooltip text="Add obligation" align="end"><button type="button" class="bcn-swot__verb" aria-label="Add an obligation" data-swo-add-obl><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
+                  )}
                 </span>
               </summary>
-              <ul class="bcn-swot__cards" data-swo-drop="subcategory" data-swo-cards>
-                {sub.obligations.map((o) => <BcnSwObligationCard obligation={o} />)}
+              <ul class="bcn-swot__cards" data-swo-drop={review ? 'subcategory' : undefined} data-swo-cards>
+                {sub.obligations.map((o) => <BcnSwObligationCard obligation={o} mode={mode} />)}
               </ul>
             </details>
           ))}
@@ -75,12 +95,18 @@ const { title = 'Obligations' } = Astro.props;
   </div>
 
   <footer class="bcn-swot__foot">
-    <EsaButton variant="ghost" size="sm" data-swo-add-cat>
-      <span class="bcn-swot__foot-verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />New category</span>
-    </EsaButton>
+    {review && (
+      <EsaButton variant="ghost" size="sm" data-swo-add-cat>
+        <span class="bcn-swot__foot-verb"><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} />New category</span>
+      </EsaButton>
+    )}
     <div class="bcn-swot__foot-end"><slot name="foot" /></div>
   </footer>
 
+  {/* The stamps and the delete guard belong to the VERBS. Browse has none, so none of
+      this is rendered there - a read-only tree should not ship a confirm dialog. */}
+  {review && (
+    <Fragment>
   <!-- Stamps for what the verbs create: a subcategory, a category, an obligation. -->
   <template data-swo-tpl="sub">
     <details class="bcn-swot__sub" data-swo-branch open>
@@ -125,6 +151,9 @@ const { title = 'Obligations' } = Astro.props;
   <template data-swo-tpl="obl">
     <BcnSwObligationCard open obligation={{ id: 'new', title: 'New obligation', class: 'adhere', phases: [], species: [], activities: [], trigger: '', gate: false, requirements: [] }} />
   </template>
+    </Fragment>
+  )}
+
 </section>
 
 <script>
@@ -132,6 +161,11 @@ const { title = 'Obligations' } = Astro.props;
   import '@esa/ecology/esa-tooltip';
 
   const root = document.querySelector<HTMLElement>('.bcn-swot');
+  // THE SCRIPT RUNS IN BOTH MODES. An earlier pass bailed out entirely on browse, which
+  // also killed search, expand/collapse and the counts — the parts a read-only registry
+  // needs most. Every EDIT path is inert on browse without a guard: the verbs, grips and
+  // drag hooks are not rendered, tpl() is lazy so it only throws if a verb fires, and the
+  // confirm guard is optional-chained. So bind everything and let browse render less.
   if (root) {
     const q = <T extends Element>(sel: string, from: ParentNode = root) => from.querySelector<T>(sel);
     const qa = <T extends Element>(sel: string, from: ParentNode = root) => [...from.querySelectorAll<T>(sel)];

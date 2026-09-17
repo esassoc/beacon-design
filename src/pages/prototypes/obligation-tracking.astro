@@ -1,0 +1,89 @@
+---
+// Obligation Tracking — the awareness surface for the Obligation record type.
+//
+// THIS SUPERSEDES /prototypes/obligations-inbox, which is kept but archived. The inbox was
+// right about the threading and wrong about the metaphor: it borrowed mail, and mail brings
+// an Open/Seen pivot and a filing verb on every row. Neither survives contact with a
+// standing duty. Nothing is owed to a feed, and a duty that is in force today is still in
+// force tomorrow whether or not you looked at it — so "seen" never meant anything. The only
+// completable thing is a to-do, and a to-do is an Action, which already has a status model.
+//
+// WHAT THE PAGE IS. Two halves, as TABS rather than stacked sections — they are peers, and
+// stacking made the registry read as a footnote you scroll past. You are either asking what
+// is happening (the feed) or what the project is signed up to (the registry):
+//   1. THE FEED, itself in three views — All · Important · To-do.
+//   2. THE REGISTRY, as a read-only section — the SAME BcnSwObligationsTree the setup
+//      wizard's step 5 renders, with mode="browse" so there is nothing to decide. Setup
+//      gets rename, remove, add, drag and the editor drawer; this gets the same four
+//      levels, the same cards and the same requirement children, and no verbs. Expand and
+//      collapse survive, because they navigate rather than decide. One component with a
+//      mode, for the same reason BcnRegistryTree takes one: setup approves along this tree
+//      and this page reads along it, so they must not be free to drift.
+//
+// THE TWO HALVES OF THIS PAGE RUN ON DIFFERENT POPULATIONS, and the page says so rather
+// than hiding it. The FEED is built on the 402-duty registry, which is where the events,
+// classes, notice windows and parameter conflicts live. The REGISTRY SECTION is the setup
+// wizard's own tree, which is built on the ITP pass — 333 obligations carrying their
+// requirements. They are two readings of the same permits, not two views of one list, and
+// the counts will not reconcile. Merging them means running the drafting pass over the 402,
+// which is work, not a page edit.
+//
+// WHAT REPLACES STATUS. Nothing on this page renders a verdict — the team dropped the
+// compliance-status model, and the registry itself contains no status vocabulary. An
+// obligation holds no time; the EVENT does.
+//
+// STANDING WAS REMOVED ON 2026-09-15, at Kim's call. It was a fourth view — the inventory
+// half, "what is on right now", grouped by whatever put each duty in force. Worth recording
+// what that costs: nothing on the feed now answers "what is in force today". The Registry
+// tab lists every duty the project has, which is a different question.
+//
+// WHAT THE SETUP WIZARD CHANGED (merged from origin/main, built 2026-09-14). The record
+// shrank to six fields: Title, Class, Category/Subcategory, Description, Trigger and
+// Requirements. Three of those reach this page. The row label is the TITLE — never the
+// condition, because a Standing list labelled with conditions reads as a list of
+// accusations. The old `condition` field is now the TRIGGER, and it is what a classifier
+// matches evidence against rather than a sentence for a human. Species and activities are
+// DERIVED from a duty's requirements rather than stored, so nothing here treats them as
+// facts about the duty. Gate is no longer a field at all — whether a duty waits on an
+// approved plan is read off its requirements' actions.
+//
+// THE ONE PLACE THIS PAGE CANNOT FOLLOW THE WIZARD. The wizard's obligations carry their
+// REQUIREMENTS as children. These 402 do not — they trace to commitments, one level up. So
+// rows here cite commitments and the gap is stated rather than papered over. Closing it
+// means running the drafting pass over this registry, not editing this page.
+//
+// WHAT IS REAL: every duty, class, title, trigger text, notice window, parameter conflict
+// and subject filing is registry data, extracted from four permit documents (ITP 177, EIR
+// 129, ITP Amendment 36, USFWS BiOp 33), and every predicate matching a duty to an event is
+// a real match against it. WHAT IS EXAMPLE: the events themselves, the reasons grouping
+// Standing, and the saved filter behind Important — see the note inside Standing.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnTrackingShell from '../../components/bcn/BcnTrackingShell.astro';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                            # SPINE
+  sections:
+    - feed / registry      -> bcn-tracking-shell           # the two halves as tabs (segmented, outer level)
+        - the feed         -> bcn-tracking-feed            # its own four views (underline, inner level)
+        - the registry     -> bcn-tracking-registry        # bcn-sw-obligations-tree mode="browse" + provenance note
+-->
+
+<AppShell
+  title="Obligation Tracking — Beacon"
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="dc-obligations"
+>
+  <PageLayout
+    title="Obligation Tracking"
+    icon="shield-check"
+    iconPaths={STEP_GLYPH['shield-check']}
+    breadcrumbs={[{ label: 'Tracking', href: '#tracking' }, { label: 'Obligation Tracking' }]}
+  >
+    <BcnTrackingShell />
+
+  </PageLayout>
+</AppShell>

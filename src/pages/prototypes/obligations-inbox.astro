@@ -1,4 +1,11 @@
 ---
+// Obligations Inbox — RETIRED 2026-09-15, superseded by /prototypes/obligation-tracking.
+//
+// Kept, not deleted, so the two stabs can be compared. What survived: the threading — an
+// event is the parent and the duties it raised are its children. What did not: the mail
+// metaphor around it. Open/Seen, the per-notice filing verbs and the derived severity
+// ordering are all gone in the replacement. The notes below describe this page as built.
+//
 // Obligations Inbox — the awareness surface for the Obligation record type.
 //
 // WHY AN INBOX AND NOT A DASHBOARD. Five earlier dashboard variants all failed the same way:
@@ -31,6 +38,7 @@
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import BcnInboxWorkspace from '../../components/bcn/BcnInboxWorkspace.astro';
 import { TOTALS } from '../../data/obligation-triggers';
 import { withBase } from '../../lib/base';
@@ -86,6 +94,16 @@ const obligationBase = withBase('/prototypes/data-catalog-obligation');
         />
       </span>
     </Fragment>
+
+    {/* RETIRED, not deleted. Kept so the two stabs can be read side by side — what the
+        threading got right, and what the mail metaphor got wrong. */}
+    <EsaAlertBox variant="warning" heading="Superseded by Obligation Tracking">
+      This was the first stab at the awareness surface. The threading survives; the mail metaphor
+      does not — nothing is owed to a feed, and a standing duty is still in force tomorrow whether
+      or not you marked it seen. The Open/Seen pivot, the filing verbs and the severity ordering are
+      all gone in <a href={withBase('/prototypes/obligation-tracking')}>Obligation Tracking</a>,
+      which replaces them with four views and carries the registry as a read-only section.
+    </EsaAlertBox>
 
     <BcnInboxWorkspace obligationBase={obligationBase} />
   </PageLayout>

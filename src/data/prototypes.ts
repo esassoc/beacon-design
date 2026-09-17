@@ -123,13 +123,22 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
       },
       {
-        slug: 'obligations-inbox',
-        title: 'Obligations Inbox',
+        slug: 'obligation-tracking',
+        title: 'Obligation Tracking',
         description:
-          'The awareness surface, threaded like mail: a TRIGGER is the parent and the obligations it raises are its children. One owl sighting raises thirty duties, five owed on a clock — so the event is the row and the duties are the thread, which makes "why am I seeing this" the structure of the page rather than a sentence. Priority is derived from the registry (a strict notice deadline, or take and injury) and decays with the age of the event. Every raised obligation links to the commitments driving it.',
+          'The awareness surface, as two tabs. FEED carries four views. Three share one spine — All (a timeline of events, each carrying the duties it switched on), Important (the same events narrowed to the reader’s saved subject areas, per-user) and To-do (the same events narrowed to the notices they raised). ONGOING is the inventory instead: what is in force right now, grouped by whatever put it there — phases read from the data, activities authored. REGISTRY is the setup wizard’s own four-level tree in read-only mode, one component with a mode. Both halves run on the wizard’s fixture: the ITP pass, 333 obligations carrying the requirements they were drafted from. No status model and no verdict: an obligation holds no time, the event does. Supersedes the Obligations Inbox.',
+        route: '/prototypes/obligation-tracking',
+        createdAt: '2026-09-15',
+        status: 'in-progress',
+      },
+      {
+        slug: 'obligations-inbox',
+        title: 'Obligations Inbox (superseded)',
+        description:
+          'RETIRED — kept for comparison, superseded by Obligation Tracking. The first stab at the awareness surface, threaded like mail: a TRIGGER is the parent and the obligations it raises are its children. The threading was right and survives. The mail metaphor was not: it brought an Open/Seen pivot and a filing verb on every notice, and nothing is owed to a feed — a standing duty is still on tomorrow whether or not you looked at it. Also carried a severity ordering that appears nowhere in the source documents.',
         route: '/prototypes/obligations-inbox',
         createdAt: '2026-09-08',
-        status: 'in-progress',
+        status: 'archived',
       },
       {
         slug: 'data-catalog-obligations',
