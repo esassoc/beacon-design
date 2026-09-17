@@ -681,6 +681,20 @@ of these views has a recovery action, since a reader cannot make an event arrive
 **Run `npx astro check` before believing a type.** It is the only thing in this repo that reads
 them.
 
+**The dependency itself is UNSETTLED and is Kim's to rule on.** `package.json` now carries both
+as devDependencies, which every teammate inherits — a team-wide change that came out of a
+debugging detour rather than a decision. The four bugs are fixed and committed independently of
+it, and reinstalling later is one command with no commit, so backing it out costs nothing but
+the convenience.
+
+**A claim in §5 that turned out false, corrected by measuring.** "`package-lock.json` is dirty
+from an unrelated Astro bump" was carried forward from note to note and repeated to Kim. **The
+committed lock already has `astro 7.2.6`** — that bump is in. The working-tree diff is
+**+1038/−14**, and it is the type checker's dependency tree (volar, the vscode language
+services, yaml-language-server) plus `typescript`. The 14 removals are npm re-serialising:
+`leaflet` moved, `gh-pages` shifted as `devDependencies` gained entries, a few `optional` flags
+reordered. There is nothing unrelated hiding in it.
+
 ---
 
 ## 20. The pivot — reading a view the other way round (2026-09-17)
@@ -775,5 +789,34 @@ arriving). §9's table, rendered as something a reader finds by looking.
 
 `ONGOING`, `OngoingGroup`, `ACTIVE_ACTIVITIES` and `asDuties` are all deleted.
 
-**Still open:** whether the pivot stays on all four views or only the user-specified ones
-(Important + Pinned) — Kim's call, deferred until Pinned existed. It now does.
+---
+
+## 22. The pivot is restricted to Important and Pinned (2026-09-17)
+
+Kim's call, once Pinned existed: **only the views the reader defines.** Important runs on their
+saved subject areas; Pinned is a list they chose. All and To-do are the system's own cuts —
+everything that happened, everything owed — and nobody arrives at those asking "what has become
+of MY duties", which is what the inverse answers.
+
+`BcnTrackingWorkspace` takes `pivot` (default false) and `opens`. **Without the pivot it renders
+ONE side and no bar** — not both sides with one hidden. Shipping an inverse into the DOM that
+nothing can reveal is dead weight on every page load and a trap for the next reader.
+
+**Pinned opens on the obligation side; everything else opens on the event side.** A pin IS a
+duty: opening a list you curated and being handed a list of events instead answers a question
+nobody asked. That makes Pinned the one view whose by-event direction is the transpose.
+
+**What it costs, recorded rather than argued.** To-do is where the transpose paid most — the same
+three Notify duties appear under four events each, so the forward view spends 12 rows saying
+three things, and that repetition is back. All's inverse was the cheapest way to ask what this
+permit has actually touched (20 rows → 9 duties). **`OBLIGATION_PANES` still builds and exports
+all four**, so restoring a switch is one prop.
+
+### A trap that cost twenty minutes — read this before debugging the page
+
+The switch reported `value=event` while the page showed the obligation side: a control
+disagreeing with its own page, which is the exact fault the design record says to fix rather
+than explain. **It was the dev server serving a stale script.** The built HTML and the source
+were both correct. §4 already warns that the dev server goes stale across long sessions;
+**restart it BEFORE diagnosing any rendering or wiring fault**, not after. The same trap is
+recorded as §14.12 for CSS and it was walked into again, for JS this time.

@@ -58,11 +58,16 @@ const TABS = VIEWS.map((v) => ({ label: v.label }));
 // What a PARENT is in each view — the rail's heading, so the left column always says what
 // it is a list of rather than leaving the reader to infer it.
 //
-// ONGOING'S PARENT IS A REASON, not an event: each rail row is the condition that puts its
-// duties in force. The key was missing until 2026-09-17, which rendered the fourth rail with an
-// EMPTY heading and left its listbox with no accessible name — esbuild strips types, so nothing
-// failed. Pinned's by-event rail is named here; its by-obligation rail — the native one — is
-// named in RAIL_BY_OBLIGATION beside the others.
+// THE FOURTH KEY WAS MISSING until 2026-09-17, which rendered that rail with an EMPTY heading
+// and left its listbox with no accessible name. esbuild strips types, so nothing failed.
+//
+// THESE NAME THE BY-EVENT RAILS ONLY. The by-obligation rails are named in RAIL_BY_OBLIGATION
+// beside the panes they head — and for Pinned that is the one a reader sees first, since a pin
+// is a duty and the view opens on the duty side.
+//
+// ONLY IMPORTANT AND PINNED CARRY THE PIVOT (Kim, 2026-09-17) — the two views the reader
+// defines. All and To-do are the system's own cuts, and nobody arrives at them asking "what has
+// become of MY duties", which is what the inverse answers.
 const RAIL = {
   all: 'Events',
   important: 'In your filter',
@@ -78,7 +83,7 @@ const RAIL = {
     </div>
 
     <div slot="panel-1">
-      <BcnTrackingWorkspace view="important" railLabel={RAIL.important} />
+      <BcnTrackingWorkspace view="important" railLabel={RAIL.important} pivot />
     </div>
 
     <div slot="panel-2" class="stack" data-gap="md">
@@ -96,7 +101,7 @@ const RAIL = {
     </div>
 
     <div slot="panel-3" class="stack" data-gap="md">
-      <BcnTrackingWorkspace view="pinned" railLabel={RAIL.pinned} />
+      <BcnTrackingWorkspace view="pinned" railLabel={RAIL.pinned} pivot opens="obligation" />
       <EsaAlertBox variant="info" title="Pins are authored">
         Beacon has no pin table, so these {PINNED.length} are a stand-in for a reader's own
         selection. What each pin then shows is real: the events that reached it are the same matches

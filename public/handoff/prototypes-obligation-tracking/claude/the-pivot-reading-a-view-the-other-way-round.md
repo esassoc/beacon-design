@@ -3,6 +3,8 @@
 A two-option switch above every view: By event, or By obligation. It transposes the view — the same data with the parent and the child swapped. By event, a pane is a thing that happened and its children are the duties it raised. By obligation, a pane is a duty and its children are the events that reached it.
 
 ## Key decisions
+- ON THE READER-DEFINED VIEWS ONLY (Kim, 2026-09-17): Important, whose slice is the reader’s saved subject areas, and Pinned, which is a list they chose. All and To-do are the system’s own cuts — everything that happened, and everything owed — and nobody arrives at them asking "what has become of MY duties", which is what the inverse answers. A view without the pivot renders ONE side and no switch, rather than both with one hidden. WHAT THAT COSTS, recorded rather than argued: To-do is where the transpose paid most (12 rows for 3 duties becomes 3), and that repetition is back. The inverse data for all four views is still built and exported — restoring a switch is one prop.
+- PINNED OPENS ON THE OBLIGATION SIDE, every other view on the event side. A pin IS a duty: opening a list you curated and being shown a list of events instead answers a question nobody asked. That makes Pinned the one view whose by-event direction is the transpose.
 - A PIVOT, NOT A FIFTH TAB. This is a transpose, not another subject. A tab says "here is a different thing"; a switch says "here is the same thing the other way round" — and the page already has two levels of tab, so a fifth inner tab under two outer ones would be the third nesting. Same lego and same wiring as the Registry tab’s By category / By commitment switch, so the two switches on this page read as one control.
 - THE INDEX IS DERIVED, NEVER AUTHORED. It is built by walking the SAME EVENTS[].raised array the forward panes read, so the two directions cannot disagree. Authoring the inverse separately would repeat exactly the fault the one-fixture alignment fixed, where one page held two answers to the same question. Row totals match in both directions — 20, 13, 12 — which is the check that proves it.
 - NOT STICKY, and that is a decision (Kim, 2026-09-17). Each view owns its own switch and every one starts on By event. A pivot that followed the reader between views would mean arriving at To-do in a direction chosen while reading All.
@@ -16,7 +18,8 @@ A two-option switch above every view: By event, or By obligation. It transposes 
 - THE "Moved by" FACT IS PER CLASS and is a statement about Beacon, not about this page: Notify is moved by a field event, Adhere by a breach, Monitor by evidence arriving, Roster by a change of staff — and only the first of those four is a topic Beacon actually publishes.
 
 ## Done when
-- Every view has its own switch, all four start on By event, and switching one leaves the other three alone.
+- Only Important and Pinned carry a switch; All and To-do render one side and no bar.
+- Important opens By event and Pinned opens By obligation, and switching one leaves the other alone.
 - Row totals agree in both directions for All, Important and To-do.
 - Pinned by obligation shows 6 duties, 3 of them with no events and each naming what would move it.
 
@@ -27,8 +30,9 @@ A two-option switch above every view: By event, or By obligation. It transposes 
     class="bcn-tw__switch"
     size="sm"
     value="event"
-    aria-label="How to read events"
+    aria-label="How to read in your filter"
     data-tw-switch="true"
+    data-opens="event"
     data-options='[{"label":"By event","value":"event"},{"label":"By obligation","value":"obligation"}]'
   ></esa-button-toggle>
 </header>

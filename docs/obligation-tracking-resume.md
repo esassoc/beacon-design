@@ -27,9 +27,10 @@ the Obligation record type. It is at `/prototypes/obligation-tracking` on branch
   `git show origin/develop:<path>`, never from the working tree.
 - **`beacon-design` has no `develop` branch.** Its integration branch is `main`;
   `origin/main` was merged into `proto/obligations` cleanly on 2026-09-15.
-- **The build is committed** on `proto/obligations`. `package-lock.json` is still deliberately
-  uncommitted — dirty from an unrelated Astro bump, and now from the type-checker install too.
-  See "Pick up here" #2; treat it as a loose end, not a settled convention.
+- **The build is committed** on `proto/obligations`. `package-lock.json` is uncommitted, and
+  **its diff is now almost entirely the type-checker install** — see "Pick up here" #2. The
+  older note that it was dirty from an unrelated Astro bump is WRONG: the committed lock already
+  carries astro 7.2.6. Treat this as an open loose end, not a settled convention.
 - **`npx astro check` now runs** — `@astrojs/check` + `typescript` were installed 2026-09-17.
   Nothing type-checked this repo before that, and the build CANNOT fail on a type error because
   esbuild strips types. Run it before believing a type.
@@ -60,18 +61,19 @@ the Obligation record type. It is at `/prototypes/obligation-tracking` on branch
 
 **Two tabs.** FEED (four views) and REGISTRY, no counts on either row.
 
-**Every view reads two ways** — an `esa-button-toggle` reading *By event | By obligation*
-(checkpoint §20). By event, a pane is a thing that happened and its children are the duties it
-raised; by obligation, a pane is a duty and its children are the events that reached it. The
-index is derived from the same array both directions read, so they cannot disagree. **Not
-sticky:** four independent switches, all starting on By event.
+**Important and Pinned read two ways** — an `esa-button-toggle` reading *By event | By
+obligation* (checkpoint §20, §22). By event, a pane is a thing that happened and its children
+are the duties it raised; by obligation, a pane is a duty and its children are the events that
+reached it. The index is derived from the same array both directions read, so they cannot
+disagree. **All and To-do have no switch** — only the views the reader defines get one. Pinned
+opens on the obligation side, Important on the event side, and neither is sticky.
 
 | | By event | By obligation |
 |---|---|---|
-| **All** | 6 panes, 20 rows | 9 panes, 20 rows |
+| **All** | 6 panes, 20 rows | — (built, no switch) |
 | **Important** | 4, 13 | 5, 13 |
-| **To-do** | 4, 12 | 3, 12 |
-| **Pinned** | 5, 8 | 6, 8 — **3 with no events at all** |
+| **To-do** | 4, 12 | — (built, no switch) |
+| **Pinned** | 5, 8 | 6, 8 — **3 with no events at all**, and the side it opens on |
 
 - **All** — a timeline. An event surfaces only what it made newly true: Notify duties and
   trigger matches, 1–5 per event. Adhere and Monitor duties that merely *match* an event are
@@ -104,16 +106,19 @@ shape**, so the facts band is per-source — see the checkpoint §15 table.
 
 Everything on the old list is done and committed. What is left:
 
-1. **Decide where the pivot lives.** It is on all four views. Kim's instinct mid-build was to
-   restrict it to the user-specified ones (Important + Pinned) — deferred until Pinned existed,
-   which it now does. Restricting it is one prop. **The cost of restricting:** To-do is where it
-   pays most (12 rows saying 3 things becomes 3 rows), and All's inverse is the cheapest way to
-   ask "what has this permit actually touched" (20 rows → 9 duties).
-2. **Decide on `package-lock.json`.** `package.json` now commits `@astrojs/check` and
-   `typescript` as devDependencies, but **the lock is still uncommitted** — the standing
-   convention, because it is dirty from an unrelated Astro bump. A fresh clone therefore
-   resolves those two unpinned. Either commit the lock (taking the Astro bump with it) or back
-   the devDeps out.
+1. ~~Decide where the pivot lives~~ — **done: Important and Pinned only** (§22). The cost is
+   recorded there: To-do is where the transpose paid most, and that repetition is back.
+   `OBLIGATION_PANES` still builds all four, so restoring a switch is one prop.
+2. **Decide on the type-checker dependency — KIM HAS NOT RULED, and this is team-wide.**
+   Commit `a319eb73` put `@astrojs/check` and `typescript` into `package.json`, which every
+   teammate inherits. The lock is uncommitted, so a fresh clone resolves both unpinned.
+   MEASURED, because the earlier claim here was wrong: the lock diff is +1038/-14, and it is
+   the type checker's tree (volar, the vscode language services, yaml-language-server) plus
+   typescript. The 14 removals are npm re-serialising — `leaflet` moved, `gh-pages` shifted,
+   a few `optional` flags reordered. **There is no unrelated Astro bump in it.** Three ways out:
+   commit the lock; back the devDeps out of `package.json` (the four bugs they found are fixed
+   and committed independently, and reinstalling later is one command with no commit); or raise
+   it with the team as its own change.
 3. **Work the 253 `astro check` errors, or decide not to.** Almost all are pre-existing debt in
    other prototypes — `monitoring/dashboard.astro` is the worst. The tracking files are clean.
 

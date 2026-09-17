@@ -45,9 +45,29 @@ interface Props {
   view: TrackingViewId;
   /** Heading above the rail — says what a parent is in this view. */
   railLabel: string;
+  /**
+   * Offer the By event / By obligation switch.
+   *
+   * ONLY THE VIEWS THE READER DEFINES (Kim, 2026-09-17): Important, whose slice is the reader's
+   * saved subject areas, and Pinned, which is a list they chose. All and To-do are the system's
+   * own cuts — everything that happened, and everything owed — and a reader does not go to them
+   * asking "what has become of MY duties", which is the question the inverse answers.
+   *
+   * WHAT THAT COSTS, recorded rather than argued: To-do is where the transpose paid most, since
+   * the same three Notify duties appear under four events each and the forward view spends 12
+   * rows saying three things. That repetition is back. The inverse data for all four views is
+   * still built and exported — restoring a switch is this one prop.
+   */
+  pivot?: boolean;
+  /**
+   * Which direction opens first. Pinned starts on `obligation` because a pin IS a duty: opening
+   * a list you curated and being shown a list of events instead answers a question nobody asked.
+   * Important starts on `event` like the rest of the feed.
+   */
+  opens?: 'event' | 'obligation';
 }
 
-const { view, railLabel } = Astro.props;
+const { view, railLabel, pivot = false, opens = 'event' } = Astro.props;
 const panes = PANES[view];
 const empty = EMPTY[view];
 
@@ -57,10 +77,10 @@ const oblPanes = OBLIGATION_PANES[view];
 const oblEmpty = EMPTY_BY_OBLIGATION[view];
 const oblRail = RAIL_BY_OBLIGATION[view];
 
-// NOT STICKY, at Kim's call (2026-09-17). Each view owns its own switch and every one of them
-// starts on By event; nothing is remembered across a tab change or a reload. A pivot that
-// followed the reader between views would mean arriving at To-do in a direction they chose
-// while reading All, which is a surprise for the sake of saving one click.
+// NOT STICKY, at Kim's call (2026-09-17). Each view owns its own switch and starts where its
+// `opens` says; nothing is remembered across a tab change or a reload. A pivot that followed the
+// reader between views would mean arriving somewhere in a direction they chose while reading
+// something else, which is a surprise for the sake of saving one click.
 const PIVOT = [
   { label: 'By event', value: 'event' },
   { label: 'By obligation', value: 'obligation' },
@@ -70,28 +90,37 @@ const PIVOT = [
 // CHILDREN are — so the rail, the pane head and the facts band are shared markup rather than
 // copied. TrackingPane and ObligationPane already agree on `id`, `label`, `when` and `details`
 // for this reason; `glyph` is simply absent on a duty, and the rail renders it conditionally.
-const SIDES = [
+//
+// A view WITHOUT the pivot renders one side and no switch — not both sides with one hidden.
+// Shipping the inverse into the DOM where nothing can reveal it would be dead weight on every
+// page load and a trap for the next reader of this file.
+const ALL_SIDES = [
   { key: 'event', panes, railLabel, empty, children: 'duties' },
   { key: 'obligation', panes: oblPanes, railLabel: oblRail, empty: oblEmpty, children: 'events' },
 ] as const;
+
+const SIDES = pivot ? ALL_SIDES : ALL_SIDES.filter((s) => s.key === opens);
 ---
 
 <div class="bcn-tw" data-tw-view={view}>
-  {/* THE PIVOT. Same lego and same wiring as the Registry tab's By category / By commitment
-      switch — it reveals a panel that is already rendered rather than navigating, which is the
-      one thing bcn-sw-view-switch cannot do. */}
-  <header class="bcn-tw__bar">
-    <esa-button-toggle
-      class="bcn-tw__switch"
-      size="sm"
-      value="event"
-      aria-label={`How to read ${railLabel.toLowerCase()}`}
-      data-tw-switch
-      data-options={JSON.stringify(PIVOT)}></esa-button-toggle>
-  </header>
+  {/* THE PIVOT, on the reader-defined views only. Same lego and same wiring as the Registry
+      tab's By category / By commitment switch — it reveals a panel that is already rendered
+      rather than navigating, which is the one thing bcn-sw-view-switch cannot do. */}
+  {pivot && (
+    <header class="bcn-tw__bar">
+      <esa-button-toggle
+        class="bcn-tw__switch"
+        size="sm"
+        value={opens}
+        aria-label={`How to read ${railLabel.toLowerCase()}`}
+        data-tw-switch
+        data-opens={opens}
+        data-options={JSON.stringify(PIVOT)}></esa-button-toggle>
+    </header>
+  )}
 
   {SIDES.map((side) => (
-    <div class="bcn-tw__side" data-tw-side={side.key} hidden={side.key !== 'event'}>
+    <div class="bcn-tw__side" data-tw-side={side.key} hidden={side.key !== opens}>
       {side.panes.length === 0 ? (
         <div class="bcn-tw__blank"><EsaEmptyState title={side.empty} /></div>
       ) : (
@@ -408,7 +437,7 @@ const SIDES = [
     if (sw) {
       customElements.whenDefined('esa-button-toggle').then(() => {
         sw.options = JSON.parse(sw.dataset.options ?? '[]');
-        sw.value = 'event';
+        sw.value = sw.dataset.opens ?? 'event';
       });
 
       sw.addEventListener('change', () => {
