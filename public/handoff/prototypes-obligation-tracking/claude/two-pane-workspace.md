@@ -231,6 +231,10 @@ The frame one view lives in: a rail of parents on the left, and the obligations 
             <p class="bcn-tw__pane-when">45m ago</p>
             <dl class="bcn-tw__facts">
               <div class="bcn-tw__fact">
+                <dt class="typography-label-xs">Source</dt>
+                <dd class="typography-body-sm">Observation</dd>
+              </div>
+              <div class="bcn-tw__fact">
                 <dt class="typography-label-xs">Type</dt>
                 <dd class="typography-body-sm">Resource</dd>
               </div>
@@ -589,6 +593,10 @@ The frame one view lives in: a rail of parents on the left, and the obligations 
             <p class="bcn-tw__pane-when">2h ago</p>
             <dl class="bcn-tw__facts">
               <div class="bcn-tw__fact">
+                <dt class="typography-label-xs">Source</dt>
+                <dd class="typography-body-sm">Observation</dd>
+              </div>
+              <div class="bcn-tw__fact">
                 <dt class="typography-label-xs">Type</dt>
                 <dd class="typography-body-sm">Compliance Concern</dd>
               </div>
@@ -930,6 +938,10 @@ The frame one view lives in: a rail of parents on the left, and the obligations 
             <p class="bcn-tw__pane-when">16h ago</p>
             <dl class="bcn-tw__facts">
               <div class="bcn-tw__fact">
+                <dt class="typography-label-xs">Source</dt>
+                <dd class="typography-body-sm">Daily monitoring report</dd>
+              </div>
+              <div class="bcn-tw__fact">
                 <dt class="typography-label-xs">Package</dt>
                 <dd class="typography-body-sm">CP-2 Intake</dd>
               </div>
@@ -1122,6 +1134,10 @@ The frame one view lives in: a rail of parents on the left, and the obligations 
             </h3>
             <p class="bcn-tw__pane-when">18h ago</p>
             <dl class="bcn-tw__facts">
+              <div class="bcn-tw__fact">
+                <dt class="typography-label-xs">Source</dt>
+                <dd class="typography-body-sm">Observation</dd>
+              </div>
               <div class="bcn-tw__fact">
                 <dt class="typography-label-xs">Type</dt>
                 <dd class="typography-body-sm">Nesting Bird</dd>
@@ -1366,6 +1382,10 @@ The frame one view lives in: a rail of parents on the left, and the obligations 
             <p class="bcn-tw__pane-when">22h ago</p>
             <dl class="bcn-tw__facts">
               <div class="bcn-tw__fact">
+                <dt class="typography-label-xs">Source</dt>
+                <dd class="typography-body-sm">Site report</dd>
+              </div>
+              <div class="bcn-tw__fact">
                 <dt class="typography-label-xs">Site</dt>
                 <dd class="typography-body-sm">Compliance point 3</dd>
               </div>
@@ -1447,6 +1467,10 @@ The frame one view lives in: a rail of parents on the left, and the obligations 
             </h3>
             <p class="bcn-tw__pane-when">2d ago</p>
             <dl class="bcn-tw__facts">
+              <div class="bcn-tw__fact">
+                <dt class="typography-label-xs">Source</dt>
+                <dd class="typography-body-sm">Observation</dd>
+              </div>
               <div class="bcn-tw__fact">
                 <dt class="typography-label-xs">Type</dt>
                 <dd class="typography-body-sm">Compliance Concern</dd>

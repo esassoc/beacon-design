@@ -301,6 +301,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">45m ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Resource</dd>
                           </div>
@@ -681,6 +685,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">2h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Compliance Concern</dd>
                           </div>
@@ -1044,6 +1052,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">16h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Daily monitoring report</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Package</dt>
                             <dd class="typography-body-sm">CP-2 Intake</dd>
                           </div>
@@ -1243,6 +1255,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         </h3>
                         <p class="bcn-tw__pane-when">18h ago</p>
                         <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
                           <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Nesting Bird</dd>
@@ -1499,6 +1515,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">22h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Site report</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Site</dt>
                             <dd class="typography-body-sm">Compliance point 3</dd>
                           </div>
@@ -1588,6 +1608,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         </h3>
                         <p class="bcn-tw__pane-when">2d ago</p>
                         <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
                           <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Compliance Concern</dd>
@@ -2049,6 +2073,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">45m ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Resource</dd>
                           </div>
@@ -2375,6 +2403,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">2h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Compliance Concern</dd>
                           </div>
@@ -2684,6 +2716,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">18h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Nesting Bird</dd>
                           </div>
@@ -2884,6 +2920,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         </h3>
                         <p class="bcn-tw__pane-when">2d ago</p>
                         <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
                           <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Compliance Concern</dd>
@@ -3358,6 +3398,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Resource</dd>
                                 </div>
@@ -3439,6 +3483,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
                                 </div>
@@ -3511,6 +3559,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             </summary>
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Nesting Bird</dd>
@@ -3586,6 +3638,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             </summary>
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
@@ -3772,6 +3828,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Resource</dd>
                                 </div>
@@ -3853,6 +3913,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
                                 </div>
@@ -3925,6 +3989,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             </summary>
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Nesting Bird</dd>
@@ -4000,6 +4068,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             </summary>
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
@@ -4191,6 +4263,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                               </p>
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Resource</dd>
                                 </div>
@@ -4276,6 +4352,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                               </p>
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
                                 </div>
@@ -4354,6 +4434,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 was inside the exclusion.
                               </p>
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
@@ -4489,6 +4573,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                               </p>
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Resource</dd>
                                 </div>
@@ -4623,6 +4711,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 bird was recovered injured.
                               </p>
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
@@ -4809,6 +4901,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         </h3>
                         <p class="bcn-tw__pane-when">45m ago</p>
                         <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
                           <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Resource</dd>
@@ -5071,6 +5167,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">2h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Compliance Concern</dd>
                           </div>
@@ -5328,6 +5428,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">18h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Nesting Bird</dd>
                           </div>
@@ -5582,6 +5686,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         </h3>
                         <p class="bcn-tw__pane-when">2d ago</p>
                         <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
                           <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Compliance Concern</dd>
@@ -6064,6 +6172,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">45m ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Resource</dd>
                           </div>
@@ -6269,6 +6381,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">2h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Compliance Concern</dd>
                           </div>
@@ -6470,6 +6586,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">16h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Daily monitoring report</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Package</dt>
                             <dd class="typography-body-sm">CP-2 Intake</dd>
                           </div>
@@ -6560,6 +6680,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         <p class="bcn-tw__pane-when">18h ago</p>
                         <dl class="bcn-tw__facts">
                           <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
+                          <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Nesting Bird</dd>
                           </div>
@@ -6649,6 +6773,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                         </h3>
                         <p class="bcn-tw__pane-when">2d ago</p>
                         <dl class="bcn-tw__facts">
+                          <div class="bcn-tw__fact">
+                            <dt class="typography-label-xs">Source</dt>
+                            <dd class="typography-body-sm">Observation</dd>
+                          </div>
                           <div class="bcn-tw__fact">
                             <dt class="typography-label-xs">Type</dt>
                             <dd class="typography-body-sm">Compliance Concern</dd>
@@ -7083,6 +7211,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Resource</dd>
                                 </div>
@@ -7164,6 +7296,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
                                 </div>
@@ -7236,6 +7372,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             </summary>
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Nesting Bird</dd>
@@ -7311,6 +7451,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                             </summary>
                             <div class="bcn-tev__body">
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
@@ -7502,6 +7646,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                               </p>
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Resource</dd>
                                 </div>
@@ -7587,6 +7735,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                               </p>
                               <dl class="bcn-tev__facts">
                                 <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
+                                <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
                                 </div>
@@ -7665,6 +7817,10 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 was inside the exclusion.
                               </p>
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">Observation</dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Type</dt>
                                   <dd class="typography-body-sm">Compliance Concern</dd>
@@ -7796,6 +7952,12 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
                                 which is when this duty applies.
                               </p>
                               <dl class="bcn-tev__facts">
+                                <div class="bcn-tev__fact">
+                                  <dt class="typography-label-xs">Source</dt>
+                                  <dd class="typography-body-sm">
+                                    Daily monitoring report
+                                  </dd>
+                                </div>
                                 <div class="bcn-tev__fact">
                                   <dt class="typography-label-xs">Package</dt>
                                   <dd class="typography-body-sm">CP-2 Intake</dd>

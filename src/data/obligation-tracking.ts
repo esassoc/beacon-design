@@ -922,7 +922,31 @@ const kindOf = (e: FeedEvent) => SOURCE_LABEL[e.source];
  * would have shown a Site it does not have and hidden the weather it does.
  */
 const eventDetails = (e: FeedEvent): PaneDetail[] => {
-  const d: PaneDetail[] = [];
+  /**
+   * SOURCE FIRST, ON EVERY SOURCE — restored 2026-09-17.
+   *
+   * §11 settled that source and type are different things and that running them together was a
+   * real error: SOURCE is the Event Hub topic a record arrived on (`observations`,
+   * `sitereports`, `dmrs`) and those ARE enumerated, by the listeners. TYPE exists only on
+   * observations, is VARCHAR(255) with no lookup and no FK, and its vocabulary lives in the
+   * Angular app rather than the database.
+   *
+   * Then §15 pruned the rail row down to a glyph, a title and a relative time — correctly, a
+   * timeline is scanned — and source went with the pruning. Nothing stated it in words anywhere
+   * in the by-event direction after that. It survived only as a GLYPH, and the glyph is keyed on
+   * TYPE for observations and on SOURCE for the other two, so the rail cannot tell a reader that
+   * leaf, triangle-alert and egg are all the same kind of record. The distinction §11 insisted
+   * on had become invisible at the one place a reader meets it.
+   *
+   * The band is always visible under the pane title, so this costs no click — one more fact in a
+   * band that already carries five or six, stated in the only form that cannot be misread.
+   *
+   * NOT AN INCONSISTENCY WITH THE OTHER DIRECTION. bcn-tracking-event puts the source inline on
+   * its summary line because there the event is a CHILD whose band is behind a fold; here the
+   * event is the pane's SUBJECT and its band is open. Same reasoning that shows the absolute
+   * date in one direction and not the other.
+   */
+  const d: PaneDetail[] = [{ label: 'Source', value: SOURCE_LABEL[e.source] }];
 
   if (e.source === 'observation') {
     d.push({ label: 'Type', value: e.type ?? 'Observation' });

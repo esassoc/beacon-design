@@ -832,3 +832,47 @@ than explain. **It was the dev server serving a stale script.** The built HTML a
 were both correct. §4 already warns that the dev server goes stale across long sessions;
 **restart it BEFORE diagnosing any rendering or wiring fault**, not after. The same trap is
 recorded as §14.12 for CSS and it was walked into again, for JS this time.
+
+---
+
+## 23. Source is stated again, on every band (2026-09-17)
+
+Kim asked where the event-detail / source discussion had got to. Re-reading §11 and §15: the
+**thinking** was settled and the **implementation had quietly drifted past it.**
+
+**Settled at §11:** source and type are different things, and running them together was called a
+real error. SOURCE is the Event Hub topic a record arrived on — `observations`, `sitereports`,
+`dmrs` — and those ARE enumerated, by the listeners. TYPE exists only on observations, is
+`VARCHAR(255)` with no lookup and no FK, and its vocabulary lives in the Angular app rather than
+the database (§14.9).
+
+**What §15 then did without anyone noticing.** It pruned the rail row to a glyph, a title and a
+relative time — correct, a timeline is scanned — and **source went out with the pruning.** After
+that nothing stated it in words anywhere in the by-event direction. `TrackingPane.kind` survived
+with a comment reading *"Shown in the details, never on the row"*, and **nothing rendered it.**
+
+**Fixed:** `Source` now leads the facts band on all three sources. The band sits open under the
+pane title, so it costs no click — one more fact where there were already five or six, in the
+only form that cannot be misread. 40 bands now carry it.
+
+### Two things deliberately NOT changed
+
+**The glyph still conflates the two axes, and that is now a recorded trade rather than an
+oversight.** `glyphOf` keys on TYPE for observations and on SOURCE for the other two, so leaf,
+triangle-alert and egg are three observation types while clipboard and file-text are two
+sources — and the rail cannot tell a reader the first three are the same kind of record.
+Re-keying the glyph to source would make the rail honest about the enumerated axis at the cost
+of the most scannable signal on the page: a nesting-bird sighting and a compliance concern would
+become identical marks. §15 chose five glyphs for that reason. **The band now carries the
+distinction in words, which is where it belongs.**
+
+**The two directions state source differently, and that is not an inconsistency.** By event, the
+event is the pane's SUBJECT and its band is open, so source is a fact in the band. By obligation,
+the event is a CHILD ROW whose band is behind a fold, so `bcn-tracking-event` puts it inline on
+the summary line. Same reasoning that shows the absolute date in one direction and not the other.
+
+### Still not modelled
+
+The feed exercises **three of the five live topics.** `surveys` and `processedreports` have a
+listener in prod and no seed here — `EventSource` is `'observation' | 'site report' | 'dmr'`.
+Nobody has asked what a survey event would raise.

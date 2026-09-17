@@ -7,6 +7,7 @@ One event as a CHILD of a duty: a glyph for its Event Hub source, the title on o
 - A ROW STATES ITS BASIS ONLY WHEN THE PANE’S EVENTS DISAGREE — the SAME rule as the duty row’s, applied in the other direction rather than reversed. Measured against this fixture, NOT ONE pane has a varying basis: five duties have a single event and the other four are uniform (4x "Any covered species", 3x "Trigger"). So the per-row badge was 46 copies of 9 facts. Where every event reached the duty the same way it is hoisted to the pane and stated once; where they differ the rows carry it. Real data will produce the varied case.
 - A NATIVE <details> CARRYING data-swo-branch, deliberately, to match bcn-sw-obligation-card — the sibling doing this same job on the same panes. That is the hook the pane’s Expand all / Collapse all already drive, so both kinds of child open together with no new wiring.
 - THE FACTS BAND IS PER-SOURCE and arrives assembled. An observation has a species and a buffer; a DMR has neither and has weather instead. The component renders what it is handed and asserts nothing about the shape.
+- SOURCE LEADS EVERY BAND, on all three sources. SOURCE is the Event Hub topic a record arrived on — observations, sitereports, dmrs — and those ARE enumerated, by the listeners. TYPE exists only on observations, is VARCHAR(255) with no lookup and no foreign key, and its vocabulary lives in the Angular app rather than the database. Running the two together was a real error once and the band is where the distinction is kept legible.
 
 ## Gotchas
 - A FLEX ITEM’S AUTO BASIS IS MAX-CONTENT, so a long value takes one unbroken line and is clipped rather than wrapped. min-width: 0 alone does not fix it — it permits shrinking but the basis still asks for max-content. Both facts bands cap the item at 100%.
@@ -67,6 +68,10 @@ One event as a CHILD of a duty: a glyph for its Event Hub source, the title on o
     </summary>
     <div class="bcn-tev__body">
       <dl class="bcn-tev__facts">
+        <div class="bcn-tev__fact">
+          <dt class="typography-label-xs">Source</dt>
+          <dd class="typography-body-sm">Observation</dd>
+        </div>
         <div class="bcn-tev__fact">
           <dt class="typography-label-xs">Type</dt>
           <dd class="typography-body-sm">Resource</dd>
