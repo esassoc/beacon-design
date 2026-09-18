@@ -1988,6 +1988,9 @@ The frame one view lives in: a rail of parents on the left, and the obligations 
 .bcn-swoc.is-dragging {
   opacity: 0.4;
 }
+.bcn-swoc.is-new {
+  animation: 0.9s ease-out bcn-swoc-flash;
+}
 .bcn-swoc__node {
   min-width: 0;
 }

@@ -55,7 +55,7 @@ The two halves of the page as tabs: Feed (what is happening) and Registry (what 
   ></script>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnSwObligationsTree.astro_astro_type_script_index_0_lang.BbjgE27J.js"
+    src="/beacon-design/_astro/BcnSwObligationsTree.astro_astro_type_script_index_0_lang.QH4A4jbP.js"
   ></script>
   <script
     type="module"
@@ -112219,6 +112219,9 @@ details[open] > .bcn-swc__row .bcn-swc__chevron {
 }
 .bcn-swoc.is-dragging {
   opacity: 0.4;
+}
+.bcn-swoc.is-new {
+  animation: 0.9s ease-out bcn-swoc-flash;
 }
 .bcn-swoc__node {
   min-width: 0;

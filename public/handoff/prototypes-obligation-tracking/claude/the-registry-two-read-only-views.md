@@ -100660,6 +100660,9 @@ details[open] > .bcn-swc__row .bcn-swc__chevron {
 .bcn-swoc.is-dragging {
   opacity: 0.4;
 }
+.bcn-swoc.is-new {
+  animation: 0.9s ease-out bcn-swoc-flash;
+}
 .bcn-swoc__node {
   min-width: 0;
 }

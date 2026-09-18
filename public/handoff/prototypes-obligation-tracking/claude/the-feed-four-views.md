@@ -8165,6 +8165,9 @@ The working half of the page: one esa-tab-layout carrying All, Important, To-do 
 .bcn-swoc.is-dragging {
   opacity: 0.4;
 }
+.bcn-swoc.is-new {
+  animation: 0.9s ease-out bcn-swoc-flash;
+}
 .bcn-swoc__node {
   min-width: 0;
 }
