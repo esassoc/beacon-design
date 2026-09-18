@@ -958,3 +958,39 @@ match "All classes" would have silently broken the filter.
 **Verified:** build green at 626 pages; the switch drives **four** elements now (a filter row and
 a tree per view) and all four swap together; both views render their own controls; the old
 `.bcn-treg__bar` is gone from the built HTML.
+
+---
+
+## 25. The panel clipped its own dropdown (2026-09-17)
+
+Kim, with a screenshot: the category dropdown opened and showed **one option and a scrollbar**,
+sheared off at the panel's bottom edge.
+
+**`esa-card` sets `overflow: hidden`.** Sound for the media and filled headers it was built for
+— a child must not paint over its rounded corners — and wrong for a panel whose children open
+POPUPS. The chip's listbox drops below the row, hit the card's clip, and was cut in half.
+
+**The wizard had already solved this and said so.** `BcnSwStepPanel` carries the decision in its
+own words: *"No overflow clip: the filter row's selects drop a listbox below the panel's edge,
+and nothing inside paints to the corners."* Putting the filter row in `esa-card` reintroduced
+exactly the fault that comment exists to prevent.
+
+**Fixed with one declaration**, `.bcn-treg :global(.esa-card) { overflow: visible }`, after
+checking for a lego-level way out: `esa-card` exposes `--_card-*` knobs for colour and radius
+and nothing for overflow, and `esa-filter-container` — the only other candidate in the catalog —
+is a bare flex row with no surface at all. One override beats hand-rolling a second bordered
+panel to duplicate everything `esa-card` already gets right. Nothing in this card paints to the
+corners, same as the wizard's.
+
+**A second fault the same change exposed.** With the card header gone (§24), the filter row's
+own `border-top` sat directly against the card's top border — two hairlines, 1px apart. The row
+already has the knob for this: `inset`, which exists because *"prod's row inside the AI band
+drops the top hairline"*. Both rows are now `inset`.
+
+**The wizard is untouched** — verified in its built HTML: its row is still `bcn-swfr` with its
+hairline, and its step panel still renders. The `filters` slot added in §24 is additive and the
+wizard does not use it.
+
+**Rule worth carrying:** before putting a popup-bearing control inside any lego surface, check
+that surface for `overflow: hidden`. It fails silently and only at the moment someone opens the
+control.

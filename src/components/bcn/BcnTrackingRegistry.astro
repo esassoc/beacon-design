@@ -87,6 +87,7 @@ const COVERAGE_PICKS = [
         the taxonomy, coverage for the chain. */}
     <div class="bcn-treg__filters" data-treg-view="category">
       <BcnSwFilterRow
+        inset
         searchPlaceholder="Search obligations"
         searchName="swo-search"
         pickers={[{ label: 'Class', value: 'All classes', options: CLASS_PICKS }]}
@@ -102,7 +103,7 @@ const COVERAGE_PICKS = [
     </div>
 
     <div class="bcn-treg__filters" data-treg-view="commitment" hidden>
-      <BcnSwFilterRow searchPlaceholder="Search requirements" searchName="swc-search">
+      <BcnSwFilterRow inset searchPlaceholder="Search requirements" searchName="swc-search">
         <BcnSwSelectChip slot="filters" label="Coverage" name="coverage" value="All requirements" options={COVERAGE_PICKS} />
         <EsaButton variant="ghost" size="xs" data-swc-expand title="Open every commitment">
           <span class="bcn-treg__verb"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
@@ -159,6 +160,20 @@ const COVERAGE_PICKS = [
     display: flex;
     justify-content: flex-end;
   }
+
+  /* THE CARD MUST NOT CLIP. esa-card sets `overflow: hidden` so a child cannot paint over its
+     rounded corners — sound for the media and filled headers it was built for, and wrong for a
+     panel whose children open POPUPS. The category chip's listbox drops below the row and was
+     being cut off at the panel's bottom edge, leaving a sliver of one option and a scrollbar.
+     bcn-sw-step-panel, the wizard's equivalent surface, already carries the same decision in
+     its own words: "No overflow clip: the filter row's selects drop a listbox below the panel's
+     edge, and nothing inside paints to the corners." Nothing inside this one does either.
+
+     Checked for a lego-level way out first: esa-card exposes --_card-* knobs for colour and
+     radius but nothing for overflow, and esa-filter-container — the only other candidate — is a
+     bare flex row with no surface at all. One declaration here beats hand-rolling a second
+     bordered panel to duplicate everything esa-card already gets right. */
+  .bcn-treg :global(.esa-card) { overflow: visible; }
 
   /* [hidden] loses to an author display rule, so every visible state is guarded. The switch
      drives FOUR elements, not two — each view owns a filter row inside the panel and a tree

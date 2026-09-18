@@ -38,7 +38,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
   <div class="esa-card esa-card--outlined esa-card--padding-none">
     <div class="esa-card__body typography-body-md">
       <div class="bcn-treg__filters" data-treg-view="category">
-        <div class="bcn-swfr">
+        <div class="bcn-swfr bcn-swfr--inset">
           <esa-text-field
             class="bcn-swfr__search"
             size="sm"
@@ -155,7 +155,7 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
         </div>
       </div>
       <div class="bcn-treg__filters" data-treg-view="commitment" hidden="">
-        <div class="bcn-swfr">
+        <div class="bcn-swfr bcn-swfr--inset">
           <esa-text-field
             class="bcn-swfr__search"
             size="sm"
@@ -101226,6 +101226,9 @@ summary.esa-button--variant-chrome:focus-visible {
 .bcn-treg__bar {
   justify-content: flex-end;
   display: flex;
+}
+.bcn-treg .esa-card {
+  overflow: visible;
 }
 .bcn-treg__view:not([hidden]),
 .bcn-treg__filters:not([hidden]) {
