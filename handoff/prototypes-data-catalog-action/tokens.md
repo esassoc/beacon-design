@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-action
 
-The 123 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 142 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -16,6 +16,7 @@ The 123 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-elevation-floating` | `#fcfcfc` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
+| `--color-background-field` | `#0000` |
 | `--color-background-overlay-backdrop` | `#00000080` |
 | `--color-border-default` | `#dcdcdc` |
 | `--color-border-default-subtle` | `#efefef` |
@@ -26,6 +27,7 @@ The 123 design tokens this page actually uses, resolved to their final values fo
 | `--color-content-default-tertiary` | `#656565` |
 | `--color-content-link` | `#005862` |
 | `--color-content-on-brand-muted` | `#203c25` |
+| `--color-content-utility-danger` | `#ce2c31` |
 | `--elevation-4` | `0 6px 24px -6px #00000012` |
 | `--elevation-5` | `0 8px 32px -8px #00000014` |
 | `--radius-chip` | `.25rem` |
@@ -38,6 +40,11 @@ The 123 design tokens this page actually uses, resolved to their final values fo
 | `--typography-body-md-font-weight` | `350` |
 | `--typography-body-md-letter-spacing` | `.01em` |
 | `--typography-body-md-line-height` | `1.6` |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--typography-body-sm-font-weight` | `350` |
+| `--typography-body-sm-letter-spacing` | `.01em` |
+| `--typography-body-sm-line-height` | `1.6` |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` |
 | `--typography-font-weight-bold` | `650` |
 | `--typography-font-weight-medium` | `500` |
@@ -63,6 +70,11 @@ The 123 design tokens this page actually uses, resolved to their final values fo
 | `--typography-microcopy-md-font-weight` | `500` |
 | `--typography-microcopy-md-letter-spacing` | `.01em` |
 | `--typography-microcopy-md-line-height` | `1` |
+| `--typography-microcopy-md-subtle-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-md-subtle-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--typography-microcopy-md-subtle-font-weight` | `350` |
+| `--typography-microcopy-md-subtle-letter-spacing` | `.01em` |
+| `--typography-microcopy-md-subtle-line-height` | `1` |
 | `--typography-microcopy-sm-subtle-font-family` | `"DM Sans", sans-serif` |
 | `--typography-microcopy-sm-subtle-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
 | `--typography-microcopy-sm-subtle-font-weight` | `350` |
@@ -107,9 +119,16 @@ The 123 design tokens this page actually uses, resolved to their final values fo
 | `--file-list-row-padding-x` | `.75rem` |
 | `--file-list-row-padding-y` | `2px` |
 | `--font-decorative` | `"Besley", serif` |
+| `--form-border-color` | `#dcdcdc` |
+| `--form-border-width` | `1px` |
+| `--form-error-color` | `#ce2c31` |
+| `--form-help-color` | `#525252` |
 | `--form-label-color` | `#525252` |
+| `--form-placeholder-color` | `#525252` |
+| `--form-text-color` | `#3d3d3d` |
 | `--side-dialog-inset` | `16px` |
 | `--side-dialog-width` | `400px` |
+| `--tab-layout-height-md` | `44px` |
 
 ## Primitive
 
