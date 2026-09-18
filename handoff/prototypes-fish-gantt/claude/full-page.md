@@ -37666,30 +37666,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 
 :host {
-  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-  --_popover-border: var(--color-border-default, #cecece);
-  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--radius-md, 0.5rem);
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--color-content-default, #202020);
-  display: inline-block;
+  display: contents;
 }
-.esa-popover-anchor {
+dialog.esa-confirm-dialog {
   position: relative;
-  display: inline-block;
-}
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
+  border: none;
   padding: 0;
-  border: 0;
+  margin: auto;
+  width: var(--confirm-dialog-width, 360px);
+  max-width: calc(100vw - 2rem);
+  background: var(--color-background-elevation-floating, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-lg, 0.75rem);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
 }
 :host {
   display: inline-block;
@@ -37701,9 +37694,104 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-dropdown__trigger {
   display: inline-block;
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-label-xs {
+  font-family: var(--typography-label-xs-font-family);
+  font-size: var(--typography-label-xs-font-size);
+  font-weight: var(--typography-label-xs-font-weight);
+  line-height: var(--typography-label-xs-line-height);
+  letter-spacing: var(--typography-label-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-md-strong {
+  font-family: var(--typography-microcopy-md-strong-font-family);
+  font-size: var(--typography-microcopy-md-strong-font-size);
+  font-weight: var(--typography-microcopy-md-strong-font-weight);
+  line-height: var(--typography-microcopy-md-strong-line-height);
+  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+:host {
+  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
+  --_dialog-border-radius: var(--radius-lg, 0.75rem);
+  --_dialog-padding: var(--spacing-500, 1.5rem);
+  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
+  /* Header/footer surface tints. These were --dialog-header-bg /
+         --dialog-footer-bg, declared in no token file — a hook offered on the
+         strength of a fallback nobody had asked to override. Folded to their
+         literal default 2026-08-16; --dialog-* is a live namespace, so they come
+         back as declarations the day a spoke actually wants to frame the body. */
+  --_dialog-header-bg: transparent;
+  --_dialog-footer-bg: transparent;
+  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+  --_dialog-width: var(--dialog-width, 480px);
+  --_dialog-max-height: 85vh;
+}
+:host([size="sm"]) {
+  --_dialog-width: var(--dialog-width-sm, 360px);
+}
+dialog.esa-dialog {
+  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
+         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
+         panel renders inside a second, smaller box. */
+  border: none;
+  padding: 0;
+  margin: auto;
+  background: var(--_dialog-bg);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--_dialog-border-radius);
+  box-shadow: var(--_dialog-shadow);
+  width: var(--_dialog-width);
+  max-width: 100vw;
+  max-height: var(--_dialog-max-height);
+  overflow: hidden;
+  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
 }
 *,
 :before,
@@ -37811,139 +37899,6 @@ a.breadcrumb-item {
   padding: var(--spacing-500) 0;
   min-height: 70vh;
   position: relative;
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-  background: 0 0;
-}
-.esa-button--variant-ghost .esa-button__native {
-  color: var(--color-content-default, #202020);
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border-default, #cecece);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--xs {
-  --_btn-pad-y: var(--spacing-200, 0.5rem);
-  --_btn-padding-x: var(--spacing-200, 0.5rem);
-  --_btn-radius: var(--button-radius-xs, 4px);
-}
-.esa-button--sm {
-  --_btn-pad-y: var(--spacing-250, 0.625rem);
-  --_btn-padding-x: var(--spacing-250, 0.625rem);
-  --_btn-radius: var(--button-radius-sm, 4px);
-}
-.esa-button--appearance-dashed .esa-button__native {
-  border-style: dashed;
-}
-.esa-button--variant-danger {
-  --_accent: var(--color-background-utility-danger);
-  --_accent-hover: var(--color-background-utility-danger-hover);
-  --_accent-text: var(--color-content-utility-danger);
-}
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-background-elevation-sunken, #f0f0f0) 45%,
-    var(--color-background-elevation-raised, #fcfcfc)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-default-strong, #bbb);
-}
-.esa-button--variant-primary {
-  --_accent-text: var(--color-content-brand);
-}
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-:host {
-  --_dialog-bg: var(--color-background-elevation-floating, #fcfcfc);
-  --_dialog-border-radius: var(--radius-lg, 0.75rem);
-  --_dialog-padding: var(--spacing-500, 1.5rem);
-  --_dialog-header-border: var(--color-border-default-subtle, #d9d9d9);
-  /* Header/footer surface tints. These were --dialog-header-bg /
-         --dialog-footer-bg, declared in no token file — a hook offered on the
-         strength of a fallback nobody had asked to override. Folded to their
-         literal default 2026-08-16; --dialog-* is a live namespace, so they come
-         back as declarations the day a spoke actually wants to frame the body. */
-  --_dialog-header-bg: transparent;
-  --_dialog-footer-bg: transparent;
-  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-  --_dialog-width: var(--dialog-width, 480px);
-  --_dialog-max-height: 85vh;
-}
-:host([size="sm"]) {
-  --_dialog-width: var(--dialog-width-sm, 360px);
-}
-dialog.esa-dialog {
-  /* UA reset. The UA sheet gives <dialog> a solid border, 1em padding and
-         'max-width/max-height: calc(100% - 6px - 2em)'; without clearing those the
-         panel renders inside a second, smaller box. */
-  border: none;
-  padding: 0;
-  margin: auto;
-  background: var(--_dialog-bg);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--_dialog-border-radius);
-  box-shadow: var(--_dialog-shadow);
-  width: var(--_dialog-width);
-  max-width: 100vw;
-  max-height: var(--_dialog-max-height);
-  overflow: hidden;
-  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
 }
 .modern-layout {
   flex-direction: column;
@@ -38753,11 +38708,463 @@ dialog.esa-dialog {
   box-shadow: 0 -12px 48px -12px #00000052;
 }
 :host {
+  --_width: var(--side-dialog-width, 400px);
+}
+dialog.panel {
+  --_inset: var(--side-dialog-inset, 16px);
+  position: fixed;
+  top: var(--_inset);
+  bottom: var(--_inset);
+  inset-inline: auto;
+  height: auto;
+  margin: 0;
+  border: none;
+  padding: 0;
+  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+  max-width: none;
+  max-height: none;
+  background: var(--color-background-elevation-raised, #fcfcfc);
+  color: var(--color-content-default, #202020);
+  border-radius: var(--radius-md, 0.5rem);
+  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+  outline: none;
+  overflow: hidden;
+  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+  transition:
+    top 220ms ease,
+    right 220ms ease,
+    bottom 220ms ease,
+    left 220ms ease;
+}
+:host([position="right"]) dialog.panel {
+  right: var(--_inset);
+  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+:host {
+  display: block;
+  --_field-padding-y: var(--spacing-300, 0.75rem);
+  --_field-padding-x: var(--spacing-300, 0.75rem);
+  --_field-radius: var(--radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #cecece);
+}
+:host([size="sm"]) {
+  --_field-padding-y: var(--spacing-250, 0.625rem);
+  --_field-padding-x: var(--spacing-250, 0.625rem);
+  --_field-radius: var(--radius-sm, 0.25rem);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+}
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+}
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.input {
+  width: 100%;
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  padding-inline-end: calc(var(--_field-padding-x) + 24px);
+  /* The box is content + padding since heights were removed (2026-08-14), so
+         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
+         is. On a single-line control leading has no typographic job: there is one
+         line, and the space above and below it is invisible. Letting the body-*
+         composite's relaxed leading through added 12px here at md and made this
+         field 7px taller than esa-text-field on the same step, breaking the row
+         alignment component-tokens.css promises.
+         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
+         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
+         whose composite declares the line-height for us — there is deliberately no
+         line-height declaration in this rule, because one here would outrank the
+         composite rather than agree with it. A static padding offset was the other option and
+         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
+         is re-pointable by a theme, so an offset would cancel it at exactly one
+         viewport. esa-textarea stays on a body-* composite on purpose — it is
+         genuinely multi-line, so its leading has a typographic job. */
+  color: var(--form-text-color, #202020);
+  background: var(--color-background-field, transparent);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input--trigger {
+  display: block;
+  text-align: start;
+  font: inherit;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.arrow {
+  position: absolute;
+  right: var(--_field-padding-x);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--color-content-default-secondary, #646464);
+  pointer-events: none;
+  transition: transform var(--transition-fast, 150ms ease);
+}
+.arrow svg {
+  width: var(--icon-size-md, 20px);
+  height: var(--icon-size-md, 20px);
+}
+.field__error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+}
+.field__help {
+  color: var(--form-help-color, #838383);
+}
+.field__label {
+  /* Was the last reader of --form-label-font-size and one of two readers of
+         --form-label-font-weight. Both are retired with the rest of the size-only
+         ramp; the composite carries size and weight together. */
+  color: var(--form-label-color, #646464);
+}
+.input--placeholder {
+  color: var(--form-placeholder-color, #838383);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, 24px);
+}
+.bcn-rrep {
+  gap: var(--spacing-300);
+  flex-direction: column;
+  display: flex;
+}
+.bcn-rrep__list {
+  flex-direction: column;
+  display: flex;
+}
+.bcn-rrep__add {
+  align-self: flex-start;
+}
+:host {
   display: inline-block;
 }
 .esa-tooltip-anchor {
   position: relative;
   display: inline-flex;
+}
+:host {
+  --_field-padding-y: var(--spacing-300, 0.75rem);
+  --_field-padding-x: var(--spacing-300, 0.75rem);
+  --_field-radius: var(--radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #cecece);
+  display: block;
+}
+:host([size="sm"]) {
+  --_field-padding-y: var(--spacing-250, 0.625rem);
+  --_field-padding-x: var(--spacing-250, 0.625rem);
+  --_field-radius: var(--radius-sm, 0.25rem);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
+         box plus its padding. A px height could not grow with rem text, so it
+         clipped — and this rule used to pair one with overflow:hidden, which is
+         what made the clipping silent. See semantic/size.json.
+
+         line-height 1 is what leaves padding as the only variable: at 1.6 there
+         is a third term (0.6 x font-size of leading) that nobody chose and that
+         grows faster than either input. Everything else — face, size, weight,
+         tracking — still comes from .typography-body-* on this element and
+         inherits to the input and the affixes below. */
+  background: var(--color-background-field, transparent);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  /* No height: 100%. It used to resolve against .control's fixed height, which
+         meant this padding was ABSORBED into that height rather than adding to it.
+         With no fixed parent it would compute to auto anyway; removing it makes the
+         padding load-bearing, which is the point. .control is align-items:stretch,
+         so the affixes still match this element's height. */
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  /* A native control does not inherit type by default — this is what opts it
+         into the composite already resolved on .control. */
+  font: inherit;
+  color: var(--form-text-color, #202020);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #838383);
+}
+.help,
+.error {
+  margin: 0;
+}
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 4px);
+  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+}
+.help {
+  color: var(--form-help-color, #838383);
+}
+.label {
+  color: var(--form-label-color, #646464);
+  margin-block-end: var(--form-label-gap, 4px);
+}
+.required {
+  color: var(--color-content-utility-danger, #ce2c31);
+  margin-inline-start: 2px;
+}
+.help.is-shown,
+.error.is-shown {
+  margin-block-start: var(--form-help-gap, 4px);
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--xs {
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
+}
+.esa-button--appearance-dashed .esa-button__native {
+  border-style: dashed;
+}
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-default-strong, #bbb);
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+  --_pad-y: var(--spacing-300, 0.75rem);
+  --_padding-x: var(--spacing-300, 0.75rem);
+  --_radius: var(--radius-md, 0.5rem);
+  --_border-width: var(--form-border-width, 1px);
+  --_border-color: var(--form-border-color, #cecece);
+  --_icon-size: 18px;
+}
+.group {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  gap: 2px;
+  padding: 2px;
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+  border: var(--_border-width) solid var(--_border-color);
+  border-radius: var(--_radius);
+}
+:host([size="sm"]) {
+  --_pad-y: var(--spacing-250, 0.625rem);
+  --_padding-x: var(--spacing-250, 0.625rem);
+  --_radius: var(--radius-sm, 0.25rem);
+  --_icon-size: 16px;
+}
+.option {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-150, 6px);
+  /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
+         height token the segment is its own text plus padding, and the track wraps
+         it — the compensation has nothing left to compensate for. */
+  padding: var(--_pad-y) var(--_padding-x);
+  color: var(--color-content-default-secondary, #646464);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--_radius) - 2px);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--transition-fast, 150ms ease),
+    color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.option--selected {
+  background: var(--color-background-elevation-raised, #fcfcfc);
+  color: var(--color-content-brand, #2a7e3b);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.option__icon {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  flex-shrink: 0;
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
 .bcn-gantt-coa {
   font-family: var(--typography-font-family-mono);
@@ -39341,6 +39748,30 @@ dialog.esa-dialog {
   font-weight: var(--typography-font-weight-semibold);
   color: var(--color-content-default);
 }
+.bcn-wb__dialog-foot {
+  justify-content: flex-end;
+  gap: var(--spacing-200);
+  width: 100%;
+  display: flex;
+}
+.bcn-wb__dialog-cancel,
+.bcn-wb__dialog-move {
+  padding: var(--spacing-200) var(--spacing-400);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  border-radius: var(--radius-200);
+  cursor: pointer;
+  border: 1px solid var(--color-border-default);
+}
+.bcn-wb__dialog-cancel {
+  background: var(--color-background-elevation-raised);
+  color: var(--color-content-default-secondary);
+}
+.bcn-wb__dialog-move {
+  background: var(--color-background-brand);
+  color: var(--color-content-default-knockout);
+  border-color: var(--color-background-brand);
+}
 .bcn-node-head {
   align-items: center;
   gap: var(--spacing-200);
@@ -39459,425 +39890,18 @@ dialog.esa-dialog {
   display: flex;
 }
 :host {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-  --_pad-y: var(--spacing-300, 0.75rem);
-  --_padding-x: var(--spacing-300, 0.75rem);
-  --_radius: var(--radius-md, 0.5rem);
-  --_border-width: var(--form-border-width, 1px);
-  --_border-color: var(--form-border-color, #cecece);
-  --_icon-size: 18px;
+  --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+  --_popover-border: var(--color-border-default, #cecece);
+  --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--radius-md, 0.5rem);
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--color-content-default, #202020);
+  display: inline-block;
 }
-.group {
-  display: inline-flex;
-  width: fit-content;
-  max-width: 100%;
-  gap: 2px;
-  padding: 2px;
-  background: var(--color-background-elevation-sunken, #f0f0f0);
-  border: var(--_border-width) solid var(--_border-color);
-  border-radius: var(--_radius);
-}
-:host([size="sm"]) {
-  --_pad-y: var(--spacing-250, 0.625rem);
-  --_padding-x: var(--spacing-250, 0.625rem);
-  --_radius: var(--radius-sm, 0.25rem);
-  --_icon-size: 16px;
-}
-.option {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-150, 6px);
-  /* Was calc(height - 4px) to compensate for the track's 2px padding. With no
-         height token the segment is its own text plus padding, and the track wraps
-         it — the compensation has nothing left to compensate for. */
-  padding: var(--_pad-y) var(--_padding-x);
-  color: var(--color-content-default-secondary, #646464);
-  background: transparent;
-  border: 0;
-  border-radius: calc(var(--_radius) - 2px);
-  cursor: pointer;
-  user-select: none;
-  white-space: nowrap;
-  transition:
-    background-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.option--selected {
-  background: var(--color-background-elevation-raised, #fcfcfc);
-  color: var(--color-content-brand, #2a7e3b);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-}
-.option__icon {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  flex-shrink: 0;
-}
-:host {
-  display: contents;
-}
-dialog.esa-confirm-dialog {
+.esa-popover-anchor {
   position: relative;
-  border: none;
-  padding: 0;
-  margin: auto;
-  width: var(--confirm-dialog-width, 360px);
-  max-width: calc(100vw - 2rem);
-  background: var(--color-background-elevation-floating, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-lg, 0.75rem);
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.15),
-    0 4px 16px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, 24px);
-}
-.bcn-rrep {
-  gap: var(--spacing-300);
-  flex-direction: column;
-  display: flex;
-}
-.bcn-rrep__list {
-  flex-direction: column;
-  display: flex;
-}
-.bcn-rrep__add {
-  align-self: flex-start;
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-microcopy-2xs {
-  font-family: var(--typography-microcopy-2xs-font-family);
-  font-size: var(--typography-microcopy-2xs-font-size);
-  font-weight: var(--typography-microcopy-2xs-font-weight);
-  line-height: var(--typography-microcopy-2xs-line-height);
-  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-dialog.panel {
-  --_inset: var(--side-dialog-inset, 16px);
-  position: fixed;
-  top: var(--_inset);
-  bottom: var(--_inset);
-  inset-inline: auto;
-  height: auto;
-  margin: 0;
-  border: none;
-  padding: 0;
-  width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-  max-width: none;
-  max-height: none;
-  background: var(--color-background-elevation-raised, #fcfcfc);
-  color: var(--color-content-default, #202020);
-  border-radius: var(--radius-md, 0.5rem);
-  box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-  outline: none;
-  overflow: hidden;
-  /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-  transition:
-    top 220ms ease,
-    right 220ms ease,
-    bottom 220ms ease,
-    left 220ms ease;
-}
-:host([position="right"]) dialog.panel {
-  right: var(--_inset);
-  animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
-}
-:host {
-  --_field-padding-y: var(--spacing-300, 0.75rem);
-  --_field-padding-x: var(--spacing-300, 0.75rem);
-  --_field-radius: var(--radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #cecece);
-  display: block;
-}
-:host([size="sm"]) {
-  --_field-padding-y: var(--spacing-250, 0.625rem);
-  --_field-padding-x: var(--spacing-250, 0.625rem);
-  --_field-radius: var(--radius-sm, 0.25rem);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
-         box plus its padding. A px height could not grow with rem text, so it
-         clipped — and this rule used to pair one with overflow:hidden, which is
-         what made the clipping silent. See semantic/size.json.
-
-         line-height 1 is what leaves padding as the only variable: at 1.6 there
-         is a third term (0.6 x font-size of leading) that nobody chose and that
-         grows faster than either input. Everything else — face, size, weight,
-         tracking — still comes from .typography-body-* on this element and
-         inherits to the input and the affixes below. */
-  background: var(--color-background-field, transparent);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  /* No height: 100%. It used to resolve against .control's fixed height, which
-         meant this padding was ABSORBED into that height rather than adding to it.
-         With no fixed parent it would compute to auto anyway; removing it makes the
-         padding load-bearing, which is the point. .control is align-items:stretch,
-         so the affixes still match this element's height. */
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  /* A native control does not inherit type by default — this is what opts it
-         into the composite already resolved on .control. */
-  font: inherit;
-  color: var(--form-text-color, #202020);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #838383);
-}
-.help,
-.error {
-  margin: 0;
-}
-.error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-}
-.help {
-  color: var(--form-help-color, #838383);
-}
-.label {
-  color: var(--form-label-color, #646464);
-  margin-block-end: var(--form-label-gap, 4px);
-}
-.required {
-  color: var(--color-content-utility-danger, #ce2c31);
-  margin-inline-start: 2px;
-}
-.help.is-shown,
-.error.is-shown {
-  margin-block-start: var(--form-help-gap, 4px);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-microcopy-xs-subtle {
-  font-family: var(--typography-microcopy-xs-subtle-font-family);
-  font-size: var(--typography-microcopy-xs-subtle-font-size);
-  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
-  line-height: var(--typography-microcopy-xs-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-microcopy-xs-strong {
-  font-family: var(--typography-microcopy-xs-strong-font-family);
-  font-size: var(--typography-microcopy-xs-strong-font-size);
-  font-weight: var(--typography-microcopy-xs-strong-font-weight);
-  line-height: var(--typography-microcopy-xs-strong-line-height);
-  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
-}
-.typography-microcopy-xs {
-  font-family: var(--typography-microcopy-xs-font-family);
-  font-size: var(--typography-microcopy-xs-font-size);
-  font-weight: var(--typography-microcopy-xs-font-weight);
-  line-height: var(--typography-microcopy-xs-line-height);
-  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-}
-.typography-label-xs {
-  font-family: var(--typography-label-xs-font-family);
-  font-size: var(--typography-label-xs-font-size);
-  font-weight: var(--typography-label-xs-font-weight);
-  line-height: var(--typography-label-xs-line-height);
-  letter-spacing: var(--typography-label-xs-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-md-strong {
-  font-family: var(--typography-microcopy-md-strong-font-family);
-  font-size: var(--typography-microcopy-md-strong-font-size);
-  font-weight: var(--typography-microcopy-md-strong-font-weight);
-  line-height: var(--typography-microcopy-md-strong-line-height);
-  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-:host {
-  display: block;
-  --_field-padding-y: var(--spacing-300, 0.75rem);
-  --_field-padding-x: var(--spacing-300, 0.75rem);
-  --_field-radius: var(--radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #cecece);
-}
-:host([size="sm"]) {
-  --_field-padding-y: var(--spacing-250, 0.625rem);
-  --_field-padding-x: var(--spacing-250, 0.625rem);
-  --_field-radius: var(--radius-sm, 0.25rem);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-.input {
-  width: 100%;
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  padding-inline-end: calc(var(--_field-padding-x) + 24px);
-  /* The box is content + padding since heights were removed (2026-08-14), so
-         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
-         is. On a single-line control leading has no typographic job: there is one
-         line, and the space above and below it is invisible. Letting the body-*
-         composite's relaxed leading through added 12px here at md and made this
-         field 7px taller than esa-text-field on the same step, breaking the row
-         alignment component-tokens.css promises.
-         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
-         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
-         whose composite declares the line-height for us — there is deliberately no
-         line-height declaration in this rule, because one here would outrank the
-         composite rather than agree with it. A static padding offset was the other option and
-         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
-         is re-pointable by a theme, so an offset would cancel it at exactly one
-         viewport. esa-textarea stays on a body-* composite on purpose — it is
-         genuinely multi-line, so its leading has a typographic job. */
-  color: var(--form-text-color, #202020);
-  background: var(--color-background-field, transparent);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  outline: none;
-  cursor: pointer;
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input--trigger {
-  display: block;
-  text-align: start;
-  font: inherit;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.arrow {
-  position: absolute;
-  right: var(--_field-padding-x);
-  top: 50%;
-  transform: translateY(-50%);
-  display: inline-flex;
-  color: var(--color-content-default-secondary, #646464);
-  pointer-events: none;
-  transition: transform var(--transition-fast, 150ms ease);
-}
-.arrow svg {
-  width: var(--icon-size-md, 20px);
-  height: var(--icon-size-md, 20px);
-}
-.field__error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-}
-.field__help {
-  color: var(--form-help-color, #838383);
-}
-.field__label {
-  /* Was the last reader of --form-label-font-size and one of two readers of
-         --form-label-font-weight. Both are retired with the rest of the size-only
-         ramp; the composite carries size and weight together. */
-  color: var(--form-label-color, #646464);
-}
-.input--placeholder {
-  color: var(--form-placeholder-color, #838383);
+  display: inline-block;
 }
 ```
 

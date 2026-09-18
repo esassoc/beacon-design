@@ -11108,6 +11108,182 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --typography-title-sm-strong-line-height: 1.6;
 }
 
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  display: block;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+*,
+:before,
+:after {
+  box-sizing: border-box;
+}
+body {
+  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
+  font-weight: var(--typography-font-weight-regular, 350);
+  color: var(--color-content-default, #3d3d3d);
+  background: var(--color-background-elevation-raised, #fff);
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
+button {
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  font-family: inherit;
+}
+a {
+  color: var(--color-content-link, #005862);
+  text-decoration: none;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+.page-layout {
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__bleed,
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-400);
+  display: flex;
+}
+.breadcrumbs__items {
+  gap: var(--spacing-100);
+  flex-wrap: wrap;
+  align-items: center;
+  display: flex;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__container {
+  flex-direction: column;
+  display: flex;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.page-layout__title-main {
+  align-items: center;
+  gap: var(--spacing-400);
+  min-width: 0;
+  display: flex;
+}
+.page-layout__title h1 {
+  align-items: center;
+  gap: var(--spacing-300);
+  font-family: var(--font-decorative);
+  font-weight: var(--typography-font-weight-bold);
+  font-size: var(--font-size-500);
+  color: var(--bcn-gray-1000);
+  margin: 0;
+  display: flex;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  display: flex;
+}
+[data-gap="xl"] {
+  --gap: var(--spacing-600, 2rem);
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
+}
+[data-gap="lg"] {
+  --gap: var(--spacing-500, 1.5rem);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar > :last-child {
+  min-inline-size: var(--sidebar-content-min);
+  flex-grow: 999;
+  flex-basis: 0;
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
 .modern-layout {
   flex-direction: column;
   height: 100vh;
@@ -12023,132 +12199,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-set__tr + .bcn-set__tr .bcn-set__td {
   border-top: 1px solid var(--color-border-default-subtle);
 }
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-}
-.typography-microcopy-md {
-  font-family: var(--typography-microcopy-md-font-family);
-  font-size: var(--typography-microcopy-md-font-size);
-  font-weight: var(--typography-microcopy-md-font-weight);
-  line-height: var(--typography-microcopy-md-line-height);
-  letter-spacing: var(--typography-microcopy-md-letter-spacing);
-}
-.typography-body-md {
-  font-family: var(--typography-body-md-font-family);
-  font-size: var(--typography-body-md-font-size);
-  font-weight: var(--typography-body-md-font-weight);
-  line-height: var(--typography-body-md-line-height);
-  letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-label-xs {
-  font-family: var(--typography-label-xs-font-family);
-  font-size: var(--typography-label-xs-font-size);
-  font-weight: var(--typography-label-xs-font-weight);
-  line-height: var(--typography-label-xs-line-height);
-  letter-spacing: var(--typography-label-xs-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-title-sm-strong {
-  font-family: var(--typography-title-sm-strong-font-family);
-  font-size: var(--typography-title-sm-strong-font-size);
-  font-weight: var(--typography-title-sm-strong-font-weight);
-  line-height: var(--typography-title-sm-strong-line-height);
-  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.esa-button {
-  --_btn-pad-y: var(--spacing-300, 0.75rem);
-  --_btn-padding-x: var(--spacing-300, 0.75rem);
-  --_btn-radius: var(--button-radius-md, 0.5rem);
-  --_accent: var(--color-background-brand, #46a758);
-  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-  --_on: var(--color-content-default-knockout, #fcfcfc);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  padding-block: var(--_btn-pad-y);
-  padding-inline: var(--_btn-padding-x);
-  border: var(--border-width-default, 1px) solid transparent;
-  border-radius: var(--_btn-radius);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  display: inline-flex;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent-border, transparent);
-}
-.esa-button--variant-chrome .esa-button__native {
-  color: inherit;
-  background: 0 0;
-  border-color: #0000;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: var(--_btn-pad-y);
-  aspect-ratio: 1;
-}
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-}
 :host {
   --_width: var(--side-dialog-width, 400px);
 }
@@ -12183,160 +12233,72 @@ dialog.panel {
   right: var(--_inset);
   animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
 }
-*,
-:before,
-:after {
-  box-sizing: border-box;
-}
-body {
-  font-family: var(--typography-font-family-sans, system-ui, sans-serif);
-  font-weight: var(--typography-font-weight-regular, 350);
-  color: var(--color-content-default, #3d3d3d);
-  background: var(--color-background-elevation-raised, #fff);
-  -webkit-font-smoothing: antialiased;
-  margin: 0;
-}
-button {
-  cursor: pointer;
-  background: 0 0;
-  border: 0;
-  font-family: inherit;
-}
-a {
-  color: var(--color-content-link, #005862);
-  text-decoration: none;
-}
-img {
-  max-width: 100%;
+:host {
+  --_field-padding-y: var(--spacing-300, 0.75rem);
+  --_field-padding-x: var(--spacing-300, 0.75rem);
+  --_field-radius: var(--radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #cecece);
   display: block;
 }
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-.page-layout {
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
+.field {
+  display: flex;
   flex-direction: column;
+}
+.control {
   display: flex;
-}
-.page-layout__bleed,
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-400);
-  display: flex;
-}
-.breadcrumbs__items {
-  gap: var(--spacing-100);
-  flex-wrap: wrap;
-  align-items: center;
-  display: flex;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  flex-direction: column;
-  display: flex;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
+  align-items: stretch;
+  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
+         box plus its padding. A px height could not grow with rem text, so it
+         clipped — and this rule used to pair one with overflow:hidden, which is
+         what made the clipping silent. See semantic/size.json.
+
+         line-height 1 is what leaves padding as the only variable: at 1.6 there
+         is a third term (0.6 x font-size of leading) that nobody chose and that
+         grows faster than either input. Everything else — face, size, weight,
+         tracking — still comes from .typography-body-* on this element and
+         inherits to the input and the affixes below. */
+  background: var(--color-background-field, transparent);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
   box-sizing: border-box;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
 }
-.page-layout__title-main {
-  align-items: center;
-  gap: var(--spacing-400);
+.input {
+  flex: 1 1 auto;
   min-width: 0;
-  display: flex;
+  width: 100%;
+  /* No height: 100%. It used to resolve against .control's fixed height, which
+         meant this padding was ABSORBED into that height rather than adding to it.
+         With no fixed parent it would compute to auto anyway; removing it makes the
+         padding load-bearing, which is the point. .control is align-items:stretch,
+         so the affixes still match this element's height. */
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  /* A native control does not inherit type by default — this is what opts it
+         into the composite already resolved on .control. */
+  font: inherit;
+  color: var(--form-text-color, #202020);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
 }
-.page-layout__title h1 {
-  align-items: center;
-  gap: var(--spacing-300);
-  font-family: var(--font-decorative);
-  font-weight: var(--typography-font-weight-bold);
-  font-size: var(--font-size-500);
-  color: var(--bcn-gray-1000);
+.input::placeholder {
+  color: var(--form-placeholder-color, #838383);
+}
+.help,
+.error {
   margin: 0;
+}
+.error {
   display: flex;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  gap: var(--gap);
-  flex-wrap: wrap;
-  display: flex;
-}
-[data-gap="xl"] {
-  --gap: var(--spacing-600, 2rem);
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  gap: var(--gap);
-  flex-direction: column;
-  display: flex;
-}
-[data-gap="lg"] {
-  --gap: var(--spacing-500, 1.5rem);
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.sidebar > :last-child {
-  min-inline-size: var(--sidebar-content-min);
-  flex-grow: 999;
-  flex-basis: 0;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-  justify-content: center;
   align-items: center;
-  display: inline-flex;
+  gap: var(--spacing-100, 4px);
+  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  display: block;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
+.help {
+  color: var(--form-help-color, #838383);
 }
 .bcn-settings-shell__rail {
   align-self: start;
@@ -12494,72 +12456,66 @@ html,
   --color-border-default: #ffffff6b;
   --color-background-elevation-sunken: #ffffff29;
 }
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-label-xs {
+  font-family: var(--typography-label-xs-font-family);
+  font-size: var(--typography-label-xs-font-size);
+  font-weight: var(--typography-label-xs-font-weight);
+  line-height: var(--typography-label-xs-line-height);
+  letter-spacing: var(--typography-label-xs-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
 :host {
-  --_field-padding-y: var(--spacing-300, 0.75rem);
-  --_field-padding-x: var(--spacing-300, 0.75rem);
-  --_field-radius: var(--radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #cecece);
-  display: block;
+  display: inline-block;
 }
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  /* NO HEIGHT. The box is as tall as the input inside it, which is its line
-         box plus its padding. A px height could not grow with rem text, so it
-         clipped — and this rule used to pair one with overflow:hidden, which is
-         what made the clipping silent. See semantic/size.json.
-
-         line-height 1 is what leaves padding as the only variable: at 1.6 there
-         is a third term (0.6 x font-size of leading) that nobody chose and that
-         grows faster than either input. Everything else — face, size, weight,
-         tracking — still comes from .typography-body-* on this element and
-         inherits to the input and the affixes below. */
-  background: var(--color-background-field, transparent);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  /* No height: 100%. It used to resolve against .control's fixed height, which
-         meant this padding was ABSORBED into that height rather than adding to it.
-         With no fixed parent it would compute to auto anyway; removing it makes the
-         padding load-bearing, which is the point. .control is align-items:stretch,
-         so the affixes still match this element's height. */
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  /* A native control does not inherit type by default — this is what opts it
-         into the composite already resolved on .control. */
-  font: inherit;
-  color: var(--form-text-color, #202020);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #838383);
-}
-.help,
-.error {
-  margin: 0;
-}
-.error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100, 4px);
-  color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-}
-.help {
-  color: var(--form-help-color, #838383);
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
 }
 :host {
   --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
@@ -12574,6 +12530,50 @@ html,
 .esa-popover-anchor {
   position: relative;
   display: inline-block;
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
 }
 ```
 
