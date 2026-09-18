@@ -902,7 +902,26 @@ does in the wizard. The view switch moved out of its floating `.bcn-treg__bar` i
 token in the step's entity colour, a serif h2, and a required `intro` line telling a reviewer
 what to do. None of that is true here.
 
-### What replaced "Obligations in —"
+### What replaced "Obligations in —" — and then what replaced THAT
+
+**The counts lasted one pass.** Kim: *"the text 'Requirements 854 Obligations 333 Commitments
+294' isn't necessary for this view."* Right, and it is the same judgement that took the counts
+off both tab rows (§1): the tree below carries a count on every category and subcategory row, so
+a total restated above it told a reader nothing they were about to be shown.
+
+**Removing them emptied the card header, which moved the switch.** The header existed to hold
+content on both sides — counts left, switch right. With the left side gone it was a **71px band
+holding one 38px control**, pinned 1px from the card's border, because `padding="none"` zeroes
+the header's horizontal inset along with the body's. Restoring that inset would mean reaching
+inside the lego (the §14.11 trap). Moving the switch out means not having to.
+
+**So the switch sits above the panel**, right-aligned, and the card now renders with **no header
+at all** — 141px tall with the counts, 65px without. That also reads truer: the switch chooses
+WHICH view, the panel filters WITHIN it. Two jobs, two places.
+
+The original note follows, for the record.
+
+### What first replaced "Obligations in —"
 
 Kim asked for the wizard's step title to go and for something more appropriate. The wizard's
 header reads *"⑤ Obligations in [All categories] 333"* over *"Review and approve Obligations and

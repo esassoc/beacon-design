@@ -25,37 +25,17 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
 ## Markup
 ```html
 <section class="bcn-treg stack" data-gap="md">
+  <header class="bcn-treg__bar">
+    <esa-button-toggle
+      class="bcn-treg__switch"
+      size="sm"
+      value="category"
+      aria-label="Registry view"
+      data-treg-switch="true"
+      data-options='[{"label":"By category","value":"category"},{"label":"By commitment","value":"commitment"}]'
+    ></esa-button-toggle>
+  </header>
   <div class="esa-card esa-card--outlined esa-card--padding-none">
-    <div class="esa-card__header">
-      <div class="esa-card__header-content">
-        <div class="esa-card__titles">
-          <dl class="esa-card__meta">
-            <div class="esa-card__meta-pair">
-              <dt>Requirements</dt>
-              <dd>854</dd>
-            </div>
-            <div class="esa-card__meta-pair">
-              <dt>Obligations</dt>
-              <dd>333</dd>
-            </div>
-            <div class="esa-card__meta-pair">
-              <dt>Commitments</dt>
-              <dd>294</dd>
-            </div>
-          </dl>
-        </div>
-      </div>
-      <div class="esa-card__actions typography-label-md">
-        <esa-button-toggle
-          class="bcn-treg__switch"
-          size="sm"
-          value="category"
-          aria-label="Registry view"
-          data-treg-switch="true"
-          data-options='[{"label":"By category","value":"category"},{"label":"By commitment","value":"commitment"}]'
-        ></esa-button-toggle>
-      </div>
-    </div>
     <div class="esa-card__body typography-body-md">
       <div class="bcn-treg__filters" data-treg-view="category">
         <div class="bcn-swfr">
@@ -100108,20 +100088,6 @@ The Registry tab, in the same two views setup step 5 offers: BY CATEGORY (the su
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
 }
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
   font-size: var(--typography-microcopy-2xs-font-size);
@@ -101257,6 +101223,10 @@ summary.esa-button--variant-chrome:focus-visible {
   border-radius: 50%;
   display: inline-block;
 }
+.bcn-treg__bar {
+  justify-content: flex-end;
+  display: flex;
+}
 .bcn-treg__view:not([hidden]),
 .bcn-treg__filters:not([hidden]) {
   display: block;
@@ -101272,20 +101242,6 @@ summary.esa-button--variant-chrome:focus-visible {
   font-weight: var(--typography-body-md-font-weight);
   line-height: var(--typography-body-md-line-height);
   letter-spacing: var(--typography-body-md-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
 .typography-microcopy-2xs {
   font-family: var(--typography-microcopy-2xs-font-family);
@@ -101529,16 +101485,7 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--typography-font-family-mono`: "Roboto Mono", ui-monospace, monospace _(semantic)_
 - `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
 - `--typography-font-weight-semibold`: 550 _(semantic)_
-- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-font-weight`: 500 _(semantic)_
-- `--typography-label-md-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-line-height`: 1.6 _(semantic)_
-- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
-- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
-- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
-- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
-- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
 - `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
 - `--typography-microcopy-2xs-font-family`: "DM Sans", sans-serif _(semantic)_
 - `--typography-microcopy-2xs-font-size`: clamp(.5rem, .44rem + .3vw, .625rem) _(semantic)_
