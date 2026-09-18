@@ -126,19 +126,10 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'obligation-tracking',
         title: 'Obligation Tracking',
         description:
-          'The awareness surface, as two tabs. FEED carries four views. Three share one spine — All (a timeline of events, each carrying the duties it switched on), Important (the same events narrowed to the reader’s saved subject areas, per-user) and To-do (the same events narrowed to the notices they raised). ONGOING is the inventory instead: what is in force right now, grouped by whatever put it there — phases read from the data, activities authored. REGISTRY is the setup wizard’s own four-level tree in read-only mode, one component with a mode. Both halves run on the wizard’s fixture: the ITP pass, 333 obligations carrying the requirements they were drafted from. No status model and no verdict: an obligation holds no time, the event does. Supersedes the Obligations Inbox.',
+          'The awareness surface, as two tabs. FEED carries four views, all four cuts of one event set — All (a timeline of events, each carrying the duties it switched on), Important (the same events narrowed to the reader’s saved subject areas, per-user), To-do (the notices they raised) and Pinned (the duties this reader is watching). Important and Pinned also read the other way round: a pivot swaps the parent and the child, so a pane becomes one duty and its children become the events that reached it. REGISTRY is the setup wizard’s own four-level tree in read-only mode, one component with a mode. Both halves run on the wizard’s fixture: the ITP pass, 333 obligations carrying the requirements they were drafted from. No status model and no verdict: an obligation holds no time, the event does.',
         route: '/prototypes/obligation-tracking',
         createdAt: '2026-09-15',
         status: 'in-progress',
-      },
-      {
-        slug: 'obligations-inbox',
-        title: 'Obligations Inbox (superseded)',
-        description:
-          'RETIRED — kept for comparison, superseded by Obligation Tracking. The first stab at the awareness surface, threaded like mail: a TRIGGER is the parent and the obligations it raises are its children. The threading was right and survives. The mail metaphor was not: it brought an Open/Seen pivot and a filing verb on every notice, and nothing is owed to a feed — a standing duty is still on tomorrow whether or not you looked at it. Also carried a severity ordering that appears nowhere in the source documents.',
-        route: '/prototypes/obligations-inbox',
-        createdAt: '2026-09-08',
-        status: 'archived',
       },
       {
         slug: 'data-catalog-obligations',

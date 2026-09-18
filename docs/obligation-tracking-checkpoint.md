@@ -994,3 +994,57 @@ wizard does not use it.
 **Rule worth carrying:** before putting a popup-bearing control inside any lego surface, check
 that surface for `overflow: hidden`. It fails silently and only at the moment someone opens the
 control.
+
+---
+
+## 26. The Obligations Inbox is deleted (2026-09-17)
+
+It had been **archived rather than deleted** since 2026-09-15 (§1), on the reasoning that the
+two stabs could be read side by side. Kim: clean it up. Nothing had been read across from it in
+days, and an archived route that nobody opens is a second answer to the same question sitting in
+the catalog.
+
+**Removed — the whole cluster, which turned out to be entirely self-contained:**
+
+| | |
+|---|---|
+| `src/pages/prototypes/obligations-inbox.astro` | 110 |
+| `src/components/bcn/BcnInboxWorkspace.astro` | 130 |
+| `src/components/bcn/BcnInboxQueue.astro` | 298 |
+| `src/components/bcn/BcnInboxThread.astro` | 400 |
+| `src/components/bcn/inbox.ts` | 266 |
+| `src/data/obligation-triggers.ts` | 312 |
+| `src/data/handoff/obligations-inbox.mjs` | 98 |
+| `public/handoff/prototypes-obligations-inbox/` | 3 curated docs + manifest |
+
+Plus its `prototypes.ts` entry. **Checked before deleting:** nothing outside the cluster imports
+any of it — the three components only import each other, `inbox.ts` has one importer, and
+`obligation-triggers.ts` is read by the four inbox files and nothing else. `obligation-tracking`
+never touched it; its only reference was prose in a comment.
+
+**NOT touched, and worth stating because the names collide:** `evidence-triage`,
+`evidence-drawer` and `public/handoff/prototypes-evidence-triage/claude/evidence-inbox.md` are a
+different prototype. Kim's first instruction was "the old inbox pages", then clarified to "the
+ones we made for obligations" — a survey before deleting is what made that distinction easy.
+
+**A trap: `git rm -r` left the bundle directory behind.** Handoff manifests are gitignored
+(`public/handoff/**` with an exception for `claude/*.md`), so `git rm -r` removed only the three
+tracked docs and left a 455KB untracked `manifest.json` — which the next build happily copied
+into `dist/`. Deleting a handoff bundle takes `rm -rf` on the directory as well as the `git rm`.
+
+**What the inbox settled, kept because the page still rests on it:** the THREADING was right —
+an event is the parent and the duties it raised are its children, which is the shape Obligation
+Tracking kept and prod's own `ObservationComplianceDto` already returns. The MAIL METAPHOR was
+not: it brought an Open/Seen pivot and a filing verb on every row, and neither survives contact
+with a standing duty. Nothing is owed to a feed, and a duty in force today is still in force
+tomorrow whether or not you looked at it. It also carried a severity ordering that appears
+nowhere in the source documents. All of that is recorded in the handoff spec's scope note.
+
+**Verified:** `npm run build` green at **625 pages** — exactly one route fewer; no reference to
+the removed route anywhere in `dist/`; `handoff:check` reports the same four pre-existing
+`setup-wizard*` manifest problems and nothing new.
+
+**Also corrected while in there:** the `prototypes.ts` description for Obligation Tracking still
+described three views plus ONGOING and ended "Supersedes the Obligations Inbox". It now names
+the four views, says Important and Pinned read both ways, and drops the pointer to a route that
+no longer exists.

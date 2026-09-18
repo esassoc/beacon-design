@@ -5,10 +5,11 @@
 //
 // Consumed only by the build-time generator (scripts/gen-handoff.mjs), never by the browser.
 //
-// SCOPE: the whole page. It supersedes /prototypes/obligations-inbox, which is kept and
-// archived so the two stabs can be read side by side. The inbox was right about the
-// threading — an event is the parent and the duties it raised are its children — and wrong
-// about the metaphor around it. Mail brings an Open/Seen pivot and a filing verb on every
+// SCOPE: the whole page. It superseded the Obligations Inbox, which was deleted on 2026-09-17
+// once nothing was being read across from it — what that stab settled is recorded here rather
+// than kept alive as a second route. The inbox was right about the THREADING — an event is the
+// parent and the duties it raised are its children, which is the shape this page kept — and
+// wrong about the metaphor around it. Mail brings an Open/Seen pivot and a filing verb on every
 // row, and neither survives contact with a standing duty: nothing is owed to a feed, and a
 // duty in force today is still in force tomorrow whether or not you looked at it.
 //
