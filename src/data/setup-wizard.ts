@@ -131,6 +131,15 @@ export const SETUP_STEPS: SetupStep[] = [
 /** Steps 1–3 are complete on the fixture project; 4 and 5 are the review steps. */
 export const COMPLETE_STEPS: SetupStepId[] = ['source-documents', 'commitments', 'requirements'];
 
+/**
+ * The pipeline forks after Requirements (2026-09-15): a requirement becomes an action
+ * OR an obligation, so steps 4 and 5 are siblings drawn side by side off step 3, not
+ * a chain where actions lead to obligations. The trunk is steps 1–3; the branches
+ * are 4 and 5, in the order they stack.
+ */
+export const SETUP_TRUNK: SetupStep[] = SETUP_STEPS.filter((s) => s.n <= 3);
+export const SETUP_BRANCHES: SetupStep[] = SETUP_STEPS.filter((s) => s.n > 3);
+
 // ── Obligation taxonomy (step 5) ──────────────────────────────────────────────
 
 export type ObligationClass = 'adhere' | 'monitor' | 'notify' | 'roster';

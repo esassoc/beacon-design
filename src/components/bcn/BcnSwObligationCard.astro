@@ -2,8 +2,9 @@
 // <BcnSwObligationCard> — one obligation in the registry tree, with its requirements
 // as children, the way an action card carries its linked requirements. The card line:
 // grip, chevron, class tag, the one-line statement, the requirement count, and the
-// pencil and × that appear on hover. Clicking the statement or the pencil opens the
-// editor drawer; the chevron folds the children. Each child row is a requirement:
+// pencil, copy and × that appear on hover. Clicking the statement or the pencil opens
+// the editor drawer; Duplicate (added 2026-09-15) makes a copy of the whole obligation
+// beside it, ready to drag into another subcategory; the chevron folds the children. Each child row is a requirement:
 // grip, commitment code, name, a faint "also in n actions" when it is, and two hover
 // verbs — Duplicate (a copy that can be dragged somewhere else, since a requirement
 // may sit in several obligations) and Unlink.
@@ -49,10 +50,16 @@ const review = mode === 'review';
         ? <button type="button" class="bcn-swoc__title" data-swo-open data-swo-text={o.title}>{o.title}</button>
         : <span class="bcn-swoc__title bcn-swoc__title--static" data-swo-text={o.title}>{o.title}</span>}
       <span data-swo-count="obligation"><BcnSwCountBadge value={o.requirements.length} label={`${o.requirements.length} requirements`} /></span>
+      {/* MERGE 2026-09-18: main added Duplicate here while this branch wrapped the verb set in
+          `review`. Both are kept — the new verb belongs to setup step 5, and browse mode still
+          renders none of them, because nothing on the Tracking page decides anything. */}
       {review && (
         <Fragment>
           <esa-tooltip text="Edit"><button type="button" class="bcn-swoc__verb" aria-label="Edit obligation" data-swo-open>
             <EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} />
+          </button></esa-tooltip>
+          <esa-tooltip text="Duplicate"><button type="button" class="bcn-swoc__verb" aria-label="Duplicate obligation" data-swo-dup-card>
+            <EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} />
           </button></esa-tooltip>
           <esa-tooltip text="Remove"><button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" aria-label="Remove obligation" data-swo-remove>
             <EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} />
@@ -103,6 +110,7 @@ const review = mode === 'review';
   .bcn-swoc:hover { border-color: var(--color-border-default-strong); }
   .bcn-swoc[hidden] { display: none; }
   .bcn-swoc.is-dragging { opacity: 0.4; }
+  .bcn-swoc.is-new { animation: bcn-swoc-flash 900ms ease-out; }
   .bcn-swoc__node { min-width: 0; }
 
   .bcn-swoc__main {
