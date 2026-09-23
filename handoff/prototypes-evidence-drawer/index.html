@@ -143,146 +143,12 @@
         --typography-title-sm-strong-line-height: 1.6;
       }
 
-      :host {
-        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
-        --_popover-border: var(--color-border-default, #cecece);
-        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-        --_popover-radius: var(--radius-md, 0.5rem);
-        --_popover-padding: var(--spacing-300, 0.75rem);
-        --_popover-arrow-size: 8px;
-        --_popover-color: var(--color-content-default, #202020);
-        display: inline-block;
-      }
-      .esa-popover-anchor {
-        position: relative;
-        display: inline-block;
-      }
-      .typography-microcopy-md {
-        font-family: var(--typography-microcopy-md-font-family);
-        font-size: var(--typography-microcopy-md-font-size);
-        font-weight: var(--typography-microcopy-md-font-weight);
-        line-height: var(--typography-microcopy-md-line-height);
-        letter-spacing: var(--typography-microcopy-md-letter-spacing);
-      }
-      .typography-heading-md {
-        font-family: var(--typography-heading-md-font-family);
-        font-size: var(--typography-heading-md-font-size);
-        font-weight: var(--typography-heading-md-font-weight);
-        line-height: var(--typography-heading-md-line-height);
-        letter-spacing: var(--typography-heading-md-letter-spacing);
-      }
-      .typography-body-md {
-        font-family: var(--typography-body-md-font-family);
-        font-size: var(--typography-body-md-font-size);
-        font-weight: var(--typography-body-md-font-weight);
-        line-height: var(--typography-body-md-line-height);
-        letter-spacing: var(--typography-body-md-letter-spacing);
-      }
-      .typography-title {
-        font-family: var(--typography-title-font-family);
-        font-size: var(--typography-title-font-size);
-        font-weight: var(--typography-title-font-weight);
-        line-height: var(--typography-title-line-height);
-        letter-spacing: var(--typography-title-letter-spacing);
-      }
-      .typography-body-sm {
-        font-family: var(--typography-body-sm-font-family);
-        font-size: var(--typography-body-sm-font-size);
-        font-weight: var(--typography-body-sm-font-weight);
-        line-height: var(--typography-body-sm-line-height);
-        letter-spacing: var(--typography-body-sm-letter-spacing);
-      }
-      .typography-meta {
-        font-family: var(--typography-meta-font-family);
-        font-size: var(--typography-meta-font-size);
-        font-weight: var(--typography-meta-font-weight);
-        line-height: var(--typography-meta-line-height);
-        letter-spacing: var(--typography-meta-letter-spacing);
-      }
-      .typography-microcopy-xs {
-        font-family: var(--typography-microcopy-xs-font-family);
-        font-size: var(--typography-microcopy-xs-font-size);
-        font-weight: var(--typography-microcopy-xs-font-weight);
-        line-height: var(--typography-microcopy-xs-line-height);
-        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-      }
-      .typography-title-sm-strong {
-        font-family: var(--typography-title-sm-strong-font-family);
-        font-size: var(--typography-title-sm-strong-font-size);
-        font-weight: var(--typography-title-sm-strong-font-weight);
-        line-height: var(--typography-title-sm-strong-line-height);
-        letter-spacing: var(--typography-title-sm-strong-letter-spacing);
-      }
       .typography-label-md {
         font-family: var(--typography-label-md-font-family);
         font-size: var(--typography-label-md-font-size);
         font-weight: var(--typography-label-md-font-weight);
         line-height: var(--typography-label-md-line-height);
         letter-spacing: var(--typography-label-md-letter-spacing);
-      }
-      html,
-      .modern-layout__content {
-        scroll-behavior: smooth;
-      }
-      .esa-icon {
-        --_icon-size: var(--icon-size-md, 20px);
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        color: inherit;
-        justify-content: center;
-        align-items: center;
-        display: inline-flex;
-      }
-      .esa-icon--xs {
-        --_icon-size: var(--icon-size-xs, 14px);
-      }
-      .esa-icon svg {
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        display: block;
-      }
-      .esa-icon--sm {
-        --_icon-size: var(--icon-size-sm, 16px);
-      }
-      .esa-icon--md {
-        --_icon-size: var(--icon-size-md, 20px);
-      }
-      .esa-icon--lg {
-        --_icon-size: var(--icon-size-lg, 24px);
-      }
-      :host {
-        --_width: var(--side-dialog-width, 400px);
-      }
-      dialog.panel {
-        --_inset: var(--side-dialog-inset, 16px);
-        position: fixed;
-        top: var(--_inset);
-        bottom: var(--_inset);
-        inset-inline: auto;
-        height: auto;
-        margin: 0;
-        border: none;
-        padding: 0;
-        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-        max-width: none;
-        max-height: none;
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--radius-md, 0.5rem);
-        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-        outline: none;
-        overflow: hidden;
-        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-        transition:
-          top 220ms ease,
-          right 220ms ease,
-          bottom 220ms ease,
-          left 220ms ease;
-      }
-      :host([position="right"]) dialog.panel {
-        right: var(--_inset);
-        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
       }
       .modern-layout {
         flex-direction: column;
@@ -1317,6 +1183,96 @@
       .bcn-ev-notes__list--numbered {
         padding-left: 1.35rem;
       }
+      :host {
+        --_width: var(--side-dialog-width, 400px);
+      }
+      dialog.panel {
+        --_inset: var(--side-dialog-inset, 16px);
+        position: fixed;
+        top: var(--_inset);
+        bottom: var(--_inset);
+        inset-inline: auto;
+        height: auto;
+        margin: 0;
+        border: none;
+        padding: 0;
+        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+        max-width: none;
+        max-height: none;
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--radius-md, 0.5rem);
+        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+        outline: none;
+        overflow: hidden;
+        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+        transition:
+          top 220ms ease,
+          right 220ms ease,
+          bottom 220ms ease,
+          left 220ms ease;
+      }
+      :host([position="right"]) dialog.panel {
+        right: var(--_inset);
+        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+      }
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
+      }
+      .typography-heading-md {
+        font-family: var(--typography-heading-md-font-family);
+        font-size: var(--typography-heading-md-font-size);
+        font-weight: var(--typography-heading-md-font-weight);
+        line-height: var(--typography-heading-md-line-height);
+        letter-spacing: var(--typography-heading-md-letter-spacing);
+      }
+      .typography-body-md {
+        font-family: var(--typography-body-md-font-family);
+        font-size: var(--typography-body-md-font-size);
+        font-weight: var(--typography-body-md-font-weight);
+        line-height: var(--typography-body-md-line-height);
+        letter-spacing: var(--typography-body-md-letter-spacing);
+      }
+      .typography-title {
+        font-family: var(--typography-title-font-family);
+        font-size: var(--typography-title-font-size);
+        font-weight: var(--typography-title-font-weight);
+        line-height: var(--typography-title-line-height);
+        letter-spacing: var(--typography-title-letter-spacing);
+      }
+      .typography-body-sm {
+        font-family: var(--typography-body-sm-font-family);
+        font-size: var(--typography-body-sm-font-size);
+        font-weight: var(--typography-body-sm-font-weight);
+        line-height: var(--typography-body-sm-line-height);
+        letter-spacing: var(--typography-body-sm-letter-spacing);
+      }
+      .typography-meta {
+        font-family: var(--typography-meta-font-family);
+        font-size: var(--typography-meta-font-size);
+        font-weight: var(--typography-meta-font-weight);
+        line-height: var(--typography-meta-line-height);
+        letter-spacing: var(--typography-meta-letter-spacing);
+      }
+      .typography-microcopy-xs {
+        font-family: var(--typography-microcopy-xs-font-family);
+        font-size: var(--typography-microcopy-xs-font-size);
+        font-weight: var(--typography-microcopy-xs-font-weight);
+        line-height: var(--typography-microcopy-xs-line-height);
+        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+      }
+      .typography-title-sm-strong {
+        font-family: var(--typography-title-sm-strong-font-family);
+        font-size: var(--typography-title-sm-strong-font-size);
+        font-weight: var(--typography-title-sm-strong-font-weight);
+        line-height: var(--typography-title-sm-strong-line-height);
+        letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+      }
       *,
       :before,
       :after {
@@ -1415,6 +1371,46 @@
         position: relative;
         display: inline-flex;
       }
+      :host {
+        --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
+        --_popover-border: var(--color-border-default, #cecece);
+        --_popover-shadow: var(--elevation-4, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+        --_popover-radius: var(--radius-md, 0.5rem);
+        --_popover-padding: var(--spacing-300, 0.75rem);
+        --_popover-arrow-size: 8px;
+        --_popover-color: var(--color-content-default, #202020);
+        display: inline-block;
+      }
+      .esa-popover-anchor {
+        position: relative;
+        display: inline-block;
+      }
+      .esa-icon {
+        --_icon-size: var(--icon-size-md, 20px);
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        color: inherit;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+      }
+      .esa-icon--xs {
+        --_icon-size: var(--icon-size-xs, 14px);
+      }
+      .esa-icon svg {
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        display: block;
+      }
+      .esa-icon--sm {
+        --_icon-size: var(--icon-size-sm, 16px);
+      }
+      .esa-icon--md {
+        --_icon-size: var(--icon-size-md, 20px);
+      }
+      .esa-icon--lg {
+        --_icon-size: var(--icon-size-lg, 24px);
+      }
       .esa-button {
         --_btn-pad-y: var(--spacing-300, 0.75rem);
         --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -1484,6 +1480,10 @@
       .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
       .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
         border-color: var(--color-border-default, #cecece);
+      }
+      html,
+      .modern-layout__content {
+        scroll-behavior: smooth;
       }
     </style>
   </head>
@@ -1843,7 +1843,7 @@
               <ul class="nav-section__items">
                 <li class="nav-item"><a href="#dashboard" class="nav-sublink">Dashboard</a></li>
                 <li class="nav-item">
-                  <a href="#action-lists" class="nav-sublink active">Action Lists</a>
+                  <a href="/beacon-design/prototypes/lists" class="nav-sublink active">Lists</a>
                 </li>
                 <li class="nav-item">
                   <a href="#document-reviews" class="nav-sublink">Document Reviews</a>
@@ -7949,7 +7949,8 @@
                           <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
                           <circle cx="12" cy="12" r="2"></circle>
                           <path d="m13.41 10.59 5.66-5.66"></path></svg></span
-                      >Actions<span
+                      ><span data-targets-title-text="">Actions</span
+                      ><span
                         class="bcn-ev-targets__count"
                         data-targets-count=""
                         aria-hidden="true"
@@ -7963,7 +7964,7 @@
        else. Component and Phase are the dimensions the Setup Wizard's Actions step filters
        on; all three are guarded while associations are unsaved (see evidence-drawer.ts). -->
                   <div class="bcn-ev-targets__filters">
-                    <span class="bcn-ev-targets__filter"
+                    <span class="bcn-ev-targets__filter" data-targets-component-filter=""
                       ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-component"
                         >Component</span
                       ><esa-select
@@ -7972,14 +7973,14 @@
                         searchable="true"
                         aria-labelledby="bcn-ev-flabel-component"
                       ></esa-select></span
-                    ><span class="bcn-ev-targets__filter"
+                    ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
                       ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-phase">Phase</span
                       ><esa-select
                         data-targets-phase="true"
                         size="sm"
                         aria-labelledby="bcn-ev-flabel-phase"
                       ></esa-select></span
-                    ><span class="bcn-ev-targets__filter"
+                    ><span class="bcn-ev-targets__filter" data-targets-scope-only=""
                       ><span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-type">Type</span
                       ><esa-select
                         data-targets-type="true"
@@ -7988,7 +7989,7 @@
                       ></esa-select
                     ></span>
                   </div>
-                  <div class="bcn-ev-targets__search">
+                  <div class="bcn-ev-targets__search" data-targets-scope-only="">
                     <div class="bcn-ev-search">
                       <span class="bcn-ev-search__icon" aria-hidden="true"
                         ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -11404,7 +11405,30 @@
                                   <path d="m6 6 12 12"></path></svg
                               ></span></button></span
                         ></span></li></template
-                    ><!-- Nothing on the list yet. -->
+                    ><!-- LIST MODE (a list page's "Add evidence", see evidence-drawer.ts): the column
+         holds that list's members instead of a component's actions. Every member is a
+         target by default; the x leaves one out of this attach, and Restore brings the
+         left-out back. Each row is the list page's OWN slim card (.bcn-loc, from
+         bcn-obligation-card.css) cloned off its master tree and pared to chip, title and
+         the remove verb, so the drawer shows the member exactly as the page does. -->
+                    <div class="bcn-ev-targets__listmode" data-targets-listmode="" hidden="">
+                      <p
+                        class="bcn-ev-targets__leftout typography-body-sm"
+                        data-listmode-leftout=""
+                        hidden=""
+                      >
+                        <span data-listmode-leftout-text=""></span
+                        ><button
+                          type="button"
+                          class="bcn-ev-targets__restore"
+                          data-listmode-restore=""
+                        >
+                          Restore
+                        </button>
+                      </p>
+                      <ul class="bcn-ev-targets__list" data-listmode-rows=""></ul>
+                    </div>
+                    <!-- Nothing on the list yet. -->
                     <div class="bcn-ev-targets__empty" data-targets-empty="">
                       <div class="esa-empty-state esa-empty-state--sm">
                         <h3 class="esa-empty-state__title typography-label-sm-strong">
@@ -11468,6 +11492,13 @@
           </div>
           <footer class="bcn-bottom-drawer__foot">
             <div class="bcn-ev__foot">
+              <!-- List mode only: what Save is still waiting on, or what it will write. -->
+              <p
+                class="bcn-ev__status typography-body-sm"
+                data-evidence-status=""
+                role="status"
+                hidden=""
+              ></p>
               <div class="bcn-ev__actions">
                 <span data-evidence-save=""
                   ><span
@@ -11495,7 +11526,7 @@
       >
       <script
         type="module"
-        src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DSCvyJLV.js"
+        src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DHz9GBMp.js"
       ></script>
     </div>
   </body>

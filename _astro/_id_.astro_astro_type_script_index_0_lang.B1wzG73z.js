@@ -1,0 +1,1 @@
+import"./esa-confirm-dialog.aTnHanwf.js";var e=document.querySelector(`[data-list-delete-confirm]`);document.querySelector(`[data-list-delete]`)?.addEventListener(`click`,()=>{e&&(e.open=!0)}),e?.addEventListener(`confirm`,()=>{location.href=e.dataset.listsHref??`/`});
