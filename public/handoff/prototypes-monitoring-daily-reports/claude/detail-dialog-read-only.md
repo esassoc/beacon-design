@@ -38,7 +38,15 @@ An esa-side-dialog showing one site visit in full: report status, monitor, work 
           style="--_chip: var(--color-content-default-tertiary)"
           ><span class="bcn-status-chip__dot"></span
           ><span class="bcn-status-chip__label">Draft</span></span
-        ></span
+        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --></span
       >
     </div>
     <div class="bcn-detail__grid">
@@ -546,10 +554,8 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--button-radius-xs`: .25rem _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #00918b _(semantic)_
-- `--color-background-brand-muted-hover`: #0a6562 _(semantic)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -564,7 +570,6 @@ summary.esa-button--variant-chrome:focus-visible {
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #2a7e3b _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_

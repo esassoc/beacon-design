@@ -1,0 +1,55 @@
+---
+// Obligations Registry — the READ-ONLY registry, outside setup.
+//
+// This page exists to prove the point of BcnRegistryTree: it is ONE component with a
+// `mode`, not two surfaces that will drift. Setup step 5 renders `mode="review"` and gets
+// selectors, bulk verbs and per-area approval; this renders `mode="browse"` and gets the
+// same 17 areas, the same 69 headings, the same 402 duties and the same records with
+// nothing to decide. If the tree changes, both change.
+//
+// WHY IT IS SEPARATE FROM THE DATA CATALOG. The catalog's obligations list is
+// deliberately FLAT — a filing cabinet, sortable and filterable, one row per duty (team
+// decision, 2026-09-03). This is the hierarchical view: the registry as it is actually
+// organised, along the subject axis. Both are legitimate and neither replaces the other.
+//
+// The registry is reachable along any axis a reader thinks in — subject, activity,
+// species. This page shows the SUBJECT axis, the one the setup step approves along. An
+// axis pivot is the obvious next addition and the component is where it would go, not
+// this page.
+//
+// WHAT IS REAL: every duty, heading, subject area, class, condition, standard, gate flag
+// and value conflict is registry data, extracted from four permit documents (ITP 177,
+// EIR 129, ITP Amendment 36, USFWS BiOp 33). WHAT IS EXAMPLE: the tenant and project
+// names in the shell.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnRegistryTree from '../../components/bcn/BcnRegistryTree.astro';
+import { REGISTRY_TOTALS } from '../../data/obligation-registry';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(lg)              # SPINE
+  sections:
+    - the registry -> bcn-registry-tree                  # mode="browse" — the same tree, read-only
+  title-badge: esa-badge                                 # the registry's size
+-->
+
+<AppShell
+  title="Obligations Registry — Beacon"
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="dc-obligations"
+>
+  <PageLayout
+    title="Obligations Registry"
+    icon="notepad-text"
+    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Obligations Registry' }]}
+  >
+    <Fragment slot="title-badge">
+      <EsaBadge value={`${REGISTRY_TOTALS.duties} duties`} variant="secondary" size="sm" />
+    </Fragment>
+
+    <BcnRegistryTree mode="browse" />
+  </PageLayout>
+</AppShell>

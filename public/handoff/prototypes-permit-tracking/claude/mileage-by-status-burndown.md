@@ -18,11 +18,11 @@ A SECONDARY supporting figure under the map: a single full-width stacked bar of 
 ```html
 <section class="burndown" aria-label="Mileage by permitting status">
   <div class="burndown__head">
-    <span class="burndown__title">Mileage by status</span>
-    <span class="burndown__summary">
-      Cleared to Construct <strong id="bd-cleared">10.6 mi</strong>
-      <span id="bd-total">of 200.7 mi total · 5%</span>
-    </span>
+    <span class="burndown__title">Mileage by status</span
+    ><span class="burndown__summary"
+      >Cleared to Construct <strong id="bd-cleared">10.6 mi</strong
+      ><span id="bd-total">of 200.7 mi total · 5%</span></span
+    >
   </div>
   <div class="burndown__bar" id="bd-bar" role="img" aria-label="5 percent cleared">
     <div
@@ -48,34 +48,34 @@ A SECONDARY supporting figure under the map: a single full-width stacked bar of 
   </div>
   <ul class="burndown__legend">
     <li class="burndown__legend-item" data-bd-item="not-started" data-empty="false">
-      <span class="burndown__swatch" style="background: var(--st-not-started)"></span>
-      <span class="burndown__legend-label">Not Started</span>
-      <span class="burndown__legend-mi" data-bd-mi="not-started">42.9 mi</span>
-      <span class="burndown__legend-pct" data-bd-pct="not-started">21%</span>
+      <span class="burndown__swatch" style="background: var(--st-not-started)"></span
+      ><span class="burndown__legend-label">Not Started</span
+      ><span class="burndown__legend-mi" data-bd-mi="not-started">42.9 mi</span
+      ><span class="burndown__legend-pct" data-bd-pct="not-started">21%</span>
     </li>
     <li class="burndown__legend-item" data-bd-item="in-preparation" data-empty="false">
-      <span class="burndown__swatch" style="background: var(--st-in-preparation)"></span>
-      <span class="burndown__legend-label">In Preparation</span>
-      <span class="burndown__legend-mi" data-bd-mi="in-preparation">78.1 mi</span>
-      <span class="burndown__legend-pct" data-bd-pct="in-preparation">39%</span>
+      <span class="burndown__swatch" style="background: var(--st-in-preparation)"></span
+      ><span class="burndown__legend-label">In Preparation</span
+      ><span class="burndown__legend-mi" data-bd-mi="in-preparation">78.1 mi</span
+      ><span class="burndown__legend-pct" data-bd-pct="in-preparation">39%</span>
     </li>
     <li class="burndown__legend-item" data-bd-item="submitted" data-empty="false">
-      <span class="burndown__swatch" style="background: var(--st-submitted)"></span>
-      <span class="burndown__legend-label">Submitted</span>
-      <span class="burndown__legend-mi" data-bd-mi="submitted">31.4 mi</span>
-      <span class="burndown__legend-pct" data-bd-pct="submitted">16%</span>
+      <span class="burndown__swatch" style="background: var(--st-submitted)"></span
+      ><span class="burndown__legend-label">Submitted</span
+      ><span class="burndown__legend-mi" data-bd-mi="submitted">31.4 mi</span
+      ><span class="burndown__legend-pct" data-bd-pct="submitted">16%</span>
     </li>
     <li class="burndown__legend-item" data-bd-item="under-review" data-empty="false">
-      <span class="burndown__swatch" style="background: var(--st-under-review)"></span>
-      <span class="burndown__legend-label">Under Review</span>
-      <span class="burndown__legend-mi" data-bd-mi="under-review">37.7 mi</span>
-      <span class="burndown__legend-pct" data-bd-pct="under-review">19%</span>
+      <span class="burndown__swatch" style="background: var(--st-under-review)"></span
+      ><span class="burndown__legend-label">Under Review</span
+      ><span class="burndown__legend-mi" data-bd-mi="under-review">37.7 mi</span
+      ><span class="burndown__legend-pct" data-bd-pct="under-review">19%</span>
     </li>
     <li class="burndown__legend-item" data-bd-item="cleared" data-empty="false">
-      <span class="burndown__swatch" style="background: var(--st-cleared)"></span>
-      <span class="burndown__legend-label">Cleared to Construct</span>
-      <span class="burndown__legend-mi" data-bd-mi="cleared">10.6 mi</span>
-      <span class="burndown__legend-pct" data-bd-pct="cleared">5%</span>
+      <span class="burndown__swatch" style="background: var(--st-cleared)"></span
+      ><span class="burndown__legend-label">Cleared to Construct</span
+      ><span class="burndown__legend-mi" data-bd-mi="cleared">10.6 mi</span
+      ><span class="burndown__legend-pct" data-bd-pct="cleared">5%</span>
     </li>
   </ul>
 </section>
@@ -84,90 +84,88 @@ A SECONDARY supporting figure under the map: a single full-width stacked bar of 
 ## Styles
 ```css
 .burndown {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-200);
   margin-top: var(--spacing-400);
   padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-300);
+  flex-direction: column;
+  display: flex;
 }
 .burndown__head {
-  display: flex;
-  align-items: baseline;
   justify-content: space-between;
+  align-items: baseline;
   gap: var(--spacing-300);
   flex-wrap: wrap;
+  display: flex;
 }
 .burndown__title {
   font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .burndown__summary {
+  color: var(--color-content-default-secondary);
   font-size: 0.875rem;
-  color: var(--color-text-secondary);
 }
 .burndown__summary strong {
   color: var(--st-cleared);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--typography-font-weight-bold);
 }
 .burndown__bar {
-  display: flex;
-  height: 10px;
   border-radius: var(--radius-full);
-  overflow: hidden;
   background: var(--bcn-gray-100);
+  height: 10px;
+  display: flex;
+  overflow: hidden;
 }
 .burndown__bar > div + div {
-  border-left: 1px solid var(--color-surface);
+  border-left: 1px solid var(--color-background-elevation-raised);
 }
 .burndown__legend {
-  list-style: none;
+  gap: var(--spacing-200) var(--spacing-500);
+  flex-wrap: wrap;
   margin: 0;
   padding: 0;
+  list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-200) var(--spacing-500);
 }
 .burndown__legend-item {
-  display: flex;
   align-items: center;
   gap: var(--spacing-150);
+  color: var(--color-content-default-secondary);
   font-size: 0.875rem;
-  color: var(--color-text-secondary);
+  display: flex;
 }
 .burndown__legend-item[data-empty="true"] {
   opacity: 0.4;
 }
 .burndown__swatch {
-  width: 12px;
-  height: 12px;
   border-radius: var(--radius-050);
   flex-shrink: 0;
+  width: 12px;
+  height: 12px;
 }
 .burndown__legend-label {
-  color: var(--color-text-primary);
+  color: var(--color-content-default);
 }
 .burndown__legend-mi {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .burndown__legend-pct {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
 }
 ```
 
 ## Tokens
 - `--bcn-gray-100`: #efefef _(component)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-bold`: 650 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--radius-050`: .125rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
@@ -177,3 +175,5 @@ A SECONDARY supporting figure under the map: a single full-width stacked bar of 
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--st-cleared`: #1a9850 _(component)_
+- `--typography-font-weight-bold`: 650 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

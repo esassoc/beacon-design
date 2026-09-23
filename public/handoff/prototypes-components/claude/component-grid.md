@@ -2949,7 +2949,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                   </div>
                   <!--AG-FAKE-VERTICAL-SCROLL-->
                   <div
-                    class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+                    class="ag-body-vertical-scroll ag-scrollbar-invisible"
                     aria-hidden="true"
                     style="width: 16px; max-width: 16px; min-width: 16px"
                   >
@@ -3099,7 +3099,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
                 </div>
                 <!--AG-FAKE-HORIZONTAL-SCROLL-->
                 <div
-                  class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+                  class="ag-body-horizontal-scroll ag-scrollbar-invisible"
                   aria-hidden="true"
                   style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
                 >
@@ -4786,10 +4786,8 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 - `--card-header-bg`: transparent _(component)_
 - `--color-background-ai`: #699cc6 _(semantic)_
 - `--color-background-ai-hover`: #4c75a9 _(semantic)_
-- `--color-background-brand`: #005862 _(semantic)_
-- `--color-background-brand-hover`: #00474f _(semantic)_
-- `--color-background-brand-muted`: #00918b _(semantic)_
-- `--color-background-brand-muted-hover`: #0a6562 _(semantic)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
 - `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-elevation-sunken`: #efefef _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
@@ -4804,12 +4802,10 @@ summary.esa-button--variant-chrome:focus-visible{outline-color:currentColor}
 - `--color-border-default-strong`: #bdbdbd _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-ai`: #7d5e54 _(semantic)_
-- `--color-content-brand`: #2a7e3b _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
 - `--color-content-default-knockout`: #fcfcfc _(semantic)_
 - `--color-content-default-secondary`: #525252 _(semantic)_
 - `--color-content-default-tertiary`: #656565 _(semantic)_
-- `--color-content-link`: #005862 _(semantic)_
 - `--color-content-on-brand`: #fcfcfc _(semantic)_
 - `--color-content-on-brand-muted`: #203c25 _(semantic)_
 - `--color-content-on-utility-success`: #fcfcfc _(semantic)_

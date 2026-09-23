@@ -1,0 +1,99 @@
+---
+// Obligation Tracking — the awareness surface for the Obligation record type.
+//
+// THIS SUPERSEDED THE OBLIGATIONS INBOX, which was deleted on 2026-09-17 once nothing was
+// being read across from it. What it settled is recorded here and in checkpoint §26. It was
+// right about the threading and wrong about the metaphor: it borrowed mail, and mail brings
+// an Open/Seen pivot and a filing verb on every row. Neither survives contact with a
+// standing duty. Nothing is owed to a feed, and a duty that is in force today is still in
+// force tomorrow whether or not you looked at it — so "seen" never meant anything. The only
+// completable thing is a to-do, and a to-do is an Action, which already has a status model.
+//
+// WHAT THE PAGE IS. Two halves, as TABS rather than stacked sections — they are peers, and
+// stacking made the registry read as a footnote you scroll past. You are either asking what
+// is happening (the feed) or what the project is signed up to (the registry):
+//   1. THE FEED, itself in four views — All · Important · To-do · Pinned. Important and
+//      Pinned also read the other way round, a pivot swapping the parent and the child.
+//   2. THE REGISTRY, in the SAME TWO VIEWS setup step 5 offers — By category
+//      (bcn-sw-obligations-tree) and By commitment (bcn-sw-chain-tree), both the wizard's
+//      own components with mode="browse" so there is nothing to decide. Setup gets rename,
+//      remove, add, drag and the editor drawer; this gets the same levels, the same cards
+//      and the same requirement children, and no verbs. Expand and collapse survive,
+//      because they navigate rather than decide. One component with a mode, for the same
+//      reason BcnRegistryTree takes one: setup approves along these trees and this page
+//      reads along them, so they must not be free to drift.
+//
+// ONE FIXTURE, BOTH HALVES (aligned 2026-09-15). Corrected here on 2026-09-18 — this
+// docblock had gone on claiming the two halves run on DIFFERENT POPULATIONS (the feed on a
+// 402-duty hand registry, the registry tab on the ITP pass) for three days after that
+// stopped being true. Both now read the setup wizard's fixture: the ITP pass of 2026-09-14,
+// 854 requirements and the 333 obligations drafted from them, each carrying the
+// requirements it came from. The counts reconcile because there is only one population.
+//
+// WHAT ALIGNING COST, kept because it is still the state of the drafted data: the 402-row
+// registry carried a notice window, a parameter conflict, a monitor-facing condition and
+// commitment codes that this fixture does not, and it had 50 Notify duties where the
+// drafting pass produced 3. So To-do is short and no deadline appears anywhere. That is the
+// data, not a regression in the page.
+//
+// WHAT REPLACES STATUS. Nothing on this page renders a verdict — the team dropped the
+// compliance-status model, and the registry itself contains no status vocabulary. An
+// obligation holds no time; the EVENT does.
+//
+// THE FOURTH VIEW IS PINNED, and it took three tries. Built as Standing, removed
+// 2026-09-15, restored as Ongoing 2026-09-16, replaced by Pinned 2026-09-17. Ongoing
+// answered "what is in force right now" and had to AUTHOR which activities were under way
+// to do it, because nothing in the fixture records that an obligation is currently live.
+// Pinning does not close that gap, it stops pretending to: the reader names what they are
+// watching, which is a claim this system can keep. The cost, stated plainly — the page no
+// longer answers "what is on right now" for anybody, and that should be reversed the moment
+// obligations carry in-effect conditions.
+//
+// WHAT THE SETUP WIZARD CHANGED (merged from origin/main, built 2026-09-14). The record
+// shrank to six fields: Title, Class, Category/Subcategory, Description, Trigger and
+// Requirements. Three of those reach this page. The row label is the TITLE — never the
+// trigger, because a list labelled with triggers reads as a list of accusations
+// rather than duties in force. The old `condition` field is now the TRIGGER, and it is what a classifier
+// matches evidence against rather than a sentence for a human. Species and activities are
+// DERIVED from a duty's requirements rather than stored, so nothing here treats them as
+// facts about the duty. Gate is no longer a field at all — whether a duty waits on an
+// approved plan is read off its requirements' actions.
+//
+// WHAT IS REAL: every obligation, class, title, description, trigger, phase, subject filing
+// and requirement link is fixture data, and every predicate matching a duty to an event is a
+// real match against it. WHAT IS AUTHORED, and marked on the page: the events themselves,
+// the five trigger matches (stage 2 is not running), and which six duties the reader has
+// pinned. Nothing uses Date.now(); see the fixed NOW in src/data/obligation-tracking.ts.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnTrackingShell from '../../components/bcn/BcnTrackingShell.astro';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                            # SPINE
+  sections:
+    - feed / registry      -> bcn-tracking-shell           # the two halves as tabs (segmented, outer level)
+        - the feed         -> bcn-tracking-feed            # four views (underline, inner level) + the two provenance alert boxes
+            - each view    -> bcn-tracking-workspace       # rail + detail; pivot on Important and Pinned
+                                                           #   children: bcn-sw-obligation-card (by event)
+                                                           #             bcn-tracking-event      (by obligation)
+        - the registry     -> bcn-tracking-registry        # view switch + bcn-sw-obligations-tree / bcn-sw-chain-tree, both mode="browse"
+-->
+
+<AppShell
+  title="Obligation Tracking — Beacon"
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="dc-obligations"
+>
+  <PageLayout
+    title="Obligation Tracking"
+    icon="shield-check"
+    iconPaths={STEP_GLYPH['shield-check']}
+    breadcrumbs={[{ label: 'Tracking', href: '#tracking' }, { label: 'Obligation Tracking' }]}
+  >
+    <BcnTrackingShell />
+
+  </PageLayout>
+</AppShell>

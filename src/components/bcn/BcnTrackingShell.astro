@@ -1,0 +1,51 @@
+---
+// <BcnTrackingShell> — the two halves of the Obligation Tracking page, as tabs.
+//
+// THE PAGE HAS TWO HALVES AND THEY ARE PEERS, not a working surface with an appendix
+// stapled under it. Stacking them made the registry read as a footnote you scroll past;
+// tabbing them says what is true — this page is either about what is happening (the feed)
+// or about what the project is signed up to (the registry), and you are in one or the
+// other.
+//
+// TWO LEVELS OF TAB, DELIBERATELY DIFFERENT IN APPEARANCE. The outer row is SEGMENTED and
+// the inner row (the feed's four views) is UNDERLINE, so a nested tablist reads as a second
+// level rather than as one confusing row of six. Both are esa-tab-layout; only the
+// appearance differs, which is exactly what that prop is for.
+//
+// Only the outer row lives here. The feed owns its own four views, and the registry owns
+// its tree and its provenance note, so this component decides nothing except which half is
+// showing.
+//
+// bcn-lego-checked: esa-tab-layout IS the switcher at both levels — the canonical ARIA
+// tablist with roving keyboard navigation already in it. Checked Ecology for a
+// two-pane/section switcher (esa-button-toggle is a control, not a panel host;
+// esa-app-shell is page chrome AppShell already supplies) and Beacon (its Angular tabs are
+// the same component this one is a translation of). No CSS: the panels are the two
+// components below, and each owns its own.
+import BcnTrackingFeed from './BcnTrackingFeed.astro';
+import BcnTrackingRegistry from './BcnTrackingRegistry.astro';
+
+// NO COUNT ON EITHER TAB. Registry briefly carried one — the project's obligation total, the
+// page's single honest number — while Feed carried none, because its four views count four
+// different slices and any one figure would imply it was the total. Once the volumes were
+// realistic even that one stopped telling a reader anything before they clicked, so it came
+// off too (Kim, 2026-09-16). A tab with no badge says "there is no one number here".
+const TABS = [{ label: 'Feed' }, { label: 'Registry' }];
+---
+
+<div class="bcn-tsh">
+  <esa-tab-layout tabs={JSON.stringify(TABS)} appearance="segmented" size="md" active-index="0">
+    <div slot="panel-0"><BcnTrackingFeed /></div>
+    <div slot="panel-1"><BcnTrackingRegistry /></div>
+  </esa-tab-layout>
+</div>
+
+<script>
+  import '@esa/ecology/esa-tab-layout';
+</script>
+
+{/*
+  NO CSS — the header note already says so, and it is now true. The tab-badge muting that sat
+  here went with the counts: TABS carries labels only, so there is no badge to quiet.
+  Removed 2026-09-17.
+*/}

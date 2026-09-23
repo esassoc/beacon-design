@@ -1,69 +1,63 @@
 ---
 // <BcnSectionHeading> — the heading a dashboard widget's section renders: a title
-// naming the DATA, a subtitle naming the DISPLAY, and an optional count badge.
+// naming the data, and an optional count badge.
 //
 // WHY A COMPONENT AND NOT A SPAN. Every section used to hand-write its own
 // `<span class="typography-label-md-strong">`, fifteen times across the page, and
 // the sections that happened to have no heading (the map, the compliance lanes, the
 // season timeline) simply had none. Two things then arrived at once and neither
-// tolerates a hand-written span: the title/subtitle pattern (a second line, in a
-// second role, from a fixed vocabulary) and a configurable title (the page script
-// has to be able to FIND the title of any section and rewrite it). One component
-// gives both — a single [data-section-title] hook, and a subtitle nobody has to
-// remember to add.
+// tolerates a hand-written span: a configurable title (the page script has to be able
+// to FIND the title of any section and rewrite it) and a heading on the three sections
+// that had none at all. One component gives both — a single [data-section-title] hook.
 //
-// THE SUBTITLE IS NOT FREE TEXT. It comes from SECTION_DISPLAYS, keyed by the
-// section's `display`, so "Bar chart" is spelled one way everywhere. The whole value
-// of naming the display type is that a reader learns the vocabulary once; eleven
-// spellings of "time series" would teach them nothing.
+// NO DISPLAY-TYPE SUBTITLE HERE (corrected 2026-09-10). It was built on this heading
+// first, on a misread: the title/subtitle pattern belongs to the SECTION LIST IN THE
+// CONFIGURE FORM, where a row has to say which part of the widget it operates and
+// there is no chart beside it to make that obvious. On the board the display type is
+// redundant with the thing it labels — a reader looking at a donut does not need to be
+// told it is a donut. See BcnConfigSections for where the subtitle actually lives.
 //
 // COUNT SECTIONS DO NOT USE THIS, and that is deliberate rather than an omission.
 // A headline figure IS an esa-stat, whose label is the accessible name of the
 // number — pulling the title out into a heading and leaving the lego an empty label
 // would strip the figure's name from the a11y tree. So a count section's title is
-// its stat label and its subtitle is the stat's `sub`, with both ordered above the
-// value in BcnDashboardWidget. The page script therefore looks for the title under
-// `[data-section-title], .esa-stat__label` — the union is the cost of that call.
+// its stat label, hidden — see BcnDashboardWidget. The page script therefore looks for
+// the title under `[data-section-title], .esa-stat__label`, and the union is the cost
+// of that call.
 //
 // bcn-lego-checked: the badge IS esa-badge and the layout primitives are `.stack`
-// and `.cluster` from @esa/tokens/layouts.css; the type is the label-md-strong and
-// label-sm roles, not bespoke sizes. Checked the esa-* catalog for a heading lego:
+// and `.cluster` from @esa/tokens/layouts.css; the type is the label-md-strong role,
+// not a bespoke size. Checked the esa-* catalog for a heading lego:
 // esa-page-header is page-level chrome (title/lede/actions, its own margins and rule)
 // and there is no section-heading component; esa-card supplies a header SLOT but this
 // heading sits inside a card body, not in card chrome. Checked Beacon prod: its
 // monitoring panels carry plain h4s with no display subtitle to port.
 // bcn-section-heading is the reusable home; the CSS here is two lines and a colour.
 import EsaBadge from '@esa/ecology/esa-badge.astro';
-import { SECTION_DISPLAYS, type SectionDisplay } from '../../data/monitoring-streams';
 
 interface Props {
   /** What data this section shows, in as few words as say it. The registry's
    *  `title`, which is also the default of the section's `title` setting. */
   title: string;
-  /** How it shows it. Spelled out through SECTION_DISPLAYS. */
-  display: SectionDisplay;
   /** A count worth stating beside the title (rows outstanding, items in a lane).
    *  Omit — do not pass 0 — when there is nothing to count. */
   count?: number;
+  /** Keep the heading in the DOM but stop painting it. For a section whose display
+   *  already says what it is LOUDER than a line of text could — the map. NOT the
+   *  same as omitting <BcnSectionHeading>: see the note above the recipe below. */
+  visuallyHidden?: boolean;
 }
-const { title, display, count } = Astro.props;
+const { title, count, visuallyHidden = false } = Astro.props;
 ---
 
-<div class="bcn-shead stack" data-gap="none">
-  <span class="cluster bcn-shead__line" data-gap="sm">
-    {/* The hook the page rewrites when a user renames the section. */}
-    <span class="bcn-shead__title typography-label-md-strong" data-section-title>{title}</span>
-    {count !== undefined && <EsaBadge value={count} size="sm" />}
-  </span>
-  <span class="bcn-shead__sub typography-label-sm">{SECTION_DISPLAYS[display]}</span>
-</div>
+<span class:list={['cluster bcn-shead__line', { 'bcn-shead__line--vh': visuallyHidden }]} data-gap="sm">
+  {/* The hook the page rewrites when a user renames the section. */}
+  <span class="bcn-shead__title typography-label-md-strong" data-section-title>{title}</span>
+  {count !== undefined && <EsaBadge value={count} size="sm" />}
+</span>
 
 <style>
-  /* data-gap="none" on the stack, not a rule here: the two lines are ONE heading, so
-     they sit on their own leading rather than being spaced apart like two blocks. The
-     primitive already publishes a zero step, so the gap stays declarative in markup.
-
-     THE BADGE TREATMENT LIVES HERE, not at each call site. It was an inline
+  /* THE BADGE TREATMENT LIVES HERE, not at each call site. It was an inline
      `style="--badge-bg: …; --badge-text-color: …"` on the one section that had a
      count, and it is the same quiet grey BcnComplianceList re-points its lane counts
      to: a count beside a section title says how many rows follow, which is not the
@@ -76,11 +70,34 @@ const { title, display, count } = Astro.props;
     --badge-text-color: var(--color-content-default-secondary);
   }
 
-  /* Secondary ink at the label-sm role — the same treatment the retired panel label
-     carried. The subtitle is metadata ABOUT the element, so it has to sit clearly
-     below the title in the reading order without competing with the widget's own
-     chrome for attention. */
-  .bcn-shead__sub {
-    color: var(--color-content-default-secondary);
+  /* ── HIDDEN, NOT OMITTED (Jamie, 2026-09-15: "I don't want the title to show for
+        the map section"). A map is self-evidently a map, so the line is noise above
+        it — but DELETING the heading would cost two things that are not visual:
+
+        1. THE MAP'S NAME. BcnObservationMap takes no label prop and Leaflet builds
+           an unnamed div, so this heading is the only text naming it. Drop it and a
+           screen reader meets the section as an anonymous tile.
+        2. THE RENAME. Every section gets a `title` setting automatically
+           (monitoring-streams.ts — `titleSetting(s)` is prepended to all of them),
+           and the page rewrites it by querying [data-section-title]. With no hook
+           in the DOM, the configure form would offer the map a Title field that
+           silently did nothing.
+
+        So it stays and goes quiet. Same trade, same recipe as the hidden esa-stat
+        label in BcnDashboardWidget — @esa/tokens' own `.visually-hidden`
+        (src/a11y.css), inlined because BaseLayout imports tokens/layouts/type-roles
+        but NOT a11y.css, so the class does not exist on the page. Absolute
+        positioning also takes it out of flex flow, so the parent `.stack` gap
+        collapses instead of leaving a blank rung where the title used to be. ── */
+  .bcn-shead__line--vh {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
   }
 </style>

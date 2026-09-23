@@ -1,0 +1,385 @@
+---
+// <BcnRegistryTree> — the obligations registry as a nested tree: 17 subject areas over
+// 69 headings over 402 standing duties, each duty opening in place to its record.
+//
+// IT HAS TWO MODES, because it has two homes. This is the whole reason it is a component
+// and not a page:
+//
+//   mode="review"  — setup step 5. Duties carry a selection checkbox, the toolbar offers
+//                    select all / none, and the verbs (Approve, Not applicable) act on
+//                    the selection or on a whole branch.
+//   mode="browse"  — the read-only full registry, expected as its own page later. Same
+//                    tree, same records, no checkboxes, no toolbar verbs, nothing to
+//                    decide. Not a stripped copy: one component, one prop.
+//
+// THE SHAPE IS THE PROPOSAL DOCUMENT'S (actions-obligations-2026-09-02.html, §Obligations
+// Registry): three levels of disclosure, a count beside every name, duties as one-line
+// rows that open to a key-value record, and an expand/collapse-all control because 86
+// nodes is more than anyone wants to click through. What is NOT taken from that document
+// is its CSS — it is a content source, not a UI pattern source, and an earlier pass that
+// copied its markup ended up hand-rolling carets, disclosure summaries and a definition
+// list that the design system already provides. Structure from the document, chrome from
+// the legos.
+//
+// SELECTION IS A SELECTION, NOT A DECISION — the model prod uses and the one
+// BcnSetupWorkspace already implements. A duty is PENDING until somebody acts on it; the
+// checkbox marks it for a bulk act; Approve and Not applicable are the acts. An earlier
+// pass made the checkbox itself mean "applies", which left select-all with nothing to
+// mean and no way to express "I have looked at this and it stays".
+//
+// SELECT-ALL TAKES WHAT IS VISIBLE, never the hidden remainder — the rule
+// BcnSetupWorkspace set. A control that silently reaches past a collapsed branch is a
+// trap. The toolbar says which it means.
+//
+// THE DECISION IS ON THE DUTY, NEVER ON THE PLACEMENT. 188 duties are filed under more
+// than one subject area, so the same duty appears in two or three branches. Approving it
+// under Birds approves it under Habitat protection, because it is one duty — the
+// controller syncs by id and the record names the other areas. Branch counts therefore
+// sum to 613 over 402 duties, which BcnRegistryProgress reconciles in a line.
+//
+// TWO ROW MARKERS, NEITHER OF WHICH IS A DECISION. GATED (17 duties) does not take effect
+// until an action is approved — a dependency. CONTESTED (232) means the sources state
+// different values — a conflict somebody must resolve, but a different job from
+// applicability, and at 58% of the registry it is nobody's exception queue. Both appear
+// in the record; neither is asked about.
+//
+// NO COMPLIANCE STATUS ANYWHERE. Obligations carry no verdict by decision (2026-09-03).
+// Approved / Not applicable is SCOPE — whether the duty is this project's — not
+// performance against it.
+//
+// bcn-lego-checked: esa-collapsible is every one of the three disclosure levels and the
+// duty's Details (the hub lego promoted FOR stacked disclosure sections), esa-checkbox
+// the select-all and every row selector, esa-button every verb, esa-badge the decision
+// marker and the class chip, BcnCommitmentBadge every commitment code, BcnKeyValue every
+// field in the record, and esa-empty-state the nothing-selected case. The toolbar is the
+// same list-header idiom BcnSetupWorkspace owns — select-all, a count, then the bulk
+// verbs revealed on selection. What is left as CSS is composition glue only: the
+// toolbar's row, the branch indentation, and the duty row's checkbox-beside-content grid.
+// esa-collapsible's `title` is a plain STRING with no slot, so a branch count goes IN the
+// title and a branch's verb lives in the first row of its BODY rather than in its summary
+// — which also avoids a click on the verb toggling the disclosure.
+// bcn-registry-tree is the reusable home and an esa-tree promotion candidate.
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import { REGISTRY_TREE, REGISTRY_TOTALS, type RegistryRow } from '../../data/obligation-registry';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  id?: string;
+  /** `review` gives every duty a selector and the toolbar its verbs; `browse` is
+   *  read-only — same tree, same records, nothing to decide. */
+  mode?: 'review' | 'browse';
+  /** Subject areas open on load. Headings and duties always start closed, or the page
+   *  opens as 402 rows instead of an index. */
+  areasOpen?: boolean;
+}
+const { id = 'bcn-registry-tree', mode = 'review', areasOpen = true } = Astro.props;
+const review = mode === 'review';
+
+const detailBase = withBase('/prototypes/data-catalog-obligation');
+
+/** The record, in the registry's own order. Empty values render nothing. */
+const fields = (row: RegistryRow): [string, string][] =>
+  (
+    [
+      ['Standard', row.standard],
+      ['Condition', row.condition],
+      ['Parameters', row.parameters],
+      ['Notice window', row.window],
+      ['In effect', row.gated ? 'After the approval named in the standard' : ''],
+      ['Installed control', row.installedControl ? 'Yes' : ''],
+      ['Activities', row.activityNames.join(', ')],
+      ['Species', row.speciesNames.join(', ')],
+      ['Also filed under', row.alsoUnder.join(', ')],
+    ] as [string, string][]
+  ).filter(([, v]) => !!v);
+---
+
+<div class="bcn-rt" id={id} data-registry-tree data-mode={mode}>
+  <div class="bcn-rt__toolbar">
+    {
+      review && (
+        <esa-checkbox
+          size="sm"
+          data-rt-check-all
+          aria-label="Select every duty in view"
+        />
+      )
+    }
+
+    {/* One line that always says what is on screen, and in review mode what is picked.
+        The controller counts it off the rendered rows, so it cannot disagree with them. */}
+    <span class="bcn-rt__count typography-body-sm" data-rt-count>
+      {`${REGISTRY_TOTALS.duties} duties`}
+    </span>
+
+    {
+      review && (
+        <span class="bcn-rt__bulk" data-rt-bulk hidden>
+          <EsaButton size="sm" variant="primary" data-rt-bulk-approve>
+            Approve
+          </EsaButton>
+          <EsaButton size="sm" variant="ghost" appearance="outline" data-rt-bulk-exclude>
+            Not applicable
+          </EsaButton>
+          <EsaButton size="sm" variant="ghost" data-rt-bulk-clear>
+            Clear
+          </EsaButton>
+        </span>
+      )
+    }
+
+    {/* Prod's setup steps lead their actions cluster with Approve all (N); this is that
+        control, scoped to the whole registry. It hides while a selection is live, so the
+        page never offers two competing approvals at once. */}
+    {
+      review && (
+        <span class="bcn-rt__approveall" data-rt-approve-all-wrap>
+          <EsaButton size="sm" variant="primary" data-rt-approve-all>
+            {`Approve all ${REGISTRY_TOTALS.duties}`}
+          </EsaButton>
+        </span>
+      )
+    }
+
+    <span class="bcn-rt__expand">
+      <EsaButton size="sm" variant="ghost" data-rt-expand="open">Expand all</EsaButton>
+      <EsaButton size="sm" variant="ghost" data-rt-expand="close">Collapse all</EsaButton>
+    </span>
+  </div>
+
+  <div class="bcn-rt__areas stack" data-gap="sm">
+    {
+      REGISTRY_TREE.map((major) => (
+        <div class="bcn-rt__area" data-area={major.key} data-area-ids={major.ids.join(' ')}>
+          <EsaCollapsible title={`${major.name} (${major.count})`} open={areasOpen}>
+            <div class="bcn-rt__areabody">
+              {/* The branch verb lives in the BODY, not the summary — esa-collapsible has
+                  no slot there, and a button inside a <summary> toggles the disclosure on
+                  its way to doing its job. */}
+              {review && (
+                <div class="bcn-rt__branchbar">
+                  <span class="bcn-rt__branchstate" data-area-state hidden>
+                    <EsaBadge value="Approved" variant="success" size="sm" />
+                  </span>
+                  <span data-area-approve-wrap>
+                    <EsaButton size="sm" variant="secondary" data-area-approve={major.key}>
+                      {`Approve all ${major.count} in this area`}
+                    </EsaButton>
+                  </span>
+                </div>
+              )}
+
+              <div class="stack" data-gap="2xs">
+                {major.minors.map((minor) => (
+                  <div class="bcn-rt__minor" data-minor={minor.id}>
+                    <EsaCollapsible title={`${minor.name} (${minor.rows.length})`} flush>
+                      <ul class="bcn-rt__rows">
+                        {minor.rows.map((row) => (
+                          <li
+                            class="bcn-rt__row"
+                            data-row-id={row.id}
+                            data-state="pending"
+                          >
+                            {review && (
+                              /* Its own gutter. Nothing else enters this column — the
+                                 rule BcnSetupWorkspace learned when its meta line ran
+                                 under the one control that starts a bulk decision.
+                                 NAMED FROM THE HOST: the duty's title is already the
+                                 row's text, so `label` would print it twice, and the
+                                 lego's documented no-visible-label path is an aria-label
+                                 it forwards to its inner input. */
+                              <span class="bcn-rt__check">
+                                <esa-checkbox
+                                  size="sm"
+                                  data-row-check={row.id}
+                                  aria-label={`Select ${row.title} for a bulk decision`}
+                                />
+                              </span>
+                            )}
+
+                            <div class="bcn-rt__rowbody">
+                              <p class="bcn-rt__rowtitle">
+                                <span class="bcn-rt__rowname">{row.title}</span>
+                                <EsaBadge value={row.classLabel} variant="secondary" size="xs" />
+                                {/* Both rendered, both hidden — the controller reveals,
+                                    it never builds. */}
+                                <span data-row-approved hidden>
+                                  <EsaBadge value="Approved" variant="success" size="xs" />
+                                </span>
+                                <span data-row-excluded hidden>
+                                  <EsaBadge value="Not applicable" variant="secondary" size="xs" />
+                                </span>
+                              </p>
+
+                              <p class="bcn-rt__codes">
+                                {row.commitments.map((code) => (
+                                  <BcnCommitmentBadge code={code} size="sm" />
+                                ))}
+                              </p>
+
+                              <EsaCollapsible title="Details" flush>
+                                <div class="bcn-rt__record">
+                                  {fields(row).map(([label, value]) => (
+                                    <BcnKeyValue label={label} value={value} />
+                                  ))}
+                                  <p class="bcn-rt__more">
+                                    <a href={`${detailBase}/${row.id}`}>Open the full record</a>
+                                  </p>
+                                </div>
+                              </EsaCollapsible>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </EsaCollapsible>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </EsaCollapsible>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  /* bcn-lego-checked: composition glue only — the toolbar row, the branch indentation,
+     and the duty row's checkbox-beside-content grid. Every control is a lego
+     (esa-collapsible, esa-checkbox, esa-button, esa-badge, BcnCommitmentBadge,
+     BcnKeyValue); see the header note for the full lookup. Semantic tokens only. */
+
+  .bcn-rt__toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-250);
+    margin-block-end: var(--spacing-300);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-rt__count {
+    color: var(--bcn-content-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  /* The expand pair sits at the far end; the verbs stay next to the control that makes
+     a selection. */
+  .bcn-rt__expand {
+    margin-inline-start: auto;
+    display: inline-flex;
+    gap: var(--spacing-100);
+  }
+  /* esa-button declares its own display and cannot be hidden by `hidden` — these
+     wrappers are the elements we own, and the :not() guard is load-bearing because an
+     author display rule beats the UA [hidden] rule. */
+  .bcn-rt__bulk:not([hidden]),
+  .bcn-rt__approveall:not([hidden]),
+  .bcn-rt__branchstate:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+
+  /* Indentation carries the hierarchy, the way the registry document reads it. */
+  .bcn-rt__areabody {
+    padding-inline-start: var(--spacing-200);
+  }
+  .bcn-rt__branchbar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding-block-end: var(--spacing-200);
+  }
+  .bcn-rt__minor {
+    padding-inline-start: var(--spacing-200);
+  }
+
+  .bcn-rt__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-inline-start: var(--spacing-200);
+  }
+  .bcn-rt__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    column-gap: var(--spacing-200);
+    padding-block: var(--spacing-200);
+  }
+  /* browse mode has no selector column, so the content takes the whole row. */
+  [data-mode='browse'] .bcn-rt__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bcn-rt__row + .bcn-rt__row {
+    border-block-start: 1px solid var(--color-border-subtle, var(--color-border-default));
+  }
+  .bcn-rt__check {
+    padding-block-start: var(--spacing-050);
+  }
+
+  /* A decided duty stays legible — a decision to see and undo, not a deletion. Excluded
+     is the only one that dims, because approved is the expected outcome. */
+  .bcn-rt__row[data-state='excluded'] .bcn-rt__rowbody {
+    opacity: 0.6;
+  }
+  .bcn-rt__row[data-state='excluded'] .bcn-rt__rowname {
+    text-decoration-line: line-through;
+  }
+
+  .bcn-rt__rowbody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    min-inline-size: 0;
+  }
+  .bcn-rt__rowtitle {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-rt__rowname {
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
+  }
+  .bcn-rt__codes {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-050);
+  }
+  .bcn-rt__codes:empty {
+    display: none;
+  }
+
+  /* The record is a stack of BcnKeyValue pairs — the same presentation the obligation
+     and requirement detail pages use for a read-only field list. */
+  .bcn-rt__record {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding-block: var(--spacing-100);
+  }
+  .bcn-rt__more {
+    margin: 0;
+  }
+
+  @media (max-width: 48rem) {
+    .bcn-rt__expand {
+      margin-inline-start: 0;
+    }
+    .bcn-rt__areabody,
+    .bcn-rt__minor,
+    .bcn-rt__rows {
+      padding-inline-start: var(--spacing-100);
+    }
+  }
+</style>

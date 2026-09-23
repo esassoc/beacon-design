@@ -26,8 +26,7 @@ An esa-side-dialog showing one observation in full — header chips for severity
   style="--_width: 520px; --z-modal: 1200; --z-modal-backdrop: 1150"
   position="right"
   open=""
->
-  <div slot="header" class="bcn-detail__head">
+  ><div slot="header" class="bcn-detail__head">
     <div class="bcn-detail__title-row">
       <h2 id="ov-detail-title" class="bcn-detail__title">obs-0142</h2>
     </div>
@@ -38,153 +37,160 @@ An esa-side-dialog showing one observation in full — header chips for severity
         ><span
           class="bcn-status-chip"
           data-status="non-compliance"
-          style="--_chip: var(--color-danger)"
-        >
-          <span class="bcn-status-chip__dot"></span>
-          <span class="bcn-status-chip__label">Non-Compliance</span>
-        </span>
-      </span>
-      <span id="ov-detail-status-chip"
+          style="--_chip: var(--color-background-utility-danger)"
+          ><span class="bcn-status-chip__dot"></span
+          ><span class="bcn-status-chip__label">Non-Compliance</span></span
+        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --></span
+      ><span id="ov-detail-status-chip"
         ><span
           class="bcn-status-chip"
           data-status="active"
-          style="--_chip: var(--color-info)"
-        >
-          <span class="bcn-status-chip__dot"></span>
-          <span class="bcn-status-chip__label">Active</span>
-        </span>
-      </span>
+          style="--_chip: var(--color-background-utility-info)"
+          ><span class="bcn-status-chip__dot"></span
+          ><span class="bcn-status-chip__label">Active</span></span
+        ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --></span
+      >
     </div>
     <div class="bcn-detail__grid">
       <span id="ov-detail-category"
         ><div class="bcn-key-value">
-          <span class="bcn-key-value__key">Category</span>
-          <span class="bcn-key-value__val">Stormwater / BMP Maintenance</span>
-        </div>
-      </span>
-      <span id="ov-detail-area"
+          <span class="bcn-key-value__key">Category</span
+          ><span class="bcn-key-value__val">Stormwater / BMP Maintenance</span>
+        </div></span
+      ><span id="ov-detail-area"
         ><div class="bcn-key-value">
-          <span class="bcn-key-value__key">Area</span>
-          <span class="bcn-key-value__val">South Array — Block B</span>
-        </div>
-      </span>
-      <span id="ov-detail-inspector"
+          <span class="bcn-key-value__key">Area</span
+          ><span class="bcn-key-value__val">South Array — Block B</span>
+        </div></span
+      ><span id="ov-detail-inspector"
         ><div class="bcn-key-value">
-          <span class="bcn-key-value__key">Inspector</span>
-          <span class="bcn-key-value__val">R. Delgado</span>
-        </div>
-      </span>
-      <span id="ov-detail-reported"
+          <span class="bcn-key-value__key">Inspector</span
+          ><span class="bcn-key-value__val">R. Delgado</span>
+        </div></span
+      ><span id="ov-detail-reported"
         ><div class="bcn-key-value">
-          <span class="bcn-key-value__key">Reported</span>
-          <span class="bcn-key-value__val">Jul 29, 2026</span>
-        </div>
-      </span>
-      <span id="ov-detail-resolved"
+          <span class="bcn-key-value__key">Reported</span
+          ><span class="bcn-key-value__val">Jul 29, 2026</span>
+        </div></span
+      ><span id="ov-detail-resolved"
         ><div class="bcn-key-value">
-          <span class="bcn-key-value__key">Resolved</span>
-          <span class="bcn-key-value__val">—</span>
-        </div>
-      </span>
-      <span id="ov-detail-age"
+          <span class="bcn-key-value__key">Resolved</span
+          ><span class="bcn-key-value__val">—</span>
+        </div></span
+      ><span id="ov-detail-age"
         ><div class="bcn-key-value">
-          <span class="bcn-key-value__key">Days active</span>
-          <span class="bcn-key-value__val">7d</span>
-        </div>
-      </span>
-      <span id="ov-detail-reviewed"
+          <span class="bcn-key-value__key">Days active</span
+          ><span class="bcn-key-value__val">7d</span>
+        </div></span
+      ><span id="ov-detail-reviewed"
         ><div class="bcn-key-value">
-          <span class="bcn-key-value__key">ESA QC reviewed</span>
-          <span class="bcn-key-value__val">Yes</span>
-        </div>
-      </span>
+          <span class="bcn-key-value__key">ESA QC reviewed</span
+          ><span class="bcn-key-value__val">Yes</span>
+        </div></span
+      >
     </div>
     <span id="ov-detail-description"
       ><div class="bcn-key-value">
-        <span class="bcn-key-value__key">Description</span>
-        <span class="bcn-key-value__val"
+        <span class="bcn-key-value__key">Description</span
+        ><span class="bcn-key-value__val"
           >Silt fence down for ~40 ft along the Block B swale after last week's wind
           event; sediment tracking toward the wash crossing.</span
         >
-      </div>
-    </span>
-  </div>
-</esa-side-dialog>
+      </div></span
+    >
+  </div></esa-side-dialog
+>
 ```
 
 ## Styles
 ```css
 .bcn-key-value {
-  display: flex;
   flex-direction: column;
   gap: 2px;
+  display: flex;
 }
 .bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-medium);
   color: var(--form-label-color);
 }
 .bcn-key-value__val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .bcn-key-value__hint {
+  color: var(--color-content-default-tertiary);
   font-size: 0.75rem;
-  color: var(--color-text-tertiary);
 }
 .bcn-status-chip {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-150);
   padding: 2px var(--spacing-250);
   border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
   white-space: nowrap;
   background: color-mix(in srgb, var(--_chip) 16%, transparent);
   color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
 }
 .bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
   border-radius: var(--radius-full);
   background: var(--_chip);
   flex-shrink: 0;
+  width: 8px;
+  height: 8px;
 }
 .bcn-detail__head {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-150);
   min-width: 0;
   padding: var(--spacing-400) var(--spacing-500);
+  flex-direction: column;
   flex: 1;
+  display: flex;
 }
 .bcn-detail__title-row {
-  display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: var(--spacing-200);
+  flex-wrap: wrap;
   min-width: 0;
+  display: flex;
 }
 .bcn-detail__title {
-  margin: 0;
   font-family: var(--font-decorative);
   font-size: 1.125rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
+  margin: 0;
   line-height: 1.3;
 }
 .bcn-detail__chips {
-  display: flex;
   gap: var(--spacing-200);
   margin-bottom: var(--spacing-400);
+  display: flex;
 }
 .bcn-detail__grid {
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-400);
   margin-bottom: var(--spacing-400);
+  flex-direction: column;
+  display: flex;
 }
 .bcn-detail__body esa-side-dialog {
   display: block;
@@ -192,12 +198,10 @@ An esa-side-dialog showing one observation in full — header chips for severity
 ```
 
 ## Tokens
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--form-label-color`: #525252 _(component)_
 - `--radius-full`: 9999px _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -205,4 +209,6 @@ An esa-side-dialog showing one observation in full — header chips for severity
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_

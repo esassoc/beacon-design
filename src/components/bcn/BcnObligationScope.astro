@@ -1,0 +1,88 @@
+---
+// <BcnObligationScope> — the full-width table of components an obligation is in force at.
+// The sibling of the Action page's "Tracked Actions" section, and deliberately NOT called
+// implementations.
+//
+// WHY THE NAME MATTERS. An Action's implementation is a trackable instance with its own
+// status, owner, due date and completion — that is what ActionImplementation models in prod.
+// An obligation's instances are not enumerable (the world generates them: per rain, per
+// encounter, per day of work), so there is nothing to instantiate. What IS enumerable is the
+// set of scopes the duty applies to. So a row here is an APPLICABILITY assertion plus an
+// evidence anchor, carrying no status, no owner and no dates — roughly the four columns of
+// ActionImplementation that survive, out of fifteen.
+//
+// OPEN MODEL QUESTION, flagged rather than settled: whether obligations get scope rows at
+// all. The registry carries no scope, so these rows are derived deterministically from the
+// obligation id (no Math.random, no Date.now — reload twice and diff nothing) purely so the
+// table's shape can be reviewed. The component names are the project's real fixture, not
+// invented ones.
+//
+// bcn-lego-checked: composes bcn-mini-table, the spoke's existing small-table component
+// (columns + MiniCell rows, with tabular alignment and a quiet status dot it already owns),
+// so this adds no table CSS at all. Checked Ecology for a table lego — the hub's `esa-grid`
+// is a documentation page with no component source, esa-link-column is a card of bare links,
+// and the AG Grid kit (src/lib/beacon-grid.ts) is the CARDED, filterable, CSV-exporting
+// grid, which is far heavier than a four-column read-only list inside a detail page.
+// Checked Beacon: the Action detail page uses a second AG Grid for its implementations —
+// justified there because those rows carry status and are sortable, but not here.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnMiniTable from './BcnMiniTable.astro';
+import { scopeFor, type Obligation } from '../../data/obligations';
+
+interface Props {
+  obligation: Obligation;
+  /** The project's components. Passed in so the page owns the fixture, not this component. */
+  components: { name: string; type: string }[];
+  title?: string;
+}
+const { obligation: o, components, title = 'In force at' } = Astro.props;
+
+const rows = scopeFor(o, components);
+
+const cells = rows.map((r) => [
+  { text: r.component },
+  { text: r.type },
+  { text: r.via },
+  { text: String(r.evidence), num: true },
+]);
+---
+
+<section class="stack bcn-oscope" data-gap="sm" aria-label={title}>
+  <h2 class="type-section-title bcn-oscope__title">
+    {title}
+    <EsaBadge variant="secondary" size="sm" value={rows.length} />
+  </h2>
+
+  {
+    rows.length > 0 ? (
+      <BcnMiniTable
+        columns={[
+          { label: 'Component' },
+          { label: 'Type' },
+          { label: 'Carried by' },
+          { label: 'Evidence', align: 'end' },
+        ]}
+        rows={cells}
+      />
+    ) : (
+      <EsaEmptyState
+        icon="map-pin"
+        title="No scope recorded"
+        description="This obligation has not been scoped to a component."
+      />
+    )
+  }
+</section>
+
+<style>
+  /* bcn-lego-checked: the heading's badge alignment only. The table is bcn-mini-table, the
+     empty state is esa-empty-state, the badge is esa-badge, and the stacking is the `stack`
+     primitive — nothing here restates a lego. */
+  .bcn-oscope__title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+  }
+</style>

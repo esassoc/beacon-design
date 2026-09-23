@@ -1,0 +1,71 @@
+---
+// <BcnRegistryWorkspace> — the two-pane frame setup step 5 lives in: the subject areas
+// on the left, the selected area's duties on the right.
+//
+// The direct sibling of bcn-inbox-workspace and bcn-triage-workspace, and it exists for
+// the same one reason those do: the FRAME is the part neither pane can own. A fixed
+// footprint that never resizes on interaction — selecting an area must not make the page
+// jump, and an area with 74 duties must not grow the viewport — with each pane scrolling
+// inside its own half so the area list keeps its place while a long one is read.
+//
+// It also matches prod: every project-setup step renders `setup-wizard-sidebar` beside a
+// `setup-content__main`, which is this geometry. Porting it here means step 5 sits beside
+// steps 1–4 without looking like a different product.
+//
+// It carries no heading of its own — the PAGE title names the step once.
+//
+// bcn-lego-checked: no esa-* lego is a list-plus-detail work frame — esa-app-shell is the
+// whole page chrome (already supplied by AppShell), esa-container is a max-width wrapper
+// with no panes, and esa-tab-layout swaps panels rather than showing two at once. The
+// `.sidebar` PRIMITIVE from @esa/tokens/layouts.css is composed here rather than
+// reimplemented as bespoke flex; what this adds is the fixed frame and the two
+// independent scroll regions. Checked Beacon — this IS setup-layout's content row.
+// bcn-registry-workspace is the reusable home.
+import BcnRegistryAreas from './BcnRegistryAreas.astro';
+import BcnRegistryArea from './BcnRegistryArea.astro';
+---
+
+<div class="bcn-registry-workspace" data-registry-tree>
+  <div class="bcn-registry-workspace__panes sidebar" data-gap="md">
+    <div class="bcn-registry-workspace__areas">
+      <BcnRegistryAreas />
+    </div>
+    <div class="bcn-registry-workspace__area">
+      <BcnRegistryArea />
+    </div>
+  </div>
+</div>
+
+<style>
+  /* bcn-lego-checked: the fixed frame and the two scroll regions, which is the whole
+     reason this component exists. The geometry composes the `.sidebar` hub primitive
+     rather than hand-rolling flex; see the header note for the lego lookup. */
+
+  .bcn-registry-workspace {
+    --_frame: 44rem;
+  }
+  .bcn-registry-workspace__panes {
+    --sidebar-width: 22rem;
+    --sidebar-content-min: 55%;
+    align-items: stretch;
+  }
+  .bcn-registry-workspace__areas,
+  .bcn-registry-workspace__area {
+    block-size: var(--_frame);
+    min-block-size: 0;
+    background: var(--color-background-elevation-raised, #fff);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+  }
+
+  /* Below the breakpoint the primitive stacks the panes; a fixed height then traps the
+     duty list in a short box, so the frame releases and the page scrolls instead. */
+  @media (max-width: 60rem) {
+    .bcn-registry-workspace__areas,
+    .bcn-registry-workspace__area {
+      block-size: auto;
+      max-block-size: 34rem;
+    }
+  }
+</style>

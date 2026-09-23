@@ -1,0 +1,82 @@
+---
+// Project setup, step 5 — Obligations.
+//
+// THE STEP THIS IS. Steps 1–4 build the chain: source documents → commitments →
+// requirements → actions. Step 5 is where the standing duties that fall out of that
+// chain get scoped to this project. 402 of them, extracted from four real permit
+// documents (ITP 177, EIR 129, ITP Amendment 36, USFWS BiOp 33).
+//
+// THE REGISTRY IS NOT A PAGE OF ITS OWN — it lives here, inside setup (team decision,
+// 2026-09-03). The flat 402-row data catalog is the filing cabinet; this hierarchical
+// view is the registry. A standalone full-registry page is expected LATER; when it
+// lands it should reuse BcnRegistryTree without the confirm layer.
+//
+// WHY SUBJECT IS THE SPINE, and why not activity or commitment: see the header of
+// src/data/obligation-registry.ts, which carries the measurements. The short version is
+// that construction activities in Beacon are per-project and hand-authored
+// (ProjectConstructionActivity), so there is no fixed list to tick and the project
+// writes its own on an earlier setup page; and commitments are already step 2's job.
+//
+// THE TREE IS THE SHAPE, AND IT IS ONE REUSABLE COMPONENT. BcnRegistryTree takes a
+// `mode`: `review` here, `browse` on the read-only full-registry page expected later.
+// Same tree, same records; the read-only home simply passes the other mode rather than
+// getting a stripped copy. A two-pane alternative is kept alongside at
+// /prototypes/setup-obligations-panes.
+//
+// BUILT AS A STANDALONE PAGE, NOT INSIDE A WIZARD SHELL. There is no wizard shell in
+// this repo — BcnSetupWizardCard only advertises four steps and every step href is a
+// '#setup-*' fragment. Building the shell here would also force a fifth entity color
+// into the setup ramp (source navy / commitment purple / requirement magenta / action
+// pink), which is a hub token decision, not a prototype's to make. The step is named in
+// the breadcrumb and the badge instead.
+//
+// WHAT IS REAL: every duty, heading, subject area, class, observable condition, gate
+// flag and value-conflict flag is registry data. WHAT IS EXAMPLE: the project and
+// tenant names in the shell, and the fact that nothing has been confirmed yet.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import BcnRegistryProgress from '../../components/bcn/BcnRegistryProgress.astro';
+import BcnRegistryTree from '../../components/bcn/BcnRegistryTree.astro';
+
+/** Not in esa-icon's registry; passed through its `paths` escape hatch, same as
+ *  BcnSetupWizardCard uses for the wizard's own mark. */
+const COMPASS =
+  '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>';
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(lg)              # SPINE
+  sections:
+    - review progress -> bcn-registry-progress           # decided share + the 613-vs-402 reconciliation
+    - the registry    -> bcn-registry-tree               # nested: 17 areas > 69 headings > 402 duties; mode="review"
+  title-badge: esa-badge                                 # which setup step this is
+-->
+
+<AppShell
+  title="Project setup — Obligations — Beacon"
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="setup-wizard"
+>
+  <PageLayout
+    title="Obligations"
+    icon="compass"
+    iconPaths={COMPASS}
+    breadcrumbs={[{ label: 'Setup Wizard', href: '#project-setup' }, { label: 'Obligations' }]}
+  >
+    <Fragment slot="title-badge">
+      <EsaBadge value="Step 5 of 5" variant="secondary" size="sm" />
+    </Fragment>
+
+    <div class="stack" data-gap="lg">
+      <BcnRegistryProgress />
+      <BcnRegistryTree mode="review" />
+    </div>
+  </PageLayout>
+</AppShell>
+
+<script>
+  import { initRegistryTree } from '../../components/bcn/registry-tree';
+  initRegistryTree();
+</script>

@@ -1,0 +1,126 @@
+---
+// <BcnTrackingFeed> — the four views of the Obligation Tracking page.
+//
+// WHAT REPLACED THE INBOX'S PIVOT. The Obligations Inbox had Open/Seen and a filing verb on
+// every notice. Both are gone. Nothing is owed to a feed, and a standing duty is still on
+// tomorrow, so marking it seen never meant anything — the only completable thing is a
+// to-do, and a to-do is an Action, which has a real status model of its own. In their place
+// are four views that answer questions with actual answers:
+//
+//   All        a timeline of events, each carrying the duties it switched on
+//   Important  the reader's own slice of what is in force — per-user, a saved filter
+//   To-do      notices that have fired
+//   Pinned     the duties this reader is watching, and what has reached them
+//
+// PINNED REPLACED ONGOING ON 2026-09-17, and the swap is the point rather than a rename.
+// Ongoing was the inventory — "what is on right now" — and to exist at all it had to AUTHOR
+// which activities were under way, because nothing in the fixture records that an obligation is
+// currently in force. Pinning does not close that gap; it stops pretending to. The reader says
+// what they are watching, which is a claim the software can actually keep.
+//
+// WHAT THE PAGE GAVE UP: it no longer answers "what is in force right now" for anybody. That is
+// a deliberate subtraction, and it should be reversed the moment obligations carry in-effect
+// conditions. All four views are now cuts of ONE event set — everything, my subject areas, what
+// is owed, and what I pinned — which Ongoing never was.
+//
+// EVERY VIEW IS TWO PANES: the timeline (or list) on the LEFT, and the obligations related
+// to whatever is selected on the RIGHT. That geometry is the part of the inbox that was
+// always right, and it is why the page can drop the threading language without losing the
+// idea behind it — "why am I seeing this" stays structural. bcn-tracking-workspace owns the
+// frame; this component owns which view is showing and what a parent means in each.
+//
+// ALL GROUPS BY EVENT, NEVER BY DUTY. One sighting switches on several duties, so a flat
+// list would repeat the same sighting once per duty. Prod already returns this shape — its
+// observation service hands back an observation together with the commitments it triggers,
+// described in its own code as a parent with children.
+//
+// NO SEVERITY ORDERING anywhere. It appears nowhere in the source documents; we invented it
+// and dropped it. A timeline sorts by time, and the things needing action have their own
+// view. To-do sorts on whether the permit states a strict deadline, which is registry data.
+//
+// EVERY PANEL RENDERS AT BUILD TIME — the rule inherited from the evidence inbox. Astro is
+// compile-time; a panel assembled from a template literal bypasses the design system and no
+// gate can see it. esa-tab-layout only reveals a panel that is already there.
+//
+// bcn-lego-checked: esa-tab-layout IS the view switcher (the canonical ARIA tablist, with
+// roving keyboard nav already in it), esa-alert-box the provenance note, and
+// bcn-tracking-workspace the two-pane frame inside each view. Checked Ecology for a
+// feed/timeline lego (none) and Beacon (its activity lists are Angular table components).
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import BcnTrackingWorkspace from './BcnTrackingWorkspace.astro';
+import { PINNED, TODO_SHORTFALL, TRACKING_TOTALS, VIEWS } from '../../data/obligation-tracking';
+
+// NO COUNTS ON THE TABS. They were the loudest thing on the page for the least useful fact,
+// and once the volumes became realistic (All 7, To-do 3) the numbers stopped carrying anything
+// a reader needed before clicking. The rail below shows what is there. (Kim, 2026-09-16.)
+const TABS = VIEWS.map((v) => ({ label: v.label }));
+
+// What a PARENT is in each view — the rail's heading, so the left column always says what
+// it is a list of rather than leaving the reader to infer it.
+//
+// THE FOURTH KEY WAS MISSING until 2026-09-17, which rendered that rail with an EMPTY heading
+// and left its listbox with no accessible name. esbuild strips types, so nothing failed.
+//
+// THESE NAME THE BY-EVENT RAILS ONLY. The by-obligation rails are named in RAIL_BY_OBLIGATION
+// beside the panes they head — and for Pinned that is the one a reader sees first, since a pin
+// is a duty and the view opens on the duty side.
+//
+// ONLY IMPORTANT AND PINNED CARRY THE PIVOT (Kim, 2026-09-17) — the two views the reader
+// defines. All and To-do are the system's own cuts, and nobody arrives at them asking "what has
+// become of MY duties", which is what the inverse answers.
+const RAIL = {
+  all: 'Events',
+  important: 'In your filter',
+  todo: 'Events that owe a notice',
+  pinned: 'Events touching your pins',
+} as const;
+---
+
+<section class="bcn-tf">
+  <esa-tab-layout tabs={JSON.stringify(TABS)} appearance="underline" size="md" active-index="0">
+    <div slot="panel-0">
+      <BcnTrackingWorkspace view="all" railLabel={RAIL.all} />
+    </div>
+
+    <div slot="panel-1">
+      <BcnTrackingWorkspace view="important" railLabel={RAIL.important} pivot />
+    </div>
+
+    <div slot="panel-2" class="stack" data-gap="md">
+      <BcnTrackingWorkspace view="todo" railLabel={RAIL.todo} />
+      <EsaAlertBox variant="info" title="Notify only">
+        A duty reaches this view when an event leaves somebody owing a notice — class Notify, and
+        only Notify. Monitor is a standing cadence — something that is ON rather than owed, which is
+        why it reaches you by being pinned rather than by appearing here. Adhere is a rule you
+        comply with, and Roster is a standing qualification.
+        This permit drafted {TODO_SHORTFALL.notifyInFixture} Notify duties out of
+        {TODO_SHORTFALL.total}, against {TODO_SHORTFALL.monitorInFixture} Monitor — which is why
+        this view is short. The hand-built registry of the same permits had 50 notices; nobody has
+        yet checked whether the drafting pass routes them to Actions instead.
+      </EsaAlertBox>
+    </div>
+
+    <div slot="panel-3" class="stack" data-gap="md">
+      <BcnTrackingWorkspace view="pinned" railLabel={RAIL.pinned} pivot opens="obligation" />
+      <EsaAlertBox variant="info" title="Pins are authored">
+        Beacon has no pin table, so these {PINNED.length} are a stand-in for a reader's own
+        selection. What each pin then shows is real: the events that reached it are the same matches
+        the other views run. This view replaced Ongoing, which listed what was in force by authoring
+        which activities were under way — none of the {TRACKING_TOTALS.obligations} obligations
+        records that it is currently live, so the page no longer claims to know.
+      </EsaAlertBox>
+    </div>
+
+  </esa-tab-layout>
+</section>
+
+<script>
+  import '@esa/ecology/esa-tab-layout';
+</script>
+
+{/*
+  NO CSS. The tab-badge muting that used to sit here (--_tab-badge-bg / --_tab-badge-color)
+  went with the counts: TABS carries labels only, so there is no badge left to quiet. If a
+  count ever returns, the lego exposes both as custom properties — muting it is configuration,
+  not an override reaching inside it. Removed 2026-09-17.
+*/}

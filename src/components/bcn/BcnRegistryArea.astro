@@ -1,0 +1,307 @@
+---
+// <BcnRegistryArea> — the main pane of setup step 5: one subject area, its headings, and
+// the duties under them.
+//
+// IT IS PROD'S SETUP-STEP MAIN PANE, ported. Every step of Beacon's project setup reads
+// the same way — `commitments-step` and `requirements-step` both open with a header for
+// the selected record (id chip + title + a meta line of counts) and then list its
+// children — and this is that shape with a subject area as the record and its duties as
+// the children. The one thing added is the CONFIRM control, which is this step's whole
+// job.
+//
+// WHY THE USER IS HERE. Not to check the registry is correct — the permit says what it
+// says and the four classes are system-owned. They are deciding APPLICABILITY, which is
+// inherited from the work: if the project does no in-water work, the in-water duties are
+// not theirs. Same job the Applicable Commitments drawer does at step 2, one level down
+// the chain.
+//
+// EVERYTHING STARTS INCLUDED. The registry is authoritative, so the default is that a
+// duty applies and the reviewer's job is to find the ones that do not. An
+// undecided-by-default model would put 402 empty checkboxes in front of someone and call
+// it a queue. Confirming an area is what records that a human looked, which is the only
+// thing an auditor can be shown later.
+//
+// THE DECISION IS ON THE DUTY, NEVER ON THE PLACEMENT. 188 duties are filed under more
+// than one area, so the same duty appears in two or three panes. Unchecking it under
+// Birds unchecks it under Habitat protection, because it is one duty — the controller
+// syncs every checkbox carrying that id, and the record names the other areas so the
+// jump is not a surprise.
+//
+// TWO ROW MARKERS, NEITHER OF WHICH IS A DECISION. GATED (17 duties) does not take
+// effect until an action is approved — a dependency. CONTESTED (232) means the sources
+// state different values — a conflict somebody must resolve, but a different job from
+// applicability, and at 58% of the registry it is nobody's exception queue. Both are
+// shown in the record; neither is asked about.
+//
+// NO STATUS ANYWHERE. Obligations carry no compliance verdict by decision (2026-09-03),
+// and "applies / does not apply" is scope, not performance.
+//
+// bcn-lego-checked: esa-collapsible is each heading's disclosure (the hub lego promoted
+// FOR this exact stacked-section pattern), esa-checkbox the duty's applicability
+// control, esa-badge the class chip and the confirmed state, esa-button the confirm,
+// BcnCommitmentBadge every commitment code (the spoke's existing chip — checked, it is
+// the prod treatment), and BcnKeyValue every field in the opened record (the spoke's
+// existing label/value pair, the same one the obligation and requirement detail pages
+// use). Nothing here is hand-rolled: an earlier pass built its own carets, its own
+// disclosure summaries and its own definition-list grid, all of which these four already
+// provide. What remains as CSS is composition glue — the pane's scroll region, the
+// header row, and the duty row's checkbox-beside-content grid.
+// bcn-registry-area is the reusable home.
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import { REGISTRY_TREE, type RegistryRow } from '../../data/obligation-registry';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  id?: string;
+}
+const { id = 'bcn-registry-area' } = Astro.props;
+
+const detailBase = withBase('/prototypes/data-catalog-obligation');
+
+/** The record, in the registry's own order. Empty values render nothing. */
+const fields = (row: RegistryRow): [string, string][] =>
+  (
+    [
+      ['Standard', row.standard],
+      ['Condition', row.condition],
+      ['Parameters', row.parameters],
+      ['Notice window', row.window],
+      ['In effect', row.gated ? 'After the approval named in the standard' : ''],
+      ['Installed control', row.installedControl ? 'Yes' : ''],
+      ['Activities', row.activityNames.join(', ')],
+      ['Species', row.speciesNames.join(', ')],
+      ['Also filed under', row.alsoUnder.join(', ')],
+    ] as [string, string][]
+  ).filter(([, v]) => !!v);
+---
+
+{/* Every area is rendered and all but the first hidden. Astro is compile-time: a pane
+    built from a JavaScript template literal at runtime would bypass the design system
+    and no gate could see it. The controller only ever toggles which one is visible —
+    the same rule the inbox and the evidence triage surfaces follow. */}
+<div class="bcn-registry-area-pane" id={id}>
+  {
+    REGISTRY_TREE.map((major, i) => (
+      <section
+        class="bcn-ra"
+        data-area={major.key}
+        data-area-ids={major.ids.join(' ')}
+        aria-label={major.name}
+        hidden={i !== 0}
+      >
+        <header class="bcn-ra__head">
+          <div class="bcn-ra__title">
+            <h2 class="bcn-ra__name typography-heading-md">{major.name}</h2>
+            <span class="bcn-ra__state" data-area-state hidden>
+              <EsaBadge value="Confirmed" variant="success" size="sm" />
+            </span>
+          </div>
+
+          {/* Prod's step header carries a counts line under the title; this is that
+              line. It states scale and the two things worth knowing before you confirm,
+              and nothing else. */}
+          <p class="bcn-ra__meta typography-body-sm" data-area-meta>
+            <span data-area-kept>{major.count}</span> duties
+            {major.gated > 0 && ` · ${major.gated} wait${major.gated === 1 ? 's' : ''} on an approval`}
+            {major.contested > 0 && ` · ${major.contested} with conflicting values`}
+          </p>
+
+          <div class="bcn-ra__actions">
+            <span data-area-confirm-wrap>
+              <EsaButton variant="primary" size="sm" data-area-confirm={major.key}>
+                {`Confirm all ${major.count}`}
+              </EsaButton>
+            </span>
+          </div>
+        </header>
+
+        <div class="bcn-ra__scroll">
+          <div class="stack" data-gap="sm">
+            {major.minors.map((minor, j) => (
+              <EsaCollapsible title={`${minor.name} (${minor.rows.length})`} open={j === 0}>
+                <ul class="bcn-ra__rows">
+                  {minor.rows.map((row) => (
+                    <li class="bcn-ra__row" data-row-id={row.id}>
+                      {/* NAMED FROM THE HOST, not `label` — the duty's title is already
+                          the row's own text, so a `label` would print it twice. The
+                          lego's documented no-visible-label path is an aria-label on the
+                          host, which it forwards to its inner input. */}
+                      <esa-checkbox
+                        class="bcn-ra__check"
+                        checked
+                        size="sm"
+                        aria-label={`${row.title} — applies to this project`}
+                        data-row-check={row.id}
+                      />
+
+                      <div class="bcn-ra__rowbody">
+                        <p class="bcn-ra__rowtitle">
+                          <span class="bcn-ra__rowname">{row.title}</span>
+                          <EsaBadge value={row.classLabel} variant="secondary" size="xs" />
+                        </p>
+
+                        <p class="bcn-ra__codes">
+                          {row.commitments.map((code) => (
+                            <BcnCommitmentBadge code={code} size="sm" />
+                          ))}
+                        </p>
+
+                        <EsaCollapsible title="Details" flush>
+                          <div class="bcn-ra__record">
+                            {fields(row).map(([label, value]) => (
+                              <BcnKeyValue label={label} value={value} />
+                            ))}
+                            <p class="bcn-ra__more">
+                              <a href={`${detailBase}/${row.id}`}>Open the full record</a>
+                            </p>
+                          </div>
+                        </EsaCollapsible>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </EsaCollapsible>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  /* bcn-lego-checked: composition glue only — the pane's scroll region, the header row,
+     and the duty row's checkbox-beside-content grid. Every control is a lego
+     (esa-collapsible, esa-checkbox, esa-badge, esa-button, BcnCommitmentBadge,
+     BcnKeyValue). Semantic tokens only. */
+
+  .bcn-registry-area-pane,
+  .bcn-ra {
+    block-size: 100%;
+    min-block-size: 0;
+  }
+  /* :not([hidden]) is load-bearing — an author display rule beats the UA [hidden]
+     rule, so without it no pane ever hides. */
+  .bcn-ra:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bcn-ra__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: var(--spacing-300);
+    row-gap: var(--spacing-050);
+    padding: var(--spacing-250) var(--spacing-300);
+    border-block-end: 1px solid var(--color-border-default);
+  }
+  .bcn-ra__title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-inline-size: 0;
+  }
+  .bcn-ra__name {
+    margin: 0;
+  }
+  .bcn-ra__meta {
+    grid-column: 1;
+    margin: 0;
+    color: var(--bcn-content-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-ra__actions {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+  /* esa-button declares its own display and cannot be hidden by `hidden` — the wrapper
+     is the element we own. */
+  .bcn-ra__state:not([hidden]),
+  .bcn-ra__actions [data-area-confirm-wrap]:not([hidden]) {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .bcn-ra__scroll {
+    flex: 1;
+    min-block-size: 0;
+    overflow-y: auto;
+    padding: var(--spacing-300);
+  }
+
+  .bcn-ra__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-ra__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    column-gap: var(--spacing-200);
+    padding-block: var(--spacing-200);
+  }
+  .bcn-ra__row + .bcn-ra__row {
+    border-block-start: 1px solid var(--color-border-subtle, var(--color-border-default));
+  }
+  /* An excluded duty stays legible — a decision to see and undo, not a deletion. */
+  .bcn-ra__row[data-excluded] .bcn-ra__rowbody {
+    opacity: 0.55;
+  }
+  .bcn-ra__row[data-excluded] .bcn-ra__rowname {
+    text-decoration-line: line-through;
+  }
+
+  .bcn-ra__rowbody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    min-inline-size: 0;
+  }
+  .bcn-ra__rowtitle {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-ra__rowname {
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default);
+  }
+  .bcn-ra__codes {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-050);
+  }
+
+  /* The record is a stack of BcnKeyValue pairs — the same presentation the obligation
+     and requirement detail pages use for a read-only field list. */
+  .bcn-ra__record {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding-block: var(--spacing-100);
+  }
+  .bcn-ra__more {
+    margin: 0;
+  }
+
+  @media (max-width: 60rem) {
+    .bcn-ra__head {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .bcn-ra__actions {
+      grid-column: 1;
+      grid-row: auto;
+      justify-self: start;
+    }
+  }
+</style>

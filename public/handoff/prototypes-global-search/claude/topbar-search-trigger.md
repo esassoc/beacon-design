@@ -24,8 +24,8 @@ The global-search affordance in the app bar: a button STYLED as a search input â
   aria-label="Search"
   aria-keyshortcuts="/"
 >
-  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-    <svg
+  <span class="esa-icon esa-icon--sm" aria-hidden="true"
+    ><svg
       width="16"
       height="16"
       viewBox="0 0 24 24"
@@ -37,73 +37,71 @@ The global-search affordance in the app bar: a button STYLED as a search input â
       focusable="false"
     >
       <circle cx="11" cy="11" r="8"></circle>
-      <path d="m21 21-4.3-4.3"></path>
-    </svg>
-  </span>
-  <span class="bcn-search-trigger__placeholder">Searchâ€¦</span>
-  <span class="bcn-search-trigger__kbd" aria-hidden="true"> <kbd>/</kbd> </span>
+      <path d="m21 21-4.3-4.3"></path></svg></span
+  ><span class="bcn-search-trigger__placeholder">Searchâ€¦</span
+  ><span class="bcn-search-trigger__kbd" aria-hidden="true"><kbd>/</kbd></span>
 </button>
 ```
 
 ## Styles
 ```css
 .bcn-search-trigger {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
   width: 100%;
   max-width: 520px;
-  margin: 0 auto;
   padding: var(--spacing-150) var(--spacing-300);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
   cursor: text;
+  margin: 0 auto;
   transition:
-    border-color 0.15s ease,
-    background 0.15s ease;
+    border-color 0.15s,
+    background 0.15s;
+  display: flex;
 }
 .bcn-search-trigger:hover {
-  border-color: var(--color-primary-border);
-  background: var(--color-surface-raised, var(--color-surface));
+  border-color: var(--color-border-brand);
+  background: var(--color-background-elevation-raised);
 }
 .bcn-search-trigger:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-background-brand);
   outline-offset: 2px;
 }
 .bcn-search-trigger .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
 }
 .bcn-search-trigger__placeholder {
-  flex: 1;
-  min-width: 0;
   text-align: left;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: var(--type-size-200);
-  color: var(--color-text-tertiary);
+  min-width: 0;
+  font-size: var(--font-size-200);
+  color: var(--color-content-default-tertiary);
+  flex: 1;
+  overflow: hidden;
 }
 .bcn-search-trigger__kbd {
-  display: inline-flex;
-  gap: 2px;
   flex: none;
+  gap: 2px;
+  display: inline-flex;
 }
 .bcn-search-trigger__kbd kbd {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   min-width: 18px;
   height: 18px;
-  padding: 0 4px;
   font-family: inherit;
   font-size: 11px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-tertiary);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-content-default-tertiary);
+  background: var(--color-background-elevation-sunken);
+  border: 1px solid var(--color-border-default);
   border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 4px;
+  display: inline-flex;
 }
 .bcn-search-trigger {
   max-width: max-content;
@@ -117,160 +115,125 @@ The global-search affordance in the app bar: a button STYLED as a search input â
   color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
 .bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  color: var(--color-content-default-tertiary);
+  flex: none;
+}
+.bcn-ev-targets__title .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
 .topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
 }
 .user-panel__item--danger .esa-icon {
-  color: var(--color-danger);
+  color: var(--color-background-utility-danger);
 }
 .project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-500);
+  flex-shrink: 0;
 }
 .nav-section__header:hover .esa-icon,
 .nav-section--active .nav-section__header,
 .nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+  color: var(--color-background-brand);
 }
 .nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+  flex-shrink: 0;
+  transition: color 0.15s;
 }
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
   flex-shrink: 0;
+  transition:
+    transform 0.15s,
+    opacity 0.2s ease-in-out;
 }
 .nav-section--collapsed .nav-section__header > .esa-icon:last-child {
   transform: rotate(-90deg);
 }
+.side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-button--lg {
-  --_ib-size: var(--form-height-lg, 48px);
-}
-.esa-icon-button:hover {
-  background: var(--_ib-bg-hover);
-}
-.esa-icon-button:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
-}
 .esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
   height: var(--_icon-size);
-  line-height: 1;
   color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+  --_icon-size: var(--icon-size-lg, 24px);
 }
 .esa-icon--xl {
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
-  display: block;
   width: var(--_icon-size);
   height: var(--_icon-size);
+  display: block;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
 }
 ```
 
 ## Tokens
-- `--bcn-gray-1000`: #000000 _(component)_
+- `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
-- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
-- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-danger`: #e5484d _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-primary-border`: #b9d6d2 _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--focus-ring-offset`: 2px _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--form-height-lg`: 44px _(component)_
-- `--form-height-md`: 36px _(component)_
-- `--form-height-sm`: 28px _(component)_
-- `--form-height-xs`: 24px _(component)_
-- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--icon-size-large`: 24px _(component)_
+- `--bcn-helpbar-fg`: #ffffffeb _(component)_
+- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
+- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-border-brand`: #b9d6d2 _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-small`: 16px _(component)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--typography-font-weight-medium`: 500 _(semantic)_

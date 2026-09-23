@@ -35,41 +35,67 @@ interface Props {
   obligation: ObligationNode;
   /** Children folded open on load. */
   open?: boolean;
+  /**
+   * 'review' — setup step 5: grips, drag, the pencil that opens the editor, and the
+   * remove/duplicate/unlink verbs.
+   * 'browse' — the Obligation Tracking page's registry section: the SAME card, read-only.
+   * No grips (nothing moves), no verbs (nothing to decide), and the title links to the
+   * duty's record instead of opening an editor that is not on that page.
+   */
+  mode?: 'review' | 'browse';
 }
-const { obligation: o, open = false } = Astro.props;
+const { obligation: o, open = false, mode = 'review' } = Astro.props;
+const review = mode === 'review';
 ---
 
-<li class="bcn-swoc" data-swo-card data-id={o.id} data-class={o.class} draggable="true" data-swo-drag="obligation">
+<li class="bcn-swoc" data-swo-card data-id={o.id} data-class={o.class} draggable={review} data-swo-drag={review ? 'obligation' : undefined}>
   <details class="bcn-swoc__node" data-swo-branch open={open}>
-    <summary class="bcn-swoc__main" data-swo-drop="obligation">
-      <esa-tooltip text="Drag to move"><span class="bcn-swoc__grip" aria-hidden="true"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span></esa-tooltip>
+    <summary class="bcn-swoc__main" data-swo-drop={review ? 'obligation' : undefined}>
+      {review && (
+        <esa-tooltip text="Drag to move"><span class="bcn-swoc__grip" aria-hidden="true"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span></esa-tooltip>
+      )}
       <span class="bcn-swoc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
       <span class="bcn-swoc__class" data-swo-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
-      <button type="button" class="bcn-swoc__title" data-swo-open data-swo-text={o.title}>{o.title}</button>
+      {review
+        ? <button type="button" class="bcn-swoc__title" data-swo-open data-swo-text={o.title}>{o.title}</button>
+        : <span class="bcn-swoc__title bcn-swoc__title--static" data-swo-text={o.title}>{o.title}</span>}
       <span data-swo-count="obligation"><BcnSwCountBadge value={o.requirements.length} label={`${o.requirements.length} requirements`} /></span>
-      <esa-tooltip text="Edit"><button type="button" class="bcn-swoc__verb" aria-label="Edit obligation" data-swo-open>
-        <EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} />
-      </button></esa-tooltip>
-      <esa-tooltip text="Duplicate"><button type="button" class="bcn-swoc__verb" aria-label="Duplicate obligation" data-swo-dup-card>
-        <EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} />
-      </button></esa-tooltip>
-      <esa-tooltip text="Remove"><button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" aria-label="Remove obligation" data-swo-remove>
-        <EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} />
-      </button></esa-tooltip>
+      {/* MERGE 2026-09-18: main added Duplicate here while this branch wrapped the verb set in
+          `review`. Both are kept — the new verb belongs to setup step 5, and browse mode still
+          renders none of them, because nothing on the Tracking page decides anything. */}
+      {review && (
+        <Fragment>
+          <esa-tooltip text="Edit"><button type="button" class="bcn-swoc__verb" aria-label="Edit obligation" data-swo-open>
+            <EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} />
+          </button></esa-tooltip>
+          <esa-tooltip text="Duplicate"><button type="button" class="bcn-swoc__verb" aria-label="Duplicate obligation" data-swo-dup-card>
+            <EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} />
+          </button></esa-tooltip>
+          <esa-tooltip text="Remove"><button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" aria-label="Remove obligation" data-swo-remove>
+            <EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} />
+          </button></esa-tooltip>
+        </Fragment>
+      )}
     </summary>
     <ul class="bcn-swoc__reqs">
       {o.requirements.map((r) => (
-        <li class="bcn-swoc__req" draggable="true" data-swo-drag="requirement" data-req={r.id} data-code={r.code}>
-          <esa-tooltip text="Drag to move"><span class="bcn-swoc__grip" aria-hidden="true"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span></esa-tooltip>
+        <li class="bcn-swoc__req" draggable={review} data-swo-drag={review ? 'requirement' : undefined} data-req={r.id} data-code={r.code}>
+          {review && (
+            <esa-tooltip text="Drag to move"><span class="bcn-swoc__grip" aria-hidden="true"><EsaIcon name="grip-vertical" size="xs" paths={STEP_GLYPH['grip-vertical']} /></span></esa-tooltip>
+          )}
           <BcnCommitmentBadge code={r.code} size="sm" />
           <span class="bcn-swoc__req-name" data-swo-text={r.name}>{r.name}</span>
           {r.inActions > 0 && <span class="bcn-swoc__also">also in {r.inActions} {r.inActions === 1 ? 'action' : 'actions'}</span>}
-          <esa-tooltip text="Duplicate"><button type="button" class="bcn-swoc__verb" aria-label="Duplicate requirement" data-swo-dup>
-            <EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} />
-          </button></esa-tooltip>
-          <esa-tooltip text="Unlink"><button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" aria-label="Unlink requirement" data-swo-unlink>
-            <EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} />
-          </button></esa-tooltip>
+          {review && (
+            <Fragment>
+              <esa-tooltip text="Duplicate"><button type="button" class="bcn-swoc__verb" aria-label="Duplicate requirement" data-swo-dup>
+                <EsaIcon name="copy" size="xs" paths={STEP_GLYPH.copy} />
+              </button></esa-tooltip>
+              <esa-tooltip text="Unlink"><button type="button" class="bcn-swoc__verb bcn-swoc__verb--danger" aria-label="Unlink requirement" data-swo-unlink>
+                <EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} />
+              </button></esa-tooltip>
+            </Fragment>
+          )}
         </li>
       ))}
     </ul>
@@ -80,6 +106,10 @@ const { obligation: o, open = false } = Astro.props;
   /* Everything this card shares with the list's is in bcn-obligation-card.css.
      What is left here is what only the REGISTRY card has, because only it can refile,
      drop, empty out and edit a requirement in place. */
+
+  /* The read-only title is the same line as the button, minus the affordance — it is not
+     a control, so it must not look like one. */
+  .bcn-swoc__title--static { cursor: default; text-align: left; }
 
   .bcn-swoc.is-dragging { opacity: 0.4; }
   .bcn-swoc__main.is-over {

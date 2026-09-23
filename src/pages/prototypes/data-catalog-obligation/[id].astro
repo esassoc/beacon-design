@@ -1,0 +1,163 @@
+---
+// Data Catalog — Obligation detail. One static route per obligation (402 of them), so every
+// row in the catalog grid opens something real.
+//
+// BUILT AS THE SIBLING OF data-catalog-action.astro (team review, 2026-09-06). Same anatomy:
+// an identity header carrying the record's badges, a two-column body with the record text in
+// the main column and small facts in an esa-collapsible rail, then a full-width table of the
+// scopes it reaches. It deviates in four places, each for a reason:
+//
+//   · No Timing rail. An obligation has no due date, frequency or milestone — its time model
+//     is an interval with entry conditions, and the registry carries none of them.
+//   · No Notifications rail. The Notify CLASS is the notification; a separate trigger list
+//     would be the same fact twice.
+//   · "In force at" instead of "Tracked Actions", and a mini-table instead of a second AG
+//     Grid — those rows carry no status, owner or dates to sort by. See BcnObligationScope
+//     for why the word "implementation" is wrong here.
+//   · Read-only. The Action page pairs a read view with a large upsert modal; the editable
+//     field set here depends on four fields the registry does not yet have, so Edit is
+//     present but inert rather than guessing a form.
+//
+// KNOWN FIELD GAP, unchanged: the brief names in-effect conditions, responsibility, evidence
+// source and scope. The extracted registry carries none of them, so they are absent rather
+// than invented. In-effect conditions matter most — they are the predicate that decides
+// whether an obligation is live at all.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnObligationHeader from '../../../components/bcn/BcnObligationHeader.astro';
+import BcnObligationFacets from '../../../components/bcn/BcnObligationFacets.astro';
+import BcnObligationScope from '../../../components/bcn/BcnObligationScope.astro';
+import BcnEvidenceList from '../../../components/bcn/BcnEvidenceList.astro';
+import { POPULATED } from '../../../data/component-dashboard';
+import type { Obligation } from '../../../data/obligations';
+import { withBase } from '../../../lib/base';
+
+export async function getStaticPaths() {
+  const { OBLIGATIONS } = await import('../../../data/obligations');
+  return OBLIGATIONS.map((o) => ({ params: { id: o.id }, props: { obligation: o } }));
+}
+
+interface Props {
+  obligation: Obligation;
+}
+const { obligation: o } = Astro.props;
+
+const dataCatalogNav = [
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'dc-projects', label: 'Projects' },
+      { id: 'dc-source-documents', label: 'Source Documents' },
+      { id: 'dc-commitments', label: 'Commitments' },
+      { id: 'dc-requirements', label: 'Requirements' },
+      { id: 'dc-actions', label: 'Actions' },
+      { id: 'dc-obligations', label: 'Obligations', active: true },
+      { id: 'dc-components', label: 'Components' },
+      { id: 'dc-evidence', label: 'Evidence of Compliance' },
+    ],
+  },
+];
+
+const listHref = withBase('/prototypes/data-catalog-obligations');
+
+// Components are the project's real fixture (src/data/component-dashboard.ts), reused so
+// this table names the same components as every other surface in the spoke.
+const components = POPULATED.map((c) => ({ name: c.name, type: c.type }));
+
+// EXAMPLE EVIDENCE. The registry carries no evidence records — obligations produce them from
+// the field, and none of that data exists yet. These two are invented-but-credible and
+// deterministic, present so the box's shape can be reviewed. The Evidence of Compliance
+// section is the one place on this page showing content the registry did not supply.
+const EXAMPLE_EVIDENCE = [
+  {
+    id: 'ev-1',
+    title: 'Weekly compliance inspection — Reach 2',
+    notes: 'Posted limits verified in both directions along the haul route. No exceedances observed.',
+    tags: ['Inspection record', 'Reach 2'],
+    files: ['2026-08-28-inspection.pdf'],
+  },
+  {
+    id: 'ev-2',
+    title: 'Signage installation photo log',
+    notes: 'Ten sign locations photographed after install, with GPS in the file metadata.',
+    tags: ['Photo log', 'Installed control'],
+    files: ['signage-log.zip', 'sign-locations.csv'],
+  },
+];
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(xl) > sidebar(end)   # SPINE, sibling of data-catalog-action
+  sections:
+    - identity header  -> bcn-obligation-header   # class chip, title (noun phrase), id, gate / installed-control flags, Edit
+    - standard         -> esa-card                # the requirement text: what the duty says
+    - condition        -> esa-card                # the non-compliance a monitor observes — what a field form offers
+    - parameters       -> esa-card                # where sources disagree; absent on the 42% that carry none
+    - evidence         -> bcn-evidence-list       # Evidence of Compliance box (example records — registry has none)
+    - facets rail      -> bcn-obligation-facets   # class, nested subjects, construction activities, species, commitments by source
+    - in force at      -> bcn-obligation-scope    # full-width scope table, sibling of the Action page's Tracked Actions
+-->
+
+<AppShell
+  title={`${o.title} — Data Catalog`}
+  tenantName="DWR"
+  projectName="Select a Project"
+  navSections={dataCatalogNav}
+>
+  <PageLayout
+    hideTitleRow
+    breadcrumbs={[
+      { label: 'Data Catalog', href: '#data-catalog' },
+      { label: 'Obligations', href: listHref },
+      { label: o.title },
+    ]}
+  >
+    <div class="stack" data-gap="xl">
+      {/* In `.sidebar` the FIRST child is the aside and the LAST is the fluid main;
+          data-side="end" moves the aside to the right. So the rail leads in source order
+          and the record column follows — the same arrangement as the project dashboard. */}
+      <div class="sidebar" data-side="end" data-gap="xl">
+        <BcnObligationFacets obligation={o} />
+
+        <div class="stack" data-gap="lg">
+          <BcnObligationHeader obligation={o}>
+            <Fragment slot="actions">
+              <EsaButton variant="primary">
+                <span class="cluster" data-gap="xs"><EsaIcon name="pencil" size="xs" />Edit obligation</span>
+              </EsaButton>
+            </Fragment>
+          </BcnObligationHeader>
+
+          <EsaCard title="Standard" padding="compact">
+            <p class="type-body">{o.standard}</p>
+          </EsaCard>
+
+          <EsaCard title="Condition" padding="compact">
+            <p class="type-body">{o.condition}</p>
+          </EsaCard>
+
+          {
+            o.parameters && (
+              <EsaCard title="Parameters" padding="compact">
+                <p class="type-body">{o.parameters}</p>
+              </EsaCard>
+            )
+          }
+
+          <EsaCard title="Evidence of Compliance" padding="compact">
+            <BcnEvidenceList items={EXAMPLE_EVIDENCE} />
+          </EsaCard>
+        </div>
+      </div>
+
+      <BcnObligationScope obligation={o} components={components} />
+    </div>
+  </PageLayout>
+</AppShell>

@@ -2860,7 +2860,7 @@ The AG Grid itself — the real grid (ag-grid-community), not a styled table. Co
             </div>
             <!--AG-FAKE-VERTICAL-SCROLL-->
             <div
-              class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+              class="ag-body-vertical-scroll ag-scrollbar-invisible"
               aria-hidden="true"
               style="width: 16px; max-width: 16px; min-width: 16px"
             >
@@ -3005,7 +3005,7 @@ The AG Grid itself — the real grid (ag-grid-community), not a styled table. Co
           </div>
           <!--AG-FAKE-HORIZONTAL-SCROLL-->
           <div
-            class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+            class="ag-body-horizontal-scroll ag-scrollbar-invisible"
             aria-hidden="true"
             style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
           >
@@ -4158,20 +4158,18 @@ The AG Grid itself — the real grid (ag-grid-community), not a styled table. Co
 :where(.ag-ltr) .ag-set-filter-add-group-indent{margin-left:calc(var(--ag-icon-size) + var(--ag-widget-container-horizontal-padding))}
 :where(.ag-ltr) .ag-filter-apply-panel-button{margin-left:calc(var(--ag-spacing)*2)}
 .tracker-grid{width:100%;height:calc(100vh - 260px);min-height:840px}
-.ag-cell.bcn-grid-status-cell{display:flex;align-items:center}
-.bcn-grid-chip{display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.75rem;line-height:1.5;font-weight:var(--font-weight-semibold);white-space:nowrap;background:color-mix(in srgb,var(--_chip) 16%,transparent);color:color-mix(in srgb,var(--_chip) 70%,#1a1a1a)}
-.bcn-grid-chip__dot{width:7px;height:7px;border-radius:50%;background:var(--_chip);flex-shrink:0}
-.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
-.bcn-grid-name:hover{color:var(--color-primary-hover)}
+.ag-cell.bcn-grid-status-cell{align-items:center;display:flex}
+.bcn-grid-chip{align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.75rem;line-height:1.5;font-weight:var(--typography-font-weight-semibold);white-space:nowrap;background:color-mix(in srgb, var(--_chip) 16%, transparent);color:color-mix(in srgb, var(--_chip) 70%, #1a1a1a);display:inline-flex}
+.bcn-grid-chip__dot{background:var(--_chip);border-radius:50%;flex-shrink:0;width:7px;height:7px}
+.bcn-grid-name{color:var(--color-content-link);font-weight:var(--typography-font-weight-regular);text-decoration:underline}
+.bcn-grid-name:hover{color:var(--color-background-brand-hover)}
 ```
 
 ## Tokens
 - `--ag-internal-hover-color`: rgba(0, 0, 0, 0) _(component)_
 - `--ag-internal-moving-color`: rgba(0, 0, 0, 0) _(component)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--typography-font-weight-regular`: 350 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

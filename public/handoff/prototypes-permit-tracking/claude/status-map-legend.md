@@ -19,73 +19,77 @@ The Leaflet map of the four real Phase-1 paths (geometry from src/data/aws-route
 ## Markup
 ```html
 <div class="map-legend" aria-label="Segment status legend">
-  <span class="map-legend__title">Segment status</span>
-  <span class="map-legend__row">
-    <span class="map-legend__line" style="background: var(--st-not-started)"></span> Not
-    Started </span
-  ><span class="map-legend__row">
-    <span class="map-legend__line" style="background: var(--st-in-preparation)"></span> In
-    Preparation </span
-  ><span class="map-legend__row">
-    <span class="map-legend__line" style="background: var(--st-submitted)"></span>
-    Submitted </span
-  ><span class="map-legend__row">
-    <span class="map-legend__line" style="background: var(--st-under-review)"></span>
-    Under Review </span
-  ><span class="map-legend__row">
-    <span class="map-legend__line" style="background: var(--st-cleared)"></span> Cleared
-    to Construct
-  </span>
+  <span class="map-legend__title">Segment status</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__line" style="background: var(--st-not-started)"></span>Not
+    Started</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__line" style="background: var(--st-in-preparation)"></span>In
+    Preparation</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__line" style="background: var(--st-submitted)"></span
+    >Submitted</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__line" style="background: var(--st-under-review)"></span
+    >Under Review</span
+  ><span class="map-legend__row"
+    ><span class="map-legend__line" style="background: var(--st-cleared)"></span>Cleared
+    to Construct</span
+  >
 </div>
 ```
 
 ## Styles
 ```css
 .map-legend {
-  position: absolute;
   bottom: var(--spacing-400);
   left: var(--spacing-400);
   z-index: 500;
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-150);
   padding: var(--spacing-300) var(--spacing-400);
-  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-raised) 94%,
+    transparent
+  );
   backdrop-filter: blur(4px);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-300);
-  box-shadow: var(--shadow-400);
+  box-shadow: var(--elevation-5);
+  color: var(--color-content-default-secondary);
+  flex-direction: column;
   font-size: 0.875rem;
-  color: var(--color-text-secondary);
+  display: flex;
+  position: absolute;
 }
 .map-legend__title {
   font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default);
 }
 .map-legend__row {
-  display: flex;
   align-items: center;
   gap: var(--spacing-200);
+  display: flex;
 }
 .map-legend__line {
-  width: 22px;
-  height: 5px;
   border-radius: var(--radius-full);
   flex-shrink: 0;
+  width: 22px;
+  height: 5px;
 }
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--elevation-5`: 0 8px 32px -8px #00000014 _(semantic)_
 - `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
-- `--shadow-400`: 0 8px 32px -8px rgba(0, 0, 0, .08) _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_

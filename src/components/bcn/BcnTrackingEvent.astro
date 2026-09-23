@@ -1,0 +1,201 @@
+---
+// <BcnTrackingEvent> — one event as a CHILD of a duty, in the Obligation Tracking page's
+// by-obligation pivot. The mirror image of what the forward feed does: there a pane is an
+// event and its children are duties; here a pane is a duty and its children are these.
+//
+// WHAT A ROW SAYS, AND WHY THAT DIFFERS FROM THE FORWARD VIEW. §11 of the checkpoint pruned
+// the "Raised on X" line off every duty row because under one snake sighting it was identical
+// 62 times — a row there speaks only when its basis DIFFERS from the pane's dominant one.
+// Invert the view and that reverses completely: the pane is ONE duty, the events are what
+// vary, and why each one reached it is the entire content of the row. So `reached` sits on
+// the summary line, never behind the fold. The same fact is noise in one direction and the
+// whole point in the other.
+//
+// THE ABSOLUTE DATE IS BACK, for the same reason. §15 dropped the calendar date from the
+// feed's rail because a timeline is scanned by recency and "45m ago" is what a reader wants.
+// A duty's history is read the other way — four events spread across days, where "1d ago"
+// next to "2d ago" stops being a date and becomes arithmetic. Both are shown here and only
+// the relative one is shown there; that is a considered difference, not an inconsistency.
+//
+// THE FACTS BAND IS PER-SOURCE and comes in already assembled (see `eventDetails`). An
+// observation has a species and a buffer, a DMR has neither and has weather instead. This
+// component renders whatever it is handed and asserts nothing about the shape.
+//
+// bcn-lego-checked: a native <details> rather than esa-collapsible, deliberately and to match
+// bcn-sw-obligation-card — the sibling component doing this exact job on the same panes. It
+// carries `data-swo-branch`, which is the hook the pane's Expand all / Collapse all verbs
+// already drive, so both kinds of child open together with no new wiring. esa-collapsible
+// would need its own verb pass AND brings the --flush specificity trap (§14.11). The glyph is
+// esa-icon; the source tag and the basis are text, not esa-badge, because neither is a status
+// and a pill on every row of a four-row list is the loudest thing in the pane. Checked Beacon
+// (its activity lists are Angular table rows with no equivalent).
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import type { PaneEvent } from '../../data/obligation-tracking';
+
+interface Props {
+  event: PaneEvent;
+  /** Open on load — used when a duty has a single event and folding it hides everything. */
+  open?: boolean;
+}
+
+const { event: e, open = false } = Astro.props;
+const trigger = e.basis.includes('Trigger');
+---
+
+<li class="bcn-tev">
+  <details class="bcn-tev__node" data-swo-branch open={open}>
+    <summary class="bcn-tev__main">
+      <span class="bcn-tev__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+      <span class="bcn-tev__glyph" aria-hidden="true"><EsaIcon name="event" paths={e.glyph} size="sm" /></span>
+
+      <span class="bcn-tev__head">
+        <span class="bcn-tev__title typography-body-sm">{e.label}</span>
+        <span class="bcn-tev__meta typography-label-xs">
+          <span class="bcn-tev__kind">{e.kind}</span>
+          <span aria-hidden="true">·</span>
+          <span>{e.when}</span>
+          <span aria-hidden="true">·</span>
+          <span>{e.on}</span>
+        </span>
+      </span>
+
+      {/* ONLY WHEN THE PANE'S EVENTS DISAGREE. If every event reached this duty the same way the
+          data layer blanks this and states it once on the pane instead — otherwise it is four
+          copies of one fact, which is exactly the noise §11 pruned from the forward view. A
+          trigger match is marked apart because it is a different KIND of answer: the relevance
+          service read the permit's own sentence, where a join only matched a species. */}
+      {e.reached && (
+        <span class="bcn-tev__reached typography-label-xs" data-trigger={trigger ? 'true' : undefined}>
+          {e.reached}
+        </span>
+      )}
+    </summary>
+
+    <div class="bcn-tev__body">
+      {e.why && (
+        <p class="bcn-tev__why typography-body-sm">{e.why}</p>
+      )}
+      {e.details.length > 0 && (
+        <dl class="bcn-tev__facts">
+          {e.details.map((d) => (
+            <div class="bcn-tev__fact">
+              <dt class="typography-label-xs">{d.label}</dt>
+              <dd class="typography-body-sm">{d.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
+  </details>
+</li>
+
+<style>
+  .bcn-tev__node {
+    border-block-end: 1px solid var(--color-border-default-subtle);
+  }
+
+  .bcn-tev:last-child .bcn-tev__node { border-block-end: none; }
+
+  .bcn-tev__main {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-200);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  /* Safari draws its own triangle through ::-webkit-details-marker; the chevron replaces it. */
+  .bcn-tev__main::-webkit-details-marker { display: none; }
+
+  .bcn-tev__main:hover { background: var(--color-background-elevation-sunken); }
+
+  .bcn-tev__main:focus-visible {
+    outline: 2px solid var(--color-border-default-focus);
+    outline-offset: -2px;
+  }
+
+  .bcn-tev__chevron {
+    color: var(--color-content-default-tertiary);
+    transition: transform 120ms ease;
+  }
+
+  .bcn-tev__node[open] > .bcn-tev__main .bcn-tev__chevron { transform: rotate(90deg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-tev__chevron { transition: none; }
+  }
+
+  .bcn-tev__glyph { color: var(--color-content-default-tertiary); }
+
+  .bcn-tev__head { min-width: 0; }
+
+  /* ONE LINE, TRUNCATED — the same rule the feed's rail rows follow. A wrapped title makes
+     every row a different height and a list of four stops being scannable. */
+  .bcn-tev__title {
+    display: block;
+    color: var(--color-content-default);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bcn-tev__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-100);
+    margin-block-start: var(--spacing-050);
+    color: var(--color-content-default-tertiary);
+  }
+
+  .bcn-tev__kind { color: var(--color-content-default-secondary); }
+
+  /* A QUIET 4PX BADGE, not a full pill — the house rule for a categorical marker. It is not a
+     status: no reach is better than another, and the trigger variant is a different kind of
+     answer rather than a more urgent one. */
+  .bcn-tev__reached {
+    justify-self: end;
+    padding: var(--spacing-050) var(--spacing-150);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
+    white-space: nowrap;
+  }
+
+  .bcn-tev__reached[data-trigger] {
+    background: color-mix(in srgb, var(--color-obligation) 14%, white);
+    color: var(--color-content-default);
+  }
+
+  .bcn-tev__body { padding: 0 var(--spacing-200) var(--spacing-300) var(--spacing-600); }
+
+  .bcn-tev__why {
+    margin: 0 0 var(--spacing-300);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* SIZED TO CONTENT, NOT TO A GRID — the same wrapping flex row the pane head uses, and for
+     the same reason: equal columns gave "Resource" the span of "A. Mendes, biological
+     monitor" and left the last row ragged. */
+  .bcn-tev__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200) var(--spacing-500);
+    margin: 0;
+  }
+
+  /* Capped for the same reason as the pane's band: a flex item's auto basis is max-content, so
+     a long value takes one unbroken line and is clipped rather than wrapped. */
+  .bcn-tev__fact {
+    min-width: 0;
+    max-inline-size: 100%;
+  }
+  .bcn-tev__fact dt { color: var(--color-content-default-tertiary); }
+  .bcn-tev__fact dd { margin: var(--spacing-050) 0 0; color: var(--color-content-default); }
+
+  @media (max-width: 40rem) {
+    .bcn-tev__main { grid-template-columns: auto auto 1fr; }
+    .bcn-tev__reached { grid-column: 3; justify-self: start; }
+  }
+</style>

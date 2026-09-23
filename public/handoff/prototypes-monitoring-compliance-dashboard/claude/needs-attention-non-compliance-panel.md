@@ -25,16 +25,21 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   <div class="esa-card__header">
     <div class="esa-card__header-content">
       <div class="esa-card__titles">
-        <h3 class="esa-card__title">Needs Attention &amp; Non-Compliance</h3>
+        <h3 class="esa-card__title typography-title-sm-strong">
+          Needs Attention &amp; Non-Compliance
+        </h3>
       </div>
     </div>
-    <div class="esa-card__actions">
+    <div class="esa-card__actions typography-label-md">
       <span
-        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-      >
-        <button class="esa-button__native" type="button" id="ap-export-csv">
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
+        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          id="ap-export-csv"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -46,18 +51,18 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
               focusable="false"
             >
               <path d="M12 5v14"></path>
-              <path d="m19 12-7 7-7-7"></path>
-            </svg>
-          </span>
-          <span class="esa-button__label"> Export spreadsheet </span>
-        </button>
-      </span>
-      <span
-        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-      >
-        <button class="esa-button__native" type="button" id="ap-export-kml">
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
+              <path d="m19 12-7 7-7-7"></path></svg></span
+          ><span class="esa-button__label">Export spreadsheet</span>
+        </button></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+        ><button
+          class="esa-button__native typography-microcopy-xs"
+          type="button"
+          id="ap-export-kml"
+        >
+          <span class="esa-icon esa-icon--sm" aria-hidden="true"
+            ><svg
               width="16"
               height="16"
               viewBox="0 0 24 24"
@@ -71,25 +76,23 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
               <path
                 d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
               ></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-          </span>
-          <span class="esa-button__label"> Export KMZ </span>
-        </button>
-      </span>
+              <circle cx="12" cy="10" r="3"></circle></svg></span
+          ><span class="esa-button__label">Export KMZ</span>
+        </button></span
+      >
     </div>
   </div>
-  <div class="esa-card__body">
+  <div class="esa-card__body typography-body-md">
     <div class="bcn-apanel__body sidebar" data-gap="lg" data-side="end">
       <div class="bcn-apanel__inset stack" data-gap="xs">
-        <h4 class="bcn-apanel__heading type-label">Active issue locations</h4>
+        <h4 class="bcn-apanel__heading typography-label-xs">Active issue locations</h4>
         <div
           class="bcn-obsmap leaflet-container leaflet-touch leaflet-fade-anim"
           id="bcn-obsmap-attention-panel"
           data-bcn-obsmap=""
           data-map-id="attention-panel"
           data-interactive="false"
-          style="height: 260px; position: relative"
+          style="height: 260px"
           role="img"
           aria-label="Observation map — 10 observations plotted by severity"
           data-bcn-obsmap-ready="true"
@@ -106,8 +109,8 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
                 >
                   <img
                     alt=""
-                    src="https://b.basemaps.cartocdn.com/light_all/13/1379/3234.png"
-                    class="leaflet-tile leaflet-tile-loaded"
+                    src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/13/1379/3234?access_token=undefined"
+                    class="leaflet-tile"
                     style="
                       width: 256px;
                       height: 256px;
@@ -116,8 +119,8 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
                     "
                   /><img
                     alt=""
-                    src="https://c.basemaps.cartocdn.com/light_all/13/1380/3234.png"
-                    class="leaflet-tile leaflet-tile-loaded"
+                    src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/13/1380/3234?access_token=undefined"
+                    class="leaflet-tile"
                     style="
                       width: 256px;
                       height: 256px;
@@ -126,8 +129,8 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
                     "
                   /><img
                     alt=""
-                    src="https://c.basemaps.cartocdn.com/light_all/13/1379/3235.png"
-                    class="leaflet-tile leaflet-tile-loaded"
+                    src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/13/1379/3235?access_token=undefined"
+                    class="leaflet-tile"
                     style="
                       width: 256px;
                       height: 256px;
@@ -136,8 +139,8 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
                     "
                   /><img
                     alt=""
-                    src="https://d.basemaps.cartocdn.com/light_all/13/1380/3235.png"
-                    class="leaflet-tile leaflet-tile-loaded"
+                    src="https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/13/1380/3235?access_token=undefined"
+                    class="leaflet-tile"
                     style="
                       width: 256px;
                       height: 256px;
@@ -165,7 +168,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    fill="#e5484d"
+                    fill="#ce2c31"
                     fill-opacity="0.9"
                     fill-rule="evenodd"
                     d="M51,91a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
@@ -177,7 +180,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    fill="#e5484d"
+                    fill="#ce2c31"
                     fill-opacity="0.9"
                     fill-rule="evenodd"
                     d="M126,181a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
@@ -189,7 +192,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    fill="#e5484d"
+                    fill="#ce2c31"
                     fill-opacity="0.9"
                     fill-rule="evenodd"
                     d="M162,226a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
@@ -304,331 +307,430 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
               "lat": 35.3572,
               "lng": -119.3678,
               "label": "obs-0121 — Cultural Resources Protection",
-              "hex": "var(--color-danger)"
+              "hex": "var(--color-background-utility-danger)"
             },
             {
               "id": "obs-0139",
               "lat": 35.3445,
               "lng": -119.3549,
               "label": "obs-0139 — Spill Prevention & Response",
-              "hex": "var(--color-danger)"
+              "hex": "var(--color-background-utility-danger)"
             },
             {
               "id": "obs-0142",
               "lat": 35.3382,
               "lng": -119.3488,
               "label": "obs-0142 — Stormwater / BMP Maintenance",
-              "hex": "var(--color-danger)"
+              "hex": "var(--color-background-utility-danger)"
             },
             {
               "id": "obs-0113",
               "lat": 35.3601,
               "lng": -119.3612,
               "label": "obs-0113 — Access & Traffic Control",
-              "hex": "var(--color-warning)"
+              "hex": "var(--color-background-utility-warning)"
             },
             {
               "id": "obs-0118",
               "lat": 35.3418,
               "lng": -119.3357,
               "label": "obs-0118 — Stormwater / BMP Maintenance",
-              "hex": "var(--color-warning)"
+              "hex": "var(--color-background-utility-warning)"
             },
             {
               "id": "obs-0126",
               "lat": 35.3499,
               "lng": -119.3437,
               "label": "obs-0126 — Noise Management",
-              "hex": "var(--color-warning)"
+              "hex": "var(--color-background-utility-warning)"
             },
             {
               "id": "obs-0130",
               "lat": 35.3511,
               "lng": -119.3402,
               "label": "obs-0130 — Vegetation & Habitat Protection",
-              "hex": "var(--color-warning)"
+              "hex": "var(--color-background-utility-warning)"
             },
             {
               "id": "obs-0136",
               "lat": 35.3527,
               "lng": -119.3465,
               "label": "obs-0136 — Waste Management",
-              "hex": "var(--color-warning)"
+              "hex": "var(--color-background-utility-warning)"
             },
             {
               "id": "obs-0140",
               "lat": 35.3601,
               "lng": -119.3612,
               "label": "obs-0140 — Access & Traffic Control",
-              "hex": "var(--color-warning)"
+              "hex": "var(--color-background-utility-warning)"
             },
             {
               "id": "obs-0144",
               "lat": 35.3654,
               "lng": -119.3521,
               "label": "obs-0144 — Erosion & Sediment Control",
-              "hex": "var(--color-warning)"
+              "hex": "var(--color-background-utility-warning)"
             }
           ]
         </script>
         <script
           type="module"
-          src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.CaGBcxyZ.js"
+          src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.V9eB__99.js"
         ></script>
       </div>
       <section class="bcn-apanel__outstanding stack" data-gap="sm">
-        <h4 class="bcn-apanel__heading type-label">Outstanding items (10)</h4>
+        <h4 class="bcn-apanel__heading typography-label-xs">Outstanding items (10)</h4>
         <ul class="bcn-apanel__list stack" data-gap="2xs">
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0121"
               >obs-0121</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="non-compliance"
-              style="--_chip: var(--st-non-compliance, var(--color-danger))"
-            >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Non-Compliance</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small"
+              style="
+                --_chip: var(--st-non-compliance, var(--color-background-utility-danger));
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Non-Compliance</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
               >Cultural Resources Protection</span
-            >
-            <span class="bcn-apanel__area type-body-small"
+            ><span class="bcn-apanel__area typography-body-sm"
               >Perimeter Fence Line — West</span
+            ><span
+              class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">25d active</span></span
             >
-            <span class="esa-badge esa-badge--danger esa-badge--sm">
-              <span class="esa-badge__text">25d active</span>
-            </span>
           </li>
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0139"
               >obs-0139</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="non-compliance"
-              style="--_chip: var(--st-non-compliance, var(--color-danger))"
-            >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Non-Compliance</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small"
+              style="
+                --_chip: var(--st-non-compliance, var(--color-background-utility-danger));
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Non-Compliance</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
               >Spill Prevention &amp; Response</span
+            ><span class="bcn-apanel__area typography-body-sm"
+              >Laydown / Staging Yard</span
+            ><span
+              class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">12d active</span></span
             >
-            <span class="bcn-apanel__area type-body-small">Laydown / Staging Yard</span>
-            <span class="esa-badge esa-badge--danger esa-badge--sm">
-              <span class="esa-badge__text">12d active</span>
-            </span>
           </li>
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0142"
               >obs-0142</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="non-compliance"
-              style="--_chip: var(--st-non-compliance, var(--color-danger))"
-            >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Non-Compliance</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small"
+              style="
+                --_chip: var(--st-non-compliance, var(--color-background-utility-danger));
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Non-Compliance</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
               >Stormwater / BMP Maintenance</span
+            ><span class="bcn-apanel__area typography-body-sm">South Array — Block B</span
+            ><span
+              class="esa-badge esa-badge--danger esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">7d active</span></span
             >
-            <span class="bcn-apanel__area type-body-small">South Array — Block B</span>
-            <span class="esa-badge esa-badge--danger esa-badge--sm">
-              <span class="esa-badge__text">7d active</span>
-            </span>
           </li>
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0113"
               >obs-0113</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="needs-attention"
-              style="--_chip: var(--st-needs-attention, var(--color-warning))"
-            >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Needs Attention</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small"
+              style="
+                --_chip: var(
+                  --st-needs-attention,
+                  var(--color-background-utility-warning)
+                );
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Needs Attention</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
               >Access &amp; Traffic Control</span
-            >
-            <span class="bcn-apanel__area type-body-small"
+            ><span class="bcn-apanel__area typography-body-sm"
               >Main Access Road (Hwy 58 Spur)</span
+            ><span
+              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">33d active</span></span
             >
-            <span class="esa-badge esa-badge--warning esa-badge--sm">
-              <span class="esa-badge__text">33d active</span>
-            </span>
           </li>
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0118"
               >obs-0118</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="needs-attention"
-              style="--_chip: var(--st-needs-attention, var(--color-warning))"
-            >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Needs Attention</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small"
+              style="
+                --_chip: var(
+                  --st-needs-attention,
+                  var(--color-background-utility-warning)
+                );
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Needs Attention</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
               >Stormwater / BMP Maintenance</span
+            ><span class="bcn-apanel__area typography-body-sm"
+              >Cottonwood Wash Crossing</span
+            ><span
+              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">28d active</span></span
             >
-            <span class="bcn-apanel__area type-body-small">Cottonwood Wash Crossing</span>
-            <span class="esa-badge esa-badge--warning esa-badge--sm">
-              <span class="esa-badge__text">28d active</span>
-            </span>
           </li>
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0126"
               >obs-0126</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="needs-attention"
-              style="--_chip: var(--st-needs-attention, var(--color-warning))"
+              style="
+                --_chip: var(
+                  --st-needs-attention,
+                  var(--color-background-utility-warning)
+                );
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Needs Attention</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
+              >Noise Management</span
+            ><span class="bcn-apanel__area typography-body-sm">BESS Pad</span
+            ><span
+              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">22d active</span></span
             >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Needs Attention</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small">Noise Management</span>
-            <span class="bcn-apanel__area type-body-small">BESS Pad</span>
-            <span class="esa-badge esa-badge--warning esa-badge--sm">
-              <span class="esa-badge__text">22d active</span>
-            </span>
           </li>
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0130"
               >obs-0130</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="needs-attention"
-              style="--_chip: var(--st-needs-attention, var(--color-warning))"
-            >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Needs Attention</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small"
+              style="
+                --_chip: var(
+                  --st-needs-attention,
+                  var(--color-background-utility-warning)
+                );
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Needs Attention</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
               >Vegetation &amp; Habitat Protection</span
+            ><span class="bcn-apanel__area typography-body-sm">Substation Yard</span
+            ><span
+              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">20d active</span></span
             >
-            <span class="bcn-apanel__area type-body-small">Substation Yard</span>
-            <span class="esa-badge esa-badge--warning esa-badge--sm">
-              <span class="esa-badge__text">20d active</span>
-            </span>
           </li>
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0136"
               >obs-0136</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="needs-attention"
-              style="--_chip: var(--st-needs-attention, var(--color-warning))"
+              style="
+                --_chip: var(
+                  --st-needs-attention,
+                  var(--color-background-utility-warning)
+                );
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Needs Attention</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
+              >Waste Management</span
+            ><span class="bcn-apanel__area typography-body-sm">O&amp;M Building Area</span
+            ><span
+              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">16d active</span></span
             >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Needs Attention</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small">Waste Management</span>
-            <span class="bcn-apanel__area type-body-small">O&amp;M Building Area</span>
-            <span class="esa-badge esa-badge--warning esa-badge--sm">
-              <span class="esa-badge__text">16d active</span>
-            </span>
           </li>
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0140"
               >obs-0140</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="needs-attention"
-              style="--_chip: var(--st-needs-attention, var(--color-warning))"
-            >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Needs Attention</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small"
+              style="
+                --_chip: var(
+                  --st-needs-attention,
+                  var(--color-background-utility-warning)
+                );
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Needs Attention</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
               >Access &amp; Traffic Control</span
-            >
-            <span class="bcn-apanel__area type-body-small"
+            ><span class="bcn-apanel__area typography-body-sm"
               >Main Access Road (Hwy 58 Spur)</span
+            ><span
+              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">9d active</span></span
             >
-            <span class="esa-badge esa-badge--warning esa-badge--sm">
-              <span class="esa-badge__text">9d active</span>
-            </span>
           </li>
           <li class="bcn-apanel__row">
             <a
               class="bcn-apanel__id"
               href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0144"
               >obs-0144</a
-            >
-            <span
+            ><span
               class="bcn-status-chip"
               data-status="needs-attention"
-              style="--_chip: var(--st-needs-attention, var(--color-warning))"
-            >
-              <span class="bcn-status-chip__dot"></span>
-              <span class="bcn-status-chip__label">Needs Attention</span>
-            </span>
-            <span class="bcn-apanel__category type-body-small"
+              style="
+                --_chip: var(
+                  --st-needs-attention,
+                  var(--color-background-utility-warning)
+                );
+              "
+              ><span class="bcn-status-chip__dot"></span
+              ><span class="bcn-status-chip__label">Needs Attention</span></span
+            ><!-- is:global: a host that re-renders this chip at runtime (permitting-dashboard.astro's
+     client script rebuilds its By Status list after applying saved overrides) hand-builds
+     the SAME markup via innerHTML rather than re-invoking this component — Astro's scoped
+     CSS only matches elements IT rendered (via a build-hashed data-astro-cid-* attribute),
+     so a client-injected chip carries the classes but not that attribute and would render
+     unstyled. Global selectors are scoped enough on their own (.bcn-status-chip* is
+     specific to this one component) that this trades a hairline collision risk for the
+     chip working wherever a host reconstructs it — the same reasoning BcnRollupSummary's
+     style block already documents. --><span
+              class="bcn-apanel__category typography-body-sm"
               >Erosion &amp; Sediment Control</span
+            ><span class="bcn-apanel__area typography-body-sm">North Array — Block A</span
+            ><span
+              class="esa-badge esa-badge--warning esa-badge--sm typography-microcopy-xs-strong"
+              ><span class="esa-badge__text">4d active</span></span
             >
-            <span class="bcn-apanel__area type-body-small">North Array — Block A</span>
-            <span class="esa-badge esa-badge--warning esa-badge--sm">
-              <span class="esa-badge__text">4d active</span>
-            </span>
           </li>
         </ul>
       </section>
     </div>
   </div>
-  <div class="esa-card__footer">
+  <div class="esa-card__footer typography-meta">
     <div class="cluster" data-gap="sm">
       <span
-        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-      >
-        <a
-          class="esa-button__native"
+        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+        ><a
+          class="esa-button__native typography-microcopy-xs"
           href="/beacon-design/prototypes/monitoring/compliance-observations?severity=needs-attention"
           role="button"
-        >
-          <span class="esa-button__label"> All needs attention (7) </span>
-        </a>
-      </span>
-      <span
-        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-      >
-        <a
-          class="esa-button__native"
+          ><span class="esa-button__label">All needs attention (7)</span></a
+        ></span
+      ><span
+        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+        ><a
+          class="esa-button__native typography-microcopy-xs"
           href="/beacon-design/prototypes/monitoring/compliance-observations?severity=non-compliance"
           role="button"
-        >
-          <span class="esa-button__label"> All non-compliance (3) </span>
-        </a>
-      </span>
+          ><span class="esa-button__label">All non-compliance (3)</span></a
+        ></span
+      >
     </div>
   </div>
 </div>
@@ -636,244 +738,86 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 
 ## Styles
 ```css
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
 }
-.esa-button--xs {
-  --_btn-height: var(--form-height-xs, 28px);
-  --_btn-padding-x: var(--form-padding-x-xs, 8px);
-  --_btn-font-size: var(--form-font-size-xs, 11px);
-  --_btn-radius: var(--form-radius-xs, 4px);
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
+.typography-label-xs {
+  font-family: var(--typography-label-xs-font-family);
+  font-size: var(--typography-label-xs-font-size);
+  font-weight: var(--typography-label-xs-font-weight);
+  line-height: var(--typography-label-xs-line-height);
+  letter-spacing: var(--typography-label-xs-letter-spacing);
 }
-.esa-button--lg {
-  --_btn-height: var(--form-height-lg, 48px);
-  --_btn-padding-x: var(--form-padding-x-lg, 20px);
-  --_btn-font-size: var(--form-font-size-lg, 16px);
-  --_btn-radius: var(--form-radius-lg, 8px);
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
 }
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
+.typography-label-xs-strong {
+  font-family: var(--typography-label-xs-strong-font-family);
+  font-size: var(--typography-label-xs-strong-font-size);
+  font-weight: var(--typography-label-xs-strong-font-weight);
+  line-height: var(--typography-label-xs-strong-line-height);
+  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
 }
-.esa-button--sm.esa-button--icon-only .esa-button__native {
-  height: var(--form-height-sm, 32px);
-  padding-block: 0;
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
 }
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
 }
-.esa-button--color-secondary {
-  --_accent: var(--color-secondary);
-  --_accent-hover: var(--color-secondary-hover);
-  --_on: var(--color-secondary-on-fill, var(--color-gray-12));
-  --_accent-text: var(--color-secondary-strong);
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
 }
-.esa-button--color-danger {
-  --_accent: var(--color-danger);
-  --_accent-hover: var(--color-danger-hover);
-  --_accent-text: var(--color-danger-strong);
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
 }
-.esa-button--color-success {
-  --_accent: var(--color-success);
-  --_accent-hover: var(--color-success-hover);
-  --_on: var(--color-success-on-fill);
-  --_accent-text: var(--color-success-strong);
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
 }
-.esa-button--color-warning {
-  --_accent: var(--color-warning);
-  --_accent-hover: var(--color-warning-hover);
-  --_on: var(--button-on-warning, var(--color-gray-12));
-  --_accent-text: var(--color-warning-strong);
-}
-.esa-button--color-info {
-  --_accent: var(--color-info);
-  --_accent-hover: var(--color-info-hover);
-  --_accent-text: var(--color-info-strong);
-}
-.esa-button--color-ai {
-  --_accent: var(--color-ai);
-  --_accent-hover: var(--color-ai-hover);
-  --_accent-text: var(--color-ai-strong);
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
-}
-.esa-button--appearance-fill .esa-button__native:hover:not(:disabled) {
-  background: var(--_accent-hover);
-}
-.esa-button--appearance-fill.esa-button--active .esa-button__native {
-  background: var(--_accent-hover);
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-}
-.esa-button--appearance-dashed .esa-button__native {
-  border-style: dashed;
-}
-.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),
-.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {
-  background: var(--_btn-tint-hover);
-}
-.esa-button--appearance-outline.esa-button--active .esa-button__native,
-.esa-button--appearance-dashed.esa-button--active .esa-button__native {
-  background: var(--_btn-tint-active);
-}
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-surface-sunken, #efefef) 45%,
-    var(--color-surface, #fff)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-strong, #d4d4d4);
-}
-.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
-.esa-button--appearance-soft.esa-button--active .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: var(--_accent);
-}
-.esa-button--color-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-text-primary, #171717);
-  border-color: transparent;
-}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
-}
-.esa-button--color-ghost .esa-button__native:hover:not(:disabled),
-.esa-button--color-ghost.esa-button--active .esa-button__native {
-  background: var(--color-surface-sunken, #efefef);
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button__native:focus-visible {
-  outline: var(--focus-ring-width) solid var(--focus-ring-color);
-  outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-.esa-button--icon-only .esa-button__native {
-  padding-inline: 0;
-  width: var(--_btn-height);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button__label--hidden {
-  visibility: hidden;
-  width: 0;
-  overflow: hidden;
-}
-.esa-button__spinner {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: esa-button-spin 0.6s linear infinite;
-}
-.bcn-apanel__body {
-  --sidebar-width: 19rem;
-  --sidebar-content-min: 52%;
-  align-items: stretch;
-}
-.bcn-apanel__heading {
-  margin: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-apanel__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.bcn-apanel__row {
-  display: grid;
-  grid-template-columns: 7.5rem auto minmax(8rem, 1fr) minmax(9rem, 1fr) auto;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding-block: var(--spacing-150);
-  padding-inline: var(--spacing-200);
-}
-.bcn-apanel__list > li + li {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-apanel__id {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  white-space: nowrap;
-}
-.bcn-apanel__id:hover {
-  color: var(--color-primary-hover);
-}
-.bcn-apanel__category,
-.bcn-apanel__area {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.bcn-apanel__category {
-  color: var(--color-text-primary);
-}
-.bcn-apanel__area {
-  color: var(--color-text-secondary);
-}
-.bcn-apanel__category,
-.bcn-apanel__area {
-  grid-column: 1 / -1;
+.typography-meta {
+  font-family: var(--typography-meta-font-family);
+  font-size: var(--typography-meta-font-size);
+  font-weight: var(--typography-meta-font-weight);
+  line-height: var(--typography-meta-line-height);
+  letter-spacing: var(--typography-meta-letter-spacing);
 }
 .bcn-search-trigger .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
@@ -884,197 +828,266 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   color: var(--bcn-helpbar-fg);
 }
 .bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
 .bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   flex: none;
 }
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-background-elevation-raised, #fcfcfc));
+  --_card-border: var(--card-border-color, var(--color-border-default, #cecece));
+  --_card-radius: var(--radius-md, 0.5rem);
+  --_card-padding: var(--spacing-500, 1.5rem);
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--color-content-default, #202020);
+  --_card-header-border: var(--color-border-default-subtle, #d9d9d9);
+  --_card-meta-label-color: var(--color-content-default-secondary, #646464);
+  --_card-meta-label-size: var(--typography-label-sm-font-size, 0.875rem);
+  --_card-meta-value-size: var(--typography-label-md-font-size, 0.9375rem);
+  background: var(--_card-bg);
+  border: var(--border-width-default, 1px) solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  display: block;
+  overflow: hidden;
+}
+.esa-card--outlined {
+  --_card-border: var(--color-border-default, #cecece);
+}
+.esa-card--elevated {
+  --_card-border: transparent;
+  box-shadow: var(--elevation-2, 0 2px 12px 0 #0000000a);
+}
+.esa-card--filled {
+  --_card-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  --_card-border: transparent;
+}
+.esa-card--header-primary .esa-card__header {
+  --_card-header-bg: var(--color-background-brand, #46a758);
+  --_card-header-color: var(--color-content-default-knockout, #fcfcfc);
+}
+.esa-card--header-muted .esa-card__header {
+  --_card-header-bg: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-card--padding-none {
+  --_card-padding: 0;
+}
+.esa-card--padding-compact {
+  --_card-padding: var(--spacing-300, 0.75rem);
+}
+.esa-card--padding-spacious {
+  --_card-padding: var(--spacing-700, 3rem);
+}
+.esa-card__header {
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: var(--border-width-default, 1px) solid var(--_card-header-border);
+  justify-content: space-between;
+  align-items: center;
+  min-height: 56px;
+  display: flex;
+}
+.esa-card__header-content {
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+  display: flex;
+}
+.esa-card__titles {
+  gap: var(--spacing-050, 0.125rem);
+  flex-direction: column;
+  display: flex;
+}
+.esa-card__title {
+  color: inherit;
+  margin: 0;
+}
+.esa-card__subtitle {
+  color: var(--color-content-default-secondary, #646464);
+  margin: 0;
+}
+.esa-card--header-primary .esa-card__subtitle {
+  color: var(--color-content-on-brand, #fffc);
+}
+.esa-card__meta {
+  gap: var(--spacing-100, 0.25rem) var(--spacing-500, 1.5rem);
+  margin: var(--spacing-050, 0.125rem) 0 0;
+  flex-wrap: wrap;
+  display: flex;
+}
+.esa-card__meta-pair {
+  align-items: baseline;
+  gap: var(--spacing-100, 0.25rem);
+  min-width: 0;
+  display: flex;
+}
+.esa-card__meta dt {
+  font-size: var(--_card-meta-label-size);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--_card-meta-label-color);
+}
+.esa-card__meta dd {
+  font-size: var(--_card-meta-value-size);
+  color: inherit;
+  margin: 0;
+}
+.esa-card--header-primary .esa-card__meta dt {
+  color: #fffc;
+}
+.esa-card__icon {
+  color: inherit;
+  flex-shrink: 0;
+}
+.esa-card__actions {
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  display: flex;
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.esa-card__footer {
+  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
+  border-top: var(--border-width-default, 1px) solid var(--_card-header-border);
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+}
 .bcn-disclosure .esa-icon {
-  transition: transform 0.15s ease;
+  transition: transform 0.15s;
 }
 .bcn-disclosure[aria-expanded="false"] .esa-icon {
   transform: rotate(-90deg);
 }
 .bcn-countchip__num .esa-badge {
   --badge-radius: var(--radius-full);
-  --badge-bg: var(--color-border);
-  --badge-text-color: var(--color-text-secondary);
+  --badge-bg: var(--color-border-default);
+  --badge-text-color: var(--color-content-default-secondary);
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
   min-width: 19px;
   height: 19px;
-  padding: 0 4px;
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
+  box-shadow: 0 0 0 1.5px var(--color-background-elevation-raised);
   justify-content: center;
+  align-items: center;
+  padding: 0 4px;
   font-size: 0.8125rem;
-  font-variant-numeric: tabular-nums;
   line-height: 1;
-  box-shadow: 0 0 0 1.5px var(--color-surface);
+  display: inline-flex;
 }
 .bcn-ev-staging__title .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
 }
 .bcn-ev-staging__item .esa-card {
   overflow: visible;
 }
 .bcn-ev-targets__title .esa-icon {
+  color: var(--color-content-default-tertiary);
   flex: none;
-  color: var(--color-text-tertiary);
 }
 .bcn-ev-targets__item[data-receiving] .esa-card {
-  border-color: var(--color-secondary);
-  background: color-mix(in srgb, var(--color-secondary) 5%, transparent);
+  border-color: var(--color-background-brand-muted);
+  background: color-mix(in srgb, var(--color-background-brand-muted) 5%, transparent);
 }
 .bcn-ev-targets__item[data-blocked] .esa-card {
   opacity: 0.45;
 }
 .bcn-ev-attached__mark .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-  font-weight: var(--font-weight-medium);
+  --badge-bg: var(--color-background-utility-info-subtle);
+  --badge-text-color: var(--color-content-default);
+  border: 1px solid
+    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-targets__item .esa-card {
   overflow: visible;
 }
 .bcn-ev-row__mark .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-  font-weight: var(--font-weight-medium);
+  --badge-bg: var(--color-background-utility-info-subtle);
+  --badge-text-color: var(--color-content-default);
+  border: 1px solid
+    color-mix(in srgb, var(--color-background-utility-info) 35%, transparent);
+  font-weight: var(--typography-font-weight-medium);
 }
 .bcn-ev-row__tags .esa-badge {
   --badge-bg: var(--bcn-gray-100);
   --badge-text-color: var(--bcn-gray-700);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--typography-font-weight-medium);
 }
 .sidebar-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: var(--spacing-050);
   width: 32px;
   height: 32px;
-  padding: 0;
-  border: none;
-  border-radius: var(--spacing-050);
-  background: transparent;
   color: var(--bcn-gray-600);
   cursor: pointer;
+  background: 0 0;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
   transition:
-    background 0.15s ease,
-    color 0.15s ease;
+    background 0.15s,
+    color 0.15s;
+  display: flex;
 }
 .sidebar-toggle:hover {
   background: var(--bcn-gray-200);
-  color: var(--color-primary);
+  color: var(--color-background-brand);
 }
 .sidebar-toggle:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-background-brand);
   outline-offset: 2px;
 }
 .sidebar-toggle__icon {
-  transition: transform 0.15s ease;
+  transition: transform 0.15s;
 }
 .sidebar-toggle--collapsed .sidebar-toggle__icon {
   transform: scaleX(-1);
 }
 .topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+  color: var(--color-content-default-secondary);
 }
 .user-panel__item .esa-icon {
   color: var(--bcn-gray-500);
 }
 .user-panel__item--danger .esa-icon {
-  color: var(--color-danger);
+  color: var(--color-background-utility-danger);
 }
 .sidebar-header {
-  flex-shrink: 0;
   padding: var(--spacing-300) var(--spacing-400);
+  flex-shrink: 0;
   transition: padding 0.2s ease-in-out;
 }
 .side-nav.collapsed .sidebar-header {
   padding: var(--spacing-300) var(--spacing-200);
 }
 .project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-500);
+  flex-shrink: 0;
 }
 .nav-section__header:hover .esa-icon,
 .nav-section--active .nav-section__header,
 .nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+  color: var(--color-background-brand);
 }
 .nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
   color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+  flex-shrink: 0;
+  transition: color 0.15s;
 }
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
   flex-shrink: 0;
+  transition:
+    transform 0.15s,
+    opacity 0.2s ease-in-out;
 }
 .nav-section--collapsed .nav-section__header > .esa-icon:last-child {
   transform: rotate(-90deg);
 }
+.side-nav.collapsed .nav-section__title,
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.stack[data-split] > [data-split] {
-  margin-block-end: auto;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
-.sidebar[data-side="end"] > :first-child {
-  order: 2;
-}
-.type-body-small {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-label {
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
 }
 .leaflet-pane,
 .leaflet-tile,
@@ -1087,8 +1100,8 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 .leaflet-image-layer,
 .leaflet-layer {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
 }
 .leaflet-container {
   overflow: hidden;
@@ -1102,15 +1115,15 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   -webkit-user-drag: none;
 }
 .leaflet-tile::selection {
-  background: transparent;
+  background: 0 0;
 }
 .leaflet-safari .leaflet-tile {
   image-rendering: -webkit-optimize-contrast;
 }
 .leaflet-safari .leaflet-tile-container {
+  -webkit-transform-origin: 0 0;
   width: 1600px;
   height: 1600px;
-  -webkit-transform-origin: 0 0;
 }
 .leaflet-container .leaflet-overlay-pane svg {
   max-width: none !important;
@@ -1121,10 +1134,10 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 .leaflet-container .leaflet-tile-pane img,
 .leaflet-container img.leaflet-image-layer,
 .leaflet-container .leaflet-tile {
-  max-width: none !important;
-  max-height: none !important;
   width: auto;
   padding: 0;
+  max-width: none !important;
+  max-height: none !important;
 }
 .leaflet-container img.leaflet-tile {
   mix-blend-mode: plus-lighter;
@@ -1146,7 +1159,7 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   -webkit-tap-highlight-color: transparent;
 }
 .leaflet-container a {
-  -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+  -webkit-tap-highlight-color: #33b5e566;
 }
 .leaflet-tile {
   filter: inherit;
@@ -1187,9 +1200,9 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 }
 .leaflet-top,
 .leaflet-bottom {
-  position: absolute;
   z-index: 1000;
   pointer-events: none;
+  position: absolute;
 }
 .leaflet-top {
   top: 0;
@@ -1280,8 +1293,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
   pointer-events: auto;
 }
 .leaflet-container {
-  background: #ddd;
   outline-offset: 1px;
+  background: #ddd;
 }
 .leaflet-container a {
   color: #0078a8;
@@ -1292,7 +1305,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
     Arial,
     Helvetica,
     sans-serif;
-  font-size: 12px;
   font-size: 0.75rem;
   line-height: 1.5;
 }
@@ -1306,8 +1318,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
   border-top-right-radius: 2px;
 }
 .leaflet-touch .leaflet-bar a:last-child {
-  border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
 }
 .leaflet-touch .leaflet-control-zoom-in,
 .leaflet-touch .leaflet-control-zoom-out {
@@ -1318,7 +1330,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
   height: 44px;
 }
 .leaflet-container .leaflet-control-attribution {
-  background: #fff;
   background: #fffc;
   margin: 0;
 }
@@ -1335,24 +1346,24 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 .leaflet-touch .leaflet-control-layers,
 .leaflet-touch .leaflet-bar {
-  border: 2px solid rgba(0, 0, 0, 0.2);
   background-clip: padding-box;
+  border: 2px solid #0003;
 }
 .leaflet-container a.leaflet-popup-close-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: none;
   text-align: center;
+  color: #757575;
+  background: 0 0;
+  border: none;
   width: 24px;
   height: 24px;
   font:
     16px/24px Tahoma,
     Verdana,
     sans-serif;
-  color: #757575;
   text-decoration: none;
-  background: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .leaflet-container a.leaflet-popup-close-button:hover,
 .leaflet-container a.leaflet-popup-close-button:focus {
@@ -1362,142 +1373,391 @@ svg.leaflet-image-layer.leaflet-interactive path {
   cursor: pointer;
   pointer-events: auto;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
-  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 28px);
-  --_badge-font-size: 13px;
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  --_badge-min-width: var(--badge-height-md, 28px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--_badge-height);
-  min-width: var(--_badge-min-width);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--badge-radius, var(--radius-100, 4px));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  font-size: var(--_badge-font-size);
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
+.bcn-apanel__body {
+  --sidebar-width: 19rem;
+  --sidebar-content-min: 52%;
+  align-items: stretch;
 }
-.esa-badge--xs {
-  --_badge-height: var(--badge-height-xs, 18px);
-  --_badge-font-size: 10px;
-  --_badge-padding-x: var(--spacing-100, 0.25rem);
-  --_badge-min-width: var(--badge-height-xs, 18px);
+.bcn-apanel__heading {
+  color: var(--color-content-default-secondary);
+  margin: 0;
 }
-.esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 22px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-  --_badge-min-width: var(--badge-height-sm, 22px);
-}
-.esa-badge--lg {
-  --_badge-height: var(--badge-height-lg, 34px);
-  --_badge-font-size: 14px;
-  --_badge-padding-x: var(--spacing-300, 0.75rem);
-  --_badge-min-width: var(--badge-height-lg, 34px);
-}
-.esa-badge--secondary {
-  --_badge-bg: var(--color-secondary, #65ba74);
-  --_badge-text: var(--color-secondary-on-fill, #203c25);
-}
-.esa-badge--success {
-  --_badge-bg: var(--color-success, #bdee63);
-  --_badge-text: var(--color-success-on-fill, #37401c);
-}
-.esa-badge--warning {
-  --_badge-bg: var(--color-warning, #ffc53d);
-  --_badge-text: var(--color-warning-on-fill, #4f3422);
-}
-.esa-badge--danger {
-  --_badge-bg: var(--color-danger, #e5484d);
-}
-.esa-badge--info {
-  --_badge-bg: var(--color-info, #0090ff);
-}
-.esa-badge--dot {
-  width: 8px;
-  height: 8px;
-  min-width: 8px;
+.bcn-apanel__list {
+  margin: 0;
   padding: 0;
-  border-radius: var(--radius-full, 9999px);
+  list-style: none;
 }
-.esa-badge--dot.esa-badge--primary {
-  --_badge-bg: var(--color-primary-hover, #3e9b4f);
+.bcn-apanel__row {
+  align-items: center;
+  gap: var(--spacing-400);
+  padding-block: var(--spacing-150);
+  padding-inline: var(--spacing-200);
+  grid-template-columns: 7.5rem auto minmax(8rem, 1fr) minmax(9rem, 1fr) auto;
+  display: grid;
 }
-.esa-badge--dot.esa-badge--secondary {
-  --_badge-bg: var(--color-secondary-hover, #46a758);
+.bcn-apanel__list > li + li {
+  border-top: 1px solid var(--color-border-default-subtle);
 }
-.esa-badge--dot.esa-badge--success {
-  --_badge-bg: var(--color-success-hover, #b0e64c);
+.bcn-apanel__id {
+  font-size: var(--font-size-150);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-background-brand);
+  text-underline-offset: 2px;
+  white-space: nowrap;
+  text-decoration: underline;
 }
-.esa-badge--dot.esa-badge--warning {
-  --_badge-bg: var(--color-warning-hover, #ffba18);
+.bcn-apanel__id:hover {
+  color: var(--color-background-brand-hover);
 }
-.esa-badge--dot.esa-badge--danger {
-  --_badge-bg: var(--color-danger-hover, #dc3e42);
+.bcn-apanel__category,
+.bcn-apanel__area {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.esa-badge--dot.esa-badge--info {
-  --_badge-bg: var(--color-info-hover, #0588f0);
+.bcn-apanel__category {
+  color: var(--color-content-default);
+}
+.bcn-apanel__area {
+  color: var(--color-content-default-secondary);
+}
+.bcn-apanel__category,
+.bcn-apanel__area {
+  grid-column: 1/-1;
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--xs {
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
+}
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
+}
+.esa-button--lg {
+  --_btn-pad-y: var(--spacing-400, 1rem);
+  --_btn-padding-x: var(--spacing-400, 1rem);
+  --_btn-radius: var(--button-radius-lg, 8px);
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button--variant-secondary {
+  --_accent: var(--color-background-brand-muted);
+  --_accent-hover: var(--color-background-brand-muted-hover);
+  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
+  --_accent-text: var(--color-content-brand);
+  --_accent-border: var(--color-border-default-strong, #bbb);
+}
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
+}
+.esa-button--variant-success {
+  --_accent: var(--color-background-utility-success);
+  --_accent-hover: var(--color-background-utility-success-hover);
+  --_on: var(--color-content-on-utility-success);
+  --_accent-text: var(--color-content-utility-success);
+}
+.esa-button--variant-warning {
+  --_accent: var(--color-background-utility-warning);
+  --_accent-hover: var(--color-background-utility-warning-hover);
+  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
+  --_accent-text: var(--color-content-utility-warning);
+}
+.esa-button--variant-info {
+  --_accent: var(--color-background-utility-info);
+  --_accent-hover: var(--color-background-utility-info-hover);
+  --_accent-text: var(--color-content-utility-info);
+}
+.esa-button--variant-ai {
+  --_accent: var(--color-background-ai);
+  --_accent-hover: var(--color-background-ai-hover);
+  --_accent-text: var(--color-content-ai);
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--appearance-fill .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-fill.esa-button--active .esa-button__native {
+  background: var(--_accent-hover);
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+  background: 0 0;
+}
+.esa-button--appearance-dashed .esa-button__native {
+  border-style: dashed;
+}
+.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {
+  background: var(--_btn-tint-hover);
+}
+.esa-button--appearance-outline.esa-button--active .esa-button__native,
+.esa-button--appearance-dashed.esa-button--active .esa-button__native {
+  background: var(--_btn-tint-active);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-default-strong, #bbb);
+}
+.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
+.esa-button--appearance-soft.esa-button--active .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent);
+}
+.esa-button--variant-ghost .esa-button__native {
+  color: var(--color-content-default, #202020);
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
+}
+.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),
+.esa-button--variant-ghost.esa-button--active .esa-button__native {
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-button--variant-chrome .esa-button__native {
+  color: inherit;
+  background: 0 0;
+  border-color: #0000;
+}
+.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
+.esa-button--variant-chrome.esa-button--active .esa-button__native,
+.esa-button--variant-chrome.esa-button--current .esa-button__native {
+  background: var(
+    --button-chrome-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+}
+.esa-button--variant-chrome .esa-button__native:focus-visible {
+  outline-color: currentColor;
+}
+.esa-button__native {
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+}
+.esa-button__native:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+summary.esa-button {
+  cursor: pointer;
+  list-style: none;
+}
+summary.esa-button::-webkit-details-marker {
+  display: none;
+}
+summary.esa-button:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: var(--_btn-radius);
+}
+summary.esa-button--variant-chrome:focus-visible {
+  outline-color: currentColor;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button__label--hidden {
+  clip-path: inset(50%);
+  white-space: nowrap;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  overflow: hidden;
+}
+.esa-button__spinner {
+  width: 1em;
+  height: 1em;
+  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
+  border: 2px solid;
+  border-right-color: #0000;
+  border-radius: 50%;
+  display: inline-block;
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-xs {
+  font-family: var(--typography-label-xs-font-family);
+  font-size: var(--typography-label-xs-font-size);
+  font-weight: var(--typography-label-xs-font-weight);
+  line-height: var(--typography-label-xs-line-height);
+  letter-spacing: var(--typography-label-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-xs-strong {
+  font-family: var(--typography-label-xs-strong-font-family);
+  font-size: var(--typography-label-xs-strong-font-size);
+  font-weight: var(--typography-label-xs-strong-font-weight);
+  line-height: var(--typography-label-xs-strong-line-height);
+  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-title-sm-strong {
+  font-family: var(--typography-title-sm-strong-font-family);
+  font-size: var(--typography-title-sm-strong-font-size);
+  font-weight: var(--typography-title-sm-strong-font-weight);
+  line-height: var(--typography-title-sm-strong-line-height);
+  letter-spacing: var(--typography-title-sm-strong-letter-spacing);
+}
+.typography-meta {
+  font-family: var(--typography-meta-font-family);
+  font-size: var(--typography-meta-font-size);
+  font-weight: var(--typography-meta-font-weight);
+  line-height: var(--typography-meta-line-height);
+  letter-spacing: var(--typography-meta-letter-spacing);
 }
 .bcn-status-chip {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-150);
   padding: 2px var(--spacing-250);
   border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
   white-space: nowrap;
   background: color-mix(in srgb, var(--_chip) 16%, transparent);
   color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  display: inline-flex;
 }
 .bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
   border-radius: var(--radius-full);
   background: var(--_chip);
   flex-shrink: 0;
+  width: 8px;
+  height: 8px;
 }
 .leaflet-container .leaflet-tooltip {
-  padding: 6px 12px;
-  font-family: var(--font-sans, inherit);
+  font-family: var(--typography-font-family-sans, inherit);
   font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold, 600);
-  line-height: 1.4;
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #ffffff);
-  border: 1px solid var(--color-border, #dcdcdc);
+  font-weight: var(--typography-font-weight-semibold, 600);
+  color: var(--color-content-default, #3d3d3d);
+  background: var(--color-background-elevation-raised, #fff);
+  border: 1px solid var(--color-border-default, #dcdcdc);
   border-radius: var(--radius-100, 4px);
-  box-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  box-shadow: var(--elevation-4, 0 6px 24px -6px #00000012);
+  padding: 6px 12px;
+  line-height: 1.4;
 }
 .leaflet-container .leaflet-tooltip-top:before {
-  border-top-color: var(--color-surface, #ffffff);
+  border-top-color: var(--color-background-elevation-raised, #fff);
 }
 .leaflet-container .leaflet-tooltip-bottom:before {
-  border-bottom-color: var(--color-surface, #ffffff);
+  border-bottom-color: var(--color-background-elevation-raised, #fff);
 }
 .leaflet-container .leaflet-tooltip-left:before {
-  border-left-color: var(--color-surface, #ffffff);
+  border-left-color: var(--color-background-elevation-raised, #fff);
 }
 .leaflet-container .leaflet-tooltip-right:before {
-  border-right-color: var(--color-surface, #ffffff);
+  border-right-color: var(--color-background-elevation-raised, #fff);
 }
 .bcn-obsmap {
-  width: 100%;
   border-radius: var(--radius-200);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-background-elevation-sunken);
+  z-index: 0;
+  isolation: isolate;
+  width: 100%;
+  position: relative;
   overflow: hidden;
-  background: var(--color-surface-sunken);
 }
 .bcn-obsmap .leaflet-container {
-  font-family: var(--font-sans, inherit);
-  background: var(--color-surface-sunken);
+  font-family: var(--typography-font-family-sans, inherit);
+  background: var(--color-background-elevation-sunken);
 }
 .bcn-obsmap[data-interactive="false"] .leaflet-container {
   cursor: default;
@@ -1506,282 +1766,256 @@ svg.leaflet-image-layer.leaflet-interactive path {
   cursor: pointer;
 }
 .esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  --_icon-size: var(--icon-size-md, 20px);
   width: var(--_icon-size);
   height: var(--_icon-size);
-  line-height: 1;
   color: inherit;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
 }
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+  --_icon-size: var(--icon-size-lg, 24px);
 }
 .esa-icon--xl {
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon svg {
-  display: block;
   width: var(--_icon-size);
   height: var(--_icon-size);
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-button--lg {
-  --_ib-size: var(--form-height-lg, 48px);
-}
-.esa-icon-button:hover {
-  background: var(--_ib-bg-hover);
-}
-.esa-icon-button:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-card {
-  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
-  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
-  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
-  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
-  --_card-header-bg: var(--card-header-bg, transparent);
-  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
-  --_card-header-border: var(
-    --card-header-border-color,
-    var(--color-border-light, #efefef)
-  );
   display: block;
-  background: var(--_card-bg);
-  border: 1px solid var(--_card-border);
-  border-radius: var(--_card-radius);
-  overflow: hidden;
-}
-.esa-card--outlined {
-  --_card-border: var(--color-border, #e5e5e5);
-}
-.esa-card--elevated {
-  --_card-border: transparent;
-  box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.04));
-}
-.esa-card--filled {
-  --_card-bg: var(--color-surface-sunken, #efefef);
-  --_card-border: transparent;
-}
-.esa-card--header-primary .esa-card__header {
-  --_card-header-bg: var(--color-primary, #43608a);
-  --_card-header-color: var(--color-text-inverse, #ffffff);
-}
-.esa-card--header-muted .esa-card__header {
-  --_card-header-bg: var(--color-surface-sunken, #efefef);
-}
-.esa-card--padding-none {
-  --_card-padding: 0;
-}
-.esa-card--padding-compact {
-  --_card-padding: var(--spacing-300, 0.75rem);
-}
-.esa-card--padding-spacious {
-  --_card-padding: var(--spacing-700, 3rem);
-}
-.esa-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-400, 1rem) var(--_card-padding);
-  background: var(--_card-header-bg);
-  color: var(--_card-header-color);
-  border-bottom: 1px solid var(--_card-header-border);
-  min-height: 56px;
-}
-.esa-card__header-content {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300, 0.75rem);
-}
-.esa-card__titles {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-050, 0.125rem);
-}
-.esa-card__title {
-  font-size: var(--type-size-250, 1.0625rem);
-  font-weight: 600;
-  margin: 0;
-  color: inherit;
-  font-family: var(--font-sans, "DM Sans", sans-serif);
-}
-.esa-card__subtitle {
-  font-size: var(--type-size-150, 0.8125rem);
-  color: var(--color-text-secondary, #525252);
-  margin: 0;
-}
-.esa-card--header-primary .esa-card__subtitle {
-  color: #fffc;
-}
-.esa-card__icon {
-  color: inherit;
-  flex-shrink: 0;
-}
-.esa-card__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-}
-.esa-card__body {
-  padding: var(--_card-padding);
-}
-.esa-card__footer {
-  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
-  border-top: 1px solid var(--_card-header-border);
-  background: var(--card-footer-bg, var(--color-surface-sunken, #efefef));
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--page-title-icon-color, var(--bcn-gray-1000));
   flex-shrink: 0;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  gap: var(--gap);
+  flex-direction: column;
+  display: flex;
+}
+.stack[data-split] > [data-split] {
+  margin-block-end: auto;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+  flex-wrap: wrap;
+  display: flex;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  display: flex;
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar > :last-child {
+  min-inline-size: var(--sidebar-content-min);
+  flex-grow: 999;
+  flex-basis: 0;
+}
+.sidebar[data-side="end"] > :first-child {
+  order: 2;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+.esa-badge--xs {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-badge--lg {
+  --_badge-padding-y: var(--spacing-250, 0.625rem);
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+  --_badge-text: var(--color-content-on-brand-muted, #203c25);
+}
+.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-muted, #e6f6eb);
+  --_badge-text: var(--color-content-utility-success, #218358);
+  --_badge-border: var(--color-border-utility-success, #adddc0);
+}
+.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-muted, #fff7c2);
+  --_badge-text: var(--color-content-utility-warning, #ab6400);
+  --_badge-border: var(--color-border-utility-warning, #f3d673);
+}
+.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-muted, #feebec);
+  --_badge-text: var(--color-content-utility-danger, #ce2c31);
+  --_badge-border: var(--color-border-utility-danger, #fdbdbe);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-muted, #e6f4fe);
+  --_badge-text: var(--color-content-utility-info, #0d74ce);
+  --_badge-border: var(--color-border-utility-info, #acd8fc);
+}
+.esa-badge--success:not(.esa-badge--dot),
+.esa-badge--warning:not(.esa-badge--dot),
+.esa-badge--danger:not(.esa-badge--dot),
+.esa-badge--info:not(.esa-badge--dot) {
+  border: 1px solid var(--_badge-border, transparent);
+}
+.esa-badge--dot {
+  border-radius: var(--radius-pill, 9999px);
+  width: 8px;
+  min-width: 8px;
+  height: 8px;
+  padding: 0;
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-background-brand-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-background-brand, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-background-utility-success-hover, #2b9a66);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-background-utility-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-background-utility-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-background-utility-info-hover, #0588f0);
+}
+.esa-badge--dot {
+  background: canvastext;
+  border: 0;
+  outline: 1px solid canvastext;
 }
 ```
 
 ## Tokens
-- `--badge-bg`: #005862 _(component)_
-- `--badge-height-lg`: 34px _(component)_
-- `--badge-height-md`: 28px _(component)_
-- `--badge-height-sm`: 22px _(component)_
-- `--badge-height-xs`: 18px _(component)_
-- `--badge-radius`: .25rem _(component)_
+- `--animation-spin`: .75s linear infinite _(semantic)_
+- `--badge-bg`: #43608a _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-100`: #efefef _(component)_
-- `--bcn-gray-1000`: #000000 _(component)_
+- `--bcn-gray-1000`: #000 _(component)_
 - `--bcn-gray-200`: #dcdcdc _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-600`: #656565 _(component)_
 - `--bcn-gray-700`: #525252 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
-- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
-- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
-- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
-- `--button-on-warning`: #ffffff _(component)_
+- `--bcn-helpbar-fg`: #ffffffeb _(component)_
+- `--bcn-helpbar-fg-muted`: #ffffffb8 _(component)_
+- `--bcn-helpbar-hover-bg`: #ffffff1a _(component)_
+- `--border-width-default`: 1px _(semantic)_
+- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--button-on-warning`: #fff _(component)_
+- `--button-radius-lg`: .25rem _(component)_
+- `--button-radius-md`: .25rem _(component)_
+- `--button-radius-sm`: .25rem _(component)_
+- `--button-radius-xs`: .25rem _(component)_
 - `--card-bg`: #fcfcfc _(component)_
 - `--card-border-color`: #dcdcdc _(component)_
-- `--card-footer-bg`: #efefef _(component)_
 - `--card-header-bg`: transparent _(component)_
-- `--card-header-border-color`: #efefef _(component)_
-- `--card-header-color`: #3d3d3d _(component)_
-- `--card-padding`: 1.5rem _(component)_
-- `--card-radius`: .5rem _(component)_
-- `--color-ai`: #699cc6 _(semantic)_
-- `--color-ai-hover`: #4c75a9 _(semantic)_
-- `--color-ai-strong`: #7d5e54 _(semantic)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-light`: #efefef _(semantic)_
-- `--color-border-strong`: #bdbdbd _(semantic)_
-- `--color-danger`: #e5484d _(semantic)_
-- `--color-danger-hover`: #dc3e42 _(semantic)_
-- `--color-danger-strong`: #ce2c31 _(semantic)_
-- `--color-gray-12`: #202020 _(primitive)_
-- `--color-info`: #228be6 _(semantic)_
-- `--color-info-hover`: #0588f0 _(semantic)_
-- `--color-info-strong`: #0d74ce _(semantic)_
-- `--color-info-subtle`: #f4faff _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-primary-strong`: #2a7e3b _(semantic)_
-- `--color-secondary`: #00918b _(semantic)_
-- `--color-secondary-hover`: #0a6562 _(semantic)_
-- `--color-secondary-on-fill`: #203c25 _(semantic)_
-- `--color-secondary-strong`: #2a7e3b _(semantic)_
-- `--color-success`: #2e7571 _(semantic)_
-- `--color-success-hover`: #b0e64c _(semantic)_
-- `--color-success-on-fill`: #37401c _(semantic)_
-- `--color-success-strong`: #5c7c2f _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--color-warning`: #f59e0b _(semantic)_
-- `--color-warning-hover`: #ffba18 _(semantic)_
-- `--color-warning-on-fill`: #4f3422 _(semantic)_
-- `--color-warning-strong`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #65ba74 _(primitive)_
-- `--focus-ring-offset`: 2px _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
-- `--form-font-size-lg`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(component)_
-- `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--form-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
-- `--form-height-lg`: 44px _(component)_
-- `--form-height-md`: 36px _(component)_
-- `--form-height-sm`: 28px _(component)_
-- `--form-height-xs`: 24px _(component)_
-- `--form-padding-x-lg`: 1rem _(component)_
-- `--form-padding-x-md`: .75rem _(component)_
-- `--form-padding-x-sm`: .625rem _(component)_
-- `--form-padding-x-xs`: .5rem _(component)_
-- `--form-radius-lg`: .25rem _(component)_
-- `--form-radius-md`: .25rem _(component)_
-- `--form-radius-sm`: .25rem _(component)_
-- `--form-radius-xs`: .25rem _(component)_
+- `--color-background-ai`: #699cc6 _(semantic)_
+- `--color-background-ai-hover`: #4c75a9 _(semantic)_
+- `--color-background-brand-muted`: #eef5f4 _(semantic)_
+- `--color-background-brand-muted-hover`: #b9d6d2 _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-elevation-sunken`: #efefef _(semantic)_
+- `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-background-utility-danger-hover`: #641723 _(semantic)_
+- `--color-background-utility-danger-muted`: #feebec _(semantic)_
+- `--color-background-utility-info`: #228be6 _(semantic)_
+- `--color-background-utility-info-hover`: #113264 _(semantic)_
+- `--color-background-utility-info-muted`: #e6f4fe _(semantic)_
+- `--color-background-utility-info-subtle`: #fbfdff _(semantic)_
+- `--color-background-utility-success`: #2e7571 _(semantic)_
+- `--color-background-utility-success-hover`: #193b2d _(semantic)_
+- `--color-background-utility-success-muted`: #e6f6eb _(semantic)_
+- `--color-background-utility-warning`: #f59e0b _(semantic)_
+- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
+- `--color-background-utility-warning-muted`: #fff7c2 _(semantic)_
+- `--color-border-default`: #dcdcdc _(semantic)_
+- `--color-border-default-strong`: #bdbdbd _(semantic)_
+- `--color-border-default-subtle`: #efefef _(semantic)_
+- `--color-border-utility-danger`: #fdbdbe _(semantic)_
+- `--color-border-utility-info`: #acd8fc _(semantic)_
+- `--color-border-utility-success`: #adddc0 _(semantic)_
+- `--color-border-utility-warning`: #f3d673 _(semantic)_
+- `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-default`: #3d3d3d _(semantic)_
+- `--color-content-default-knockout`: #fcfcfc _(semantic)_
+- `--color-content-default-secondary`: #525252 _(semantic)_
+- `--color-content-default-tertiary`: #656565 _(semantic)_
+- `--color-content-on-brand`: #fcfcfc _(semantic)_
+- `--color-content-on-brand-muted`: #203c25 _(semantic)_
+- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
+- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-utility-danger`: #ce2c31 _(semantic)_
+- `--color-content-utility-info`: #0d74ce _(semantic)_
+- `--color-content-utility-success`: #218358 _(semantic)_
+- `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--elevation-2`: 0 2px 12px 0 #0000000a _(semantic)_
+- `--elevation-4`: 0 6px 24px -6px #00000012 _(semantic)_
+- `--focus-ring-color`: #3e9b4f _(component)_
+- `--focus-ring-offset`: 2px _(component)_
+- `--focus-ring-width`: 2px _(component)_
+- `--font-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--font-weight-medium`: 500 _(component)_
 - `--gap`: 2rem _(component)_
-- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
-- `--icon-size-large`: 24px _(component)_
 - `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
-- `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
-- `--icon-size-small`: 16px _(component)_
 - `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
-- `--letter-spacing-normal`: .01em _(primitive)_
-- `--line-height-normal`: 1.6 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--radius-300`: .5rem _(primitive)_
+- `--radius-chip`: .25rem _(semantic)_
 - `--radius-full`: 9999px _(primitive)_
-- `--shadow-100`: 0 2px 12px 0 rgba(0, 0, 0, .04) _(primitive)_
-- `--shadow-300`: 0 6px 24px -6px rgba(0, 0, 0, .07) _(primitive)_
-- `--sidebar-width`: 280px _(semantic)_
+- `--radius-md`: .25rem _(semantic)_
+- `--radius-pill`: 9999px _(semantic)_
+- `--radius-sm`: .25rem _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
@@ -1791,7 +2025,63 @@ svg.leaflet-image-layer.leaflet-interactive path {
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--type-size-250`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(primitive)_
+- `--transition-fast`: .15s ease _(semantic)_
+- `--typography-body-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-body-md-font-weight`: 350 _(semantic)_
+- `--typography-body-md-letter-spacing`: .01em _(semantic)_
+- `--typography-body-md-line-height`: 1.6 _(semantic)_
+- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
+- `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-font-family-sans`: "DM Sans", sans-serif _(semantic)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-font-weight-semibold`: 550 _(semantic)_
+- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-font-weight`: 500 _(semantic)_
+- `--typography-label-md-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-label-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-label-xs-font-weight`: 500 _(semantic)_
+- `--typography-label-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-label-xs-line-height`: 1.6 _(semantic)_
+- `--typography-label-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-label-xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-xs-strong-line-height`: 1.6 _(semantic)_
+- `--typography-meta-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-meta-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-meta-font-weight`: 350 _(semantic)_
+- `--typography-meta-letter-spacing`: .01em _(semantic)_
+- `--typography-meta-line-height`: 1.6 _(semantic)_
+- `--typography-microcopy-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-xs-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-xs-subtle-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-microcopy-xs-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-xs-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-xs-subtle-line-height`: 1 _(semantic)_
+- `--typography-title-sm-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-title-sm-strong-font-size`: clamp(.8125rem, .71rem + .5vw, 1.0625rem) _(semantic)_
+- `--typography-title-sm-strong-font-weight`: 550 _(semantic)_
+- `--typography-title-sm-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-title-sm-strong-line-height`: 1.6 _(semantic)_

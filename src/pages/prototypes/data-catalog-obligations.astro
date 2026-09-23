@@ -1,0 +1,59 @@
+---
+// Data Catalog — Obligations.
+//
+// The list half of the Obligation entity's catalog pair, sibling to the Actions list.
+// The Data Catalog is project-agnostic, so the project switcher reads "Select a Project"
+// and the sidebar collapses to the catalog's own sub-nav with Obligations now present.
+//
+// Rows are the real 402-row registry extracted from the Actions-and-Obligations specimen
+// (see src/data/obligations.ts for provenance) — nothing here is invented.
+//
+// Row click → the obligation detail page, one static route per obligation.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnObligationGrid from '../../components/bcn/BcnObligationGrid.astro';
+
+// The Data Catalog sub-nav — the hub's entity entries. Obligations sits directly after
+// Actions: they are the two tracking record types, and the ordering says so.
+const dataCatalogNav = [
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'dc-projects', label: 'Projects' },
+      { id: 'dc-source-documents', label: 'Source Documents' },
+      { id: 'dc-commitments', label: 'Commitments' },
+      { id: 'dc-requirements', label: 'Requirements' },
+      { id: 'dc-actions', label: 'Actions' },
+      { id: 'dc-obligations', label: 'Obligations', active: true },
+      { id: 'dc-components', label: 'Components' },
+      { id: 'dc-evidence', label: 'Evidence of Compliance' },
+    ],
+  },
+];
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout                # the Beacon page spine (topbar + rail + padded chrome)
+  sections:
+    - obligations grid -> bcn-obligation-grid  # flat 402-row catalog: search, filter, sort, CSV, row -> detail
+-->
+
+<AppShell
+  title="Obligations — Data Catalog"
+  tenantName="DWR"
+  projectName="Select a Project"
+  navSections={dataCatalogNav}
+>
+  <PageLayout
+    title="Obligations"
+    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Obligations' }]}
+  >
+    {/* No count in the heading: the footer already owns it, and the house count rule
+        is that a bare total is stated once. Two 402s is one restatement. */}
+    <BcnObligationGrid />
+  </PageLayout>
+</AppShell>

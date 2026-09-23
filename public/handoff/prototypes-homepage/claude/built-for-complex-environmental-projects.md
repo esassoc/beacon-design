@@ -38,9 +38,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               Noise management, wildlife mitigation, and environmental compliance across 200+
               airports nationwide.
             </p>
-            <a class="bcn-markets__link" href="https://esassoc.com/market/airports-aviation/">
-              Beacon for Airports <span aria-hidden="true">→</span>
-            </a>
+            <a class="bcn-markets__link" href="https://esassoc.com/market/airports-aviation/"
+              >Beacon for Airports <span aria-hidden="true">→</span></a
+            >
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -56,9 +56,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               Climate adaptation, housing, infrastructure resilience, and environmental planning
               from vision to project delivery.
             </p>
-            <a class="bcn-markets__link" href="https://esassoc.com/market/community-development/">
-              Beacon for Communities <span aria-hidden="true">→</span>
-            </a>
+            <a class="bcn-markets__link" href="https://esassoc.com/market/community-development/"
+              >Beacon for Communities <span aria-hidden="true">→</span></a
+            >
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -74,9 +74,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               Solar, wind, battery storage, transmission, and emerging technologies — licensing,
               permitting, and restoration.
             </p>
-            <a class="bcn-markets__link" href="https://esassoc.com/market/energy/">
-              Beacon for Energy <span aria-hidden="true">→</span>
-            </a>
+            <a class="bcn-markets__link" href="https://esassoc.com/market/energy/"
+              >Beacon for Energy <span aria-hidden="true">→</span></a
+            >
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -95,9 +95,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <a
               class="bcn-markets__link"
               href="https://esassoc.com/market/natural-resource-management/"
+              >Beacon for Natural Resources <span aria-hidden="true">→</span></a
             >
-              Beacon for Natural Resources <span aria-hidden="true">→</span>
-            </a>
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -116,9 +115,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <a
               class="bcn-markets__link"
               href="https://esassoc.com/market/surface-transportation-and-ports/"
+              >Beacon for Transportation <span aria-hidden="true">→</span></a
             >
-              Beacon for Transportation <span aria-hidden="true">→</span>
-            </a>
           </div>
         </div>
         <div class="bcn-markets__card">
@@ -134,9 +132,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               Supply, conveyance, wastewater reuse, flood control, and fish passage — integrated
               solutions for water resilience.
             </p>
-            <a class="bcn-markets__link" href="https://esassoc.com/market/water/">
-              Beacon for Water <span aria-hidden="true">→</span>
-            </a>
+            <a class="bcn-markets__link" href="https://esassoc.com/market/water/"
+              >Beacon for Water <span aria-hidden="true">→</span></a
+            >
           </div>
         </div>
       </div>
@@ -152,51 +150,51 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   padding-block: var(--_section-pad);
 }
 .bcn-mkt-section--white {
-  background: var(--color-surface);
+  background: var(--color-background-elevation-raised);
 }
 .bcn-mkt-section__inner {
   max-inline-size: 1100px;
-  margin-inline: auto;
   padding-inline: var(--spacing-500);
+  margin-inline: auto;
 }
 .bcn-section-intro {
   margin-block-end: var(--spacing-700);
 }
 .bcn-section-intro__eyebrow {
-  display: block;
   font-size: 12px;
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--typography-font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-default-tertiary);
   margin-block-end: var(--spacing-300);
+  display: block;
 }
 .bcn-section-intro__headline {
   margin: 0 0 var(--spacing-400);
-  font-family: var(--font-decorative, var(--font-sans));
-  font-size: var(--type-size-700);
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-decorative, var(--typography-font-family-sans));
+  font-size: var(--font-size-700);
+  font-weight: var(--typography-font-weight-bold);
   line-height: var(--line-height-tight, 1.25);
-  color: var(--color-text-primary);
+  color: var(--color-content-default);
   text-wrap: balance;
 }
 .bcn-section-intro__accent {
-  inline-size: 48px;
-  block-size: 4px;
-  background: var(--color-primary);
+  background: var(--color-background-brand);
   border-radius: var(--radius-full, 9999px);
+  block-size: 4px;
+  inline-size: 48px;
   margin-block-end: var(--spacing-400);
 }
 .bcn-section-intro__subtext {
-  margin: 0;
-  font-size: var(--type-size-300);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-300);
+  color: var(--color-content-default-secondary);
   max-inline-size: 820px;
   line-height: var(--line-height-relaxed, 1.75);
   text-wrap: balance;
+  margin: 0;
 }
 .bcn-mkt-section--light {
-  background: var(--color-surface-sunken, var(--color-gray-2));
+  background: var(--color-background-elevation-sunken, var(--color-gray-2));
 }
 .bcn-section-intro--center {
   text-align: center;
@@ -208,24 +206,24 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   margin-inline: auto;
 }
 .bcn-markets {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-400);
+  grid-template-columns: repeat(3, 1fr);
+  display: grid;
 }
 .bcn-markets__card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-background-elevation-raised);
+  border: 1px solid var(--color-border-default);
   border-radius: var(--radius-200);
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
   overflow: hidden;
   box-shadow: 0 1px 2px #0000000f;
-  transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
 }
 .bcn-markets__image {
-  inline-size: 100%;
-  block-size: 140px;
   object-fit: cover;
+  block-size: 140px;
+  inline-size: 100%;
   display: block;
 }
 .bcn-markets__body {
@@ -233,28 +231,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .bcn-markets__title {
   margin: 0 0 var(--spacing-100);
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-300);
+  font-weight: var(--typography-font-weight-semibold);
 }
 .bcn-markets__desc {
   margin: 0 0 var(--spacing-300);
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-150);
+  color: var(--color-content-default-secondary);
   line-height: var(--line-height-normal, 1.5);
 }
 .bcn-markets__link {
-  display: inline-flex;
   align-items: center;
   gap: var(--spacing-100);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
+  font-size: var(--font-size-150);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-background-brand);
   text-decoration: none;
+  display: inline-flex;
 }
 .bcn-mkt-section--forest {
   color: #fff;
   background:
-    linear-gradient(160deg, #02140af0, #052312eb 40%, #08321ce6),
+    linear-gradient(160deg, #02140af0 0%, #052312eb 40%, #08321ce6 100%),
     var(--_forest-image) center / cover no-repeat;
 }
 .bcn-section-intro--on-dark .bcn-section-intro__eyebrow {
@@ -274,18 +272,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--color-border` | `#dcdcdc` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#efefef` | semantic |
+| `--color-border-default` | `#dcdcdc` | semantic |
+| `--color-content-default` | `#3d3d3d` | semantic |
+| `--color-content-default-secondary` | `#525252` | semantic |
+| `--color-content-default-tertiary` | `#656565` | semantic |
 | `--color-gray-2` | `#f9f9f9` | primitive |
-| `--color-primary` | `#005862` | semantic |
-| `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-sunken` | `#efefef` | semantic |
-| `--color-text-primary` | `#3d3d3d` | semantic |
-| `--color-text-secondary` | `#525252` | semantic |
-| `--color-text-tertiary` | `#656565` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-semibold` | `550` | primitive |
+| `--font-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--font-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
+| `--font-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
 | `--line-height-normal` | `1.6` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
 | `--line-height-tight` | `1.3` | primitive |
@@ -296,9 +293,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--spacing-400` | `1rem` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--typography-font-family-sans` | `"DM Sans", sans-serif` | semantic |
+| `--typography-font-weight-bold` | `650` | semantic |
+| `--typography-font-weight-semibold` | `550` | semantic |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

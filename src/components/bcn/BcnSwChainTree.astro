@@ -28,12 +28,25 @@ import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import { COMMITMENT_CHAIN, CHAIN_TOTALS, OBLIGATION_CLASS_LABEL, STEP_GLYPH, type ChainRequirement } from '../../data/setup-wizard';
 
+interface Props {
+  /**
+   * 'review' — setup step 5: the requirement opens a panel, and can be added to an
+   * obligation or used to start one.
+   * 'browse' — the Obligation Tracking page's registry: the same three levels, the same
+   * routes and orphan counts, read-only. Expand and collapse survive because they
+   * navigate rather than decide; search and the coverage picker keep working.
+   */
+  mode?: 'review' | 'browse';
+}
+const { mode = 'review' } = Astro.props;
+const review = mode === 'review';
+
 const routeLabel = (r: ChainRequirement) =>
   r.obligations.length ? `in ${r.obligations.length} ${r.obligations.length === 1 ? 'obligation' : 'obligations'}` : r.actions.length ? 'action only' : 'orphaned';
 const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' : r.actions.length ? 'action' : 'unrouted');
 ---
 
-<section class="bcn-swc" data-swc-tree>
+<section class="bcn-swc" data-swc-tree data-swc-mode={mode}>
   <p class="bcn-swc__nomatch" data-swc-nomatch hidden>No requirements match.</p>
   <div class="bcn-swc__body">
     {COMMITMENT_CHAIN.map((c) => (
@@ -54,18 +67,24 @@ const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' 
             <details class="bcn-swc__req" data-swc-req={r.id} data-code={c.code} data-actions={r.actions.length} class:list={{ 'is-leaf': r.obligations.length === 0 }}>
               <summary class="bcn-swc__row bcn-swc__row--req">
                 <span class="bcn-swc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
-                <button type="button" class="bcn-swc__title" data-swc-open data-swc-text={r.name}>{r.name}</button>
+                {review
+                  ? <button type="button" class="bcn-swc__title" data-swc-open data-swc-text={r.name}>{r.name}</button>
+                  : <span class="bcn-swc__title bcn-swc__title--static" data-swc-text={r.name}>{r.name}</span>}
                 <span class={`bcn-swc__route bcn-swc__route--${routeTone(r)}`} data-swc-route>{routeLabel(r)}</span>
-                <span class="bcn-swc__verbs">
-                  <esa-tooltip text="Add to an obligation"><button type="button" class="bcn-swc__verb" aria-label="Add to an obligation" data-swc-add><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
-                  <esa-tooltip text="Open" align="end"><button type="button" class="bcn-swc__verb" aria-label="Open requirement" data-swc-open><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-                </span>
+                {review && (
+                  <span class="bcn-swc__verbs">
+                    <esa-tooltip text="Add to an obligation"><button type="button" class="bcn-swc__verb" aria-label="Add to an obligation" data-swc-add><EsaIcon name="plus" size="xs" paths={STEP_GLYPH.plus} /></button></esa-tooltip>
+                    <esa-tooltip text="Open" align="end"><button type="button" class="bcn-swc__verb" aria-label="Open requirement" data-swc-open><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
+                  </span>
+                )}
               </summary>
               <ul class="bcn-swc__obls" data-swc-obls>
                 {r.obligations.map((o) => (
                   <li class="bcn-swc__obl" data-swc-obl={o.id} data-class={o.class}>
                     <span class="bcn-swc__class" data-swc-class>{OBLIGATION_CLASS_LABEL[o.class]}</span>
-                    <button type="button" class="bcn-swc__obl-title" data-swc-edit data-swc-text={o.title}>{o.title}</button>
+                    {review
+                      ? <button type="button" class="bcn-swc__obl-title" data-swc-edit data-swc-text={o.title}>{o.title}</button>
+                      : <span class="bcn-swc__obl-title bcn-swc__title--static" data-swc-text={o.title}>{o.title}</span>}
                     <span class="bcn-swc__filing" data-swc-filing>{o.catName} › {o.subName}</span>
                     <span class="bcn-swc__verbs">
                       <esa-tooltip text="Edit"><button type="button" class="bcn-swc__verb" aria-label="Edit obligation" data-swc-edit><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
@@ -238,6 +257,9 @@ const routeTone = (r: ChainRequirement) => (r.obligations.length ? 'obligation' 
 </script>
 
 <style>
+  /* The read-only title is the same line as the button, minus the affordance. */
+  .bcn-swc__title--static { cursor: default; text-align: left; }
+
   .bcn-swc {
     display: flex;
     flex-direction: column;

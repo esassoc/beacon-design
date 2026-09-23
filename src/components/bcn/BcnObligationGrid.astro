@@ -1,0 +1,208 @@
+---
+// <BcnObligationGrid> — the obligations data catalog, the FLAT view of the registry.
+//
+// Deliberately not hierarchical. The team's framing (2026-09-03) is that the catalog is
+// "a filing cabinet, not a meaningful view" — the meaningful, browsable-by-axis view is
+// the registry tree, and that lives inside the setup wizard. So this surface's job is
+// finding one obligation among 402 by sorting and filtering columns, and it declines the
+// tree on purpose. The three category axes flatten into joined cells so they stay
+// sortable, filterable and exportable.
+//
+// NO STATUS COLUMN, for two independent reasons. The team dropped the obligation status
+// model outright, so there is no verdict to render; and the sibling actions catalog
+// already omits status on principle ("status is tracking data — it lives in the Tracking
+// area"). Neither reason is going to change quietly, so a status column here would be a
+// mistake twice over.
+//
+// Class renders as a NEUTRAL chip, not a colored one. Class is a categorical facet
+// (Adhere / Monitor / Notify / Roster) that drives evidence shape — it is not a status
+// and must not borrow status's color vocabulary. Coloring it would also mean inventing a
+// four-value palette with no token behind it.
+//
+// Chrome, counts, CSV and theme are the shared kit — BcnGridChrome, BcnGridFooter and
+// mountBeaconGrid() in src/lib/beacon-grid.ts. What stays here is the columns, the title
+// link and the row route.
+//
+// bcn-lego-checked: no esa-* data-grid lego exists — the hub's nearest are esa-card (a
+// box) and esa-link-column (a card of bare links). Checked Beacon: its catalog lists ARE
+// AG Grid, and this spoke already ships that ported prod theme as a shared kit
+// (src/lib/beacon-grid.ts), which is what this composes. The shell is esa-card, the
+// controls are bcn-grid-chrome / bcn-grid-footer (themselves esa-text-field /
+// esa-button / esa-icon-button). What is left below is grid-host geometry plus the cell
+// looks AG Grid injects outside Astro's scope.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnGridChrome from './BcnGridChrome.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
+import { CATALOG_ROWS } from '../../data/obligations';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** Route base for a row; the obligation id is appended. */
+  detailBase?: string;
+  title?: string;
+}
+const { detailBase = withBase('/prototypes/data-catalog-obligation'), title = 'Obligations' } =
+  Astro.props;
+
+// Rows are already title-sorted in the data module; AG Grid preserves rowData order
+// until the user sorts, so the grid opens alphabetical — the registry's own ordering
+// rule ("categories and obligations are alphabetical so the registry reads as an index").
+const rows = CATALOG_ROWS.map((r) => ({ ...r, href: `${detailBase}/${r.id}` }));
+---
+
+<section class="bcn-og" data-og aria-label={title}>
+  <EsaCard title={title} padding="compact">
+    <Fragment slot="actions">
+      <BcnGridChrome prefix="og" searchPlaceholder="Search obligations…" />
+    </Fragment>
+
+    <div class="bcn-og__host" data-og-host></div>
+
+    <Fragment slot="footer">
+      <BcnGridFooter prefix="og" total={rows.length} downloadLabel="Download as CSV" />
+    </Fragment>
+  </EsaCard>
+
+  <script type="application/json" data-og-data set:html={JSON.stringify(rows)}></script>
+</section>
+
+<script>
+  import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme, makeQuietChipRenderer, mountBeaconGrid } from '../../lib/beacon-grid';
+  import '@esa/ecology/esa-text-field';
+
+  interface Row {
+    id: string;
+    title: string;
+    href: string;
+    cls: string;
+    subjectMajor: string;
+    subjectMinor: string;
+    activities: string;
+    species: string;
+    commitments: string;
+  }
+
+  const EM_DASH = '—';
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-og]')) {
+    const data = mount.querySelector('[data-og-data]');
+    if (!data) continue;
+
+    const rows: Row[] = JSON.parse(data.textContent || '[]');
+
+    // Title cell is a real <a> with a real href, so a row is keyboard-reachable and
+    // openable in a new tab — the row-click below is convenience, not the only way in.
+    function titleRenderer(p: ICellRendererParams<Row>) {
+      const link = document.createElement('a');
+      link.className = 'bcn-og__name';
+      link.href = p.data?.href ?? '#';
+      link.textContent = String(p.value ?? '');
+      return link;
+    }
+
+    // Neutral bordered chip — no tone field, so no color is claimed for class.
+    const classRenderer = makeQuietChipRenderer({ className: 'bcn-og__cls' });
+
+    // The multi-valued axis columns run long by nature (one obligation carries up to a
+    // dozen commitments). They ellipsize and carry the full value as a tooltip rather
+    // than wrapping, so row height stays uniform and the grid scans.
+    const listCol = (field: keyof Row, headerName: string, width: number): ColDef<Row> => ({
+      field,
+      headerName,
+      width,
+      valueFormatter: (p) => (p.value ? String(p.value) : EM_DASH),
+      cellClassRules: { 'bcn-og__quiet': (p) => !p.value },
+    });
+
+    const columnDefs: ColDef<Row>[] = [
+      { field: 'title', headerName: 'Obligation', flex: 2.6, minWidth: 300, cellRenderer: titleRenderer },
+      { field: 'cls', headerName: 'Class', width: 128, cellRenderer: classRenderer },
+      listCol('subjectMajor', 'Major category', 190),
+      listCol('subjectMinor', 'Minor category', 200),
+      listCol('activities', 'Activities', 230),
+      listCol('species', 'Species', 200),
+      listCol('commitments', 'Commitments', 210),
+    ];
+
+    const gridOptions: GridOptions<Row> = {
+      theme: beaconTheme,
+      rowData: rows,
+      columnDefs,
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: true,
+        suppressHeaderMenuButton: true,
+        // A clipped column NAME reads as a defect where a clipped value reads as a
+        // value that ran long (and carries a tooltip) — so headers wrap, cells don't.
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
+        tooltipValueGetter: (p) => p.value,
+      },
+      tooltipShowDelay: 0,
+      tooltipShowMode: 'whenTruncated',
+      onRowClicked: (e) => {
+        if (e.data?.href) window.location.href = e.data.href;
+      },
+    };
+
+    // This grid never mutates rowData, so the total is fixed for its lifetime.
+    mountBeaconGrid<Row>({
+      mount,
+      prefix: 'og',
+      gridOptions,
+      csvName: 'obligations.csv',
+      totalRows: () => rows.length,
+    });
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: grid-host geometry plus the cell looks AG Grid injects outside
+     Astro's scope (title link, class chip, empty-value cells). The search / clear row
+     and the download / count strip are bcn-grid-chrome and bcn-grid-footer. See the
+     header note for the full lookup. */
+
+  /* A generous, FIXED scrollport: it holds its height through every filter and search
+     so the page below never jumps — the frame is stable, the content compresses. */
+  .bcn-og__host {
+    inline-size: 100%;
+    block-size: 40rem;
+  }
+
+  .bcn-og :global(.ag-row) {
+    cursor: pointer;
+  }
+
+  .bcn-og :global(.bcn-og__name) {
+    color: var(--color-content-link);
+    text-decoration: underline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-og :global(.bcn-og__name:hover) {
+    color: var(--color-background-brand-hover);
+  }
+
+  /* The house quiet chip: hairline border, sunken fill, 4px radius. No tone — class is
+     a facet, not a status, and borrowing status color would say otherwise. */
+  .bcn-og :global(.bcn-og__cls) {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px var(--spacing-200);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: var(--typography-font-weight-medium);
+    white-space: nowrap;
+  }
+
+  /* An em-dash placeholder is genuine absence, so it alone recedes. */
+  .bcn-og :global(.bcn-og__quiet) {
+    color: var(--bcn-content-muted);
+  }
+</style>
