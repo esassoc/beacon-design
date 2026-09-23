@@ -76,6 +76,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   <!-- ── Footer: commit it. The two panels already say what is being joined, so the
        footer only carries the actions — Attach is enabled once both sides have something. -->
   <div slot="footer" class="bcn-ev__foot">
+    <!-- List mode only: what Save is still waiting on, or what it will write. -->
+    <p class="bcn-ev__status typography-body-sm" data-evidence-status role="status" hidden></p>
     <div class="bcn-ev__actions">
       <span data-evidence-save>
         <EsaButton variant="primary" size="md" disabled>Save</EsaButton>
@@ -209,6 +211,11 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     justify-content: flex-end;
     gap: var(--spacing-500);
   }
+  .bcn-ev__status {
+    margin: 0 auto 0 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ev__status[hidden] { display: none; }
   .bcn-ev__actions {
     flex: none;
     display: flex;

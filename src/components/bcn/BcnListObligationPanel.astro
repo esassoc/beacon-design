@@ -4,6 +4,13 @@
 // class, description should be read-only, and there should be a secondary list
 // description that one could fill in."
 //
+// Andy, 2026-09-23, narrowed it: "on a list basis we don't want them to 'edit' them,
+// but that they can simply move them to other cat/sub-cats AND/OR add a list title or
+// a list description." So the panel writes exactly three things, all the LIST's:
+// where this list files the member (Category / Subcategory pickers over the registry's
+// own taxonomy), the member's list title, and its list description. Every other field
+// is the registry's and reads as text. Empty title or description = the registry's.
+//
 // So it is the wizard's drawer — same frame, same width, same field order, same section
 // rhythm, same requirement rows, same footer split — and its anatomy is not copied but
 // shared, in src/styles/bcn-obligation-drawer.css, which <BcnSwObligationsEditor> imports
@@ -30,11 +37,13 @@
 //
 // Contract with <BcnListObligationTree>, on `document`:
 //   in   list:edit-obligation   detail: memberId
-//   out  list:obligation-saved  detail: { memberId, listDescription }
+//   out  list:obligation-saved  detail: { memberId, listTitle, listDescription,
+//                                         catId, catName, subId, subName }
 //   out  list:remove-member     detail: memberId   (the tree owns the confirm)
 //   out  list:duplicate-member  detail: memberId
 //
-// bcn-lego-checked: the frame IS esa-side-dialog, the one control IS esa-textarea, the
+// bcn-lego-checked: the frame IS esa-side-dialog, the controls ARE esa-text-field,
+// esa-select and esa-textarea, the
 // buttons ARE esa-button, the glyphs ARE esa-icon. bcn-key-value was checked and NOT
 // used: its key is --typography-label-md-font-size (15px) against the 12px label an
 // esa-textarea at size sm draws, and a read-only label larger than the live field's
@@ -43,6 +52,7 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { OBLIGATION_CLASS_LABEL } from '../../data/setup-wizard';
+import { OBLIGATION_TREE } from '../../data/setup-wizard';
 import { listTree, type ObligationList } from '../../data/lists';
 import '../../styles/bcn-obligation-drawer.css';
 import '../../styles/bcn-obligation-card.css';
@@ -62,13 +72,23 @@ for (const cat of listTree(list))
     for (const o of sub.obligations)
       records[o.id] = {
         title: o.title,
+        // The registry's filing, so the panel can say where a moved member came from.
+        catId: cat.id,
+        subId: sub.id,
         class: o.class,
         classLabel: OBLIGATION_CLASS_LABEL[o.class],
         description: o.description,
         trigger: o.trigger,
         reqs: o.requirements.map((r) => ({ code: r.code, name: r.name, text: r.text, inActions: r.inActions })),
       };
-const DATA = JSON.stringify({ records });
+// Where a member can be moved: the registry's whole taxonomy, not only the branches
+// this list holds. A move into a branch the list does not hold yet creates it.
+const taxonomy = OBLIGATION_TREE.map((c) => ({
+  id: c.id,
+  name: c.name,
+  subs: c.subcategories.map((s) => ({ id: s.id, name: s.name })),
+}));
+const DATA = JSON.stringify({ records, taxonomy });
 ---
 
 <esa-side-dialog
@@ -79,24 +99,26 @@ const DATA = JSON.stringify({ records });
   style="--_width: min(640px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;"
 >
   <form class="bcn-swo-edit bcn-lob" data-list-obl-panel data-lob-data={DATA}>
-    <!-- No Title row: the dialog heading IS the title, and a record that prints its
-      own name twice is the panel arguing with itself. -->
+    <!-- The dialog heading is the REGISTRY title. The list's own, when it has one,
+      is the field below it. -->
+    <esa-text-field
+      label="List title"
+      size="sm"
+      name="lob-title"
+      help-text="Leave this empty and the list uses the registry title."
+    ></esa-text-field>
+
     <div class="bcn-lob__field">
       <span class="bcn-swo-edit__label">Class</span>
       <span><span class="bcn-lob__class" data-lob="class"></span></span>
     </div>
 
-    <div class="bcn-swo-edit__pair">
-      <div class="bcn-lob__field">
-        <span class="bcn-swo-edit__label">Category</span>
-        <span class="bcn-lob__value" data-lob="cat"></span>
-        <span class="bcn-lob__registry" data-lob="cat-registry" hidden></span>
+    <div class="bcn-lob__field">
+      <div class="bcn-swo-edit__pair">
+        <esa-select label="Category" size="sm" name="lob-cat"></esa-select>
+        <esa-select label="Subcategory" size="sm" name="lob-sub"></esa-select>
       </div>
-      <div class="bcn-lob__field">
-        <span class="bcn-swo-edit__label">Subcategory</span>
-        <span class="bcn-lob__value" data-lob="sub"></span>
-        <span class="bcn-lob__registry" data-lob="sub-registry" hidden></span>
-      </div>
+      <span class="bcn-lob__registry" data-lob="home" hidden></span>
     </div>
 
     <div class="bcn-lob__field">
@@ -152,15 +174,27 @@ const DATA = JSON.stringify({ records });
 <script>
   import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
 
   interface Req { code: string; name: string; text: string; inActions: number }
-  interface Record_ { title: string; class: string; classLabel: string; description: string; trigger: string; reqs: Req[] }
+  interface Branch { id: string; name: string }
+  interface Cat extends Branch { subs: Branch[] }
+  type Select = HTMLElement & { value: string; options: { label: string; value: string }[] };
+  interface Record_ { title: string; catId: string; subId: string; class: string; classLabel: string; description: string; trigger: string; reqs: Req[] }
 
   const form = document.querySelector<HTMLFormElement>('[data-list-obl-panel]');
   if (form) {
     const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('#lob-editor')!;
     const field = form.querySelector<HTMLElement & { value: string }>('esa-textarea[name="lob-description"]')!;
-    const { records } = JSON.parse(form.dataset.lobData || '{"records":{}}') as { records: Record<string, Record_> };
+    const titleField = form.querySelector<HTMLElement & { value: string }>('esa-text-field[name="lob-title"]')!;
+    const catSel = form.querySelector<Select>('esa-select[name="lob-cat"]')!;
+    const subSel = form.querySelector<Select>('esa-select[name="lob-sub"]')!;
+    const { records, taxonomy } = JSON.parse(form.dataset.lobData || '{"records":{},"taxonomy":[]}') as {
+      records: Record<string, Record_>;
+      taxonomy: Cat[];
+    };
+    const catById = (id: string) => taxonomy.find((c) => c.id === id);
     const reqsHost = form.querySelector<HTMLElement>('[data-lob-reqs]')!;
     // The template is the dialog's child, not the form's — scoping this to `form` is
     // how it came back null and took the whole open handler down with it.
@@ -173,18 +207,31 @@ const DATA = JSON.stringify({ records });
     let member = '';
     let card: HTMLElement | null = null;
 
-    // The branch row's own name, and the registry's beneath it when this list renamed
-    // it — the same pairing the tree shows, read live so a rename made a moment ago is
-    // already here.
-    const branch = (from: Element | null, valueKey: string, registryKey: string) => {
-      const name = from?.querySelector<HTMLElement>(':scope > summary [data-list-name]');
-      const shown = name?.dataset.listText ?? name?.textContent ?? '';
-      const registry = name?.dataset.registryName ?? '';
-      slot(valueKey).textContent = shown || DASH;
-      const mark = slot(registryKey);
-      mark.textContent = `Registry: ${registry}`;
-      mark.hidden = !registry || registry === shown;
+    // A branch reads as this list calls it when the list holds it (a rename made a
+    // moment ago is already here), and as the registry calls it otherwise.
+    const shownName = (attr: 'cat' | 'sub', b: Branch) => {
+      const name = document.querySelector<HTMLElement>(
+        `[data-list-cats] [data-list-${attr}="${b.id}"] > summary [data-list-name]`,
+      );
+      return name?.dataset.listText || b.name;
     };
+    const fillSubs = (catId: string, subId?: string) => {
+      const subs = catById(catId)?.subs ?? [];
+      subSel.options = subs.map((s) => ({ label: shownName('sub', s), value: s.id }));
+      subSel.value = subs.some((s) => s.id === subId) ? subId! : subs[0]?.id ?? '';
+    };
+    // Where the registry files this obligation, said only once the pickers leave it.
+    let home: { catId: string; subId: string } | null = null;
+    const syncHome = () => {
+      const mark = slot('home');
+      if (!home) { mark.hidden = true; return; }
+      const cat = catById(home.catId);
+      const sub = cat?.subs.find((s) => s.id === home!.subId);
+      mark.textContent = `Registry: ${cat?.name ?? DASH} › ${sub?.name ?? DASH}`;
+      mark.hidden = catSel.value === home.catId && subSel.value === home.subId;
+    };
+    catSel.addEventListener('change', () => { fillSubs(catSel.value); syncHome(); });
+    subSel.addEventListener('change', syncHome);
 
     const fill = (memberId: string) => {
       card = document.querySelector<HTMLElement>(`[data-list-card][data-member-id="${memberId}"]`);
@@ -196,8 +243,17 @@ const DATA = JSON.stringify({ records });
       const chip = slot('class');
       chip.textContent = rec.classLabel;
       form.dataset.class = rec.class;
-      branch(card.closest('[data-list-cat]'), 'cat', 'cat-registry');
-      branch(card.closest('[data-list-sub]'), 'sub', 'sub-registry');
+      // The member's title as this list shows it; an empty field means the registry's.
+      const shownTitle = card.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? rec.title;
+      titleField.value = shownTitle === rec.title ? '' : shownTitle;
+
+      const catId = card.closest<HTMLElement>('[data-list-cat]')?.dataset.listCat ?? rec.catId;
+      const subId = card.closest<HTMLElement>('[data-list-sub]')?.dataset.listSub ?? rec.subId;
+      catSel.options = taxonomy.map((c) => ({ label: shownName('cat', c), value: c.id }));
+      catSel.value = catId;
+      fillSubs(catId, subId);
+      home = { catId: rec.catId, subId: rec.subId };
+      syncHome();
 
       const registryDesc = card.dataset.registryDesc ?? '';
       const exported = card.dataset.listDescription ?? registryDesc;
@@ -229,7 +285,7 @@ const DATA = JSON.stringify({ records });
     const close = () => {
       dialog.open = false;
       // Deferred past the slide-out, so the form is never seen resetting.
-      setTimeout(() => { member = ''; card = null; field.value = ''; }, 200);
+      setTimeout(() => { member = ''; card = null; field.value = ''; titleField.value = ''; }, 200);
     };
     const emit = (name: string, detail: unknown) =>
       document.dispatchEvent(new CustomEvent(name, { detail, bubbles: true }));
@@ -242,7 +298,17 @@ const DATA = JSON.stringify({ records });
     form.addEventListener('submit', (e) => e.preventDefault());
     document.querySelector('[data-lob-save]')?.addEventListener('click', () => {
       if (!member) return;
-      emit('list:obligation-saved', { memberId: member, listDescription: (field.value ?? '').trim() });
+      const cat = catById(catSel.value);
+      const sub = cat?.subs.find((s) => s.id === subSel.value);
+      emit('list:obligation-saved', {
+        memberId: member,
+        listTitle: (titleField.value ?? '').trim(),
+        listDescription: (field.value ?? '').trim(),
+        catId: cat?.id ?? '',
+        catName: cat?.name ?? '',
+        subId: sub?.id ?? '',
+        subName: sub?.name ?? '',
+      });
       close();
     });
     document.querySelector('[data-lob-cancel]')?.addEventListener('click', close);
@@ -267,13 +333,12 @@ const DATA = JSON.stringify({ records });
      two cards in bcn-obligation-card.css. What is here is the READ-ONLY tier, which only
      this panel has, because only this panel shows a record it cannot write. */
   .bcn-lob__field { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
-  .bcn-lob__value { font-size: 0.8125rem; color: var(--color-content-default); }
   .bcn-lob__prose { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
 
   /* This sentence is no longer the one the list exports; the field below it is. */
   .bcn-lob__prose[data-superseded='true'] { color: var(--color-content-default-tertiary); }
 
-  /* The registry's own name for a branch this list renamed. Same pairing as the tree. */
+  /* Where the registry files a member this list has moved. */
   .bcn-lob__registry { font-size: 0.6875rem; color: var(--color-content-default-tertiary); }
   .bcn-lob__registry[hidden] { display: none; }
 </style>

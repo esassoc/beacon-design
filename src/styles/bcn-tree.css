@@ -217,3 +217,13 @@ details[open] > .bcn-lot__row .bcn-lot__chevron {
 .bcn-lot__hit-chip {
   box-shadow: 0 0 0 2px #fff176;
 }
+
+/* List detail views (list-views.ts). The master tree and its mirror share one panel
+   slot; the root's data-list-view says which is showing. A–Z has no branch rows, so
+   its cards drop the branch indent and sit at the panel's own inset. */
+.bcn-lot[data-list-view='index'] [data-list-cats],
+.bcn-lot[data-list-view='commitment'] [data-list-cats],
+.bcn-lot[data-list-view='az'] [data-list-cats],
+.bcn-lot:not([data-list-view='index']):not([data-list-view='commitment']):not([data-list-view='az']) [data-list-mirror-body] { display: none; }
+.bcn-lot [data-list-flat] > .bcn-lot__cards { padding: var(--spacing-300) var(--spacing-400); }
+.bcn-lot__row .bcn-lot__name[hidden] { display: none; }

@@ -1,4 +1,8 @@
 ---
+// One list, of any type. The obligation list is the rich one (below); action and
+// commitment lists (2026-09-23) are sets of pointers on the same page chrome — the
+// same header, rail and add drawer — with <BcnListMemberTree> as their body.
+//
 // One obligation list.
 //
 // The list IS the export: a Word document for a construction kickoff, a CSV, and the
@@ -9,9 +13,9 @@
 // registry, and nothing here refiles anything: filing belongs to the registry tree in
 // Setup Wizard step 5.
 //
-// Requirements render under each obligation for reference only. They are the reason an
-// obligation exists, so they are worth seeing while you write its description, but they
-// are not editable from a list.
+// Each obligation and action shows its implementations, one per component, with a
+// status filter over them (2026-09-23); a commitment shows its requirements. Every list
+// page ends in prod's Danger Zone.
 //
 // A list may hold the same registry obligation more than once, each copy carrying its own
 // wording, so one form can ask about one duty twice. Both copies sit where the registry
@@ -31,27 +35,59 @@ import BcnListAddObligations from '../../../components/bcn/BcnListAddObligations
 import BcnListExportPanel from '../../../components/bcn/BcnListExportPanel.astro';
 import BcnListEditDetailsDialog from '../../../components/bcn/BcnListEditDetailsDialog.astro';
 import BcnListObligationPanel from '../../../components/bcn/BcnListObligationPanel.astro';
+import BcnListRequirementPanel from '../../../components/bcn/BcnListRequirementPanel.astro';
+import BcnListMemberTree from '../../../components/bcn/BcnListMemberTree.astro';
+import BcnListActionPanel from '../../../components/bcn/BcnListActionPanel.astro';
+import BcnListAddMembers from '../../../components/bcn/BcnListAddMembers.astro';
+import BcnDangerZone from '../../../components/bcn/BcnDangerZone.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { ITP } from '../../../data/setup-wizard';
 import { PROJECT } from '../../../data/project-dashboard';
-import { OBLIGATION_LISTS, memberCountLabel } from '../../../data/lists';
+import {
+  ACTION_LISTS,
+  COMMITMENT_LISTS,
+  LIST_MEMBER_NOUN,
+  OBLIGATION_LISTS,
+  memberCountLabel,
+  type ActionList,
+  type CommitmentList,
+  type ObligationList,
+} from '../../../data/lists';
 import { withBase } from '../../../lib/base';
 
 export function getStaticPaths() {
-  return OBLIGATION_LISTS.map((list) => ({ params: { id: list.id }, props: { list } }));
+  return [...OBLIGATION_LISTS, ...ACTION_LISTS, ...COMMITMENT_LISTS].map((list) => ({ params: { id: list.id }, props: { list } }));
 }
 
-const { list } = Astro.props;
+const { list } = Astro.props as { list: ObligationList | ActionList | CommitmentList };
+const members = list.type === 'obligation' ? null : list;
+// The requirement panel carries only what this page can reach: an action page, every
+// requirement any action answers to (the drawer can add any action); a commitment page,
+// every requirement. An obligation page keeps the panel's own default.
+const reqIds = list.type === 'action'
+  ? [...new Set(ITP.actions.flatMap((a) => a.requirementIds))]
+  : list.type === 'commitment' ? ITP.requirements.map((r) => r.id) : undefined;
+// Prod's wording, with the list's type in it: "Delete this Action List".
+const typeTitle = { obligation: 'Obligation', action: 'Action', commitment: 'Commitment' }[list.type];
+const typeMany = LIST_MEMBER_NOUN[list.type][1];
 ---
 
 <!-- manifest:
   layout: PageLayout > sidebar(end)                        # SPINE — tree is the content column, rail the aside
   sections:
-    - title actions   -> bcn-list-actions                  # Edit details, Add obligations
+    - title actions   -> bcn-list-actions                  # Edit details, Add obligations — both neutral outline
     - obligation tree -> bcn-list-obligation-tree          # category > subcategory > bcn-list-obligation-card; rename for this list, remove from list, per-list description
     - details rail    -> bcn-list-details-rail             # the list record: name, description, type, created, last updated, member count
-    - export panel    -> bcn-list-export-panel             # Word, CSV, and the JSON endpoint: key, URL, formFields(list) preview
+    - export panel    -> bcn-list-export-panel             # Word and CSV on every list; the JSON endpoint (key, URL, formFields preview) on obligation lists only
     - add members     -> bcn-list-add-obligations          # right drawer over candidateTree(list), checkboxes, emits list:members-added
     - edit details    -> bcn-list-edit-details-panel       # right panel, name and description
     - obligation panel-> bcn-list-obligation-panel         # right panel over one member; registry fields read-only, list description the one live control
+    - member tree     -> bcn-list-member-tree              # action / commitment lists: By type / By commitment / A–Z (actions), flat (commitments); bcn-list-member-card leaves
+    - action panel    -> bcn-list-action-panel             # right panel over one action; read only, footer links to the action page
+    - add members     -> bcn-list-add-members              # action / commitment drawer over memberCandidates(list), emits list:members-added
+    - view tabs       -> bcn-list-view-tabs                # esa-tab-layout as a bare switch; ?view= keeps the choice
+    - requirement panel-> bcn-list-requirement-panel       # right panel over one requirement row; full text + fields, read only, footer links to the requirement page
+    - danger zone     -> bcn-danger-zone + esa-button       # delete this list, behind esa-confirm-dialog (danger); prod's copy, per list type
 -->
 
 <AppShell
@@ -79,7 +115,9 @@ const { list } = Astro.props;
       </span>
     </Fragment>
     <Fragment slot="utilities">
-      <BcnListActions />
+      {members
+        ? <BcnListActions addLabel={`Add ${LIST_MEMBER_NOUN[list.type][1]}`} addEvent="list:add-members" evidence={list.type === 'action' ? LIST_MEMBER_NOUN.action : undefined} />
+        : <BcnListActions evidence={LIST_MEMBER_NOUN.obligation} />}
     </Fragment>
 
     {/* The tree is the content column and the rail is the aside. .sidebar keys those
@@ -91,17 +129,48 @@ const { list } = Astro.props;
         Wrapping the tree puts its script inside the flex item, so the element that
         grows is the tree. data-side="end" keeps the rail on the right while it stays
         first in the DOM. The rail column is a .stack of two cards — the list record,
-        then the three ways it leaves Beacon — so the aside stays ONE sidebar child. */}
+        then the ways it leaves Beacon — so the aside stays ONE sidebar child. */}
+    <div class="stack" data-gap="xl">
     <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 22rem; --sidebar-content-min: 55%;">
       <div class="stack" data-gap="md">
         <BcnListDetailsRail list={list} />
         <BcnListExportPanel list={list} />
       </div>
-      <div><BcnListObligationTree list={list} /></div>
+      <div>{members ? <BcnListMemberTree list={members} /> : <BcnListObligationTree list={list as ObligationList} />}</div>
     </div>
 
-    <BcnListAddObligations list={list} />
+    <BcnDangerZone
+      title={`Delete this ${typeTitle} List`}
+      description={`Once you delete this list, it will delete all of its metadata and relationships to associated ${typeMany}. There is no going back. Please be certain.`}
+    >
+      <span data-list-delete><EsaButton variant="danger" appearance="soft">Delete</EsaButton></span>
+    </BcnDangerZone>
+    </div>
+
+    {members ? <BcnListAddMembers list={members} /> : <BcnListAddObligations list={list as ObligationList} />}
     <BcnListEditDetailsDialog list={list} />
-    <BcnListObligationPanel list={list} />
+    {!members && <BcnListObligationPanel list={list as ObligationList} />}
+    {list.type === 'action' && <BcnListActionPanel />}
+    <BcnListRequirementPanel ids={reqIds} />
+
+    <esa-confirm-dialog
+      data-list-delete-confirm
+      variant="danger"
+      heading={`Delete ${list.name}?`}
+      message={`The list and its relationships to its ${typeMany} are deleted. The ${typeMany} themselves stay in the project. This cannot be undone.`}
+      confirm-label="Delete list"
+      cancel-label="Cancel"
+      data-lists-href={withBase('/prototypes/lists')}
+      style="--z-modal: 1400; --z-modal-backdrop: 1350;"
+    ></esa-confirm-dialog>
   </PageLayout>
 </AppShell>
+
+<script>
+  import '@esa/ecology/esa-confirm-dialog';
+  // The prototype deletes nothing; confirming goes back to the index the way a real
+  // delete would land.
+  const confirm = document.querySelector<HTMLElement & { open: boolean }>('[data-list-delete-confirm]');
+  document.querySelector('[data-list-delete]')?.addEventListener('click', () => { if (confirm) confirm.open = true; });
+  confirm?.addEventListener('confirm', () => { location.href = confirm.dataset.listsHref ?? '/'; });
+</script>

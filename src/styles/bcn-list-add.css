@@ -1,0 +1,107 @@
+/* bcn-list-add — the add drawer's shape, ONE definition for every list type.
+ *
+ * <BcnListAddObligations> (category > subcategory > obligation) and <BcnListAddMembers>
+ * (group > action or commitment) are the same picker over different registries. They
+ * held one copy of this sheet until the second drawer arrived (2026-09-23); two copies
+ * of a shape drift, the way the tree row and the card did before bcn-tree.css and
+ * bcn-obligation-card.css.
+ *
+ * bcn-lego-checked: the frame is esa-side-dialog, the options esa-checkbox, the search
+ * esa-text-field, the counts BcnSwCountBadge. What is here is the dense branch-row
+ * grammar of BcnSwObligationsTree the drawer replicates, which no lego provides.
+ */
+/* The drawer inherits step 5's dense 13px scale, the same declaration
+   BcnSwObligationsEditor makes on .bcn-swo-edit. This is a tree of ~290 rows read
+   next to the page's own 13px tree; a 16px picker beside a 13px tree would read as
+   two different products. */
+.bcn-lao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  font-size: 0.8125rem;
+  color: var(--color-content-default);
+}
+.bcn-lao__nomatch {
+  margin: 0;
+  padding: var(--spacing-300) var(--spacing-100);
+  color: var(--color-content-default-tertiary);
+  font-style: italic;
+}
+
+/* Branches: the row grammar of BcnSwObligationsTree, replicated — chevron, name,
+   count badge, a full rule between categories and a subtle one between
+   subcategories. No verbs on these rows: filing belongs to the registry. */
+.bcn-lao__tree {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-border-default-subtle);
+}
+.bcn-lao__cat { border-bottom: 1px solid var(--color-border-default); }
+.bcn-lao__cat[hidden], .bcn-lao__sub[hidden], .bcn-lao__opt[hidden] { display: none; }
+.bcn-lao__subs { display: flex; flex-direction: column; }
+.bcn-lao__sub + .bcn-lao__sub { border-top: 1px solid var(--color-border-default-subtle); }
+
+.bcn-lao__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-height: 34px;
+  padding: var(--spacing-100) var(--spacing-200);
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 120ms ease;
+}
+.bcn-lao__row::-webkit-details-marker { display: none; }
+.bcn-lao__row:hover { background: var(--color-background-default); }
+.bcn-lao__row--cat { font-weight: 600; }
+.bcn-lao__row--sub { padding-left: calc(var(--spacing-200) + 22px); }
+.bcn-lao__row:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+  outline-offset: calc(var(--focus-ring-offset, 2px) * -1);
+}
+.bcn-lao__chevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-content-default-tertiary);
+  transition: transform 120ms ease;
+}
+details[open] > .bcn-lao__row .bcn-lao__chevron { transform: rotate(90deg); }
+.bcn-lao__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Option rows: one checkbox, labelled with the obligation title. */
+.bcn-lao__opts {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-150) var(--spacing-200) var(--spacing-300) calc(var(--spacing-200) + 44px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+}
+.bcn-lao__opts:empty { display: none; }
+/* esa-checkbox size="sm" names typography-body-xs for its label, which resolves to
+   12px at the top of its clamp — under this tree's 13px step. Re-point the ROLE on
+   the row (custom properties cross the shadow boundary) rather than hand-styling the
+   label; the sm box geometry is what the size prop is really for and it stays. */
+/* The option: an unlabeled esa-checkbox (aria-label names it) and a light-DOM label
+   beside it, so a search hit can be <mark>ed (list-add.ts). The lego keeps its sm box
+   geometry; the label takes the tree's 13px step and the full row as its click target. */
+.bcn-lao__opt { display: flex; align-items: flex-start; gap: var(--spacing-200); }
+.bcn-lao__opt esa-checkbox { flex-shrink: 0; margin-top: 2px; }
+.bcn-lao__label { flex: 1; min-width: 0; line-height: 1.45; cursor: pointer; user-select: none; }
+
+.bcn-lao__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--spacing-200);
+  font-size: 0.8125rem;
+}
+.bcn-lao__selected { color: var(--color-content-default-secondary); }
+.bcn-lao__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }

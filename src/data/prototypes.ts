@@ -700,7 +700,7 @@ export const prototypeGroups: PrototypeGroup[] = [
     tenant: 'dcp',
     title: 'Lists',
     description:
-      'One index for every list on a project, of any type: action, obligation or commitment. The obligation list opens to its own page, where the registry tree is scoped to the list, renamed and rewritten for this output, and exported as a Word document, a CSV, or the field elements of a Fulcrum form.',
+      'One index for every list on a project, of any type: action, obligation or commitment. Every list opens to one detail route with a tree per type — implementations with evidence under actions and obligations, requirements under commitments — plus bulk evidence through the bottom drawer, Word and CSV export (and a JSON endpoint for obligation lists), and a Danger Zone.',
     pages: [
       {
         slug: 'lists-index',
@@ -715,9 +715,27 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'lists-obligation-detail',
         title: 'Obligation list',
         description:
-          'One obligation list as the registry tree scoped to its members: categories and subcategories renamed for this list alone, each obligation carrying its own description for the output, requirements shown for reference. Export previews the derived Fulcrum form fields.',
+          'One obligation list as the registry tree scoped to its members: categories and subcategories renamed for this list alone; each obligation can be moved, retitled or re-described for this list but never edited. Its implementations show evidence counts (no status — obligations have no lifecycle), filterable by component and evidence. Export adds the JSON endpoint that feeds a Fulcrum form.',
         route: '/prototypes/lists/construction-kickoff-summary',
         createdAt: '2026-09-15',
+        status: 'in-progress',
+      },
+      {
+        slug: 'lists-action-detail',
+        title: 'Action list',
+        description:
+          'One action list filed by Compliance Index, type, commitment or A–Z. Each action lists its implementations — status, component, evidence count — filterable by component, status and evidence; bulk evidence lands through the bottom drawer. Word and CSV export, no API.',
+        route: '/prototypes/lists/annual-reporting',
+        createdAt: '2026-09-23',
+        status: 'in-progress',
+      },
+      {
+        slug: 'lists-commitment-detail',
+        title: 'Commitment list',
+        description:
+          'One commitment list, flat in code order, each commitment opening to its requirements; a Source Document filter narrows the list, and a requirement opens its source text in a side panel. Word and CSV export, no API.',
+        route: '/prototypes/lists/quarterly-agency-briefing',
+        createdAt: '2026-09-23',
         status: 'in-progress',
       },
     ],

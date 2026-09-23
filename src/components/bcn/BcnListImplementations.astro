@@ -1,0 +1,44 @@
+---
+// <BcnListImplementations> — the child rows under an action or obligation on a list
+// page: one per component the record is implemented on, as prod's action list draws
+// them (status pill, component name, comment count). Andy, 2026-09-23: these replace
+// the requirement rows. Two kinds, because the two records differ:
+//   action      status pill, component, comment count, evidence count. An action
+//               has a lifecycle.
+//   obligation  component, comment count, evidence count. An obligation is
+//               conditional, as-needed and recurring, so it has no Not Started or
+//               Completed to claim (Andy, 2026-09-23).
+// Both show how much evidence of compliance is attached; Andy asked for it on actions
+// too once obligations had it.
+// A row is the way into its upsert dialog; it announces
+// `list:edit-implementation` (detail: implementation id) and the prototype stops there.
+//
+// Rows sit in the card's .bcn-loc__reqs list and reuse its row shape (.bcn-loc__req),
+// so the tree's indent, rule and hover carry over untouched. list-impls.ts stamps the
+// same markup for a member added on the page.
+//
+// bcn-lego-checked: the pill IS bcn-status-chip (value-driven color, --bcn-status-*);
+// no esa- lego is a status-plus-label list row; checked Beacon (ActionImplementation
+// rows on the action list page, the pattern ported here). The row shape is .bcn-loc__req.
+import BcnStatusChip from './BcnStatusChip.astro';
+import type { ListImplementation } from '../../data/list-implementations';
+
+interface Props {
+  impls: ListImplementation[];
+  kind: 'action' | 'obligation';
+}
+const { impls, kind } = Astro.props;
+const comments = (n: number) => `${n} ${n === 1 ? 'comment' : 'comments'}`;
+const evidence = (n: number) => (n ? `${n} evidence` : 'No evidence');
+---
+
+<ul class="bcn-loc__reqs bcn-loc__impls" data-list-impls={kind}>
+  {impls.map((i) => (
+    <li class="bcn-loc__req bcn-loc__impl" data-list-impl={i.id} data-status={kind === 'action' ? i.status : undefined} data-evidence={i.evidence}>
+      {kind === 'action' && <BcnStatusChip status={i.status} label={i.label} hex={`var(--bcn-status-${i.status})`} />}
+      <button type="button" class="bcn-loc__req-name" data-list-text={i.component}>{i.component}</button>
+      <span class="bcn-loc__comments" hidden={!i.comments}>{comments(i.comments)}</span>
+      <span class="bcn-loc__evidence" data-list-evidence data-none={!i.evidence ? '' : undefined}>{evidence(i.evidence)}</span>
+    </li>
+  ))}
+</ul>

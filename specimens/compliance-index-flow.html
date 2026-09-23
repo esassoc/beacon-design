@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beacon Setup Wizard: Compliance Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Besley:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══ Tokens (Beacon dark) ═══ */
+:root{
+  --bcn-teal-900:#005862; --bcn-teal-800:#0a6562; --bcn-teal-600:#0e807b; --bcn-teal-500:#00918b; --bcn-teal-200:#b9d6d2;
+  --color-source:#003f5c; --color-commitment:#58508d; --color-requirement:#a05195; --color-action:#d45087; --color-obligation:#f95d6a;
+  --color-ai:#699cc6;
+  --source-lit:#4b8fbd;          /* --color-source lifted two steps so it reads on the dark ground */
+  --bg:#07151a; --surface:#0c1f25; --surface-2:#112a31; --line:rgba(185,214,210,.14); --line-strong:rgba(185,214,210,.28);
+  --ink:#e8f0ef; --ink-2:#a9bfbc; --ink-dim:#6f8886;
+  --font-sans:"DM Sans",system-ui,sans-serif; --font-serif:"Besley",Georgia,serif; --font-mono:"Roboto Mono",ui-monospace,monospace;
+  --radius:6px; --radius-sm:4px;
+  --stage-w:1600; --stage-h:1000;
+}
+/* ═══ Reset ═══ */
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+/* ═══ Stage ═══ */
+.viewport{position:fixed;inset:0;display:grid;place-items:center}
+.stage{position:relative;width:calc(var(--stage-w) * 1px);height:calc(var(--stage-h) * 1px);transform-origin:center center;flex:none}
+.stage > *{position:absolute}
+.layer{inset:0}
+svg.wires{inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+svg.wires path{fill:none;stroke-width:1.5;stroke-linecap:round}
+/* ═══ Header ═══ */
+.brand{left:60px;top:44px;display:flex;align-items:center;gap:12px}
+.brand svg{width:22px;height:34px}
+.brand .word{font-weight:600;font-size:18px;letter-spacing:.01em}
+.brand .step{font-size:16px;color:var(--ink-2);padding-left:12px;border-left:1px solid var(--line-strong)}
+.col-label{top:104px;display:flex;align-items:center;gap:8px;font-size:16px;font-weight:500;color:var(--ink-2);opacity:0}
+.col-label .dot{width:10px;height:10px;border-radius:50%;background:var(--c)}
+/* ═══ Source documents ═══ */
+.doc{width:270px;height:132px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;opacity:0}
+.doc .title{font-size:16px;font-weight:600;line-height:1.25;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc .ref{font-family:var(--font-mono);font-size:13px;color:var(--ink-dim);margin-top:2px}
+.doc .lines{margin-top:10px;display:grid;gap:7px}
+.doc .ln{height:6px;border-radius:3px;background:rgba(185,214,210,.16);transition:none}
+.doc .ln.hot{background:var(--color-commitment);box-shadow:0 0 0 3px rgba(88,80,141,.28)}
+/* ═══ Commitments ═══ */
+.commitment{width:270px;height:76px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:11px 14px;opacity:0;display:flex;gap:12px;align-items:flex-start}
+.commitment .swatch{flex:none;width:10px;height:10px;border-radius:50%;background:var(--color-commitment);margin-top:6px}
+.commitment .ref{font-family:var(--font-mono);font-size:13px;color:var(--ink-2)}
+.commitment .title{font-size:16px;font-weight:500;line-height:1.25;color:var(--ink)}
+/* ═══ Requirements ═══ */
+.req{width:270px;height:52px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:5px 12px 5px 12px;display:flex;gap:10px;align-items:center;opacity:0}
+.req .swatch{flex:none;width:8px;height:8px;border-radius:50%;background:var(--color-requirement)}
+.req .text{font-size:16px;line-height:1.25;color:var(--ink)}
+.req.ghost{background:transparent;border-color:var(--line);}
+.req.ghost .text{color:var(--ink-dim)}
+.req.ghost .swatch{background:var(--line-strong)}
+/* ═══ Compliance Index ═══ */
+.index{left:1080px;top:142px;width:480px;height:798px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 18px 12px;opacity:0}
+.index .head{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.index .head .name{font-family:var(--font-serif);font-size:20px;font-weight:500}
+.approve{font:inherit;font-size:15px;font-weight:600;color:var(--ink-dim);background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:6px 14px;display:flex;align-items:center;gap:8px}
+.approve svg{width:14px;height:14px;display:none}
+.approve.ready{color:#fff;background:var(--bcn-teal-500);border-color:var(--bcn-teal-500)}
+.approve.done{color:var(--bg);background:var(--bcn-teal-200);border-color:var(--bcn-teal-200)}
+.approve.done svg{display:block}
+.tree{padding-top:4px}
+.cat{margin-top:4px}
+.cat .cat-head{display:flex;align-items:center;gap:10px;height:28px;font-size:17px;font-weight:600;color:var(--ink);opacity:0}
+.cat .lock{width:14px;height:14px;opacity:0;margin-left:auto;color:var(--bcn-teal-200)}
+.sub{opacity:0}
+.sub .sub-head{display:flex;align-items:center;gap:8px;height:24px;padding-left:18px;font-size:16px;font-weight:500;color:var(--ink-2)}
+.sub .count{font-family:var(--font-mono);font-size:13px;color:var(--ink-dim);background:var(--surface-2);border-radius:10px;padding:0 8px;line-height:18px;min-width:22px;text-align:center}
+.entry{position:relative;height:22px;padding-left:34px;display:flex;align-items:center;gap:8px;opacity:0}
+.entry .mark{flex:none;width:8px;height:8px;border-radius:50%;background:var(--color-requirement)}
+.entry .badge{flex:none;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--bg);border-radius:var(--radius-sm);padding:0 7px;line-height:18px;width:0;overflow:hidden;opacity:0;white-space:nowrap}
+.entry.action .badge{background:var(--color-action)}
+.entry.obligation .badge{background:var(--color-obligation)}
+.entry .text{font-size:16px;line-height:1.25;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.sweep{left:0;top:0;width:100%;height:56px;background:linear-gradient(180deg,rgba(0,145,139,0) 0%,rgba(0,145,139,.28) 55%,rgba(0,145,139,0) 100%);opacity:0;pointer-events:none}
+.index .sweep{position:absolute}
+.legend{right:40px;top:104px;display:flex;gap:18px;align-items:center;font-size:16px;color:var(--ink-2);opacity:0}
+.legend .k{display:flex;align-items:center;gap:7px}
+.legend .k i{width:10px;height:10px;border-radius:3px;display:inline-block}
+</style>
+</head>
+<body>
+<div class="viewport">
+<div class="stage" id="stage">
+  <svg class="wires" id="wires"></svg>
+
+  <!-- ═══ Header ═══ -->
+  <div class="brand">
+    <svg viewBox="18 14.67 32.56 48.66" aria-hidden="true">
+      <path fill="#00918b" d="M47.62,48.82v5.47l2.92,1.14v-6.62c0-4.05-1.21-7.96-3.49-11.3-2.28-3.35-5.48-5.89-9.25-7.37l-7.75-3.04v3.13l6.69,2.62c6.61,2.59,10.89,8.85,10.89,15.96Z"/>
+      <path fill="#b9d6d2" d="M46.99,58.05h0s-15.72-6.15-15.72-6.15c-.05-.02-.09-.04-.13-.06l-.19-.07h0c-2.72-1.22-4.47-3.87-4.47-6.88v-2.62h0V14.67h0c-1.61,0-2.92,1.31-2.92,2.92v27.31c0,4.33,2.61,8.15,6.64,9.72l16.78,6.57c1.4.55,2.92-.49,2.92-1.99h0s-2.92-1.14-2.92-1.14Z"/>
+      <path fill="#b9d6d2" d="M38.04,60.68c-.59,1.5-2.28,2.24-3.78,1.65l-6.17-2.42c-6.13-2.4-10.09-8.21-10.09-14.8v-22.18c0-1.61,1.31-2.92,2.92-2.92h0v25.09c0,5.37,3.23,10.12,8.24,12.08l8.89,3.49h0Z"/>
+      <path fill="#00918b" d="M42.04,49.48v2.56l2.92,1.14v-3.7c0-6.57-3.95-12.37-10.07-14.78l-4.85-1.91v3.14l3.78,1.49c4.99,1.96,8.22,6.7,8.22,12.06Z"/>
+      <path fill="#00918b" d="M36.45,49.84l2.93,1.15v-.7c0-4.97-2.98-9.35-7.6-11.17l-1.74-.68v3.14l.67.26c3.36,1.32,5.57,4.43,5.74,8.01Z"/>
+    </svg>
+    <span class="word">Beacon</span>
+    <span class="step">Setup Wizard</span>
+  </div>
+
+  <div class="col-label" style="left:60px;--c:var(--source-lit)"><span class="dot"></span>Source documents</div>
+  <div class="col-label" style="left:400px;--c:var(--color-commitment)"><span class="dot"></span>Commitments</div>
+  <div class="col-label" style="left:740px;--c:var(--color-requirement)"><span class="dot"></span>Requirements</div>
+  <div class="col-label" style="left:1080px;--c:var(--bcn-teal-500)"><span class="dot"></span>Compliance Index</div>
+
+  <!-- ═══ Compliance Index ═══ -->
+  <div class="index" id="index">
+    <div class="head">
+      <span class="name">Compliance Index</span>
+      <button class="approve" id="approve" type="button" tabindex="-1">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="approve-label">Approve all</span>
+      </button>
+    </div>
+    <div class="tree" id="tree"></div>
+    <div class="sweep" id="sweep"></div>
+  </div>
+
+  <div class="legend" id="legend">
+    <span class="k"><i style="background:var(--color-action)"></i>Action</span>
+    <span class="k"><i style="background:var(--color-obligation)"></i>Obligation</span>
+  </div>
+</div>
+</div>
+
+<script>
+(function () {
+  /* ═══ Content ═══ */
+  const DOCS = [
+    { id: 'itp',   title: 'Incidental Take Permit',        ref: 'CDFW 2081-2023-020-03' },
+    { id: 'usfws', title: 'Biological Opinion',            ref: 'USFWS 2023-F-0412' },
+    { id: 'nmfs',  title: 'Biological Opinion',            ref: 'NMFS WCRO-2023-01188' },
+    { id: 'eir',   title: 'Mitigation Monitoring Program', ref: 'EIR SCH 2020010227' },
+    { id: 'wqc',   title: 'Water Quality Certification',   ref: 'Section 401' },
+  ];
+  const COMMITMENTS = [
+    { id: 'c1', doc: 'itp',   line: 1, ref: 'ITP Condition 7.4',    title: 'Dust control and vehicle speed' },
+    { id: 'c2', doc: 'itp',   line: 4, ref: 'ITP Condition 8.2',    title: 'Giant garter snake avoidance' },
+    { id: 'c3', doc: 'usfws', line: 2, ref: 'Term and Condition 3', title: 'Nesting bird protection' },
+    { id: 'c6', doc: 'nmfs',  line: 5, ref: 'Term and Condition 5', title: 'In-water work window' },
+    { id: 'c4', doc: 'eir',   line: 0, ref: 'MM AQ-1',              title: 'Construction equipment emissions' },
+    { id: 'c5', doc: 'wqc',   line: 3, ref: 'Condition 12',         title: 'Stormwater and turbidity' },
+  ];
+  const REQS = [
+    { id: 'r1',  c: 'c1', text: 'Vehicle speed 15 mph on unpaved roads',          bins: ['speed', 'dust'],    kind: 'obligation' },
+    { id: 'r2',  c: 'c1', text: 'Water exposed surfaces twice daily',             bins: ['dust'],             kind: 'obligation' },
+    { id: 'r3',  c: 'c1', text: 'Fugitive dust control plan before disturbance',  bins: ['dust'],             kind: 'action' },
+    { id: 'r4',  c: 'c2', text: 'Exclusion fencing before ground disturbance',    bins: ['ggs'],              kind: 'action' },
+    { id: 'r5',  c: 'c2', text: 'Biologist survey within 24 hours of work',       bins: ['ggs'],              kind: 'obligation' },
+    { id: 'r6',  c: 'c3', text: 'Nesting bird survey within 7 days of start',     bins: ['birds'],            kind: 'obligation' },
+    { id: 'r7',  c: 'c3', text: '250 ft buffer around active nests',              bins: ['birds'],            kind: 'obligation' },
+    { id: 'r12', c: 'c6', text: 'In-water work June 1 through October 31',        bins: ['window'],           kind: 'obligation' },
+    { id: 'r13', c: 'c6', text: 'Notify NMFS 14 days before in-water work',       bins: ['window', 'notify'], kind: 'action' },
+    { id: 'r8',  c: 'c4', text: 'Tier 4 Final engines on off-road equipment',     bins: ['emissions'],        kind: 'obligation' },
+    { id: 'r9',  c: 'c4', text: 'Limit equipment idling to 5 minutes',            bins: ['emissions'],        kind: 'obligation' },
+    { id: 'r10', c: 'c5', text: 'Silt fence at all drainage inlets',              bins: ['stormwater'],       kind: 'action' },
+    { id: 'r11', c: 'c5', text: 'Weekly turbidity monitoring during work',        bins: ['turbidity'],        kind: 'obligation' },
+  ];
+  const TAXONOMY = [
+    { name: 'Air Quality',          subs: [{ id: 'dust', name: 'Fugitive Dust' }, { id: 'emissions', name: 'Equipment Emissions' }] },
+    { name: 'Biological Resources', subs: [{ id: 'ggs', name: 'Giant Garter Snake' }, { id: 'birds', name: 'Nesting Birds' }] },
+    { name: 'Water Quality',        subs: [{ id: 'stormwater', name: 'Stormwater' }, { id: 'turbidity', name: 'Turbidity' }] },
+    { name: 'Traffic and Access',   subs: [{ id: 'speed', name: 'Vehicle Speed' }] },
+    { name: 'Agency Coordination',  subs: [{ id: 'window', name: 'Work Windows' }, { id: 'notify', name: 'Notifications' }] },
+  ];
+
+  /* ═══ Layout constants (stage coordinates) ═══ */
+  const STAGE_W = 1600, STAGE_H = 1000;
+  const COL = { doc: 60, com: 400, req: 740, idx: 1080 };
+  const TOP = 142;
+  const DOC_H = 132, DOC_GAP = 22;
+  const COM_H = 76, COM_GAP = 16;
+  const REQ_H = 52, REQ_GAP = 6;
+  const LINE_WIDTHS = [[92, 78, 88, 64, 84, 70], [70, 90, 82, 60, 88, 76], [84, 66, 92, 80, 58, 86], [88, 74, 62, 90, 80, 68], [76, 86, 68, 94, 72, 60]];
+
+  const stage = document.getElementById('stage');
+  const wires = document.getElementById('wires');
+  const tree = document.getElementById('tree');
+  const index = document.getElementById('index');
+  const approve = document.getElementById('approve');
+  const approveLabel = document.getElementById('approve-label');
+  const sweep = document.getElementById('sweep');
+  const legend = document.getElementById('legend');
+  const colLabels = Array.from(document.querySelectorAll('.col-label'));
+
+  const el = (cls, html, style) => {
+    const d = document.createElement('div');
+    d.className = cls;
+    if (html) d.innerHTML = html;
+    if (style) Object.assign(d.style, style);
+    return d;
+  };
+  // stage-space rect of any node, independent of the viewport scale
+  const pos = node => {
+    const r = node.getBoundingClientRect(), s = stage.getBoundingClientRect(), k = s.width / STAGE_W;
+    return { x: (r.left - s.left) / k, y: (r.top - s.top) / k, w: r.width / k, h: r.height / k };
+  };
+
+  /* ═══ Build: documents ═══ */
+  const docEls = {}, docLineEls = {};
+  DOCS.forEach((d, i) => {
+    const y = TOP + i * (DOC_H + DOC_GAP);
+    const node = el('doc', `<div class="title">${d.title}</div><div class="ref">${d.ref}</div><div class="lines"></div>`, { left: COL.doc + 'px', top: y + 'px' });
+    const lines = node.querySelector('.lines');
+    docLineEls[d.id] = [];
+    LINE_WIDTHS[i].forEach(w => { const ln = el('ln', '', { width: w + '%' }); lines.appendChild(ln); docLineEls[d.id].push(ln); });
+    d.y = y; docEls[d.id] = node; stage.appendChild(node);
+  });
+
+  /* ═══ Build: commitments ═══ */
+  const comEls = {};
+  COMMITMENTS.forEach((c, i) => {
+    const y = TOP + 40 + i * (COM_H + COM_GAP);
+    const node = el('commitment', `<span class="swatch"></span><div><div class="ref">${c.ref}</div><div class="title">${c.title}</div></div>`, { left: COL.com + 'px', top: y + 'px' });
+    c.y = y; comEls[c.id] = node; stage.appendChild(node);
+  });
+
+  /* ═══ Build: requirements ═══ */
+  const reqEls = {};
+  REQS.forEach((r, i) => {
+    const y = TOP + i * (REQ_H + REQ_GAP);
+    const node = el('req', `<span class="swatch"></span><span class="text">${r.text}</span>`, { left: COL.req + 'px', top: y + 'px' });
+    r.y = y; reqEls[r.id] = node; stage.appendChild(node);
+  });
+
+  /* ═══ Build: index tree ═══ */
+  const catEls = [], subEls = {}, countEls = {}, entryEls = [];
+  TAXONOMY.forEach(cat => {
+    const catNode = el('cat');
+    const head = el('cat-head', `<span>${cat.name}</span><svg class="lock" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`);
+    catNode.appendChild(head); catEls.push(head);
+    cat.subs.forEach(sub => {
+      const subNode = el('sub', `<div class="sub-head"><span>${sub.name}</span><span class="count">0</span></div>`);
+      countEls[sub.id] = subNode.querySelector('.count'); subEls[sub.id] = subNode;
+      REQS.filter(r => r.bins.includes(sub.id)).forEach(r => {
+        const label = r.kind === 'action' ? 'Action' : 'Obligation';
+        const entry = el('entry ' + r.kind, `<span class="mark"></span><span class="badge">${label}</span><span class="text">${r.text}</span>`);
+        entry.dataset.req = r.id; entry.dataset.sub = sub.id;
+        subNode.appendChild(entry); entryEls.push(entry);
+      });
+      catNode.appendChild(subNode);
+    });
+    tree.appendChild(catNode);
+  });
+
+  /* ═══ Wires ═══ */
+  const NS = 'http://www.w3.org/2000/svg';
+  function wire(x1, y1, x2, y2, color) {
+    const p = document.createElementNS(NS, 'path');
+    const dx = Math.max(40, (x2 - x1) * 0.5);
+    p.setAttribute('d', `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`);
+    p.setAttribute('stroke', color);
+    wires.appendChild(p);
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = len; p.style.strokeDashoffset = len; p.style.opacity = 0;
+    return { p, len };
+  }
+
+  /* ═══ Timeline engine (Web Animations API on one shared clock) ═══ */
+  const anims = [], cues = [], resets = [];
+  const EASE_OUT = 'cubic-bezier(.2,.7,.2,1)';
+  const EASE_IN_OUT = 'cubic-bezier(.65,0,.35,1)';
+  function tween(node, keyframes, at, dur, easing = EASE_OUT, fill = 'both') {
+    const a = node.animate(keyframes, { duration: dur * 1000, delay: at * 1000, fill, easing });
+    a.pause(); anims.push({ anim: a, at, dur }); return a;
+  }
+  const cue = (at, fn) => cues.push({ at, fn });
+  const reset = fn => resets.push(fn);
+  function fly(node, fromX, fromY, toX, toY, at, dur, fromScale = 0.7) {
+    const dx = fromX - toX, dy = fromY - toY;
+    return tween(node, [
+      { transform: `translate(${dx}px, ${dy}px) scale(${fromScale})`, opacity: 0 },
+      { transform: `translate(${dx * 0.5}px, ${dy * 0.5 - 24}px) scale(${(1 + fromScale) / 2})`, opacity: 1, offset: 0.45 },
+      { transform: 'translate(0,0) scale(1)', opacity: 1 },
+    ], at, dur, EASE_IN_OUT);
+  }
+  function draw(w, at, dur) {
+    tween(w.p, [{ opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1 }], at, dur);
+    tween(w.p, [{ strokeDashoffset: w.len }, { strokeDashoffset: 0 }], at, dur, EASE_IN_OUT);
+  }
+  const fadeIn = (node, at, dur = 0.6, rise = 8) =>
+    tween(node, [{ opacity: 0, transform: `translateY(${rise}px)` }, { opacity: 1, transform: 'translateY(0)' }], at, dur);
+
+  function fitStage() {
+    const k = Math.min(innerWidth / STAGE_W, innerHeight / STAGE_H);
+    stage.style.transform = `scale(${k})`;
+  }
+  fitStage();
+  addEventListener('resize', fitStage);
+
+  /* ═══ Script: built once fonts are in, so every measurement is final ═══ */
+  function build() {
+    // measurements before any animation exists
+    const linePos = {};
+    COMMITMENTS.forEach(c => { const p = pos(docLineEls[c.doc][c.line]); linePos[c.id] = { x: p.x, y: p.y + p.h / 2, w: p.w }; });
+    const entryPos = new Map(entryEls.map(e => [e, pos(e)]));
+    document.querySelectorAll('.entry .badge').forEach(b => {
+      b.style.width = 'auto'; b.style.paddingLeft = '7px'; b.style.paddingRight = '7px';
+      b.dataset.w = Math.ceil(pos(b).w) + 'px';
+      b.style.width = ''; b.style.paddingLeft = ''; b.style.paddingRight = '';
+    });
+
+    let t = 0;
+
+    // A. chrome
+    colLabels.forEach((n, i) => fadeIn(n, 0.5 + i * 0.12, 0.6, 6));
+
+    // B. documents appear
+    DOCS.forEach((d, i) => fadeIn(docEls[d.id], 0.9 + i * 0.22, 0.7, 14));
+    t = 3.0;
+
+    // C. passages light up, then lift out as commitments
+    COMMITMENTS.forEach((c, i) => {
+      const ln = docLineEls[c.doc][c.line];
+      const at = t + i * 0.55;
+      tween(ln, [{ backgroundColor: 'rgba(185,214,210,.16)', boxShadow: '0 0 0 0 rgba(88,80,141,0)' }, { backgroundColor: '#58508d', boxShadow: '0 0 0 3px rgba(88,80,141,.28)' }], at, 0.5);
+      const lp = linePos[c.id];
+      fly(comEls[c.id], lp.x + lp.w * 0.3, lp.y - COM_H / 2, COL.com, c.y, at + 0.45, 0.95, 0.55);
+      const w = wire(COL.doc + 270, lp.y, COL.com, c.y + COM_H / 2, 'rgba(88,80,141,.75)');
+      draw(w, at + 0.55, 0.8);
+    });
+    t += 6 * 0.55 + 1.2;
+
+    // D. commitments decompose into atomic requirements
+    let k = 0;
+    COMMITMENTS.forEach(c => {
+      REQS.filter(r => r.c === c.id).forEach(r => {
+        const at = t + k * 0.32;
+        fly(reqEls[r.id], COL.com + 40, c.y + COM_H / 2 - REQ_H / 2, COL.req, r.y, at, 0.8, 0.6);
+        const w = wire(COL.com + 270, c.y + COM_H / 2, COL.req, r.y + REQ_H / 2, 'rgba(160,81,149,.75)');
+        draw(w, at + 0.1, 0.7);
+        k++;
+      });
+    });
+    t += k * 0.32 + 1.0;
+
+    // E. the index skeleton
+    fadeIn(index, t, 0.8, 12);
+    catEls.forEach((n, i) => fadeIn(n, t + 0.4 + i * 0.16, 0.5, 6));
+    TAXONOMY.flatMap(c => c.subs).forEach((s, i) => fadeIn(subEls[s.id], t + 0.7 + i * 0.12, 0.5, 6));
+    t += 2.4;
+
+    // F. requirements are filed into bins (some into two)
+    const counts = {};
+    const orderOf = e => { const r = REQS.find(x => x.id === e.dataset.req); return REQS.indexOf(r) + r.bins.indexOf(e.dataset.sub) * 0.5; };
+    const ordered = entryEls.slice().sort((a, b) => orderOf(a) - orderOf(b));
+    const landed = new Set();
+    ordered.forEach((entry, i) => {
+      const r = REQS.find(x => x.id === entry.dataset.req);
+      const at = t + i * 0.34;
+      const p = entryPos.get(entry);
+      fly(entry, COL.req + 12, r.y + REQ_H / 2 - 12, p.x, p.y, at, 0.85, 0.7);
+      const w = wire(COL.req + 270, r.y + REQ_H / 2, COL.idx, p.y + 12, 'rgba(0,145,139,.6)');
+      draw(w, at + 0.05, 0.75);
+      tween(w.p, [{ opacity: 1 }, { opacity: 0 }], at + 1.2, 0.6, EASE_OUT, 'forwards');
+      cue(at + 0.6, () => { const s = entry.dataset.sub; counts[s] = (counts[s] || 0) + 1; countEls[s].textContent = counts[s]; });
+      if (!landed.has(r.id)) {
+        landed.add(r.id);
+        const g = at + 0.3;
+        tween(reqEls[r.id], [{ backgroundColor: '#0c1f25' }, { backgroundColor: 'rgba(12,31,37,0)' }], g, 0.5);
+        tween(reqEls[r.id].querySelector('.text'), [{ color: '#e8f0ef' }, { color: '#6f8886' }], g, 0.5);
+        tween(reqEls[r.id].querySelector('.swatch'), [{ backgroundColor: '#a05195' }, { backgroundColor: 'rgba(185,214,210,.28)' }], g, 0.5);
+      }
+    });
+    reset(() => { for (const s in counts) delete counts[s]; Object.values(countEls).forEach(n => { n.textContent = '0'; }); });
+    t += ordered.length * 0.34 + 1.0;
+
+    // G. each entry is labeled an action or an obligation
+    fadeIn(legend, t, 0.6, 6);
+    ordered.forEach((entry, i) => {
+      const badge = entry.querySelector('.badge');
+      const at = t + 0.2 + i * 0.13;
+      tween(badge, [{ width: '0px', opacity: 0, paddingLeft: '0px', paddingRight: '0px' }, { width: badge.dataset.w, opacity: 1, paddingLeft: '7px', paddingRight: '7px' }], at, 0.45);
+      tween(entry.querySelector('.mark'), [{ width: '8px', marginRight: '0px', opacity: 1 }, { width: '0px', marginRight: '-8px', opacity: 0 }], at, 0.35);
+    });
+    t += ordered.length * 0.13 + 1.0;
+
+    // H. approve all
+    cue(t - 0.6, () => approve.classList.add('ready'));
+    tween(approve, [{ transform: 'scale(1)' }, { transform: 'scale(.94)', offset: 0.5 }, { transform: 'scale(1)' }], t + 0.3, 0.35);
+    cue(t + 0.5, () => { approve.classList.add('done'); approveLabel.textContent = 'Approved'; });
+    tween(sweep, [{ transform: 'translateY(-60px)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.9 }, { transform: 'translateY(740px)', opacity: 0 }], t + 0.5, 1.6, EASE_IN_OUT);
+    catEls.forEach((n, i) => tween(n.querySelector('.lock'), [{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'translateY(0)' }], t + 0.8 + i * 0.22, 0.4));
+    tween(index, [{ boxShadow: '0 0 0 0 rgba(0,145,139,0), 0 0 0 rgba(0,145,139,0)' }, { boxShadow: '0 0 0 1px rgba(0,145,139,.9), 0 0 48px rgba(0,145,139,.22)' }], t + 0.5, 1.2);
+    const dimmed = [...Object.values(docEls), ...Object.values(comEls), ...Object.values(reqEls), ...colLabels.slice(0, 3)];
+    dimmed.forEach(n => tween(n, [{ opacity: 1 }, { opacity: 0.32 }], t + 0.6, 1.2, EASE_OUT, 'forwards'));
+    tween(wires, [{ opacity: 1 }, { opacity: 0.25 }], t + 0.6, 1.2, EASE_OUT, 'forwards');
+    reset(() => { approve.classList.remove('ready', 'done'); approveLabel.textContent = 'Approve all'; });
+    t += 3.4;
+
+    // I. hold, then fade and restart
+    const HOLD = 2.6, FADE = 1.0;
+    tween(stage, [{ opacity: 1 }, { opacity: 0 }], t + HOLD, FADE, EASE_IN_OUT, 'forwards');
+    const TOTAL = t + HOLD + FADE + 0.4;
+
+    /* ═══ Run ═══ */
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let t0 = null, fired = new Set();
+    function start() {
+      resets.forEach(fn => fn()); fired = new Set();
+      t0 = document.timeline.currentTime;
+      anims.forEach(({ anim }) => { anim.currentTime = 0; anim.play(); anim.startTime = t0; });
+    }
+    function frame() {
+      const now = (document.timeline.currentTime - t0) / 1000;
+      cues.forEach((c, i) => { if (!fired.has(i) && now >= c.at) { fired.add(i); c.fn(); } });
+      if (now >= TOTAL) start();
+      requestAnimationFrame(frame);
+    }
+    if (reduced) {
+      resets.forEach(fn => fn());
+      anims.forEach(({ anim, at }) => { if (at < t + HOLD) anim.finish(); });
+      cues.forEach(c => c.fn());
+    } else {
+      start(); requestAnimationFrame(frame);
+    }
+  }
+
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(build);
+})();
+</script>
+</body>
+</html>

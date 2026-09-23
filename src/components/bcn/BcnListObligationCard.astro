@@ -12,13 +12,15 @@
 // The card, top to bottom:
 //   1. the card row: chevron, class chip, title, the dirty dot, the
 //      copy marker when this list holds the obligation more than once, the requirement
-//      count, and three hover verbs pushed right — edit, duplicate, and the x that
+//      count, and three hover verbs pushed right — move/retitle, duplicate, and the x that
 //      takes this membership off the list. The row is the disclosure; the title is not,
 //      it opens the panel, exactly as the wizard's title opens its editor;
-//   2. the requirements as DIRECT CHILDREN: commitment code, then the requirement's
-//      name. Read only — no drag, no duplicate, no unlink, no verb of any kind —
-//      because a list cannot change what an obligation derives from. That read-only
-//      quality is the declared sacrifice of this page, not an omission.
+//   2. the ObligationImplementations as DIRECT CHILDREN, one per component
+//      (<BcnListImplementations kind="obligation">: component, evidence count, comment
+//      count — no status, because an obligation has no lifecycle to report). Andy,
+//      2026-09-23, in place of the requirement rows. A row is the way into its upsert dialog, which
+//      the prototype does not build. The requirements' codes stay on the card as
+//      data-codes: By commitment files the card by them.
 //
 // No grip, and that is deliberate rather than an oversight. The wizard's grip drags a
 // card to refile it; this page cannot refile, and a row added here is FILED into the
@@ -37,7 +39,7 @@
 // Contract with <BcnListObligationTree>: the card is presentational. The tree owns
 // every listener, exactly as step 5 splits card and tree, and reaches in through
 // `data-list-card`, `data-list-edit`, `data-list-duplicate`, `data-list-remove`, `data-list-edited`,
-// `data-list-req` and `data-list-text`.
+// `data-list-impl` and `data-list-text`.
 //
 // IDENTITY: the card is keyed by `data-member-id`, NOT by `data-id`. `data-id` is the
 // registry obligation and two cards may share it; the member id is this row's alone.
@@ -50,6 +52,8 @@
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnListImplementations from './BcnListImplementations.astro';
+import { implementationsOf } from '../../data/list-implementations';
 import { OBLIGATION_CLASS_LABEL, STEP_GLYPH } from '../../data/setup-wizard';
 import type { ListObligation } from '../../data/lists';
 import '../../styles/bcn-obligation-card.css';
@@ -60,6 +64,10 @@ interface Props {
   open?: boolean;
 }
 const { obligation: o, open = false } = Astro.props;
+// Keyed on the registry obligation: a duplicated membership is the same duty on the
+// same components, so it shows the same implementations.
+const impls = implementationsOf(o.id);
+const codes = [...new Set(o.requirements.map((r) => r.code))].join('|');
 ---
 
 <li
@@ -70,18 +78,19 @@ const { obligation: o, open = false } = Astro.props;
   data-class={o.class}
   data-list-description={o.listDescription}
   data-registry-desc={o.description}
+  data-codes={codes}
 >
   <details class="bcn-loc__node" data-list-reqs-branch open={open}>
     <summary class="bcn-loc__main">
       <span class="bcn-loc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
       <span class="bcn-loc__class" data-list-class-tag>{OBLIGATION_CLASS_LABEL[o.class]}</span>
-      <button type="button" class="bcn-loc__title" data-list-edit data-list-title data-list-text={o.title}>{o.title}</button>
-      <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden}><esa-tooltip text="Edited for this list"><span class="bcn-loc__dot" role="img" aria-label="Edited for this list"></span></esa-tooltip></span>
-      <span data-list-count="obligation"><BcnSwCountBadge value={o.requirements.length} label={`${o.requirements.length} requirements`} /></span>
-      <esa-tooltip text="Edit for this list"><button
+      <button type="button" class="bcn-loc__title" data-list-edit data-list-title data-list-text={o.title} data-registry-title={o.title}>{o.title}</button>
+      <span class="bcn-loc__edited" data-list-edited hidden={!o.descriptionOverridden}><esa-tooltip text="Has its own list wording"><span class="bcn-loc__dot" role="img" aria-label="Has its own list wording"></span></esa-tooltip></span>
+      <span data-list-count="obligation"><BcnSwCountBadge value={impls.length} label={`${impls.length} implementations`} /></span>
+      <esa-tooltip text="Move or retitle for this list"><button
         type="button"
         class="bcn-loc__verb"
-        aria-label="Edit this obligation for this list"
+        aria-label="Move or retitle this obligation for this list"
         data-list-edit
       ><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
       <esa-tooltip text="Duplicate for this list"><button
@@ -97,14 +106,7 @@ const { obligation: o, open = false } = Astro.props;
         data-list-remove
       ><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
     </summary>
-    <ul class="bcn-loc__reqs">
-      {o.requirements.map((r) => (
-        <li class="bcn-loc__req" data-list-req data-code={r.code}>
-          <BcnCommitmentBadge code={r.code} size="sm" />
-          <span class="bcn-loc__req-name" data-list-text={r.name}>{r.name}</span>
-        </li>
-      ))}
-    </ul>
+    <BcnListImplementations impls={impls} kind="obligation" />
   </details>
 </li>
 
@@ -126,8 +128,7 @@ const { obligation: o, open = false } = Astro.props;
   /* The shared sheet lets the title fill the row, which would push the dot to the
      badge; here the title takes its own width (still ellipsised) and the badge pushes
      itself to the end, so the dot sits at the title's heel. */
-  .bcn-loc__title { flex: 0 1 auto; }
-  [data-list-count] { margin-inline-start: auto; }
+  /* (.bcn-loc__title's own width and the count's push now live in the shared sheet.) */
   .bcn-loc__edited { flex-shrink: 0; display: inline-flex; }
   .bcn-loc__edited[hidden] { display: none; }
   .bcn-loc__dot {
@@ -144,7 +145,6 @@ const { obligation: o, open = false } = Astro.props;
     background: var(--color-content-brand);
   }
 
-  /* Requirements are reference here, never the subject, so they carry secondary ink.
-     The wizard's own rows stay at default: there they ARE the thing being edited. */
-  .bcn-loc__req { color: var(--color-content-default-secondary); }
+  /* The requirement rows' read-only, clickable treatment moved to
+     bcn-obligation-card.css (.bcn-loc only) when <BcnListMemberCard> began to share it. */
 </style>

@@ -7,6 +7,10 @@
 // `document` and the sibling that owns that surface answers:
 //   Edit details        -> `list:edit-details`    (no detail) -> BcnListEditDetailsDialog
 //   Add obligations     -> `list:add-obligations` (no detail) -> BcnListAddObligations
+//   Add actions / commitments -> `list:add-members` -> BcnListAddMembers (addEvent prop)
+//   Add evidence        -> `list:add-evidence`    ({one, many} noun) -> the app-wide
+//                          bottom BcnEvidenceDrawer, in list mode (evidence-drawer.ts).
+//                          Action and obligation lists; `evidence` prop is the noun.
 // So the page can mount this before either of those exists.
 //
 // EXPORT IS NOT HERE. It was a third control opening a menu of three formats, and a
@@ -18,16 +22,28 @@
 // bcn-lego-checked: esa-button is both controls and .cluster is the row. What is left
 // in this file is the composition and the event wiring, which no lego provides.
 import EsaButton from '@esa/ecology/esa-button.astro';
+
+interface Props {
+  /** The add verb's label and the event it announces. An obligation list adds
+      obligations; an action or commitment list adds its own kind of member. */
+  addLabel?: string;
+  addEvent?: string;
+  /** Offer bulk evidence for the list's members, named by this [one, many] noun. A
+      commitment list has no evidence, so it passes none. */
+  evidence?: readonly [string, string];
+}
+const { addLabel = 'Add obligations', addEvent = 'list:add-obligations', evidence } = Astro.props;
 ---
 
 <div class="cluster bcn-list-actions" data-gap="sm" data-list-actions>
-  {/* Ghost, not secondary. esa-button's secondary paints --color-background-brand-subtle
-      (#effefb) inside --color-border-brand (#b9d6d2) — a pale green outline, which is a
-      banned accent in this house and read as a second primary beside the real one. Ghost
-      puts the weight where the commitment is: one filled button on this row. */}
-  <EsaButton variant="ghost" size="sm" type="button" data-list-edit-details>Edit details</EsaButton>
-
-  <EsaButton variant="primary" size="sm" type="button" data-list-add-obligations>Add obligations</EsaButton>
+  {/* Neutral outline, both of them — Andy, 2026-09-23, from prod's own Edit Details /
+      Edit Actions pair. esa-button's secondary paints a pale green outline, a banned
+      accent here; ghost + outline is the house's neutral bordered button (BcnGridFooter,
+      BcnWorkAreaBoard). The icon carries the verb, so neither needs to be filled to read
+      as the way in. */}
+  <EsaButton variant="ghost" appearance="outline" size="sm" icon="pencil" type="button" data-list-edit-details>Edit details</EsaButton>
+  <EsaButton variant="ghost" appearance="outline" size="sm" icon="plus" type="button" data-list-add-obligations data-list-add-event={addEvent}>{addLabel}</EsaButton>
+  {evidence && <EsaButton variant="ghost" appearance="outline" size="sm" icon="upload" type="button" data-list-add-evidence data-one={evidence[0]} data-many={evidence[1]}>Add evidence</EsaButton>}
 </div>
 
 <script>
@@ -35,14 +51,21 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   const root = document.querySelector<HTMLElement>('[data-list-actions]');
 
   if (root) {
-    const announce = (type: string) => document.dispatchEvent(new CustomEvent(type, { bubbles: true }));
+    const announce = (type: string, detail?: unknown) => document.dispatchEvent(new CustomEvent(type, { bubbles: true, detail }));
 
     root
       .querySelector<HTMLButtonElement>('[data-list-edit-details]')
       ?.addEventListener('click', () => announce('list:edit-details'));
     root
       .querySelector<HTMLButtonElement>('[data-list-add-obligations]')
-      ?.addEventListener('click', () => announce('list:add-obligations'));
+      ?.addEventListener('click', (e) =>
+        announce((e.currentTarget as HTMLElement).dataset.listAddEvent || 'list:add-obligations'));
+    root
+      .querySelector<HTMLButtonElement>('[data-list-add-evidence]')
+      ?.addEventListener('click', (e) => {
+        const { one, many } = (e.currentTarget as HTMLElement).dataset;
+        announce('list:add-evidence', { one, many });
+      });
   }
 </script>
 

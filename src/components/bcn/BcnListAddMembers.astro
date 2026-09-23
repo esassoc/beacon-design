@@ -1,0 +1,234 @@
+---
+// <BcnListAddMembers> — the drawer that puts registry ACTIONS or COMMITMENTS onto a
+// list. The sibling of <BcnListAddObligations>, sharing its shape (bcn-list-add.css):
+// a searchable checkbox tree in a right-hand side dialog. Andy, 2026-09-23: "I like
+// the sidepanel checkbox list you created." It replaces prod's separate Edit Actions
+// page, whose two columns (catalog with + buttons, selection with Save) this does in one
+// drawer over the page it changes.
+//
+// It renders memberCandidates(list): everything of the list's kind the list does not
+// hold. Actions come in one level of groups by Action Type, each CLOSED on open, with
+// search as the way in. Commitments are ONE FLAT CHECKBOX LIST in code order (Andy,
+// 2026-09-23), matching the flat commitment list it adds to; section folders and a
+// nested parent/child group were both tried and dropped. A commitment's option reads
+// "COA 10.18  Title", because its code is how a commitment is found.
+//
+// Contract, on `document`:
+//   in   list:add-members      (no detail) opens it
+//   out  list:members-added    detail: { items: ListMemberRow[] }, read off the ticked rows
+//
+// bcn-lego-checked: the frame IS esa-side-dialog, the search IS esa-text-field, each
+// option IS esa-checkbox (label beside it in light DOM — the lego has no label slot, so a <mark> cannot reach its shadow label), the footer verbs ARE esa-button, the counts ARE
+// BcnSwCountBadge, the chevron IS esa-icon, the codes ARE bcn-commitment-badge, the
+// filters ARE <BcnListAddFilters> (esa-filter-dropdown); the branch-row grammar is bcn-list-add.css,
+// shared with <BcnListAddObligations>.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnListAddFilters from './BcnListAddFilters.astro';
+import {
+  ACTION_BY_ID, LIST_MEMBER_NOUN, LIST_FACETS, actionFacets, buildFacets, commitmentFacets, facetAttrs, memberCandidates,
+  type ActionList, type CommitmentList, type FacetValues,
+} from '../../data/lists';
+import '../../styles/bcn-list-add.css';
+// .bcn-lot__hit, the search mark the list trees already use.
+import '../../styles/bcn-tree.css';
+
+interface Props {
+  list: ActionList | CommitmentList;
+}
+const { list } = Astro.props;
+const many = LIST_MEMBER_NOUN[list.type][1];
+const groups = memberCandidates(list);
+const total = groups.reduce((n, g) => n + g.items.length, 0);
+const flat = list.type === 'commitment';
+type Row = (typeof groups)[number]['items'][number];
+const facetsOf = (r: Row): FacetValues =>
+  list.type === 'commitment' ? commitmentFacets(r.id) : actionFacets(ACTION_BY_ID.get(r.id)!);
+const facets = buildFacets(
+  LIST_FACETS[list.type],
+  groups.flatMap((g) => g.items).map(facetsOf),
+);
+---
+
+<esa-side-dialog
+  id="bcn-lam"
+  heading={`Add ${many}`}
+  position="right"
+  show-close-button
+  style="--_width: min(680px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
+  <div class="bcn-lao">
+    <esa-text-field
+      size="sm"
+      name="lam-search"
+      aria-label={`Search ${many}`}
+      placeholder={list.type === 'commitment' ? 'Search by code or title' : 'Search by action name'}></esa-text-field>
+
+    {total > 0 && <BcnListAddFilters facets={facets} />}
+
+    <p class="bcn-lao__nomatch" data-lam-nomatch hidden>No {many} match.</p>
+    <p class="bcn-lao__nomatch" data-lam-none hidden={total > 0}>Every {LIST_MEMBER_NOUN[list.type][0]} in the registry is already on this list.</p>
+
+    <div class="bcn-lao__tree" data-lam-tree>
+      {flat ? (
+        <div data-lam-group="all">
+          <ul class="bcn-lao__opts bcn-lam__opts bcn-lam__opts--flat">
+            {groups.flatMap((g) => g.items).map((r) => {
+              const label = r.code ? `${r.code} ${r.title}` : r.title;
+              return (
+                <li class="bcn-lao__opt" data-lam-opt data-label={label} data-item={JSON.stringify(r)} {...facetAttrs(facetsOf(r))}>
+                  <esa-checkbox size="sm" aria-label={label}></esa-checkbox>
+                  {r.code && <BcnCommitmentBadge code={r.code} size="sm" />}
+                  <span class="bcn-lao__label" data-opt-label>{r.title}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : groups.map((g) => (
+        <details class="bcn-lao__cat" data-lam-group={g.id}>
+          <summary class="bcn-lao__row bcn-lao__row--cat">
+            <span class="bcn-lao__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+            <span class="bcn-lao__name">{g.name}</span>
+            <span data-lao-count><BcnSwCountBadge value={g.items.length} label={`${g.items.length} ${many} available`} /></span>
+          </summary>
+          <ul class="bcn-lao__opts bcn-lam__opts">
+            {g.items.map((r) => {
+              const label = r.code ? `${r.code} ${r.title}` : r.title;
+              return (
+                <li class="bcn-lao__opt" data-lam-opt data-label={label} data-item={JSON.stringify(r)} {...facetAttrs(facetsOf(r))}>
+                  <esa-checkbox size="sm" aria-label={label}></esa-checkbox>
+                  {r.code && <BcnCommitmentBadge code={r.code} size="sm" />}
+                  <span class="bcn-lao__label" data-opt-label>{r.title}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <span slot="footer" class="bcn-lao__foot">
+    <span class="bcn-lao__selected">Selected: <span data-lam-n>0</span></span>
+    <span class="bcn-lao__foot-right">
+      <EsaButton variant="primary" size="sm" data-lam-add>Add to list</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-lam-cancel>Cancel</EsaButton>
+    </span>
+  </span>
+</esa-side-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-checkbox';
+  import { paintLabel, wireFacets, wireOptionLabels } from './list-add';
+
+  type Drawer = HTMLElement & { open: boolean };
+  type Valued = HTMLElement & { value: string };
+  type Checkbox = HTMLElement & { checked: boolean };
+
+  const drawer = document.getElementById('bcn-lam') as Drawer | null;
+  if (drawer) {
+    const tree = drawer.querySelector<HTMLElement>('[data-lam-tree]')!;
+    const search = drawer.querySelector<Valued>('esa-text-field[name="lam-search"]');
+    const nomatch = drawer.querySelector<HTMLElement>('[data-lam-nomatch]')!;
+    const none = drawer.querySelector<HTMLElement>('[data-lam-none]')!;
+    const nOut = drawer.querySelector<HTMLElement>('[data-lam-n]')!;
+    const addBtn = drawer.querySelector<HTMLButtonElement>('button[data-lam-add]');
+    const cancelBtn = drawer.querySelector<HTMLButtonElement>('button[data-lam-cancel]');
+
+    const rows = () => [...tree.querySelectorAll<HTMLElement>('[data-lam-opt]')];
+    wireOptionLabels(tree);
+    const boxOf = (row: HTMLElement) => row.querySelector('esa-checkbox') as Checkbox | null;
+    const checkedRows = () => rows().filter((r) => boxOf(r)?.checked);
+    const needleOf = () => (search?.value ?? search?.shadowRoot?.querySelector('input')?.value ?? '').trim().toLowerCase();
+
+    // The disabled look is a class on esa-button's wrapper; the state and the look
+    // move together (see <BcnListAddObligations>).
+    const setAddEnabled = (on: boolean) => {
+      if (!addBtn) return;
+      addBtn.disabled = !on;
+      addBtn.closest('.esa-button')?.classList.toggle('esa-button--disabled', !on);
+    };
+    const syncCount = () => {
+      const n = checkedRows().length;
+      nOut.textContent = String(n);
+      setAddEnabled(n > 0);
+    };
+    setAddEnabled(false);
+    tree.addEventListener('change', syncCount);
+
+    const filter = () => {
+      const needle = needleOf();
+      let shown = 0;
+      for (const g of tree.querySelectorAll<HTMLElement>('[data-lam-group]')) {
+        let n = 0;
+        for (const row of g.querySelectorAll<HTMLElement>('[data-lam-opt]')) {
+          const hit = (!needle || (row.dataset.label ?? '').toLowerCase().includes(needle)) && facets.matches(row);
+          row.hidden = !hit;
+          paintLabel(row, hit ? needle : '');
+          if (hit) n += 1;
+        }
+        g.hidden = n === 0;
+        // The badge counts what the search and filters leave, not the whole group.
+        const badge = g.querySelector<HTMLElement>(':scope > summary [data-lao-count] > *');
+        if (badge) badge.textContent = String(n);
+        if (g instanceof HTMLDetailsElement) g.open = (!!needle || facets.isActive()) && n > 0;
+        shown += n;
+      }
+      // Nothing left to offer is a different state from a search that missed.
+      const empty = rows().length === 0;
+      none.hidden = !empty;
+      nomatch.hidden = empty || shown > 0;
+      if (search) search.style.display = empty ? 'none' : '';
+    };
+    const facets = wireFacets(drawer, () => filter());
+    search?.addEventListener('input', filter);
+    search?.addEventListener('change', filter);
+
+    const retally = () => {
+      for (const g of tree.querySelectorAll<HTMLDetailsElement>('[data-lam-group]')) {
+        const n = g.querySelectorAll('[data-lam-opt]').length;
+        if (!n) { g.remove(); continue; }
+        const b = g.querySelector<HTMLElement>(':scope > summary [data-lao-count] > *');
+        if (b) { b.textContent = String(n); b.setAttribute('aria-label', `${n} available`); }
+      }
+    };
+
+    const reset = () => {
+      for (const row of rows()) { const box = boxOf(row); if (box) box.checked = false; }
+      if (search) search.value = '';
+      facets.reset();
+      filter();
+      syncCount();
+    };
+
+    document.addEventListener('list:add-members', () => {
+      Promise.all(['esa-side-dialog', 'esa-text-field', 'esa-checkbox'].map((t) => customElements.whenDefined(t))).then(() => {
+        reset();
+        drawer.open = true;
+      });
+    });
+    cancelBtn?.addEventListener('click', () => { drawer.open = false; });
+
+    addBtn?.addEventListener('click', () => {
+      const picked = checkedRows();
+      const items = picked.map((row) => JSON.parse(row.dataset.item || '{}'));
+      if (!items.length) return;
+      document.dispatchEvent(new CustomEvent('list:members-added', { detail: { items }, bubbles: true }));
+      picked.forEach((row) => row.remove());
+      retally();
+      reset();
+      drawer.open = false;
+    });
+  }
+</script>
+
+<style>
+  /* One branch level, so the options clear one chevron rather than two. */
+  .bcn-lam__opts { padding-inline-start: calc(var(--spacing-200) + 22px); }
+  /* Commitments: no branch rows, so the options sit on the drawer's own inset. */
+  .bcn-lam__opts--flat { padding-inline-start: var(--spacing-200); }
+</style>

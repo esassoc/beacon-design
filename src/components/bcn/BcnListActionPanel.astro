@@ -1,0 +1,191 @@
+---
+// <BcnListActionPanel> — one ACTION, read only, opened from an action card's title on
+// an action list. The action list's counterpart of <BcnListRequirementPanel>, in the
+// same frame and the same type tier, so the two read as one family.
+//
+// An action list holds pointers, so there is nothing here to edit. The panel answers
+// "what is this action, and what does it answer to", then hands off to the Data
+// Catalog's action page. Top to bottom: the type chip, the action's own text, its
+// fields (Timing, Frequency, Deliverable, Expected evidence), and the requirements it
+// satisfies. A requirement row opens <BcnListRequirementPanel> over this one.
+//
+// Contract, on `document`:
+//   in   list:view-action        detail: action id
+//   out  list:view-requirement   detail: requirement id
+//
+// bcn-lego-checked: the frame IS esa-side-dialog, the footer verbs ARE esa-button, the
+// codes ARE bcn-commitment-badge, the type chip IS bcn-obligation-card.css's class chip
+// (.bcn-lac namespace, action hue), and the labels / quoted text / rows are the drawer's
+// own .bcn-swo-edit__* from bcn-obligation-drawer.css. Field rows use the requirement
+// panel's read-only tier (12px label, 13px value); bcn-key-value's 15px semibold values
+// were declined there for outweighing the labels, and are declined here for the same reason.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import { ITP, REQUIREMENT_TYPE_LABEL } from '../../data/setup-wizard';
+import { DELIVERABLE_LABEL, FREQUENCY_LABEL, actionSpecies } from '../../data/lists';
+import { withBase } from '../../lib/base';
+import '../../styles/bcn-obligation-drawer.css';
+import '../../styles/bcn-obligation-card.css';
+
+const reqs = new Map(ITP.requirements.map((r) => [r.id, r]));
+const records = Object.fromEntries(
+  ITP.actions.map((a) => [a.id, {
+    name: a.name,
+    text: a.text,
+    type: REQUIREMENT_TYPE_LABEL[a.type] ?? a.type,
+    timing: a.timing?.stated || a.timing?.asNeeded?.trigger || '',
+    frequency: FREQUENCY_LABEL[a.timing?.frequency ?? ''] ?? a.timing?.frequency ?? '',
+    deliverable: a.deliverableType ? DELIVERABLE_LABEL[a.deliverableType] ?? a.deliverableType : '',
+    evidence: a.expectedEvidence ?? '',
+    // An action carries no species of its own; it answers to its requirements'.
+    species: actionSpecies(a).map((x) => x.charAt(0).toUpperCase() + x.slice(1)).join(', '),
+    reqs: a.requirementIds.map((id) => reqs.get(id)).filter(Boolean).map((r) => ({ id: r!.id, code: r!.commitment, name: r!.name })),
+  }]),
+);
+const DETAIL_HREF = withBase('/prototypes/data-catalog-action');
+---
+
+<esa-side-dialog
+  id="lac-panel"
+  heading="Action"
+  position="right"
+  show-close-button
+  style="--_width: min(640px, 94vw); --z-modal: 1200; --z-modal-backdrop: 1150;"
+>
+  <div class="bcn-swo-edit bcn-lac" data-class="action" data-list-action-panel data-lac-data={JSON.stringify(records)} data-lac-href={DETAIL_HREF}>
+    <div><span class="bcn-lob__class bcn-lac__class" data-lac="type"></span></div>
+
+    <div class="bcn-swo-edit__section">
+      <span class="bcn-swo-edit__label">Action text</span>
+      <blockquote class="bcn-swo-edit__text bcn-lac__text" data-lac="text"></blockquote>
+    </div>
+
+    <div class="bcn-lac__grid">
+      <div data-lac-kv="frequency"><span class="bcn-swo-edit__label">Frequency</span><span class="bcn-lac__value"></span></div>
+      <div data-lac-kv="deliverable"><span class="bcn-swo-edit__label">Deliverable</span><span class="bcn-lac__value"></span></div>
+      <div data-lac-kv="species" class="bcn-lac__wide"><span class="bcn-swo-edit__label">Species</span><span class="bcn-lac__value"></span></div>
+      <div data-lac-kv="timing" class="bcn-lac__wide"><span class="bcn-swo-edit__label">Timing</span><span class="bcn-lac__value"></span></div>
+      <div data-lac-kv="evidence" class="bcn-lac__wide"><span class="bcn-swo-edit__label">Expected evidence</span><span class="bcn-lac__value"></span></div>
+    </div>
+
+    <div class="bcn-swo-edit__section">
+      <span class="bcn-swo-edit__label">Requirements (<span data-lac-n>0</span>)</span>
+      <ul class="bcn-lac__reqs" data-lac-reqs></ul>
+    </div>
+
+    <template data-lac-tpl>
+      <li class="bcn-lac__req" data-lac-req>
+        <BcnCommitmentBadge code="COA" size="sm" />
+        <button type="button" class="bcn-lac__req-name"></button>
+      </li>
+    </template>
+  </div>
+
+  <span slot="footer" class="bcn-lac__foot">
+    <EsaButton variant="ghost" size="sm" data-lac-close>Close</EsaButton>
+    <EsaButton variant="primary" size="sm" href={DETAIL_HREF} iconRight="arrow-right" data-lac-open>Open action</EsaButton>
+  </span>
+</esa-side-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+
+  interface Rec {
+    name: string; text: string; type: string; timing: string; frequency: string;
+    deliverable: string; evidence: string; species: string; reqs: { id: string; code: string; name: string }[];
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-list-action-panel]');
+  if (root) {
+    const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('#lac-panel')!;
+    const records = JSON.parse(root.dataset.lacData || '{}') as Record<string, Rec>;
+    const href = root.dataset.lacHref ?? '';
+    const open = dialog.querySelector<HTMLAnchorElement>('[data-lac-open] a, a[data-lac-open]');
+    const list = root.querySelector<HTMLElement>('[data-lac-reqs]')!;
+    const tpl = root.querySelector<HTMLTemplateElement>('[data-lac-tpl]')!;
+    const DASH = '–';
+    const put = (key: string, value: string) => {
+      root.querySelector<HTMLElement>(`[data-lac-kv="${key}"] .bcn-lac__value`)!.textContent = value || DASH;
+    };
+
+    document.addEventListener('list:view-action', (e) => {
+      const id = (e as CustomEvent<string>).detail;
+      const r = records[id];
+      if (!r) return;
+      dialog.heading = r.name;
+      root.querySelector<HTMLElement>('[data-lac="type"]')!.textContent = r.type;
+      root.querySelector<HTMLElement>('[data-lac="text"]')!.textContent =
+        (r.text || '').replace(/([^\n])\n(?!\n)/g, '$1 ').trim() || DASH;
+      put('frequency', r.frequency);
+      put('deliverable', r.deliverable);
+      put('timing', r.timing.charAt(0).toUpperCase() + r.timing.slice(1));
+      put('evidence', r.evidence);
+      put('species', r.species);
+      root.querySelector<HTMLElement>('[data-lac-n]')!.textContent = String(r.reqs.length);
+      list.replaceChildren(...r.reqs.map((q) => {
+        const row = (tpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+        row.dataset.reqId = q.id;
+        row.querySelector<HTMLElement>('.bcn-cbadge')!.textContent = q.code;
+        row.querySelector<HTMLElement>('.bcn-lac__req-name')!.textContent = q.name;
+        return row;
+      }));
+      if (open) open.href = `${href}?id=${encodeURIComponent(id)}`;
+      dialog.open = true;
+    });
+
+    list.addEventListener('click', (e) => {
+      const row = (e.target as HTMLElement).closest<HTMLElement>('[data-lac-req]');
+      if (row?.dataset.reqId) document.dispatchEvent(new CustomEvent('list:view-requirement', { detail: row.dataset.reqId }));
+    });
+    dialog.querySelector('[data-lac-close]')?.addEventListener('click', () => { dialog.open = false; });
+  }
+</script>
+
+<style>
+  .bcn-lac__class { align-self: flex-start; }
+  .bcn-lac__text { margin: 0; white-space: pre-line; }
+
+  .bcn-lac__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-300);
+  }
+  .bcn-lac__grid > div { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
+  .bcn-lac__wide { grid-column: 1 / -1; }
+  .bcn-lac__value { font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
+  @media (max-width: 480px) { .bcn-lac__grid { grid-template-columns: 1fr; } }
+
+  /* The requirement rows: the list card's child row, read only, each one a way into
+     the requirement panel. */
+  .bcn-lac__reqs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .bcn-lac__req {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 30px;
+    padding: var(--spacing-050) var(--spacing-200);
+    border-top: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-100);
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+    cursor: pointer;
+  }
+  .bcn-lac__req:hover { background: var(--color-background-default); color: var(--color-content-default); }
+  .bcn-lac__req-name {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    padding: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-lac__req-name:focus-visible { outline: 2px solid var(--color-action); outline-offset: 1px; border-radius: 2px; }
+
+  .bcn-lac__foot { display: flex; justify-content: flex-end; gap: var(--spacing-200); inline-size: 100%; }
+</style>

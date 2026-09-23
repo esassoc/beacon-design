@@ -1,0 +1,109 @@
+---
+// <BcnListMemberCard> — one ACTION or one COMMITMENT as it sits in a list. The sibling
+// of <BcnListObligationCard>, and the same anatomy from the same stylesheet
+// (bcn-obligation-card.css): one row, requirements as its direct children.
+//
+// CHILDREN. An action's children are its ActionImplementations, one per component,
+// as prod's action list draws them (<BcnListImplementations>: status, component,
+// comment count). Andy, 2026-09-23: "Instead of showing the requirements as child
+// nodes, let's show the ActionImplementations". A commitment keeps its requirements.
+// The requirements behind an action still ride on the card as data-codes and
+// data-index, because the By commitment and By category views file the card by them.
+//
+// The row, left to right:
+//   action      chevron, the action's TYPE chip (action hue), title, requirement count,
+//               and one hover verb — the x that takes it off the list. The title opens
+//               <BcnListActionPanel>, a read-only view of the action.
+//   commitment  chevron, the commitment code, title, requirement count, an "open the
+//               commitment" verb and the x. There is no commitment panel: the Data
+//               Catalog's commitment page is the read-only view, so the verb goes there.
+//
+// Less than the obligation card, on purpose: no edit, no duplicate, no dirty dot. An
+// action or commitment list has no wording of its own to edit and no reason to hold a
+// record twice; it is a set of pointers.
+//
+// Contract with <BcnListMemberTree>: presentational. The tree owns every listener and
+// reaches in through data-list-card, data-list-open, data-list-remove, data-list-req,
+// data-list-impl and data-list-text — the same hooks the obligation tree uses, which is what lets
+// list-views.ts mirror either card.
+//
+// bcn-lego-checked: the same call as <BcnListObligationCard> — esa-card's padding and
+// header band, esa-collapsible's panel and esa-list-item's lack of a nested list all
+// miss a dense 13px disclosure row. The shape IS bcn-obligation-card.css, the count IS
+// bcn-sw-count-badge, the code IS bcn-commitment-badge, the glyphs ARE esa-icon, the
+// tooltips ARE esa-tooltip.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnListImplementations from './BcnListImplementations.astro';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+import type { ListMemberRow } from '../../data/lists';
+import { withBase } from '../../lib/base';
+import '../../styles/bcn-obligation-card.css';
+
+interface Props {
+  row: ListMemberRow;
+}
+const { row } = Astro.props;
+const COMMITMENT_HREF = withBase('/prototypes/data-catalog-commitment');
+const codes = [...new Set(row.reqs.map((r) => r.code))].join('|');
+const index = [...new Set(row.reqs.flatMap((r) => r.index ?? []))].join('|');
+const children = row.impls ? row.impls.length : row.reqs.length;
+const childNoun = row.impls ? 'implementations' : 'requirements';
+---
+
+<li
+  class="bcn-loc"
+  data-list-card
+  data-member-id={row.memberId}
+  data-id={row.id}
+  data-class={row.chip?.tone ?? 'commitment'}
+  data-codes={codes}
+  data-index={index}
+  data-source={row.source}
+>
+  <details class="bcn-loc__node">
+    <summary class="bcn-loc__main">
+      <span class="bcn-loc__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+      {row.chip && <span class="bcn-loc__class" data-list-class-tag>{row.chip.label}</span>}
+      {row.code && <span data-list-code><BcnCommitmentBadge code={row.code} size="sm" /></span>}
+      {row.chip
+        ? <button type="button" class="bcn-loc__title" data-list-open data-list-title data-list-text={row.title}>{row.title}</button>
+        : <span class="bcn-loc__title bcn-lmc__title" data-list-title data-list-text={row.title}>{row.title}</span>}
+      <span data-list-count="member"><BcnSwCountBadge value={children} label={`${children} ${childNoun}`} /></span>
+      {row.code && (
+        <esa-tooltip text="Open commitment"><a
+          class="bcn-loc__verb"
+          href={`${COMMITMENT_HREF}?id=${encodeURIComponent(row.code)}`}
+          aria-label="Open this commitment in the Data Catalog"
+          data-list-goto
+        ><EsaIcon name="external-link" size="xs" /></a></esa-tooltip>
+      )}
+      <esa-tooltip text="Remove from this list" align="end"><button
+        type="button"
+        class="bcn-loc__verb bcn-loc__verb--danger"
+        aria-label="Remove from this list"
+        data-list-remove
+      ><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+    </summary>
+    {row.impls ? <BcnListImplementations impls={row.impls} kind="action" /> : (<ul class="bcn-loc__reqs">
+      {row.reqs.map((r) => (
+        <li class="bcn-loc__req" data-list-req data-code={r.code} data-req-id={r.id} data-index={r.index?.join('|')}>
+          <BcnCommitmentBadge code={r.code} size="sm" />
+          <button type="button" class="bcn-loc__req-name" data-list-text={r.name}>{r.name}</button>
+        </li>
+      ))}
+    </ul>)}
+  </details>
+</li>
+
+<style>
+  /* A commitment's title is not a button — the row is its disclosure and the verb is
+     its way out — so it drops the title's link affordance. */
+  .bcn-lmc__title { cursor: inherit; }
+  .bcn-lmc__title:hover { text-decoration: none; }
+  [data-list-code] { display: inline-flex; flex-shrink: 0; }
+  /* Every requirement under a commitment carries that commitment's code; repeating
+     it on each row says nothing the card row has not. */
+  .bcn-loc[data-class='commitment'] .bcn-loc__req :global(.bcn-cbadge) { display: none; }
+</style>

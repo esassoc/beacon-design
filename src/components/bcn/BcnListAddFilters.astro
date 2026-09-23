@@ -1,0 +1,38 @@
+---
+// <BcnListAddFilters> — the filter row under an add drawer's search. Andy, 2026-09-23:
+// "filters in the side drawer to narrow your add search". Each facet is a multi-select
+// esa-filter-dropdown; a row passes when, for every facet in use, it holds at least one
+// of the picked values (OR within a facet, AND across them). The options and each row's
+// values come from lists.ts (buildFacets / facetAttrs), so a picker only offers values
+// some candidate has. Behavior lives in list-add.ts (wireFacets).
+//
+// bcn-lego-checked: the row IS esa-filter-container, each picker IS esa-filter-dropdown
+// (multiple), the reset IS esa-filter-clear-button. This file only feeds them options.
+import EsaFilterContainer from '@esa/ecology/esa-filter-container.astro';
+import EsaFilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import type { Facet } from '../../data/lists';
+
+interface Props {
+  facets: Facet[];
+}
+const { facets } = Astro.props;
+---
+
+{facets.length > 0 && (
+  <div class="bcn-laf" data-add-filters>
+    <EsaFilterContainer>
+      {facets.map((f) => (
+        <esa-filter-dropdown name={f.key} label={f.label} placeholder={`Search ${f.label.toLowerCase()}`} size="sm" multiple options={JSON.stringify(f.options)}></esa-filter-dropdown>
+      ))}
+      <span class="bcn-laf__clear" data-add-filters-clear hidden><EsaFilterClearButton /></span>
+    </EsaFilterContainer>
+  </div>
+)}
+
+<script>
+  import '@esa/ecology/esa-filter-dropdown';
+</script>
+
+<style>
+  .bcn-laf__clear[hidden] { display: none; }
+</style>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beacon Evidence Lineage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Besley:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══ Tokens (Beacon dark) ═══ */
+:root{
+  --bcn-teal-900:#005862; --bcn-teal-800:#0a6562; --bcn-teal-600:#0e807b; --bcn-teal-500:#00918b; --bcn-teal-200:#b9d6d2;
+  --color-source:#003f5c; --color-commitment:#58508d; --color-requirement:#a05195; --color-action:#d45087; --color-obligation:#f95d6a;
+  --color-ai:#699cc6;
+  --source-lit:#4b8fbd; --commitment-lit:#7d78b8;
+  --bg:#07151a; --surface:#0c1f25; --surface-2:#112a31; --line:rgba(185,214,210,.14); --line-strong:rgba(185,214,210,.28);
+  --ink:#e8f0ef; --ink-2:#a9bfbc; --ink-dim:#6f8886;
+  --font-sans:"DM Sans",system-ui,sans-serif; --font-serif:"Besley",Georgia,serif; --font-mono:"Roboto Mono",ui-monospace,monospace;
+  --radius:6px; --radius-sm:4px;
+  --stage-w:1600; --stage-h:1000;
+}
+/* ═══ Reset ═══ */
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+/* ═══ Stage ═══ */
+.viewport{position:fixed;inset:0;display:grid;place-items:center}
+.stage{position:relative;width:calc(var(--stage-w) * 1px);height:calc(var(--stage-h) * 1px);transform-origin:center center;flex:none}
+.stage > *{position:absolute}
+svg.wires,svg.map{inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+svg.wires path{fill:none;stroke-width:1.5;stroke-linecap:round}
+svg.map{opacity:0}
+/* ═══ Header ═══ */
+.brand{left:60px;top:44px;display:flex;align-items:center;gap:12px}
+.brand svg{width:22px;height:34px}
+.brand .word{font-weight:600;font-size:18px;letter-spacing:.01em}
+.brand .step{font-size:16px;color:var(--ink-2);padding-left:12px;border-left:1px solid var(--line-strong)}
+.tier-label{left:60px;display:flex;align-items:center;gap:8px;font-size:16px;font-weight:500;color:var(--ink-2);opacity:0}
+.tier-label .dot{width:10px;height:10px;border-radius:50%;background:var(--c)}
+/* ═══ Cards ═══ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);opacity:0;display:flex;align-items:center;gap:12px;padding:10px 16px}
+.card .body{min-width:0;flex:1}
+.card .ref{font-family:var(--font-mono);font-size:13px;color:var(--ink-dim);line-height:18px}
+.card .title{font-size:17px;font-weight:600;line-height:1.25;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .source{font-size:14px;color:var(--ink-dim);line-height:18px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .text{font-size:16px;line-height:1.25;color:var(--ink)}
+.card .badge{flex:none;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--bg);border-radius:var(--radius-sm);padding:0 7px;line-height:18px;white-space:nowrap}
+.card.action .badge{background:var(--color-action)}
+.card.obligation .badge{background:var(--color-obligation)}
+.ev{flex:none;font-family:var(--font-mono);font-size:13px;line-height:20px;min-width:28px;text-align:center;padding:0 8px;border-radius:11px;background:var(--bcn-teal-200);color:var(--bg);opacity:0}
+.ev.on{opacity:1}
+.ev.big{font-size:18px;line-height:30px;min-width:40px;border-radius:15px;padding:0 12px}
+.commitment{width:440px;height:132px;padding:12px 18px}
+.ledger{left:780px;top:96px;width:760px;height:132px;padding:10px 18px 12px;display:block}
+.ledger .head{display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:500;color:var(--ink-2);line-height:22px;margin-bottom:8px}
+.ledger .cols{display:grid;grid-template-columns:1fr 1fr 1fr;column-gap:16px}
+.ledger .col .place{font-size:14px;line-height:20px;opacity:1;font-weight:600;color:var(--ink-2);gap:6px}
+.ledger .col .place .dot{width:8px;height:8px}
+.ledger .row{display:flex;align-items:center;gap:6px;opacity:0;min-width:0;height:20px}
+.ledger .row svg{flex:none;width:14px;height:14px;color:var(--c)}
+.ledger .row .text{font-size:14px;line-height:20px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.req{width:360px;height:64px}
+.obl{width:280px;height:64px;padding:8px 14px}
+.obl .body{display:block}
+.obl .kind{display:flex;align-items:center;justify-content:space-between;line-height:20px}
+.obl .text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+.band{left:60px;top:256px;width:1480px;height:240px;border:1px solid var(--line);border-radius:10px;background:rgba(12,31,37,.55);opacity:0}
+.band .name{position:absolute;left:18px;top:12px;font-family:var(--font-serif);font-size:18px;font-weight:500;color:var(--bcn-teal-200)}
+/* ═══ Map ═══ */
+.place{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:var(--ink);opacity:0;white-space:nowrap}
+.place .dot{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.chip{width:236px;height:30px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:0 9px;display:flex;align-items:center;gap:7px;opacity:0}
+.chip svg{flex:none;width:14px;height:14px;color:var(--c)}
+.chip .text{font-size:14px;line-height:1.2;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.token{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c);opacity:0}
+.legend{left:60px;top:514px;display:flex;gap:16px;align-items:center;font-size:14px;color:var(--ink-2);opacity:0}
+.legend .k{display:flex;align-items:center;gap:5px}
+.legend svg{width:14px;height:14px;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-doc" viewBox="0 0 16 16"><path d="M4 1.5h5.5L13 5v8.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 1.5V5H13M5.5 8h5M5.5 10.5h5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-survey" viewBox="0 0 16 16"><rect x="3" y="2.5" width="10" height="12" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 1.5h4v2.2H6z" fill="currentColor"/><path d="M5.5 9.2l1.8 1.8 3.4-3.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-obs" viewBox="0 0 16 16"><path d="M1.5 8s2.4-4.5 6.5-4.5S14.5 8 14.5 8 12.1 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+</svg>
+<div class="viewport">
+<div class="stage" id="stage">
+  <svg class="map" id="map"></svg>
+  <svg class="wires" id="wires"></svg>
+
+  <!-- ═══ Header ═══ -->
+  <div class="brand">
+    <svg viewBox="18 14.67 32.56 48.66" aria-hidden="true">
+      <path fill="#00918b" d="M47.62,48.82v5.47l2.92,1.14v-6.62c0-4.05-1.21-7.96-3.49-11.3-2.28-3.35-5.48-5.89-9.25-7.37l-7.75-3.04v3.13l6.69,2.62c6.61,2.59,10.89,8.85,10.89,15.96Z"/>
+      <path fill="#b9d6d2" d="M46.99,58.05h0s-15.72-6.15-15.72-6.15c-.05-.02-.09-.04-.13-.06l-.19-.07h0c-2.72-1.22-4.47-3.87-4.47-6.88v-2.62h0V14.67h0c-1.61,0-2.92,1.31-2.92,2.92v27.31c0,4.33,2.61,8.15,6.64,9.72l16.78,6.57c1.4.55,2.92-.49,2.92-1.99h0s-2.92-1.14-2.92-1.14Z"/>
+      <path fill="#b9d6d2" d="M38.04,60.68c-.59,1.5-2.28,2.24-3.78,1.65l-6.17-2.42c-6.13-2.4-10.09-8.21-10.09-14.8v-22.18c0-1.61,1.31-2.92,2.92-2.92h0v25.09c0,5.37,3.23,10.12,8.24,12.08l8.89,3.49h0Z"/>
+      <path fill="#00918b" d="M42.04,49.48v2.56l2.92,1.14v-3.7c0-6.57-3.95-12.37-10.07-14.78l-4.85-1.91v3.14l3.78,1.49c4.99,1.96,8.22,6.7,8.22,12.06Z"/>
+      <path fill="#00918b" d="M36.45,49.84l2.93,1.15v-.7c0-4.97-2.98-9.35-7.6-11.17l-1.74-.68v3.14l.67.26c3.36,1.32,5.57,4.43,5.74,8.01Z"/>
+    </svg>
+    <span class="word">Beacon</span>
+    <span class="step">Evidence of Compliance</span>
+  </div>
+
+  <div class="tier-label" style="top:132px;--c:var(--commitment-lit)"><span class="dot"></span>Commitment</div>
+  <div class="tier-label" style="top:328px;left:78px;--c:var(--color-requirement)"><span class="dot"></span>Requirements</div>
+  <div class="tier-label" style="top:430px;left:78px;--c:var(--color-action)"><span class="dot"></span>Actions and obligations</div>
+
+  <div class="band" id="band"><span class="name">Compliance Index</span></div>
+
+  <div class="legend" id="legend">
+    <span class="k"><svg><use href="#i-doc"/></svg>Document</span>
+    <span class="k"><svg><use href="#i-survey"/></svg>Survey</span>
+    <span class="k"><svg><use href="#i-obs"/></svg>Observation</span>
+  </div>
+</div>
+</div>
+
+<script>
+(function () {
+  /* ═══ Content ═══ */
+  const COM = { ref: 'ITP Condition 7.4', title: 'Fugitive dust control and vehicle speed', source: 'Incidental Take Permit, CDFW 2081-2023-020-03' };
+  const REQS = [
+    { id: 'a', ref: 'Condition 7.4 (a)', text: 'Dust control BMPs on all disturbed areas' },
+    { id: 'b', ref: 'Condition 7.4 (b)', text: 'Dust control plan before ground disturbance' },
+  ];
+  const OBLS = [
+    { id: 'speed', req: 'a', kind: 'obligation', text: '15 mph limit on unpaved roads' },
+    { id: 'water', req: 'a', kind: 'obligation', text: 'Water exposed surfaces daily' },
+    { id: 'cover', req: 'a', kind: 'obligation', text: 'Cover inactive soil stockpiles' },
+    { id: 'plan',  req: 'b', kind: 'action',     text: 'Submit a dust control plan' },
+  ];
+  // pin base on the map plane, and which side of the pin the label and chips sit
+  const COMPONENTS = [
+    { id: 'tc', name: 'Twin Cities Complex',      color: '#4b8fbd', x: 480,  y: 620, side: 'right' },
+    { id: 'bh', name: 'Byron Highway Access Road', color: '#d9a441', x: 1340, y: 690, side: 'left' },
+    { id: 'br', name: 'Bethany Reservoir Complex', color: '#c56a87', x: 940,  y: 880, side: 'left' },
+  ];
+  const EVIDENCE = [
+    { id: 'e1', c: 'tc', icon: 'obs',    text: 'Water truck, 2 rounds daily',   to: 'water' },
+    { id: 'e2', c: 'br', icon: 'doc',    text: 'Dust Control Plan, Rev 1',       to: 'plan'  },
+    { id: 'e3', c: 'bh', icon: 'obs',    text: 'Radar check, all under 15 mph', to: 'speed' },
+    { id: 'e4', c: 'tc', icon: 'obs',    text: 'Speeding trucks, corrected',     to: 'speed' },
+    { id: 'e5', c: 'br', icon: 'obs',    text: 'Water truck, 2 rounds daily',   to: 'water' },
+    { id: 'e6', c: 'bh', icon: 'doc',    text: 'Dust Control Plan, Rev 2',       to: 'plan'  },
+    { id: 'e7', c: 'tc', icon: 'survey', text: 'Stockpile covers intact',        to: 'cover' },
+    { id: 'e8', c: 'br', icon: 'survey', text: 'Speed limit signs posted',       to: 'speed' },
+    { id: 'e9', c: 'bh', icon: 'obs',    text: 'Water truck, 3 rounds, wind',   to: 'water' },
+  ];
+
+  /* ═══ Layout constants (stage coordinates) ═══ */
+  const STAGE_W = 1600, STAGE_H = 1000;
+  const CX = 520;
+  const Y = { com: 96, req: 308, obl: 410 };
+  const REQ_CX = { a: 730, b: 1330 };
+  const OBL_CX = { speed: 430, water: 730, cover: 1030, plan: 1330 };
+  const PIN_H = 36, CHIP_W = 236, CHIP_H = 30, CHIP_GAP = 5, GUTTER = 40;
+  const PLANE = { top: 540, bottom: 950, tl: 300, tr: 1300, bl: 80, br: 1520 };
+  const OFFICE = { name: 'The Office', color: '#a9bfbc', x: 1230, y: 872, w: 92, d: 26, dy: 15, floor: 30 };
+
+  const stage = document.getElementById('stage');
+  const wires = document.getElementById('wires');
+  const map = document.getElementById('map');
+  const band = document.getElementById('band');
+  const legend = document.getElementById('legend');
+  const tierLabels = Array.from(document.querySelectorAll('.tier-label'));
+
+  const el = (cls, html, style) => {
+    const d = document.createElement('div');
+    d.className = cls;
+    if (html) d.innerHTML = html;
+    if (style) for (const k in style) { if (k.startsWith('--')) d.style.setProperty(k, style[k]); else d.style[k] = style[k]; }
+    return d;
+  };
+  const px = n => n + 'px';
+  const NS = 'http://www.w3.org/2000/svg';
+  const svgEl = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); (parent || map).appendChild(n); return n; };
+
+  /* ═══ Build: the commitment, top ═══ */
+  const comEl = el('card commitment', `<div class="body"><div class="ref">${COM.ref}</div><div class="title">${COM.title}</div><div class="source">${COM.source}</div></div>`, { left: px(CX - 220), top: px(Y.com) });
+  stage.appendChild(comEl);
+  const ledger = el('card ledger', `<div class="head"><span>Evidence</span><span class="ev">0</span></div><div class="cols"></div>`);
+  stage.appendChild(ledger);
+  const colsEl = ledger.querySelector('.cols');
+  const rowEls = {};
+  COMPONENTS.forEach(c => {
+    const col = el('col', `<div class="place"><span class="dot"></span>${c.name}</div>`, { '--c': c.color });
+    colsEl.appendChild(col);
+    EVIDENCE.filter(e => e.c === c.id).forEach(e => {
+      const r = el('row', `<svg><use href="#i-${e.icon}"/></svg><span class="text">${e.text}</span>`, { '--c': c.color });
+      col.appendChild(r); rowEls[e.id] = r;
+    });
+  });
+
+  /* ═══ Build: the index, middle ═══ */
+  const reqEls = {}, oblEls = {};
+  REQS.forEach(r => {
+    const n = el('card req', `<div class="body"><div class="ref">${r.ref}</div><div class="text">${r.text}</div></div><span class="ev">0</span>`, { left: px(REQ_CX[r.id] - 180), top: px(Y.req) });
+    reqEls[r.id] = n; stage.appendChild(n);
+  });
+  OBLS.forEach(o => {
+    const label = o.kind === 'action' ? 'Action' : 'Obligation';
+    const n = el('card obl ' + o.kind, `<div class="body"><div class="kind"><span class="badge">${label}</span><span class="ev">0</span></div><div class="text">${o.text}</div></div>`, { left: px(OBL_CX[o.id] - 140), top: px(Y.obl) });
+    oblEls[o.id] = n; stage.appendChild(n);
+  });
+
+  /* ═══ Build: the map plane ═══ */
+  const lx = y => PLANE.tl + (PLANE.bl - PLANE.tl) * (y - PLANE.top) / (PLANE.bottom - PLANE.top);
+  const rx = y => PLANE.tr + (PLANE.br - PLANE.tr) * (y - PLANE.top) / (PLANE.bottom - PLANE.top);
+  svgEl('polygon', { points: `${PLANE.tl},${PLANE.top} ${PLANE.tr},${PLANE.top} ${PLANE.br},${PLANE.bottom} ${PLANE.bl},${PLANE.bottom}`, fill: 'rgba(12,31,37,.75)', stroke: 'rgba(185,214,210,.16)', 'stroke-width': 1 });
+  for (let k = 1; k < 7; k++) {
+    const y = PLANE.top + (PLANE.bottom - PLANE.top) * Math.pow(k / 7, 1.45);
+    svgEl('line', { x1: lx(y), y1: y, x2: rx(y), y2: y, stroke: 'rgba(185,214,210,.07)', 'stroke-width': 1 });
+  }
+  for (let i = 1; i < 10; i++) {
+    const xt = PLANE.tl + (PLANE.tr - PLANE.tl) * i / 10, xb = PLANE.bl + (PLANE.br - PLANE.bl) * i / 10;
+    svgEl('line', { x1: xt, y1: PLANE.top, x2: xb, y2: PLANE.bottom, stroke: 'rgba(185,214,210,.07)', 'stroke-width': 1 });
+  }
+  // river along the west edge, the highway to the east, the tunnel alignment between the shaft and the reservoir
+  svgEl('path', { d: 'M400,540 C370,640 290,740 250,840 S180,920 150,950', fill: 'none', stroke: 'rgba(0,88,98,.9)', 'stroke-width': 7, 'stroke-linecap': 'round' });
+  svgEl('path', { d: 'M1290,540 L1400,950', fill: 'none', stroke: 'rgba(185,214,210,.22)', 'stroke-width': 3, 'stroke-linecap': 'round' });
+  svgEl('path', { d: 'M480,620 C480,780 700,860 940,880', fill: 'none', stroke: 'rgba(185,214,210,.35)', 'stroke-width': 2, 'stroke-dasharray': '8 8', 'stroke-linecap': 'round' });
+
+  // the office: a three-storey block, oblique so it sits on the plane
+  const officeG = svgEl('g', { opacity: 0 });
+  {
+    const { x, y, w, d, dy, floor } = OFFICE, h = floor * 3, l = x - w / 2, r = x + w / 2, t = y - h;
+    svgEl('ellipse', { cx: x + d / 2, cy: y + 3, rx: w * 0.7, ry: 9, fill: 'rgba(0,0,0,.45)' }, officeG);
+    svgEl('polygon', { points: `${l},${t} ${r},${t} ${r},${y} ${l},${y}`, fill: 'rgba(17,42,49,.98)', stroke: 'rgba(185,214,210,.35)', 'stroke-width': 1 }, officeG);
+    svgEl('polygon', { points: `${r},${t} ${r + d},${t - dy} ${r + d},${y - dy} ${r},${y}`, fill: 'rgba(12,31,37,.98)', stroke: 'rgba(185,214,210,.35)', 'stroke-width': 1 }, officeG);
+    svgEl('polygon', { points: `${l},${t} ${l + d},${t - dy} ${r + d},${t - dy} ${r},${t}`, fill: 'rgba(185,214,210,.22)', stroke: 'rgba(185,214,210,.35)', 'stroke-width': 1 }, officeG);
+    for (let f = 1; f < 3; f++) {
+      const fy = y - floor * f;
+      svgEl('line', { x1: l, y1: fy, x2: r, y2: fy, stroke: 'rgba(185,214,210,.18)', 'stroke-width': 1 }, officeG);
+      svgEl('line', { x1: r, y1: fy, x2: r + d, y2: fy - dy, stroke: 'rgba(185,214,210,.18)', 'stroke-width': 1 }, officeG);
+    }
+    for (let f = 0; f < 3; f++) for (let k = 0; k < 4; k++) {
+      svgEl('rect', { x: l + 10 + k * 20, y: y - floor * (f + 1) + 9, width: 11, height: 12, rx: 1, fill: 'rgba(185,214,210,.28)' }, officeG);
+    }
+    for (let f = 0; f < 3; f++) {
+      const sy = y - floor * (f + 1) + 9;
+      svgEl('polygon', { points: `${r + 7},${sy - 4} ${r + 17},${sy - 10} ${r + 17},${sy + 2} ${r + 7},${sy + 8}`, fill: 'rgba(185,214,210,.16)' }, officeG);
+    }
+  }
+  const officeLabel = el('place', `<span class="dot"></span>${OFFICE.name}`, { left: px(OFFICE.x - 46), top: px(OFFICE.y - OFFICE.floor * 3 - OFFICE.dy - 30), '--c': OFFICE.color });
+  stage.appendChild(officeLabel);
+  const OFFICE_ORIGIN = { x: OFFICE.x - CHIP_W / 2, y: OFFICE.y - OFFICE.floor * 1.5 - CHIP_H / 2 };
+
+  const placeEls = {}, pinEls = {}, chipEls = {};
+  COMPONENTS.forEach(c => {
+    const g = svgEl('g', { opacity: 0 });
+    svgEl('ellipse', { cx: c.x, cy: c.y, rx: 11, ry: 4.5, fill: c.color, opacity: .35 }, g);
+    svgEl('line', { x1: c.x, y1: c.y, x2: c.x, y2: c.y - PIN_H, stroke: c.color, 'stroke-width': 2 }, g);
+    svgEl('circle', { cx: c.x, cy: c.y - PIN_H, r: 6, fill: c.color }, g);
+    pinEls[c.id] = g;
+    const items = EVIDENCE.filter(e => e.c === c.id);
+    const stackH = items.length * (CHIP_H + CHIP_GAP) - CHIP_GAP;
+    const top = c.y - PIN_H - 30;               // label row, then chips below it
+    const left = c.side === 'right' ? c.x + GUTTER : c.x - GUTTER - CHIP_W;
+    const label = el('place', `<span class="dot"></span>${c.name}`, { top: px(top - 24), '--c': c.color });
+    if (c.side === 'right') label.style.left = px(left); else label.style.right = px(STAGE_W - (left + CHIP_W));
+    placeEls[c.id] = label; stage.appendChild(label);
+    items.forEach((e, k) => {
+      const y = top + k * (CHIP_H + CHIP_GAP);
+      const node = el('chip', `<svg><use href="#i-${e.icon}"/></svg><span class="text">${e.text}</span>`, { left: px(left), top: px(y), '--c': c.color });
+      e.x = left + CHIP_W / 2; e.y = y; e.color = c.color;
+      chipEls[e.id] = node; stage.appendChild(node);
+    });
+    void stackH;
+  });
+
+  /* ═══ Wires (paths run bottom to top so a draw or a comet travels upward) ═══ */
+  function pathD(x1, y1, x2, y2) {
+    const dy = Math.max(30, Math.abs(y2 - y1) * 0.5);
+    return `M${x1},${y1} C${x1},${y1 - dy} ${x2},${y2 + dy} ${x2},${y2}`;
+  }
+  function wire(x1, y1, x2, y2, color, width = 1.5) {
+    const p = document.createElementNS(NS, 'path');
+    const d = pathD(x1, y1, x2, y2);
+    p.setAttribute('d', d); p.setAttribute('stroke', color); p.style.strokeWidth = width + 'px';
+    wires.appendChild(p);
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = len; p.style.strokeDashoffset = len; p.style.opacity = 0;
+    return { p, len, d };
+  }
+  const COM_B = Y.com + 132, REQ_T = Y.req, REQ_B = Y.req + 64, OBL_T = Y.obl, OBL_B = Y.obl + 64;
+  const wReqCom = {}; REQS.forEach(r => { wReqCom[r.id] = wire(REQ_CX[r.id], REQ_T, CX, COM_B, 'rgba(160,81,149,.7)'); });
+  const wOblReq = {}; OBLS.forEach(o => { wOblReq[o.id] = wire(OBL_CX[o.id], OBL_T, REQ_CX[o.req], REQ_B, 'rgba(0,145,139,.6)'); });
+
+  /* ═══ Timeline engine (Web Animations API on one shared clock) ═══ */
+  const anims = [], cues = [], resets = [];
+  const EASE_OUT = 'cubic-bezier(.2,.7,.2,1)';
+  const EASE_IN_OUT = 'cubic-bezier(.65,0,.35,1)';
+  function tween(node, keyframes, at, dur, easing = EASE_OUT, fill = 'both') {
+    const a = node.animate(keyframes, { duration: dur * 1000, delay: at * 1000, fill, easing });
+    a.pause(); anims.push({ anim: a, at, dur }); return a;
+  }
+  const cue = (at, fn) => cues.push({ at, fn });
+  const reset = fn => resets.push(fn);
+  function fly(node, fromX, fromY, toX, toY, at, dur, fromScale = 0.7) {
+    const dx = fromX - toX, dy = fromY - toY;
+    return tween(node, [
+      { transform: `translate(${dx}px, ${dy}px) scale(${fromScale})`, opacity: 0 },
+      { transform: `translate(${dx * 0.5}px, ${dy * 0.5}px) scale(${(1 + fromScale) / 2})`, opacity: 1, offset: 0.45 },
+      { transform: 'translate(0,0) scale(1)', opacity: 1 },
+    ], at, dur, EASE_IN_OUT);
+  }
+  function draw(w, at, dur) {
+    tween(w.p, [{ opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1 }], at, dur);
+    tween(w.p, [{ strokeDashoffset: w.len }, { strokeDashoffset: 0 }], at, dur, EASE_IN_OUT);
+  }
+  function comet(w, at, dur) {
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', w.d); p.setAttribute('stroke', '#b9d6d2'); p.style.strokeWidth = '3px';
+    p.style.strokeDasharray = `48 ${w.len}`; p.style.strokeDashoffset = 48; p.style.opacity = 0;
+    p.style.filter = 'drop-shadow(0 0 4px rgba(185,214,210,.9))';
+    wires.appendChild(p);
+    tween(p, [{ strokeDashoffset: 48 }, { strokeDashoffset: -w.len }], at, dur, 'linear');
+    tween(p, [{ opacity: 0 }, { opacity: 1, offset: 0.08 }, { opacity: 1, offset: 0.92 }, { opacity: 0 }], at, dur, 'linear');
+  }
+  const fadeIn = (node, at, dur = 0.6, rise = 8) =>
+    tween(node, [{ opacity: 0, transform: `translateY(${rise}px)` }, { opacity: 1, transform: 'translateY(0)' }], at, dur);
+  const flash = (node, at, dur = 0.9) =>
+    tween(node, [{ borderColor: 'rgba(185,214,210,.95)', boxShadow: '0 0 0 1px rgba(185,214,210,.6), 0 0 28px rgba(0,145,139,.45)' }, { borderColor: 'rgba(185,214,210,.14)', boxShadow: '0 0 0 0 rgba(185,214,210,0), 0 0 0 rgba(0,145,139,0)' }], at, dur, EASE_OUT, 'forwards');
+
+  function fitStage() {
+    const k = Math.min(innerWidth / STAGE_W, innerHeight / STAGE_H);
+    stage.style.transform = `scale(${k})`;
+  }
+  fitStage();
+  addEventListener('resize', fitStage);
+
+  /* ═══ Script ═══ */
+  function build() {
+    const counts = {};
+    const bump = (node, key) => () => {
+      counts[key] = (counts[key] || 0) + 1;
+      const pill = node.querySelector('.ev'); pill.textContent = counts[key]; pill.classList.add('on');
+    };
+    reset(() => { for (const k in counts) delete counts[k]; document.querySelectorAll('.ev').forEach(p => { p.textContent = '0'; p.classList.remove('on'); }); });
+
+    // A. what the user already knows: the condition, and the places
+    fadeIn(tierLabels[0], 0.4, 0.6, 6); fadeIn(comEl, 0.5, 0.8, 12); fadeIn(ledger, 0.7, 0.8, 12);
+    tween(map, [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'translateY(0)' }], 0.9, 1.0);
+    COMPONENTS.forEach((c, i) => {
+      tween(pinEls[c.id], [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], 1.6 + i * 0.18, 0.5);
+      fadeIn(placeEls[c.id], 1.7 + i * 0.18, 0.5, 6);
+    });
+    tween(officeG, [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], 2.0, 0.5);
+    fadeIn(officeLabel, 2.1, 0.5, 6);
+    fadeIn(legend, 2.2, 0.6, 6);
+    // B. what Beacon keeps in between
+    fadeIn(band, 2.4, 0.8, 10);
+    fadeIn(tierLabels[1], 2.7, 0.6, 6);
+    REQS.forEach((r, i) => { fadeIn(reqEls[r.id], 2.8 + i * 0.15, 0.6, 10); draw(wReqCom[r.id], 2.95 + i * 0.15, 0.6); });
+    fadeIn(tierLabels[2], 3.3, 0.6, 6);
+    OBLS.forEach((o, i) => { fadeIn(oblEls[o.id], 3.4 + i * 0.12, 0.6, 10); draw(wOblReq[o.id], 3.55 + i * 0.12, 0.6); });
+    let t = 4.8;
+
+    // C. evidence arrives at each place and its proof climbs to the commitment
+    const STEP = 1.15, LEAD = 0.8;
+    let at = t;
+    EVIDENCE.forEach((e, i) => {
+      const o = OBLS.find(x => x.id === e.to);
+      const ox = OBL_CX[o.id], oy = OBL_B;
+      const chip = chipEls[e.id];
+      if (e.icon === 'doc') {
+        const dx = OFFICE_ORIGIN.x - (e.x - CHIP_W / 2), dy = OFFICE_ORIGIN.y - e.y;
+        tween(chip, [
+          { opacity: 0, transform: `translate(${dx}px, ${dy}px) scale(0.6)` },
+          { opacity: 1, transform: `translate(${dx}px, ${dy - 26}px) scale(1)`, offset: 0.3 },
+          { opacity: 1, transform: `translate(${dx}px, ${dy - 26}px) scale(1)`, offset: 0.45 },
+          { opacity: 1, transform: 'translate(0,0) scale(1)' },
+        ], at, LEAD + 0.5, EASE_IN_OUT);
+        at += LEAD;
+      } else {
+        fadeIn(chip, at, 0.5, 8);
+      }
+      const w = wire(e.x, e.y, ox, oy, e.color);
+      draw(w, at + 0.5, 0.75);
+      tween(w.p, [{ opacity: 1 }, { opacity: 0.3 }], at + 1.5, 0.8, EASE_OUT, 'forwards');
+      const token = el('token', '', { left: px(ox - 6), top: px(oy - 6), '--c': e.color });
+      stage.appendChild(token);
+      fly(token, e.x - 6, e.y - 6, ox - 6, oy - 6, at + 0.45, 0.75, 0.6);
+      tween(token, [{ opacity: 1 }, { opacity: 0 }], at + 1.2, 0.3, EASE_OUT, 'forwards');
+      flash(oblEls[o.id], at + 1.2); cue(at + 1.2, bump(oblEls[o.id], 'o:' + o.id));
+      comet(wOblReq[o.id], at + 1.25, 0.45);
+      flash(reqEls[o.req], at + 1.7); cue(at + 1.7, bump(reqEls[o.req], 'r:' + o.req));
+      comet(wReqCom[o.req], at + 1.72, 0.45);
+      flash(comEl, at + 2.17, 1.0); flash(ledger, at + 2.17, 1.0); cue(at + 2.17, bump(ledger, 'c'));
+      tween(rowEls[e.id], [{ opacity: 0, transform: 'translateX(-10px)' }, { opacity: 1, transform: 'translateX(0)' }], at + 2.2, 0.5);
+      at += STEP;
+    });
+    t = at - STEP + 3.0;
+
+    // D. the commitment holds the whole record
+    [comEl, ledger].forEach(n => tween(n, [{ boxShadow: '0 0 0 0 rgba(0,145,139,0), 0 0 0 rgba(0,145,139,0)' }, { boxShadow: '0 0 0 1px rgba(0,145,139,.9), 0 0 48px rgba(0,145,139,.28)' }], t, 1.2, EASE_OUT, 'forwards'));
+    tween(band, [{ opacity: 1 }, { opacity: 0.55 }], t + 0.2, 1.2, EASE_OUT, 'forwards');
+    [...Object.values(reqEls), ...Object.values(oblEls), tierLabels[1], tierLabels[2]].forEach(n => tween(n, [{ opacity: 1 }, { opacity: 0.5 }], t + 0.2, 1.2, EASE_OUT, 'forwards'));
+    t += 1.4;
+
+    // E. hold, then fade and restart
+    const HOLD = 3.0, FADE = 1.0;
+    tween(stage, [{ opacity: 1 }, { opacity: 0 }], t + HOLD, FADE, EASE_IN_OUT, 'forwards');
+    const TOTAL = t + HOLD + FADE + 0.4;
+
+    /* ═══ Run ═══ */
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let t0 = null, fired = new Set();
+    function start() {
+      resets.forEach(fn => fn()); fired = new Set();
+      t0 = document.timeline.currentTime;
+      anims.forEach(({ anim }) => { anim.currentTime = 0; anim.play(); anim.startTime = t0; });
+    }
+    function frame() {
+      const now = (document.timeline.currentTime - t0) / 1000;
+      cues.forEach((c, i) => { if (!fired.has(i) && now >= c.at) { fired.add(i); c.fn(); } });
+      if (now >= TOTAL) start();
+      requestAnimationFrame(frame);
+    }
+    if (reduced) {
+      resets.forEach(fn => fn());
+      anims.forEach(({ anim, at }) => { if (at < t + HOLD) anim.finish(); });
+      cues.forEach(c => c.fn());
+    } else {
+      start(); requestAnimationFrame(frame);
+    }
+  }
+
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(build);
+})();
+</script>
+</body>
+</html>

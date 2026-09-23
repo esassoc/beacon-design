@@ -109,6 +109,9 @@ details[open] > summary .bcn-loc__chevron { transform: rotate(90deg); }
 .bcn-swoc[data-class='roster'],
 .bcn-loc[data-class='roster'],
 .bcn-lob[data-class='roster'] { --_hue: var(--color-action); }
+/* An ACTION's type chip on an action list (<BcnListMemberCard>), in the action hue. */
+.bcn-loc[data-class='action'],
+.bcn-lac[data-class='action'] { --_hue: var(--color-action); }
 
 .bcn-swoc__title,
 .bcn-loc__title {
@@ -193,3 +196,54 @@ details[open] > summary .bcn-loc__chevron { transform: rotate(90deg); }
   from { background: color-mix(in srgb, var(--color-obligation) 14%, transparent); }
   to { background: transparent; }
 }
+
+/* ── List rows only (.bcn-loc) ──────────────────────────────────────────────────────
+ * Shared by <BcnListObligationCard> and <BcnListMemberCard>: both are one member of a
+ * list, where requirements are REFERENCE, never the subject. */
+
+/* The title takes its own width (still ellipsised) and the count pushes itself to the
+   end, so a mark after the title sits at its heel. */
+.bcn-loc__title { flex: 0 1 auto; }
+.bcn-loc [data-list-count] { margin-inline-start: auto; }
+
+/* Secondary ink, and the whole row opens <BcnListRequirementPanel>. The name is the
+   row's button: it takes focus and Enter; reset to read as the text it was. The
+   wizard's rows stay at default: there they ARE the thing being edited. */
+.bcn-loc__req { color: var(--color-content-default-secondary); cursor: pointer; }
+.bcn-loc__req-name {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.bcn-loc__req:hover .bcn-loc__req-name { color: var(--color-content-default); }
+.bcn-loc__req-name:focus-visible { outline: 2px solid var(--color-obligation); outline-offset: 1px; border-radius: 2px; }
+
+/* Implementation rows (<BcnListImplementations>): status pill, component, and the
+   comment count pushed right, as prod's action list draws them. The row is
+   .bcn-loc__req, whose display: flex would beat [hidden], and the Status filter hides
+   rows. */
+.bcn-loc__impl[hidden] { display: none; }
+.bcn-loc__impl .bcn-status-chip { flex-shrink: 0; }
+.bcn-loc__comments {
+  flex-shrink: 0;
+  font-size: var(--font-size-100);
+  color: var(--color-content-default-tertiary);
+  white-space: nowrap;
+}
+
+/* An obligation implementation's evidence of compliance, at the row's end. Zero reads
+   quieter than a count. */
+.bcn-loc__evidence {
+  flex-shrink: 0;
+  min-width: 5.5rem;
+  text-align: end;
+  font-size: var(--font-size-100);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-content-default-secondary);
+  white-space: nowrap;
+}
+.bcn-loc__evidence[data-none] { font-weight: normal; color: var(--color-content-default-tertiary); }

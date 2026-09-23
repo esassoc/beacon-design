@@ -24,11 +24,11 @@
 // (see the note on the rule).
 import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnKeyValue from './BcnKeyValue.astro';
-import { LIST_TYPE_LABEL, type ObligationList } from '../../data/lists';
+import { LIST_MEMBER_NOUN, LIST_TYPE_LABEL, type ProjectList } from '../../data/lists';
 
 interface Props {
   /** The list this rail identifies. Every value below is read off it. */
-  list: ObligationList;
+  list: ProjectList;
 }
 const { list } = Astro.props;
 
@@ -44,6 +44,10 @@ const fmtDate = (iso: string): string => {
   return `${MONTHS[m - 1]} ${d}, ${y}`;
 };
 
+// The count's label is the list's own member noun: "Obligations", "Actions", "Commitments".
+const plural = LIST_MEMBER_NOUN[list.type][1];
+const noun = plural.charAt(0).toUpperCase() + plural.slice(1);
+
 /** The dash is the empty value, everywhere a field can be blank. */
 const EN_DASH = '–';
 ---
@@ -56,7 +60,7 @@ const EN_DASH = '–';
       <BcnKeyValue label="Type" value={LIST_TYPE_LABEL[list.type]} />
       <BcnKeyValue label="Created" value={fmtDate(list.createdAt)} />
       <BcnKeyValue label="Last updated" value={fmtDate(list.updatedAt)} />
-      <BcnKeyValue label="Obligations" value={String(list.memberCount)} />
+      <BcnKeyValue label={noun} value={String(list.memberCount)} />
     </div>
   </EsaCard>
 </div>

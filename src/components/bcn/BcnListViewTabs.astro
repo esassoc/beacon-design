@@ -1,0 +1,50 @@
+---
+// <BcnListViewTabs> — the view switch above a list detail page's tree. Andy,
+// 2026-09-23: "tabs for different views of the lists: Compliance Index, Commitment
+// Hierarchy, Flat list (I don't like all of those labels…)".
+//
+// The labels say what the rows are filed BY, the vocabulary the setup wizard's
+// <BcnSwViewSwitch> already uses ("By category" / "By commitment"), plus "A–Z" for the
+// flat list — a flat list is defined by its order, so the order is its name.
+//
+// It is a switch and holds no panels: the tab bar is esa-tab-layout with no slotted
+// content, as <BcnEvidenceStaging> uses it. The choice rides ?view= so a view survives
+// a reload and can be linked.
+//
+// Contract, on `document`:
+//   out  list:view   detail: the view id
+import type { ListView } from './list-views';
+
+interface Props {
+  views: { id: ListView; label: string }[];
+}
+const { views } = Astro.props;
+---
+
+<esa-tab-layout class="bcn-lvt" data-list-views={JSON.stringify(views)} appearance="underline" size="sm"></esa-tab-layout>
+
+<script>
+  import '@esa/ecology/esa-tab-layout';
+  import { initialView, type ListView } from './list-views';
+
+  const el = document.querySelector<HTMLElement & { tabs: { label: string }[]; activeIndex: number }>('[data-list-views]');
+  if (el) {
+    const views = JSON.parse(el.dataset.listViews || '[]') as { id: ListView; label: string }[];
+    el.tabs = views.map((v) => ({ label: v.label }));
+    el.activeIndex = Math.max(0, views.findIndex((v) => v.id === initialView(views.map((x) => x.id))));
+    el.addEventListener('tabchange', (e) => {
+      const view = views[(e as CustomEvent<{ index: number }>).detail.index]?.id;
+      if (!view) return;
+      const url = new URL(location.href);
+      if (view === views[0].id) url.searchParams.delete('view');
+      else url.searchParams.set('view', view);
+      history.replaceState(null, '', url);
+      document.dispatchEvent(new CustomEvent('list:view', { detail: view }));
+    });
+  }
+</script>
+
+<style>
+  /* The tab bar's own underline is the rule between the page header and the tree. */
+  .bcn-lvt { display: block; }
+</style>

@@ -25,12 +25,14 @@
 //   - RENAME FOR THIS LIST ONLY on a category or a subcategory. The registry's own
 //     wording is kept on the row (data-registry-name) and shown in the obligation
 //     panel; clearing a rename restores it. The row itself carries no second name.
-//   - The per obligation list description. No longer edited in place: the card stopped
-//     printing the sentence on 2026-09-16, keeps it as data, and <BcnListObligationPanel>
-//     reads and writes it. The card keeps only the "Edited for this list" signal. The
-//     title and the pencil both open that panel, the way step 5's card opens its editor.
+//   - MOVE, LIST TITLE and LIST DESCRIPTION per member, and nothing else. Andy,
+//     2026-09-23: a list does not "edit" an obligation; it can move it to another
+//     category / subcategory and give it its own title and description. All three are
+//     written in <BcnListObligationPanel>; the tree applies them on list:obligation-saved.
+//     A move into a branch this list does not hold creates the branch; the branch it
+//     left drops out when empty. The card keeps a dot when its wording is the list's.
 //   - EXPAND TO REQUIREMENTS and COLLAPSE on a branch, step 5's verbs with step 5's
-//     glyphs and reach: the row, every branch inside it, and every card's requirement
+//     glyphs and reach: the row, every branch inside it, and every card's implementation
 //     list. One level deeper than the chevron on a subcategory, two on a category.
 //
 // A list shows only what it holds, so a subcategory whose last obligation is removed
@@ -40,7 +42,7 @@
 // Contract with siblings: listens on `document` for `list:members-added` with
 // `{ items: AddedItem[] }`, where an item carries everything needed to stamp a card
 // without a round trip: id, title, class, description, catId, catName, subId, subName
-// and reqs [{ code, name }]. An item whose card is present but removed is revealed
+// and reqs [{ id, code, name }]. An item whose card is present but removed is revealed
 // again; an item with no card is stamped from the templates below, creating its
 // subcategory and category rows if this list does not hold them yet. New cards flash.
 //
@@ -54,8 +56,11 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
 import BcnSwFilterRow from './BcnSwFilterRow.astro';
 import BcnListObligationCard from './BcnListObligationCard.astro';
+import BcnListViewTabs from './BcnListViewTabs.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 import { OBLIGATION_CLASS_LABEL, STEP_GLYPH } from '../../data/setup-wizard';
-import { listTree, type ListObligation, type ObligationList } from '../../data/lists';
+import { COMPONENTS } from '../../data/evidence-drawer';
+import { COMMITMENT_TITLES, listTree, type ListObligation, type ObligationList } from '../../data/lists';
 // The row anatomy this tree shares, verbatim, with <BcnSwObligationsTree>.
 import '../../styles/bcn-tree.css';
 
@@ -65,11 +70,17 @@ interface Props {
 const { list } = Astro.props;
 const tree = listTree(list);
 const categoryOptions = tree.map((c) => ({ label: c.name, value: c.id }));
+// In place of the action tree's Status filter: an obligation has no lifecycle, only
+// evidence of compliance or none yet (Andy, 2026-09-23). Values match list-impls.ts.
+const EVIDENCE_OPTIONS = [
+  { value: 'has', label: 'Has Evidence' },
+  { value: 'none', label: 'Has No Evidence' },
+];
 
 /**
- * The blank card the script clones for an added member. Its one requirement row is
- * the prototype the script copies per requirement, so the requirement row has exactly
- * one definition and it lives in BcnListObligationCard.
+ * The blank card the script clones for an added member. Its first implementation row
+ * is the prototype list-impls.ts copies per implementation, so the row has exactly one
+ * definition and it lives in BcnListImplementations.
  */
 const CARD_STAMP: ListObligation = {
   id: '',
@@ -95,25 +106,36 @@ const CARD_STAMP: ListObligation = {
   row in the step panel above the tree. Inside the tree's own border it would be a
   rounded box inside a rounded box. -->
 <div class="stack" data-gap="md">
+  <BcnListViewTabs views={[
+    { id: 'category', label: 'By Compliance Index' },
+    { id: 'commitment', label: 'By commitment' },
+    { id: 'az', label: 'A–Z' },
+  ]} />
   <BcnSwFilterRow
     searchName="list-search"
     searchPlaceholder="Search obligations"
     panel
-    pickers={[{ label: 'Category', value: 'All categories', options: categoryOptions }]}
-  >
+    pickers={[
+      { label: 'Category', value: 'All categories', options: categoryOptions },
+      { label: 'Component', value: 'All components', options: COMPONENTS.map((c) => ({ label: c.name, value: c.id })) },
+      { label: 'Evidence', value: 'Any evidence', options: EVIDENCE_OPTIONS },
+    ]}
+  />
+  <div class="bcn-lot__folds">
     <EsaButton variant="ghost" size="xs" data-list-expand>
       <span class="bcn-lot__verb-label"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
     </EsaButton>
     <EsaButton variant="ghost" size="xs" data-list-collapse>
       <span class="bcn-lot__verb-label"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
     </EsaButton>
-  </BcnSwFilterRow>
+  </div>
 
   <section
     class="bcn-lot"
     aria-label={list.name}
     data-list-label={list.name}
     data-list-class-labels={JSON.stringify(OBLIGATION_CLASS_LABEL)}
+    data-list-titles={JSON.stringify(COMMITMENT_TITLES)}
   >
 
     <p class="bcn-lot__nomatch" data-list-nomatch hidden>No obligations match.</p>
@@ -138,7 +160,7 @@ const CARD_STAMP: ListObligation = {
                   <span data-list-count="sub"><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations`} /></span>
                   <span class="bcn-lot__verbs">
                     <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-                    <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+                    <esa-tooltip text="Expand to implementations"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Expand this subcategory to implementations" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
                     <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
                   </span>
                 </summary>
@@ -152,9 +174,36 @@ const CARD_STAMP: ListObligation = {
       ))}
     </div>
 
+    <!-- The By commitment and A–Z views, rebuilt from the master above (list-views.ts). -->
+    <div class="bcn-lot__body" data-list-mirror-body></div>
+
+    <!-- The mirror's two group rows: a permit section, and a commitment inside it. -->
+    <template data-list-tpl="section">
+      <details class="bcn-lot__cat" data-list-group>
+        <summary class="bcn-lot__row bcn-lot__row--cat">
+          <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <BcnCommitmentBadge code="COA" size="sm" />
+          <span class="bcn-lot__name" data-list-name></span>
+          <span data-list-count="group"><BcnSwCountBadge value={0} /></span>
+        </summary>
+        <div class="bcn-lot__subs" data-list-subs></div>
+      </details>
+    </template>
+    <template data-list-tpl="commitment">
+      <details class="bcn-lot__sub" data-list-group>
+        <summary class="bcn-lot__row bcn-lot__row--sub">
+          <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <BcnCommitmentBadge code="COA" size="sm" />
+          <span class="bcn-lot__name" data-list-name></span>
+          <span data-list-count="group"><BcnSwCountBadge value={0} /></span>
+        </summary>
+        <ul class="bcn-lot__cards" data-list-cards></ul>
+      </details>
+    </template>
+
     <!-- Stamps for a member added from the picker: its category row, its subcategory
-         row, and its card. The card stamp carries one requirement row, which the script
-         lifts out as the prototype for the member's own requirements. -->
+         row, and its card. The card stamp carries implementation rows; the first is the
+         prototype for the member's own. -->
     <template data-list-tpl="cat">
       <details class="bcn-lot__cat" open>
         <summary class="bcn-lot__row bcn-lot__row--cat">
@@ -176,7 +225,7 @@ const CARD_STAMP: ListObligation = {
           <span data-list-count="sub"><BcnSwCountBadge value={0} /></span>
           <span class="bcn-lot__verbs">
             <esa-tooltip text="Rename for this list"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Rename this subcategory for this list" data-list-rename><EsaIcon name="square-pen" size="xs" paths={STEP_GLYPH['square-pen']} /></button></esa-tooltip>
-            <esa-tooltip text="Expand to requirements"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Expand this subcategory to requirements" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
+            <esa-tooltip text="Expand to implementations"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Expand this subcategory to implementations" data-list-branch-expand><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} /></button></esa-tooltip>
             <esa-tooltip text="Collapse" align="end"><button type="button" class="bcn-lot__verb bcn-lot__verb--quiet" aria-label="Collapse this subcategory" data-list-branch-collapse><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} /></button></esa-tooltip>
           </span>
         </summary>
@@ -198,6 +247,9 @@ const CARD_STAMP: ListObligation = {
 <script>
   import '@esa/ecology/esa-confirm-dialog';
   import '@esa/ecology/esa-tooltip';
+  import { buildMirror, foldMirror, initialView, type ListView } from './list-views';
+  import { addEvidence, announceImpl, fillImpls, passImpls } from './list-impls';
+  import { implementationsOf } from '../../data/list-implementations';
 
   interface AddedItem {
     id: string;
@@ -208,7 +260,7 @@ const CARD_STAMP: ListObligation = {
     catName: string;
     subId: string;
     subName: string;
-    reqs: { code: string; name: string }[];
+    reqs: { id: string; code: string; name: string }[];
   }
 
   const root = document.querySelector<HTMLElement>('.bcn-lot');
@@ -225,16 +277,39 @@ const CARD_STAMP: ListObligation = {
     // A card taken off the list stays in the DOM, marked, so the picker can put it
     // back without a round trip. Marked cards never count and never show.
     const gone = (card: HTMLElement) => card.hasAttribute('data-list-removed');
-    const cards = (from: ParentNode = root) => qa<HTMLElement>('[data-list-card]', from);
+    // The master's cards only. The By commitment and A–Z views hold clones marked
+    // data-list-mirror; a verb on a clone resolves to its master through cardOf.
+    const cards = (from: ParentNode = root) => qa<HTMLElement>('[data-list-card]:not([data-list-mirror])', from);
+    const cardOf = (el: Element) => {
+      const c = el.closest<HTMLElement>('[data-list-card]');
+      return c?.hasAttribute('data-list-mirror') ? byMember(c.dataset.memberId ?? '') : c;
+    };
+
+    // ---- Views. The category tree is the master; the other two are rebuilt from it.
+    const mirrorBody = q<HTMLElement>('[data-list-mirror-body]')!;
+    const TITLES: Record<string, string> = JSON.parse(root.dataset.listTitles || '{}');
+    let view: ListView = initialView(['category', 'commitment', 'az']);
+    root.dataset.listView = view;
+    const mirror = () => {
+      if (view === 'category') { mirrorBody.replaceChildren(); mirrorBody.removeAttribute('data-built'); return; }
+      buildMirror({
+        body: mirrorBody,
+        source: cards().filter((c) => !gone(c) && !c.hidden && !c.closest('[data-list-cat][hidden]')),
+        view,
+        stamp: (name) => tpl(name),
+        titles: TITLES,
+        noun: 'obligations',
+      });
+    };
     const flash = (el: HTMLElement) => { el.classList.add('is-new'); setTimeout(() => el.classList.remove('is-new'), 1000); };
 
     // ---- Counts, always off what the list still holds. A branch that holds nothing
     // is marked empty and the stylesheet drops it: a list never shows an empty branch.
     const recount = () => {
       cards().forEach((card) => {
-        const n = card.querySelectorAll('[data-list-req]').length;
+        const n = card.querySelectorAll('[data-list-impl]').length;
         const b = badgeOf(card.querySelector('[data-list-count="obligation"]'));
-        if (b) { b.textContent = String(n); b.setAttribute('aria-label', `${n} requirements`); }
+        if (b) { b.textContent = String(n); b.setAttribute('aria-label', `${n} implementations`); }
       });
       let total = 0;
       qa<HTMLDetailsElement>('[data-list-cat]').forEach((cat) => {
@@ -274,52 +349,62 @@ const CARD_STAMP: ListObligation = {
     };
     // The description is NOT searched. The card no longer prints it, and a card that
     // appears in the results with nothing on it matching the query is worse than a
-    // miss: the reader cannot tell why it is there. Title, class and the requirement
-    // code and name are all visible on the card, so a hit on any of them shows.
+    // miss: the reader cannot tell why it is there. Title, class and the component on
+    // each implementation are visible on the card, so a hit on any of them shows. A
+    // commitment code still finds the obligations carved from it (data-codes).
     const cardHit = (card: HTMLElement, needle: string) => {
       const titleHit = paint(card.querySelector<HTMLElement>('[data-list-title]'), needle);
-      const classHit = !!needle && (card.dataset.class ?? '').toLowerCase().includes(needle.toLowerCase());
-      let reqHit = false;
-      card.querySelectorAll<HTMLElement>('[data-list-req]').forEach((row) => {
-        const nameHit = paint(row.querySelector<HTMLElement>('.bcn-loc__req-name'), needle);
-        const codeHit = !!needle && (row.dataset.code ?? '').toLowerCase().includes(needle.toLowerCase());
-        row.querySelector<HTMLElement>('.bcn-cbadge')?.classList.toggle('bcn-lot__hit-chip', codeHit);
-        reqHit = reqHit || nameHit || codeHit;
+      const lower = needle.toLowerCase();
+      const classHit = !!needle && (card.dataset.class ?? '').toLowerCase().includes(lower);
+      const codeHit = !!needle && (card.dataset.codes ?? '').toLowerCase().includes(lower);
+      let implHit = false;
+      card.querySelectorAll<HTMLElement>('[data-list-impl]').forEach((row) => {
+        implHit = paint(row.querySelector<HTMLElement>('.bcn-loc__req-name'), needle) || implHit;
       });
-      if (needle && reqHit) (card.querySelector('details') as HTMLDetailsElement).open = true;
-      return titleHit || classHit || reqHit;
+      if (needle && implHit) (card.querySelector('details') as HTMLDetailsElement).open = true;
+      return titleHit || classHit || codeHit || implHit;
     };
-    // Two filters share one pass: the search text and the category picker. A hit at
-    // any level keeps that level and everything under it.
-    const filters = { needle: '', cat: '' };
+    // Four filters share one pass: the search text, the category picker, and the
+    // component and evidence pickers. A hit at any level keeps that level and
+    // everything under it. Component and Evidence narrow each card to the
+    // implementations that pass both, and a card left with none drops out. It stands where the action tree's Status
+    // filter does: an obligation has no lifecycle to filter by (Andy, 2026-09-23).
+    const filters = { needle: '', cat: '', component: '', evidence: '' };
     const apply = () => {
-      const { needle, cat } = filters;
-      const active = !!(needle || cat);
+      const { needle, cat, component, evidence } = filters;
+      const rowFilter = !!(component || evidence);
+      const active = !!(needle || cat || rowFilter);
       let shown = 0;
       qa<HTMLDetailsElement>('[data-list-cat]').forEach((catEl) => {
         if (cat && catEl.dataset.listCat !== cat) { catEl.hidden = true; return; }
-        const catHit = paint(catEl.querySelector<HTMLElement>(':scope > summary [data-list-name]'), needle);
+        // A branch name only counts as a hit where branches are on screen; in the
+        // other views a card kept for its category's name would show no reason why.
+        const branchNeedle = view === 'category' ? needle : '';
+        const catHit = paint(catEl.querySelector<HTMLElement>(':scope > summary [data-list-name]'), branchNeedle);
         let catAny = false;
         qa<HTMLDetailsElement>('[data-list-sub]', catEl).forEach((sub) => {
-          const subHit = paint(sub.querySelector<HTMLElement>(':scope > summary [data-list-name]'), needle);
+          const subHit = paint(sub.querySelector<HTMLElement>(':scope > summary [data-list-name]'), branchNeedle);
           let subAny = false;
           cards(sub).forEach((card) => {
             if (gone(card)) { card.hidden = true; return; }
             const own = cardHit(card, needle); // painted even when the branch above already matched
-            const hit = !needle || catHit || subHit || own;
+            const inEvidence = passImpls(card, { component, evidence });
+            if (rowFilter && inEvidence) (card.querySelector('details') as HTMLDetailsElement).open = true;
+            const hit = (!needle || catHit || subHit || own) && inEvidence;
             card.hidden = !hit;
             if (hit) { shown++; subAny = true; }
           });
-          const keep = !needle || subHit || subAny;
+          const keep = rowFilter ? subAny : !needle || subHit || subAny;
           sub.hidden = !keep;
           if (active && keep) sub.open = true;
           catAny = catAny || keep;
         });
-        const keep = !needle || catHit || catAny;
+        const keep = rowFilter ? catAny : !needle || catHit || catAny;
         catEl.hidden = !keep;
         if (active && keep) catEl.open = true;
       });
       if (nomatch) nomatch.hidden = shown > 0 || !active;
+      mirror();
     };
     const search = document.querySelector<HTMLElement & { value: string }>('esa-text-field[name="list-search"]');
     if (search) {
@@ -332,14 +417,31 @@ const CARD_STAMP: ListObligation = {
       'esa-select[name="list-search-category"]',
     );
     catPick?.addEventListener('change', () => { filters.cat = catPick.value ?? ''; apply(); });
+    const evidencePick = document.querySelector<HTMLElement & { value: string }>('esa-select[name="list-search-evidence"]');
+    evidencePick?.addEventListener('change', () => { filters.evidence = evidencePick.value ?? ''; apply(); });
+    const componentPick = document.querySelector<HTMLElement & { value: string }>('esa-select[name="list-search-component"]');
+    componentPick?.addEventListener('change', () => { filters.component = componentPick.value ?? ''; apply(); });
+
+    // Evidence attached from the bottom drawer raises the count on each chosen
+    // member's row for that component, then the mirrors rebuild off the master.
+    document.addEventListener('list:evidence-added', (e) => {
+      const { componentId, evidenceIds, memberIds } = (e as CustomEvent<{ componentId: string; evidenceIds: string[]; memberIds: string[] }>).detail;
+      const n = evidenceIds.length;
+      cards().filter((c) => memberIds.includes(c.dataset.memberId ?? '')).forEach((c) => {
+        addEvidence(c, componentId, n);
+        (c.querySelector('details') as HTMLDetailsElement).open = true;
+      });
+      recount();
+      apply();
+    });
 
     // ---- Expand / collapse. The filter row's pair works both branch levels: open
-    // every category and every subcategory, or close them. The requirements stay where
+    // every category and every subcategory, or close them. The implementations stay where
     // the reader left them; they are reference.
     //
     // The per row pair reaches one level deeper, which is the point of it: a branch
     // verb opens the row it sits on, every branch inside that row, and every card's
-    // requirement list. On a subcategory that is one level deeper than the chevron;
+    // implementation list. On a subcategory that is one level deeper than the chevron;
     // on a category it is two. Same verbs, same glyphs and same reach as step 5.
     const setBranch = (branch: HTMLDetailsElement, open: boolean) => {
       branch.open = open;
@@ -352,8 +454,15 @@ const CARD_STAMP: ListObligation = {
       qa<HTMLDetailsElement>('[data-list-cat]').forEach((c) => (c.open = open));
       qa<HTMLDetailsElement>('[data-list-sub]').forEach((s) => setBranch(s, false));
     };
-    document.querySelector('[data-list-expand]')?.addEventListener('click', () => setCats(true));
-    document.querySelector('[data-list-collapse]')?.addEventListener('click', () => setCats(false));
+    const fold = (open: boolean) => (view === 'category' ? setCats(open) : foldMirror(mirrorBody, open));
+    document.querySelector('[data-list-expand]')?.addEventListener('click', () => fold(true));
+    document.querySelector('[data-list-collapse]')?.addEventListener('click', () => fold(false));
+    document.addEventListener('list:view', (e) => {
+      view = (e as CustomEvent<ListView>).detail;
+      root.dataset.listView = view;
+      mirrorBody.removeAttribute('data-built');
+      apply();
+    });
 
     // ---- Editing in place. One mechanism, two subjects: a branch name renamed for
     // this list, and an obligation's list description. Focus, select the contents,
@@ -482,28 +591,48 @@ const CARD_STAMP: ListObligation = {
       const title = card.querySelector<HTMLElement>('[data-list-title]')!;
       title.textContent = item.title;
       title.dataset.listText = item.title;
+      title.dataset.registryTitle = item.title;
       // A member added from the picker starts on the registry's own wording, so the
       // two fields agree and nothing is marked as edited for this list.
       card.dataset.listDescription = item.description;
       card.dataset.registryDesc = item.description;
       const edited = card.querySelector<HTMLElement>('[data-list-edited]');
       if (edited) edited.hidden = true;
-      // The stamp ships one requirement row; it is the prototype for this member's own.
-      const list = card.querySelector<HTMLElement>('.bcn-loc__reqs')!;
-      const proto = list.querySelector<HTMLElement>('[data-list-req]')!;
-      proto.remove();
-      item.reqs.forEach((r) => {
-        const row = proto.cloneNode(true) as HTMLElement;
-        row.dataset.code = r.code;
-        const chip = row.querySelector<HTMLElement>('.bcn-cbadge');
-        if (chip) chip.textContent = r.code;
-        const name = row.querySelector<HTMLElement>('.bcn-loc__req-name')!;
-        name.textContent = r.name;
-        name.dataset.listText = r.name;
-        list.append(row);
-      });
+      card.dataset.codes = [...new Set(item.reqs.map((r) => r.code))].join('|');
+      // The stamp ships implementation rows; the first is the prototype for this member's own.
+      fillImpls(card.querySelector<HTMLElement>('[data-list-impls]')!, implementationsOf(item.id));
       return card;
     };
+    // The category and subcategory rows for a filing, created (and filed) when this
+    // list does not hold them yet. Shared by an add from the picker and a move.
+    const branchFor = (catId: string, catName: string, subId: string, subName: string) => {
+      let cat = qa<HTMLDetailsElement>('[data-list-cat]').find((c) => c.dataset.listCat === catId) ?? null;
+      if (!cat) {
+        cat = tpl('cat') as HTMLDetailsElement;
+        cat.dataset.listCat = catId;
+        setBranchName(cat, catName);
+        file(q('[data-list-cats]')!, cat, ':scope > [data-list-cat]', filingName);
+        if (catPick) {
+          catPick.options = [...(catPick.options ?? []), { label: catName, value: catId }]
+            .sort((a, b) => a.label.localeCompare(b.label));
+        }
+      }
+      let sub = qa<HTMLDetailsElement>('[data-list-sub]', cat).find((s) => s.dataset.listSub === subId) ?? null;
+      if (!sub) {
+        sub = tpl('sub') as HTMLDetailsElement;
+        sub.dataset.listSub = subId;
+        setBranchName(sub, subName);
+        file(cat.querySelector('[data-list-subs]')!, sub, ':scope > [data-list-sub]', filingName);
+      }
+      return { cat, sub };
+    };
+    const fileCard = (sub: Element, card: HTMLElement) =>
+      file(
+        sub.querySelector('[data-list-cards]')!,
+        card,
+        ':scope > [data-list-card]',
+        (el) => el.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? '',
+      );
     const addItem = (item: AddedItem) => {
       const existing = cards().find((c) => c.dataset.id === item.id && gone(c));
       if (existing) {
@@ -516,50 +645,48 @@ const CARD_STAMP: ListObligation = {
         flash(existing);
         return;
       }
-      let cat = qa<HTMLDetailsElement>('[data-list-cat]').find((c) => c.dataset.listCat === item.catId) ?? null;
-      if (!cat) {
-        cat = tpl('cat') as HTMLDetailsElement;
-        cat.dataset.listCat = item.catId;
-        setBranchName(cat, item.catName);
-        file(q('[data-list-cats]')!, cat, ':scope > [data-list-cat]', filingName);
-        if (catPick) {
-          catPick.options = [...(catPick.options ?? []), { label: item.catName, value: item.catId }]
-            .sort((a, b) => a.label.localeCompare(b.label));
-        }
-      }
-      let sub = qa<HTMLDetailsElement>('[data-list-sub]', cat).find((s) => s.dataset.listSub === item.subId) ?? null;
-      if (!sub) {
-        sub = tpl('sub') as HTMLDetailsElement;
-        sub.dataset.listSub = item.subId;
-        setBranchName(sub, item.subName);
-        file(cat.querySelector('[data-list-subs]')!, sub, ':scope > [data-list-sub]', filingName);
-      }
+      const { cat, sub } = branchFor(item.catId, item.catName, item.subId, item.subName);
       const card = buildCard(item);
-      file(
-        sub.querySelector('[data-list-cards]')!,
-        card,
-        ':scope > [data-list-card]',
-        (el) => el.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? '',
-      );
+      fileCard(sub, card);
       cat.open = true;
       sub.open = true;
       flash(card);
     };
-    // ---- What the panel sends back. The panel writes one datum — the list's own
-    // wording for one member — and asks for the other two verbs rather than doing
-    // them, so Remove still routes through this tree's guard and a duplicate is still
+    // ---- What the panel sends back. The panel writes the list's own title,
+    // description and filing for one member, and asks for the other two verbs rather
+    // than doing them, so Remove still routes through this tree's guard and a duplicate is still
     // filed by the same code path as the card's own copy verb.
     const byMember = (id: string) => cards().find((c) => c.dataset.memberId === id) ?? null;
+    interface Saved {
+      memberId: string; listTitle: string; listDescription: string;
+      catId: string; catName: string; subId: string; subName: string;
+    }
     document.addEventListener('list:obligation-saved', (e) => {
-      const { memberId, listDescription } = (e as CustomEvent<{ memberId: string; listDescription: string }>).detail;
-      const card = byMember(memberId);
+      const s = (e as CustomEvent<Saved>).detail;
+      const card = byMember(s.memberId);
       if (!card) return;
+      // Emptied, a field falls back to the registry's wording — which is also what
+      // makes the pair of attributes agree again, and the mark below go away.
       const registry = card.dataset.registryDesc ?? '';
-      // Emptied, the member falls back to the registry's wording — which is also what
-      // makes the two attributes agree again, and the mark below go away.
-      card.dataset.listDescription = listDescription || registry;
+      card.dataset.listDescription = s.listDescription || registry;
+      const title = card.querySelector<HTMLElement>('[data-list-title]')!;
+      const registryTitle = title.dataset.registryTitle ?? title.dataset.listText ?? '';
+      const nextTitle = s.listTitle || registryTitle;
+      title.dataset.listText = nextTitle;
+      title.textContent = nextTitle;
       const mark = card.querySelector<HTMLElement>('[data-list-edited]');
-      if (mark) mark.hidden = (card.dataset.listDescription ?? '') === registry;
+      if (mark) mark.hidden = card.dataset.listDescription === registry && nextTitle === registryTitle;
+      // The move. Re-filed by title even when it stays put, since a new title changes
+      // its place in the subcategory's A-Z.
+      if (s.catId && s.subId) {
+        const { cat, sub } = branchFor(s.catId, s.catName, s.subId, s.subName);
+        fileCard(sub, card);
+        cat.open = true;
+        (sub as HTMLDetailsElement).open = true;
+      }
+      recount();
+      apply();
+      flash(card);
     });
     document.addEventListener('list:remove-member', (e) => {
       const card = byMember((e as CustomEvent<string>).detail);
@@ -577,9 +704,9 @@ const CARD_STAMP: ListObligation = {
       apply();
     });
 
-    // ---- Verbs. Six of them on the whole tree: open a branch to its requirements,
+    // ---- Verbs. Seven of them on the whole tree: open a branch to its implementations,
     // close it again, rename a branch for this list, open a membership in the panel,
-    // duplicate one, and take one off the list.
+    // duplicate one, take one off the list, and open one implementation.
     root.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;
       if (t.closest('.is-editing')) { e.preventDefault(); return; }
@@ -596,23 +723,32 @@ const CARD_STAMP: ListObligation = {
       }
       if (btn?.matches('[data-list-edit]')) {
         e.preventDefault();
-        const card = btn.closest<HTMLElement>('[data-list-card]')!;
+        const card = cardOf(btn)!;
         document.dispatchEvent(new CustomEvent('list:edit-obligation', { detail: card.dataset.memberId, bubbles: true }));
         return;
       }
       if (btn?.matches('[data-list-duplicate]')) {
         e.preventDefault();
-        duplicate(btn.closest<HTMLElement>('[data-list-card]')!);
+        duplicate(cardOf(btn)!);
         return;
       }
       if (btn?.matches('[data-list-remove]')) {
         e.preventDefault();
-        removeFromList(btn.closest<HTMLElement>('[data-list-card]')!);
+        removeFromList(cardOf(btn)!);
+        return;
+      }
+      // An implementation row is the way into its upsert dialog. The whole row is the
+      // target — the name is the button, the row forwards to it.
+      const impl = t.closest<HTMLElement>('[data-list-impl]');
+      if (impl) {
+        e.preventDefault();
+        announceImpl(impl);
         return;
       }
     });
 
     recount();
+    if (view !== 'category') apply();
   }
 </script>
 
@@ -625,11 +761,13 @@ const CARD_STAMP: ListObligation = {
 
      VERBS ON A BRANCH ROW — a list-tree-only departure, made in the markup so the
      wizard keeps its own behaviour. Deep expand/collapse is a SUBCATEGORY verb here:
-     a subcategory holds obligations, so "expand to requirements" has a definite
+     a subcategory holds obligations, so "expand to implementations" has a definite
      meaning on it. A category holds subcategories, so the same pair on a category row
      was a second, louder way to do what its own chevron already does. The pair that
      remains carries `--quiet`, like the rename beside it, so a branch row rests as
      chevron / name / count and answers on hover or keyboard focus. */
+  /* Expand/Collapse all sit under the filter panel, right-aligned, not inside it. */
+  .bcn-lot__folds { display: flex; justify-content: flex-end; gap: var(--spacing-200); }
   .bcn-lot__verb-label { display: inline-flex; align-items: center; gap: var(--spacing-100); }
 
   /* A list shows only what it holds: a branch holding no member drops out. */

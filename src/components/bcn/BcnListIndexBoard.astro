@@ -42,9 +42,8 @@
 // commitment lists" and keeps saying that through a search, which is still true. Nothing
 // rewrites a string at runtime; the script only shows and hides.
 //
-// HREFS. Obligation lists have a detail page on this branch. Action and commitment
-// lists link to "#" on purpose: those detail pages are prod's and out of scope here,
-// so the row is present and findable while the destination stays unbuilt.
+// HREFS. Every row links to /prototypes/lists/<id>, the one detail route that serves
+// obligation, action and commitment lists alike.
 //
 // Contract with siblings: each row is a <BcnListCard> and carries `data-list-row`, with
 // its searchable strings marked `data-list-text`. Each heading's button carries
@@ -81,8 +80,8 @@ import {
 } from '../../data/lists';
 import { withBase } from '../../lib/base';
 
-const hrefFor = (list: ProjectList): string =>
-  list.type === 'obligation' ? withBase(`/prototypes/lists/${list.id}`) : '#';
+// Every list type has its detail page now (2026-09-23): one route, three bodies.
+const hrefFor = (list: ProjectList): string => withBase(`/prototypes/lists/${list.id}`);
 
 const GROUPS = LIST_GROUP_ORDER.map((type: ListType) => ({
   type,

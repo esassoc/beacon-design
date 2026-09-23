@@ -1,0 +1,570 @@
+---
+// <BcnListMemberTree> — the body of an ACTION or COMMITMENT list's detail page. The
+// sibling of <BcnListObligationTree>, on the same row anatomy (bcn-tree.css) and card
+// (bcn-obligation-card.css via <BcnListMemberCard>), so the three list types read as
+// one page. Andy, 2026-09-23: "I need us to make our actions lists look like this too."
+//
+// ACTION LIST — four views, switched by <BcnListViewTabs>:
+//   By Compliance Index  Category > Subcategory > action. The FIRST view. Andy,
+//                  2026-09-23: "the primary one: the commitment index". An action files
+//                  wherever its requirements do, so it can appear several times (a
+//                  mirror, list-views.ts); the placements come from Aldo's index run.
+//   By type        Action Type > action. The master: every verb, count and filter runs
+//                  on it, as the obligation tree's category view does.
+//   By commitment  permit section > commitment > action (list-views.ts).
+//   A–Z            every action, by title.
+//
+// COMMITMENT LIST — one view: every commitment in code order, flat. Andy: "Probably
+// just a flat list." A commitment IS the hierarchy the other lists are viewed by, so a
+// "by commitment" tab would be the list itself and a "by type" tab has nothing to key on.
+//
+// An action's children are its ActionImplementations (<BcnListImplementations>), with
+// a Status filter over them; a commitment's are its requirements. What prod's action
+// list page carried that this does not: the separate Edit Actions page. Adding is
+// the right-hand checkbox drawer (<BcnListAddMembers>) the obligation list uses;
+// removing is the x on the row. Nothing on this page edits an action or a commitment.
+//
+// Contract, on `document`:
+//   in   list:view             detail: 'index' | 'category' | 'commitment' | 'az'
+//   in   list:members-added    detail: { items: ListMemberRow[] }
+//   out  list:view-action      detail: action id           -> <BcnListActionPanel>
+//   out  list:view-requirement detail: requirement id      -> <BcnListRequirementPanel> (commitment lists)
+//   out  list:edit-implementation detail: implementation id -> the upsert dialog (not built)
+//
+// bcn-lego-checked: same call as <BcnListObligationTree> — esa-tree-view is a selection
+// tree with no card leaf, esa-accordion one level of panels, esa-data-table no nesting.
+// The leaf IS bcn-list-member-card, the filter line IS bcn-sw-filter-row, the counts ARE
+// bcn-sw-count-badge, the guard IS esa-confirm-dialog, the empty list IS esa-empty-state,
+// the view switch IS bcn-list-view-tabs (esa-tab-layout).
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnSwFilterRow from './BcnSwFilterRow.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnListMemberCard from './BcnListMemberCard.astro';
+import BcnListViewTabs from './BcnListViewTabs.astro';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+import { IMPL_STATUSES, implementationsOf } from '../../data/list-implementations';
+import { COMPONENTS } from '../../data/evidence-drawer';
+import {
+  COMMITMENT_TITLES,
+  LIST_MEMBER_NOUN,
+  SOURCE_DOCUMENT,
+  groupRows,
+  listMemberRows,
+  type ActionList,
+  type CommitmentList,
+  type ListMemberRow,
+} from '../../data/lists';
+import '../../styles/bcn-tree.css';
+
+interface Props {
+  list: ActionList | CommitmentList;
+}
+const { list } = Astro.props;
+const isAction = list.type === 'action';
+const [one, many] = LIST_MEMBER_NOUN[list.type];
+const rows = listMemberRows(list);
+const groups = isAction ? groupRows(rows) : [];
+// The implementation filters: which component, what status, whether it has evidence.
+const COMPONENT_OPTIONS = COMPONENTS.map((c) => ({ label: c.name, value: c.id }));
+// The obligation tree's Evidence filter, beside Status. Values match list-impls.ts.
+const EVIDENCE_OPTIONS = [
+  { value: 'has', label: 'Has Evidence' },
+  { value: 'none', label: 'Has No Evidence' },
+];
+
+/** The blank card an added member is stamped from; its requirement row is the prototype. */
+const STAMP: ListMemberRow = {
+  memberId: '',
+  id: '',
+  title: '',
+  groupId: '',
+  groupName: '',
+  ...(isAction ? { chip: { label: '', tone: 'action' } } : { code: 'COA' }),
+  reqs: [{ id: '', code: '', name: '', index: [] }],
+  ...(isAction ? { impls: implementationsOf('') } : {}),
+};
+---
+
+<div class="stack" data-gap="md">
+  {isAction && (
+    <BcnListViewTabs views={[
+      { id: 'index', label: 'By Compliance Index' },
+      { id: 'category', label: 'By type' },
+      { id: 'commitment', label: 'By commitment' },
+      { id: 'az', label: 'A–Z' },
+    ]} />
+  )}
+  <BcnSwFilterRow
+    searchName="list-search"
+    searchPlaceholder={`Search ${many}`}
+    panel
+    pickers={isAction ? [
+      { label: 'Component', value: 'All components', options: COMPONENT_OPTIONS },
+      { label: 'Status', value: 'All statuses', options: IMPL_STATUSES },
+      { label: 'Evidence', value: 'Any evidence', options: EVIDENCE_OPTIONS },
+    ] : [
+      // Andy, 2026-09-23: "For the main commitments view, add a filter for source
+      // documents." One value today (the ITP); a second permit is a second option.
+      { label: 'Source', value: 'All source documents', options: [{ label: SOURCE_DOCUMENT, value: SOURCE_DOCUMENT }] },
+    ]}
+  />
+  <div class="bcn-lmt__folds">
+    <EsaButton variant="ghost" size="xs" data-list-expand>
+      <span class="bcn-lmt__verb-label"><EsaIcon name="chevrons-up-down" size="xs" paths={STEP_GLYPH['chevrons-up-down']} />Expand all</span>
+    </EsaButton>
+    <EsaButton variant="ghost" size="xs" data-list-collapse>
+      <span class="bcn-lmt__verb-label"><EsaIcon name="chevrons-down-up" size="xs" paths={STEP_GLYPH['chevrons-down-up']} />Collapse all</span>
+    </EsaButton>
+  </div>
+
+  <section
+    class="bcn-lot bcn-lmt"
+    aria-label={list.name}
+    data-list-label={list.name}
+    data-list-type={list.type}
+    data-list-noun={many}
+    data-list-titles={isAction ? JSON.stringify(COMMITMENT_TITLES) : '{}'}
+  >
+    <p class="bcn-lot__nomatch" data-list-nomatch hidden>No {many} match.</p>
+    <div class="bcn-lmt__empty" data-list-empty-state hidden={rows.length > 0}>
+      <EsaEmptyState title={`No ${many} on this list`} description={`Add ${many} to start the list.`} size="sm" />
+    </div>
+
+    {isAction ? (
+      <div class="bcn-lot__body" data-list-cats>
+        {groups.map((g) => (
+          <details class="bcn-lot__cat" data-list-cat={g.id} open>
+            <summary class="bcn-lot__row bcn-lot__row--cat">
+              <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+              <span class="bcn-lot__name" data-list-name data-list-text={g.name}>{g.name}</span>
+              <span data-list-count="cat"><BcnSwCountBadge value={g.items.length} label={`${g.items.length} ${many}`} /></span>
+            </summary>
+            <ul class="bcn-lot__cards bcn-lmt__cards" data-list-cards>
+              {g.items.map((r) => <BcnListMemberCard row={r} />)}
+            </ul>
+          </details>
+        ))}
+      </div>
+    ) : (
+      <div class="bcn-lot__body" data-list-cats data-list-flat>
+        <ul class="bcn-lot__cards" data-list-cards>
+          {rows.map((r) => <BcnListMemberCard row={r} />)}
+        </ul>
+      </div>
+    )}
+
+    <div class="bcn-lot__body" data-list-mirror-body></div>
+
+    <template data-list-tpl="section">
+      <details class="bcn-lot__cat" data-list-group>
+        <summary class="bcn-lot__row bcn-lot__row--cat">
+          <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <BcnCommitmentBadge code="COA" size="sm" />
+          <span class="bcn-lot__name" data-list-name></span>
+          <span data-list-count="group"><BcnSwCountBadge value={0} /></span>
+        </summary>
+        <div class="bcn-lot__subs" data-list-subs></div>
+      </details>
+    </template>
+    <template data-list-tpl="commitment">
+      <details class="bcn-lot__sub" data-list-group>
+        <summary class="bcn-lot__row bcn-lot__row--sub">
+          <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <BcnCommitmentBadge code="COA" size="sm" />
+          <span class="bcn-lot__name" data-list-name></span>
+          <span data-list-count="group"><BcnSwCountBadge value={0} /></span>
+        </summary>
+        <ul class="bcn-lot__cards" data-list-cards></ul>
+      </details>
+    </template>
+    <template data-list-tpl="index-cat">
+      <details class="bcn-lot__cat" data-list-group>
+        <summary class="bcn-lot__row bcn-lot__row--cat">
+          <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <span class="bcn-lot__name" data-list-name></span>
+          <span data-list-count="group"><BcnSwCountBadge value={0} /></span>
+        </summary>
+        <div class="bcn-lot__subs" data-list-subs></div>
+      </details>
+    </template>
+    <template data-list-tpl="index-sub">
+      <details class="bcn-lot__sub" data-list-group>
+        <summary class="bcn-lot__row bcn-lot__row--sub">
+          <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <span class="bcn-lot__name" data-list-name></span>
+          <span data-list-count="group"><BcnSwCountBadge value={0} /></span>
+        </summary>
+        <ul class="bcn-lot__cards" data-list-cards></ul>
+      </details>
+    </template>
+    <template data-list-tpl="group">
+      <details class="bcn-lot__cat" open>
+        <summary class="bcn-lot__row bcn-lot__row--cat">
+          <span class="bcn-lot__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+          <span class="bcn-lot__name" data-list-name></span>
+          <span data-list-count="cat"><BcnSwCountBadge value={0} /></span>
+        </summary>
+        <ul class="bcn-lot__cards bcn-lmt__cards" data-list-cards></ul>
+      </details>
+    </template>
+    <template data-list-tpl="card"><BcnListMemberCard row={STAMP} /></template>
+
+    <esa-confirm-dialog
+      data-list-confirm
+      heading="Remove from this list?"
+      confirm-label="Remove"
+      cancel-label="Cancel"
+      show-close-button
+      data-list-one={one}
+      style="--z-modal: 1500; --z-modal-backdrop: 1450;"></esa-confirm-dialog>
+  </section>
+</div>
+
+<script>
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-tooltip';
+  import { buildMirror, foldMirror, initialView, type ListView } from './list-views';
+  import { addEvidence, announceImpl, fillImpls, passImpls, type Impl } from './list-impls';
+
+  interface Item {
+    memberId: string; id: string; title: string;
+    chip?: { label: string; tone: string }; code?: string;
+    groupId: string; groupName: string; source?: string;
+    reqs: { id: string; code: string; name: string; index?: string[] }[];
+    impls?: Impl[];
+  }
+
+  const root = document.querySelector<HTMLElement>('.bcn-lmt');
+  if (root) {
+    const q = <T extends Element>(sel: string, from: ParentNode = root) => from.querySelector<T>(sel);
+    const qa = <T extends Element>(sel: string, from: ParentNode = root) => [...from.querySelectorAll<T>(sel)];
+    const tpl = (name: string) =>
+      (q<HTMLTemplateElement>(`template[data-list-tpl="${name}"]`)!.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+    const badge = (host: Element | null, n: number, label: string) => {
+      const b = host?.querySelector<HTMLElement>('.bcn-swcb');
+      if (b) { b.textContent = String(n); b.setAttribute('aria-label', `${n} ${label}`); }
+    };
+    const isAction = root.dataset.listType === 'action';
+    const noun = root.dataset.listNoun ?? '';
+    const listName = root.dataset.listLabel ?? '';
+    const master = q<HTMLElement>('[data-list-cats]')!;
+    const mirrorBody = q<HTMLElement>('[data-list-mirror-body]')!;
+    const nomatch = q<HTMLElement>('[data-list-nomatch]');
+    const empty = q<HTMLElement>('[data-list-empty-state]');
+    const TITLES: Record<string, string> = JSON.parse(root.dataset.listTitles || '{}');
+
+    // A removed card stays in the DOM, marked, so the drawer can put it back.
+    const gone = (c: HTMLElement) => c.hasAttribute('data-list-removed');
+    const cards = (from: ParentNode = master) => qa<HTMLElement>('[data-list-card]', from);
+    const byMember = (id: string) => cards().find((c) => c.dataset.memberId === id) ?? null;
+    const cardOf = (el: Element) => {
+      const c = el.closest<HTMLElement>('[data-list-card]');
+      return c?.hasAttribute('data-list-mirror') ? byMember(c.dataset.memberId ?? '') : c;
+    };
+    const flash = (el: HTMLElement) => { el.classList.add('is-new'); setTimeout(() => el.classList.remove('is-new'), 1000); };
+    const titleOf = (c: Element) => c.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? '';
+
+    // ---- Counts, off what the list still holds.
+    const recount = () => {
+      let total = 0;
+      if (isAction) {
+        qa<HTMLDetailsElement>('[data-list-cat]', master).forEach((g) => {
+          const n = cards(g).filter((c) => !gone(c)).length;
+          badge(g.querySelector(':scope > summary [data-list-count]'), n, noun);
+          g.toggleAttribute('data-list-empty', n === 0);
+          total += n;
+        });
+      } else {
+        total = cards().filter((c) => !gone(c)).length;
+      }
+      badge(document.querySelector('[data-list-count="title"]'), total, noun);
+      if (empty) empty.hidden = total > 0;
+      root.toggleAttribute('data-list-none', total === 0);
+    };
+
+    // ---- Views. By type is the master; the other three are rebuilt from it.
+    let view: ListView = isAction ? initialView(['index', 'category', 'commitment', 'az']) : 'category';
+    root.dataset.listView = view;
+    const mirror = () => {
+      if (view === 'category') { mirrorBody.replaceChildren(); mirrorBody.removeAttribute('data-built'); return; }
+      buildMirror({
+        body: mirrorBody,
+        source: cards().filter((c) => !gone(c) && !c.hidden && !c.closest('[data-list-cat][hidden]')),
+        view,
+        stamp: (name) => tpl(name),
+        titles: TITLES,
+        noun,
+      });
+    };
+
+    // ---- Search with <mark> hits: title, type chip, the child rows (an action's
+    // implementation components, a commitment's requirement names and codes) and the
+    // codes behind an action (data-codes).
+    const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+    const rx = (needle: string) => new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    const paint = (el: HTMLElement | null, needle: string) => {
+      if (!el) return false;
+      const text = el.dataset.listText ?? el.textContent ?? '';
+      if (!needle || !rx(needle).test(text)) { el.textContent = text; return false; }
+      el.innerHTML = esc(text).replace(rx(needle), (m) => `<mark class="bcn-lot__hit">${m}</mark>`);
+      return true;
+    };
+    const has = (s: string | undefined, needle: string) => !!needle && (s ?? '').toLowerCase().includes(needle.toLowerCase());
+    const cardHit = (card: HTMLElement, needle: string) => {
+      const titleHit = paint(card.querySelector<HTMLElement>('[data-list-title]'), needle);
+      const chipHit = has(card.querySelector('[data-list-class-tag]')?.textContent ?? undefined, needle);
+      const codeHit = has(card.querySelector('[data-list-code]')?.textContent ?? undefined, needle) || has(card.dataset.codes, needle);
+      let reqHit = false;
+      card.querySelectorAll<HTMLElement>('[data-list-impl]').forEach((row) => {
+        reqHit = paint(row.querySelector<HTMLElement>('.bcn-loc__req-name'), needle) || reqHit;
+      });
+      card.querySelectorAll<HTMLElement>('[data-list-req]').forEach((row) => {
+        const nameHit = paint(row.querySelector<HTMLElement>('.bcn-loc__req-name'), needle);
+        const rowCode = has(row.dataset.code, needle);
+        row.querySelector<HTMLElement>('.bcn-cbadge')?.classList.toggle('bcn-lot__hit-chip', rowCode);
+        reqHit = reqHit || nameHit || rowCode;
+      });
+      if (needle && reqHit) (card.querySelector('details') as HTMLDetailsElement).open = true;
+      return titleHit || chipHit || codeHit || reqHit;
+    };
+    // Status and Evidence narrow each action to its implementations that pass both;
+    // an action left with none drops out.
+    const filters = { needle: '', component: '', status: '', evidence: '', source: '' };
+    const apply = () => {
+      const { needle, component, status, evidence, source } = filters;
+      const rowFilter = !!(component || status || evidence);
+      const active = !!(needle || rowFilter || source);
+      let shown = 0;
+      const pass = (card: HTMLElement) => {
+        if (gone(card)) { card.hidden = true; return false; }
+        const inStatus = passImpls(card, { component, status, evidence });
+        if (rowFilter && inStatus) (card.querySelector('details') as HTMLDetailsElement).open = true;
+        const inSource = !source || card.dataset.source === source;
+        const hit = (cardHit(card, needle) || !needle) && inStatus && inSource;
+        card.hidden = !hit;
+        if (hit) shown++;
+        return hit;
+      };
+      if (isAction) {
+        qa<HTMLDetailsElement>('[data-list-cat]', master).forEach((g) => {
+          const any = cards(g).map(pass).some(Boolean);
+          g.hidden = !any && !!(needle || rowFilter);
+          if (active && any) g.open = true;
+        });
+      } else {
+        cards().forEach(pass);
+      }
+      if (nomatch) nomatch.hidden = shown > 0 || !active;
+      mirror();
+    };
+    const search = document.querySelector<HTMLElement & { value: string }>('esa-text-field[name="list-search"]');
+    if (search) {
+      const read = () => search.value ?? search.shadowRoot?.querySelector('input')?.value ?? '';
+      const on = () => { filters.needle = read().trim(); apply(); };
+      search.addEventListener('input', on);
+      search.addEventListener('change', on);
+    }
+    const statusPick = document.querySelector<HTMLElement & { value: string }>('esa-select[name="list-search-status"]');
+    statusPick?.addEventListener('change', () => { filters.status = statusPick.value ?? ''; apply(); });
+    const evidencePick = document.querySelector<HTMLElement & { value: string }>('esa-select[name="list-search-evidence"]');
+    evidencePick?.addEventListener('change', () => { filters.evidence = evidencePick.value ?? ''; apply(); });
+    const sourcePick = document.querySelector<HTMLElement & { value: string }>('esa-select[name="list-search-source"]');
+    sourcePick?.addEventListener('change', () => { filters.source = sourcePick.value ?? ''; apply(); });
+    const componentPick = document.querySelector<HTMLElement & { value: string }>('esa-select[name="list-search-component"]');
+    componentPick?.addEventListener('change', () => { filters.component = componentPick.value ?? ''; apply(); });
+
+    // Evidence attached from the bottom drawer raises the count on each chosen
+    // action's row for that component, then the mirrors rebuild off the master.
+    document.addEventListener('list:evidence-added', (e) => {
+      const { componentId, evidenceIds, memberIds } = (e as CustomEvent<{ componentId: string; evidenceIds: string[]; memberIds: string[] }>).detail;
+      cards().filter((c) => memberIds.includes(c.dataset.memberId ?? '')).forEach((c) => {
+        addEvidence(c, componentId, evidenceIds.length);
+        badge(c.querySelector('[data-list-count]'), c.querySelectorAll('[data-list-impl]').length, 'implementations');
+        (c.querySelector('details') as HTMLDetailsElement).open = true;
+      });
+      apply();
+    });
+
+    // ---- Expand / collapse. On the master: grouped, the group rows; flat, the cards'
+    // own requirement lists. On a mirror, list-views decides the same way.
+    const fold = (open: boolean) => {
+      if (view !== 'category') { foldMirror(mirrorBody, open); return; }
+      if (isAction) {
+        qa<HTMLDetailsElement>('[data-list-cat]', master).forEach((g) => (g.open = open));
+        if (!open) qa<HTMLDetailsElement>('[data-list-card] details', master).forEach((d) => (d.open = false));
+      } else {
+        qa<HTMLDetailsElement>('[data-list-card] details', master).forEach((d) => (d.open = open));
+      }
+    };
+    document.querySelector('[data-list-expand]')?.addEventListener('click', () => fold(true));
+    document.querySelector('[data-list-collapse]')?.addEventListener('click', () => fold(false));
+    document.addEventListener('list:view', (e) => {
+      view = (e as CustomEvent<ListView>).detail;
+      root.dataset.listView = view;
+      mirrorBody.removeAttribute('data-built');
+      apply();
+    });
+
+    // ---- Remove from list, behind the guard. Nothing is destroyed.
+    type Confirm = HTMLElement & { open: boolean; message: string };
+    const guard = q<Confirm>('[data-list-confirm]');
+    let pending: (() => void) | null = null;
+    guard?.addEventListener('confirm', () => { pending?.(); pending = null; });
+    guard?.addEventListener('cancel', () => { pending = null; });
+    guard?.addEventListener('dismiss', () => { pending = null; });
+    const drop = (card: HTMLElement) => {
+      card.setAttribute('data-list-removed', '');
+      card.hidden = true;
+      recount();
+      apply();
+    };
+    const removeFromList = (card: HTMLElement) => {
+      if (!guard) { drop(card); return; }
+      pending = () => drop(card);
+      guard.message = `"${titleOf(card)}" comes off ${listName}. The ${guard.dataset.listOne} stays in the project's registry.`;
+      guard.open = true;
+    };
+
+    // ---- Members added from the drawer: revealed when removed earlier, else stamped
+    // and FILED — A-Z within the type group for actions, code order for commitments.
+    const codeKey = (c: string) => (c.match(/\d+/g) ?? []).map(Number);
+    const byCode = (a: string, b: string) => {
+      const ka = codeKey(a), kb = codeKey(b);
+      for (let i = 0; i < Math.max(ka.length, kb.length); i++) {
+        const d = (ka[i] ?? -1) - (kb[i] ?? -1);
+        if (d) return d;
+      }
+      return a.localeCompare(b);
+    };
+    const buildCard = (item: Item) => {
+      const card = tpl('card');
+      card.dataset.memberId = item.memberId;
+      card.dataset.id = item.id;
+      if (item.source) card.dataset.source = item.source;
+      const tag = card.querySelector<HTMLElement>('[data-list-class-tag]');
+      if (tag && item.chip) tag.textContent = item.chip.label;
+      const code = card.querySelector<HTMLElement>('[data-list-code] .bcn-cbadge');
+      if (code && item.code) code.textContent = item.code;
+      const goto = card.querySelector<HTMLAnchorElement>('a[data-list-goto]');
+      if (goto && item.code) goto.href = goto.href.replace(/\?id=.*$/, `?id=${encodeURIComponent(item.code)}`);
+      const title = card.querySelector<HTMLElement>('[data-list-title]')!;
+      title.textContent = item.title;
+      title.dataset.listText = item.title;
+      card.dataset.codes = [...new Set(item.reqs.map((r) => r.code))].join('|');
+      card.dataset.index = [...new Set(item.reqs.flatMap((r) => r.index ?? []))].join('|');
+      if (item.impls) {
+        badge(card.querySelector('[data-list-count]'), item.impls.length, 'implementations');
+        fillImpls(card.querySelector<HTMLElement>('[data-list-impls]')!, item.impls);
+        return card;
+      }
+      badge(card.querySelector('[data-list-count]'), item.reqs.length, 'requirements');
+      const list = card.querySelector<HTMLElement>('.bcn-loc__reqs')!;
+      const proto = list.querySelector<HTMLElement>('[data-list-req]')!;
+      proto.remove();
+      item.reqs.forEach((r) => {
+        const row = proto.cloneNode(true) as HTMLElement;
+        row.dataset.code = r.code;
+        row.dataset.reqId = r.id;
+        row.dataset.index = (r.index ?? []).join('|');
+        const chip = row.querySelector<HTMLElement>('.bcn-cbadge');
+        if (chip) chip.textContent = r.code;
+        const name = row.querySelector<HTMLElement>('.bcn-loc__req-name')!;
+        name.textContent = r.name;
+        name.dataset.listText = r.name;
+        list.append(row);
+      });
+      return card;
+    };
+    const fileInto = (ul: Element, card: HTMLElement, cmp: (a: HTMLElement, b: HTMLElement) => number) => {
+      const after = qa<HTMLElement>(':scope > [data-list-card]', ul).find((c) => cmp(c, card) > 0);
+      ul.insertBefore(card, after ?? null);
+    };
+    const addItem = (item: Item) => {
+      const existing = cards().find((c) => c.dataset.memberId === item.memberId);
+      if (existing) {
+        existing.removeAttribute('data-list-removed');
+        existing.hidden = false;
+        const g = existing.closest<HTMLDetailsElement>('[data-list-cat]');
+        if (g) g.open = true;
+        flash(existing);
+        return;
+      }
+      const card = buildCard(item);
+      if (isAction) {
+        let g = qa<HTMLDetailsElement>('[data-list-cat]', master).find((x) => x.dataset.listCat === item.groupId) ?? null;
+        if (!g) {
+          g = tpl('group') as HTMLDetailsElement;
+          g.dataset.listCat = item.groupId;
+          const name = g.querySelector<HTMLElement>('[data-list-name]')!;
+          name.textContent = item.groupName;
+          name.dataset.listText = item.groupName;
+          const after = qa<HTMLElement>(':scope > [data-list-cat]', master).find(
+            (x) => (x.querySelector<HTMLElement>('[data-list-name]')?.dataset.listText ?? '').localeCompare(item.groupName) > 0,
+          );
+          master.insertBefore(g, after ?? null);
+        }
+        fileInto(g.querySelector('[data-list-cards]')!, card, (a, b) => titleOf(a).localeCompare(titleOf(b)));
+        g.open = true;
+      } else {
+        fileInto(master.querySelector('[data-list-cards]')!, card, (a, b) => byCode(a.dataset.id ?? '', b.dataset.id ?? ''));
+      }
+      flash(card);
+    };
+    document.addEventListener('list:members-added', (e) => {
+      ((e as CustomEvent<{ items: Item[] }>).detail?.items ?? []).forEach(addItem);
+      recount();
+      apply();
+    });
+
+    // ---- Verbs: read an action, take a member off, open an implementation, read a
+    // requirement. The
+    // commitment's "open" verb is a plain link and needs nothing from here.
+    root.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      const btn = t.closest<HTMLElement>('button');
+      if (btn?.matches('[data-list-open]')) {
+        e.preventDefault();
+        const card = cardOf(btn);
+        if (card) document.dispatchEvent(new CustomEvent('list:view-action', { detail: card.dataset.id, bubbles: true }));
+        return;
+      }
+      if (btn?.matches('[data-list-remove]')) {
+        e.preventDefault();
+        const card = cardOf(btn);
+        if (card) removeFromList(card);
+        return;
+      }
+      if (t.closest('a[data-list-goto]')) return;
+      const impl = t.closest<HTMLElement>('[data-list-impl]');
+      if (impl) { e.preventDefault(); announceImpl(impl); return; }
+      const req = t.closest<HTMLElement>('[data-list-req]');
+      if (req?.dataset.reqId) {
+        e.preventDefault();
+        document.dispatchEvent(new CustomEvent('list:view-requirement', { detail: req.dataset.reqId, bubbles: true }));
+      }
+    });
+
+    recount();
+    if (view !== 'category') apply();
+  }
+</script>
+
+<style>
+  /* Expand/Collapse all sit under the filter panel, right-aligned, not inside it. */
+  .bcn-lmt__folds { display: flex; justify-content: flex-end; gap: var(--spacing-200); }
+  .bcn-lmt__verb-label { display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  /* One branch level, so the cards clear the group row's chevron, not a subcategory's. */
+  .bcn-lmt__cards { padding-inline-start: calc(var(--spacing-400) + 22px); }
+  .bcn-lot__cat[data-list-empty] { display: none; }
+  /* By type, the group row already names every card's type; the chip returns in the
+     views that mix types (By commitment, A–Z). */
+  .bcn-lmt [data-list-cats] :global([data-list-class-tag]) { display: none; }
+  .bcn-lmt__empty { padding: var(--spacing-600) var(--spacing-400); }
+  .bcn-lmt__empty[hidden] { display: none; }
+  /* An empty list has no body to band; the empty state is the whole panel. */
+  .bcn-lmt[data-list-none] [data-list-cats] { display: none; }
+  .bcn-lot__row:focus-visible { outline: 2px solid var(--color-action); outline-offset: -2px; }
+</style>

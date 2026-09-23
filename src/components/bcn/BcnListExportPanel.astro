@@ -1,6 +1,9 @@
 ---
-// <BcnListExportPanel> — the three ways an obligation list leaves Beacon, as a block
-// in the detail page's rail. It replaces the Export dropdown that sat on the page's
+// <BcnListExportPanel> — the ways a list leaves Beacon, as a block in the detail
+// page's rail. Every list type gets the two file pulls, Word and CSV. Only an
+// obligation list gets the JSON endpoint: Andy, 2026-09-23, "Actions and commitments
+// need export options (but not the API option)". The endpoint serves the form spec,
+// which only an obligation list has, so the section is gated on the list's type. It replaces the Export dropdown that sat on the page's
 // title row: a menu hid the fact that one of the three formats is not a download at
 // all but a configured integration, and a menu row has nowhere to put a key.
 //
@@ -64,15 +67,16 @@ import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnKeyValue from './BcnKeyValue.astro';
-import { endpointUrl, formFields, type ObligationList } from '../../data/lists';
+import { endpointUrl, formFields, type ActionList, type CommitmentList, type ObligationList } from '../../data/lists';
 // The Astro half of the typography-composite mechanism, the way esa-button imports it.
 import '@esa/tokens/typography.css';
 
 interface Props {
   /** The list being exported. Every value below is read off it or derived from it. */
-  list: ObligationList;
+  list: ObligationList | ActionList | CommitmentList;
 }
 const { list } = Astro.props;
+const api = list.type === 'obligation' ? (list as ObligationList) : null;
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 /** The dash is the empty value, the same mark the Details rail uses for a blank field. */
@@ -87,11 +91,11 @@ const fmtDateTime = (iso: string): string => {
   return `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} at ${hour12}:${minutes} ${h < 12 ? 'AM' : 'PM'}`;
 };
 
-const endpoint = endpointUrl(list);
+const endpoint = api ? endpointUrl(api) : '';
 // Serialized in the FRONTMATTER from the model: rename a category or
 // edit a member's description and this moves with it. No script assembles it at runtime.
-const spec = JSON.stringify(formFields(list), null, 2);
-const generated = `Generated ${fmtDateTime(list.apiKeyGeneratedAt)}`;
+const spec = api ? JSON.stringify(formFields(api), null, 2) : '';
+const generated = api ? `Generated ${fmtDateTime(api.apiKeyGeneratedAt)}` : '';
 ---
 
 <section class="bcn-lxp" data-list-export-panel>
@@ -134,15 +138,15 @@ const generated = `Generated ${fmtDateTime(list.apiKeyGeneratedAt)}`;
         </EsaButton>
       </div>
 
-      <hr class="bcn-lxp__rule" />
+      {api && <hr class="bcn-lxp__rule" />}
 
-      <div class="stack" data-gap="md">
+      {api && <div class="stack" data-gap="md">
         <h4 class="bcn-lxp__format typography-label-md-strong">JSON</h4>
 
         <div class="stack" data-gap="sm">
           <BcnKeyValue label="API Key" hint={generated}>
             <div class="cluster bcn-lxp__field-row" data-gap="2xs" data-list-export-field>
-              <code class="bcn-lxp__field">{list.apiKey}</code>
+              <code class="bcn-lxp__field">{api.apiKey}</code>
               <EsaButton
                 variant="ghost"
                 size="sm"
@@ -190,7 +194,7 @@ const generated = `Generated ${fmtDateTime(list.apiKeyGeneratedAt)}`;
               Chrome does not make one focusable on its own. It keeps its focus ring below. */}
           <pre class="bcn-lxp__preview" tabindex="0">{spec}</pre>
         </BcnKeyValue>
-      </div>
+      </div>}
     </div>
   </EsaCard>
 

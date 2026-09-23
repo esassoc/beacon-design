@@ -1,0 +1,188 @@
+---
+// <BcnListRequirementPanel> — one REQUIREMENT, read only, opened from a requirement row
+// in the list tree. Andy, 2026-09-23: "a read only view of the requirement. The panel
+// should have full text of the requirement, with key value pairs for the requirement as
+// appropriate, as well as links to the requirement detail page (a button in the footer)."
+//
+// A list cannot change what an obligation derives from, so there is nothing here to
+// edit and no control that takes a keystroke. The panel answers "what does this
+// requirement actually say" while the reader writes the obligation's list wording, and
+// hands off to the Data Catalog's requirement page for anything more.
+//
+// Top to bottom: the commitment it was carved from (code + title), the full source text,
+// then the requirement's own fields as key / value pairs — Type, Scope, Frequency,
+// Responsible party, Phases, Timing, Deliverable, and Species / Activities only when the
+// source names any. The heading is the requirement's name.
+//
+// DATA. The frontmatter blob carries every requirement an obligation derives from (or
+// the `ids` the page passes), keyed by requirement id — not just this list's — because a member added from the drawer in
+// the browser brings requirement rows no server render put on the page.
+//
+// Contract, on `document`:
+//   in   list:view-requirement   detail: requirement id
+//
+// bcn-lego-checked: the frame IS esa-side-dialog, the footer button IS esa-button, the
+// code IS bcn-commitment-badge, and the labels and quoted source text are the drawer's
+// own .bcn-swo-edit__label / __text from bcn-obligation-drawer.css. bcn-key-value was
+// tried and dropped: its 15px semibold tier outweighed the 12px label on the text above
+// it, the same inversion <BcnListObligationPanel> declined it for. The field rows use
+// that panel's read-only tier instead, so the two panels read as one family.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import { ITP, OBLIGATION_NODES, REQUIREMENT_TYPE_LABEL } from '../../data/setup-wizard';
+import { withBase } from '../../lib/base';
+import '../../styles/bcn-obligation-drawer.css';
+
+const FREQUENCY_LABEL: Record<string, string> = {
+  Onetime: 'One time',
+  Recurring: 'Recurring',
+  AsNeeded: 'As needed',
+  Ongoing: 'Ongoing',
+};
+
+interface Props {
+  /** The requirements this page can show. Defaults to every requirement an obligation
+      derives from; an action or commitment page passes its own reach. */
+  ids?: string[];
+}
+const used = new Set(Astro.props.ids ?? OBLIGATION_NODES.flatMap((o) => o.requirements.map((r) => r.id)));
+const records: Record<string, unknown> = {};
+for (const r of ITP.requirements) {
+  if (!used.has(r.id)) continue;
+  const freq = r.timing?.frequency ?? r.frequency ?? '';
+  records[r.id] = {
+    name: r.name,
+    code: r.commitment,
+    commitmentTitle: r.commitmentTitle,
+    text: r.text,
+    type: REQUIREMENT_TYPE_LABEL[r.type] ?? r.type,
+    scope: r.scope,
+    frequency: FREQUENCY_LABEL[freq] ?? freq,
+    responsible: r.responsibleParty ?? '',
+    phases: r.phases,
+    timing: r.timing?.stated || r.timing?.asNeeded?.trigger || '',
+    deliverable: r.deliverable ?? '',
+    species: r.species,
+    activities: r.activities,
+  };
+}
+const DATA = JSON.stringify({ records });
+// The Data Catalog has one requirement page in this prototype; the id rides the query
+// so the link reads the way prod's /requirements/:id will.
+const DETAIL_HREF = withBase('/prototypes/data-catalog-requirement');
+---
+
+<esa-side-dialog
+  id="lrq-panel"
+  heading="Requirement"
+  position="right"
+  show-close-button
+  style="--_width: min(640px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;"
+>
+  <div class="bcn-swo-edit bcn-lrq" data-list-req-panel data-lrq-data={DATA} data-lrq-href={DETAIL_HREF}>
+    <div class="bcn-lrq__source">
+      <span data-lrq-code><BcnCommitmentBadge code="COA" size="sm" /></span>
+      <span class="bcn-lrq__commitment" data-lrq="commitment"></span>
+    </div>
+
+    <div class="bcn-swo-edit__section">
+      <span class="bcn-swo-edit__label">Requirement text</span>
+      <blockquote class="bcn-swo-edit__text bcn-lrq__text" data-lrq="text"></blockquote>
+    </div>
+
+    <div class="bcn-lrq__grid">
+      <div data-lrq-kv="type"><span class="bcn-swo-edit__label">Type</span><span class="bcn-lrq__value"></span></div>
+      <div data-lrq-kv="scope"><span class="bcn-swo-edit__label">Scope</span><span class="bcn-lrq__value"></span></div>
+      <div data-lrq-kv="frequency"><span class="bcn-swo-edit__label">Frequency</span><span class="bcn-lrq__value"></span></div>
+      <div data-lrq-kv="responsible"><span class="bcn-swo-edit__label">Responsible party</span><span class="bcn-lrq__value"></span></div>
+      <div data-lrq-kv="phases" class="bcn-lrq__wide"><span class="bcn-swo-edit__label">Phases</span><span class="bcn-lrq__value"></span></div>
+      <div data-lrq-kv="timing" class="bcn-lrq__wide"><span class="bcn-swo-edit__label">Timing</span><span class="bcn-lrq__value"></span></div>
+      <div data-lrq-kv="deliverable" class="bcn-lrq__wide"><span class="bcn-swo-edit__label">Deliverable</span><span class="bcn-lrq__value"></span></div>
+      <div data-lrq-kv="species" class="bcn-lrq__wide" data-optional><span class="bcn-swo-edit__label">Species</span><span class="bcn-lrq__value"></span></div>
+      <div data-lrq-kv="activities" class="bcn-lrq__wide" data-optional><span class="bcn-swo-edit__label">Construction activities</span><span class="bcn-lrq__value"></span></div>
+    </div>
+  </div>
+
+  <span slot="footer" class="bcn-lrq__foot">
+    <EsaButton variant="ghost" size="sm" data-lrq-close>Close</EsaButton>
+    <EsaButton variant="primary" size="sm" href={DETAIL_HREF} iconRight="arrow-right" data-lrq-open>Open requirement</EsaButton>
+  </span>
+</esa-side-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+
+  interface Rec {
+    name: string; code: string; commitmentTitle: string; text: string;
+    type: string; scope: string; frequency: string; responsible: string;
+    phases: string[]; timing: string; deliverable: string; species: string[]; activities: string[];
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-list-req-panel]');
+  if (root) {
+    const dialog = document.querySelector<HTMLElement & { open: boolean; heading: string }>('#lrq-panel')!;
+    const { records } = JSON.parse(root.dataset.lrqData || '{"records":{}}') as { records: Record<string, Rec> };
+    const href = root.dataset.lrqHref ?? '';
+    const open = dialog.querySelector<HTMLAnchorElement>('[data-lrq-open] a, a[data-lrq-open]');
+    // The EN dash is this system's no-value mark.
+    const DASH = '–';
+    const put = (key: string, value: string) => {
+      const row = root.querySelector<HTMLElement>(`[data-lrq-kv="${key}"]`)!;
+      row.querySelector<HTMLElement>('.bcn-lrq__value')!.textContent = value || DASH;
+      // Species and activities are absent from most requirements; a row of dashes
+      // there is noise, so an optional field with nothing to say leaves.
+      row.hidden = row.hasAttribute('data-optional') && !value;
+    };
+
+    document.addEventListener('list:view-requirement', (e) => {
+      const id = (e as CustomEvent<string>).detail;
+      const r = records[id];
+      if (!r) return;
+      dialog.heading = r.name;
+      root.querySelector<HTMLElement>('[data-lrq-code] .bcn-cbadge')!.textContent = r.code;
+      root.querySelector<HTMLElement>('[data-lrq="commitment"]')!.textContent = r.commitmentTitle;
+      // The source breaks lines mid-sentence where the PDF did; paragraphs are the
+      // only breaks worth keeping.
+      root.querySelector<HTMLElement>('[data-lrq="text"]')!.textContent =
+        (r.text || '').replace(/([^\n])\n(?!\n)/g, '$1 ').trim() || DASH;
+      put('type', r.type);
+      put('scope', r.scope);
+      put('frequency', r.frequency);
+      put('responsible', r.responsible);
+      put('phases', r.phases.join(', '));
+      put('timing', r.timing.charAt(0).toUpperCase() + r.timing.slice(1));
+      put('deliverable', r.deliverable);
+      put('species', r.species.join(', '));
+      put('activities', r.activities.join(', '));
+      if (open) open.href = `${href}?id=${encodeURIComponent(id)}`;
+      dialog.open = true;
+    });
+
+    dialog.querySelector('[data-lrq-close]')?.addEventListener('click', () => { dialog.open = false; });
+  }
+</script>
+
+<style>
+  /* The frame, section rhythm and quoted text are the obligation drawer's, shared in
+     bcn-obligation-drawer.css. What is here is this panel's own composition. */
+  .bcn-lrq__source { display: flex; align-items: center; gap: var(--spacing-200); min-width: 0; }
+  .bcn-lrq__commitment { font-size: 0.8125rem; color: var(--color-content-default-secondary); min-width: 0; }
+
+  /* Full text, so no indent under a chevron that is not there, and paragraphs kept. */
+  .bcn-lrq__text { margin: 0; white-space: pre-line; }
+
+  /* The obligation panel's read-only tier: 12px drawer label, 13px value. */
+  .bcn-lrq__grid > div { display: flex; flex-direction: column; gap: var(--spacing-050); min-width: 0; }
+  .bcn-lrq__value { font-size: 0.8125rem; line-height: 1.5; color: var(--color-content-default); }
+
+  .bcn-lrq__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-300);
+  }
+  .bcn-lrq__wide { grid-column: 1 / -1; }
+  .bcn-lrq__grid > [hidden] { display: none; }
+  @media (max-width: 480px) { .bcn-lrq__grid { grid-template-columns: 1fr; } }
+
+  .bcn-lrq__foot { display: flex; justify-content: flex-end; gap: var(--spacing-200); inline-size: 100%; }
+</style>

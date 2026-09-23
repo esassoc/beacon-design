@@ -158,6 +158,15 @@ export function initEvidenceDrawer(): void {
   const targetsCount = drawer.querySelector<HTMLElement>('[data-targets-count]');
   const notice = drawer.querySelector<HTMLElement>('[data-targets-notice]');
 
+  // List mode (see openForList) — the column's alternate body and the footer status line.
+  const titleText = drawer.querySelector<HTMLElement>('[data-targets-title-text]');
+  const componentFilter = drawer.querySelector<HTMLElement>('[data-targets-component-filter]');
+  const listBody = drawer.querySelector<HTMLElement>('[data-targets-listmode]');
+  const listRows = drawer.querySelector<HTMLElement>('[data-listmode-rows]');
+  const leftOutLine = drawer.querySelector<HTMLElement>('[data-listmode-leftout]');
+  const leftOutText = drawer.querySelector<HTMLElement>('[data-listmode-leftout-text]');
+  const status = drawer.querySelector<HTMLElement>('[data-evidence-status]');
+
   // ── State ──
   let componentId = readActiveComponent();
   let phase: PhaseId | '' = '';
@@ -176,6 +185,19 @@ export function initEvidenceDrawer(): void {
       unsaved treatment: the row is gone, so without this the drawer would look settled
       while still holding a pending change. */
   const removed = new Set<string>();
+
+  /** LIST MODE: the drawer opened from a list page's "Add evidence". The targets are that
+      list's members — actions or obligations, whatever the list holds — rather than a
+      component's actions, and every staged piece of evidence goes to every member kept.
+      null is the ordinary, component-scoped drawer. */
+  let list: { one: string; many: string; members: { id: string; title: string; chip: string }[] } | null = null;
+  /** Members the user took out of THIS attach with the row's x. Restore empties it. */
+  const leftOut = new Set<string>();
+  const kept = () => (list ? list.members.filter((m) => !leftOut.has(m.id)) : []);
+  /** Evidence a list attach would carry: what is staged, plus the draft on the Add New tab.
+      In list mode the drawer's one Save commits the draft too — asking for a second,
+      inner save before the real one read as Save being broken. */
+  const listEvidenceCount = () => stagedIds.size + (draftFiles.length ? 1 : 0);
 
   /** Files sitting in the draft card on the Add New tab — ONE piece of evidence in the
       making, however many files it holds. */
@@ -488,7 +510,28 @@ export function initEvidenceDrawer(): void {
     setTabs();
   };
 
+  const renderList = (): void => {
+    drawer.toggleAttribute('data-evidence-mode', !!list);
+    if (list) drawer.dataset.evidenceMode = 'list';
+    if (listBody) listBody.hidden = !list;
+    if (titleText) titleText.textContent = list ? list.many[0].toUpperCase() + list.many.slice(1) : 'Actions';
+    // The one choice nothing can default: the ring stays until a component is picked.
+    componentFilter?.toggleAttribute('data-needs', !!list && !componentId);
+    if (!list) return;
+
+    const n = kept().length;
+    if (targetsCount) targetsCount.textContent = String(n);
+    const out = leftOut.size;
+    if (leftOutLine) leftOutLine.hidden = out === 0;
+    if (leftOutText) leftOutText.textContent = `${plural(out, list.one, list.many)} left out of this attach.`;
+    for (const row of listRows?.querySelectorAll<HTMLElement>('[data-listmode-target]') ?? []) {
+      row.hidden = leftOut.has(row.dataset.memberId ?? '');
+    }
+  };
+
   const renderTargets = (): void => {
+    if (list) return renderList();
+    renderList();
     const inScope = new Set(actionsIn(componentId, phase, type).map((a) => a.id));
     let shown = 0;
 
@@ -537,7 +580,19 @@ export function initEvidenceDrawer(): void {
       save, with the drawer still open and everything still on screen. The badge follows the
       same predicate, so the two can never disagree. */
   const renderCommit = (): void => {
-    const ready = hasUnsaved();
+    // List mode asks for three things, in the order the drawer lays them out; the footer
+    // names the first one still missing so a disabled Save is never a riddle.
+    const missing = !list ? ''
+      : !componentId ? 'Choose a component first'
+      : !listEvidenceCount() ? 'Add evidence to attach'
+      : !kept().length ? `Choose ${list.many} to attach to`
+      : '';
+    const ready = list ? !missing : hasUnsaved();
+    if (status) {
+      status.hidden = !list;
+      status.textContent = !list ? ''
+        : missing || `${plural(listEvidenceCount(), 'piece', 'pieces')} of evidence to ${plural(kept().length, list.one, list.many)}`;
+    }
     const btn = saveWrap?.querySelector<HTMLButtonElement>('button');
     if (btn) btn.disabled = !ready;
     // The look lives on the wrapper class, the state on the native button — both or neither.
@@ -798,8 +853,34 @@ export function initEvidenceDrawer(): void {
   };
 
   saveWrap?.addEventListener('click', () => {
+    if (list) return saveList();
     if (!hasUnsaved()) return;
     save();
+  });
+
+  /** A list attach is one shot: every staged piece of evidence onto every kept member,
+      announced for the list page to show, and the drawer closes. There is nothing left on
+      screen to keep working through, unlike the component drawer's save. */
+  const saveList = (): void => {
+    if (!list || !componentId || !listEvidenceCount() || !kept().length) return;
+    if (draftFiles.length) addDraft(); // the draft becomes a record, then rides along
+    document.dispatchEvent(
+      new CustomEvent('list:evidence-added', {
+        detail: { componentId, evidenceIds: [...stagedIds], memberIds: kept().map((m) => m.id) },
+      }),
+    );
+    drawer.close();
+  };
+
+  listRows?.addEventListener('click', (e) => {
+    const row = (e.target as HTMLElement).closest('[data-listmode-drop]')?.closest<HTMLElement>('[data-listmode-target]');
+    if (!row) return;
+    leftOut.add(row.dataset.memberId ?? '');
+    renderAll();
+  });
+  drawer.querySelector('[data-listmode-restore]')?.addEventListener('click', () => {
+    leftOut.clear();
+    renderAll();
   });
 
   confirmDialog?.addEventListener('cancel', () => {
@@ -989,6 +1070,8 @@ export function initEvidenceDrawer(): void {
   // ── Opening ──────────────────────────────────────────────────────────────
 
   const applyPreset = (id: string): void => {
+    list = null;
+    leftOut.clear();
     const preset = presetById(id);
     componentId = preset.componentId || readActiveComponent();
     writeActiveComponent(componentId);
@@ -1027,9 +1110,66 @@ export function initEvidenceDrawer(): void {
     }
 
     if (el.closest('[data-evidence-trigger]')) {
-      if (!stagedIds.size && !selectedActions.size) applyPreset('cold');
+      if (list || (!stagedIds.size && !selectedActions.size)) applyPreset('cold');
       drawer.show();
     }
+  });
+
+  /** Open for a list page. The page's master tree is read, not passed: it is the one
+      place that knows which members are still on the list. The component starts EMPTY on
+      purpose — a list crosses components, so no remembered one can be assumed. */
+  const openForList = (one: string, many: string): void => {
+    applyPreset('cold');
+    const cards = [...document.querySelectorAll<HTMLElement>('[data-list-cats] [data-list-card]:not([data-list-removed])')]
+      .filter((c, i, all) => c.dataset.memberId && all.findIndex((o) => o.dataset.memberId === c.dataset.memberId) === i);
+    const members = cards.map((c) => ({
+      id: c.dataset.memberId ?? '',
+      title: c.querySelector<HTMLElement>('[data-list-title]')?.dataset.listText ?? '',
+      chip: c.querySelector('[data-list-class-tag]')?.textContent?.trim() ?? '',
+    }));
+    list = { one, many, members };
+    componentId = '';
+    if (scopeSelect) scopeSelect.value = '';
+    // Each row is the page's own card, pared down: its summary line minus the disclosure
+    // chevron, the counts, the edited dot and every verb but remove — which now leaves
+    // the member out of this attach instead of off the list.
+    listRows?.replaceChildren(
+      ...cards.map((card) => {
+        const li = document.createElement('li');
+        li.className = 'bcn-loc';
+        li.dataset.class = card.dataset.class ?? '';
+        li.dataset.memberId = card.dataset.memberId ?? '';
+        li.setAttribute('data-listmode-target', '');
+        const main = document.createElement('div');
+        main.className = 'bcn-loc__main';
+        const summary = card.querySelector('summary.bcn-loc__main')?.cloneNode(true) as HTMLElement | undefined;
+        if (summary) main.append(...summary.childNodes);
+        main.querySelectorAll('.bcn-loc__chevron, [data-list-count], [data-list-edited]').forEach((n) => n.remove());
+        main.querySelectorAll('.bcn-loc__verb:not([data-list-remove])').forEach((v) => (v.closest('esa-tooltip') ?? v).remove());
+        const title = main.querySelector<HTMLElement>('[data-list-title]');
+        if (title?.tagName === 'BUTTON') {
+          const span = document.createElement('span');
+          span.className = title.className;
+          span.textContent = title.textContent;
+          title.replaceWith(span);
+        }
+        const drop = main.querySelector<HTMLElement>('[data-list-remove]');
+        if (drop) {
+          drop.removeAttribute('data-list-remove');
+          drop.setAttribute('data-listmode-drop', '');
+          drop.setAttribute('aria-label', `Leave ${title?.textContent ?? 'this'} out of this attach`);
+          drop.closest('esa-tooltip')?.setAttribute('text', 'Leave out of this attach');
+        }
+        li.append(main);
+        return li;
+      }),
+    );
+    renderAll();
+    drawer.show();
+  };
+  document.addEventListener('list:add-evidence', (e) => {
+    const d = (e as CustomEvent<{ one?: string; many?: string }>).detail ?? {};
+    openForList(d.one ?? 'item', d.many ?? 'items');
   });
 
   showPanel('upload');

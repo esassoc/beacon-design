@@ -5,8 +5,8 @@
  * commitments. A LIST is a named, ordered subset of one of them, kept so the
  * project can hand that subset to someone: a contractor at construction kickoff,
  * a biologist on a field form, a reviewer signing off a submittal. Beacon already
- * ships action lists and commitment lists; this module models all three under one
- * index, and models the obligation list in full because it is the one that has to
+ * ships action lists and commitment lists; this module models all three, and models
+ * the obligation list most fully because it is the one that has to
  * produce OUTPUT — a Word document, a CSV, and the field elements of a Fulcrum form.
  *
  * Two things a list owns that its registry does not, and they exist because the
@@ -25,12 +25,21 @@
  * authored anywhere but here.
  */
 import {
+  COMMITMENT_CHAIN,
+  ITP,
+  OBLIGATION_CLASS_LABEL,
   OBLIGATION_TREE,
+  REQUIREMENT_TYPE_LABEL,
   SETUP_STEPS,
   type ObligationClass,
   type ObligationNode,
+  type RequirementType,
   type SetupStepToken,
+  type WizardAction,
+  type WizardRequirement,
 } from './setup-wizard';
+import INDEX_MEMBERSHIPS from './compliance-index-memberships.json';
+import { implementationsOf, type ListImplementation } from './list-implementations';
 
 /* ── Types ──────────────────────────────────────────────────────────────── */
 
@@ -363,37 +372,218 @@ export const OBLIGATION_LISTS: ObligationList[] = [
   }),
 ];
 
+/* ── Action and commitment lists ─────────────────────────────────────────── */
+
 /**
- * Action and commitment lists carry no member model here: this prototype takes
- * them only as far as the index, where a list is its name, type and count. Their
- * detail pages are prod's, unchanged.
+ * Action and commitment lists hold registry records and nothing of their own: no list
+ * wording, no renames, no duplicates. Prod's action list is a grouping for the Tracker
+ * pages and its commitment list a grouping for review, so a member is a pointer and
+ * the list is the set of pointers.
+ *
+ * Members are resolved from the ITP fixture by a predicate per list, so every row on the
+ * detail page is a real action or commitment and `memberCount` is the resolved count —
+ * never a seeded number the page could disagree with.
  */
-const plainList = (l: Omit<ProjectList, 'description'> & { description?: string }): ProjectList => ({
-  description: '',
-  ...l,
+export interface ActionList extends ProjectList {
+  type: 'action';
+  /** ITP action ids, in the order the list holds them. */
+  actionIds: string[];
+}
+
+export interface CommitmentList extends ProjectList {
+  type: 'commitment';
+  /** Commitment codes ("COA 10.18"), in code order. */
+  codes: string[];
+}
+
+/**
+ * One member row as the generic list tree renders it. Actions and commitments both
+ * reduce to this; the obligation list keeps its own richer model above.
+ */
+export interface ListMemberRow {
+  /** Unique within the list. Actions and commitments cannot repeat, so it is the id. */
+  memberId: string;
+  /** The registry record: an action id, or a commitment code. */
+  id: string;
+  title: string;
+  /** The tinted chip before the title (an action's type). Absent on a commitment. */
+  chip?: { label: string; tone: string };
+  /** A commitment code shown on the row itself (commitment lists). */
+  code?: string;
+  /** The grouping the list's first view files it under (an action's type). */
+  groupId: string;
+  groupName: string;
+  /** The requirements behind the record, read only. `index` is where each one files in
+   *  the compliance index, "Category::Subcategory" (see `indexOf`). */
+  reqs: { id: string; code: string; name: string; index?: string[] }[];
+  /** An action's implementations, one per component, rendered as the card's children in
+   *  place of `reqs` (Andy, 2026-09-23). Absent on a commitment, which keeps its
+   *  requirements. `reqs` still rides along: the views file a card by them. */
+  impls?: ListImplementation[];
+  /** The source document a commitment comes from (commitment lists' Source filter). */
+  source?: string;
+}
+
+/** A group of candidates in an add drawer. */
+export interface MemberGroup {
+  id: string;
+  name: string;
+  items: ListMemberRow[];
+}
+
+const REQ_BY_ID = new Map(ITP.requirements.map((r) => [r.id, r]));
+
+/**
+ * The compliance index: where a requirement files, as "Category::Subcategory" pairs.
+ * Copied from Aldo's dcp-index run (data/runs/dcp-index/opus-memberships.json,
+ * 2026-09-21), which placed all 854 ITP requirements in the proposed index. A
+ * requirement can file in several places (the index of a book, not a folder), and an
+ * action files wherever its requirements do.
+ */
+export const indexOf = (reqId: string): string[] =>
+  (INDEX_MEMBERSHIPS as Record<string, string[]>)[reqId] ?? [];
+
+export const ACTION_BY_ID = new Map(ITP.actions.map((a) => [a.id, a]));
+
+/** Every commitment the fixture knows, code → title, in code order. */
+export const COMMITMENT_TITLES: Record<string, string> = Object.fromEntries(
+  COMMITMENT_CHAIN.map((c) => [c.code, c.title]),
+);
+
+const actionText = (a: WizardAction) => `${a.name} ${a.text} ${a.timing?.stated ?? ''}`;
+
+/** A list's member predicate. Evaluated once, at module load. */
+type ActionPick = (a: WizardAction) => boolean;
+
+const DESK_TYPES = new Set<RequirementType>(['Reporting', 'Plan', 'ApprovalAndConsultation', 'Financial', 'Analysis', 'Design', 'Other']);
+
+const actionList = (
+  l: Omit<ProjectList, 'type' | 'memberCount' | 'description'> & { description?: string; pick: ActionPick; limit?: number },
+): ActionList => {
+  const { pick, limit, ...rest } = l;
+  const hits = ITP.actions.filter(pick).sort((a, b) => a.name.localeCompare(b.name));
+  const actionIds = (limit === undefined ? hits : hits.slice(0, limit)).map((a) => a.id);
+  return { description: '', ...rest, type: 'action', actionIds, memberCount: actionIds.length };
+};
+
+export const ACTION_LISTS: ActionList[] = [
+  actionList({ id: 'annual-reporting', name: 'Annual Reporting', createdAt: '2026-03-04', updatedAt: '2026-08-28', description: 'Actions that feed the annual compliance report.',
+    pick: (a) => /annual/i.test(actionText(a)) && (a.type === 'Reporting' || a.type === 'Financial') }),
+  actionList({ id: 'construction-surveys-and-monitoring', name: 'Construction Surveys and Monitoring', createdAt: '2026-03-04', updatedAt: '2026-09-09',
+    pick: (a) => (a.type === 'Survey' || a.type === 'Monitoring') && /construction/i.test(actionText(a)) && !/pre-?construction/i.test(a.name) }),
+  actionList({ id: 'desktop-actions', name: 'Desktop Actions', createdAt: '2026-03-11', updatedAt: '2026-09-14', description: 'Everything completed off site, for the desk-based reviewers.',
+    pick: (a) => DESK_TYPES.has(a.type) }),
+  actionList({ id: 'fieldwork-actions', name: 'Fieldwork Actions', createdAt: '2026-03-11', updatedAt: '2026-09-14', description: 'Everything completed in the field, by crew.',
+    pick: (a) => !DESK_TYPES.has(a.type) }),
+  actionList({ id: 'mapping', name: 'Mapping', createdAt: '2026-04-02', updatedAt: '2026-07-22',
+    pick: (a) => /\bmap|GIS\b/i.test(a.name) }),
+  actionList({ id: 'monthly-reporting', name: 'Monthly Reporting', createdAt: '2026-03-04', updatedAt: '2026-08-28',
+    pick: (a) => /monthly/i.test(actionText(a)) }),
+  actionList({ id: 'preconstruction-surveys', name: 'Preconstruction Surveys', createdAt: '2026-03-18', updatedAt: '2026-09-10',
+    pick: (a) => a.type === 'Survey' && /pre-?construction|precon/i.test(actionText(a)) }),
+  actionList({ id: 'qualified-biologist-for-species', name: 'Qualified Biologist for Species', createdAt: '2026-04-15', updatedAt: '2026-08-20',
+    pick: (a) => /biologist/i.test(a.name), limit: 18 }),
+  actionList({ id: 'safety-plan-inclusion', name: 'Safety Plan Inclusion', createdAt: '2026-06-24', updatedAt: '2026-06-24',
+    pick: () => false }),
+  actionList({ id: 'survey-protocol-approval', name: 'Survey Protocol Approval', createdAt: '2026-04-15', updatedAt: '2026-07-30',
+    pick: (a) => /protocol/i.test(a.name) }),
+  actionList({ id: 'worker-awareness-training', name: 'Worker Awareness Training', createdAt: '2026-06-24', updatedAt: '2026-06-24',
+    pick: (a) => a.type === 'TrainingAndEducation' }),
+];
+
+const commitmentList = (
+  l: Omit<ProjectList, 'type' | 'memberCount' | 'description'> & { description?: string; pick: (code: string, title: string) => boolean },
+): CommitmentList => {
+  const { pick, ...rest } = l;
+  const codes = COMMITMENT_CHAIN.filter((c) => pick(c.code, c.title)).map((c) => c.code);
+  return { description: '', ...rest, type: 'commitment', codes, memberCount: codes.length };
+};
+
+// Drawn from the one permit the fixture holds, the CDFW ITP, so every row is a real
+// condition with its real requirements. The two seeds that named other permits (the
+// Biological Opinion, the 401) became ITP groupings with the same dates.
+export const COMMITMENT_LISTS: CommitmentList[] = [
+  commitmentList({ id: 'itp-2081-conditions', name: 'ITP 2081 Conditions', createdAt: '2026-02-19', updatedAt: '2026-09-08', description: 'Every condition of the incidental take permit, as issued.',
+    pick: () => true }),
+  commitmentList({ id: 'consultation-and-authorization', name: 'Consultation and Authorization', createdAt: '2026-02-19', updatedAt: '2026-08-14',
+    pick: (_c, t) => /consult|notif|authoriz|amend/i.test(t) }),
+  commitmentList({ id: 'fish-monitoring-studies', name: 'Fish Monitoring Studies', createdAt: '2026-05-06', updatedAt: '2026-09-02',
+    pick: (c) => /^COA 10\.(18|19|20|21)\b/.test(c) }),
+  commitmentList({ id: 'quarterly-agency-briefing', name: 'Quarterly Agency Briefing', createdAt: '2026-07-15', updatedAt: '2026-09-04', description: 'Read into the quarterly briefing deck for the resource agencies.',
+    pick: (_c, t) => /report/i.test(t) }),
+];
+
+/** An action as a member row. The group is its type, the chip says the same. */
+export const actionRow = (a: WizardAction): ListMemberRow => ({
+  memberId: a.id,
+  id: a.id,
+  title: a.name,
+  chip: { label: REQUIREMENT_TYPE_LABEL[a.type] ?? a.type, tone: 'action' },
+  groupId: a.type,
+  groupName: REQUIREMENT_TYPE_LABEL[a.type] ?? a.type,
+  reqs: a.requirementIds
+    .map((id) => REQ_BY_ID.get(id))
+    .filter((r): r is WizardRequirement => !!r)
+    .map((r) => ({ id: r.id, code: r.commitment, name: r.name, index: indexOf(r.id) })),
+  impls: implementationsOf(a.id),
 });
 
-export const ACTION_LISTS: ProjectList[] = [
-  { id: 'annual-reporting', name: 'Annual Reporting', memberCount: 5, createdAt: '2026-03-04', updatedAt: '2026-08-28', description: 'Actions that feed the annual compliance report.' },
-  { id: 'construction-surveys-and-monitoring', name: 'Construction Surveys and Monitoring', memberCount: 8, createdAt: '2026-03-04', updatedAt: '2026-09-09' },
-  { id: 'desktop-actions', name: 'Desktop Actions', memberCount: 102, createdAt: '2026-03-11', updatedAt: '2026-09-14', description: 'Everything completed off site, for the desk-based reviewers.' },
-  { id: 'fieldwork-actions', name: 'Fieldwork Actions', memberCount: 115, createdAt: '2026-03-11', updatedAt: '2026-09-14', description: 'Everything completed in the field, by crew.' },
-  { id: 'mapping', name: 'Mapping', memberCount: 5, createdAt: '2026-04-02', updatedAt: '2026-07-22' },
-  { id: 'monthly-reporting', name: 'Monthly Reporting', memberCount: 2, createdAt: '2026-03-04', updatedAt: '2026-08-28' },
-  { id: 'pipap-actions', name: 'PIPAP Actions', memberCount: 8, createdAt: '2026-05-13', updatedAt: '2026-09-03' },
-  { id: 'preconstruction-surveys', name: 'Preconstruction Surveys', memberCount: 27, createdAt: '2026-03-18', updatedAt: '2026-09-10' },
-  { id: 'qualified-biologist-for-species', name: 'Qualified Biologist for Species', memberCount: 18, createdAt: '2026-04-15', updatedAt: '2026-08-20' },
-  { id: 'safety-plan-inclusion', name: 'Safety Plan Inclusion', memberCount: 0, createdAt: '2026-06-24', updatedAt: '2026-06-24' },
-  { id: 'survey-protocol-approval', name: 'Survey Protocol Approval', memberCount: 2, createdAt: '2026-04-15', updatedAt: '2026-07-30' },
-  { id: 'worker-awareness-training', name: 'Worker Awareness Training', memberCount: 0, createdAt: '2026-06-24', updatedAt: '2026-06-24' },
-].map((l) => plainList({ ...l, type: 'action' }));
+/** A commitment as a member row: its code on the row, its requirements beneath. */
+export const commitmentRow = (code: string): ListMemberRow => {
+  const c = COMMITMENT_CHAIN.find((x) => x.code === code)!;
+  return {
+    memberId: code,
+    id: code,
+    title: c.title,
+    code,
+    groupId: sectionOf(code),
+    groupName: sectionOf(code),
+    reqs: c.requirements.map((r) => ({ id: r.id, code, name: r.name })),
+    source: SOURCE_DOCUMENT,
+  };
+};
 
-export const COMMITMENT_LISTS: ProjectList[] = [
-  { id: 'itp-2081-conditions', name: 'ITP 2081 Conditions', memberCount: 64, createdAt: '2026-02-19', updatedAt: '2026-09-08', description: 'Every condition of the incidental take permit, as issued.' },
-  { id: 'biological-opinion-terms', name: 'Biological Opinion Terms', memberCount: 31, createdAt: '2026-02-19', updatedAt: '2026-08-14' },
-  { id: 'section-401-certification', name: 'Section 401 Certification', memberCount: 12, createdAt: '2026-05-06', updatedAt: '2026-09-02' },
-  { id: 'quarterly-agency-briefing', name: 'Quarterly Agency Briefing', memberCount: 9, createdAt: '2026-07-15', updatedAt: '2026-09-04', description: 'Read into the quarterly briefing deck for the resource agencies.' },
-].map((l) => plainList({ ...l, type: 'commitment' }));
+/** "COA 10.18.1" → "COA 10": the permit section a commitment sits in. */
+export const sectionOf = (code: string): string => code.split('.')[0];
+
+/** A list's members, as the tree renders them. */
+export const listMemberRows = (list: ActionList | CommitmentList): ListMemberRow[] =>
+  list.type === 'action'
+    ? list.actionIds.map((id) => ACTION_BY_ID.get(id)).filter((a): a is WizardAction => !!a).map(actionRow)
+    : list.codes.map(commitmentRow);
+
+/** Group rows by their group, groups A-Z (actions) or in code order (commitments). */
+export const groupRows = (rows: ListMemberRow[], order: 'name' | 'code' = 'name'): MemberGroup[] => {
+  const groups = new Map<string, MemberGroup>();
+  for (const r of rows) {
+    const g = groups.get(r.groupId) ?? { id: r.groupId, name: r.groupName, items: [] };
+    g.items.push(r);
+    groups.set(r.groupId, g);
+  }
+  const out = [...groups.values()];
+  return order === 'code' ? out.sort((a, b) => compareCodes(a.id, b.id)) : out.sort((a, b) => a.name.localeCompare(b.name));
+};
+
+/** Registry records this list does NOT hold, grouped for the add drawer. */
+export const memberCandidates = (list: ActionList | CommitmentList): MemberGroup[] => {
+  if (list.type === 'action') {
+    const held = new Set(list.actionIds);
+    return groupRows(ITP.actions.filter((a) => !held.has(a.id)).sort((a, b) => a.name.localeCompare(b.name)).map(actionRow));
+  }
+  const held = new Set(list.codes);
+  return groupRows(COMMITMENT_CHAIN.filter((c) => !held.has(c.code)).map((c) => commitmentRow(c.code)), 'code');
+};
+
+/** "COA 4" before "COA 10.18": compare the numeric runs, not the strings. */
+export const compareCodes = (a: string, b: string): number => {
+  const ka = (a.match(/\d+/g) ?? []).map(Number);
+  const kb = (b.match(/\d+/g) ?? []).map(Number);
+  for (let i = 0; i < Math.max(ka.length, kb.length); i++) {
+    const d = (ka[i] ?? -1) - (kb[i] ?? -1);
+    if (d) return d;
+  }
+  return a.localeCompare(b);
+};
 
 /** Every list on the project, the way the index reads it: newest change first. */
 export const PROJECT_LISTS: ProjectList[] = [...ACTION_LISTS, ...OBLIGATION_LISTS, ...COMMITMENT_LISTS].sort(
@@ -552,6 +742,118 @@ export function candidateTree(list: ObligationList): { id: string; name: string;
       .filter((s) => s.obligations.length > 0),
   })).filter((c) => c.subcategories.length > 0);
 }
+
+/* ── Add-drawer facets ─────────────────────────────────────────────────── */
+
+/**
+ * The values an add drawer can filter its candidates by (Andy, 2026-09-23). Some are
+ * read off the requirements behind a record: the permit SECTION it answers to, the
+ * PHASES and the SPECIES those requirements name. The rest are the record's own
+ * fields. LIST_FACETS picks which a drawer shows. Resource Category and Tags have no
+ * data in the fixture.
+ */
+export type FacetKey = 'source' | 'commitment' | 'phase' | 'species' | 'category' | 'class' | 'type' | 'frequency' | 'deliverable';
+export type FacetValues = Partial<Record<FacetKey, string[]>>;
+export interface Facet {
+  key: FacetKey;
+  label: string;
+  options: { label: string; value: string }[];
+}
+
+export const FREQUENCY_LABEL: Record<string, string> = { Onetime: 'One time', Recurring: 'Recurring', AsNeeded: 'As needed', Ongoing: 'Ongoing' };
+export const DELIVERABLE_LABEL: Record<string, string> = {
+  plan: 'Plan', report: 'Report', survey: 'Survey', notification: 'Notification', training: 'Training',
+  payment: 'Payment', installation: 'Installation', approval: 'Approval', other: 'Other',
+};
+const PHASE_ORDER = ['Implementation Planning', 'Pre-Construction', 'Construction', 'Operations', 'Maintenance', 'Post-Construction'];
+const uniq = (xs: (string | null | undefined)[]) => [...new Set(xs.filter((x): x is string => !!x))];
+// The permit spells a species both ways ("California Tiger Salamander", "…tiger
+// salamander"); one key per species, lowercased, and the picker capitalizes it.
+const speciesKey = (x: string) => x.trim().toLowerCase();
+
+/** Section, phases and species of a set of ITP requirements. */
+const reqFacets = (reqIds: string[]): FacetValues => {
+  const reqs = reqIds.map((id) => REQ_BY_ID.get(id)).filter((r): r is WizardRequirement => !!r);
+  return {
+    commitment: uniq(reqs.map((r) => sectionOf(r.commitment))),
+    phase: uniq(reqs.flatMap((r) => r.phases)),
+    species: uniq(reqs.flatMap((r) => r.species).map(speciesKey)),
+  };
+};
+
+/** The species an action answers to: the union of its requirements' species. */
+export const actionSpecies = (a: WizardAction): string[] => reqFacets(a.requirementIds).species!.sort();
+
+export const actionFacets = (a: WizardAction): FacetValues => ({
+  ...reqFacets(a.requirementIds),
+  type: [a.type],
+  frequency: uniq([a.timing?.frequency]),
+  deliverable: uniq([a.deliverableType]),
+});
+
+export const commitmentFacets = (code: string): FacetValues => {
+  const c = COMMITMENT_CHAIN.find((x) => x.code === code);
+  return { ...reqFacets(c?.requirements.map((r) => r.id) ?? []), commitment: [sectionOf(code)], source: [SOURCE_DOCUMENT] };
+};
+
+export const obligationFacets = (o: ObligationNode, catId: string): FacetValues => ({
+  commitment: uniq(o.requirements.map((r) => sectionOf(r.code))),
+  phase: uniq(o.phases),
+  species: uniq(o.species.map(speciesKey)),
+  category: [catId],
+  class: [o.class],
+});
+
+/** A record's facets as the data attributes an option row carries. */
+export const facetAttrs = (v: FacetValues): Record<string, string> =>
+  Object.fromEntries(Object.entries(v).map(([k, xs]) => [`data-f-${k}`, (xs ?? []).join('|')]));
+
+/** Every commitment in the fixture is carved from the one ITP (global-search.ts names it
+ *  the same way). A second source document is a second value here. */
+export const SOURCE_DOCUMENT = 'Incidental Take Permit (ITP) 2081';
+
+const facetLabel = (key: FacetKey, value: string): string => {
+  switch (key) {
+    case 'source': return value;
+    case 'commitment': return COMMITMENT_TITLES[value] ? `${value} · ${COMMITMENT_TITLES[value]}` : value;
+    case 'category': return OBLIGATION_TREE.find((c) => c.id === value)?.name ?? value;
+    case 'class': return OBLIGATION_CLASS_LABEL[value as ObligationClass] ?? value;
+    case 'type': return REQUIREMENT_TYPE_LABEL[value as RequirementType] ?? value;
+    case 'frequency': return FREQUENCY_LABEL[value] ?? value;
+    case 'deliverable': return DELIVERABLE_LABEL[value] ?? value;
+    // Species arrive as written in the permit ("black bass"); a picker capitalizes.
+    default: return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+};
+const facetSort = (key: FacetKey) => (a: string, b: string) =>
+  key === 'commitment' ? compareCodes(a, b)
+  : key === 'phase' ? PHASE_ORDER.indexOf(a) - PHASE_ORDER.indexOf(b)
+  : facetLabel(key, a).localeCompare(facetLabel(key, b));
+
+/** The pickers for a drawer: only values some candidate actually has. */
+export const buildFacets = (keys: [FacetKey, string][], values: FacetValues[]): Facet[] =>
+  keys
+    .map(([key, label]) => ({
+      key,
+      label,
+      options: uniq(values.flatMap((v) => v[key] ?? [])).sort(facetSort(key)).map((value) => ({ value, label: facetLabel(key, value) })),
+    }))
+    // A one-option picker filters nothing, so it is dropped — except Source Document,
+    // which Andy asked for by name (2026-09-23): this project has one permit today, and
+    // the picker should already be where a second one will land.
+    .filter((f) => f.options.length > 1 || f.key === 'source');
+
+/**
+ * Which pickers each drawer shows (Andy, 2026-09-23). No list type filters by
+ * commitment: that picker named the same records the checkboxes do. Phase and Species
+ * are requirement fields, so a commitment list, whose rows are commitments, filters by
+ * the document they come from instead. Deliverable is gone from actions.
+ */
+export const LIST_FACETS: Record<ListType, [FacetKey, string][]> = {
+  commitment: [['source', 'Source Document']],
+  action: [['phase', 'Phase'], ['species', 'Species'], ['type', 'Type'], ['frequency', 'Frequency']],
+  obligation: [['phase', 'Phase'], ['species', 'Species'], ['category', 'Category'], ['class', 'Class']],
+};
 
 /* ── Form-field export ──────────────────────────────────────────────────── */
 

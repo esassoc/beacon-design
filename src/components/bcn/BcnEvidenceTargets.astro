@@ -73,7 +73,7 @@ import { scopeIcon } from '../../data/global-search';
   <header class="bcn-ev-targets__head">
     <h3 class="bcn-ev-targets__title" id="bcn-ev-targets-title">
       <EsaIcon name="radar" paths={scopeIcon('actions')} size="sm" />
-      Actions
+      <span data-targets-title-text>Actions</span>
       <span class="bcn-ev-targets__count" data-targets-count aria-hidden="true"></span>
     </h3>
   </header>
@@ -85,7 +85,7 @@ import { scopeIcon } from '../../data/global-search';
        else. Component and Phase are the dimensions the Setup Wizard's Actions step filters
        on; all three are guarded while associations are unsaved (see evidence-drawer.ts). -->
   <div class="bcn-ev-targets__filters">
-    <span class="bcn-ev-targets__filter">
+    <span class="bcn-ev-targets__filter" data-targets-component-filter>
       <span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-component">Component</span>
       <esa-select
         data-evidence-component
@@ -93,17 +93,17 @@ import { scopeIcon } from '../../data/global-search';
         searchable
         aria-labelledby="bcn-ev-flabel-component"></esa-select>
     </span>
-    <span class="bcn-ev-targets__filter">
+    <span class="bcn-ev-targets__filter" data-targets-scope-only>
       <span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-phase">Phase</span>
       <esa-select data-targets-phase size="sm" aria-labelledby="bcn-ev-flabel-phase"></esa-select>
     </span>
-    <span class="bcn-ev-targets__filter">
+    <span class="bcn-ev-targets__filter" data-targets-scope-only>
       <span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-type">Type</span>
       <esa-select data-targets-type size="sm" aria-labelledby="bcn-ev-flabel-type"></esa-select>
     </span>
   </div>
 
-  <div class="bcn-ev-targets__search">
+  <div class="bcn-ev-targets__search" data-targets-scope-only>
     <BcnEvidenceSearch
       hook="targets"
       label="Search actions in this component"
@@ -224,6 +224,20 @@ import { scopeIcon } from '../../data/global-search';
       </li>
     </template>
 
+    <!-- LIST MODE (a list page's "Add evidence", see evidence-drawer.ts): the column
+         holds that list's members instead of a component's actions. Every member is a
+         target by default; the x leaves one out of this attach, and Restore brings the
+         left-out back. Each row is the list page's OWN slim card (.bcn-loc, from
+         bcn-obligation-card.css) cloned off its master tree and pared to chip, title and
+         the remove verb, so the drawer shows the member exactly as the page does. -->
+    <div class="bcn-ev-targets__listmode" data-targets-listmode hidden>
+      <p class="bcn-ev-targets__leftout typography-body-sm" data-listmode-leftout hidden>
+        <span data-listmode-leftout-text></span>
+        <button type="button" class="bcn-ev-targets__restore" data-listmode-restore>Restore</button>
+      </p>
+      <ul class="bcn-ev-targets__list" data-listmode-rows></ul>
+    </div>
+
     <!-- Nothing on the list yet. -->
     <div class="bcn-ev-targets__empty" data-targets-empty>
       <EsaEmptyState
@@ -309,6 +323,51 @@ import { scopeIcon } from '../../data/global-search';
     gap: var(--spacing-200);
     min-width: 0;
   }
+  /* LIST MODE (evidence-drawer.ts sets data-evidence-mode="list" on the drawer). The
+     column holds a list's members, so the component-scoped controls and rows step out;
+     the component select stays, because the join still needs one. Until it has one, the
+     field wears the brand ring: the one thing standing between the user and Save. The
+     brand token, not brand-muted, which theme-beacon.css repaints as pale teal-100. */
+  :global([data-evidence-mode='list']) [data-targets-scope-only],
+  :global([data-evidence-mode='list']) [data-target-row],
+  :global([data-evidence-mode='list']) [data-targets-empty],
+  :global([data-evidence-mode='list']) [data-targets-pending],
+  :global([data-evidence-mode='list']) [data-targets-notice] { display: none !important; }
+  .bcn-ev-targets__listmode[hidden],
+  .bcn-ev-targets__leftout[hidden] { display: none; }
+  .bcn-ev-targets__listmode { display: grid; gap: var(--spacing-300); }
+  /* The cloned page cards: the page's own spacing, and no disclosure cursor — here the
+     row is not a disclosure, only its x does anything. */
+  .bcn-ev-targets__listmode [data-listmode-rows] { display: grid; gap: var(--spacing-150); margin: 0; padding: 0; }
+  .bcn-ev-targets__listmode :global(.bcn-loc__main) { cursor: default; }
+  .bcn-ev-targets__listmode :global(.bcn-loc__title) { cursor: inherit; text-decoration: none; }
+  /* The page's count badge is what pushes its verbs right; with the count pared off,
+     the remaining verb takes the slack itself. */
+  .bcn-ev-targets__listmode :global(.bcn-loc__main > :last-child) { margin-left: auto; }
+  .bcn-ev-targets__leftout {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-ev-targets__restore {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-brand, var(--color-background-brand));
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .bcn-ev-targets__filter[data-needs] esa-select {
+    border-radius: var(--radius-md, 6px);
+    box-shadow:
+      0 0 0 1px var(--color-background-brand),
+      0 0 0 4px color-mix(in srgb, var(--color-background-brand) 20%, transparent);
+  }
+  .bcn-ev-targets__filter[data-needs] .bcn-ev-targets__flabel { color: var(--color-background-brand); }
   .bcn-ev-targets__flabel {
     flex: none;
     /* 13px is a DELIBERATE hard-code, not a missing token: the scale steps 14px

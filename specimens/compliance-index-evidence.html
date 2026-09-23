@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beacon Evidence of Compliance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Besley:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══ Tokens (Beacon dark) ═══ */
+:root{
+  --bcn-teal-900:#005862; --bcn-teal-800:#0a6562; --bcn-teal-600:#0e807b; --bcn-teal-500:#00918b; --bcn-teal-200:#b9d6d2;
+  --color-source:#003f5c; --color-commitment:#58508d; --color-requirement:#a05195; --color-action:#d45087; --color-obligation:#f95d6a;
+  --color-ai:#699cc6;
+  --source-lit:#4b8fbd;
+  --bg:#07151a; --surface:#0c1f25; --surface-2:#112a31; --line:rgba(185,214,210,.14); --line-strong:rgba(185,214,210,.28);
+  --ink:#e8f0ef; --ink-2:#a9bfbc; --ink-dim:#6f8886;
+  --font-sans:"DM Sans",system-ui,sans-serif; --font-serif:"Besley",Georgia,serif; --font-mono:"Roboto Mono",ui-monospace,monospace;
+  --radius:6px; --radius-sm:4px;
+  --stage-w:1600; --stage-h:1000;
+}
+/* ═══ Reset ═══ */
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+/* ═══ Stage ═══ */
+.viewport{position:fixed;inset:0;display:grid;place-items:center}
+.stage{position:relative;width:calc(var(--stage-w) * 1px);height:calc(var(--stage-h) * 1px);transform-origin:center center;flex:none}
+.stage > *{position:absolute}
+svg.wires{inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+svg.wires path{fill:none;stroke-width:1.5;stroke-linecap:round}
+/* ═══ Header ═══ */
+.brand{left:60px;top:44px;display:flex;align-items:center;gap:12px}
+.brand svg{width:22px;height:34px}
+.brand .word{font-weight:600;font-size:18px;letter-spacing:.01em}
+.brand .step{font-size:16px;color:var(--ink-2);padding-left:12px;border-left:1px solid var(--line-strong)}
+.col-label{top:104px;display:flex;align-items:center;gap:8px;font-size:16px;font-weight:500;color:var(--ink-2);opacity:0}
+.col-label .dot{width:10px;height:10px;border-radius:50%;background:var(--c)}
+/* ═══ Sources ═══ */
+.src{width:300px;height:100px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:11px 14px 12px;opacity:0}
+.src .kind{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:13px;color:var(--ink-dim);line-height:18px}
+.src .kind i{width:8px;height:8px;border-radius:50%;background:var(--source-lit);display:inline-block}
+.src .kind .date{margin-left:auto}
+.src .title{font-size:16px;font-weight:600;line-height:1.25;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.src .lines{margin-top:9px;display:grid;gap:6px}
+.src .ln{height:6px;border-radius:3px;background:rgba(185,214,210,.16)}
+/* ═══ Evidence records ═══ */
+.rec{width:300px;height:56px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:5px 12px;display:flex;gap:10px;align-items:center;opacity:0}
+.rec .swatch{flex:none;width:8px;height:8px;border-radius:50%;background:var(--color-ai)}
+.rec .text{font-size:16px;line-height:1.25;color:var(--ink)}
+.token{width:12px;height:12px;border-radius:50%;background:var(--color-ai);box-shadow:0 0 12px rgba(105,156,198,.85);opacity:0}
+/* ═══ Compliance Index ═══ */
+.index{left:880px;top:142px;width:680px;height:798px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 18px 12px;opacity:0}
+.index .head{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.index .head .name{font-family:var(--font-serif);font-size:20px;font-weight:500}
+.approve{font:inherit;font-size:15px;font-weight:600;color:var(--ink-dim);background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:6px 14px;display:flex;align-items:center;gap:8px}
+.approve svg{width:14px;height:14px;display:none}
+.approve .n{font-family:var(--font-mono);font-size:13px;line-height:18px;min-width:22px;padding:0 6px;border-radius:9px;background:rgba(105,156,198,.18);color:var(--color-ai)}
+.approve.ready{color:#fff;background:var(--bcn-teal-500);border-color:var(--bcn-teal-500)}
+.approve.ready .n{background:rgba(255,255,255,.18);color:#fff}
+.approve.done{color:var(--bg);background:var(--bcn-teal-200);border-color:var(--bcn-teal-200)}
+.approve.done svg{display:block}
+.approve.done .n{display:none}
+.tree{padding-top:4px}
+.cat{margin-top:4px}
+.cat .cat-head{display:flex;align-items:center;gap:10px;height:28px;font-size:17px;font-weight:600;color:var(--ink)}
+.cat .lock{width:14px;height:14px;margin-left:auto;color:var(--bcn-teal-200)}
+.sub .sub-head{display:flex;align-items:center;gap:8px;height:24px;padding-left:18px;font-size:16px;font-weight:500;color:var(--ink-2)}
+.sub .count{font-family:var(--font-mono);font-size:13px;color:var(--ink-dim);background:var(--surface-2);border-radius:10px;padding:0 8px;line-height:18px;min-width:22px;text-align:center}
+.entry{position:relative;height:22px;padding:0 6px 0 34px;margin:0 -6px;border-radius:var(--radius-sm);display:flex;align-items:center;gap:8px}
+.entry .badge{flex:none;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--bg);border-radius:var(--radius-sm);padding:0 7px;line-height:18px;white-space:nowrap}
+.entry.action .badge{background:var(--color-action)}
+.entry.obligation .badge{background:var(--color-obligation)}
+.entry .text{font-size:16px;line-height:1.25;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.entry .ev{margin-left:auto;flex:none;font-family:var(--font-mono);font-size:13px;line-height:18px;min-width:26px;text-align:center;padding:0 7px;border-radius:10px;border:1px solid var(--color-ai);color:var(--color-ai);opacity:0}
+.entry .ev.on{opacity:1}
+.entry .ev.ok{background:var(--bcn-teal-200);border-color:var(--bcn-teal-200);color:var(--bg)}
+.sweep{left:0;top:0;width:100%;height:56px;background:linear-gradient(180deg,rgba(0,145,139,0) 0%,rgba(0,145,139,.28) 55%,rgba(0,145,139,0) 100%);opacity:0;pointer-events:none}
+.index .sweep{position:absolute}
+.legend{right:40px;top:104px;display:flex;gap:18px;align-items:center;font-size:16px;color:var(--ink-2);opacity:0}
+.legend .k{display:flex;align-items:center;gap:7px}
+.legend .k i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.legend .k i.ring{border-radius:50%;border:2px solid var(--color-ai)}
+.legend .k i.ok{border-radius:50%;background:var(--bcn-teal-200)}
+</style>
+</head>
+<body>
+<div class="viewport">
+<div class="stage" id="stage">
+  <svg class="wires" id="wires"></svg>
+
+  <!-- ═══ Header ═══ -->
+  <div class="brand">
+    <svg viewBox="18 14.67 32.56 48.66" aria-hidden="true">
+      <path fill="#00918b" d="M47.62,48.82v5.47l2.92,1.14v-6.62c0-4.05-1.21-7.96-3.49-11.3-2.28-3.35-5.48-5.89-9.25-7.37l-7.75-3.04v3.13l6.69,2.62c6.61,2.59,10.89,8.85,10.89,15.96Z"/>
+      <path fill="#b9d6d2" d="M46.99,58.05h0s-15.72-6.15-15.72-6.15c-.05-.02-.09-.04-.13-.06l-.19-.07h0c-2.72-1.22-4.47-3.87-4.47-6.88v-2.62h0V14.67h0c-1.61,0-2.92,1.31-2.92,2.92v27.31c0,4.33,2.61,8.15,6.64,9.72l16.78,6.57c1.4.55,2.92-.49,2.92-1.99h0s-2.92-1.14-2.92-1.14Z"/>
+      <path fill="#b9d6d2" d="M38.04,60.68c-.59,1.5-2.28,2.24-3.78,1.65l-6.17-2.42c-6.13-2.4-10.09-8.21-10.09-14.8v-22.18c0-1.61,1.31-2.92,2.92-2.92h0v25.09c0,5.37,3.23,10.12,8.24,12.08l8.89,3.49h0Z"/>
+      <path fill="#00918b" d="M42.04,49.48v2.56l2.92,1.14v-3.7c0-6.57-3.95-12.37-10.07-14.78l-4.85-1.91v3.14l3.78,1.49c4.99,1.96,8.22,6.7,8.22,12.06Z"/>
+      <path fill="#00918b" d="M36.45,49.84l2.93,1.15v-.7c0-4.97-2.98-9.35-7.6-11.17l-1.74-.68v3.14l.67.26c3.36,1.32,5.57,4.43,5.74,8.01Z"/>
+    </svg>
+    <span class="word">Beacon</span>
+    <span class="step">Evidence of Compliance</span>
+  </div>
+
+  <div class="col-label" style="left:60px;--c:var(--source-lit)"><span class="dot"></span>Sources</div>
+  <div class="col-label" style="left:440px;--c:var(--color-ai)"><span class="dot"></span>Evidence records</div>
+  <div class="col-label" style="left:880px;--c:var(--bcn-teal-500)"><span class="dot"></span>Compliance Index</div>
+
+  <!-- ═══ Compliance Index ═══ -->
+  <div class="index" id="index">
+    <div class="head">
+      <span class="name">Compliance Index</span>
+      <button class="approve" id="approve" type="button" tabindex="-1">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="approve-label">Approve all</span>
+        <span class="n" id="approve-n">0</span>
+      </button>
+    </div>
+    <div class="tree" id="tree"></div>
+    <div class="sweep" id="sweep"></div>
+  </div>
+
+  <div class="legend" id="legend">
+    <span class="k"><i style="background:var(--color-action)"></i>Action</span>
+    <span class="k"><i style="background:var(--color-obligation)"></i>Obligation</span>
+    <span class="k"><i class="ring"></i>Proposed</span>
+    <span class="k"><i class="ok"></i>Approved</span>
+  </div>
+</div>
+</div>
+
+<script>
+(function () {
+  /* ═══ Content ═══ */
+  const REQS = [
+    { id: 'r1',  text: 'Vehicle speed 15 mph on unpaved roads',          bins: ['speed', 'dust'],    kind: 'obligation' },
+    { id: 'r2',  text: 'Water exposed surfaces twice daily',             bins: ['dust'],             kind: 'obligation' },
+    { id: 'r3',  text: 'Fugitive dust control plan before disturbance',  bins: ['dust'],             kind: 'action' },
+    { id: 'r4',  text: 'Exclusion fencing before ground disturbance',    bins: ['ggs'],              kind: 'action' },
+    { id: 'r5',  text: 'Biologist survey within 24 hours of work',       bins: ['ggs'],              kind: 'obligation' },
+    { id: 'r6',  text: 'Nesting bird survey within 7 days of start',     bins: ['birds'],            kind: 'obligation' },
+    { id: 'r7',  text: '250 ft buffer around active nests',              bins: ['birds'],            kind: 'obligation' },
+    { id: 'r12', text: 'In-water work June 1 through October 31',        bins: ['window'],           kind: 'obligation' },
+    { id: 'r13', text: 'Notify NMFS 14 days before in-water work',       bins: ['window', 'notify'], kind: 'action' },
+    { id: 'r8',  text: 'Tier 4 Final engines on off-road equipment',     bins: ['emissions'],        kind: 'obligation' },
+    { id: 'r9',  text: 'Limit equipment idling to 5 minutes',            bins: ['emissions'],        kind: 'obligation' },
+    { id: 'r10', text: 'Silt fence at all drainage inlets',              bins: ['stormwater'],       kind: 'action' },
+    { id: 'r11', text: 'Weekly turbidity monitoring during work',        bins: ['turbidity'],        kind: 'obligation' },
+  ];
+  const TAXONOMY = [
+    { name: 'Air Quality',          subs: [{ id: 'dust', name: 'Fugitive Dust' }, { id: 'emissions', name: 'Equipment Emissions' }] },
+    { name: 'Biological Resources', subs: [{ id: 'ggs', name: 'Giant Garter Snake' }, { id: 'birds', name: 'Nesting Birds' }] },
+    { name: 'Water Quality',        subs: [{ id: 'stormwater', name: 'Stormwater' }, { id: 'turbidity', name: 'Turbidity' }] },
+    { name: 'Traffic and Access',   subs: [{ id: 'speed', name: 'Vehicle Speed' }] },
+    { name: 'Agency Coordination',  subs: [{ id: 'window', name: 'Work Windows' }, { id: 'notify', name: 'Notifications' }] },
+  ];
+  const SOURCES = [
+    { id: 's1', kind: 'Monitoring report', title: 'Daily Monitoring Report'          , date: 'Sep 18' },
+    { id: 's2', kind: 'Field survey',      title: 'Nesting Bird Survey',                    date: 'Sep 17' },
+    { id: 's3', kind: 'Field survey',      title: 'Giant Garter Snake Survey',              date: 'Sep 16' },
+    { id: 's4', kind: 'Monitoring data',   title: 'Turbidity Monitoring Log',               date: 'Sep 20' },
+    { id: 's5', kind: 'Upload',            title: 'Fugitive Dust Control Plan, Rev 2',      date: 'Sep 19' },
+    { id: 's6', kind: 'Upload',            title: 'Tier 4 Engine Certificates',             date: 'Sep 19' },
+    { id: 's7', kind: 'Upload',            title: 'NMFS In-Water Work Notification',        date: 'Sep 10' },
+  ];
+  const RECORDS = [
+    { id: 'o1',  s: 's1', line: 0, text: 'Trucks moving fast, visible dust on haul road', to: ['r1', 'r2'] },
+    { id: 'o2',  s: 's1', line: 1, text: 'Silt fence intact at all drainage inlets',      to: ['r10'] },
+    { id: 'o3',  s: 's1', line: 2, text: 'Equipment idling over 5 minutes at laydown',    to: ['r9'] },
+    { id: 'o4',  s: 's2', line: 0, text: 'Survey complete, 2 active nests found',         to: ['r6'] },
+    { id: 'o5',  s: 's2', line: 2, text: '250 ft buffer flagged at kestrel nest',           to: ['r7'] },
+    { id: 'o6',  s: 's3', line: 0, text: 'Survey within 24 hours, no snakes observed',    to: ['r5'] },
+    { id: 'o7',  s: 's3', line: 2, text: 'Exclusion fence inspected, intact',             to: ['r4'] },
+    { id: 'o8',  s: 's4', line: 1, text: 'Weekly readings, 4 stations, within limits',    to: ['r11'] },
+    { id: 'o9',  s: 's5', line: 0, text: 'Dust control plan with watering schedule',      to: ['r3', 'r2'] },
+    { id: 'o10', s: 's6', line: 1, text: 'Tier 4 Final certificates, 12 units',           to: ['r8'] },
+    { id: 'o11', s: 's7', line: 0, text: 'Notification letter to NMFS, Sep 10',           to: ['r13', 'r12'] },
+  ];
+
+  /* ═══ Layout constants (stage coordinates) ═══ */
+  const STAGE_W = 1600, STAGE_H = 1000;
+  const COL = { src: 60, rec: 440, idx: 880 };
+  const SRC_W = 300, REC_W = 300;
+  const TOP = 142;
+  const SRC_H = 100, SRC_GAP = 14;
+  const REC_H = 56, REC_GAP = 8;
+  const LINE_WIDTHS = [[92, 70, 84], [78, 90, 62], [84, 66, 88], [70, 92, 76], [88, 74, 80], [76, 86, 64], [90, 72, 82]];
+
+  const stage = document.getElementById('stage');
+  const wires = document.getElementById('wires');
+  const tree = document.getElementById('tree');
+  const index = document.getElementById('index');
+  const approve = document.getElementById('approve');
+  const approveLabel = document.getElementById('approve-label');
+  const approveN = document.getElementById('approve-n');
+  const sweep = document.getElementById('sweep');
+  const legend = document.getElementById('legend');
+  const colLabels = Array.from(document.querySelectorAll('.col-label'));
+
+  const el = (cls, html, style) => {
+    const d = document.createElement('div');
+    d.className = cls;
+    if (html) d.innerHTML = html;
+    if (style) Object.assign(d.style, style);
+    return d;
+  };
+  const pos = node => {
+    const r = node.getBoundingClientRect(), s = stage.getBoundingClientRect(), k = s.width / STAGE_W;
+    return { x: (r.left - s.left) / k, y: (r.top - s.top) / k, w: r.width / k, h: r.height / k };
+  };
+
+  /* ═══ Build: sources ═══ */
+  const srcEls = {}, srcLineEls = {};
+  SOURCES.forEach((s, i) => {
+    const y = TOP + i * (SRC_H + SRC_GAP);
+    const node = el('src', `<div class="kind"><i></i><span>${s.kind}</span><span class="date">${s.date}</span></div><div class="title">${s.title}</div><div class="lines"></div>`, { left: COL.src + 'px', top: y + 'px' });
+    const lines = node.querySelector('.lines');
+    srcLineEls[s.id] = [];
+    LINE_WIDTHS[i].forEach(w => { const ln = el('ln', '', { width: w + '%' }); lines.appendChild(ln); srcLineEls[s.id].push(ln); });
+    s.y = y; srcEls[s.id] = node; stage.appendChild(node);
+  });
+
+  /* ═══ Build: evidence records ═══ */
+  const recEls = {};
+  RECORDS.forEach((r, i) => {
+    const y = TOP + i * (REC_H + REC_GAP);
+    const node = el('rec', `<span class="swatch"></span><span class="text">${r.text}</span>`, { left: COL.rec + 'px', top: y + 'px' });
+    r.y = y; recEls[r.id] = node; stage.appendChild(node);
+  });
+
+  /* ═══ Build: index tree (already approved) ═══ */
+  const entryEls = [], countEls = {};
+  TAXONOMY.forEach(cat => {
+    const catNode = el('cat');
+    catNode.appendChild(el('cat-head', `<span>${cat.name}</span><svg class="lock" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`));
+    cat.subs.forEach(sub => {
+      const inBin = REQS.filter(r => r.bins.includes(sub.id));
+      const subNode = el('sub', `<div class="sub-head"><span>${sub.name}</span><span class="count">${inBin.length}</span></div>`);
+      countEls[sub.id] = subNode.querySelector('.count');
+      inBin.forEach(r => {
+        const label = r.kind === 'action' ? 'Action' : 'Obligation';
+        const entry = el('entry ' + r.kind, `<span class="badge">${label}</span><span class="text">${r.text}</span><span class="ev">0</span>`);
+        entry.dataset.req = r.id; entry.dataset.sub = sub.id;
+        subNode.appendChild(entry); entryEls.push(entry);
+      });
+      catNode.appendChild(subNode);
+    });
+    tree.appendChild(catNode);
+  });
+
+  /* ═══ Wires ═══ */
+  const NS = 'http://www.w3.org/2000/svg';
+  function wire(x1, y1, x2, y2, color) {
+    const p = document.createElementNS(NS, 'path');
+    const dx = Math.max(40, (x2 - x1) * 0.5);
+    p.setAttribute('d', `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`);
+    p.setAttribute('stroke', color);
+    wires.appendChild(p);
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = len; p.style.strokeDashoffset = len; p.style.opacity = 0;
+    return { p, len };
+  }
+
+  /* ═══ Timeline engine (Web Animations API on one shared clock) ═══ */
+  const anims = [], cues = [], resets = [];
+  const EASE_OUT = 'cubic-bezier(.2,.7,.2,1)';
+  const EASE_IN_OUT = 'cubic-bezier(.65,0,.35,1)';
+  function tween(node, keyframes, at, dur, easing = EASE_OUT, fill = 'both') {
+    const a = node.animate(keyframes, { duration: dur * 1000, delay: at * 1000, fill, easing });
+    a.pause(); anims.push({ anim: a, at, dur }); return a;
+  }
+  const cue = (at, fn) => cues.push({ at, fn });
+  const reset = fn => resets.push(fn);
+  function fly(node, fromX, fromY, toX, toY, at, dur, fromScale = 0.7) {
+    const dx = fromX - toX, dy = fromY - toY;
+    return tween(node, [
+      { transform: `translate(${dx}px, ${dy}px) scale(${fromScale})`, opacity: 0 },
+      { transform: `translate(${dx * 0.5}px, ${dy * 0.5 - 24}px) scale(${(1 + fromScale) / 2})`, opacity: 1, offset: 0.45 },
+      { transform: 'translate(0,0) scale(1)', opacity: 1 },
+    ], at, dur, EASE_IN_OUT);
+  }
+  function draw(w, at, dur) {
+    tween(w.p, [{ opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1 }], at, dur);
+    tween(w.p, [{ strokeDashoffset: w.len }, { strokeDashoffset: 0 }], at, dur, EASE_IN_OUT);
+  }
+  const fadeIn = (node, at, dur = 0.6, rise = 8) =>
+    tween(node, [{ opacity: 0, transform: `translateY(${rise}px)` }, { opacity: 1, transform: 'translateY(0)' }], at, dur);
+  const arrive = (node, at, dur = 0.7) =>
+    tween(node, [{ opacity: 0, transform: 'translateX(-70px)' }, { opacity: 1, transform: 'translateX(0)' }], at, dur);
+
+  function fitStage() {
+    const k = Math.min(innerWidth / STAGE_W, innerHeight / STAGE_H);
+    stage.style.transform = `scale(${k})`;
+  }
+  fitStage();
+  addEventListener('resize', fitStage);
+
+  /* ═══ Script: built once fonts are in, so every measurement is final ═══ */
+  function build() {
+    const linePos = {};
+    RECORDS.forEach(r => { const p = pos(srcLineEls[r.s][r.line]); linePos[r.id] = { x: p.x, y: p.y + p.h / 2, w: p.w }; });
+    const pillPos = new Map(entryEls.map(e => [e, pos(e.querySelector('.ev'))]));
+    const entriesFor = id => entryEls.filter(e => e.dataset.req === id);
+
+    let t = 0;
+
+    // A. chrome and the approved index
+    colLabels.forEach((n, i) => fadeIn(n, 0.5 + i * 0.12, 0.6, 6));
+    fadeIn(index, 0.7, 0.9, 12);
+    fadeIn(legend, 1.1, 0.6, 6);
+    t = 1.8;
+
+    // B. sources arrive, the clerk extracts records, records are filed as proposed evidence
+    const counts = new Map();
+    let proposed = 0;
+    const proposedWires = [];
+    SOURCES.forEach(s => {
+      arrive(srcEls[s.id], t);
+      let lastLand = t + 1.2;
+      RECORDS.filter(r => r.s === s.id).forEach((r, j) => {
+        const ra = t + 0.5 + j * 0.4;
+        const ln = srcLineEls[s.id][r.line];
+        tween(ln, [{ backgroundColor: 'rgba(185,214,210,.16)', boxShadow: '0 0 0 0 rgba(105,156,198,0)' }, { backgroundColor: '#699cc6', boxShadow: '0 0 0 3px rgba(105,156,198,.28)' }], ra, 0.5);
+        const lp = linePos[r.id];
+        fly(recEls[r.id], lp.x + lp.w * 0.3, lp.y - REC_H / 2, COL.rec, r.y, ra + 0.3, 0.85, 0.6);
+        const sw = wire(COL.src + SRC_W, lp.y, COL.rec, r.y + REC_H / 2, 'rgba(75,143,189,.7)');
+        draw(sw, ra + 0.35, 0.7);
+
+        const targets = r.to.flatMap(entriesFor);
+        targets.forEach((entry, k) => {
+          const la = ra + 1.0 + k * 0.28;
+          const p = pillPos.get(entry);
+          const tx = p.x + p.w / 2 - 6, ty = p.y + p.h / 2 - 6;
+          const token = el('token', '', { left: tx + 'px', top: ty + 'px' });
+          stage.appendChild(token);
+          fly(token, COL.rec + REC_W - 6, r.y + REC_H / 2 - 6, tx, ty, la, 0.7, 0.6);
+          tween(token, [{ opacity: 1 }, { opacity: 0 }], la + 0.7, 0.35, EASE_OUT, 'forwards');
+          const w = wire(COL.rec + REC_W, r.y + REC_H / 2, p.x - 6, p.y + p.h / 2, 'rgba(105,156,198,.65)');
+          draw(w, la + 0.05, 0.7);
+          proposedWires.push(w);
+          tween(entry, [{ backgroundColor: 'rgba(105,156,198,.22)' }, { backgroundColor: 'rgba(105,156,198,0)' }], la + 0.55, 0.8, EASE_OUT, 'forwards');
+          cue(la + 0.55, () => {
+            const pill = entry.querySelector('.ev');
+            const n = (counts.get(entry) || 0) + 1; counts.set(entry, n);
+            pill.textContent = n; pill.classList.add('on');
+            proposed++; approveN.textContent = proposed;
+          });
+          lastLand = Math.max(lastLand, la + 1.05);
+        });
+      });
+      t = lastLand + 0.5;
+    });
+    reset(() => {
+      counts.clear(); proposed = 0; approveN.textContent = '0';
+      entryEls.forEach(e => { const p = e.querySelector('.ev'); p.textContent = '0'; p.classList.remove('on', 'ok'); });
+    });
+
+    // C. approve all: proposed links become the record
+    cue(t - 0.4, () => approve.classList.add('ready'));
+    tween(approve, [{ transform: 'scale(1)' }, { transform: 'scale(.94)', offset: 0.5 }, { transform: 'scale(1)' }], t + 0.5, 0.35);
+    cue(t + 0.7, () => {
+      approve.classList.add('done'); approveLabel.textContent = 'Approved';
+      entryEls.forEach(e => { const p = e.querySelector('.ev'); if (p.classList.contains('on')) p.classList.add('ok'); });
+    });
+    tween(sweep, [{ transform: 'translateY(-60px)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.9 }, { transform: 'translateY(740px)', opacity: 0 }], t + 0.7, 1.6, EASE_IN_OUT);
+    proposedWires.forEach((w, i) => tween(w.p, [{ stroke: 'rgba(105,156,198,.65)' }, { stroke: 'rgba(0,145,139,.8)' }], t + 0.75 + i * 0.05, 0.6, EASE_OUT, 'forwards'));
+    RECORDS.forEach((r, i) => tween(recEls[r.id].querySelector('.swatch'), [{ backgroundColor: '#699cc6' }, { backgroundColor: '#b9d6d2' }], t + 0.8 + i * 0.06, 0.5));
+    tween(index, [{ boxShadow: '0 0 0 0 rgba(0,145,139,0), 0 0 0 rgba(0,145,139,0)' }, { boxShadow: '0 0 0 1px rgba(0,145,139,.9), 0 0 48px rgba(0,145,139,.22)' }], t + 0.7, 1.2);
+    const dimmed = [...Object.values(srcEls), ...Object.values(recEls), ...colLabels.slice(0, 2)];
+    dimmed.forEach(n => tween(n, [{ opacity: 1 }, { opacity: 0.32 }], t + 1.0, 1.2, EASE_OUT, 'forwards'));
+    tween(wires, [{ opacity: 1 }, { opacity: 0.3 }], t + 1.0, 1.2, EASE_OUT, 'forwards');
+    reset(() => { approve.classList.remove('ready', 'done'); approveLabel.textContent = 'Approve all'; });
+    t += 3.4;
+
+    // D. hold, then fade and restart
+    const HOLD = 2.6, FADE = 1.0;
+    tween(stage, [{ opacity: 1 }, { opacity: 0 }], t + HOLD, FADE, EASE_IN_OUT, 'forwards');
+    const TOTAL = t + HOLD + FADE + 0.4;
+
+    /* ═══ Run ═══ */
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let t0 = null, fired = new Set();
+    function start() {
+      resets.forEach(fn => fn()); fired = new Set();
+      t0 = document.timeline.currentTime;
+      anims.forEach(({ anim }) => { anim.currentTime = 0; anim.play(); anim.startTime = t0; });
+    }
+    function frame() {
+      const now = (document.timeline.currentTime - t0) / 1000;
+      cues.forEach((c, i) => { if (!fired.has(i) && now >= c.at) { fired.add(i); c.fn(); } });
+      if (now >= TOTAL) start();
+      requestAnimationFrame(frame);
+    }
+    if (reduced) {
+      resets.forEach(fn => fn());
+      anims.forEach(({ anim, at }) => { if (at < t + HOLD) anim.finish(); });
+      cues.forEach(c => c.fn());
+    } else {
+      start(); requestAnimationFrame(frame);
+    }
+  }
+
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(build);
+})();
+</script>
+</body>
+</html>

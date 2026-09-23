@@ -18,7 +18,7 @@
 // bubbling `list:members-added` CustomEvent on `document` with
 //   detail = { items: AddedItem[] }
 //   AddedItem = { id, title, class, description, catId, catName, subId, subName,
-//                 reqs: { code, name }[] }
+//                 reqs: { id, code, name }[] }
 // — everything the tree needs to stamp a real card where the registry files it,
 // without a round trip. Each field is stamped onto its row as a data attribute at
 // build time and read straight back off the checked rows. The add genuinely lands on
@@ -26,7 +26,7 @@
 //
 // bcn-lego-checked: the frame IS esa-side-dialog (Esc, click-outside, close button and
 // a full-viewport scrim all come from the lego and none of them are touched); the
-// search IS esa-text-field; every option IS esa-checkbox; the footer verbs ARE
+// search IS esa-text-field; every option IS esa-checkbox (label beside it in light DOM — the lego has no label slot, so a <mark> cannot reach its shadow label); the footer verbs ARE
 // esa-button; the branch counts ARE BcnSwCountBadge; the chevron IS esa-icon. The
 // branches are native <details>, matching BcnSwObligationsTree exactly — esa-tree-view
 // is a selection tree with its own row chrome and no multi-select checkbox contract,
@@ -36,7 +36,12 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnSwCountBadge from './BcnSwCountBadge.astro';
-import { candidateTree, type ObligationList } from '../../data/lists';
+import BcnListAddFilters from './BcnListAddFilters.astro';
+import { LIST_FACETS, buildFacets, candidateTree, facetAttrs, obligationFacets, type ObligationList } from '../../data/lists';
+// The drawer's shape, shared with <BcnListAddMembers>.
+import '../../styles/bcn-list-add.css';
+// .bcn-lot__hit, the search mark the list trees already use.
+import '../../styles/bcn-tree.css';
 
 interface Props {
   /** The list being added to. Its members are what `candidateTree` subtracts. */
@@ -49,6 +54,10 @@ const tree = candidateTree(list);
 type CandidateCat = (typeof tree)[number];
 const catCount = (cat: CandidateCat) => cat.subcategories.reduce((n, s) => n + s.obligations.length, 0);
 const total = tree.reduce((n, c) => n + catCount(c), 0);
+const facets = buildFacets(
+  LIST_FACETS.obligation,
+  tree.flatMap((c) => c.subcategories.flatMap((s) => s.obligations.map((o) => obligationFacets(o, c.id)))),
+);
 ---
 
 <esa-side-dialog
@@ -63,6 +72,8 @@ const total = tree.reduce((n, c) => n + catCount(c), 0);
       name="lao-search"
       aria-label="Search obligations"
       placeholder="Search by obligation title"></esa-text-field>
+
+    {total > 0 && <BcnListAddFilters facets={facets} />}
 
     <p class="bcn-lao__nomatch" data-lao-nomatch hidden={total > 0}>No obligations match.</p>
 
@@ -95,8 +106,10 @@ const total = tree.reduce((n, c) => n + catCount(c), 0);
                       data-cat-name={cat.name}
                       data-sub-id={sub.id}
                       data-sub-name={sub.name}
-                      data-reqs={JSON.stringify(o.requirements.map((r) => ({ code: r.code, name: r.name })))}>
-                      <esa-checkbox size="sm" label={o.title}></esa-checkbox>
+                      data-reqs={JSON.stringify(o.requirements.map((r) => ({ id: r.id, code: r.code, name: r.name })))}
+                      {...facetAttrs(obligationFacets(o, cat.id))}>
+                      <esa-checkbox size="sm" aria-label={o.title}></esa-checkbox>
+                      <span class="bcn-lao__label" data-opt-label>{o.title}</span>
                     </li>
                   ))}
                 </ul>
@@ -121,6 +134,7 @@ const total = tree.reduce((n, c) => n + catCount(c), 0);
   import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-checkbox';
+  import { paintLabel, wireFacets, wireOptionLabels } from './list-add';
 
   type Drawer = HTMLElement & { open: boolean };
   type Valued = HTMLElement & { value: string };
@@ -144,6 +158,7 @@ const total = tree.reduce((n, c) => n + catCount(c), 0);
     const cancelBtn = drawer.querySelector<HTMLButtonElement>('button[data-lao-cancel]');
 
     const rows = () => [...tree.querySelectorAll<HTMLElement>('[data-lao-opt]')];
+    wireOptionLabels(tree);
     const boxOf = (row: HTMLElement) => row.querySelector('esa-checkbox') as Checkbox | null;
     const checkedRows = () => rows().filter((r) => boxOf(r)?.checked);
     // The lego mirrors its value to the host property; the shadow input is the fallback
@@ -175,20 +190,24 @@ const total = tree.reduce((n, c) => n + catCount(c), 0);
         for (const sub of cat.querySelectorAll<HTMLDetailsElement>('[data-lao-sub]')) {
           let inSub = 0;
           for (const row of sub.querySelectorAll<HTMLElement>('[data-lao-opt]')) {
-            const hit = !needle || (row.dataset.title ?? '').toLowerCase().includes(needle);
+            const hit = (!needle || (row.dataset.title ?? '').toLowerCase().includes(needle)) && facets.matches(row);
             row.hidden = !hit;
+            paintLabel(row, hit ? needle : '');
             if (hit) inSub += 1;
           }
           sub.hidden = inSub === 0;
-          sub.open = !!needle && inSub > 0;
+          setCount(sub, inSub);
+          sub.open = (!!needle || facets.isActive()) && inSub > 0;
           inCat += inSub;
         }
         cat.hidden = inCat === 0;
-        cat.open = !!needle && inCat > 0;
+        setCount(cat, inCat);
+        cat.open = (!!needle || facets.isActive()) && inCat > 0;
         shown += inCat;
       }
       nomatch.hidden = shown > 0;
     };
+    const facets = wireFacets(drawer, () => filter());
     search?.addEventListener('input', filter);
     search?.addEventListener('change', filter);
 
@@ -226,6 +245,7 @@ const total = tree.reduce((n, c) => n + catCount(c), 0);
         if (box) box.checked = false;
       }
       if (search) search.value = '';
+      facets.reset();
       filter();
       syncCount();
     };
@@ -256,7 +276,7 @@ const total = tree.reduce((n, c) => n + catCount(c), 0);
         catName: row.dataset.catName ?? '',
         subId: row.dataset.subId ?? '',
         subName: row.dataset.subName ?? '',
-        reqs: JSON.parse(row.dataset.reqs || '[]') as { code: string; name: string }[],
+        reqs: JSON.parse(row.dataset.reqs || '[]') as { id: string; code: string; name: string }[],
       }));
       if (!items.length) return;
       document.dispatchEvent(new CustomEvent('list:members-added', { detail: { items }, bubbles: true }));
@@ -267,96 +287,3 @@ const total = tree.reduce((n, c) => n + catCount(c), 0);
     });
   }
 </script>
-
-<style>
-  /* The drawer inherits step 5's dense 13px scale, the same declaration
-     BcnSwObligationsEditor makes on .bcn-swo-edit. This is a tree of ~290 rows read
-     next to the page's own 13px tree; a 16px picker beside a 13px tree would read as
-     two different products. */
-  .bcn-lao {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-300);
-    font-size: 0.8125rem;
-    color: var(--color-content-default);
-  }
-  .bcn-lao__nomatch {
-    margin: 0;
-    padding: var(--spacing-300) var(--spacing-100);
-    color: var(--color-content-default-tertiary);
-    font-style: italic;
-  }
-
-  /* Branches: the row grammar of BcnSwObligationsTree, replicated — chevron, name,
-     count badge, a full rule between categories and a subtle one between
-     subcategories. No verbs on these rows: filing belongs to the registry. */
-  .bcn-lao__tree {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid var(--color-border-default-subtle);
-  }
-  .bcn-lao__cat { border-bottom: 1px solid var(--color-border-default); }
-  .bcn-lao__cat[hidden], .bcn-lao__sub[hidden], .bcn-lao__opt[hidden] { display: none; }
-  .bcn-lao__subs { display: flex; flex-direction: column; }
-  .bcn-lao__sub + .bcn-lao__sub { border-top: 1px solid var(--color-border-default-subtle); }
-
-  .bcn-lao__row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    min-height: 34px;
-    padding: var(--spacing-100) var(--spacing-200);
-    list-style: none;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 120ms ease;
-  }
-  .bcn-lao__row::-webkit-details-marker { display: none; }
-  .bcn-lao__row:hover { background: var(--color-background-default); }
-  .bcn-lao__row--cat { font-weight: 600; }
-  .bcn-lao__row--sub { padding-left: calc(var(--spacing-200) + 22px); }
-  .bcn-lao__row:focus-visible {
-    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
-    outline-offset: calc(var(--focus-ring-offset, 2px) * -1);
-  }
-  .bcn-lao__chevron {
-    display: inline-flex;
-    flex-shrink: 0;
-    color: var(--color-content-default-tertiary);
-    transition: transform 120ms ease;
-  }
-  details[open] > .bcn-lao__row .bcn-lao__chevron { transform: rotate(90deg); }
-  .bcn-lao__name {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  /* Option rows: one checkbox, labelled with the obligation title. */
-  .bcn-lao__opts {
-    list-style: none;
-    margin: 0;
-    padding: var(--spacing-150) var(--spacing-200) var(--spacing-300) calc(var(--spacing-200) + 44px);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-150);
-  }
-  .bcn-lao__opts:empty { display: none; }
-  /* esa-checkbox size="sm" names typography-body-xs for its label, which resolves to
-     12px at the top of its clamp — under this tree's 13px step. Re-point the ROLE on
-     the row (custom properties cross the shadow boundary) rather than hand-styling the
-     label; the sm box geometry is what the size prop is really for and it stays. */
-  .bcn-lao__opt esa-checkbox { --typography-body-xs-font-size: 0.8125rem; display: block; }
-
-  .bcn-lao__foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: var(--spacing-200);
-    font-size: 0.8125rem;
-  }
-  .bcn-lao__selected { color: var(--color-content-default-secondary); }
-  .bcn-lao__foot-right { display: inline-flex; align-items: center; gap: var(--spacing-200); }
-</style>
