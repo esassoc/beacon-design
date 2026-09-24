@@ -1,6 +1,6 @@
 # Token contract — prototypes-fish-detail-STY-014
 
-The 161 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 135 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -14,7 +14,6 @@ The 161 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-brand-muted` | `#eef5f4` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
 | `--color-background-elevation-sunken` | `#efefef` |
-| `--color-background-field` | `#0000` |
 | `--color-background-overlay-backdrop` | `#00000080` |
 | `--color-background-utility-info` | `#228be6` |
 | `--color-background-utility-success` | `#2e7571` |
@@ -31,7 +30,6 @@ The 161 design tokens this page actually uses, resolved to their final values fo
 | `--color-content-default-tertiary` | `#656565` |
 | `--color-content-link` | `#005862` |
 | `--color-content-on-brand-muted` | `#203c25` |
-| `--color-content-utility-danger` | `#ce2c31` |
 | `--color-content-utility-warning` | `#ab6400` |
 | `--elevation-4` | `0 6px 24px -6px #00000012` |
 | `--elevation-5` | `0 8px 32px -8px #00000014` |
@@ -45,11 +43,6 @@ The 161 design tokens this page actually uses, resolved to their final values fo
 | `--typography-body-md-font-weight` | `350` |
 | `--typography-body-md-letter-spacing` | `.01em` |
 | `--typography-body-md-line-height` | `1.6` |
-| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` |
-| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
-| `--typography-body-sm-font-weight` | `350` |
-| `--typography-body-sm-letter-spacing` | `.01em` |
-| `--typography-body-sm-line-height` | `1.6` |
 | `--typography-font-family-mono` | `"Roboto Mono", ui-monospace, monospace` |
 | `--typography-font-family-sans` | `"DM Sans", sans-serif` |
 | `--typography-font-weight-bold` | `650` |
@@ -67,11 +60,7 @@ The 161 design tokens this page actually uses, resolved to their final values fo
 | `--typography-label-sm-strong-font-weight` | `550` |
 | `--typography-label-sm-strong-letter-spacing` | `.01em` |
 | `--typography-label-sm-strong-line-height` | `1.6` |
-| `--typography-label-xs-font-family` | `"DM Sans", sans-serif` |
 | `--typography-label-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--typography-label-xs-font-weight` | `500` |
-| `--typography-label-xs-letter-spacing` | `.01em` |
-| `--typography-label-xs-line-height` | `1.6` |
 | `--typography-label-xs-strong-font-family` | `"DM Sans", sans-serif` |
 | `--typography-label-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--typography-label-xs-strong-font-weight` | `550` |
@@ -92,11 +81,6 @@ The 161 design tokens this page actually uses, resolved to their final values fo
 | `--typography-microcopy-xs-strong-font-weight` | `550` |
 | `--typography-microcopy-xs-strong-letter-spacing` | `.01em` |
 | `--typography-microcopy-xs-strong-line-height` | `1` |
-| `--typography-microcopy-xs-subtle-font-family` | `"DM Sans", sans-serif` |
-| `--typography-microcopy-xs-subtle-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
-| `--typography-microcopy-xs-subtle-font-weight` | `350` |
-| `--typography-microcopy-xs-subtle-letter-spacing` | `.01em` |
-| `--typography-microcopy-xs-subtle-line-height` | `1` |
 
 ## Component
 
@@ -133,17 +117,7 @@ The 161 design tokens this page actually uses, resolved to their final values fo
 | `--button-radius-sm` | `.25rem` |
 | `--color-commitment` | `#58508d` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-affix-bg` | `#efefef` |
-| `--form-affix-border-color` | `#dcdcdc` |
-| `--form-affix-color` | `#525252` |
-| `--form-border-color` | `#dcdcdc` |
-| `--form-border-width` | `1px` |
-| `--form-error-color` | `#ce2c31` |
-| `--form-help-color` | `#525252` |
 | `--form-label-color` | `#525252` |
-| `--form-label-gap` | `.25rem` |
-| `--form-placeholder-color` | `#525252` |
-| `--form-text-color` | `#3d3d3d` |
 | `--side-dialog-inset` | `16px` |
 | `--side-dialog-width` | `400px` |
 

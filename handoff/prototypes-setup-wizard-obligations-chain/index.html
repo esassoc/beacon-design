@@ -155,456 +155,105 @@
         --typography-microcopy-xs-subtle-line-height: 1;
       }
 
-      :host {
-        --_width: var(--side-dialog-width, 400px);
-      }
-      dialog.panel {
-        --_inset: var(--side-dialog-inset, 16px);
-        position: fixed;
-        top: var(--_inset);
-        bottom: var(--_inset);
-        inset-inline: auto;
-        height: auto;
-        margin: 0;
-        border: none;
-        padding: 0;
-        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
-        max-width: none;
-        max-height: none;
-        background: var(--color-background-elevation-raised, #fcfcfc);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--radius-md, 0.5rem);
-        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
-        outline: none;
-        overflow: hidden;
-        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
-         second dialog on top) — ease the reposition instead of jumping. */
-        transition:
-          top 220ms ease,
-          right 220ms ease,
-          bottom 220ms ease,
-          left 220ms ease;
-      }
-      :host([position="right"]) dialog.panel {
-        right: var(--_inset);
-        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
-      }
-      .bcn-swf {
-        flex-direction: column;
-        min-height: 100%;
-        display: flex;
-      }
-      .bcn-swf__head {
-        align-items: center;
-        gap: var(--spacing-300);
-        padding: var(--spacing-200) 0 var(--spacing-400);
-        flex-wrap: wrap;
-        display: flex;
-      }
-      .bcn-swf__home {
-        align-items: center;
-        gap: var(--spacing-300);
-        color: inherit;
-        border-radius: var(--radius-200);
-        text-decoration: none;
-        display: inline-flex;
-      }
-      .bcn-swf__mark {
-        border-radius: var(--radius-full);
-        background: var(--bcn-teal-600, var(--color-background-brand));
-        width: 20px;
-        height: 20px;
-        color: var(--color-content-default-knockout);
-        flex-shrink: 0;
-        justify-content: center;
-        align-items: center;
-        display: inline-flex;
-      }
-      .bcn-swf__title {
-        font-family: var(--font-decorative, var(--typography-font-family-sans));
-        font-size: var(--font-size-300);
-        font-weight: var(--typography-font-weight-semibold);
-        color: var(--color-content-default);
-        margin: 0;
-        line-height: 1.2;
-      }
-      .bcn-swf__sub {
-        font-size: var(--font-size-150);
-        color: var(--color-content-default-secondary);
-        margin: 0;
-        line-height: 1;
-      }
-      .bcn-swf__nav {
-        padding: 0 0 var(--spacing-500);
-      }
-      .bcn-swf__steps {
-        align-items: center;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        display: flex;
-      }
-      .bcn-swf__item {
-        flex: 1;
-        align-items: center;
-        min-width: 0;
-        display: flex;
-      }
-      .bcn-swf__step {
-        align-items: center;
-        gap: var(--spacing-200);
-        padding: var(--spacing-200) var(--spacing-300);
-        border-radius: var(--radius-200);
-        font-size: var(--font-size-100);
-        font-weight: var(--typography-font-weight-semibold);
-        color: var(--color-content-default);
-        white-space: nowrap;
-        text-decoration: none;
-        transition:
-          background-color 0.15s,
-          color 0.15s;
-        display: inline-flex;
-      }
-      .bcn-swf__icon {
-        color: var(--_step);
-        flex-shrink: 0;
-        display: inline-flex;
-      }
-      .bcn-swf__label {
-        line-height: 1;
-      }
-      .bcn-swf__check {
-        margin-left: var(--spacing-100);
-        color: var(--_step);
-        flex-shrink: 0;
-        display: inline-flex;
-      }
-      .bcn-swf__connector {
-        height: 0;
-        margin: 0 var(--spacing-200);
-        border-top: 2px dotted var(--color-border-default);
-        flex: 1;
-      }
-      .bcn-swf__item--fork {
-        flex: none;
-      }
-      .bcn-swf__branches {
-        flex-direction: column;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        display: flex;
-      }
-      .bcn-swf__branch {
-        align-items: center;
-        display: flex;
-      }
-      .bcn-swf__tine {
-        width: 28px;
-        margin-right: var(--spacing-200);
-        flex: none;
-        align-self: stretch;
-        position: relative;
-      }
-      .bcn-swf__tine:before {
-        content: "";
-        border-top: 2px dotted var(--color-border-default);
-        height: 0;
-        position: absolute;
-        inset: 50% 0 auto;
-      }
-      .bcn-swf__tine:after {
-        content: "";
-        border-left: 2px dotted var(--color-border-default);
-        width: 0;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-      }
-      .bcn-swf__branch:first-child .bcn-swf__tine:after {
-        top: 50%;
-      }
-      .bcn-swf__branch .bcn-swf__step {
-        margin: var(--spacing-150) 0;
-        flex: 1;
-      }
-      .bcn-swf__branch:last-child .bcn-swf__tine:after {
-        bottom: 50%;
-      }
-      .bcn-swf__step:hover,
-      .bcn-swf__step[data-active] {
-        background: var(--_step);
-        color: var(--color-content-default-knockout);
-      }
-      .bcn-swf__step:hover .bcn-swf__icon,
-      .bcn-swf__step:hover .bcn-swf__check,
-      .bcn-swf__step[data-active] .bcn-swf__icon,
-      .bcn-swf__step[data-active] .bcn-swf__check {
-        color: var(--color-content-default-knockout);
-      }
-      .bcn-swf__body {
-        flex: 1;
-        min-width: 0;
-      }
-      .sw-verb {
-        align-items: center;
-        gap: var(--spacing-100);
-        display: inline-flex;
-      }
-      .bcn-swcp {
-        gap: var(--spacing-400);
-        flex-direction: column;
-        font-size: 0.8125rem;
-        display: flex;
-      }
-      .bcn-swcp__meta {
-        align-items: center;
-        gap: var(--spacing-200);
-        color: var(--color-content-default-secondary);
-        flex-wrap: wrap;
-        margin: 0;
-        display: flex;
-      }
-      .bcn-swcp__code {
-        font-family: var(--typography-font-family-mono);
-        color: var(--color-commitment);
-        background: color-mix(in srgb, var(--color-commitment) 12%, white);
-        border-radius: var(--radius-100);
-        flex-shrink: 0;
-        padding: 1px 6px;
-        font-size: 0.6875rem;
-        font-weight: 600;
-      }
-      .bcn-swcp__cmt {
-        color: var(--color-content-default);
-        font-weight: 500;
-      }
-      .bcn-swcp__sep {
-        color: var(--bcn-gray-400);
-      }
-      .bcn-swcp__text {
-        padding: var(--spacing-200) var(--spacing-300);
-        border-left: 3px solid var(--color-commitment);
-        background: var(--color-background-default);
-        color: var(--color-content-default);
-        margin: 0;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-      }
-      .bcn-swcp__section {
-        gap: var(--spacing-150);
-        flex-direction: column;
-        min-width: 0;
-        display: flex;
-      }
-      .bcn-swcp__label-row {
-        justify-content: space-between;
-        align-items: center;
-        gap: var(--spacing-200);
-        flex-wrap: wrap;
-        display: flex;
-      }
-      .bcn-swcp__label {
-        color: var(--form-label-color, #646464);
-        font-size: 0.75rem;
-        font-weight: 500;
-      }
-      .bcn-swcp__label-n {
-        color: var(--color-content-default-tertiary);
-        margin-left: var(--spacing-100);
-        font-weight: 400;
-      }
-      .bcn-swcp__label-verbs {
-        align-items: center;
-        gap: var(--spacing-100);
-        display: inline-flex;
-      }
-      .bcn-swcp__verb {
-        align-items: center;
-        gap: var(--spacing-100);
-        display: inline-flex;
-      }
-      .bcn-swcp__list {
-        border-top: 1px solid var(--color-border-default-subtle);
-        flex-direction: column;
-        display: flex;
-      }
-      .bcn-swcp__list:empty {
-        border-top: none;
-      }
-      .bcn-swcp__empty {
-        color: var(--color-content-default-tertiary);
-        margin: 0;
-        font-size: 0.75rem;
-        font-style: italic;
-      }
-      .bcn-swcp__foot {
-        justify-content: space-between;
-        align-items: center;
-        gap: var(--spacing-200);
-        width: 100%;
-        display: flex;
-      }
-      .bcn-swcp__foot--end {
-        justify-content: flex-end;
-      }
-      .bcn-swcp__pair {
-        gap: var(--spacing-300);
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        align-items: start;
-        display: grid;
-      }
-      .bcn-swcp__foot-right {
-        align-items: center;
-        gap: var(--spacing-200);
-        display: inline-flex;
-      }
-      .bcn-swcp--pick {
-        gap: var(--spacing-200);
-      }
-      .bcn-swcp__meta--quiet {
-        color: var(--color-content-default-tertiary);
-        font-size: 0.75rem;
-      }
-      .bcn-swsp {
-        background: var(--color-background-elevation-raised);
-        border: 1px solid var(--color-border-default);
-        border-radius: var(--radius-200);
-        flex-shrink: 0;
-      }
-      .bcn-swsp__header {
-        padding: var(--spacing-400) var(--spacing-500);
-      }
-      .bcn-swsp__row {
-        align-items: center;
-        gap: var(--spacing-300);
-        flex-wrap: wrap;
-        display: flex;
-      }
-      .bcn-swsp__num {
-        border-radius: var(--radius-full);
-        background: var(--_step);
-        width: 28px;
-        height: 28px;
-        color: var(--color-content-default-knockout);
-        flex-shrink: 0;
-        justify-content: center;
-        align-items: center;
-        font-size: 0.875rem;
-        font-weight: 600;
-        display: inline-flex;
-      }
-      .bcn-swsp__title {
-        align-items: center;
-        gap: var(--spacing-150);
-        font-family: var(--font-decorative);
-        color: var(--color-content-default);
-        flex-wrap: wrap;
-        margin: 0;
-        font-size: 1.125rem;
-        font-weight: 600;
-        line-height: 1.2;
-        display: inline-flex;
-      }
-      .bcn-swsp__actions {
-        align-items: center;
-        gap: var(--spacing-200);
-        margin-left: auto;
-        display: inline-flex;
-      }
-      .bcn-swsp__intro {
-        margin: var(--spacing-200) 0 0;
-        color: var(--color-content-default);
-        font-size: 0.875rem;
-        line-height: 1.4;
-      }
-      :host {
-        --_field-padding-y: var(--spacing-300, 0.75rem);
-        --_field-padding-x: var(--spacing-300, 0.75rem);
-        --_field-radius: var(--radius-md, 0.5rem);
-        --_field-border-color: var(--form-border-color, #cecece);
-        display: block;
-      }
-      :host([size="sm"]) {
-        --_field-padding-y: var(--spacing-250, 0.625rem);
-        --_field-padding-x: var(--spacing-250, 0.625rem);
-        --_field-radius: var(--radius-sm, 0.25rem);
-      }
-      .field {
-        display: flex;
-        flex-direction: column;
-      }
-      .control {
-        display: flex;
-        align-items: stretch;
-        /* NO HEIGHT. The box is as tall as the input inside it, which is its line
-         box plus its padding. A px height could not grow with rem text, so it
-         clipped — and this rule used to pair one with overflow:hidden, which is
-         what made the clipping silent. See semantic/size.json.
-
-         line-height 1 is what leaves padding as the only variable: at 1.6 there
-         is a third term (0.6 x font-size of leading) that nobody chose and that
-         grows faster than either input. Everything else — face, size, weight,
-         tracking — still comes from .typography-body-* on this element and
-         inherits to the input and the affixes below. */
-        background: var(--color-background-field, transparent);
-        border: var(--form-border-width, 1px) solid var(--_field-border-color);
-        border-radius: var(--_field-radius);
-        box-sizing: border-box;
-        transition:
-          border-color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
-      }
-      .input {
-        flex: 1 1 auto;
-        min-width: 0;
-        width: 100%;
-        /* No height: 100%. It used to resolve against .control's fixed height, which
-         meant this padding was ABSORBED into that height rather than adding to it.
-         With no fixed parent it would compute to auto anyway; removing it makes the
-         padding load-bearing, which is the point. .control is align-items:stretch,
-         so the affixes still match this element's height. */
-        padding: var(--_field-padding-y) var(--_field-padding-x);
-        /* A native control does not inherit type by default — this is what opts it
-         into the composite already resolved on .control. */
-        font: inherit;
-        color: var(--form-text-color, #202020);
-        background: transparent;
-        border: none;
-        outline: none;
-        box-sizing: border-box;
-      }
-      .input::placeholder {
-        color: var(--form-placeholder-color, #838383);
-      }
-      .help,
-      .error {
-        margin: 0;
-      }
-      .error {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-100, 4px);
-        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
-      }
-      .help {
-        color: var(--form-help-color, #838383);
-      }
-      .label {
-        color: var(--form-label-color, #646464);
-        margin-block-end: var(--form-label-gap, 4px);
-      }
-      .required {
-        color: var(--color-content-utility-danger, #ce2c31);
-        margin-inline-start: 2px;
-      }
-      :host {
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
+      }
+      .typography-microcopy-2xs {
+        font-family: var(--typography-microcopy-2xs-font-family);
+        font-size: var(--typography-microcopy-2xs-font-size);
+        font-weight: var(--typography-microcopy-2xs-font-weight);
+        line-height: var(--typography-microcopy-2xs-line-height);
+        letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+      }
+      .typography-microcopy-xs {
+        font-family: var(--typography-microcopy-xs-font-family);
+        font-size: var(--typography-microcopy-xs-font-size);
+        font-weight: var(--typography-microcopy-xs-font-weight);
+        line-height: var(--typography-microcopy-xs-line-height);
+        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+      }
+      .esa-button {
+        --_btn-pad-y: var(--spacing-300, 0.75rem);
+        --_btn-padding-x: var(--spacing-300, 0.75rem);
+        --_btn-radius: var(--button-radius-md, 0.5rem);
+        --_accent: var(--color-background-brand, #46a758);
+        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+        --_on: var(--color-content-default-knockout, #fcfcfc);
+        --_accent-text: var(--_accent);
+        --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+        --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
         display: inline-block;
       }
-      .esa-tooltip-anchor {
-        position: relative;
+      .esa-button__native {
+        justify-content: center;
+        align-items: center;
+        gap: var(--spacing-200, 8px);
+        width: 100%;
+        padding-block: var(--_btn-pad-y);
+        padding-inline: var(--_btn-padding-x);
+        border: var(--border-width-default, 1px) solid transparent;
+        border-radius: var(--_btn-radius);
+        cursor: pointer;
+        transition:
+          background var(--transition-fast, 0.15s ease),
+          border-color var(--transition-fast, 0.15s ease);
+        -webkit-appearance: none;
+        appearance: none;
+        text-decoration: none;
         display: inline-flex;
+      }
+      .esa-button--appearance-fill .esa-button__native {
+        background: var(--_accent);
+        color: var(--_on);
+        border-color: var(--_accent-border, transparent);
+      }
+      .esa-button--variant-chrome .esa-button__native {
+        color: inherit;
+        background: 0 0;
+        border-color: #0000;
+      }
+      .esa-button--icon-only .esa-button__native {
+        padding-inline: var(--_btn-pad-y);
+        aspect-ratio: 1;
+      }
+      .esa-button--xs {
+        --_btn-pad-y: var(--spacing-200, 0.5rem);
+        --_btn-padding-x: var(--spacing-200, 0.5rem);
+        --_btn-radius: var(--button-radius-xs, 4px);
+      }
+      .esa-button--variant-ghost .esa-button__native {
+        color: var(--color-content-default, #202020);
+        background: 0 0;
+        border-color: #0000;
+      }
+      .esa-button__label {
+        white-space: nowrap;
+      }
+      .esa-button--sm {
+        --_btn-pad-y: var(--spacing-250, 0.625rem);
+        --_btn-padding-x: var(--spacing-250, 0.625rem);
+        --_btn-radius: var(--button-radius-sm, 4px);
+      }
+      .esa-button--variant-primary {
+        --_accent-text: var(--color-content-brand);
+      }
+      .esa-button--variant-danger {
+        --_accent: var(--color-background-utility-danger);
+        --_accent-hover: var(--color-background-utility-danger-hover);
+        --_accent-text: var(--color-content-utility-danger);
+      }
+      .esa-button--appearance-soft .esa-button__native {
+        background: color-mix(
+          in srgb,
+          var(--color-background-elevation-sunken, #f0f0f0) 45%,
+          var(--color-background-elevation-raised, #fcfcfc)
+        );
+        color: var(--_accent-text);
+        border-color: var(--color-border-default-strong, #bbb);
       }
       .esa-icon {
         --_icon-size: var(--icon-size-md, 20px);
@@ -694,10 +343,6 @@
         margin-left: auto;
         display: inline-flex;
       }
-      html,
-      .modern-layout__content {
-        scroll-behavior: smooth;
-      }
       :host {
         --_popover-bg: var(--color-background-elevation-raised, #fcfcfc);
         --_popover-border: var(--color-border-default, #cecece);
@@ -710,6 +355,68 @@
       }
       .esa-popover-anchor {
         position: relative;
+        display: inline-block;
+      }
+      .bcn-swsp {
+        background: var(--color-background-elevation-raised);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-200);
+        flex-shrink: 0;
+      }
+      .bcn-swsp__header {
+        padding: var(--spacing-400) var(--spacing-500);
+      }
+      .bcn-swsp__row {
+        align-items: center;
+        gap: var(--spacing-300);
+        flex-wrap: wrap;
+        display: flex;
+      }
+      .bcn-swsp__num {
+        border-radius: var(--radius-full);
+        background: var(--_step);
+        width: 28px;
+        height: 28px;
+        color: var(--color-content-default-knockout);
+        flex-shrink: 0;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+      }
+      .bcn-swsp__title {
+        align-items: center;
+        gap: var(--spacing-150);
+        font-family: var(--font-decorative);
+        color: var(--color-content-default);
+        flex-wrap: wrap;
+        margin: 0;
+        font-size: 1.125rem;
+        font-weight: 600;
+        line-height: 1.2;
+        display: inline-flex;
+      }
+      .bcn-swsp__actions {
+        align-items: center;
+        gap: var(--spacing-200);
+        margin-left: auto;
+        display: inline-flex;
+      }
+      .bcn-swsp__intro {
+        margin: var(--spacing-200) 0 0;
+        color: var(--color-content-default);
+        font-size: 0.875rem;
+        line-height: 1.4;
+      }
+      :host {
+        display: inline-block;
+      }
+      .esa-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      .esa-dropdown__trigger {
         display: inline-block;
       }
       :host {
@@ -765,6 +472,310 @@
         background: var(--color-background-elevation-raised, #fcfcfc);
         color: var(--color-content-brand, #2a7e3b);
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+      html,
+      .modern-layout__content {
+        scroll-behavior: smooth;
+      }
+      :host {
+        display: block;
+        --_field-padding-y: var(--spacing-300, 0.75rem);
+        --_field-padding-x: var(--spacing-300, 0.75rem);
+        --_field-radius: var(--radius-md, 0.5rem);
+        --_field-border-color: var(--form-border-color, #cecece);
+      }
+      :host([size="sm"]) {
+        --_field-padding-y: var(--spacing-250, 0.625rem);
+        --_field-padding-x: var(--spacing-250, 0.625rem);
+        --_field-radius: var(--radius-sm, 0.25rem);
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+      }
+      .field__label {
+        /* Was the last reader of --form-label-font-size and one of two readers of
+         --form-label-font-weight. Both are retired with the rest of the size-only
+         ramp; the composite carries size and weight together. */
+        color: var(--form-label-color, #646464);
+      }
+      .field__required {
+        color: var(--color-content-utility-danger, #ce2c31);
+        margin-left: 2px;
+      }
+      .container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-100, 4px);
+      }
+      .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+      .input {
+        width: 100%;
+        padding: var(--_field-padding-y) var(--_field-padding-x);
+        padding-inline-end: calc(var(--_field-padding-x) + 24px);
+        /* The box is content + padding since heights were removed (2026-08-14), so
+         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
+         is. On a single-line control leading has no typographic job: there is one
+         line, and the space above and below it is invisible. Letting the body-*
+         composite's relaxed leading through added 12px here at md and made this
+         field 7px taller than esa-text-field on the same step, breaking the row
+         alignment component-tokens.css promises.
+         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
+         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
+         whose composite declares the line-height for us — there is deliberately no
+         line-height declaration in this rule, because one here would outrank the
+         composite rather than agree with it. A static padding offset was the other option and
+         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
+         is re-pointable by a theme, so an offset would cancel it at exactly one
+         viewport. esa-textarea stays on a body-* composite on purpose — it is
+         genuinely multi-line, so its leading has a typographic job. */
+        color: var(--form-text-color, #202020);
+        background: var(--color-background-field, transparent);
+        border: var(--form-border-width, 1px) solid var(--_field-border-color);
+        border-radius: var(--_field-radius);
+        outline: none;
+        cursor: pointer;
+        box-sizing: border-box;
+        transition:
+          border-color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
+      }
+      .input--trigger {
+        display: block;
+        text-align: start;
+        font: inherit;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+      .input--placeholder {
+        color: var(--form-placeholder-color, #838383);
+      }
+      .arrow {
+        position: absolute;
+        right: var(--_field-padding-x);
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-flex;
+        color: var(--color-content-default-secondary, #646464);
+        pointer-events: none;
+        transition: transform var(--transition-fast, 150ms ease);
+      }
+      .arrow svg {
+        width: var(--icon-size-md, 20px);
+        height: var(--icon-size-md, 20px);
+      }
+      .field__error {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-100, 4px);
+        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+      }
+      .field__help {
+        color: var(--form-help-color, #838383);
+      }
+      .bcn-swc {
+        background: var(--color-background-elevation-raised);
+        border: 1px solid var(--color-border-default);
+        border-radius: var(--radius-200);
+        color: var(--color-content-default);
+        flex-direction: column;
+        font-size: 0.8125rem;
+        display: flex;
+      }
+      .bcn-swc__nomatch {
+        padding: var(--spacing-300) var(--spacing-400);
+        color: var(--color-content-default-tertiary);
+        margin: 0;
+        font-style: italic;
+      }
+      .bcn-swc__body {
+        flex-direction: column;
+        display: flex;
+      }
+      .bcn-swc__cmt {
+        border-bottom: 1px solid var(--color-border-default);
+      }
+      .bcn-swc__row {
+        align-items: center;
+        gap: var(--spacing-200);
+        min-height: 34px;
+        padding: var(--spacing-100) var(--spacing-400);
+        cursor: pointer;
+        user-select: none;
+        list-style: none;
+        transition: background-color 0.12s;
+        display: flex;
+      }
+      .bcn-swc__row--cmt {
+        font-weight: 600;
+      }
+      .bcn-swc__chevron {
+        color: var(--color-content-default-tertiary);
+        flex-shrink: 0;
+        transition: transform 0.12s;
+        display: inline-flex;
+      }
+      .bcn-swc__name {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+        overflow: hidden;
+      }
+      .bcn-swc__gap {
+        color: var(--color-background-utility-danger);
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-left: auto;
+        font-size: 0.6875rem;
+        font-weight: 500;
+      }
+      .bcn-swc__gap[hidden] {
+        display: none;
+      }
+      .bcn-swc__verbs {
+        flex-shrink: 0;
+        gap: 2px;
+        margin-left: auto;
+        display: inline-flex;
+      }
+      .bcn-swc__verbs esa-tooltip {
+        display: inline-flex;
+      }
+      .bcn-swc__verb {
+        border-radius: var(--radius-100);
+        width: 22px;
+        height: 22px;
+        color: var(--color-content-default-tertiary);
+        cursor: pointer;
+        opacity: 0;
+        background: 0 0;
+        border: none;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.12s;
+        display: inline-flex;
+      }
+      .bcn-swc__cmt:nth-of-type(2n) {
+        background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
+      }
+      .bcn-swc__gap:not([hidden]) ~ .bcn-swc__verbs,
+      .bcn-swc__route ~ .bcn-swc__verbs {
+        margin-left: 0;
+      }
+      .bcn-swc__cmt:last-of-type {
+        border-bottom: none;
+      }
+      .bcn-swc__foot {
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-300);
+        padding: var(--spacing-300) var(--spacing-400);
+        border-top: 1px solid var(--color-border-default);
+        background: var(--color-background-default);
+        border-bottom-left-radius: var(--radius-200);
+        border-bottom-right-radius: var(--radius-200);
+        display: flex;
+      }
+      .bcn-swc__legend {
+        align-items: center;
+        gap: var(--spacing-150);
+        color: var(--color-content-default-tertiary);
+        flex-wrap: wrap;
+        font-size: 0.8125rem;
+        display: flex;
+      }
+      .bcn-swc__stat {
+        align-items: center;
+        gap: var(--spacing-150);
+        display: inline-flex;
+      }
+      .bcn-swc__dot {
+        border-radius: var(--radius-full);
+        width: 8px;
+        height: 8px;
+        display: inline-block;
+      }
+      .bcn-swc__dot--obligation {
+        background: var(--color-obligation);
+      }
+      .bcn-swc__sep {
+        color: var(--bcn-gray-400);
+      }
+      .bcn-swc__dot--action {
+        background: var(--bcn-gray-400);
+      }
+      .bcn-swc__dot--unrouted {
+        background: var(--color-background-utility-danger);
+      }
+      .bcn-swc__foot-end {
+        align-items: center;
+        gap: var(--spacing-200);
+        margin-left: auto;
+        display: inline-flex;
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+      }
+      :host {
+        --_width: var(--side-dialog-width, 400px);
+      }
+      dialog.panel {
+        --_inset: var(--side-dialog-inset, 16px);
+        position: fixed;
+        top: var(--_inset);
+        bottom: var(--_inset);
+        inset-inline: auto;
+        height: auto;
+        margin: 0;
+        border: none;
+        padding: 0;
+        width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+        max-width: none;
+        max-height: none;
+        background: var(--color-background-elevation-raised, #fcfcfc);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--radius-md, 0.5rem);
+        box-shadow: var(--elevation-5, 0 8px 32px -8px rgba(0, 0, 0, 0.2));
+        outline: none;
+        overflow: hidden;
+        /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+        transition:
+          top 220ms ease,
+          right 220ms ease,
+          bottom 220ms ease,
+          left 220ms ease;
+      }
+      :host([position="right"]) dialog.panel {
+        right: var(--_inset);
+        animation: slide-right var(--animation-overlay-enter, 250ms ease-out);
+      }
+      :host {
+        display: inline-block;
+      }
+      .esa-tooltip-anchor {
+        position: relative;
+        display: inline-flex;
       }
       .modern-layout {
         flex-direction: column;
@@ -1591,177 +1602,6 @@
         transform: translate(-50%);
         box-shadow: 0 -12px 48px -12px #00000052;
       }
-      .bcn-swc {
-        background: var(--color-background-elevation-raised);
-        border: 1px solid var(--color-border-default);
-        border-radius: var(--radius-200);
-        color: var(--color-content-default);
-        flex-direction: column;
-        font-size: 0.8125rem;
-        display: flex;
-      }
-      .bcn-swc__nomatch {
-        padding: var(--spacing-300) var(--spacing-400);
-        color: var(--color-content-default-tertiary);
-        margin: 0;
-        font-style: italic;
-      }
-      .bcn-swc__body {
-        flex-direction: column;
-        display: flex;
-      }
-      .bcn-swc__cmt {
-        border-bottom: 1px solid var(--color-border-default);
-      }
-      .bcn-swc__row {
-        align-items: center;
-        gap: var(--spacing-200);
-        min-height: 34px;
-        padding: var(--spacing-100) var(--spacing-400);
-        cursor: pointer;
-        user-select: none;
-        list-style: none;
-        transition: background-color 0.12s;
-        display: flex;
-      }
-      .bcn-swc__row--cmt {
-        font-weight: 600;
-      }
-      .bcn-swc__chevron {
-        color: var(--color-content-default-tertiary);
-        flex-shrink: 0;
-        transition: transform 0.12s;
-        display: inline-flex;
-      }
-      .bcn-swc__name {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        min-width: 0;
-        overflow: hidden;
-      }
-      .bcn-swc__gap {
-        color: var(--color-background-utility-danger);
-        white-space: nowrap;
-        flex-shrink: 0;
-        margin-left: auto;
-        font-size: 0.6875rem;
-        font-weight: 500;
-      }
-      .bcn-swc__gap[hidden] {
-        display: none;
-      }
-      .bcn-swc__verbs {
-        flex-shrink: 0;
-        gap: 2px;
-        margin-left: auto;
-        display: inline-flex;
-      }
-      .bcn-swc__verbs esa-tooltip {
-        display: inline-flex;
-      }
-      .bcn-swc__verb {
-        border-radius: var(--radius-100);
-        width: 22px;
-        height: 22px;
-        color: var(--color-content-default-tertiary);
-        cursor: pointer;
-        opacity: 0;
-        background: 0 0;
-        border: none;
-        justify-content: center;
-        align-items: center;
-        transition: opacity 0.12s;
-        display: inline-flex;
-      }
-      .bcn-swc__cmt:nth-of-type(2n) {
-        background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
-      }
-      .bcn-swc__gap:not([hidden]) ~ .bcn-swc__verbs,
-      .bcn-swc__route ~ .bcn-swc__verbs {
-        margin-left: 0;
-      }
-      .bcn-swc__cmt:last-of-type {
-        border-bottom: none;
-      }
-      .bcn-swc__foot {
-        justify-content: space-between;
-        align-items: center;
-        gap: var(--spacing-300);
-        padding: var(--spacing-300) var(--spacing-400);
-        border-top: 1px solid var(--color-border-default);
-        background: var(--color-background-default);
-        border-bottom-left-radius: var(--radius-200);
-        border-bottom-right-radius: var(--radius-200);
-        display: flex;
-      }
-      .bcn-swc__legend {
-        align-items: center;
-        gap: var(--spacing-150);
-        color: var(--color-content-default-tertiary);
-        flex-wrap: wrap;
-        font-size: 0.8125rem;
-        display: flex;
-      }
-      .bcn-swc__stat {
-        align-items: center;
-        gap: var(--spacing-150);
-        display: inline-flex;
-      }
-      .bcn-swc__dot {
-        border-radius: var(--radius-full);
-        width: 8px;
-        height: 8px;
-        display: inline-block;
-      }
-      .bcn-swc__dot--obligation {
-        background: var(--color-obligation);
-      }
-      .bcn-swc__sep {
-        color: var(--bcn-gray-400);
-      }
-      .bcn-swc__dot--action {
-        background: var(--bcn-gray-400);
-      }
-      .bcn-swc__dot--unrouted {
-        background: var(--color-background-utility-danger);
-      }
-      .bcn-swc__foot-end {
-        align-items: center;
-        gap: var(--spacing-200);
-        margin-left: auto;
-        display: inline-flex;
-      }
-      :host {
-        display: inline-block;
-      }
-      .esa-dropdown {
-        position: relative;
-        display: inline-block;
-      }
-      .esa-dropdown__trigger {
-        display: inline-block;
-      }
-      .typography-microcopy-md {
-        font-family: var(--typography-microcopy-md-font-family);
-        font-size: var(--typography-microcopy-md-font-size);
-        font-weight: var(--typography-microcopy-md-font-weight);
-        line-height: var(--typography-microcopy-md-line-height);
-        letter-spacing: var(--typography-microcopy-md-letter-spacing);
-      }
-      .typography-microcopy-2xs {
-        font-family: var(--typography-microcopy-2xs-font-family);
-        font-size: var(--typography-microcopy-2xs-font-size);
-        font-weight: var(--typography-microcopy-2xs-font-weight);
-        line-height: var(--typography-microcopy-2xs-line-height);
-        letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
-      }
-      .typography-microcopy-xs {
-        font-family: var(--typography-microcopy-xs-font-family);
-        font-size: var(--typography-microcopy-xs-font-size);
-        font-weight: var(--typography-microcopy-xs-font-weight);
-        line-height: var(--typography-microcopy-xs-line-height);
-        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
-      }
       .typography-body-md {
         font-family: var(--typography-body-md-font-family);
         font-size: var(--typography-body-md-font-size);
@@ -1811,131 +1651,125 @@
         line-height: var(--typography-label-md-line-height);
         letter-spacing: var(--typography-label-md-letter-spacing);
       }
-      :host {
-        display: contents;
-      }
-      dialog.esa-confirm-dialog {
-        position: relative;
-        border: none;
-        padding: 0;
-        margin: auto;
-        width: var(--confirm-dialog-width, 360px);
-        max-width: calc(100vw - 2rem);
-        background: var(--color-background-elevation-floating, #fcfcfc);
-        color: var(--color-content-default, #202020);
-        border-radius: var(--radius-lg, 0.75rem);
-        box-shadow:
-          0 20px 60px rgba(0, 0, 0, 0.15),
-          0 4px 16px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
-      }
-      :host {
-        display: block;
-        --_field-padding-y: var(--spacing-300, 0.75rem);
-        --_field-padding-x: var(--spacing-300, 0.75rem);
-        --_field-radius: var(--radius-md, 0.5rem);
-        --_field-border-color: var(--form-border-color, #cecece);
-      }
-      :host([size="sm"]) {
-        --_field-padding-y: var(--spacing-250, 0.625rem);
-        --_field-padding-x: var(--spacing-250, 0.625rem);
-        --_field-radius: var(--radius-sm, 0.25rem);
-      }
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-      }
-      .field__label {
-        /* Was the last reader of --form-label-font-size and one of two readers of
-         --form-label-font-weight. Both are retired with the rest of the size-only
-         ramp; the composite carries size and weight together. */
-        color: var(--form-label-color, #646464);
-      }
-      .field__required {
-        color: var(--color-content-utility-danger, #ce2c31);
-        margin-left: 2px;
-      }
-      .container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-100, 4px);
-      }
-      .input-wrapper {
-        position: relative;
-        display: flex;
+      .sw-verb {
         align-items: center;
-        cursor: pointer;
-      }
-      .input {
-        width: 100%;
-        padding: var(--_field-padding-y) var(--_field-padding-x);
-        padding-inline-end: calc(var(--_field-padding-x) + 24px);
-        /* The box is content + padding since heights were removed (2026-08-14), so
-         LEADING IS NOW LOAD-BEARING — it is the term that decides how tall a field
-         is. On a single-line control leading has no typographic job: there is one
-         line, and the space above and below it is invisible. Letting the body-*
-         composite's relaxed leading through added 12px here at md and made this
-         field 7px taller than esa-text-field on the same step, breaking the row
-         alignment component-tokens.css promises.
-         CHOSEN, NOT RESTATED, and not compensated for with a smaller padding rung.
-         The tight leading comes from FIELD_TYPE picking a microcopy-*-subtle rung,
-         whose composite declares the line-height for us — there is deliberately no
-         line-height declaration in this rule, because one here would outrank the
-         composite rather than agree with it. A static padding offset was the other option and
-         is wrong: leading scales with the fluid type (27px at 1600, 22px at 375) and
-         is re-pointable by a theme, so an offset would cancel it at exactly one
-         viewport. esa-textarea stays on a body-* composite on purpose — it is
-         genuinely multi-line, so its leading has a typographic job. */
-        color: var(--form-text-color, #202020);
-        background: var(--color-background-field, transparent);
-        border: var(--form-border-width, 1px) solid var(--_field-border-color);
-        border-radius: var(--_field-radius);
-        outline: none;
-        cursor: pointer;
-        box-sizing: border-box;
-        transition:
-          border-color var(--transition-fast, 150ms ease),
-          box-shadow var(--transition-fast, 150ms ease);
-      }
-      .input--trigger {
-        display: block;
-        text-align: start;
-        font: inherit;
-        min-width: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -webkit-appearance: none;
-        appearance: none;
-      }
-      .input--placeholder {
-        color: var(--form-placeholder-color, #838383);
-      }
-      .arrow {
-        position: absolute;
-        right: var(--_field-padding-x);
-        top: 50%;
-        transform: translateY(-50%);
+        gap: var(--spacing-100);
         display: inline-flex;
-        color: var(--color-content-default-secondary, #646464);
-        pointer-events: none;
-        transition: transform var(--transition-fast, 150ms ease);
       }
-      .arrow svg {
-        width: var(--icon-size-md, 20px);
-        height: var(--icon-size-md, 20px);
-      }
-      .field__error {
+      .bcn-swcp {
+        gap: var(--spacing-400);
+        flex-direction: column;
+        font-size: 0.8125rem;
         display: flex;
-        align-items: center;
-        gap: var(--spacing-100, 4px);
-        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
       }
-      .field__help {
-        color: var(--form-help-color, #838383);
+      .bcn-swcp__meta {
+        align-items: center;
+        gap: var(--spacing-200);
+        color: var(--color-content-default-secondary);
+        flex-wrap: wrap;
+        margin: 0;
+        display: flex;
+      }
+      .bcn-swcp__code {
+        font-family: var(--typography-font-family-mono);
+        color: var(--color-commitment);
+        background: color-mix(in srgb, var(--color-commitment) 12%, white);
+        border-radius: var(--radius-100);
+        flex-shrink: 0;
+        padding: 1px 6px;
+        font-size: 0.6875rem;
+        font-weight: 600;
+      }
+      .bcn-swcp__cmt {
+        color: var(--color-content-default);
+        font-weight: 500;
+      }
+      .bcn-swcp__sep {
+        color: var(--bcn-gray-400);
+      }
+      .bcn-swcp__text {
+        padding: var(--spacing-200) var(--spacing-300);
+        border-left: 3px solid var(--color-commitment);
+        background: var(--color-background-default);
+        color: var(--color-content-default);
+        margin: 0;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+      }
+      .bcn-swcp__section {
+        gap: var(--spacing-150);
+        flex-direction: column;
+        min-width: 0;
+        display: flex;
+      }
+      .bcn-swcp__label-row {
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-200);
+        flex-wrap: wrap;
+        display: flex;
+      }
+      .bcn-swcp__label {
+        color: var(--form-label-color, #646464);
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+      .bcn-swcp__label-n {
+        color: var(--color-content-default-tertiary);
+        margin-left: var(--spacing-100);
+        font-weight: 400;
+      }
+      .bcn-swcp__label-verbs {
+        align-items: center;
+        gap: var(--spacing-100);
+        display: inline-flex;
+      }
+      .bcn-swcp__verb {
+        align-items: center;
+        gap: var(--spacing-100);
+        display: inline-flex;
+      }
+      .bcn-swcp__list {
+        border-top: 1px solid var(--color-border-default-subtle);
+        flex-direction: column;
+        display: flex;
+      }
+      .bcn-swcp__list:empty {
+        border-top: none;
+      }
+      .bcn-swcp__empty {
+        color: var(--color-content-default-tertiary);
+        margin: 0;
+        font-size: 0.75rem;
+        font-style: italic;
+      }
+      .bcn-swcp__foot {
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-200);
+        width: 100%;
+        display: flex;
+      }
+      .bcn-swcp__foot--end {
+        justify-content: flex-end;
+      }
+      .bcn-swcp__pair {
+        gap: var(--spacing-300);
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        align-items: start;
+        display: grid;
+      }
+      .bcn-swcp__foot-right {
+        align-items: center;
+        gap: var(--spacing-200);
+        display: inline-flex;
+      }
+      .bcn-swcp--pick {
+        gap: var(--spacing-200);
+      }
+      .bcn-swcp__meta--quiet {
+        color: var(--color-content-default-tertiary);
+        font-size: 0.75rem;
       }
       *,
       :before,
@@ -1997,96 +1831,262 @@
       [data-gap="md"] {
         --gap: var(--spacing-400, 1rem);
       }
-      .visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        margin: -1px;
-        padding: 0;
-        border: 0;
-        overflow: hidden;
-        white-space: nowrap;
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
+      .bcn-swf {
+        flex-direction: column;
+        min-height: 100%;
+        display: flex;
       }
-      .esa-button {
-        --_btn-pad-y: var(--spacing-300, 0.75rem);
-        --_btn-padding-x: var(--spacing-300, 0.75rem);
-        --_btn-radius: var(--button-radius-md, 0.5rem);
-        --_accent: var(--color-background-brand, #46a758);
-        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
-        --_on: var(--color-content-default-knockout, #fcfcfc);
-        --_accent-text: var(--_accent);
-        --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-        --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-        display: inline-block;
-      }
-      .esa-button__native {
-        justify-content: center;
+      .bcn-swf__head {
         align-items: center;
-        gap: var(--spacing-200, 8px);
-        width: 100%;
-        padding-block: var(--_btn-pad-y);
-        padding-inline: var(--_btn-padding-x);
-        border: var(--border-width-default, 1px) solid transparent;
-        border-radius: var(--_btn-radius);
-        cursor: pointer;
-        transition:
-          background var(--transition-fast, 0.15s ease),
-          border-color var(--transition-fast, 0.15s ease);
-        -webkit-appearance: none;
-        appearance: none;
+        gap: var(--spacing-300);
+        padding: var(--spacing-200) 0 var(--spacing-400);
+        flex-wrap: wrap;
+        display: flex;
+      }
+      .bcn-swf__home {
+        align-items: center;
+        gap: var(--spacing-300);
+        color: inherit;
+        border-radius: var(--radius-200);
         text-decoration: none;
         display: inline-flex;
       }
-      .esa-button--appearance-fill .esa-button__native {
-        background: var(--_accent);
-        color: var(--_on);
-        border-color: var(--_accent-border, transparent);
+      .bcn-swf__mark {
+        border-radius: var(--radius-full);
+        background: var(--bcn-teal-600, var(--color-background-brand));
+        width: 20px;
+        height: 20px;
+        color: var(--color-content-default-knockout);
+        flex-shrink: 0;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
       }
-      .esa-button--variant-chrome .esa-button__native {
-        color: inherit;
-        background: 0 0;
-        border-color: #0000;
+      .bcn-swf__title {
+        font-family: var(--font-decorative, var(--typography-font-family-sans));
+        font-size: var(--font-size-300);
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
+        margin: 0;
+        line-height: 1.2;
       }
-      .esa-button--icon-only .esa-button__native {
-        padding-inline: var(--_btn-pad-y);
-        aspect-ratio: 1;
+      .bcn-swf__sub {
+        font-size: var(--font-size-150);
+        color: var(--color-content-default-secondary);
+        margin: 0;
+        line-height: 1;
       }
-      .esa-button--xs {
-        --_btn-pad-y: var(--spacing-200, 0.5rem);
-        --_btn-padding-x: var(--spacing-200, 0.5rem);
-        --_btn-radius: var(--button-radius-xs, 4px);
+      .bcn-swf__nav {
+        padding: 0 0 var(--spacing-500);
       }
-      .esa-button--variant-ghost .esa-button__native {
-        color: var(--color-content-default, #202020);
-        background: 0 0;
-        border-color: #0000;
+      .bcn-swf__steps {
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
       }
-      .esa-button__label {
+      .bcn-swf__item {
+        flex: 1;
+        align-items: center;
+        min-width: 0;
+        display: flex;
+      }
+      .bcn-swf__step {
+        align-items: center;
+        gap: var(--spacing-200);
+        padding: var(--spacing-200) var(--spacing-300);
+        border-radius: var(--radius-200);
+        font-size: var(--font-size-100);
+        font-weight: var(--typography-font-weight-semibold);
+        color: var(--color-content-default);
         white-space: nowrap;
+        text-decoration: none;
+        transition:
+          background-color 0.15s,
+          color 0.15s;
+        display: inline-flex;
       }
-      .esa-button--sm {
-        --_btn-pad-y: var(--spacing-250, 0.625rem);
-        --_btn-padding-x: var(--spacing-250, 0.625rem);
-        --_btn-radius: var(--button-radius-sm, 4px);
+      .bcn-swf__icon {
+        color: var(--_step);
+        flex-shrink: 0;
+        display: inline-flex;
       }
-      .esa-button--variant-primary {
-        --_accent-text: var(--color-content-brand);
+      .bcn-swf__label {
+        line-height: 1;
       }
-      .esa-button--variant-danger {
-        --_accent: var(--color-background-utility-danger);
-        --_accent-hover: var(--color-background-utility-danger-hover);
-        --_accent-text: var(--color-content-utility-danger);
+      .bcn-swf__check {
+        margin-left: var(--spacing-100);
+        color: var(--_step);
+        flex-shrink: 0;
+        display: inline-flex;
       }
-      .esa-button--appearance-soft .esa-button__native {
-        background: color-mix(
-          in srgb,
-          var(--color-background-elevation-sunken, #f0f0f0) 45%,
-          var(--color-background-elevation-raised, #fcfcfc)
-        );
-        color: var(--_accent-text);
-        border-color: var(--color-border-default-strong, #bbb);
+      .bcn-swf__connector {
+        height: 0;
+        margin: 0 var(--spacing-200);
+        border-top: 2px dotted var(--color-border-default);
+        flex: 1;
+      }
+      .bcn-swf__item--fork {
+        flex: none;
+      }
+      .bcn-swf__branches {
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+      }
+      .bcn-swf__branch {
+        align-items: center;
+        display: flex;
+      }
+      .bcn-swf__tine {
+        width: 28px;
+        margin-right: var(--spacing-200);
+        flex: none;
+        align-self: stretch;
+        position: relative;
+      }
+      .bcn-swf__tine:before {
+        content: "";
+        border-top: 2px dotted var(--color-border-default);
+        height: 0;
+        position: absolute;
+        inset: 50% 0 auto;
+      }
+      .bcn-swf__tine:after {
+        content: "";
+        border-left: 2px dotted var(--color-border-default);
+        width: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+      }
+      .bcn-swf__branch:first-child .bcn-swf__tine:after {
+        top: 50%;
+      }
+      .bcn-swf__branch .bcn-swf__step {
+        margin: var(--spacing-150) 0;
+        flex: 1;
+      }
+      .bcn-swf__branch:last-child .bcn-swf__tine:after {
+        bottom: 50%;
+      }
+      .bcn-swf__step:hover,
+      .bcn-swf__step[data-active] {
+        background: var(--_step);
+        color: var(--color-content-default-knockout);
+      }
+      .bcn-swf__step:hover .bcn-swf__icon,
+      .bcn-swf__step:hover .bcn-swf__check,
+      .bcn-swf__step[data-active] .bcn-swf__icon,
+      .bcn-swf__step[data-active] .bcn-swf__check {
+        color: var(--color-content-default-knockout);
+      }
+      .bcn-swf__body {
+        flex: 1;
+        min-width: 0;
+      }
+      :host {
+        --_field-padding-y: var(--spacing-300, 0.75rem);
+        --_field-padding-x: var(--spacing-300, 0.75rem);
+        --_field-radius: var(--radius-md, 0.5rem);
+        --_field-border-color: var(--form-border-color, #cecece);
+        display: block;
+      }
+      :host([size="sm"]) {
+        --_field-padding-y: var(--spacing-250, 0.625rem);
+        --_field-padding-x: var(--spacing-250, 0.625rem);
+        --_field-radius: var(--radius-sm, 0.25rem);
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+      }
+      .control {
+        display: flex;
+        align-items: stretch;
+        /* NO HEIGHT. The box is as tall as the input inside it, which is its line
+         box plus its padding. A px height could not grow with rem text, so it
+         clipped — and this rule used to pair one with overflow:hidden, which is
+         what made the clipping silent. See semantic/size.json.
+
+         line-height 1 is what leaves padding as the only variable: at 1.6 there
+         is a third term (0.6 x font-size of leading) that nobody chose and that
+         grows faster than either input. Everything else — face, size, weight,
+         tracking — still comes from .typography-body-* on this element and
+         inherits to the input and the affixes below. */
+        background: var(--color-background-field, transparent);
+        border: var(--form-border-width, 1px) solid var(--_field-border-color);
+        border-radius: var(--_field-radius);
+        box-sizing: border-box;
+        transition:
+          border-color var(--transition-fast, 150ms ease),
+          box-shadow var(--transition-fast, 150ms ease);
+      }
+      .input {
+        flex: 1 1 auto;
+        min-width: 0;
+        width: 100%;
+        /* No height: 100%. It used to resolve against .control's fixed height, which
+         meant this padding was ABSORBED into that height rather than adding to it.
+         With no fixed parent it would compute to auto anyway; removing it makes the
+         padding load-bearing, which is the point. .control is align-items:stretch,
+         so the affixes still match this element's height. */
+        padding: var(--_field-padding-y) var(--_field-padding-x);
+        /* A native control does not inherit type by default — this is what opts it
+         into the composite already resolved on .control. */
+        font: inherit;
+        color: var(--form-text-color, #202020);
+        background: transparent;
+        border: none;
+        outline: none;
+        box-sizing: border-box;
+      }
+      .input::placeholder {
+        color: var(--form-placeholder-color, #838383);
+      }
+      .help,
+      .error {
+        margin: 0;
+      }
+      .error {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-100, 4px);
+        color: var(--form-error-color, var(--color-content-utility-danger, #ce2c31));
+      }
+      .help {
+        color: var(--form-help-color, #838383);
+      }
+      .label {
+        color: var(--form-label-color, #646464);
+        margin-block-end: var(--form-label-gap, 4px);
+      }
+      .required {
+        color: var(--color-content-utility-danger, #ce2c31);
+        margin-inline-start: 2px;
+      }
+      :host {
+        display: contents;
+      }
+      dialog.esa-confirm-dialog {
+        position: relative;
+        border: none;
+        padding: 0;
+        margin: auto;
+        width: var(--confirm-dialog-width, 360px);
+        max-width: calc(100vw - 2rem);
+        background: var(--color-background-elevation-floating, #fcfcfc);
+        color: var(--color-content-default, #202020);
+        border-radius: var(--radius-lg, 0.75rem);
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.15),
+          0 4px 16px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        font-family: var(--typography-font-family-sans, "DM Sans", sans-serif);
       }
     </style>
   </head>

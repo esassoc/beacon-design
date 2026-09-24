@@ -6257,6 +6257,73 @@ ONE flat checkbox list in code order, with search and a Source Document facet.
   line-height: var(--typography-microcopy-sm-strong-line-height);
   letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
 }
+.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
+  display: none;
+}
+.bcn-lam__opts {
+  padding-inline-start: calc(var(--spacing-200) + 22px);
+}
+.bcn-lam__opts--flat {
+  padding-inline-start: var(--spacing-200);
+}
+.bcn-cbadge {
+  font-family: var(--typography-font-family-mono);
+  font-weight: var(--typography-font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.bcn-cbadge--md {
+  font-size: var(--font-size-100);
+  padding: 1px var(--spacing-200);
+}
+.bcn-cbadge--sm {
+  padding: 1px var(--spacing-150);
+  font-size: 0.75rem;
+}
+.bcn-cbadge--neutral {
+  font-family: var(--typography-font-family-sans);
+  color: var(--bcn-gray-700);
+  background: var(--bcn-gray-100);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.typography-microcopy-sm-subtle {
+  font-family: var(--typography-microcopy-sm-subtle-font-family);
+  font-size: var(--typography-microcopy-sm-subtle-font-size);
+  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
+  line-height: var(--typography-microcopy-sm-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
+}
+.typography-microcopy-sm-strong {
+  font-family: var(--typography-microcopy-sm-strong-font-family);
+  font-size: var(--typography-microcopy-sm-strong-font-size);
+  font-weight: var(--typography-microcopy-sm-strong-font-weight);
+  line-height: var(--typography-microcopy-sm-strong-line-height);
+  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
+}
 .bcn-laf__clear[hidden] {
   display: none;
 }
@@ -6378,73 +6445,6 @@ details[open] > .bcn-lao__row .bcn-lao__chevron {
   align-items: center;
   gap: var(--spacing-200);
   display: inline-flex;
-}
-.bcn-loc[data-class="commitment"] .bcn-loc__req .bcn-cbadge {
-  display: none;
-}
-.bcn-lam__opts {
-  padding-inline-start: calc(var(--spacing-200) + 22px);
-}
-.bcn-lam__opts--flat {
-  padding-inline-start: var(--spacing-200);
-}
-.bcn-cbadge {
-  font-family: var(--typography-font-family-mono);
-  font-weight: var(--typography-font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
-  white-space: nowrap;
-  flex-shrink: 0;
-  display: inline-block;
-}
-.bcn-cbadge--md {
-  font-size: var(--font-size-100);
-  padding: 1px var(--spacing-200);
-}
-.bcn-cbadge--sm {
-  padding: 1px var(--spacing-150);
-  font-size: 0.75rem;
-}
-.bcn-cbadge--neutral {
-  font-family: var(--typography-font-family-sans);
-  color: var(--bcn-gray-700);
-  background: var(--bcn-gray-100);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-label-md-strong {
-  font-family: var(--typography-label-md-strong-font-family);
-  font-size: var(--typography-label-md-strong-font-size);
-  font-weight: var(--typography-label-md-strong-font-weight);
-  line-height: var(--typography-label-md-strong-line-height);
-  letter-spacing: var(--typography-label-md-strong-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-.typography-microcopy-sm-subtle {
-  font-family: var(--typography-microcopy-sm-subtle-font-family);
-  font-size: var(--typography-microcopy-sm-subtle-font-size);
-  font-weight: var(--typography-microcopy-sm-subtle-font-weight);
-  line-height: var(--typography-microcopy-sm-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-sm-subtle-letter-spacing);
-}
-.typography-microcopy-sm-strong {
-  font-family: var(--typography-microcopy-sm-strong-font-family);
-  font-size: var(--typography-microcopy-sm-strong-font-size);
-  font-weight: var(--typography-microcopy-sm-strong-font-weight);
-  line-height: var(--typography-microcopy-sm-strong-line-height);
-  letter-spacing: var(--typography-microcopy-sm-strong-letter-spacing);
 }
 .esa-filter-container {
   align-items: center;
