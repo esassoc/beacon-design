@@ -1,0 +1,109 @@
+---
+// <BcnFeedObligationCard> — one obligation as the feed shows it under an event: the
+// Lists slim card (bcn-obligation-card.css, the .bcn-loc namespace), so a duty reads the
+// same here as on a list detail page. Andy, 2026-09-23: carry the Lists work into the feed.
+// A flat row, with no component/implementation children: the component switcher beside
+// the H1 scopes the page, so nesting components under each card repeated it (Andy,
+// 2026-09-23).
+//
+// The row: class chip, title, the RELATION mark (Triggered: the record made the
+// duty owed; Evidence: the record shows it being met), and one
+// or two hover verbs — pin, and on a record's pane the x that unlinks it from the record
+// (Andy, 2026-09-23: the feed is a log of evidence linked to obligations, so the links
+// are editable). The title is text until the feed has an obligation panel.
+//
+// Presentational. <BcnFeedWorkspace> owns every listener, through data-of-card,
+// data-of-pin and data-fw-unlink (<BcnFeedLinks>).
+//
+// bcn-lego-checked: the same call as <BcnListObligationCard> — esa-card's padding and
+// header band and esa-list-item's missing trailing verbs miss a dense card row. The shape
+// IS bcn-obligation-card.css, glyphs esa-icon, tooltips esa-tooltip.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { OBLIGATION_CLASS_LABEL, type ObligationNode } from '../../data/setup-wizard';
+import { FEED_GLYPH } from './feed-glyphs';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+import { RELATION_HINT, RELATION_LABEL, type Relation } from '../../data/obligation-feed';
+import '../../styles/bcn-obligation-card.css';
+
+interface Props {
+  obligation: ObligationNode;
+  /** How the record in view relates to this obligation. Omitted on the by-obligation side. */
+  relation?: Relation;
+  pinned?: boolean;
+  /** Show the x that unlinks it from the record in view. Record panes only. */
+  removable?: boolean;
+}
+const { obligation: o, relation, pinned = false, removable = false } = Astro.props;
+---
+
+<li
+  class="bcn-loc bcn-foc"
+  data-of-card
+  data-id={o.id}
+  data-class={o.class}
+  data-text={o.title.toLowerCase()}
+  data-relation={relation}
+  data-pinned={pinned ? '' : undefined}
+>
+  <div class="bcn-loc__main bcn-foc__main">
+    <span class="bcn-loc__class">{OBLIGATION_CLASS_LABEL[o.class]}</span>
+    <span class="bcn-loc__title bcn-foc__title">{o.title}</span>
+    {relation && (
+      <esa-tooltip text={RELATION_HINT[relation]}><span class="bcn-foc__relation" data-relation={relation}>{RELATION_LABEL[relation]}</span></esa-tooltip>
+    )}
+    <span class="bcn-foc__verbs">
+      <esa-tooltip text={pinned ? 'Unpin' : 'Pin'} align="end"><button
+        type="button"
+        class="bcn-loc__verb bcn-foc__pin"
+        aria-label="Pin this obligation"
+        aria-pressed={pinned ? 'true' : 'false'}
+        data-of-pin
+      ><EsaIcon name="pin" size="xs" paths={FEED_GLYPH.pin} /></button></esa-tooltip>
+      {removable && (
+        <esa-tooltip text="Remove from this record" align="end"><button
+          type="button"
+          class="bcn-loc__verb bcn-loc__verb--danger"
+          aria-label="Remove from this record"
+          data-fw-unlink
+        ><EsaIcon name="x" size="xs" paths={STEP_GLYPH.x} /></button></esa-tooltip>
+      )}
+    </span>
+  </div>
+</li>
+
+<style>
+  /* No panel to open yet and nothing to disclose, so the row and title are plain text. */
+  .bcn-foc__main { cursor: default; }
+  /* The hover verbs sit hard right (Andy, 2026-09-23). The implementation count used to
+     push them there; with it gone, the group takes the free space itself. */
+  .bcn-foc__verbs {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    flex-shrink: 0;
+    margin-inline-start: auto;
+  }
+  .bcn-foc__title { cursor: inherit; }
+  .bcn-foc__title:hover { text-decoration: none; }
+
+  /* A pinned card keeps its pin showing; an unpinned one shows it on hover, like
+     every other verb on the card. */
+  .bcn-foc__pin[aria-pressed='true'] { opacity: 1; color: var(--color-content-brand); }
+  .bcn-foc__pin[aria-pressed='true'] :global(svg) { fill: currentColor; }
+
+  /* A quiet 4px mark, not a pill: it is a kind of link, not a status. Triggered carries
+     the notify hue because it is the one that asks for something; Evidence stays grey. */
+  .bcn-foc__relation {
+    flex-shrink: 0;
+    padding: 0 var(--spacing-150);
+    border-radius: var(--radius-100);
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-foc__relation[data-relation='triggered'] {
+    background: color-mix(in srgb, #ffa600 16%, white);
+    color: color-mix(in srgb, #ffa600 60%, black);
+  }
+</style>

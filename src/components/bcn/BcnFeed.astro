@@ -1,0 +1,64 @@
+---
+// <BcnFeed> — the obligation feed's four views as underline tabs, the way a list
+// detail page switches its views. A polish of <BcnTrackingFeed> (Kim) on the same
+// data: the four views are hers (her By record / By obligation pivot was cut, Andy 2026-09-23); the outer Feed / Registry
+// segmented row is gone (this page is the feed alone), the two provenance alert boxes
+// are gone (text about the page), and the choice rides ?view= like <BcnListViewTabs>.
+//
+// bcn-lego-checked: esa-tab-layout IS the view switch (ARIA tablist, roving keyboard);
+// each panel is <BcnFeedWorkspace>; <BcnFeedLinks> (once, after the tabs) adds and removes a
+// record's obligation links in every view. No CSS. Records come from obligation-feed.ts, which
+// wraps Kim's events and adds the other sources a record can arrive from.
+import BcnFeedWorkspace from './BcnFeedWorkspace.astro';
+import BcnFeedLinks from './BcnFeedLinks.astro';
+import { VIEWS } from '../../data/obligation-tracking';
+import { feedSvg, type FEED_GLYPH } from './feed-glyphs';
+
+// One Lucide glyph per view, carried on esa-tab-layout's own `icon` (Andy, 2026-09-23).
+const TAB_ICON: Record<string, keyof typeof FEED_GLYPH> = { all: 'inbox', important: 'star', todo: 'list-todo', pinned: 'pin' };
+const TABS = VIEWS.map((v) => ({ label: v.label, icon: feedSvg(TAB_ICON[v.id]) }));
+const IDS = VIEWS.map((v) => v.id);
+// The rail names what it holds: RECORDS, the word the monitoring streams already use for
+// what lands in them (Andy, 2026-09-23: "Events" retired).
+const RAIL = {
+  all: { label: 'Records', empty: 'No records yet.' },
+  important: { label: 'Records in your filter', empty: 'No records touch your categories.' },
+  todo: { label: 'Records that owe a notice', empty: 'No record owes a notice.' },
+  pinned: { label: 'Records touching your pins', empty: 'No record touches a pinned obligation.' },
+} as const;
+---
+
+<esa-tab-layout
+  class="bcn-feed"
+  tabs={JSON.stringify(TABS)}
+  appearance="underline"
+  size="sm"
+  active-index="0"
+  data-feed-views={JSON.stringify(IDS)}
+>
+  <div slot="panel-0"><BcnFeedWorkspace view="all" railLabel={RAIL.all.label} empty={RAIL.all.empty} /></div>
+  <div slot="panel-1"><BcnFeedWorkspace view="important" railLabel={RAIL.important.label} empty={RAIL.important.empty} /></div>
+  <div slot="panel-2"><BcnFeedWorkspace view="todo" railLabel={RAIL.todo.label} empty={RAIL.todo.empty} /></div>
+  <div slot="panel-3"><BcnFeedWorkspace view="pinned" railLabel={RAIL.pinned.label} empty={RAIL.pinned.empty} /></div>
+</esa-tab-layout>
+
+<BcnFeedLinks />
+
+<script>
+  import '@esa/ecology/esa-tab-layout';
+
+  const el = document.querySelector<HTMLElement & { activeIndex: number }>('[data-feed-views]');
+  if (el) {
+    const ids = JSON.parse(el.dataset.feedViews || '[]') as string[];
+    const start = ids.indexOf(new URL(location.href).searchParams.get('view') ?? '');
+    if (start > 0) customElements.whenDefined('esa-tab-layout').then(() => { el.activeIndex = start; });
+    el.addEventListener('tabchange', (e) => {
+      const id = ids[(e as CustomEvent<{ index: number }>).detail.index];
+      if (!id) return;
+      const url = new URL(location.href);
+      if (id === ids[0]) url.searchParams.delete('view');
+      else url.searchParams.set('view', id);
+      history.replaceState(null, '', url);
+    });
+  }
+</script>

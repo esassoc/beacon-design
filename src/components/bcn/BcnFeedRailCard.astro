@@ -1,0 +1,138 @@
+---
+// <BcnFeedRailCard> — one parent in the feed's rail, laid out like a message in a mail
+// list (Andy, 2026-09-23: "treat this feed like emails in Outlook"):
+//
+//   line 1  the sender: the record's source (or the obligation's class) and its time
+//   line 2  the subject: the record's title, one line
+//
+// Andy, 2026-09-23 (second polish): two lines only, very slim — the component, location
+// and obligation count live in the open pane, not on the card.
+//
+// A RECORD leads with its source's name as text (the coloured stream marks were cut,
+// Andy 2026-09-23). An OBLIGATION leads with its class chip.
+//
+// Presentational: <BcnFeedWorkspace> owns selection (data-of-pick, aria-selected) and
+// filtering. Everything it filters on rides a data-* attribute on the <li>.
+//
+// bcn-lego-checked: esa-list-item is not selectable and esa-card carries a header band
+// and padding scale; a listbox option has to be a native button with role="option"
+// (as BcnSwObligationsEditor's picker rows are). The class chip is the shared
+// bcn-obligation-card chip hues.
+import { OBLIGATION_CLASS_LABEL, type ObligationClass } from '../../data/setup-wizard';
+
+interface Props {
+  id: string;
+  label: string;
+  when?: string;
+  /** Record parents: the source's name. */
+  source?: string;
+  /** Obligation parents: the class, drawn as the card's class chip. */
+  cls?: ObligationClass;
+  selected?: boolean;
+  /** Filter hooks, written onto the <li> as data-* attributes. */
+  filters?: Record<string, string>;
+}
+const { id, label, when, source, cls, selected = false, filters = {} } = Astro.props;
+const data = Object.fromEntries(Object.entries(filters).map(([k, v]) => [`data-${k}`, v]));
+---
+
+<li class="bcn-frc" data-class={cls} data-frc {...data}>
+  <button
+    type="button"
+    class="bcn-frc__row"
+    role="option"
+    aria-selected={selected ? 'true' : 'false'}
+    data-of-pick={id}
+  >
+    <span class="bcn-frc__from">
+      {source && <span class="bcn-frc__source">{source}</span>}
+      {cls && <span class="bcn-frc__class">{OBLIGATION_CLASS_LABEL[cls]}</span>}
+      {when && <span class="bcn-frc__when">{when}</span>}
+    </span>
+    <span class="bcn-frc__label">{label}</span>
+  </button>
+</li>
+
+<style>
+  .bcn-frc { list-style: none; }
+  .bcn-frc[hidden] { display: none; }
+
+  .bcn-frc__row {
+    inline-size: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    padding: var(--spacing-150) var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: 6px;
+    background: var(--color-background-default);
+    font: inherit;
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+    text-align: start;
+    cursor: pointer;
+    transition: border-color 120ms ease, background-color 120ms ease;
+  }
+  .bcn-frc__row:hover { border-color: var(--color-border-default-strong); }
+  .bcn-frc__row:focus-visible { outline: 2px solid var(--color-border-default-focus); outline-offset: 2px; }
+  /* Selected: the brand fill with knocked-out text, like a highlighted message in a mail
+     list (Andy, 2026-09-23). Both lines, time and class chip included, turn on-brand. */
+  .bcn-frc__row[aria-selected='true'] {
+    border-color: var(--color-background-brand);
+    background: var(--color-background-brand);
+    color: var(--color-content-on-brand);
+  }
+  .bcn-frc__row[aria-selected='true'] .bcn-frc__from,
+  .bcn-frc__row[aria-selected='true'] .bcn-frc__when { color: var(--color-content-on-brand); }
+  .bcn-frc__row[aria-selected='true'] .bcn-frc__class {
+    background: color-mix(in srgb, var(--color-content-on-brand) 18%, transparent);
+    color: var(--color-content-on-brand);
+  }
+
+  /* Line 1: who sent it, and when. */
+  .bcn-frc__from {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    min-inline-size: 0;
+    font-size: 0.75rem;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-frc__source {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-frc__when {
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+
+  /* The class chip, in the hue map bcn-obligation-card.css writes for the cards. */
+  .bcn-frc__class {
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    background: color-mix(in srgb, var(--_hue) 14%, white);
+    color: color-mix(in srgb, var(--_hue) 78%, black);
+  }
+  .bcn-frc[data-class='adhere'] { --_hue: var(--color-obligation); }
+  .bcn-frc[data-class='monitor'] { --_hue: #ff7c43; }
+  .bcn-frc[data-class='notify'] { --_hue: #ffa600; }
+  .bcn-frc[data-class='roster'] { --_hue: var(--color-action); }
+
+  /* Line 2: the subject, one line. The full title is the pane's headline. */
+  .bcn-frc__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+</style>

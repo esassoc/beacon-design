@@ -1,0 +1,159 @@
+---
+// <BcnFeedRecord> — one record opened in the feed, read like an email (Andy, 2026-09-23:
+// "contained, a cohesive whole, like a report"):
+//
+//   header    source name, the title, and the way out to the full record
+//   meta      the five facts every source can supply, each with its label
+//   body      the submitter's summary and attached files, when the record has them
+//   list      the obligations it relates to, each marked Triggered or Evidence, with
+//             "Add obligations" to link more and an x on each card to unlink one
+//             (<BcnFeedLinks> owns both; Andy, 2026-09-23)
+//
+// Source-specific detail (buffer distance, weather, species) is NOT repeated here. It
+// lives on the record's own page, and "Open in <stream>" goes there.
+//
+// Presentational. <BcnFeedWorkspace> owns pinning; <BcnFeedLinks> owns data-fw-link, data-fw-duties,
+// data-fw-duty-count and data-fw-duties-none.
+//
+// bcn-lego-checked: esa-card IS the container. Its `header` slot is used because its default
+// header has no place for the source line above the title or for the pairs in email-header
+// columns; a filled header slot drops `meta`, so the pairs are rendered here as dt/dd.
+// The link IS esa-button with href, files ARE bcn-file-row, cards bcn-feed-obligation-card.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnFileRow from './BcnFileRow.astro';
+import BcnFeedObligationCard from './BcnFeedObligationCard.astro';
+import { fullTime, PINNED_IDS, type FeedRecord } from '../../data/obligation-feed';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  record: FeedRecord;
+}
+const { record: r } = Astro.props;
+const n = r.duties.length;
+const META = [
+  { label: 'Received', value: fullTime(r.at) },
+  { label: 'Component', value: r.component },
+  { label: 'Location', value: r.location },
+  { label: 'Submitted by', value: r.submittedBy },
+  { label: 'Channel', value: r.source.channel },
+];
+---
+
+<div class="bcn-frec">
+  <EsaCard>
+    <div slot="header" class="bcn-frec__head">
+      <div class="bcn-frec__heading">
+        <p class="bcn-frec__source typography-label-sm">
+          {r.source.label}
+        </p>
+        <h3 class="bcn-frec__title typography-heading-md">{r.title}</h3>
+        <dl class="bcn-frec__meta">
+          {META.map((m) => (
+            <div class="bcn-frec__pair">
+              <dt class="typography-label-sm">{m.label}</dt>
+              <dd class="typography-body-sm">{m.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      {r.href && (
+        <EsaButton variant="secondary" appearance="outline" size="sm" href={withBase(r.href)} iconRight="arrow-right">
+          {r.hrefLabel}
+        </EsaButton>
+      )}
+    </div>
+
+    <div class="bcn-frec__body stack" data-gap="md">
+      {r.summary && <p class="bcn-frec__summary typography-body-sm">{r.summary}</p>}
+      {r.files && r.files.length > 0 && (
+        <div class="stack" data-gap="xs">
+          {r.files.map((f) => <BcnFileRow name={f.name} size={f.size} />)}
+        </div>
+      )}
+
+      <section class="stack" data-gap="sm" aria-label="Obligations">
+        <div class="repel">
+          <h4 class="bcn-frec__count typography-label-md">
+            Obligations <span data-fw-duty-count><BcnSwCountBadge value={n} label={`${n} ${n === 1 ? 'obligation' : 'obligations'}`} /></span>
+          </h4>
+          <EsaButton variant="secondary" appearance="outline" size="xs" icon="plus" data-fw-link={r.id} data-fw-link-title={r.title}>Add obligations</EsaButton>
+        </div>
+        <ul class="bcn-frec__cards stack" data-gap="sm" data-fw-duties={r.id}>
+          {r.duties.map((d) => (
+            <BcnFeedObligationCard obligation={d.obligation} relation={d.relation} pinned={PINNED_IDS.has(d.obligation.id)} removable />
+          ))}
+        </ul>
+        <p class="bcn-frec__none typography-body-sm" data-fw-duties-none hidden={n > 0}>No obligations linked to this record.</p>
+      </section>
+    </div>
+  </EsaCard>
+</div>
+
+<style>
+  /* The header band a pale grey, so the report's header reads apart from the white body below
+     it (Andy, 2026-09-23). The same pale mix as the feed's rail, set through esa-card's
+     public --card-header-bg hook. The lift is a shadow on this wrapper, matched to the card's
+     radius: esa-card's own `elevated` variant drops the border, and the card keeps it here. */
+  .bcn-frec {
+    border-radius: var(--radius-md);
+    box-shadow: var(--elevation-2);
+    --card-header-bg: color-mix(in srgb, var(--color-background-elevation-sunken) 45%, var(--color-background-default));
+  }
+  .bcn-frec__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    inline-size: 100%;
+    padding-block: var(--spacing-200);
+  }
+  .bcn-frec__heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    min-inline-size: 0;
+  }
+
+  .bcn-frec__source {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-frec__title { margin: 0; color: var(--color-content-default); }
+
+  /* The pairs, set like an email's header block: a fixed label column and the value
+     beside it, so every value starts on the same line. Two columns when there is room. */
+  .bcn-frec__meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: var(--spacing-150) var(--spacing-600);
+    margin: var(--spacing-200) 0 0;
+  }
+  .bcn-frec__pair {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--spacing-300);
+  }
+  .bcn-frec__pair dt { color: var(--color-content-default-secondary); }
+  .bcn-frec__pair dd { margin: 0; color: var(--color-content-default); }
+
+  .bcn-frec__body { padding-block: var(--spacing-100); }
+  .bcn-frec__summary { margin: 0; max-inline-size: 70ch; color: var(--color-content-default); }
+
+  .bcn-frec__count {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-frec__cards { margin: 0; padding: 0; list-style: none; }
+  .bcn-frec__cards:empty { display: none; }
+  .bcn-frec__none { margin: 0; color: var(--color-content-default-tertiary); }
+  .bcn-frec__none[hidden] { display: none; }
+</style>

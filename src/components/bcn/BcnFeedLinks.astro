@@ -1,0 +1,312 @@
+---
+// <BcnFeedLinks> — edits the links between a record and the obligations it bears on. The
+// feed is a log of evidence connected to obligations (Andy, 2026-09-23), so a reader can
+// correct it:
+//
+//   ADD     "Add obligations" on a record's pane (data-fw-link) opens this drawer: the
+//           project's obligation registry minus what the record already links to, filed
+//           CATEGORY > SUBCATEGORY > obligation, with a search, the Lists drawer's facet
+//           filters. "Link to record" stamps the cards onto every pane of that record, in
+//           every view. A link made by hand is always EVIDENCE: Triggered is what the
+//           system detects from the record, not a choice (Andy, 2026-09-23).
+//   REMOVE  the x on a record's obligation card (data-fw-unlink), behind a confirm. Only
+//           the link goes; the record and the obligation both stay.
+//
+// One per page. The cards are stamped from a <template> holding a <BcnFeedObligationCard>
+// for every registry obligation, so an added card is the same markup a built one is.
+// Nothing persists: a reload restores the fixture.
+//
+// bcn-lego-checked: the frame IS esa-side-dialog, the search esa-text-field, every option
+// esa-checkbox, the verbs esa-button, the guard
+// esa-confirm-dialog, the filters BcnListAddFilters. The tree and footer ARE the Lists
+// add drawer's (bcn-list-add.css, list-add.ts); <BcnListAddObligations> is bound to a
+// list's members and its events, so the markup is repeated here over the full registry.
+// Checked Beacon: prod links evidence to obligations in a modal picker of the same shape.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSwCountBadge from './BcnSwCountBadge.astro';
+import BcnListAddFilters from './BcnListAddFilters.astro';
+import BcnFeedObligationCard from './BcnFeedObligationCard.astro';
+import { OBLIGATION_TREE } from '../../data/setup-wizard';
+import { LIST_FACETS, buildFacets, facetAttrs, obligationFacets } from '../../data/lists';
+import { PINNED_IDS } from '../../data/obligation-feed';
+import '../../styles/bcn-list-add.css';
+import '../../styles/bcn-tree.css';
+
+const catCount = (cat: (typeof OBLIGATION_TREE)[number]) => cat.subcategories.reduce((n, s) => n + s.obligations.length, 0);
+const facets = buildFacets(
+  LIST_FACETS.obligation,
+  OBLIGATION_TREE.flatMap((c) => c.subcategories.flatMap((s) => s.obligations.map((o) => obligationFacets(o, c.id)))),
+);
+---
+
+<esa-side-dialog
+  id="bcn-fwl"
+  heading="Add obligations"
+  position="right"
+  show-close-button
+  style="--_width: min(680px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250;">
+  <div class="bcn-lao">
+    <dl class="bcn-fwl__to">
+      <dt class="typography-label-sm">Record</dt>
+      <dd class="typography-body-sm" data-fwl-record></dd>
+    </dl>
+
+    <esa-text-field
+      size="sm"
+      name="fwl-search"
+      aria-label="Search obligations"
+      placeholder="Search by obligation title"></esa-text-field>
+
+    <BcnListAddFilters facets={facets} />
+
+    <p class="bcn-lao__nomatch" data-lao-nomatch hidden>No obligations match.</p>
+
+    <div class="bcn-lao__tree" data-lao-tree>
+      {OBLIGATION_TREE.map((cat) => (
+        <details class="bcn-lao__cat" data-lao-cat={cat.id}>
+          <summary class="bcn-lao__row bcn-lao__row--cat">
+            <span class="bcn-lao__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+            <span class="bcn-lao__name">{cat.name}</span>
+            <span data-lao-count><BcnSwCountBadge value={catCount(cat)} label={`${catCount(cat)} obligations available`} /></span>
+          </summary>
+          <div class="bcn-lao__subs">
+            {cat.subcategories.map((sub) => (
+              <details class="bcn-lao__sub" data-lao-sub={sub.id}>
+                <summary class="bcn-lao__row bcn-lao__row--sub">
+                  <span class="bcn-lao__chevron" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+                  <span class="bcn-lao__name">{sub.name}</span>
+                  <span data-lao-count><BcnSwCountBadge value={sub.obligations.length} label={`${sub.obligations.length} obligations available`} /></span>
+                </summary>
+                <ul class="bcn-lao__opts">
+                  {sub.obligations.map((o) => (
+                    <li class="bcn-lao__opt" data-lao-opt data-id={o.id} data-title={o.title} {...facetAttrs(obligationFacets(o, cat.id))}>
+                      <esa-checkbox size="sm" aria-label={o.title}></esa-checkbox>
+                      <span class="bcn-lao__label" data-opt-label>{o.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <span slot="footer" class="bcn-lao__foot">
+    <span class="bcn-lao__selected">Selected: <span data-lao-n>0</span></span>
+    <span class="bcn-lao__foot-right">
+      <EsaButton variant="primary" size="sm" data-lao-add>Link to record</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-lao-cancel>Cancel</EsaButton>
+    </span>
+  </span>
+</esa-side-dialog>
+
+<esa-confirm-dialog
+  data-fwl-confirm
+  heading="Remove from this record?"
+  confirm-label="Remove"
+  cancel-label="Cancel"
+  show-close-button
+  style="--z-modal: 1500; --z-modal-backdrop: 1450;"></esa-confirm-dialog>
+
+<template data-fwl-cards>
+  {OBLIGATION_TREE.flatMap((c) => c.subcategories.flatMap((s) => s.obligations)).map((o) => (
+    <BcnFeedObligationCard obligation={o} relation="evidence" pinned={PINNED_IDS.has(o.id)} removable />
+  ))}
+</template>
+
+<style>
+  .bcn-fwl__to {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--spacing-300);
+    margin: 0;
+  }
+  .bcn-fwl__to dt { color: var(--color-content-default-secondary); }
+  .bcn-fwl__to dd { margin: 0; color: var(--color-content-default); }
+</style>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-confirm-dialog';
+  import { paintLabel, wireFacets, wireOptionLabels } from './list-add';
+
+  type Drawer = HTMLElement & { open: boolean };
+  type Valued = HTMLElement & { value: string };
+  type Checkbox = HTMLElement & { checked: boolean };
+  type Confirm = HTMLElement & { open: boolean; message: string };
+
+  const drawer = document.getElementById('bcn-fwl') as Drawer | null;
+  if (drawer) {
+    const tree = drawer.querySelector<HTMLElement>('[data-lao-tree]')!;
+    const search = drawer.querySelector<Valued>('esa-text-field[name="fwl-search"]');
+    const recordOut = drawer.querySelector<HTMLElement>('[data-fwl-record]')!;
+    const nomatch = drawer.querySelector<HTMLElement>('[data-lao-nomatch]')!;
+    const nOut = drawer.querySelector<HTMLElement>('[data-lao-n]')!;
+    const addBtn = drawer.querySelector<HTMLButtonElement>('button[data-lao-add]');
+    const cancelBtn = drawer.querySelector<HTMLButtonElement>('button[data-lao-cancel]');
+    const library = document.querySelector<HTMLTemplateElement>('template[data-fwl-cards]')!;
+    const guard = document.querySelector<Confirm>('[data-fwl-confirm]');
+
+    let record = '';
+    let held = new Set<string>();
+
+    // ---- Every copy of a record's obligation list, one per view that shows the record.
+    const listsOf = (id: string) => [...document.querySelectorAll<HTMLElement>(`[data-fw-duties="${id}"]`)];
+    const recount = (id: string) => {
+      for (const ul of listsOf(id)) {
+        const n = ul.querySelectorAll(':scope > [data-of-card]').length;
+        const section = ul.closest('section')!;
+        const badge = section.querySelector<HTMLElement>('[data-fw-duty-count] > *');
+        if (badge) {
+          badge.textContent = String(n);
+          badge.setAttribute('aria-label', `${n} ${n === 1 ? 'obligation' : 'obligations'}`);
+        }
+        const none = section.querySelector<HTMLElement>('[data-fw-duties-none]');
+        if (none) none.hidden = n > 0;
+      }
+    };
+
+    // ---- The picker: the Lists add drawer's behavior, over the whole registry.
+    const rows = () => [...tree.querySelectorAll<HTMLElement>('[data-lao-opt]')];
+    wireOptionLabels(tree);
+    const boxOf = (row: HTMLElement) => row.querySelector('esa-checkbox') as Checkbox | null;
+    const checkedRows = () => rows().filter((r) => !r.hidden && boxOf(r)?.checked);
+    const needleOf = () => (search?.value ?? '').trim().toLowerCase();
+    const setAddEnabled = (on: boolean) => {
+      if (!addBtn) return;
+      addBtn.disabled = !on;
+      addBtn.closest('.esa-button')?.classList.toggle('esa-button--disabled', !on);
+    };
+    const syncCount = () => {
+      const n = checkedRows().length;
+      nOut.textContent = String(n);
+      setAddEnabled(n > 0);
+    };
+    tree.addEventListener('change', syncCount);
+
+    const setCount = (branch: HTMLElement, n: number) => {
+      const badge = branch.querySelector<HTMLElement>(':scope > summary [data-lao-count] > *');
+      if (!badge) return;
+      badge.textContent = String(n);
+      badge.setAttribute('aria-label', `${n} obligations available`);
+    };
+    // A candidate is anything the record does not already link to; search and facets
+    // narrow it. A branch with a hit opens while a search or facet is in use.
+    const filter = () => {
+      const needle = needleOf();
+      const narrowing = !!needle || facets.isActive();
+      let shown = 0;
+      for (const cat of tree.querySelectorAll<HTMLDetailsElement>('[data-lao-cat]')) {
+        let inCat = 0;
+        for (const sub of cat.querySelectorAll<HTMLDetailsElement>('[data-lao-sub]')) {
+          let inSub = 0;
+          for (const row of sub.querySelectorAll<HTMLElement>('[data-lao-opt]')) {
+            const hit = !held.has(row.dataset.id!)
+              && (!needle || (row.dataset.title ?? '').toLowerCase().includes(needle))
+              && facets.matches(row);
+            row.hidden = !hit;
+            paintLabel(row, hit ? needle : '');
+            if (hit) inSub += 1;
+          }
+          sub.hidden = inSub === 0;
+          setCount(sub, inSub);
+          sub.open = narrowing && inSub > 0;
+          inCat += inSub;
+        }
+        cat.hidden = inCat === 0;
+        setCount(cat, inCat);
+        cat.open = narrowing && inCat > 0;
+        shown += inCat;
+      }
+      nomatch.hidden = shown > 0;
+    };
+    const facets = wireFacets(drawer, () => filter());
+    search?.addEventListener('input', filter);
+    search?.addEventListener('change', filter);
+
+    const reset = () => {
+      for (const row of rows()) {
+        const box = boxOf(row);
+        if (box) box.checked = false;
+      }
+      if (search) search.value = '';
+      facets.reset();
+      filter();
+      syncCount();
+    };
+
+    // ---- Open for a record.
+    document.addEventListener('click', (ev) => {
+      const trigger = (ev.target as Element).closest<HTMLElement>('[data-fw-link]');
+      if (!trigger) return;
+      record = trigger.dataset.fwLink!;
+      held = new Set(
+        [...(listsOf(record)[0]?.querySelectorAll<HTMLElement>(':scope > [data-of-card]') ?? [])].map((c) => c.dataset.id!),
+      );
+      recordOut.textContent = trigger.dataset.fwLinkTitle ?? '';
+      Promise.all(
+        ['esa-side-dialog', 'esa-text-field', 'esa-checkbox'].map((t) => customElements.whenDefined(t)),
+      ).then(() => {
+        reset();
+        drawer.open = true;
+      });
+    });
+    cancelBtn?.addEventListener('click', () => { drawer.open = false; });
+
+    // ---- Link. Each card is stamped from the library, already marked Evidence, and
+    // files at the end: after the Triggered ones, the order the fixture builds.
+    const stamp = (id: string) => {
+      const card = library.content.querySelector<HTMLElement>(`[data-of-card][data-id="${id}"]`)!.cloneNode(true) as HTMLElement;
+      // Pins are per reader for the session: follow any copy of this obligation already on the page.
+      const live = document.querySelector<HTMLElement>(`[data-of-card][data-id="${id}"] [data-of-pin]`);
+      const pin = card.querySelector<HTMLElement>('[data-of-pin]');
+      if (live && pin) {
+        const on = live.getAttribute('aria-pressed') === 'true';
+        pin.setAttribute('aria-pressed', String(on));
+        pin.closest('esa-tooltip')?.setAttribute('text', on ? 'Unpin' : 'Pin');
+      }
+      return card;
+    };
+    addBtn?.addEventListener('click', () => {
+      const ids = checkedRows().map((r) => r.dataset.id!);
+      if (!ids.length || !record) return;
+      for (const ul of listsOf(record)) {
+        for (const id of ids) {
+          if (ul.querySelector(`:scope > [data-of-card][data-id="${id}"]`)) continue;
+          ul.append(stamp(id));
+        }
+      }
+      recount(record);
+      drawer.open = false;
+    });
+
+    // ---- Unlink, behind a guard. Not the danger variant: nothing is destroyed.
+    let pending: (() => void) | null = null;
+    guard?.addEventListener('confirm', () => { pending?.(); pending = null; });
+    guard?.addEventListener('cancel', () => { pending = null; });
+    guard?.addEventListener('dismiss', () => { pending = null; });
+    document.addEventListener('click', (ev) => {
+      const x = (ev.target as Element).closest<HTMLElement>('[data-fw-unlink]');
+      if (!x) return;
+      ev.preventDefault();
+      const card = x.closest<HTMLElement>('[data-of-card]')!;
+      const id = card.dataset.id!;
+      const rid = card.closest<HTMLElement>('[data-fw-duties]')!.dataset.fwDuties!;
+      const drop = () => {
+        for (const ul of listsOf(rid)) ul.querySelector(`:scope > [data-of-card][data-id="${id}"]`)?.remove();
+        recount(rid);
+      };
+      if (!guard) { drop(); return; }
+      const title = card.querySelector('.bcn-foc__title')?.textContent ?? '';
+      pending = drop;
+      guard.message = `"${title}" comes off this record. The record and the obligation both stay.`;
+      guard.open = true;
+    });
+  }
+</script>

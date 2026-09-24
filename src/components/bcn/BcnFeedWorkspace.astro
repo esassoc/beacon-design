@@ -1,0 +1,304 @@
+---
+// <BcnFeedWorkspace> — one view of the obligation feed: a rail of records on the left,
+// grouped by day like a mail list, and the selected record on the right, read as a
+// report. Andy's second pass (2026-09-23):
+//
+//   - the unit is a RECORD (obligation-feed.ts): anything that arrived and relates to an
+//     obligation, as Triggered or Evidence, whatever its source;
+//   - the rail is a light-grey panel of two-line cards in Outlook's date groups: Today, Yesterday, This week,
+//     This month, Older;
+//   - the filters narrow the RECORDS (search, source, and a 30 days / 90 days /
+//     All scope), never the obligations inside the one that is open;
+//   - the pane is one contained report, <BcnFeedRecord>, and links out to the full record.
+//
+// Kim's geometry is unchanged: records on the left, the open one on the right; every pane
+// rendered at build time and only revealed. The By record / By obligation pivot was cut
+// (Andy, 2026-09-23): every view reads by record.
+//
+// bcn-lego-checked: no esa-* lego is a list-plus-detail work frame (esa-app-shell is page
+// chrome, esa-tab-layout swaps panels rather than showing two). The .sidebar and .stack
+// primitives are composed, not reimplemented; the scope IS esa-button-toggle,
+// the filter row IS bcn-sw-filter-row, the panes ARE bcn-feed-record, the empty state IS esa-empty-state. Checked Beacon (list/detail surfaces inline this glue per page).
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnSwFilterRow from './BcnSwFilterRow.astro';
+import BcnFeedRailCard from './BcnFeedRailCard.astro';
+import BcnFeedRecord from './BcnFeedRecord.astro';
+import {
+  ageDays,
+  DATE_GROUPS,
+  DEFAULT_SCOPE,
+  groupOf,
+  railTime,
+  RECORD_SOURCES,
+  RECORDS_IN,
+  SCOPES,
+  type FeedViewId,
+} from '../../data/obligation-feed';
+
+interface Props {
+  view: FeedViewId;
+  railLabel: string;
+  empty: string;
+}
+const { view, railLabel, empty } = Astro.props;
+
+const records = RECORDS_IN[view];
+
+// What every filter reads, keyed by record id.
+const FILTER_DATA = Object.fromEntries(
+  records.map((r) => [
+    r.id,
+    {
+      source: r.source.id,
+      age: ageDays(r.at),
+      text: [r.title, r.location, r.submittedBy, r.source.label].join(' ').toLowerCase(),
+    },
+  ]),
+);
+
+const groups = DATE_GROUPS.map((g) => ({ label: g, records: records.filter((r) => groupOf(r.at) === g) }))
+  .filter((g) => g.records.length > 0);
+const firstRecord = records[0]?.id;
+
+const SOURCE_OPTIONS = Object.values(RECORD_SOURCES).map((s) => ({ label: s.label, value: s.id }));
+const searchName = `feed-${view}`;
+---
+
+<div
+  class="bcn-fw stack"
+  data-gap="md"
+  data-fw-view={view}
+  data-fw-search={searchName}
+  data-fw-records={JSON.stringify(FILTER_DATA)}
+>
+  <BcnSwFilterRow
+    searchName={searchName}
+    searchPlaceholder="Search records"
+    panel
+    pickers={[
+      { label: 'Source', value: 'All sources', options: SOURCE_OPTIONS },
+    ]}
+  >
+    <esa-button-toggle
+      slot="filters"
+      size="sm"
+      aria-label="How far back"
+      data-fw-scope
+      data-value={DEFAULT_SCOPE}
+      data-options={JSON.stringify(SCOPES)}></esa-button-toggle>
+  </BcnSwFilterRow>
+
+  <div class="bcn-fw__side" data-fw-side>
+      {records.length === 0 ? (
+        <EsaEmptyState title={empty} />
+      ) : (
+        <div class="sidebar" data-gap="lg" style="--sidebar-width: 21rem; --sidebar-content-min: 55%;">
+          <aside class="bcn-fw__rail" aria-label={railLabel}>
+            <div class="bcn-fw__scroll" role="listbox" aria-label={railLabel}>
+              {groups.map((g) => (
+                <div class="bcn-fw__group" role="group" aria-label={g.label} data-fw-group>
+                  <p class="bcn-fw__group-head typography-label-xs" aria-hidden="true">{g.label}</p>
+                  <ul class="bcn-fw__list stack" data-gap="xs" role="none">
+                    {g.records.map((r) => (
+                      <BcnFeedRailCard
+                        id={r.id}
+                        label={r.title}
+                        when={railTime(r.at)}
+                        source={r.source.label}
+                        selected={r.id === firstRecord}
+                        filters={{ 'fw-record': r.id }}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              ))}
+
+              <p class="bcn-fw__none typography-body-sm" data-fw-none hidden>Nothing matches these filters.</p>
+            </div>
+          </aside>
+
+          <div class="bcn-fw__detail">
+            {records.map((r) => (
+              <section class="bcn-fw__pane" data-fw-pane={r.id} hidden={r.id !== firstRecord} aria-label={r.title}>
+                <BcnFeedRecord record={r} />
+              </section>
+            ))}
+            <div class="bcn-fw__pane" data-fw-pane-none hidden>
+              <EsaEmptyState title="No records match these filters" description="Widen the time range or clear a filter." />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+</div>
+
+<style>
+  /* [hidden] loses to an author display rule, so the hidden states are guarded. */
+  .bcn-fw__side[hidden],
+  .bcn-fw__pane[hidden],
+  .bcn-fw__group[hidden],
+  .bcn-fw__none[hidden] { display: none; }
+
+  /* The rail: a pale grey panel, a third of the filter panel’s grey, with a light border (Andy,
+     2026-09-23: the sunken grey read too dark). Sticky, and it scrolls itself. */
+  .bcn-fw__rail {
+    --_rail-bg: color-mix(in srgb, var(--color-background-elevation-sunken) 30%, var(--color-background-default));
+    position: sticky;
+    top: var(--spacing-400);
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    /* The page scrolls inside .modern-layout__content, which starts below AppShell's fixed
+       52px topbar. The rail must also leave room for the page's bottom padding: a rail as
+       tall as the scroller cannot stay stuck at the page's end, so when the open record was
+       short its top slid under the topbar, and Expand all snapped it back down (Andy,
+       2026-09-23). Sized to fit, it stays stuck at every scroll position. */
+    max-block-size: calc(100vh - 52px - var(--spacing-400) - var(--spacing-900));
+    /* Keep scroll anchoring off the rail: when the open record grows or shrinks, the browser
+       anchored on a rail card and jumped the page to hold it. */
+    overflow-anchor: none;
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-md);
+    background: var(--_rail-bg);
+    overflow: hidden;
+  }
+  /* No heading band (Andy, 2026-09-23): the rail opens on its first date group. One 12px
+     inset on all four sides. The top inset is the sticky group heading's own padding, not
+     the scroller's: scroller padding sat above a stuck heading and let rows show through
+     it. The headings sit on the card edge, so the day, the card and the rail edge line up. */
+  .bcn-fw__scroll {
+    overflow-y: auto;
+    padding: 0 var(--spacing-300) var(--spacing-300);
+  }
+
+  /* A date group's heading stays pinned at the top of the rail while its records scroll. */
+  .bcn-fw__group + .bcn-fw__group { margin-block-start: var(--spacing-100); }
+  .bcn-fw__group-head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin: 0;
+    padding: var(--spacing-300) 2px var(--spacing-150);
+    background: var(--_rail-bg);
+    /* The rail can land on a half pixel; this covers the sliver of card border that
+       otherwise shows above a stuck heading. */
+    box-shadow: 0 -2px 0 var(--_rail-bg);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fw__list { margin: 0; padding: 2px; }
+
+  .bcn-fw__none {
+    margin: 0;
+    padding: var(--spacing-300) var(--spacing-100);
+    color: var(--color-content-default-tertiary);
+  }
+
+  @media (max-width: 60rem) {
+    .bcn-fw__rail { position: static; max-block-size: 26rem; }
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+
+  type Toggle = HTMLElement & { options: unknown[]; value: string };
+  type Field = HTMLElement & { value: string };
+  interface RecordFacts { source: string; age: number; text: string }
+
+  for (const ws of document.querySelectorAll<HTMLElement>('.bcn-fw')) {
+    const name = ws.dataset.fwSearch!;
+    const facts = JSON.parse(ws.dataset.fwRecords ?? '{}') as Record<string, RecordFacts>;
+    const sides = [...ws.querySelectorAll<HTMLElement>('[data-fw-side]')];
+    const search = ws.querySelector<Field>(`esa-text-field[name="${name}"]`);
+    const sourcePick = ws.querySelector<Field>(`esa-select[name="${name}-source"]`);
+    const scope = ws.querySelector<Toggle>('[data-fw-scope]');
+
+    customElements.whenDefined('esa-button-toggle').then(() => {
+      if (scope) {
+        scope.options = JSON.parse(scope.dataset.options ?? '[]');
+        scope.value = scope.dataset.value ?? '';
+      }
+      apply();
+    });
+
+    const select = (side: HTMLElement, id: string | null) => {
+      for (const r of side.querySelectorAll<HTMLElement>('[data-of-pick]')) {
+        r.setAttribute('aria-selected', String(r.dataset.ofPick === id));
+      }
+      for (const p of side.querySelectorAll<HTMLElement>('[data-fw-pane]')) p.hidden = p.dataset.fwPane !== id;
+      const none = side.querySelector<HTMLElement>('[data-fw-pane-none]');
+      if (none) none.hidden = id !== null;
+    };
+
+    // FILTERS NARROW THE RECORDS. A record passes on search, source and scope (the component filter was cut for the switcher beside the H1, Andy 2026-09-23).
+    // The obligations inside an open record are never filtered.
+    const apply = () => {
+      const q = (search?.value ?? '').trim().toLowerCase();
+      const src = sourcePick?.value ?? '';
+      const days = scope?.value && scope.value !== 'all' ? Number(scope.value) : Infinity;
+      const inScope = (id: string) => {
+        const f = facts[id];
+        return !!f && f.age <= days && (!src || f.source === src);
+      };
+      const passes = (id: string) => inScope(id) && (!q || facts[id].text.includes(q));
+
+      for (const side of sides) {
+        const items = [...side.querySelectorAll<HTMLElement>('[data-frc]')];
+        let shown = 0;
+        for (const li of items) {
+          const ok = passes(li.dataset.fwRecord!);
+          li.hidden = !ok;
+          if (ok) shown++;
+        }
+        for (const g of side.querySelectorAll<HTMLElement>('[data-fw-group]')) {
+          g.hidden = !g.querySelector('[data-frc]:not([hidden])');
+        }
+        const none = side.querySelector<HTMLElement>('[data-fw-none]');
+        if (none) none.hidden = shown > 0;
+        const count = side.querySelector<HTMLElement>('[data-fw-shown]');
+        if (count) count.textContent = String(shown);
+
+        // Keep the open item if it survived; otherwise open the first that did.
+        const current = side.querySelector<HTMLElement>('[data-of-pick][aria-selected="true"]');
+        if (!current || current.closest<HTMLElement>('li')!.hidden) {
+          const first = items.find((li) => !li.hidden)?.querySelector<HTMLElement>('[data-of-pick]');
+          select(side, first?.dataset.ofPick ?? null);
+        }
+      }
+    };
+    search?.addEventListener('input', apply);
+    sourcePick?.addEventListener('change', apply);
+    scope?.addEventListener('change', apply);
+
+    for (const side of sides) {
+      const rows = [...side.querySelectorAll<HTMLButtonElement>('[data-of-pick]')];
+      for (const r of rows) r.addEventListener('click', () => select(side, r.dataset.ofPick!));
+
+      side.querySelector('[role="listbox"]')?.addEventListener('keydown', (ev) => {
+        const e = ev as KeyboardEvent;
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        const visible = rows.filter((r) => !r.closest('li')!.hidden);
+        const i = visible.findIndex((r) => r.getAttribute('aria-selected') === 'true');
+        const next = visible[e.key === 'ArrowDown' ? Math.min(i + 1, visible.length - 1) : Math.max(i - 1, 0)];
+        if (!next) return;
+        e.preventDefault();
+        select(side, next.dataset.ofPick!);
+        next.focus();
+      });
+    }
+
+    // Pin is a per-reader toggle; the prototype keeps it for the session. Every card for
+    // the same obligation on the page follows.
+    ws.addEventListener('click', (ev) => {
+      const pin = (ev.target as Element).closest<HTMLButtonElement>('[data-of-pin]');
+      if (!pin) return;
+      ev.preventDefault();
+      const id = pin.closest<HTMLElement>('[data-of-card]')!.dataset.id;
+      const on = pin.getAttribute('aria-pressed') !== 'true';
+      for (const b of document.querySelectorAll<HTMLButtonElement>(`[data-of-card][data-id="${id}"] [data-of-pin]`)) {
+        b.setAttribute('aria-pressed', String(on));
+        b.closest('esa-tooltip')?.setAttribute('text', on ? 'Unpin' : 'Pin');
+      }
+    });
+  }
+</script>

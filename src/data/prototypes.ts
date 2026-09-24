@@ -132,6 +132,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
       },
       {
+        slug: 'obligation-feed',
+        title: 'Obligations (feed)',
+        description:
+          'The Feed half of Obligation Tracking, polished with the Lists work and read like a mail client. Four views as icon tabs (All, Important, To-do, Pinned), a pale rail of two-line record cards grouped Today / Yesterday / This week / This month / Older, and the open record as one contained report: its facts, its files, and the obligations it relates to, each marked Triggered or Evidence. The feed is a log of evidence linked to obligations, so the links are editable: Add obligations opens a filtered side panel, and an x on each card unlinks it behind a confirm. The component switcher beside the H1 scopes the page; the By record / By obligation pivot, the component filter and the nested implementations were cut.',
+        route: '/prototypes/obligation-feed',
+        createdAt: '2026-09-23',
+        status: 'in-progress',
+      },
+      {
         slug: 'data-catalog-obligations',
         title: 'Obligations list (Data Catalog)',
         description:
