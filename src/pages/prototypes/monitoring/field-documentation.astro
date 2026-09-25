@@ -1,0 +1,130 @@
+---
+// Monitoring → Notifications & Daily Logs — the expected field documents for every
+// exploration location in the Delta Conveyance 2026 geotechnical campaign, as a
+// red / green matrix (DCA request, George Valenzuela, 2026-09-25).
+//
+// Each drill hole generates its expected documents from its drill dates: the
+// pre-drilling notifications, site clearances and USA ticket back-dated in working
+// days, and one biological / field coordinator / geologist log per drill day. Status
+// is derived against the fixture clock, never stored — see
+// src/data/field-notifications-fixture.ts for the model, George's rows, and the
+// seeded mock records.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnFieldDocReadiness from '../../../components/bcn/BcnFieldDocReadiness.astro';
+import BcnFieldDocMatrix from '../../../components/bcn/BcnFieldDocMatrix.astro';
+import BcnFieldDocChecklist from '../../../components/bcn/BcnFieldDocChecklist.astro';
+import BcnStatusChip from '../../../components/bcn/BcnStatusChip.astro';
+import { withBase } from '../../../lib/base';
+import { summarizeCampaign, campaignReadiness, HOLE_STATUS_META } from '../../../data/field-notifications-fixture';
+
+const holes = summarizeCampaign();
+const readiness = campaignReadiness(holes);
+---
+
+<!-- manifest:
+  layout: stack(xl)
+  sections:
+    - readiness strip -> bcn-field-doc-readiness     # holes with gaps, missing, late, due in 5 working days
+    - document matrix -> bcn-field-doc-matrix        # filter bar + drill hole × document grid, grouped by agreement
+    - hole record     -> esa-side-dialog             # header + bcn-field-doc-checklist per hole, SSR'd hidden
+-->
+
+<AppShell
+  title="Notifications & Daily Logs — Delta Conveyance"
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="mp-field-documentation"
+  expandedSections={['monitoring']}
+>
+  <PageLayout
+    title="Notifications & Daily Logs"
+    icon="notepad-text"
+    breadcrumbs={[
+      { label: 'Delta Conveyance', href: '#project' },
+      { label: 'Monitoring Portal', href: withBase('/prototypes/monitoring/dashboard') },
+      { label: 'Notifications & Daily Logs' },
+    ]}
+  >
+    <div class="stack" data-gap="xl">
+      <BcnFieldDocReadiness readiness={readiness} />
+      <BcnFieldDocMatrix holes={holes} />
+    </div>
+  </PageLayout>
+
+  <esa-side-dialog
+    id="fd-record"
+    heading="Drill hole"
+    style="--_width: 640px; --z-modal: 1300; --z-modal-backdrop: 1250;"
+  >
+    <div slot="header">
+      {
+        holes.map((h) => (
+          <div data-fd-head={h.location.id} hidden>
+            <div class="cluster" data-gap="sm">
+              <h2 class="typography-title-strong">{h.location.id}</h2>
+              <BcnStatusChip status={`fd-hole-${h.status}`} label={HOLE_STATUS_META[h.status].label} hex={HOLE_STATUS_META[h.status].hex} />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    {
+      holes.map((h) => (
+        <div data-fd-body={h.location.id} hidden>
+          <BcnFieldDocChecklist hole={h} />
+        </div>
+      ))
+    }
+  </esa-side-dialog>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+
+  type SideDialog = HTMLElement & { show(): void; close(): void; heading: string };
+  const dialog = document.getElementById('fd-record') as SideDialog;
+  const heads = [...document.querySelectorAll<HTMLElement>('[data-fd-head]')];
+  const bodies = [...document.querySelectorAll<HTMLElement>('[data-fd-body]')];
+  const known = new Set(bodies.map((b) => b.dataset.fdBody));
+  let openId: string | null = null;
+  // Back/forward closes the drawer without pushing a second entry for a navigation
+  // the user already made (the lego's close event fires after its slide-out).
+  let closingFromHistory = false;
+  let opener: HTMLElement | null = null;
+
+  function openHole(id: string, push = true) {
+    if (!known.has(id)) return;
+    heads.forEach((h) => (h.hidden = h.dataset.fdHead !== id));
+    bodies.forEach((b) => (b.hidden = b.dataset.fdBody !== id));
+    dialog.heading = id;
+    openId = id;
+    if (push) history.pushState({ hole: id }, '', `?hole=${encodeURIComponent(id)}`);
+    dialog.show();
+  }
+
+  document.addEventListener('field-doc-select', (e) => {
+    opener = document.querySelector<HTMLElement>(`[data-fd-link="${(e as CustomEvent).detail.holeId}"]`);
+    openHole((e as CustomEvent).detail.holeId);
+  });
+
+  dialog.addEventListener('close', () => {
+    if (!openId) return;
+    openId = null;
+    if (!closingFromHistory) history.pushState({}, '', location.pathname);
+    closingFromHistory = false;
+    opener?.focus();
+  });
+
+  window.addEventListener('popstate', () => {
+    const id = new URLSearchParams(location.search).get('hole');
+    if (id) openHole(id, false);
+    else if (openId) {
+      closingFromHistory = true;
+      dialog.close();
+    }
+  });
+
+  const initial = new URLSearchParams(location.search).get('hole');
+  if (initial) customElements.whenDefined('esa-side-dialog').then(() => openHole(initial, false));
+</script>

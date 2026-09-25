@@ -465,6 +465,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
       },
       {
+        slug: 'monitoring-field-documentation',
+        title: 'Notifications & Daily Logs',
+        description:
+          'Every expected field document for the 2026 geotechnical campaign as a drill hole × document matrix: landowner, public and tribal notifications, 14-day and 72-hr site clearances and the USA ticket back-dated in working days from each drill start, plus one biological, field coordinator and geologist log per drill day. Received is green, past due with nothing uploaded is red, received late is amber; a row opens the hole’s dated checklist with each Survey123 or Fulcrum record.',
+        route: '/prototypes/monitoring/field-documentation',
+        createdAt: '2026-09-25',
+        status: 'in-progress',
+      },
+      {
         slug: 'monitoring-surveys',
         title: 'Surveys',
         description:

@@ -1,0 +1,488 @@
+---
+// <BcnFieldDocMatrix> — drill holes × expected field documents, one status mark per
+// cell. Rows are exploration locations grouped by agreement batch; columns are the
+// document types in three groups (Notifications | Site clearance + USA | Daily logs).
+// A once-per-hole document renders as one mark; a daily log renders as
+// received / expected drill days. Red is spent only on Missing, so the gaps are the
+// first thing the grid shows.
+//
+// Behaviour: the carded filter bar scopes rows (search, status, agreement, rig,
+// county) and orders them inside each batch (drill start, most missing, id). A row
+// click — or its id link, a real ?hole= href — dispatches `field-doc-select` with
+// { holeId } so the host opens the record. The component holds no drawer.
+//
+// bcn-lego-checked: every control is a lego — esa-text-field + esa-icon-button
+// (search), esa-filter-dropdown ×4 (facets, the status one with per-option colour
+// dots), esa-select (sort), esa-filter-clear-button, all inside BcnFilterBar;
+// BcnFieldDocMark draws every status. The pivot itself is a semantic <table> with a
+// sticky two-row header, the precedent BcnRolesMatrix set: checked the catalog (no
+// esa-* grid or matrix lego) and the AG Grid kit (community AG Grid has no row
+// grouping, and a batch-grouped pivot with column groups is the whole point here).
+import EsaIconButton from '@esa/ecology/esa-button.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnFilterBar from './BcnFilterBar.astro';
+import BcnFieldDocMark from './BcnFieldDocMark.astro';
+import {
+  DOC_TYPES,
+  DOC_GROUP_LABEL,
+  DOC_STATUS_META,
+  HOLE_STATUS_META,
+  HOLE_STATUS_ORDER,
+  drillRange,
+  type CellSummary,
+  type DocGroup,
+  type HoleSummary,
+} from '../../data/field-notifications-fixture';
+
+interface Props {
+  holes: HoleSummary[];
+}
+const { holes } = Astro.props;
+
+const groups = [...new Set(holes.map((h) => h.location.agreement))];
+const byGroup = groups.map((agreement) => {
+  const rows = holes.filter((h) => h.location.agreement === agreement);
+  return { agreement, rows, withMissing: rows.filter((h) => h.missing > 0).length };
+});
+
+const docGroups: { group: DocGroup; span: number }[] = (['notifications', 'clearance', 'daily'] as DocGroup[]).map((group) => ({
+  group,
+  span: DOC_TYPES.filter((t) => t.group === group).length,
+}));
+
+const cellLabel = (label: string, c: CellSummary) => {
+  if (!c.status) return `${label}: none expected`;
+  if (c.expected > 1 || DOC_TYPES.find((t) => t.kind === c.kind)?.cadence === 'per-drill-day') {
+    const parts = [`${c.received} of ${c.expected} received`];
+    if (c.missing) parts.push(`${c.missing} missing`);
+    if (c.late) parts.push(`${c.late} late`);
+    return `${label}: ${parts.join(', ')}`;
+  }
+  return `${label}: ${DOC_STATUS_META[c.status].label}`;
+};
+
+const startKey = (h: HoleSummary) => (h.location.schedule.kind === 'scheduled' ? h.location.schedule.start : '9999-12-31');
+
+// Facet options, SSR'd onto the dropdowns as JSON (the Lit lego takes `options` as a property).
+const uniq = (xs: string[]) => [...new Set(xs)];
+const rigSort = (a: string, b: string) => (Number(a) || 99) - (Number(b) || 99) || a.localeCompare(b);
+const facetOptions = {
+  status: HOLE_STATUS_ORDER.filter((s) => holes.some((h) => h.status === s)).map((s) => ({
+    value: s,
+    label: HOLE_STATUS_META[s].label,
+    color: HOLE_STATUS_META[s].hex,
+  })),
+  agreement: groups.map((g) => ({ value: g, label: g })),
+  rig: uniq(holes.map((h) => h.location.rig))
+    .sort(rigSort)
+    .map((r) => ({ value: r, label: /^\d+$/.test(r) ? `Rig ${r}` : r === 'HA' ? 'Hand auger' : r })),
+  county: uniq(holes.map((h) => h.location.county))
+    .sort()
+    .map((c) => ({ value: c, label: c })),
+};
+const sortOptions = [
+  { value: 'start', label: 'Drill start' },
+  { value: 'missing', label: 'Most missing' },
+  { value: 'id', label: 'Exploration ID' },
+];
+---
+
+<div class="stack bcn-fd-matrix" data-gap="md" data-fd-matrix>
+  <BcnFilterBar sortLabel="Sort">
+    <esa-text-field
+      slot="search"
+      data-fd-search
+      placeholder="Search exploration ID or property"
+      aria-label="Search drill holes"
+      size="md"></esa-text-field>
+    <span slot="search" data-fd-search-clear hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
+
+    <esa-filter-dropdown data-fd-facet="status" label="Status" multiple size="sm" data-options={JSON.stringify(facetOptions.status)}></esa-filter-dropdown>
+    <esa-filter-dropdown data-fd-facet="agreement" label="Agreement" multiple size="sm" data-options={JSON.stringify(facetOptions.agreement)}></esa-filter-dropdown>
+    <esa-filter-dropdown data-fd-facet="rig" label="Rig" multiple size="sm" data-options={JSON.stringify(facetOptions.rig)}></esa-filter-dropdown>
+    <esa-filter-dropdown data-fd-facet="county" label="County" multiple size="sm" data-options={JSON.stringify(facetOptions.county)}></esa-filter-dropdown>
+
+    <esa-select slot="sort" data-fd-sort size="md" data-options={JSON.stringify(sortOptions)}></esa-select>
+    <span slot="actions" data-fd-clear><FilterClearButton /></span>
+  </BcnFilterBar>
+
+  <div class="bcn-fd-matrix__module">
+    <div class="bcn-fd-matrix__scroll">
+      <table class="bcn-fd-table">
+        <colgroup>
+          <col class="bcn-fd-table__col-id" />
+          <col class="bcn-fd-table__col-rig" />
+          <col class="bcn-fd-table__col-drill" />
+          {DOC_TYPES.map((t) => <col class:list={['bcn-fd-table__col-doc', t.group === 'daily' && 'bcn-fd-table__col-daily']} />)}
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col" rowspan="2" class="bcn-fd-table__lead">Exploration ID</th>
+            <th scope="col" rowspan="2" class="bcn-fd-table__lead">Rig</th>
+            <th scope="col" rowspan="2" class="bcn-fd-table__lead">Drilling</th>
+            {docGroups.map((g) => (
+              <th scope="colgroup" colspan={g.span} class="bcn-fd-table__group-head">{DOC_GROUP_LABEL[g.group]}</th>
+            ))}
+          </tr>
+          <tr>
+            {DOC_TYPES.map((t) => (
+              <th scope="col" class:list={['bcn-fd-table__doc-head', `is-${t.group}`]}>{t.column}</th>
+            ))}
+          </tr>
+        </thead>
+        {byGroup.map((g) => (
+          <tbody data-fd-group={g.agreement}>
+            <tr class="bcn-fd-table__batch">
+              <th scope="colgroup" colspan={3 + DOC_TYPES.length}>
+                <span class="cluster" data-gap="sm">
+                  <span class="bcn-fd-table__batch-name">{g.agreement}</span>
+                  {g.withMissing > 0 && (
+                    <span class="bcn-fd-table__batch-alert">
+                      {g.withMissing} {g.withMissing === 1 ? 'hole' : 'holes'} missing documents
+                    </span>
+                  )}
+                </span>
+              </th>
+            </tr>
+            {g.rows.map((h) => {
+              const loc = h.location;
+              const scheduled = loc.schedule.kind === 'scheduled';
+              return (
+                <tr
+                  class="bcn-fd-table__row"
+                  data-fd-row
+                  data-hole={loc.id}
+                  data-status={h.status}
+                  data-agreement={loc.agreement}
+                  data-rig={loc.rig}
+                  data-county={loc.county}
+                  data-start={startKey(h)}
+                  data-missing={h.missing}
+                  data-search={`${loc.id} ${loc.property}`.toLowerCase()}
+                >
+                  <th scope="row" class="bcn-fd-table__id">
+                    <a href={`?hole=${loc.id}`} data-fd-link={loc.id}>{loc.id}</a>
+                  </th>
+                  <td class="bcn-fd-table__rig">{loc.rig}</td>
+                  <td class:list={['bcn-fd-table__drill', !scheduled && 'is-unscheduled']}>{drillRange(loc)}</td>
+                  {scheduled ? (
+                    DOC_TYPES.map((t) => {
+                      const c = h.cells[t.kind];
+                      const label = cellLabel(t.label, c);
+                      if (t.cadence === 'per-drill-day') {
+                        return (
+                          <td class:list={['bcn-fd-table__cell', `is-${t.group}`]} title={label}>
+                            <BcnFieldDocMark status={c.status} label={label} text={`${c.received}/${c.expected}`} />
+                          </td>
+                        );
+                      }
+                      return (
+                        <td class:list={['bcn-fd-table__cell', `is-${t.group}`]} title={label}>
+                          <BcnFieldDocMark status={c.status} label={label} />
+                        </td>
+                      );
+                    })
+                  ) : (
+                    <td class="bcn-fd-table__note" colspan={DOC_TYPES.length}>
+                      {loc.notes ?? '–'}
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        ))}
+      </table>
+    </div>
+
+    <div class="repel bcn-fd-matrix__foot">
+      <ul class="cluster bcn-fd-legend" data-gap="md" aria-label="Status key">
+        {(['received', 'late', 'missing', 'upcoming'] as const).map((s) => (
+          <li class="cluster" data-gap="xs">
+            <BcnFieldDocMark status={s} size="sm" />
+            <span>{DOC_STATUS_META[s].label}</span>
+          </li>
+        ))}
+      </ul>
+      <span class="bcn-fd-matrix__count">
+        Drill holes: <span data-fd-total>{holes.length}</span>
+        <span data-fd-shown hidden></span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-select';
+
+  type Opt = { value: string; label: string; color?: string };
+  type FacetKey = 'status' | 'agreement' | 'rig' | 'county';
+  type SortKey = 'start' | 'missing' | 'id';
+  type DropdownEl = HTMLElement & { options: Opt[]; _selected: string[] };
+  type SelectEl = HTMLElement & { options: Opt[]; value: string };
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-fd-matrix]')) {
+    const facets: Record<FacetKey, string[]> = { status: [], agreement: [], rig: [], county: [] };
+    let query = '';
+    let sort: SortKey = 'start';
+
+    const rows = [...root.querySelectorAll<HTMLTableRowElement>('[data-fd-row]')];
+    const groups = [...root.querySelectorAll<HTMLTableSectionElement>('[data-fd-group]')];
+    const shownEl = root.querySelector<HTMLElement>('[data-fd-shown]')!;
+
+    const passes = (r: HTMLTableRowElement) => {
+      const d = r.dataset;
+      if (query && !d.search!.includes(query)) return false;
+      if (facets.status.length && !facets.status.includes(d.status!)) return false;
+      if (facets.agreement.length && !facets.agreement.includes(d.agreement!)) return false;
+      if (facets.rig.length && !facets.rig.includes(d.rig!)) return false;
+      if (facets.county.length && !facets.county.includes(d.county!)) return false;
+      return true;
+    };
+
+    const compare = (a: HTMLTableRowElement, b: HTMLTableRowElement) => {
+      const A = a.dataset;
+      const B = b.dataset;
+      if (sort === 'missing') return Number(B.missing) - Number(A.missing) || A.start!.localeCompare(B.start!);
+      if (sort === 'id') return A.hole!.localeCompare(B.hole!);
+      return A.start!.localeCompare(B.start!) || A.hole!.localeCompare(B.hole!);
+    };
+
+    function apply() {
+      let shown = 0;
+      for (const g of groups) {
+        const mine = rows.filter((r) => r.closest('tbody') === g).sort(compare);
+        let visible = 0;
+        for (const r of mine) {
+          g.appendChild(r);
+          const ok = passes(r);
+          r.hidden = !ok;
+          if (ok) visible += 1;
+        }
+        g.hidden = visible === 0;
+        shown += visible;
+      }
+      shownEl.hidden = shown === rows.length;
+      shownEl.textContent = `Showing: ${shown}`;
+    }
+
+    // Facets
+    const dropdowns = [...root.querySelectorAll<DropdownEl>('[data-fd-facet]')];
+    for (const el of dropdowns) {
+      el.options = JSON.parse(el.dataset.options || '[]');
+      el.addEventListener('selection-change', (e) => {
+        facets[el.dataset.fdFacet as FacetKey] = ((e as CustomEvent).detail?.value as string[]) ?? [];
+        apply();
+      });
+    }
+
+    // Sort
+    const sortEl = root.querySelector<SelectEl>('[data-fd-sort]')!;
+    sortEl.options = JSON.parse(sortEl.dataset.options || '[]');
+    sortEl.value = sort;
+    sortEl.addEventListener('change', (e) => {
+      sort = ((e as CustomEvent).detail?.value as SortKey) || 'start';
+      apply();
+    });
+
+    // Search
+    const search = root.querySelector<HTMLElement & { value: string }>('[data-fd-search]')!;
+    const searchClear = root.querySelector<HTMLElement>('[data-fd-search-clear]')!;
+    search.addEventListener('change', (e) => {
+      const v = String((e as CustomEvent).detail?.value ?? search.value ?? '');
+      query = v.trim().toLowerCase();
+      searchClear.hidden = !v;
+      apply();
+    });
+    searchClear.addEventListener('click', () => {
+      search.value = '';
+      query = '';
+      searchClear.hidden = true;
+      apply();
+    });
+
+    // Clear all
+    root.querySelector('[data-fd-clear]')!.addEventListener('esa-filter-clear', () => {
+      (Object.keys(facets) as FacetKey[]).forEach((k) => (facets[k] = []));
+      dropdowns.forEach((el) => (el._selected = []));
+      search.value = '';
+      query = '';
+      searchClear.hidden = true;
+      apply();
+    });
+
+    // Row → record. The id link is a real ?hole= href; only a plain left click is intercepted.
+    const select = (holeId: string) =>
+      root.dispatchEvent(new CustomEvent('field-doc-select', { detail: { holeId }, bubbles: true }));
+    for (const r of rows) {
+      r.addEventListener('click', (e) => {
+        const me = e as MouseEvent;
+        if (me.metaKey || me.ctrlKey || me.shiftKey || me.button !== 0) return;
+        e.preventDefault();
+        select(r.dataset.hole!);
+      });
+    }
+  }
+</script>
+
+<style>
+  /* Dense data surface: 13px cells and headers, Beacon's grid numbers (Andy's explicit
+     override of the 16px floor for data grids, 2026-08-14). */
+  .bcn-fd-matrix__module {
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised);
+  }
+  /* The header sticks to the page scroller, so the wrapper only becomes a scroll box
+     (which would capture the sticky header) once the matrix no longer fits. */
+  @media (max-width: 87.5rem) {
+    .bcn-fd-matrix__scroll {
+      overflow-x: auto;
+    }
+  }
+
+  .bcn-fd-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default);
+  }
+  .bcn-fd-table__col-id { width: 8.5rem; }
+  .bcn-fd-table__col-rig { width: 2.75rem; }
+  .bcn-fd-table__col-drill { width: 6.75rem; }
+  .bcn-fd-table__col-doc { width: 4.5rem; }
+  .bcn-fd-table__col-daily { width: 5rem; }
+
+  /* ── Header ── */
+  .bcn-fd-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--color-background-default);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+    text-align: left;
+    vertical-align: bottom;
+    padding: var(--spacing-200);
+    border-bottom: 1px solid var(--color-border-default);
+    line-height: 1.25;
+  }
+  /* Second header row sticks under the first; the upward shadow closes the sub-pixel
+     seam between them so scrolled rows never show through. */
+  .bcn-fd-table thead tr:nth-child(2) th {
+    top: 2.1rem;
+    box-shadow: 0 -3px 0 var(--color-background-default);
+  }
+  .bcn-fd-table__group-head {
+    text-align: center !important;
+    color: var(--color-content-default) !important;
+  }
+  .bcn-fd-table__doc-head {
+    text-align: center !important;
+    font-weight: var(--typography-font-weight-medium) !important;
+  }
+  /* Group seams: a hairline before the first column of each document group. */
+  .bcn-fd-table__group-head,
+  .bcn-fd-table__doc-head.is-notifications:first-child,
+  .bcn-fd-table__doc-head.is-notifications + .is-clearance,
+  .bcn-fd-table__doc-head.is-clearance + .is-daily,
+  .bcn-fd-table__cell.is-notifications:nth-child(4),
+  .bcn-fd-table__cell.is-notifications + .is-clearance,
+  .bcn-fd-table__cell.is-clearance + .is-daily,
+  .bcn-fd-table__note {
+    border-left: 1px solid var(--color-border-default);
+  }
+
+  /* ── Batch rows ── */
+  .bcn-fd-table__batch th {
+    text-align: left;
+    padding: var(--spacing-250) var(--spacing-300);
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-border-default);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  tbody + tbody .bcn-fd-table__batch th {
+    border-top: 1px solid var(--color-border-default);
+  }
+  .bcn-fd-table__batch-name {
+    font-size: 14px;
+    color: var(--color-content-default);
+  }
+  .bcn-fd-table__batch-alert {
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-utility-danger);
+  }
+
+  /* ── Hole rows ── */
+  .bcn-fd-table__row > * {
+    height: 40px;
+    padding: 0 var(--spacing-200);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+    white-space: nowrap;
+  }
+  .bcn-fd-table__row {
+    cursor: pointer;
+  }
+  .bcn-fd-table__row:hover > * {
+    background: var(--color-background-default);
+  }
+  .bcn-fd-table__row[hidden],
+  .bcn-fd-table tbody[hidden] {
+    display: none;
+  }
+  .bcn-fd-table__id {
+    text-align: left;
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-fd-table__id a {
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+  .bcn-fd-table__row:hover .bcn-fd-table__id a,
+  .bcn-fd-table__id a:focus-visible {
+    text-decoration: underline;
+  }
+  .bcn-fd-table__rig,
+  .bcn-fd-table__drill {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fd-table__drill.is-unscheduled {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-fd-table__cell {
+    text-align: center;
+  }
+  .bcn-fd-table__note {
+    color: var(--color-content-default-tertiary);
+    white-space: normal;
+  }
+
+  /* ── Count strip (legend + total) ── */
+  .bcn-fd-matrix__foot {
+    padding: var(--spacing-200) var(--spacing-400);
+    border-top: 1px solid var(--color-border-default);
+    background: var(--color-background-default);
+    border-radius: 0 0 var(--radius-100) var(--radius-100);
+    font-size: 13px;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fd-legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-fd-matrix__count {
+    font-variant-numeric: tabular-nums;
+  }
+  [data-fd-shown] {
+    color: var(--color-content-default-tertiary);
+    margin-left: var(--spacing-200);
+  }
+  [data-fd-shown][hidden] {
+    display: none;
+  }
+</style>

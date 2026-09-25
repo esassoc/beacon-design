@@ -1,0 +1,51 @@
+---
+// <BcnFieldDocReadiness> — the readiness strip over the field-documentation matrix:
+// four campaign-wide counts, each naming the entity it counted. The two "missing"
+// counts take the overdue red when they are above zero; the rest stay in ink, so the
+// strip colours the exception rather than every number.
+//
+// bcn-lego-checked: esa-card is the shell and esa-stat IS each metric (value / label /
+// sub); the row is the `switcher` layout primitive. Checked BcnMonitoringStats (a
+// donut + category bars, wrong shape for four flat counts) and BcnTriageCounts (chips
+// riding a page title). What this component adds is the red-when-nonzero rule, which
+// has to live somewhere that is not the page.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import { shortDate, type CampaignReadiness } from '../../data/field-notifications-fixture';
+
+interface Props {
+  readiness: CampaignReadiness;
+}
+const { readiness: r } = Astro.props;
+---
+
+<EsaCard padding="compact">
+  <div class="switcher bcn-fd-readiness" style="--switcher-threshold: 40rem;">
+    <div class:list={['bcn-fd-readiness__stat', r.holesWithMissing > 0 && 'is-alert']}>
+      <EsaStat value={r.holesWithMissing} label="Drill holes missing documents" sub={`of ${r.scheduledHoles} scheduled`} />
+    </div>
+    <div class:list={['bcn-fd-readiness__stat', r.missingDocuments > 0 && 'is-alert']}>
+      <EsaStat value={r.missingDocuments} label="Missing documents" />
+    </div>
+    <div class="bcn-fd-readiness__stat">
+      <EsaStat value={r.lateDocuments} label="Documents received late" />
+    </div>
+    <div class="bcn-fd-readiness__stat">
+      <EsaStat value={r.dueSoon} label="Documents due in the next 5 working days" sub={`through ${shortDate(r.dueSoonThrough)}`} />
+    </div>
+  </div>
+</EsaCard>
+
+<style>
+  .bcn-fd-readiness__stat {
+    padding-inline: var(--spacing-200);
+  }
+  /* The overdue red from the Beacon status standard, on the value only. */
+  .bcn-fd-readiness__stat.is-alert {
+    --stat-value-color: var(--color-content-utility-danger);
+  }
+  .bcn-fd-readiness__stat + .bcn-fd-readiness__stat {
+    border-left: 1px solid var(--color-border-default);
+    padding-left: var(--spacing-500);
+  }
+</style>
