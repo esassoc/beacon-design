@@ -590,3 +590,31 @@ export function drillRange(loc: ExplorationLocation): string {
   const { start, finish } = loc.schedule;
   return start === finish ? shortDate(start) : `${shortDate(start)} – ${shortDate(finish)}`;
 }
+
+// ── Timeline axis ────────────────────────────────────────────────────────────────
+
+/** The campaign span the timeline draws: first notice window to a week past today. */
+export const CAMPAIGN_SPAN = { start: '2026-05-01', end: '2026-10-02' } as const;
+
+/** Every weekday in a range, holidays included (the timeline shades them). */
+export function weekdaysBetween(from: string, to: string): string[] {
+  const out: string[] = [];
+  for (let d = from; d <= to; d = addDays(d, 1)) {
+    const dow = toDate(d).getUTCDay();
+    if (dow !== 0 && dow !== 6) out.push(d);
+  }
+  return out;
+}
+
+export const isHoliday = (iso: string) => HOLIDAY_SET.has(iso);
+
+/** Worst state of a set of items — a drill day's three logs, a cell. */
+export function worstStatus(statuses: DocStatus[]): DocStatus | undefined {
+  return statuses.reduce<DocStatus | undefined>((w, s) => (!w || SEVERITY[s] > SEVERITY[w] ? s : w), undefined);
+}
+
+/** Month + day, "Sep 25", plus the weekday when a tooltip needs it. */
+export function longDate(iso: string): string {
+  const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  return `${WD[toDate(iso).getUTCDay()]} ${shortDate(iso)}`;
+}

@@ -84,7 +84,7 @@ const rigLabel = /^\d+$/.test(loc.rig) ? `Rig ${loc.rig}` : loc.rig === 'HA' ? '
           </thead>
           <tbody>
             {perHole.map((i) => (
-              <tr data-status={i.status}>
+              <tr data-status={i.status} data-fd-doc={i.expected.kind}>
                 <th scope="row">
                   <span class="bcn-fd-checklist__doc">{DOC_TYPE[i.expected.kind].label}</span>
                   <span class="bcn-fd-checklist__sub">{SOURCE_LABEL[DOC_TYPE[i.expected.kind].source]}</span>
@@ -117,7 +117,7 @@ const rigLabel = /^\d+$/.test(loc.rig) ? `Rig ${loc.rig}` : loc.rig === 'HA' ? '
             <span>Geologist</span>
           </div>
           {days.map((d) => (
-            <details class="bcn-fd-days__day" open={worst(d.items) === 'missing' || days.length === 1}>
+            <details class="bcn-fd-days__day" data-fd-day={d.day} open={worst(d.items) === 'missing' || days.length === 1}>
               <summary class="bcn-fd-days__summary">
                 <span class="bcn-fd-days__date">
                   <EsaIcon name="chevron-right" size="sm" />
@@ -285,6 +285,12 @@ const rigLabel = /^\d+$/.test(loc.rig) ? `Rig ${loc.rig}` : loc.rig === 'HA' ? '
     justify-self: center;
     display: inline-flex;
   }
+  /* The document or drill day a timeline mark opened the drawer on. */
+  .bcn-fd-checklist__table tr[data-fd-target] > *,
+  .bcn-fd-days__day[data-fd-target] {
+    background: color-mix(in srgb, var(--color-background-utility-info) 9%, transparent);
+  }
+
   .bcn-fd-days__records {
     margin: 0 0 var(--spacing-200) var(--spacing-500);
     width: calc(100% - var(--spacing-500));

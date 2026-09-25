@@ -1,0 +1,173 @@
+---
+// <BcnFieldDocFilters> — the one control strip over both field-documentation views:
+// the View pivot (Matrix | Timeline), search, the Status / Agreement / Rig / County
+// facets, sort, and clear-all. It holds the state and broadcasts it on `document`
+// (FILTER_EVENT, VIEW_EVENT from src/lib/field-doc-filter.ts); it renders no rows and
+// knows nothing about either view. `?view=timeline` deep-links the pivot.
+//
+// bcn-lego-checked: every control is a lego — esa-button-toggle (the View pivot, the
+// spoke's in-bar pivot as on site-clearance's Data tab), esa-text-field +
+// esa-icon-button (search), esa-filter-dropdown ×4 (the status one with per-option
+// colour dots), esa-select (sort), esa-filter-clear-button — all inside BcnFilterBar.
+// This component owns no CSS.
+import EsaIconButton from '@esa/ecology/esa-button.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnFilterBar from './BcnFilterBar.astro';
+import { HOLE_STATUS_META, HOLE_STATUS_ORDER, type HoleSummary } from '../../data/field-notifications-fixture';
+
+interface Props {
+  holes: HoleSummary[];
+}
+const { holes } = Astro.props;
+
+const uniq = (xs: string[]) => [...new Set(xs)];
+const rigSort = (a: string, b: string) => (Number(a) || 99) - (Number(b) || 99) || a.localeCompare(b);
+const rigLabel = (r: string) => (/^\d+$/.test(r) ? `Rig ${r}` : r === 'HA' ? 'Hand auger' : r);
+const facetOptions = {
+  status: HOLE_STATUS_ORDER.filter((s) => holes.some((h) => h.status === s)).map((s) => ({
+    value: s,
+    label: HOLE_STATUS_META[s].label,
+    color: HOLE_STATUS_META[s].hex,
+  })),
+  agreement: uniq(holes.map((h) => h.location.agreement)).map((g) => ({ value: g, label: g })),
+  rig: uniq(holes.map((h) => h.location.rig))
+    .sort(rigSort)
+    .map((r) => ({ value: r, label: rigLabel(r) })),
+  county: uniq(holes.map((h) => h.location.county))
+    .sort()
+    .map((c) => ({ value: c, label: c })),
+};
+const sortOptions = [
+  { value: 'start', label: 'Drill start' },
+  { value: 'missing', label: 'Most missing' },
+  { value: 'id', label: 'Exploration ID' },
+];
+const viewOptions = [
+  { value: 'matrix', label: 'Matrix', icon: "<rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/><path d='M9 3v18'/><path d='M15 3v18'/>" },
+  { value: 'timeline', label: 'Timeline', icon: "<path d='M10 6h8'/><path d='M12 16h6'/><path d='M3 3v16a2 2 0 0 0 2 2h16'/><path d='M8 11h7'/>" },
+];
+---
+
+<div data-fd-filters>
+  <BcnFilterBar leadLabel="View" sortLabel="Sort">
+    <esa-button-toggle slot="lead" data-fd-view value="matrix" size="md" data-options={JSON.stringify(viewOptions)}></esa-button-toggle>
+
+    <esa-text-field
+      slot="search"
+      data-fd-search
+      placeholder="Search exploration ID or property"
+      aria-label="Search drill holes"
+      size="md"></esa-text-field>
+    <span slot="search" data-fd-search-clear hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
+
+    <esa-filter-dropdown data-fd-facet="status" label="Status" multiple size="sm" data-options={JSON.stringify(facetOptions.status)}></esa-filter-dropdown>
+    <esa-filter-dropdown data-fd-facet="agreement" label="Agreement" multiple size="sm" data-options={JSON.stringify(facetOptions.agreement)}></esa-filter-dropdown>
+    <esa-filter-dropdown data-fd-facet="rig" label="Rig" multiple size="sm" data-options={JSON.stringify(facetOptions.rig)}></esa-filter-dropdown>
+    <esa-filter-dropdown data-fd-facet="county" label="County" multiple size="sm" data-options={JSON.stringify(facetOptions.county)}></esa-filter-dropdown>
+
+    <esa-select slot="sort" data-fd-sort size="md" data-options={JSON.stringify(sortOptions)}></esa-select>
+    <span slot="actions" data-fd-clear><FilterClearButton /></span>
+  </BcnFilterBar>
+</div>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-select';
+  import {
+    FILTER_EVENT,
+    VIEW_EVENT,
+    FIELD_DOC_VIEWS,
+    type FacetKey,
+    type FieldDocFilterState,
+    type FieldDocView,
+    type SortKey,
+  } from '../../lib/field-doc-filter';
+
+  type Opt = { value: string; label: string; color?: string; icon?: string };
+  type DropdownEl = HTMLElement & { options: Opt[]; _selected: string[] };
+  type ValueEl = HTMLElement & { options: Opt[]; value: string };
+
+  const root = document.querySelector<HTMLElement>('[data-fd-filters]');
+  if (root) {
+    const state: FieldDocFilterState = { query: '', facets: { status: [], agreement: [], rig: [], county: [] }, sort: 'start' };
+    const broadcast = () => document.dispatchEvent(new CustomEvent(FILTER_EVENT, { detail: structuredClone(state) }));
+
+    // View pivot — ?view=timeline deep-links; switching replaces the URL, never pushes.
+    const viewEl = root.querySelector<ValueEl>('[data-fd-view]')!;
+    viewEl.options = JSON.parse(viewEl.dataset.options || '[]');
+    const fromUrl = new URLSearchParams(location.search).get('view') as FieldDocView | null;
+    let view: FieldDocView = fromUrl && FIELD_DOC_VIEWS.includes(fromUrl) ? fromUrl : 'matrix';
+    viewEl.value = view;
+    // The current view is also left on <html data-fd-view> so a listener whose script
+    // loads after the first announcement can still read it.
+    const announceView = () => {
+      document.documentElement.dataset.fdView = view;
+      document.dispatchEvent(new CustomEvent(VIEW_EVENT, { detail: { view } }));
+    };
+    document.documentElement.dataset.fdView = view;
+    viewEl.addEventListener('change', (e) => {
+      const next = (e as CustomEvent).detail?.value as FieldDocView;
+      if (!FIELD_DOC_VIEWS.includes(next) || next === view) return;
+      view = next;
+      const params = new URLSearchParams(location.search);
+      if (view === 'matrix') params.delete('view');
+      else params.set('view', view);
+      const qs = params.toString();
+      history.replaceState(history.state, '', qs ? `?${qs}` : location.pathname);
+      announceView();
+    });
+
+    // Facets
+    const dropdowns = [...root.querySelectorAll<DropdownEl>('[data-fd-facet]')];
+    for (const el of dropdowns) {
+      el.options = JSON.parse(el.dataset.options || '[]');
+      el.addEventListener('selection-change', (e) => {
+        state.facets[el.dataset.fdFacet as FacetKey] = ((e as CustomEvent).detail?.value as string[]) ?? [];
+        broadcast();
+      });
+    }
+
+    // Sort
+    const sortEl = root.querySelector<ValueEl>('[data-fd-sort]')!;
+    sortEl.options = JSON.parse(sortEl.dataset.options || '[]');
+    sortEl.value = state.sort;
+    sortEl.addEventListener('change', (e) => {
+      state.sort = ((e as CustomEvent).detail?.value as SortKey) || 'start';
+      broadcast();
+    });
+
+    // Search
+    const search = root.querySelector<HTMLElement & { value: string }>('[data-fd-search]')!;
+    const searchClear = root.querySelector<HTMLElement>('[data-fd-search-clear]')!;
+    search.addEventListener('change', (e) => {
+      const v = String((e as CustomEvent).detail?.value ?? search.value ?? '');
+      state.query = v.trim().toLowerCase();
+      searchClear.hidden = !v;
+      broadcast();
+    });
+    searchClear.addEventListener('click', () => {
+      search.value = '';
+      state.query = '';
+      searchClear.hidden = true;
+      broadcast();
+    });
+
+    // Clear all (sort and view are not filters; they stay)
+    root.querySelector('[data-fd-clear]')!.addEventListener('esa-filter-clear', () => {
+      (Object.keys(state.facets) as FacetKey[]).forEach((k) => (state.facets[k] = []));
+      dropdowns.forEach((el) => (el._selected = []));
+      search.value = '';
+      state.query = '';
+      searchClear.hidden = true;
+      broadcast();
+    });
+
+    // Initial state, after every view's listener has registered.
+    requestAnimationFrame(() => {
+      announceView();
+      broadcast();
+    });
+  }
+</script>

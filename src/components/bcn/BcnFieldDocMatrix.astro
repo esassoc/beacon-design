@@ -6,33 +6,27 @@
 // received / expected drill days. Red is spent only on Missing, so the gaps are the
 // first thing the grid shows.
 //
-// Behaviour: the carded filter bar scopes rows (search, status, agreement, rig,
-// county) and orders them inside each batch (drill start, most missing, id). A row
-// click — or its id link, a real ?hole= href — dispatches `field-doc-select` with
-// { holeId } so the host opens the record. The component holds no drawer.
+// Behaviour: BcnFieldDocFilters broadcasts the shared filter state; this applies it
+// to its own rows (src/lib/field-doc-filter.ts, the same predicate the timeline uses).
+// A row click — or its id link, a real ?hole= href — dispatches `field-doc-select`
+// with { holeId } so the host opens the record. The component holds no drawer.
 //
-// bcn-lego-checked: every control is a lego — esa-text-field + esa-icon-button
-// (search), esa-filter-dropdown ×4 (facets, the status one with per-option colour
-// dots), esa-select (sort), esa-filter-clear-button, all inside BcnFilterBar;
-// BcnFieldDocMark draws every status. The pivot itself is a semantic <table> with a
+// bcn-lego-checked: BcnFieldDocMark draws every status; the controls live in
+// BcnFieldDocFilters. The pivot itself is a semantic <table> with a
 // sticky two-row header, the precedent BcnRolesMatrix set: checked the catalog (no
 // esa-* grid or matrix lego) and the AG Grid kit (community AG Grid has no row
 // grouping, and a batch-grouped pivot with column groups is the whole point here).
-import EsaIconButton from '@esa/ecology/esa-button.astro';
-import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
-import BcnFilterBar from './BcnFilterBar.astro';
 import BcnFieldDocMark from './BcnFieldDocMark.astro';
 import {
   DOC_TYPES,
   DOC_GROUP_LABEL,
   DOC_STATUS_META,
-  HOLE_STATUS_META,
-  HOLE_STATUS_ORDER,
   drillRange,
   type CellSummary,
   type DocGroup,
   type HoleSummary,
 } from '../../data/field-notifications-fixture';
+import { rowAttrs, sortHoles } from '../../lib/field-doc-filter';
 
 interface Props {
   holes: HoleSummary[];
@@ -41,7 +35,7 @@ const { holes } = Astro.props;
 
 const groups = [...new Set(holes.map((h) => h.location.agreement))];
 const byGroup = groups.map((agreement) => {
-  const rows = holes.filter((h) => h.location.agreement === agreement);
+  const rows = sortHoles(holes.filter((h) => h.location.agreement === agreement));
   return { agreement, rows, withMissing: rows.filter((h) => h.missing > 0).length };
 });
 
@@ -61,51 +55,9 @@ const cellLabel = (label: string, c: CellSummary) => {
   return `${label}: ${DOC_STATUS_META[c.status].label}`;
 };
 
-const startKey = (h: HoleSummary) => (h.location.schedule.kind === 'scheduled' ? h.location.schedule.start : '9999-12-31');
-
-// Facet options, SSR'd onto the dropdowns as JSON (the Lit lego takes `options` as a property).
-const uniq = (xs: string[]) => [...new Set(xs)];
-const rigSort = (a: string, b: string) => (Number(a) || 99) - (Number(b) || 99) || a.localeCompare(b);
-const facetOptions = {
-  status: HOLE_STATUS_ORDER.filter((s) => holes.some((h) => h.status === s)).map((s) => ({
-    value: s,
-    label: HOLE_STATUS_META[s].label,
-    color: HOLE_STATUS_META[s].hex,
-  })),
-  agreement: groups.map((g) => ({ value: g, label: g })),
-  rig: uniq(holes.map((h) => h.location.rig))
-    .sort(rigSort)
-    .map((r) => ({ value: r, label: /^\d+$/.test(r) ? `Rig ${r}` : r === 'HA' ? 'Hand auger' : r })),
-  county: uniq(holes.map((h) => h.location.county))
-    .sort()
-    .map((c) => ({ value: c, label: c })),
-};
-const sortOptions = [
-  { value: 'start', label: 'Drill start' },
-  { value: 'missing', label: 'Most missing' },
-  { value: 'id', label: 'Exploration ID' },
-];
 ---
 
-<div class="stack bcn-fd-matrix" data-gap="md" data-fd-matrix>
-  <BcnFilterBar sortLabel="Sort">
-    <esa-text-field
-      slot="search"
-      data-fd-search
-      placeholder="Search exploration ID or property"
-      aria-label="Search drill holes"
-      size="md"></esa-text-field>
-    <span slot="search" data-fd-search-clear hidden><EsaIconButton variant="chrome" iconOnly icon="x" label="Clear search" size="sm" /></span>
-
-    <esa-filter-dropdown data-fd-facet="status" label="Status" multiple size="sm" data-options={JSON.stringify(facetOptions.status)}></esa-filter-dropdown>
-    <esa-filter-dropdown data-fd-facet="agreement" label="Agreement" multiple size="sm" data-options={JSON.stringify(facetOptions.agreement)}></esa-filter-dropdown>
-    <esa-filter-dropdown data-fd-facet="rig" label="Rig" multiple size="sm" data-options={JSON.stringify(facetOptions.rig)}></esa-filter-dropdown>
-    <esa-filter-dropdown data-fd-facet="county" label="County" multiple size="sm" data-options={JSON.stringify(facetOptions.county)}></esa-filter-dropdown>
-
-    <esa-select slot="sort" data-fd-sort size="md" data-options={JSON.stringify(sortOptions)}></esa-select>
-    <span slot="actions" data-fd-clear><FilterClearButton /></span>
-  </BcnFilterBar>
-
+<div class="bcn-fd-matrix" data-fd-matrix>
   <div class="bcn-fd-matrix__module">
     <div class="bcn-fd-matrix__scroll">
       <table class="bcn-fd-table">
@@ -148,18 +100,7 @@ const sortOptions = [
               const loc = h.location;
               const scheduled = loc.schedule.kind === 'scheduled';
               return (
-                <tr
-                  class="bcn-fd-table__row"
-                  data-fd-row
-                  data-hole={loc.id}
-                  data-status={h.status}
-                  data-agreement={loc.agreement}
-                  data-rig={loc.rig}
-                  data-county={loc.county}
-                  data-start={startKey(h)}
-                  data-missing={h.missing}
-                  data-search={`${loc.id} ${loc.property}`.toLowerCase()}
-                >
+                <tr class="bcn-fd-table__row" {...rowAttrs(h)}>
                   <th scope="row" class="bcn-fd-table__id">
                     <a href={`?hole=${loc.id}`} data-fd-link={loc.id}>{loc.id}</a>
                   </th>
@@ -213,115 +154,25 @@ const sortOptions = [
 </div>
 
 <script>
-  import '@esa/ecology/esa-text-field';
-  import '@esa/ecology/esa-filter-dropdown';
-  import '@esa/ecology/esa-select';
+  import { applyFieldDocFilter, FILTER_EVENT, SELECT_EVENT, type FieldDocFilterState } from '../../lib/field-doc-filter';
 
-  type Opt = { value: string; label: string; color?: string };
-  type FacetKey = 'status' | 'agreement' | 'rig' | 'county';
-  type SortKey = 'start' | 'missing' | 'id';
-  type DropdownEl = HTMLElement & { options: Opt[]; _selected: string[] };
-  type SelectEl = HTMLElement & { options: Opt[]; value: string };
-
-  for (const root of document.querySelectorAll<HTMLElement>('[data-fd-matrix]')) {
-    const facets: Record<FacetKey, string[]> = { status: [], agreement: [], rig: [], county: [] };
-    let query = '';
-    let sort: SortKey = 'start';
-
-    const rows = [...root.querySelectorAll<HTMLTableRowElement>('[data-fd-row]')];
-    const groups = [...root.querySelectorAll<HTMLTableSectionElement>('[data-fd-group]')];
+  const root = document.querySelector<HTMLElement>('[data-fd-matrix]');
+  if (root) {
+    const total = root.querySelectorAll('[data-fd-row]').length;
     const shownEl = root.querySelector<HTMLElement>('[data-fd-shown]')!;
-
-    const passes = (r: HTMLTableRowElement) => {
-      const d = r.dataset;
-      if (query && !d.search!.includes(query)) return false;
-      if (facets.status.length && !facets.status.includes(d.status!)) return false;
-      if (facets.agreement.length && !facets.agreement.includes(d.agreement!)) return false;
-      if (facets.rig.length && !facets.rig.includes(d.rig!)) return false;
-      if (facets.county.length && !facets.county.includes(d.county!)) return false;
-      return true;
-    };
-
-    const compare = (a: HTMLTableRowElement, b: HTMLTableRowElement) => {
-      const A = a.dataset;
-      const B = b.dataset;
-      if (sort === 'missing') return Number(B.missing) - Number(A.missing) || A.start!.localeCompare(B.start!);
-      if (sort === 'id') return A.hole!.localeCompare(B.hole!);
-      return A.start!.localeCompare(B.start!) || A.hole!.localeCompare(B.hole!);
-    };
-
-    function apply() {
-      let shown = 0;
-      for (const g of groups) {
-        const mine = rows.filter((r) => r.closest('tbody') === g).sort(compare);
-        let visible = 0;
-        for (const r of mine) {
-          g.appendChild(r);
-          const ok = passes(r);
-          r.hidden = !ok;
-          if (ok) visible += 1;
-        }
-        g.hidden = visible === 0;
-        shown += visible;
-      }
-      shownEl.hidden = shown === rows.length;
+    document.addEventListener(FILTER_EVENT, (e) => {
+      const shown = applyFieldDocFilter(root, (e as CustomEvent<FieldDocFilterState>).detail);
+      shownEl.hidden = shown === total;
       shownEl.textContent = `Showing: ${shown}`;
-    }
-
-    // Facets
-    const dropdowns = [...root.querySelectorAll<DropdownEl>('[data-fd-facet]')];
-    for (const el of dropdowns) {
-      el.options = JSON.parse(el.dataset.options || '[]');
-      el.addEventListener('selection-change', (e) => {
-        facets[el.dataset.fdFacet as FacetKey] = ((e as CustomEvent).detail?.value as string[]) ?? [];
-        apply();
-      });
-    }
-
-    // Sort
-    const sortEl = root.querySelector<SelectEl>('[data-fd-sort]')!;
-    sortEl.options = JSON.parse(sortEl.dataset.options || '[]');
-    sortEl.value = sort;
-    sortEl.addEventListener('change', (e) => {
-      sort = ((e as CustomEvent).detail?.value as SortKey) || 'start';
-      apply();
-    });
-
-    // Search
-    const search = root.querySelector<HTMLElement & { value: string }>('[data-fd-search]')!;
-    const searchClear = root.querySelector<HTMLElement>('[data-fd-search-clear]')!;
-    search.addEventListener('change', (e) => {
-      const v = String((e as CustomEvent).detail?.value ?? search.value ?? '');
-      query = v.trim().toLowerCase();
-      searchClear.hidden = !v;
-      apply();
-    });
-    searchClear.addEventListener('click', () => {
-      search.value = '';
-      query = '';
-      searchClear.hidden = true;
-      apply();
-    });
-
-    // Clear all
-    root.querySelector('[data-fd-clear]')!.addEventListener('esa-filter-clear', () => {
-      (Object.keys(facets) as FacetKey[]).forEach((k) => (facets[k] = []));
-      dropdowns.forEach((el) => (el._selected = []));
-      search.value = '';
-      query = '';
-      searchClear.hidden = true;
-      apply();
     });
 
     // Row → record. The id link is a real ?hole= href; only a plain left click is intercepted.
-    const select = (holeId: string) =>
-      root.dispatchEvent(new CustomEvent('field-doc-select', { detail: { holeId }, bubbles: true }));
-    for (const r of rows) {
+    for (const r of root.querySelectorAll<HTMLElement>('[data-fd-row]')) {
       r.addEventListener('click', (e) => {
         const me = e as MouseEvent;
         if (me.metaKey || me.ctrlKey || me.shiftKey || me.button !== 0) return;
         e.preventDefault();
-        select(r.dataset.hole!);
+        document.dispatchEvent(new CustomEvent(SELECT_EVENT, { detail: { holeId: r.dataset.hole } }));
       });
     }
   }

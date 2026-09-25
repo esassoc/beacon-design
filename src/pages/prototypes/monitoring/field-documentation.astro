@@ -1,7 +1,9 @@
 ---
 // Monitoring → Notifications & Daily Logs — the expected field documents for every
-// exploration location in the Delta Conveyance 2026 geotechnical campaign, as a
-// red / green matrix (DCA request, George Valenzuela, 2026-09-25).
+// exploration location in the Delta Conveyance 2026 geotechnical campaign (DCA
+// request, George Valenzuela, 2026-09-25). Two views over one filtered set: the
+// Matrix (what is missing on which hole) and the Timeline (what goes out when, what
+// is drilling when). `?view=timeline` and `?hole=<id>` deep-link.
 //
 // Each drill hole generates its expected documents from its drill dates: the
 // pre-drilling notifications, site clearances and USA ticket back-dated in working
@@ -12,7 +14,9 @@
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnFieldDocReadiness from '../../../components/bcn/BcnFieldDocReadiness.astro';
+import BcnFieldDocFilters from '../../../components/bcn/BcnFieldDocFilters.astro';
 import BcnFieldDocMatrix from '../../../components/bcn/BcnFieldDocMatrix.astro';
+import BcnFieldDocTimeline from '../../../components/bcn/BcnFieldDocTimeline.astro';
 import BcnFieldDocChecklist from '../../../components/bcn/BcnFieldDocChecklist.astro';
 import BcnStatusChip from '../../../components/bcn/BcnStatusChip.astro';
 import { withBase } from '../../../lib/base';
@@ -26,7 +30,9 @@ const readiness = campaignReadiness(holes);
   layout: stack(xl)
   sections:
     - readiness strip -> bcn-field-doc-readiness     # holes with gaps, missing, late, due in 5 working days
-    - document matrix -> bcn-field-doc-matrix        # filter bar + drill hole × document grid, grouped by agreement
+    - view + filters  -> bcn-field-doc-filters       # Matrix | Timeline pivot, search, facets, sort (shared by both views)
+    - document matrix -> bcn-field-doc-matrix        # drill hole × document grid, grouped by agreement
+    - timeline        -> bcn-field-doc-timeline      # working days × drill holes: notices on due dates, drill bars, TODAY
     - hole record     -> esa-side-dialog             # header + bcn-field-doc-checklist per hole, SSR'd hidden
 -->
 
@@ -48,7 +54,11 @@ const readiness = campaignReadiness(holes);
   >
     <div class="stack" data-gap="xl">
       <BcnFieldDocReadiness readiness={readiness} />
-      <BcnFieldDocMatrix holes={holes} />
+      <div class="stack" data-gap="md">
+        <BcnFieldDocFilters holes={holes} />
+        <div data-fd-view-panel="matrix"><BcnFieldDocMatrix holes={holes} /></div>
+        <div data-fd-view-panel="timeline" hidden><BcnFieldDocTimeline holes={holes} /></div>
+      </div>
     </div>
   </PageLayout>
 
@@ -81,7 +91,15 @@ const readiness = campaignReadiness(holes);
 
 <script>
   import '@esa/ecology/esa-side-dialog';
+  import { SELECT_EVENT, VIEW_EVENT, type FieldDocSelectDetail } from '../../../lib/field-doc-filter';
 
+  // ── Views: the pivot lives in BcnFieldDocFilters; the page only shows the panel. ──
+  const panels = [...document.querySelectorAll<HTMLElement>('[data-fd-view-panel]')];
+  const showView = (view?: string) => view && panels.forEach((p) => (p.hidden = p.dataset.fdViewPanel !== view));
+  document.addEventListener(VIEW_EVENT, (e) => showView((e as CustomEvent).detail?.view));
+  showView(document.documentElement.dataset.fdView);
+
+  // ── The hole drawer ──
   type SideDialog = HTMLElement & { show(): void; close(): void; heading: string };
   const dialog = document.getElementById('fd-record') as SideDialog;
   const heads = [...document.querySelectorAll<HTMLElement>('[data-fd-head]')];
@@ -93,25 +111,55 @@ const readiness = campaignReadiness(holes);
   let closingFromHistory = false;
   let opener: HTMLElement | null = null;
 
-  function openHole(id: string, push = true) {
+  /** The URL keeps the view and the record, never the depth into it. */
+  function urlFor(hole: string | null) {
+    const params = new URLSearchParams(location.search);
+    params.delete('doc');
+    params.delete('day');
+    if (hole) params.set('hole', hole);
+    else params.delete('hole');
+    const qs = params.toString();
+    return qs ? `?${qs}` : location.pathname;
+  }
+
+  /** Aim the open drawer at one document or drill day: open it, scroll to it, tint it. */
+  function aim(body: HTMLElement, kind?: string, day?: string) {
+    body.querySelectorAll('[data-fd-target]').forEach((el) => el.removeAttribute('data-fd-target'));
+    const target = day
+      ? body.querySelector<HTMLDetailsElement>(`[data-fd-day="${day}"]`)
+      : kind
+        ? body.querySelector<HTMLElement>(`[data-fd-doc="${kind}"]`)
+        : null;
+    if (!target) return;
+    if (target instanceof HTMLDetailsElement) target.open = true;
+    target.setAttribute('data-fd-target', '');
+    requestAnimationFrame(() => target.scrollIntoView({ block: 'center' }));
+  }
+
+  function openHole(id: string, push = true, kind?: string, day?: string) {
     if (!known.has(id)) return;
     heads.forEach((h) => (h.hidden = h.dataset.fdHead !== id));
     bodies.forEach((b) => (b.hidden = b.dataset.fdBody !== id));
     dialog.heading = id;
     openId = id;
-    if (push) history.pushState({ hole: id }, '', `?hole=${encodeURIComponent(id)}`);
+    if (push) history.pushState({ hole: id }, '', urlFor(id));
     dialog.show();
+    const body = bodies.find((b) => b.dataset.fdBody === id)!;
+    if (kind || day) setTimeout(() => aim(body, kind, day), 60);
+    else aim(body);
   }
 
-  document.addEventListener('field-doc-select', (e) => {
-    opener = document.querySelector<HTMLElement>(`[data-fd-link="${(e as CustomEvent).detail.holeId}"]`);
-    openHole((e as CustomEvent).detail.holeId);
+  document.addEventListener(SELECT_EVENT, (e) => {
+    const d = (e as CustomEvent<FieldDocSelectDetail>).detail;
+    const active = document.activeElement as HTMLElement | null;
+    opener = active && active !== document.body ? active : document.querySelector<HTMLElement>(`[data-fd-link="${d.holeId}"]`);
+    openHole(d.holeId, true, d.kind, d.day);
   });
 
   dialog.addEventListener('close', () => {
     if (!openId) return;
     openId = null;
-    if (!closingFromHistory) history.pushState({}, '', location.pathname);
+    if (!closingFromHistory) history.pushState({}, '', urlFor(null));
     closingFromHistory = false;
     opener?.focus();
   });
@@ -125,6 +173,11 @@ const readiness = campaignReadiness(holes);
     }
   });
 
-  const initial = new URLSearchParams(location.search).get('hole');
-  if (initial) customElements.whenDefined('esa-side-dialog').then(() => openHole(initial, false));
+  const params = new URLSearchParams(location.search);
+  const initial = params.get('hole');
+  if (initial) {
+    customElements
+      .whenDefined('esa-side-dialog')
+      .then(() => openHole(initial, false, params.get('doc') ?? undefined, params.get('day') ?? undefined));
+  }
 </script>

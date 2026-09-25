@@ -1,0 +1,641 @@
+---
+// <BcnFieldDocTimeline> — the field-documentation calendar (George's mock, second tab):
+// working days across (weekends collapsed out, the client holidays shaded), drill
+// holes down, grouped by agreement batch like the matrix. Each notice sits on its due
+// date as a status dot; the USA ticket draws its window (14-day to 72-hr clearance)
+// with the dot at the received date, or at the window end until one arrives. Drill
+// days are a segmented bar, one segment per day coloured by that day's three daily
+// logs, the rig on the first segment. The tribal notice is one campaign-wide record,
+// so it is one row above the batches rather than a dot on every hole.
+//
+// Every dot and segment is a real link (?hole=…&doc=… / &day=…); a plain left click
+// dispatches `field-doc-select` with the target so the host opens the hole's drawer
+// on that document or day. Rows follow the shared filter state
+// (src/lib/field-doc-filter.ts). On first show it scrolls so TODAY sits in view with
+// the recent past to its left.
+//
+// Dense data surface: 12–13px, the data-grid carve-out from the 16px floor.
+//
+// bcn-lego-checked: BcnFieldDocMark draws every status (dots and bar segments). No
+// esa-* lego draws a dated axis; the spoke's timelines (BcnScheduleTimeline,
+// site-clearance's swimlanes) position by percentage on a continuous axis and cannot
+// collapse weekends or hold 66 rows × 110 working-day columns with a sticky id
+// column. The bespoke part is that axis grid: sticky header + sticky label column
+// inside one scroll box, positions from a --i day index.
+import BcnFieldDocMark from './BcnFieldDocMark.astro';
+import {
+  CAMPAIGN_SPAN,
+  DOC_STATUS_META,
+  DOC_TYPE,
+  FIXTURE_TODAY,
+  drillRange,
+  isHoliday,
+  longDate,
+  shortDate,
+  weekdaysBetween,
+  worstStatus,
+  type ChecklistItem,
+  type DocStatus,
+  type HoleSummary,
+} from '../../data/field-notifications-fixture';
+import { rowAttrs, sortHoles } from '../../lib/field-doc-filter';
+
+interface Props {
+  holes: HoleSummary[];
+}
+const { holes } = Astro.props;
+
+// ── Axis ──
+const days = weekdaysBetween(CAMPAIGN_SPAN.start, CAMPAIGN_SPAN.end);
+const dayIndex = new Map(days.map((d, i) => [d, i]));
+/** Column for a date; a weekend date lands on the Friday before it. */
+const col = (iso: string): number => {
+  if (dayIndex.has(iso)) return dayIndex.get(iso)!;
+  let i = -1;
+  for (const [d, n] of dayIndex) if (d <= iso) i = n;
+  return Math.max(0, i);
+};
+const todayCol = col(FIXTURE_TODAY);
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months: { name: string; span: number }[] = [];
+for (const d of days) {
+  const name = MONTH_NAMES[Number(d.slice(5, 7)) - 1];
+  const last = months[months.length - 1];
+  if (last?.name === name) last.span += 1;
+  else months.push({ name, span: 1 });
+}
+const holidayCols = days.filter(isHoliday).map((d) => col(d));
+/** Monday columns start a week; the axis starts on a Friday. */
+const firstMonday = days.findIndex((d) => new Date(`${d}T00:00:00Z`).getUTCDay() === 1);
+
+// ── Rows ──
+const groups = [...new Set(holes.map((h) => h.location.agreement))].map((agreement) => {
+  const rows = sortHoles(holes.filter((h) => h.location.agreement === agreement));
+  return { agreement, rows, withMissing: rows.filter((h) => h.missing > 0).length };
+});
+
+const tribal = holes.flatMap((h) => h.checklist).find((i) => i.expected.kind === 'tribal');
+
+interface Dot {
+  item: ChecklistItem;
+  at: string;
+}
+interface DrillDay {
+  day: string;
+  status: DocStatus;
+  items: ChecklistItem[];
+}
+
+function dotsFor(h: HoleSummary): { col: number; dots: Dot[] }[] {
+  const byCol = new Map<number, Dot[]>();
+  for (const item of h.checklist) {
+    if (item.expected.drillDay || item.expected.kind === 'tribal') continue;
+    const at = item.expected.kind === 'usaTicket' ? (item.record?.receivedOn ?? item.expected.due) : item.expected.due;
+    const c = col(at);
+    byCol.set(c, [...(byCol.get(c) ?? []), { item, at }]);
+  }
+  return [...byCol.entries()].map(([c, dots]) => ({ col: c, dots }));
+}
+
+function drillDaysFor(h: HoleSummary): DrillDay[] {
+  return h.drillDays.map((day) => {
+    const items = h.checklist.filter((i) => i.expected.drillDay === day);
+    return { day, items, status: worstStatus(items.map((i) => i.status)) ?? 'upcoming' };
+  });
+}
+
+const usaWindow = (h: HoleSummary) => h.checklist.find((i) => i.expected.kind === 'usaTicket')?.expected;
+
+const dotTitle = (d: Dot) => {
+  const e = d.item.expected;
+  const due = e.windowStart ? `Due ${shortDate(e.windowStart)} to ${shortDate(e.due)}` : `Due ${shortDate(e.due)}`;
+  const got = d.item.record ? `Received ${shortDate(d.item.record.receivedOn)}` : DOC_STATUS_META[d.item.status].label;
+  return `${DOC_TYPE[e.kind].label}. ${due}. ${got}.`;
+};
+const dayTitle = (h: HoleSummary, d: DrillDay) =>
+  [`Drill day ${longDate(d.day)}, ${rigLabel(h.location.rig)}.`, ...d.items.map((i) => `${DOC_TYPE[i.expected.kind].label}: ${DOC_STATUS_META[i.status].label}.`)].join(' ');
+const rigLabel = (r: string) => (/^\d+$/.test(r) ? `Rig ${r}` : r === 'HA' ? 'Hand auger' : r);
+const holeHref = (id: string, extra = '') => `?view=timeline&hole=${encodeURIComponent(id)}${extra}`;
+---
+
+<div class="bcn-fd-tl" data-fd-timeline style={`--tl-days: ${days.length}; --tl-today: ${todayCol}; --tl-week-offset: ${firstMonday};`}>
+  <div class="bcn-fd-tl__module">
+    <div class="bcn-fd-tl__scroll" data-fd-tl-scroll tabindex="0" aria-label="Timeline of expected documents by drill hole">
+      <div class="bcn-fd-tl__canvas">
+        <!-- ═══ Axis header ═══ -->
+        <div class="bcn-fd-tl__head">
+          <div class="bcn-fd-tl__corner">Exploration ID</div>
+          <div class="bcn-fd-tl__axis">
+            <div class="bcn-fd-tl__months">
+              {months.map((m) => (
+                <div class="bcn-fd-tl__month" style={`--span: ${m.span};`}>
+                  <span class="bcn-fd-tl__month-name">{m.name}</span>
+                </div>
+              ))}
+            </div>
+            <div class="bcn-fd-tl__days">
+              {days.map((d, i) => (
+                <div
+                  class:list={[
+                    'bcn-fd-tl__day',
+                    isHoliday(d) && 'is-holiday',
+                    i === todayCol && 'is-today',
+                    (i - firstMonday) % 5 === 0 && 'is-monday',
+                  ]}
+                  title={isHoliday(d) ? `${longDate(d)}, holiday` : longDate(d)}
+                >
+                  {Number(d.slice(8))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ Body ═══ -->
+        <div class="bcn-fd-tl__body">
+          <div class="bcn-fd-tl__grid" aria-hidden="true">
+            {holidayCols.map((c) => <span class="bcn-fd-tl__holiday" style={`--i: ${c};`} />)}
+            <span class="bcn-fd-tl__today" />
+          </div>
+
+          {tribal && (
+            <div class="bcn-fd-tl__row bcn-fd-tl__row--campaign">
+              <div class="bcn-fd-tl__label">Tribal notification</div>
+              <div class="bcn-fd-tl__track">
+                <span
+                  class="bcn-fd-tl__cell"
+                  style={`--i: ${col(tribal.expected.due)};`}
+                  title={dotTitle({ item: tribal, at: tribal.expected.due })}
+                >
+                  <BcnFieldDocMark status={tribal.status} size="dot" label={dotTitle({ item: tribal, at: tribal.expected.due })} />
+                </span>
+              </div>
+            </div>
+          )}
+
+          {groups.map((g) => (
+            <div class="bcn-fd-tl__group" data-fd-group={g.agreement}>
+              <div class="bcn-fd-tl__batch">
+                <span class="bcn-fd-tl__batch-text">
+                  <span class="bcn-fd-tl__batch-name">{g.agreement}</span>
+                  {g.withMissing > 0 && (
+                    <span class="bcn-fd-tl__batch-alert">
+                      {g.withMissing} {g.withMissing === 1 ? 'hole' : 'holes'} missing documents
+                    </span>
+                  )}
+                </span>
+              </div>
+              {g.rows.map((h) => {
+                const id = h.location.id;
+                const scheduled = h.location.schedule.kind === 'scheduled';
+                const win = usaWindow(h);
+                const drill = drillDaysFor(h);
+                return (
+                  <div class="bcn-fd-tl__row" {...rowAttrs(h)}>
+                    <div class="bcn-fd-tl__label">
+                      <a href={holeHref(id)} data-fd-target-hole={id}>{id}</a>
+                    </div>
+                    <div class="bcn-fd-tl__track">
+                      {!scheduled && (
+                        <span class="bcn-fd-tl__note">
+                          <span class="bcn-fd-tl__note-reason">{drillRange(h.location)}</span>
+                          {h.location.notes ?? '–'}
+                        </span>
+                      )}
+                      {win?.windowStart && (
+                        <span class="bcn-fd-tl__window" style={`--from: ${col(win.windowStart)}; --to: ${col(win.due)};`} />
+                      )}
+                      {drill.length > 0 && (
+                        <span
+                          class="bcn-fd-tl__bar"
+                          style={`--from: ${col(drill[0].day)}; --to: ${col(drill[drill.length - 1].day)};`}
+                        />
+                      )}
+                      {drill.map((d, n) => (
+                        <a
+                          class="bcn-fd-tl__cell bcn-fd-tl__cell--drill"
+                          style={`--i: ${col(d.day)};`}
+                          href={holeHref(id, `&day=${d.day}`)}
+                          data-fd-target-hole={id}
+                          data-fd-target-day={d.day}
+                          title={dayTitle(h, d)}
+                          aria-label={dayTitle(h, d)}
+                        >
+                          <BcnFieldDocMark status={d.status} size="bar" text={n === 0 ? h.location.rig : ''} />
+                        </a>
+                      ))}
+                      {dotsFor(h).map((c) => (
+                        <span class="bcn-fd-tl__cell" style={`--i: ${c.col};`}>
+                          {c.dots.map((d) => (
+                            <a
+                              class="bcn-fd-tl__dot"
+                              href={holeHref(id, `&doc=${d.item.expected.kind}`)}
+                              data-fd-target-hole={id}
+                              data-fd-target-doc={d.item.expected.kind}
+                              title={dotTitle(d)}
+                              aria-label={`${id}: ${dotTitle(d)}`}
+                            >
+                              <BcnFieldDocMark status={d.item.status} size="dot" />
+                            </a>
+                          ))}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Key + count ═══ -->
+    <div class="repel bcn-fd-tl__foot">
+      <ul class="cluster bcn-fd-tl__key" data-gap="md" aria-label="Timeline key">
+        {(['received', 'late', 'missing', 'upcoming'] as const).map((s) => (
+          <li class="cluster" data-gap="xs">
+            <BcnFieldDocMark status={s} size="dot" />
+            <span>{DOC_STATUS_META[s].label}</span>
+          </li>
+        ))}
+        <li class="cluster" data-gap="xs">
+          <span class="bcn-fd-tl__key-window" aria-hidden="true"></span>
+          <span>USA ticket window</span>
+        </li>
+        <li class="cluster" data-gap="xs">
+          <BcnFieldDocMark status="received" size="bar" text="8" />
+          <span>Drill days (rig)</span>
+        </li>
+        <li class="cluster" data-gap="xs">
+          <span class="bcn-fd-tl__key-today" aria-hidden="true"></span>
+          <span>Today, {shortDate(FIXTURE_TODAY)}</span>
+        </li>
+      </ul>
+      <span class="bcn-fd-tl__count">
+        Drill holes: {holes.length}
+        <span data-fd-tl-shown hidden></span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import {
+    applyFieldDocFilter,
+    FILTER_EVENT,
+    SELECT_EVENT,
+    type FieldDocFilterState,
+    type FieldDocSelectDetail,
+  } from '../../lib/field-doc-filter';
+  import type { DocKind } from '../../data/field-notifications-fixture';
+
+  const root = document.querySelector<HTMLElement>('[data-fd-timeline]');
+  if (root) {
+    const total = root.querySelectorAll('[data-fd-row]').length;
+    const shownEl = root.querySelector<HTMLElement>('[data-fd-tl-shown]')!;
+    const scroller = root.querySelector<HTMLElement>('[data-fd-tl-scroll]')!;
+
+    document.addEventListener(FILTER_EVENT, (e) => {
+      const shown = applyFieldDocFilter(root, (e as CustomEvent<FieldDocFilterState>).detail);
+      shownEl.hidden = shown === total;
+      shownEl.textContent = `Showing: ${shown}`;
+    });
+
+    // First show: put TODAY about three-quarters across the visible track, so the
+    // recent past (what should already be in) sits to its left. The panel is hidden
+    // until the Timeline view opens, so this waits for the scroller to get a width.
+    let placed = false;
+    new ResizeObserver(() => {
+      if (placed || scroller.clientWidth === 0) return;
+      const cs = getComputedStyle(root);
+      const colW = parseFloat(cs.getPropertyValue('--tl-col')) || 30;
+      const labelW = root.querySelector<HTMLElement>('.bcn-fd-tl__corner')!.offsetWidth;
+      const todayCol = Number(cs.getPropertyValue('--tl-today'));
+      scroller.scrollLeft = Math.max(0, todayCol * colW - (scroller.clientWidth - labelW) * 0.75);
+      placed = true;
+    }).observe(scroller);
+
+    // Mark / drill day / id → the hole's drawer, aimed at what was clicked.
+    root.addEventListener('click', (e) => {
+      const me = e as MouseEvent;
+      if (me.metaKey || me.ctrlKey || me.shiftKey || me.button !== 0) return;
+      const a = (e.target as HTMLElement).closest<HTMLElement>('[data-fd-target-hole]');
+      if (!a) return;
+      e.preventDefault();
+      const detail: FieldDocSelectDetail = {
+        holeId: a.dataset.fdTargetHole!,
+        kind: a.dataset.fdTargetDoc as DocKind | undefined,
+        day: a.dataset.fdTargetDay,
+      };
+      document.dispatchEvent(new CustomEvent(SELECT_EVENT, { detail }));
+    });
+  }
+</script>
+
+<style>
+  .bcn-fd-tl {
+    --tl-col: 30px;
+    --tl-label: 9.5rem;
+    --tl-row: 36px;
+    --tl-head-row: 26px;
+    --tl-line: var(--color-border-default-subtle);
+  }
+
+  .bcn-fd-tl__module {
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised);
+    font-size: 13px;
+    color: var(--color-content-default);
+  }
+
+  /* Its own scroll box in both axes, so the date header and the id column can both
+     stick; the page itself never scrolls sideways. */
+  .bcn-fd-tl__scroll {
+    overflow: auto;
+    max-height: max(26rem, calc(100vh - 11rem));
+    border-radius: var(--radius-100) var(--radius-100) 0 0;
+  }
+  .bcn-fd-tl__scroll:focus-visible {
+    outline: 2px solid var(--color-border-focus, var(--color-background-utility-info));
+    outline-offset: -2px;
+  }
+  .bcn-fd-tl__canvas {
+    width: calc(var(--tl-label) + var(--tl-days) * var(--tl-col));
+    position: relative;
+  }
+
+  /* ── Header ── */
+  .bcn-fd-tl__head {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: var(--tl-label) calc(var(--tl-days) * var(--tl-col));
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .bcn-fd-tl__corner {
+    position: sticky;
+    left: 0;
+    z-index: 6;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 var(--spacing-300) var(--spacing-150);
+    background: var(--color-background-default);
+    border-right: 1px solid var(--color-border-default);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fd-tl__months,
+  .bcn-fd-tl__days {
+    display: flex;
+    height: var(--tl-head-row);
+  }
+  .bcn-fd-tl__month {
+    flex: 0 0 calc(var(--span) * var(--tl-col));
+    border-left: 1px solid var(--color-border-default);
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+  .bcn-fd-tl__month-name {
+    position: sticky;
+    left: calc(var(--tl-label) + var(--spacing-200));
+    padding: 0 var(--spacing-200);
+    font-weight: var(--typography-font-weight-semibold);
+    white-space: nowrap;
+  }
+  .bcn-fd-tl__day {
+    flex: 0 0 var(--tl-col);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fd-tl__day.is-monday {
+    box-shadow: inset 1px 0 0 var(--color-border-default);
+  }
+  .bcn-fd-tl__day.is-holiday {
+    background: var(--color-background-elevation-sunken);
+    color: var(--color-content-default-tertiary);
+    text-decoration: line-through;
+  }
+  .bcn-fd-tl__day.is-today {
+    background: var(--color-background-utility-info);
+    color: var(--color-content-on-utility-info, #fff);
+    font-weight: var(--typography-font-weight-semibold);
+    border-radius: var(--radius-100) var(--radius-100) 0 0;
+  }
+
+  /* ── Body + background grid ── */
+  .bcn-fd-tl__body {
+    position: relative;
+  }
+  .bcn-fd-tl__grid {
+    position: absolute;
+    inset: 0 0 0 var(--tl-label);
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--tl-line) 0 1px,
+      transparent 1px calc(var(--tl-col) * 5)
+    );
+    background-position-x: calc(var(--tl-week-offset) * var(--tl-col));
+  }
+  .bcn-fd-tl__holiday {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--i) * var(--tl-col));
+    width: var(--tl-col);
+    background: var(--color-background-elevation-sunken);
+  }
+  .bcn-fd-tl__today {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--tl-today) * var(--tl-col) + var(--tl-col) / 2 - 1px);
+    width: 2px;
+    background: var(--color-background-utility-info);
+  }
+
+  /* ── Rows ── */
+  .bcn-fd-tl__row {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--tl-label) calc(var(--tl-days) * var(--tl-col));
+    height: var(--tl-row);
+    border-bottom: 1px solid var(--tl-line);
+  }
+  .bcn-fd-tl__row[hidden],
+  .bcn-fd-tl__group[hidden] {
+    display: none;
+  }
+  .bcn-fd-tl__row:hover .bcn-fd-tl__track {
+    background: color-mix(in srgb, var(--color-background-default) 70%, transparent);
+  }
+  .bcn-fd-tl__label {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--spacing-300);
+    background: var(--color-background-elevation-raised);
+    border-right: 1px solid var(--color-border-default);
+    font-weight: var(--typography-font-weight-semibold);
+    white-space: nowrap;
+  }
+  .bcn-fd-tl__label a {
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+  .bcn-fd-tl__label a:hover,
+  .bcn-fd-tl__label a:focus-visible {
+    text-decoration: underline;
+  }
+  .bcn-fd-tl__row--campaign {
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .bcn-fd-tl__row--campaign .bcn-fd-tl__label {
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fd-tl__track {
+    position: relative;
+  }
+
+  .bcn-fd-tl__batch {
+    position: relative;
+    z-index: 3;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .bcn-fd-tl__group + .bcn-fd-tl__group .bcn-fd-tl__batch {
+    border-top: 1px solid var(--color-border-default);
+  }
+  .bcn-fd-tl__batch-text {
+    position: sticky;
+    left: 0;
+    display: inline-flex;
+    gap: var(--spacing-300);
+    padding: 0 var(--spacing-300);
+    white-space: nowrap;
+  }
+  .bcn-fd-tl__batch-name {
+    font-size: 14px;
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-fd-tl__batch-alert {
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-utility-danger);
+  }
+
+  /* ── Marks ── */
+  .bcn-fd-tl__cell {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--i) * var(--tl-col));
+    width: var(--tl-col);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+  .bcn-fd-tl__dot {
+    display: inline-flex;
+    padding: 1px;
+    border-radius: var(--radius-full);
+  }
+  .bcn-fd-tl__dot:hover,
+  .bcn-fd-tl__cell--drill:hover {
+    filter: brightness(0.9);
+  }
+  .bcn-fd-tl__dot:focus-visible,
+  .bcn-fd-tl__cell--drill:focus-visible {
+    outline: 2px solid var(--color-background-utility-info);
+    outline-offset: 1px;
+  }
+  .bcn-fd-tl__cell--drill {
+    text-decoration: none;
+  }
+  .bcn-fd-tl__window {
+    position: absolute;
+    top: calc(50% - 1px);
+    height: 2px;
+    left: calc(var(--from) * var(--tl-col) + var(--tl-col) / 2);
+    width: calc((var(--to) - var(--from)) * var(--tl-col));
+    background: var(--bcn-gray-500);
+    z-index: 1;
+  }
+  .bcn-fd-tl__bar {
+    position: absolute;
+    top: calc(50% - 12px);
+    height: 24px;
+    left: calc(var(--from) * var(--tl-col));
+    width: calc((var(--to) - var(--from) + 1) * var(--tl-col));
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-sunken);
+    z-index: 1;
+  }
+  .bcn-fd-tl__note {
+    position: sticky;
+    left: var(--tl-label);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    height: 100%;
+    padding: 0 var(--spacing-300);
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-fd-tl__note-reason {
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+  }
+
+  /* ── Key + count ── */
+  .bcn-fd-tl__foot {
+    padding: var(--spacing-200) var(--spacing-400);
+    border-top: 1px solid var(--color-border-default);
+    background: var(--color-background-default);
+    border-radius: 0 0 var(--radius-100) var(--radius-100);
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fd-tl__key {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-fd-tl__key-window {
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--bcn-gray-500);
+  }
+  .bcn-fd-tl__key-today {
+    display: inline-block;
+    width: 2px;
+    height: 16px;
+    background: var(--color-background-utility-info);
+  }
+  .bcn-fd-tl__count {
+    font-variant-numeric: tabular-nums;
+  }
+  [data-fd-tl-shown] {
+    color: var(--color-content-default-tertiary);
+    margin-left: var(--spacing-200);
+  }
+  [data-fd-tl-shown][hidden] {
+    display: none;
+  }
+</style>

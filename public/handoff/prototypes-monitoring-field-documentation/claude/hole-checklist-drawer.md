@@ -1388,7 +1388,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -1416,7 +1416,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -1444,7 +1444,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -1472,7 +1472,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -1501,7 +1501,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -1526,7 +1526,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -1554,7 +1554,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -1580,7 +1580,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -1618,7 +1618,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-17" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -1839,7 +1839,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -1867,7 +1867,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -1895,7 +1895,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -1923,7 +1923,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -1952,7 +1952,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -1980,7 +1980,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2008,7 +2008,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2034,7 +2034,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -2072,7 +2072,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-28" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -2242,7 +2242,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2270,7 +2270,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -2295,7 +2295,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2323,7 +2323,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -2352,7 +2352,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2380,7 +2380,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2408,7 +2408,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2434,7 +2434,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -2472,7 +2472,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-18" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -2687,7 +2687,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2715,7 +2715,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2743,7 +2743,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2771,7 +2771,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -2800,7 +2800,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2828,7 +2828,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2856,7 +2856,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -2882,7 +2882,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -2920,7 +2920,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-17" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -3135,7 +3135,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3163,7 +3163,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3191,7 +3191,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3219,7 +3219,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -3248,7 +3248,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3276,7 +3276,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3304,7 +3304,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3330,7 +3330,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -3368,7 +3368,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-17" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -3587,7 +3587,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3615,7 +3615,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3643,7 +3643,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3671,7 +3671,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -3700,7 +3700,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3728,7 +3728,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -3756,7 +3756,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="upcoming">
+            <tr data-status="upcoming" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -3781,7 +3781,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -3819,7 +3819,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-28">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -3937,7 +3937,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-29">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -4107,7 +4107,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4135,7 +4135,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4163,7 +4163,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -4188,7 +4188,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -4217,7 +4217,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4245,7 +4245,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4273,7 +4273,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4299,7 +4299,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -4337,7 +4337,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-17" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -4550,7 +4550,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4578,7 +4578,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4606,7 +4606,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4634,7 +4634,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -4663,7 +4663,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4691,7 +4691,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4719,7 +4719,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -4745,7 +4745,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -4783,7 +4783,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-18" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -5002,7 +5002,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5030,7 +5030,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5058,7 +5058,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5086,7 +5086,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -5115,7 +5115,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5143,7 +5143,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5171,7 +5171,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5197,7 +5197,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -5235,7 +5235,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-28">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -5353,7 +5353,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-29">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -5527,7 +5527,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5555,7 +5555,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5583,7 +5583,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5611,7 +5611,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -5640,7 +5640,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5668,7 +5668,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5696,7 +5696,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -5722,7 +5722,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -5760,7 +5760,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-28">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -5878,7 +5878,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-29">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -6048,7 +6048,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6076,7 +6076,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6104,7 +6104,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6132,7 +6132,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -6161,7 +6161,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6189,7 +6189,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6217,7 +6217,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6243,7 +6243,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -6281,7 +6281,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-18" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -6626,7 +6626,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6654,7 +6654,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6682,7 +6682,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6710,7 +6710,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -6739,7 +6739,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6767,7 +6767,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6795,7 +6795,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -6821,7 +6821,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -6859,7 +6859,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-28">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -6977,7 +6977,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-29">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -7147,7 +7147,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -7175,7 +7175,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -7203,7 +7203,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -7228,7 +7228,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -7257,7 +7257,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -7285,7 +7285,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -7313,7 +7313,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -7339,7 +7339,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -7377,7 +7377,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-04">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -7540,7 +7540,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-08">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -7703,7 +7703,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-09">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -7918,7 +7918,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -7946,7 +7946,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -7974,7 +7974,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8002,7 +8002,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -8031,7 +8031,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8059,7 +8059,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8087,7 +8087,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8113,7 +8113,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -8151,7 +8151,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-28" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -8366,7 +8366,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8394,7 +8394,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8422,7 +8422,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8450,7 +8450,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -8479,7 +8479,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -8504,7 +8504,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -8529,7 +8529,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8555,7 +8555,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -8593,7 +8593,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-28" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -8808,7 +8808,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8836,7 +8836,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8864,7 +8864,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8892,7 +8892,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -8921,7 +8921,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8949,7 +8949,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -8977,7 +8977,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -9003,7 +9003,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span>
@@ -9038,7 +9038,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-28" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -9253,7 +9253,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -9281,7 +9281,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -9309,7 +9309,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -9337,7 +9337,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -9366,7 +9366,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -9394,7 +9394,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -9422,7 +9422,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -9448,7 +9448,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -9486,7 +9486,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-31" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -9647,7 +9647,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-01" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -9806,7 +9806,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-02" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -9967,7 +9967,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-03">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -10130,7 +10130,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-04" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -10291,7 +10291,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-08">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -10454,7 +10454,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-09" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -10615,7 +10615,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-10">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -10778,7 +10778,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-11" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -10939,7 +10939,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-14" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -11100,7 +11100,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-15">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -11315,7 +11315,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -11343,7 +11343,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -11371,7 +11371,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -11399,7 +11399,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -11428,7 +11428,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -11456,7 +11456,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -11484,7 +11484,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -11509,7 +11509,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -11547,7 +11547,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-31">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -11710,7 +11710,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-01">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -11873,7 +11873,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-02">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -12036,7 +12036,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-03">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -12199,7 +12199,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-04">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -12362,7 +12362,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-08">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -12525,7 +12525,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-09">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -12688,7 +12688,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-10">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -13035,7 +13035,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -13063,7 +13063,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -13091,7 +13091,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -13119,7 +13119,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -13148,7 +13148,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -13176,7 +13176,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -13204,7 +13204,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -13230,7 +13230,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span>
@@ -13265,7 +13265,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-01">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -13428,7 +13428,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-02">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -13591,7 +13591,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-03">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -13754,7 +13754,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-04">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -13917,7 +13917,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-05">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -14080,7 +14080,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-08">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -14243,7 +14243,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-09">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -14406,7 +14406,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-10">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -14569,7 +14569,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-11">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -14784,7 +14784,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -14812,7 +14812,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -14840,7 +14840,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -14868,7 +14868,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -14897,7 +14897,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -14925,7 +14925,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -14953,7 +14953,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -14979,7 +14979,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -15017,7 +15017,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-01">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -15180,7 +15180,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-02">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -15343,7 +15343,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-03">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -15506,7 +15506,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-04">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -15669,7 +15669,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-05">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -15832,7 +15832,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-08">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -15995,7 +15995,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-09">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -16158,7 +16158,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-10">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -16321,7 +16321,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-11">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -16484,7 +16484,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-12">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -16699,7 +16699,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -16727,7 +16727,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -16755,7 +16755,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -16783,7 +16783,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -16812,7 +16812,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -16840,7 +16840,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -16868,7 +16868,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -16894,7 +16894,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -16932,7 +16932,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-16">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -17095,7 +17095,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-17">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -17258,7 +17258,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-18">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -17421,7 +17421,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-19">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -17584,7 +17584,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-22">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -17747,7 +17747,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-23">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -17910,7 +17910,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-24">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -18073,7 +18073,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-25">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -18288,7 +18288,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -18316,7 +18316,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -18344,7 +18344,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -18372,7 +18372,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -18401,7 +18401,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -18429,7 +18429,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -18457,7 +18457,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="late">
+            <tr data-status="late" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -18483,7 +18483,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -18521,7 +18521,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-12">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -18684,7 +18684,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-15">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -18847,7 +18847,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-16">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -19010,7 +19010,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-17">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -19173,7 +19173,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-18">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -19336,7 +19336,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-19">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -19499,7 +19499,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-22">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -19662,7 +19662,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-23">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -19825,7 +19825,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-24">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -19988,7 +19988,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-25">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -20151,7 +20151,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-26">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -20314,7 +20314,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-29">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -20477,7 +20477,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-30">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -20692,7 +20692,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -20720,7 +20720,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -20748,7 +20748,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -20776,7 +20776,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -20805,7 +20805,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -20830,7 +20830,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -20858,7 +20858,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -20884,7 +20884,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -20922,7 +20922,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-13">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -21085,7 +21085,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-14">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -21248,7 +21248,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-15">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -21411,7 +21411,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-16">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -21574,7 +21574,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-17">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -21737,7 +21737,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-20" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -21898,7 +21898,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-21">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -22061,7 +22061,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-22">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -22276,7 +22276,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -22304,7 +22304,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -22332,7 +22332,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -22360,7 +22360,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -22389,7 +22389,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="late">
+            <tr data-status="late" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -22417,7 +22417,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -22445,7 +22445,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -22471,7 +22471,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -22509,7 +22509,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-15">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -22672,7 +22672,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-16">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -22835,7 +22835,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-17">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -22998,7 +22998,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-18">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -23161,7 +23161,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-19">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -23324,7 +23324,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-22">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -23487,7 +23487,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-23">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -23650,7 +23650,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-24">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -23813,7 +23813,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-25">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -24028,7 +24028,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -24056,7 +24056,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -24084,7 +24084,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -24112,7 +24112,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -24141,7 +24141,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -24169,7 +24169,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -24197,7 +24197,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -24223,7 +24223,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -24261,7 +24261,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-06">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -24424,7 +24424,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-07">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -24587,7 +24587,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-08" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -24748,7 +24748,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-09">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -24911,7 +24911,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-10">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -25074,7 +25074,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-13">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -25237,7 +25237,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-14">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -25400,7 +25400,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-15">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -25615,7 +25615,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -25643,7 +25643,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -25671,7 +25671,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -25699,7 +25699,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -25728,7 +25728,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -25756,7 +25756,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -25784,7 +25784,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -25810,7 +25810,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -25848,7 +25848,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-23">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -26011,7 +26011,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-24">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -26226,7 +26226,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -26254,7 +26254,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -26282,7 +26282,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -26310,7 +26310,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -26339,7 +26339,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -26367,7 +26367,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -26392,7 +26392,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -26418,7 +26418,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -26456,7 +26456,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-21" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -26617,7 +26617,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-22">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -26780,7 +26780,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-23">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -26943,7 +26943,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-24">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -27106,7 +27106,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-27">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -27321,7 +27321,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -27349,7 +27349,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -27374,7 +27374,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -27402,7 +27402,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -27431,7 +27431,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -27459,7 +27459,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -27487,7 +27487,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -27513,7 +27513,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -27551,7 +27551,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-17">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -27714,7 +27714,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-18">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -27877,7 +27877,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-19">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -28040,7 +28040,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-20">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -28203,7 +28203,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-21">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -28366,7 +28366,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-24">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -28529,7 +28529,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-25">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -28692,7 +28692,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-26">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -28855,7 +28855,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-27">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -29018,7 +29018,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-28">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -29181,7 +29181,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-31">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -29396,7 +29396,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -29424,7 +29424,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -29452,7 +29452,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -29480,7 +29480,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -29509,7 +29509,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -29534,7 +29534,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -29562,7 +29562,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -29588,7 +29588,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -29626,7 +29626,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-25" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -29841,7 +29841,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -29869,7 +29869,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -29897,7 +29897,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -29925,7 +29925,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -29954,7 +29954,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -29982,7 +29982,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -30010,7 +30010,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -30036,7 +30036,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -30074,7 +30074,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-16">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -30237,7 +30237,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-17">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -30400,7 +30400,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-18">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -30563,7 +30563,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-19">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -30726,7 +30726,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-22">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -30889,7 +30889,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-23">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -31052,7 +31052,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-24">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -31215,7 +31215,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-25">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -31378,7 +31378,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-26">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -31541,7 +31541,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-29">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -31704,7 +31704,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-06-30">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -31965,7 +31965,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -31993,7 +31993,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -32021,7 +32021,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -32049,7 +32049,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -32078,7 +32078,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -32103,7 +32103,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -32131,7 +32131,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -32157,7 +32157,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -32195,7 +32195,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-24">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -32358,7 +32358,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-25">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -32521,7 +32521,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-26">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -32684,7 +32684,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-27">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -32847,7 +32847,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-28">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -33010,7 +33010,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-31">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -33173,7 +33173,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-01">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -33336,7 +33336,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-02">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -33499,7 +33499,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-03">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -33714,7 +33714,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -33742,7 +33742,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -33770,7 +33770,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -33798,7 +33798,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -33827,7 +33827,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -33855,7 +33855,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -33883,7 +33883,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -33909,7 +33909,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -33947,7 +33947,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-04" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -34162,7 +34162,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34190,7 +34190,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34218,7 +34218,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34246,7 +34246,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -34275,7 +34275,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34303,7 +34303,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34331,7 +34331,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34357,7 +34357,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span>
@@ -34392,7 +34392,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-21" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -34607,7 +34607,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34635,7 +34635,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34663,7 +34663,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34691,7 +34691,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -34720,7 +34720,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34748,7 +34748,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34776,7 +34776,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -34802,7 +34802,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -34840,7 +34840,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-25">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -35003,7 +35003,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-26">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -35166,7 +35166,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-27" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -35327,7 +35327,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-28">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -35490,7 +35490,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-31">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -35653,7 +35653,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-01">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -35816,7 +35816,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-02">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -36031,7 +36031,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -36059,7 +36059,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -36084,7 +36084,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -36112,7 +36112,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -36141,7 +36141,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -36169,7 +36169,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -36197,7 +36197,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -36223,7 +36223,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -36261,7 +36261,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-12">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -36424,7 +36424,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-13">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -36587,7 +36587,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-14">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -36750,7 +36750,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-17">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -36913,7 +36913,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-18">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -37076,7 +37076,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-19">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -37291,7 +37291,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -37319,7 +37319,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -37347,7 +37347,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -37375,7 +37375,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -37404,7 +37404,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -37432,7 +37432,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -37460,7 +37460,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -37486,7 +37486,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -37524,7 +37524,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-29">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -37687,7 +37687,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-30">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -37850,7 +37850,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-07-31">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -38013,7 +38013,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-03">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -38176,7 +38176,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-04">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -38339,7 +38339,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-05">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -38502,7 +38502,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-06">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -38665,7 +38665,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-07">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -38880,7 +38880,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -38908,7 +38908,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -38936,7 +38936,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -38964,7 +38964,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -38993,7 +38993,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39021,7 +39021,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39049,7 +39049,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39075,7 +39075,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -39113,7 +39113,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-19">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -39276,7 +39276,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
               </tbody>
             </table>
           </details>
-          <details class="bcn-fd-days__day">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-20">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -39495,7 +39495,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39523,7 +39523,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39551,7 +39551,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39579,7 +39579,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -39605,7 +39605,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39633,7 +39633,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39661,7 +39661,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39687,7 +39687,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -39725,7 +39725,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-11" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -39944,7 +39944,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -39972,7 +39972,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40000,7 +40000,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40028,7 +40028,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -40057,7 +40057,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -40082,7 +40082,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40110,7 +40110,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -40135,7 +40135,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -40173,7 +40173,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-02" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -40388,7 +40388,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40416,7 +40416,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40444,7 +40444,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40472,7 +40472,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -40501,7 +40501,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40529,7 +40529,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40557,7 +40557,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40583,7 +40583,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -40621,7 +40621,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-20" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -40836,7 +40836,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40864,7 +40864,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40892,7 +40892,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40920,7 +40920,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -40949,7 +40949,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -40977,7 +40977,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41005,7 +41005,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41031,7 +41031,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -41069,7 +41069,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-14" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -41284,7 +41284,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41312,7 +41312,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41340,7 +41340,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41368,7 +41368,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -41397,7 +41397,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41425,7 +41425,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41453,7 +41453,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41479,7 +41479,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -41517,7 +41517,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-13" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -41732,7 +41732,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41760,7 +41760,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41788,7 +41788,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41816,7 +41816,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -41845,7 +41845,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41873,7 +41873,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41901,7 +41901,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -41927,7 +41927,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -41965,7 +41965,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-21" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -42180,7 +42180,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42208,7 +42208,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42236,7 +42236,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42264,7 +42264,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -42293,7 +42293,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42321,7 +42321,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42349,7 +42349,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42375,7 +42375,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -42413,7 +42413,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-20" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -42630,7 +42630,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42658,7 +42658,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42686,7 +42686,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42714,7 +42714,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -42743,7 +42743,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42771,7 +42771,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -42799,7 +42799,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -42824,7 +42824,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -42862,7 +42862,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-01" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -43081,7 +43081,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43109,7 +43109,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43137,7 +43137,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43165,7 +43165,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -43194,7 +43194,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43222,7 +43222,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43250,7 +43250,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43276,7 +43276,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -43314,7 +43314,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-01" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -43529,7 +43529,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43557,7 +43557,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43585,7 +43585,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43613,7 +43613,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -43642,7 +43642,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43670,7 +43670,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43698,7 +43698,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -43724,7 +43724,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -43762,7 +43762,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-17" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -43977,7 +43977,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44005,7 +44005,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44033,7 +44033,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -44058,7 +44058,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -44087,7 +44087,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44115,7 +44115,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44143,7 +44143,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44169,7 +44169,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -44207,7 +44207,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-17" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -44426,7 +44426,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44454,7 +44454,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44482,7 +44482,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44510,7 +44510,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -44536,7 +44536,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44564,7 +44564,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44592,7 +44592,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44618,7 +44618,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -44656,7 +44656,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-08" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -44875,7 +44875,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44903,7 +44903,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44931,7 +44931,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -44959,7 +44959,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -44985,7 +44985,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45013,7 +45013,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -45038,7 +45038,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45064,7 +45064,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -45102,7 +45102,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-09" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -45321,7 +45321,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45349,7 +45349,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45377,7 +45377,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45405,7 +45405,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -45434,7 +45434,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -45459,7 +45459,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45487,7 +45487,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -45512,7 +45512,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -45550,7 +45550,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-03" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -45767,7 +45767,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45795,7 +45795,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45823,7 +45823,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45851,7 +45851,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -45880,7 +45880,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45908,7 +45908,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45936,7 +45936,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -45962,7 +45962,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -46000,7 +46000,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-03" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -46219,7 +46219,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46247,7 +46247,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46275,7 +46275,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46303,7 +46303,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -46332,7 +46332,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="late">
+            <tr data-status="late" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46360,7 +46360,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46388,7 +46388,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -46413,7 +46413,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -46451,7 +46451,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-04" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -46666,7 +46666,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46694,7 +46694,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46722,7 +46722,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46750,7 +46750,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -46779,7 +46779,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="late">
+            <tr data-status="late" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46807,7 +46807,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46835,7 +46835,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -46861,7 +46861,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -46899,7 +46899,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-14" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -47118,7 +47118,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47146,7 +47146,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47174,7 +47174,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47202,7 +47202,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -47228,7 +47228,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47256,7 +47256,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47284,7 +47284,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47310,7 +47310,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -47348,7 +47348,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-08" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -47567,7 +47567,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47595,7 +47595,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47623,7 +47623,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47651,7 +47651,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -47680,7 +47680,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47708,7 +47708,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -47733,7 +47733,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -47759,7 +47759,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -47797,7 +47797,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-02" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -48012,7 +48012,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48040,7 +48040,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48068,7 +48068,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48096,7 +48096,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -48125,7 +48125,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48153,7 +48153,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48181,7 +48181,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48207,7 +48207,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -48245,7 +48245,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-13" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -48464,7 +48464,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48492,7 +48492,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48520,7 +48520,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48548,7 +48548,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -48577,7 +48577,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48605,7 +48605,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48633,7 +48633,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48659,7 +48659,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -48697,7 +48697,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-09-04" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -48912,7 +48912,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             </tr>
           </thead>
           <tbody>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="tribal">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Tribal notification</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48940,7 +48940,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -48968,7 +48968,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="missing">
+            <tr data-status="missing" data-fd-doc="landowner10">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 10-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span>
@@ -48993,7 +48993,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="publicNotice">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc"
                   >Public notification (3-week look-ahead)</span
@@ -49022,7 +49022,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="landowner72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Landowner notification, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -49050,7 +49050,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance14">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 14-day</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -49078,7 +49078,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="usaTicket">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">USA ticket</span
                 ><span class="bcn-fd-checklist__sub">Survey123 Notification Log</span
@@ -49104,7 +49104,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
      style block already documents. -->
               </td>
             </tr>
-            <tr data-status="received">
+            <tr data-status="received" data-fd-doc="siteClearance72">
               <th scope="row">
                 <span class="bcn-fd-checklist__doc">Site clearance, 72-hr</span
                 ><span class="bcn-fd-checklist__sub">Fulcrum</span
@@ -49142,7 +49142,7 @@ One hole: location facts, every pre-drilling document in due-date order with its
             <span>Drill day</span><span>Biological</span><span>Field coordinator</span
             ><span>Geologist</span>
           </div>
-          <details class="bcn-fd-days__day" open="">
+          <details class="bcn-fd-days__day" data-fd-day="2026-08-18" open="">
             <summary class="bcn-fd-days__summary">
               <span class="bcn-fd-days__date"
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true"
@@ -49406,6 +49406,21 @@ One hole: location facts, every pre-drilling document in due-date order with its
   width: 22px;
   height: 20px;
 }
+.bcn-fd-mark--dot {
+  border-radius: var(--radius-full);
+  width: 12px;
+  height: 12px;
+}
+.bcn-fd-mark--dot[data-status="missing"] {
+  border-radius: 2px;
+}
+.bcn-fd-mark--bar {
+  width: calc(var(--tl-col, 30px) - 2px);
+  height: 22px;
+  font-size: 12px;
+  font-weight: var(--typography-font-weight-semibold);
+  border-radius: 3px;
+}
 .bcn-fd-mark--text {
   width: auto;
   min-width: 3.25rem;
@@ -49413,6 +49428,12 @@ One hole: location facts, every pre-drilling document in due-date order with its
   font-size: 13px;
   font-weight: var(--typography-font-weight-semibold);
   font-variant-numeric: tabular-nums;
+}
+.bcn-fd-mark--bar.bcn-fd-mark--text {
+  width: calc(var(--tl-col, 30px) - 2px);
+  min-width: 0;
+  padding: 0;
+  font-size: 12px;
 }
 .bcn-fd-mark[data-status="received"] {
   background: color-mix(in srgb, var(--bcn-status-completed) 14%, transparent);
@@ -49433,6 +49454,19 @@ One hole: location facts, every pre-drilling document in due-date order with its
 .bcn-fd-mark[data-status="upcoming"] {
   box-shadow: inset 0 0 0 1px var(--bcn-status-not-started);
   color: var(--color-content-default-tertiary);
+}
+.bcn-fd-mark--dot[data-status="received"] {
+  background: var(--bcn-status-completed);
+}
+.bcn-fd-mark--dot[data-status="late"] {
+  background: var(--bcn-status-in-progress);
+}
+.bcn-fd-mark--dot[data-status="upcoming"] {
+  box-shadow: inset 0 0 0 1.5px var(--bcn-gray-500);
+  background: var(--color-background-elevation-raised);
+}
+.bcn-fd-mark--bar[data-status="upcoming"] {
+  background: var(--color-background-elevation-raised);
 }
 .bcn-fd-checklist {
   --st-fd-received: var(--bcn-status-completed);
@@ -49553,6 +49587,10 @@ One hole: location facts, every pre-drilling document in due-date order with its
 .bcn-fd-days__mark {
   justify-self: center;
   display: inline-flex;
+}
+.bcn-fd-checklist__table tr[data-fd-target] >,
+.bcn-fd-days__day[data-fd-target] {
+  background: color-mix(in srgb, var(--color-background-utility-info) 9%, transparent);
 }
 .bcn-fd-days__records {
   margin: 0 0 var(--spacing-200) var(--spacing-500);
@@ -49676,7 +49714,9 @@ One hole: location facts, every pre-drilling document in due-date order with its
 - `--bcn-status-not-started`: #bdbdbd _(component)_
 - `--bcn-status-overdue`: #ce2c31 _(component)_
 - `--color-background-brand`: #005862 _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
 - `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-background-utility-info`: #228be6 _(semantic)_
 - `--color-border-default`: #dcdcdc _(semantic)_
 - `--color-border-default-subtle`: #efefef _(semantic)_
 - `--color-content-default`: #3d3d3d _(semantic)_
