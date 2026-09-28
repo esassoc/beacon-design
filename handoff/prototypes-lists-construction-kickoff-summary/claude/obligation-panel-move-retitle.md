@@ -202,7 +202,8 @@ The side panel for one obligation ON THIS LIST. It offers exactly three things: 
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -216,24 +217,29 @@ The side panel for one obligation ON THIS LIST. It offers exactly three things: 
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"] {
+.bcn-lob[data-class="adhere"],
+.bcn-ci-chip[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"] {
+.bcn-lob[data-class="monitor"],
+.bcn-ci-chip[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"] {
+.bcn-lob[data-class="notify"],
+.bcn-ci-chip[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swo-edit {

@@ -111968,7 +111968,8 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc__class,
 .bcn-loc__class,
-.bcn-lob__class {
+.bcn-lob__class,
+.bcn-ci-chip {
   padding: 1px var(--spacing-200);
   border-radius: var(--radius-100);
   background: color-mix(in srgb, var(--_hue) 14%, white);
@@ -111982,24 +111983,29 @@ details[open] > summary .bcn-loc__chevron {
 }
 .bcn-swoc[data-class="adhere"],
 .bcn-loc[data-class="adhere"],
-.bcn-lob[data-class="adhere"] {
+.bcn-lob[data-class="adhere"],
+.bcn-ci-chip[data-class="adhere"] {
   --_hue: var(--color-obligation);
 }
 .bcn-swoc[data-class="monitor"],
 .bcn-loc[data-class="monitor"],
-.bcn-lob[data-class="monitor"] {
+.bcn-lob[data-class="monitor"],
+.bcn-ci-chip[data-class="monitor"] {
   --_hue: #ff7c43;
 }
 .bcn-swoc[data-class="notify"],
 .bcn-loc[data-class="notify"],
-.bcn-lob[data-class="notify"] {
+.bcn-lob[data-class="notify"],
+.bcn-ci-chip[data-class="notify"] {
   --_hue: #ffa600;
 }
 .bcn-swoc[data-class="roster"],
 .bcn-loc[data-class="roster"],
 .bcn-lob[data-class="roster"],
+.bcn-ci-chip[data-class="roster"],
 .bcn-loc[data-class="action"],
-.bcn-lac[data-class="action"] {
+.bcn-lac[data-class="action"],
+.bcn-ci-chip[data-class="action"] {
   --_hue: var(--color-action);
 }
 .bcn-swoc__title,
@@ -112074,7 +112080,8 @@ details[open] > summary .bcn-loc__chevron {
   color: var(--color-background-utility-danger);
 }
 .bcn-swoc__reqs,
-.bcn-loc__reqs {
+.bcn-loc__reqs,
+.bcn-ciitem__reqs {
   padding: 0 var(--spacing-300) var(--spacing-150)
     calc(var(--spacing-300) + var(--_req-indent));
   flex-direction: column;
@@ -112083,7 +112090,8 @@ details[open] > summary .bcn-loc__chevron {
   display: flex;
 }
 .bcn-swoc__req,
-.bcn-loc__req {
+.bcn-loc__req,
+.bcn-ciitem__req {
   align-items: center;
   gap: var(--spacing-200);
   min-height: 28px;
@@ -112097,7 +112105,8 @@ details[open] > summary .bcn-loc__chevron {
   background: var(--color-background-default);
 }
 .bcn-swoc__req-name,
-.bcn-loc__req-name {
+.bcn-loc__req-name,
+.bcn-ciitem__req-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
@@ -112138,11 +112147,13 @@ details[open] > summary .bcn-loc__chevron {
   border-bottom: 1px solid var(--color-border-default);
 }
 .bcn-swot__cat:nth-of-type(2n),
-.bcn-lot__cat:nth-of-type(2n) {
+.bcn-lot__cat:nth-of-type(2n),
+.bcn-ciidx__cat:nth-of-type(2n) {
   background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
 }
 .bcn-swot__cat:nth-of-type(2n) .bcn-swot__row:hover,
-.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover {
+.bcn-lot__cat:nth-of-type(2n) .bcn-lot__row:hover,
+.bcn-ciidx__cat:nth-of-type(2n) .bcn-ciidx__row:hover {
   background: var(--bcn-gray-100);
 }
 .bcn-swot__sub + .bcn-swot__sub,

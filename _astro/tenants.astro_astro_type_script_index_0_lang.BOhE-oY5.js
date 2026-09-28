@@ -1,1 +1,0 @@
-import"./esa-side-dialog.BCuyTdth.js";import"./esa-text-field.BfcNHWlq.js";var e=document.getElementById(`new-tenant`);document.querySelector(`[data-settings-add="tenant-list"]`)?.addEventListener(`click`,()=>e?.show()),document.getElementById(`new-tenant-cancel`)?.addEventListener(`click`,()=>e?.close());
