@@ -1,0 +1,246 @@
+---
+// <BcnCiBinReview> — review one Compliance Index subcategory in a large modal over the
+// index (CI plan Thread 6: "one bin at a time, the handful of rows it holds"). Left
+// third, the bin's tree: its actions, then its obligations by class. An obligation filed
+// in several subcategories, and anything added or moved here, sits in its group like any
+// other row; nothing calls out where a row came from. Right two thirds, the
+// selected item in three tabs: Details (every field, editable), Review Commitment (its
+// commitment text, the passages it rests on highlighted) and Review Source Document
+// (the ITP at the page).
+//
+// Verbs: New action / New obligation; select two or more obligations and Merge; Dismiss
+// a row or the selection; Save or Delete in Details; Mark reviewed, which moves to the
+// next subcategory not yet reviewed. Decisions are held on the item, so they show in
+// every subcategory the item is filed in, and on the index behind the modal.
+//
+// Every bin renders here once, hidden; opening a bin reveals its section. Opened by a
+// `ci:open-bin` event (the index's Review buttons) or ?bin= in the URL.
+//
+// bcn-lego-checked: the shell IS esa-dialog size="lg" with --dialog-width-lg re-pointed
+// (the documented knob BcnConfigDialog uses for its large modal), the panel's tabs ARE
+// esa-tab-layout, prev/next ARE esa-icon-button, the verbs ARE esa-button, pickers ARE
+// esa-select, empty states ARE esa-empty-state, rows ARE bcn-ci-item-row, the form IS
+// bcn-ci-details. The two-column body geometry is the only thing authored here.
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnCiItemRow from './BcnCiItemRow.astro';
+import BcnCiDetails from './BcnCiDetails.astro';
+import {
+  CI_BINS,
+  CI_ACTION_BY_ID,
+  CI_OBLIGATION_BY_ID,
+  CI_DETAILS,
+  OBLIGATION_CLASS_LABEL,
+  ITP_PDF,
+  CLASS_ORDER,
+} from '../../data/setup-wizard-ci';
+import { withBase } from '../../lib/base';
+
+const tabs = JSON.stringify([{ label: 'Details' }, { label: 'Review Commitment' }, { label: 'Review Source Document' }]);
+const details = Object.fromEntries(CI_DETAILS.map((d) => [d.id, d]));
+---
+
+<esa-dialog
+  size="lg"
+  class="bcn-cirev"
+  data-ci-review
+  data-pdf={withBase(ITP_PDF)}
+  style="--dialog-width-lg: min(1440px, 94vw); --_dialog-max-height: 90vh;"
+>
+  <div slot="header" class="bcn-cirev__head">
+    <EsaIconButton icon="chevron-left" label="Previous subcategory" size="sm" data-rev-prev />
+    <EsaIconButton icon="chevron-right" label="Next subcategory" size="sm" data-rev-next />
+    <div class="bcn-cirev__heading">
+      <span class="bcn-cirev__crumb" data-rev-cat></span>
+      <h2 class="bcn-cirev__title" data-rev-title>Subcategory</h2>
+    </div>
+    <span class="bcn-cirev__pos" data-rev-pos></span>
+  </div>
+
+  <div class="bcn-cirev__body">
+    <div class="bcn-cirev__tree">
+      <div class="bcn-cirev__tools">
+        <div class="bcn-cirev__tools-row">
+          <EsaButton variant="secondary" size="xs" data-rev-new="action">New action</EsaButton>
+          <EsaButton variant="secondary" size="xs" data-rev-new="obligation">New obligation</EsaButton>
+          <span class="bcn-cirev__spacer"></span>
+          <EsaButton variant="ghost" size="xs" data-rev-expand>Expand all</EsaButton>
+          <EsaButton variant="ghost" size="xs" data-rev-collapse>Collapse all</EsaButton>
+        </div>
+        <div class="bcn-cirev__tools-row">
+          <span class="bcn-cirev__sel" data-rev-sel>Nothing selected</span>
+          <span class="bcn-cirev__spacer"></span>
+          <EsaButton variant="secondary" size="xs" data-rev-merge disabled>Merge</EsaButton>
+          <EsaButton variant="secondary" size="xs" data-rev-dismiss-sel disabled>Dismiss</EsaButton>
+        </div>
+      </div>
+
+      {
+        CI_BINS.map((bin) => {
+          const actions = bin.actionIds.map((id) => CI_ACTION_BY_ID.get(id)!);
+          // Filed-here obligations fold in with the bin's own, by class.
+          const obligations = [...bin.obligationIds, ...bin.alsoFiledIds]
+            .map((id) => ({ o: CI_OBLIGATION_BY_ID.get(id)!, also: bin.alsoFiledIds.includes(id) }))
+            .sort((x, y) => CLASS_ORDER.indexOf(x.o.class) - CLASS_ORDER.indexOf(y.o.class));
+          return (
+            <section class="bcn-cirev__bin" data-rev-bin={bin.id} data-cat-name={bin.categoryName} data-bin-name={bin.name} hidden>
+              <div class="bcn-cirev__group" data-rev-group="action" hidden={!actions.length}>
+                <h3 class="bcn-cirev__group-title">Actions</h3>
+                {actions.map((a) => (
+                  <BcnCiItemRow id={a.id} kind="action" title={a.title} tag="Action" chip="action" sources={a.requirements} />
+                ))}
+              </div>
+              <div class="bcn-cirev__group" data-rev-group="obligation" hidden={!obligations.length}>
+                <h3 class="bcn-cirev__group-title">Obligations</h3>
+                {obligations.map(({ o, also }) => (
+                  <BcnCiItemRow id={o.id} kind="obligation" title={o.title} tag={OBLIGATION_CLASS_LABEL[o.class]} chip={o.class} also={also} sources={o.requirements} />
+                ))}
+              </div>
+              <div class="bcn-cirev__empty" data-rev-empty hidden>
+                <EsaEmptyState title="Nothing filed in this subcategory" description="Add an action or an obligation." size="sm" />
+              </div>
+            </section>
+          );
+        })
+      }
+
+      <template data-rev-row-template>
+        <BcnCiItemRow id="__new__" kind="obligation" title="" tag="" chip="adhere" sources={[]} />
+      </template>
+    </div>
+
+    <aside class="bcn-cirev__panel" aria-label="Selected item">
+      <div data-check-empty>
+        <EsaEmptyState title="No item selected" description="Select an action or obligation." size="sm" />
+      </div>
+      <div class="bcn-cirev__panel-body" data-check-body hidden>
+        <esa-tab-layout tabs={tabs} active-index="0" appearance="underline" size="sm" data-check-tabs>
+          <div slot="panel-0"><BcnCiDetails /></div>
+          <div slot="panel-1" class="bcn-cirev__doc" data-check-commitment></div>
+          <div slot="panel-2" class="bcn-cirev__pdf">
+            <div class="bcn-cirev__pdf-bar">
+              <esa-select label="Source" size="sm" data-check-source></esa-select>
+              <EsaButton variant="ghost" size="xs" href="#" iconRight="external-link" data-check-pdf-link target="_blank" rel="noopener">Open PDF</EsaButton>
+            </div>
+            <iframe class="bcn-cirev__frame" title="Incidental Take Permit" data-check-frame></iframe>
+          </div>
+        </esa-tab-layout>
+      </div>
+    </aside>
+  </div>
+
+  <div slot="footer" class="bcn-cirev__foot">
+    <span class="bcn-cirev__tally" data-rev-tally></span>
+    <span class="bcn-cirev__spacer"></span>
+    <span data-rev-approved-note hidden class="bcn-cirev__approved">Reviewed</span>
+    <EsaButton variant="secondary" size="sm" data-rev-reopen hidden>Reopen</EsaButton>
+    <EsaButton variant="primary" size="sm" data-rev-approve>Mark reviewed</EsaButton>
+  </div>
+
+  <script type="application/json" data-ci-details-json set:html={JSON.stringify(details)} />
+</esa-dialog>
+
+<style>
+  .bcn-cirev__head { display: flex; align-items: center; gap: var(--spacing-200); flex: 1; min-width: 0; }
+  .bcn-cirev__heading { display: flex; flex-direction: column; min-width: 0; margin-left: var(--spacing-200); }
+  .bcn-cirev__crumb { font-size: 0.8125rem; color: var(--color-content-default-tertiary); }
+  .bcn-cirev__title {
+    margin: 0;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: var(--font-size-300);
+    font-weight: var(--typography-font-weight-semibold);
+    line-height: 1.2;
+    color: var(--color-content-default);
+  }
+  .bcn-cirev__pos { margin-left: auto; font-size: 0.8125rem; color: var(--color-content-default-tertiary); white-space: nowrap; }
+
+  /* The dialog body scrolls as a whole; this grid pins itself to the modal's height so
+     each column scrolls on its own instead. Tree one third, panel two thirds. */
+  .bcn-cirev__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--spacing-400);
+    height: calc(90vh - 10rem);
+  }
+  .bcn-cirev__tree,
+  .bcn-cirev__panel {
+    min-height: 0;
+    overflow-y: auto;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-cirev__tools {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-200) var(--spacing-300);
+    background: var(--color-background-elevation-raised);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .bcn-cirev__tools-row { display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-cirev__sel { font-size: 0.8125rem; color: var(--color-content-default-tertiary); }
+  .bcn-cirev__spacer { flex: 1; }
+  .bcn-cirev__bin[hidden],
+  .bcn-cirev__group[hidden],
+  .bcn-cirev__empty[hidden] { display: none; }
+  .bcn-cirev__group-title {
+    margin: 0;
+    padding: var(--spacing-300) var(--spacing-300) var(--spacing-150);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-content-default);
+  }
+  .bcn-cirev__empty { padding: var(--spacing-400); }
+
+  .bcn-cirev__panel { display: flex; flex-direction: column; padding: var(--spacing-200) var(--spacing-400) 0; }
+  .bcn-cirev__panel-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .bcn-cirev__panel-body[hidden] { display: none; }
+  /* The tab strip stays put while its panel scrolls under it. */
+  .bcn-cirev__panel-body esa-tab-layout::part(tabs) {
+    position: sticky;
+    top: calc(-1 * var(--spacing-200));
+    z-index: 1;
+    background: var(--color-background-elevation-raised);
+  }
+
+  .bcn-cirev__doc { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-300) 0 var(--spacing-500); }
+  .bcn-cirev__doc :global(.bcn-cirev__com) { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-cirev__doc :global(.bcn-cirev__com + .bcn-cirev__com) { padding-top: var(--spacing-400); border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-cirev__doc :global(.bcn-cirev__doc-head) { display: flex; align-items: baseline; gap: var(--spacing-200); flex-wrap: wrap; }
+  .bcn-cirev__doc :global(.bcn-cirev__doc-title) { font-size: 0.875rem; font-weight: 600; }
+  .bcn-cirev__doc :global(.bcn-cirev__doc-from) { font-size: 0.8125rem; color: var(--color-content-default-tertiary); }
+  .bcn-cirev__doc :global(.bcn-cirev__doc-text p) { margin: 0 0 var(--spacing-300); font-size: 0.875rem; line-height: 1.65; color: var(--color-content-default-secondary); }
+  /* The passages the item rests on, marked in highlighter yellow. */
+  .bcn-cirev__doc :global(mark) {
+    background: color-mix(in srgb, var(--color-background-utility-warning) 40%, transparent);
+    color: var(--color-content-default);
+    border-radius: 2px;
+    padding: 0 1px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .bcn-cirev__doc :global(mark[data-focus]) { background: color-mix(in srgb, var(--color-background-utility-warning) 70%, transparent); }
+
+  .bcn-cirev__pdf { display: flex; flex-direction: column; gap: var(--spacing-200); height: calc(90vh - 17rem); padding-top: var(--spacing-300); }
+  .bcn-cirev__pdf-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--spacing-300); }
+  .bcn-cirev__pdf-bar esa-select { flex: 0 1 24rem; }
+  .bcn-cirev__frame { flex: 1; width: 100%; border: 1px solid var(--color-border-default-subtle); border-radius: var(--radius-100); background: var(--color-background-elevation-sunken); }
+
+  .bcn-cirev__foot { display: flex; align-items: center; gap: var(--spacing-300); width: 100%; }
+  .bcn-cirev__tally { font-size: 0.8125rem; color: var(--color-content-default-secondary); }
+  .bcn-cirev__approved { font-size: 0.8125rem; color: var(--color-content-default-secondary); font-weight: 600; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-select';
+  import { setupCiReview } from './ci-review';
+  document.querySelectorAll<HTMLElement>('[data-ci-review]').forEach(setupCiReview);
+</script>

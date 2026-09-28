@@ -1,0 +1,111 @@
+---
+// <BcnCiDetails> — every field one action or obligation carries, editable: the first
+// tab of <BcnCiBinReview>'s side panel. One form, re-pointed at whichever item is
+// selected (ci-review.ts fills it and reads it back on Save). An action and an
+// obligation share the common fields; each kind shows its own set beside them.
+//
+// With requirements folded into the items (2026-09-28), the attributes requirements
+// carried — phases, species, activities, responsible party — are the item's own here.
+// Sources are the commitment passages the item rests on; each opens Review Commitment.
+//
+// bcn-lego-checked: text ARE esa-text-field / esa-textarea, pickers ARE esa-select,
+// the class IS esa-button-toggle, phases ARE esa-checkbox-group, species and
+// activities ARE esa-input-tag, the verbs ARE esa-button. Checked Beacon: prod's
+// actions-step-edit-dialog Details tab is this field list in a side dialog; the field
+// grid and the sources list are the only things authored here.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { DETAIL_OPTIONS } from '../../data/setup-wizard-ci';
+
+const opts = (o: { label: string; value: string }[]) => JSON.stringify(o);
+---
+
+<form class="bcn-cidet" data-ci-details data-kind="obligation" onsubmit="return false">
+  <div class="bcn-cidet__grid">
+    <esa-text-field class="bcn-cidet__wide" label="Title" size="sm" data-f="title"></esa-text-field>
+
+    <div class="bcn-cidet__wide" data-for="obligation">
+      <esa-button-toggle label="Class" size="sm" options={opts(DETAIL_OPTIONS.classes)} data-f="cls"></esa-button-toggle>
+    </div>
+
+    <esa-textarea class="bcn-cidet__wide" label="Description" size="sm" rows="4" data-f="description"></esa-textarea>
+
+    <esa-text-field class="bcn-cidet__wide" label="Applies when" size="sm" data-for="obligation" data-f="trigger"></esa-text-field>
+
+    <esa-select label="Type" size="sm" options={opts(DETAIL_OPTIONS.types)} data-for="action" data-f="type"></esa-select>
+    <esa-select label="Deliverable type" size="sm" options={opts(DETAIL_OPTIONS.deliverables)} data-for="action" data-f="deliverableType"></esa-select>
+    <esa-select label="Frequency" size="sm" options={opts(DETAIL_OPTIONS.frequencies)} data-for="action" data-f="frequency"></esa-select>
+    <esa-text-field label="Recipient" size="sm" data-for="action" data-f="recipient"></esa-text-field>
+    <esa-text-field class="bcn-cidet__wide" label="Timing" size="sm" data-for="action" data-f="timing"></esa-text-field>
+    <esa-textarea class="bcn-cidet__wide" label="Expected evidence" size="sm" rows="3" data-for="action" data-f="evidence"></esa-textarea>
+
+    <esa-checkbox-group class="bcn-cidet__wide" label="Phases" size="sm" orientation="horizontal" options={opts(DETAIL_OPTIONS.phases)} data-f="phases"></esa-checkbox-group>
+    <esa-input-tag label="Species" size="sm" data-f="species"></esa-input-tag>
+    <esa-input-tag label="Activities" size="sm" data-f="activities"></esa-input-tag>
+    <esa-text-field class="bcn-cidet__wide" label="Responsible party" size="sm" data-f="party"></esa-text-field>
+
+    <esa-select label="Subcategory" size="sm" options={opts(DETAIL_OPTIONS.bins)} data-f="home"></esa-select>
+    <esa-select label="Also filed in" size="sm" multiple options={opts(DETAIL_OPTIONS.bins)} data-for="obligation" data-f="also"></esa-select>
+  </div>
+
+  <div class="bcn-cidet__sources">
+    <h4 class="bcn-cidet__label">Sources</h4>
+    <ul class="bcn-cidet__source-list" data-cidet-sources></ul>
+  </div>
+
+  <div class="bcn-cidet__foot">
+    <EsaButton variant="secondary" size="sm" data-cidet-delete>Delete</EsaButton>
+    <span class="bcn-cidet__spacer"></span>
+    <span class="bcn-cidet__saved" data-cidet-saved hidden>Saved</span>
+    <EsaButton variant="primary" size="sm" data-cidet-save>Save</EsaButton>
+  </div>
+</form>
+
+<style>
+  .bcn-cidet { display: flex; flex-direction: column; gap: var(--spacing-400); padding-top: var(--spacing-300); }
+  .bcn-cidet__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-300) var(--spacing-400); }
+  .bcn-cidet__wide { grid-column: 1 / -1; }
+  .bcn-cidet[data-kind='action'] [data-for='obligation'],
+  .bcn-cidet[data-kind='obligation'] [data-for='action'] { display: none; }
+
+  .bcn-cidet__label { margin: 0 0 var(--spacing-150); font-size: 0.8125rem; font-weight: 600; color: var(--color-content-default); }
+  .bcn-cidet__source-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--color-border-default-subtle); border-radius: var(--radius-200); }
+  .bcn-cidet__source-list :global(li + li) { border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-cidet__source-list :global(.bcn-cidet__source) {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    width: 100%;
+    padding: var(--spacing-200) var(--spacing-300);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-cidet__source-list :global(.bcn-cidet__source:hover) { background: var(--color-background-hover); }
+  .bcn-cidet__source-list :global(.bcn-cidet__source:focus-visible) { outline: 2px solid var(--color-border-focus); outline-offset: -2px; }
+  .bcn-cidet__source-list :global(.bcn-cidet__empty) { padding: var(--spacing-200) var(--spacing-300); font-size: 0.8125rem; color: var(--color-content-default-tertiary); }
+
+  .bcn-cidet__foot {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) 0;
+    background: var(--color-background-elevation-raised);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-cidet__spacer { flex: 1; }
+  .bcn-cidet__saved { font-size: 0.8125rem; color: var(--color-content-success); }
+  .bcn-cidet__saved[hidden] { display: none; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-checkbox-group';
+  import '@esa/ecology/esa-input-tag';
+</script>

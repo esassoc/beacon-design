@@ -21,7 +21,7 @@ import itp from './setup-wizard-itp.json';
 
 // ── Steps ─────────────────────────────────────────────────────────────────────
 
-export type SetupStepId = 'source-documents' | 'commitments' | 'requirements' | 'actions' | 'obligations';
+export type SetupStepId = 'source-documents' | 'commitments' | 'requirements' | 'actions' | 'obligations' | 'compliance-index';
 export type SetupStepToken = 'source' | 'commitment' | 'requirement' | 'action' | 'obligation';
 
 export interface SetupStep {

@@ -1,0 +1,45 @@
+---
+// Setup Wizard, Compliance Index variant — step 3 while the index is being built.
+//
+// One processing run over the approved requirements: build the index (the taxonomy),
+// then Extract, File and Merge every action and obligation into it, watched through a
+// live log rather than a spinner (CI plan Thread 6). The log replays RUN_LOG, derived
+// from the ITP fixture; when it finishes, the page hands off to the index hub.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
+import BcnSwCountBadge from '../../../components/bcn/BcnSwCountBadge.astro';
+import BcnCiRunPanel from '../../../components/bcn/BcnCiRunPanel.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { CI_STEPS, CI_BASE, CI_TOTALS } from '../../../data/setup-wizard-ci';
+import { withBase } from '../../../lib/base';
+
+const STEP = CI_STEPS.find((s) => s.id === 'compliance-index')!;
+const reqs = CI_TOTALS.requirements.toLocaleString('en-US');
+---
+
+<!-- manifest:
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
+  sections:
+    - wizard chrome     -> bcn-setup-wizard-frame   # four steps, straight run, step 4 active
+    - step panel        -> bcn-sw-step-panel        # numeral, title with the requirement count, intro
+    - processing run    -> bcn-ci-run-panel         # phase rail, live counts, clock + replay controls, monospace log; hands off to the index when done
+-->
+
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
+  <PageLayout title="Setup Wizard" hideTitleRow>
+    <BcnSetupWizardFrame steps={CI_STEPS} active="compliance-index" complete={['source-documents', 'commitments', 'requirements']} homeHref={CI_BASE}>
+      <div class="stack" data-gap="md">
+        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Build the index from the approved requirements, then extract, file and merge every action and obligation into it.">
+          <Fragment slot="title">
+            <span>Building the Compliance Index from</span>
+            <BcnSwCountBadge value={reqs} label={`${reqs} requirements`} />
+            <span>requirements</span>
+          </Fragment>
+        </BcnSwStepPanel>
+        <BcnCiRunPanel doneHref={withBase(CI_BASE)} />
+      </div>
+    </BcnSetupWizardFrame>
+  </PageLayout>
+</AppShell>

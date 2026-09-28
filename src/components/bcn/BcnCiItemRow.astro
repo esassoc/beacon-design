@@ -1,0 +1,139 @@
+---
+// <BcnCiItemRow> — one action or obligation in a Compliance Index subcategory, with the
+// commitment passages it rests on as its children. The line: select box, chevron, the
+// class chip (an obligation's class, or Action), the statement, and Dismiss. Clicking
+// the statement selects the item into the review dialog's side panel; clicking a
+// source opens it in Review Commitment.
+//
+// A dismissed row stays in place, struck, with Restore; a merged-away row hides and its
+// sources move into the obligation it was merged into (ci-review.ts).
+//
+// bcn-lego-checked: the select box IS esa-checkbox, the kind IS the shared class chip
+// (bcn-obligation-card.css), Dismiss/Unmerge ARE esa-icon-button, Restore IS esa-button.
+// Checked Ecology (no tree-row lego; esa-collapsible is a titled section, too heavy for
+// a row) and Beacon (the action-card + linked-requirements shape BcnSwObligationCard
+// ports, which carries drag, duplicate and edit-drawer wiring this review row must not).
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import '../../styles/bcn-obligation-card.css';
+import type { CiRequirementRef } from '../../data/setup-wizard-ci';
+
+interface Props {
+  id: string;
+  kind: 'action' | 'obligation';
+  title: string;
+  /** The chip's label: 'Action', or the obligation's class label. */
+  tag: string;
+  /** The chip's hue key: 'action', or the obligation's class. */
+  chip: string;
+  /** Filed here from another home subcategory. */
+  also?: boolean;
+  sources: CiRequirementRef[];
+}
+const { id, kind, title, tag, chip, also = false, sources } = Astro.props;
+---
+
+<article class="bcn-ciitem" data-item={id} data-kind={kind} data-also={also ? '' : undefined}>
+  <div class="bcn-ciitem__line">
+    <esa-checkbox size="sm" aria-label={`Select ${title}`} data-item-select></esa-checkbox>
+    <button type="button" class="bcn-ciitem__chev" aria-expanded="false" aria-label="Show sources" data-item-toggle>
+      <EsaIcon name="chevron-right" size="xs" />
+    </button>
+    <span class="bcn-ci-chip" data-class={chip} data-item-chip>{tag}</span>
+    <button type="button" class="bcn-ciitem__title" data-item-open>{title}</button>
+    <span class="bcn-ciitem__merged" data-merged-note hidden></span>
+    <span class="bcn-ciitem__verbs">
+      <span data-item-unmerge hidden><EsaIconButton icon="rotate-ccw" label="Unmerge" size="xs" /></span>
+      <EsaIconButton icon="circle-x" label="Dismiss" size="xs" data-item-dismiss />
+    </span>
+  </div>
+  <ul class="bcn-ciitem__reqs" data-item-reqs hidden>
+    {
+      sources.map((r) => (
+        <li data-req-of={id}>
+          <button type="button" class="bcn-ciitem__req" data-req={r.id}>
+            <BcnCommitmentBadge code={r.code} size="sm" />
+            <span class="bcn-ciitem__req-name">{r.excerpt}</span>
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="bcn-ciitem__dismissed" data-item-dismissed hidden>
+    <span>Dismissed</span>
+    <EsaButton variant="ghost" size="xs" data-item-restore>Restore</EsaButton>
+  </div>
+</article>
+
+<style>
+  .bcn-ciitem { --_req-indent: 2.75rem; border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-ciitem[hidden] { display: none; }
+  .bcn-ciitem__line {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 34px;
+    padding: var(--spacing-100) var(--spacing-300);
+    font-size: 0.8125rem;
+  }
+  .bcn-ciitem:hover > .bcn-ciitem__line { background: var(--color-background-default); }
+  .bcn-ciitem[data-active] > .bcn-ciitem__line { background: color-mix(in srgb, var(--color-background-brand) 8%, transparent); }
+  .bcn-ciitem__chev {
+    all: unset;
+    display: inline-flex;
+    flex-shrink: 0;
+    cursor: pointer;
+    color: var(--color-content-default-tertiary);
+    transition: transform 120ms ease;
+  }
+  .bcn-ciitem__chev[aria-expanded='true'] { transform: rotate(90deg); }
+  .bcn-ciitem__chev:focus-visible,
+  .bcn-ciitem__title:focus-visible,
+  .bcn-ciitem__req:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; border-radius: var(--radius-100); }
+  .bcn-ciitem__title {
+    all: unset;
+    cursor: pointer;
+    flex: 1 1 auto;
+    min-width: 0;
+    color: var(--color-content-default);
+  }
+  .bcn-ciitem__title:hover { text-decoration: underline; }
+  .bcn-ciitem__merged { color: var(--color-content-brand); white-space: nowrap; }
+  .bcn-ciitem__merged[hidden] { display: none; }
+  .bcn-ciitem__verbs { display: inline-flex; align-items: center; flex-shrink: 0; }
+
+  /* Children share the obligations mockup's requirement rows (bcn-obligation-card.css);
+     only the button reset and the selected state are this row's own. */
+  .bcn-ciitem__reqs[hidden] { display: none; }
+  .bcn-ciitem__req {
+    appearance: none;
+    box-sizing: border-box;
+    width: 100%;
+    border: 0;
+    border-top: 1px solid var(--color-border-default-subtle);
+    background: none;
+    font: inherit;
+    font-size: 0.8125rem;
+    text-align: start;
+    color: var(--color-content-default-secondary);
+    cursor: pointer;
+  }
+  .bcn-ciitem__reqs > li:first-child > .bcn-ciitem__req { border-top: 0; }
+  .bcn-ciitem__req:hover { color: var(--color-content-default); }
+  .bcn-ciitem__req[aria-current='true'] { background: color-mix(in srgb, var(--color-background-brand) 8%, transparent); color: var(--color-content-default); }
+
+  .bcn-ciitem[data-dismissed] .bcn-ciitem__title { text-decoration: line-through; color: var(--color-content-default-tertiary); }
+  .bcn-ciitem[data-dismissed] .bcn-ciitem__verbs,
+  .bcn-ciitem[data-dismissed] esa-checkbox { visibility: hidden; }
+  .bcn-ciitem__dismissed {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: 0 var(--spacing-300) var(--spacing-150) calc(var(--spacing-300) + 2.75rem);
+    font-size: 0.8125rem;
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-ciitem__dismissed[hidden] { display: none; }
+</style>

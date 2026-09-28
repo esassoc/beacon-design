@@ -54,11 +54,13 @@
   border-bottom: 1px solid var(--color-border-default);
 }
 .bcn-swot__cat:nth-of-type(even),
-.bcn-lot__cat:nth-of-type(even) {
+.bcn-lot__cat:nth-of-type(even),
+.bcn-ciidx__cat:nth-of-type(even) {
   background: color-mix(in srgb, var(--bcn-gray-100) 50%, white);
 }
 .bcn-swot__cat:nth-of-type(even) .bcn-swot__row:hover,
-.bcn-lot__cat:nth-of-type(even) .bcn-lot__row:hover {
+.bcn-lot__cat:nth-of-type(even) .bcn-lot__row:hover,
+.bcn-ciidx__cat:nth-of-type(even) .bcn-ciidx__row:hover {
   background: var(--bcn-gray-100);
 }
 .bcn-swot__sub + .bcn-swot__sub,

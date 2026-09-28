@@ -32,9 +32,17 @@ interface Props {
   complete?: SetupStepId[];
   /** Root-relative route of the wizard home; the title links there. */
   homeHref?: string;
+  /**
+   * A straight run of steps with no fork, for a wizard variant whose pipeline does not
+   * split (the Compliance Index variant, 2026-09-28: four steps). Omitted, the nav is
+   * the shared trunk and its Actions | Obligations fork.
+   */
+  steps?: SetupStep[];
 }
 
-const { active, complete = COMPLETE_STEPS, homeHref = '/prototypes/setup-wizard' } = Astro.props;
+const { active, complete = COMPLETE_STEPS, homeHref = '/prototypes/setup-wizard', steps } = Astro.props;
+const trunk = steps ?? SETUP_TRUNK;
+const branches = steps ? [] : SETUP_BRANCHES;
 const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
 const pill = (s: SetupStep) => ({
   isActive: s.id === active,
@@ -56,7 +64,7 @@ const pill = (s: SetupStep) => ({
   <nav class="bcn-swf__nav" aria-label="Setup wizard steps">
     <ol class="bcn-swf__steps">
       {
-        SETUP_TRUNK.map((s) => {
+        trunk.map((s, i) => {
           const p = pill(s);
           return (
             <li class="bcn-swf__item">
@@ -74,15 +82,16 @@ const pill = (s: SetupStep) => ({
                   <span class="bcn-swf__check" aria-label="Step complete"><EsaIcon name="check" size="xs" paths={STEP_GLYPH.check} /></span>
                 )}
               </a>
-              <span class="bcn-swf__connector" aria-hidden="true" />
+              {(branches.length > 0 || i < trunk.length - 1) && <span class="bcn-swf__connector" aria-hidden="true" />}
             </li>
           );
         })
       }
+      {branches.length > 0 && (
       <li class="bcn-swf__item bcn-swf__item--fork">
         <ol class="bcn-swf__branches" aria-label="Either of">
           {
-            SETUP_BRANCHES.map((s) => {
+            branches.map((s) => {
               const p = pill(s);
               return (
                 <li class="bcn-swf__branch">
@@ -107,6 +116,7 @@ const pill = (s: SetupStep) => ({
           }
         </ol>
       </li>
+      )}
     </ol>
   </nav>
 
@@ -185,6 +195,8 @@ const pill = (s: SetupStep) => ({
     min-width: 0;
   }
   .bcn-swf__item--fork { flex: 0 0 auto; }
+  /* A straight run ends on its last pill, with no connector to stretch. */
+  .bcn-swf__item:last-child { flex: 0 0 auto; }
 
   .bcn-swf__step {
     display: inline-flex;

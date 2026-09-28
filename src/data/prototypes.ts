@@ -768,6 +768,33 @@ export const prototypeGroups: PrototypeGroup[] = [
     ],
   },
   {
+    slug: 'setup-wizard-ci',
+    tenant: 'dcp',
+    title: 'Setup Wizard — Compliance Index',
+    description:
+      'The wizard as four steps: Source Documents, Commitments, Requirements, Compliance Index. One processing run builds the index from the approved requirements, then extracts, files and merges every action and obligation into it, watched through a live log. Review happens one subcategory at a time in a large dialog, with the commitment text and the ITP page beside the tree. Follows the CI.5 pipeline on esassoc/Beacon feature/BCN-1740-obligations-draft.',
+    pages: [
+      {
+        slug: 'setup-wizard-ci-run',
+        title: 'Step 3 — Building the index',
+        description:
+          'The processing run over the ITP\'s 854 requirements: Build the index, Extract, File, Merge, each with its own count and bar, six live counts, a clock, and a monospace log naming what each requirement became. Replayed from the fixture; hands off to the index when it finishes.',
+        route: '/prototypes/setup-wizard-ci/run',
+        createdAt: '2026-09-28',
+        status: 'in-progress',
+      },
+      {
+        slug: 'setup-wizard-ci-index',
+        title: 'Step 3 — Compliance Index',
+        description:
+          'The index as the hub: coverage rollup, then category > subcategory rows with their actions, obligations and review state. A row opens the subcategory full screen: its actions and obligations by class, obligations filed in from elsewhere, merge and dismiss, approve and move to the next, and any requirement read against its commitment text or the ITP PDF.',
+        route: '/prototypes/setup-wizard-ci',
+        createdAt: '2026-09-28',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'lists',
     tenant: 'dcp',
     title: 'Lists',

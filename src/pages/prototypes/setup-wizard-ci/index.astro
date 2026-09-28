@@ -1,0 +1,51 @@
+---
+// Setup Wizard, Compliance Index variant — step 3, the index as the wizard's hub.
+//
+// The wizard as four steps (2026-09-28): Source Documents → Commitments → Requirements
+// → Compliance Index. The run (./run) builds the index and fills it; this page is where the team
+// comes back to review it, one subcategory at a time, in a full-screen dialog with the
+// commitment text and the ITP beside the tree. Everything is derived from the ITP
+// fixture (src/data/setup-wizard-ci.ts).
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnSetupWizardFrame from '../../../components/bcn/BcnSetupWizardFrame.astro';
+import BcnSwStepPanel from '../../../components/bcn/BcnSwStepPanel.astro';
+import BcnSwCountBadge from '../../../components/bcn/BcnSwCountBadge.astro';
+import BcnCiIndex from '../../../components/bcn/BcnCiIndex.astro';
+import BcnCiBinReview from '../../../components/bcn/BcnCiBinReview.astro';
+import { PROJECT } from '../../../data/project-dashboard';
+import { CI_STEPS, CI_BASE, CI_TOTALS } from '../../../data/setup-wizard-ci';
+import { withBase } from '../../../lib/base';
+
+const STEP = CI_STEPS.find((s) => s.id === 'compliance-index')!;
+---
+
+<!-- manifest:
+  layout: PageLayout (title row hidden) > bcn-setup-wizard-frame > stack(md)   # SPINE
+  sections:
+    - wizard chrome     -> bcn-setup-wizard-frame   # four steps, straight run, step 4 active
+    - step panel        -> bcn-sw-step-panel        # numeral, title with subcategory count, intro; actions: Run log
+    - index hub         -> bcn-ci-index             # coverage rollup, search + review-state filter, category > subcategory rows with counts and review state
+    - review one bin    -> bcn-ci-bin-review        # full-screen esa-dialog: the bin's actions + obligations tree, merge / dismiss / approve, commitment text + ITP page beside it
+-->
+
+<AppShell title="Setup Wizard" tenantName={PROJECT.tenant} projectName="Delta Conveyance" activeNavId="setup-wizard" expandedSections={[]}>
+  <PageLayout title="Setup Wizard" hideTitleRow>
+    <BcnSetupWizardFrame steps={CI_STEPS} active="compliance-index" complete={['source-documents', 'commitments', 'requirements']} homeHref={CI_BASE}>
+      <div class="stack" data-gap="md">
+        <BcnSwStepPanel n={STEP.n} token={STEP.token} intro="Review each subcategory: merge what says the same thing, dismiss what does not belong, and mark it reviewed.">
+          <Fragment slot="title">
+            <span>Compliance Index</span>
+            <BcnSwCountBadge value={CI_TOTALS.subcategories} label={`${CI_TOTALS.subcategories} subcategories`} />
+          </Fragment>
+          <Fragment slot="actions">
+            <EsaButton variant="secondary" size="sm" href={withBase(`${CI_BASE}/run`)}>Run log</EsaButton>
+          </Fragment>
+        </BcnSwStepPanel>
+        <BcnCiIndex />
+      </div>
+      <BcnCiBinReview />
+    </BcnSetupWizardFrame>
+  </PageLayout>
+</AppShell>

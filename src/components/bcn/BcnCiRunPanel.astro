@@ -1,0 +1,203 @@
+---
+// <BcnCiRunPanel> — the Compliance Index processing run, watched rather than waited on.
+//
+// Prod's shape is the CI.5 Draft page (esassoc/Beacon feature/BCN-1740-obligations-draft:
+// obligations-step + processing-run-log): stat rows with a bar under each, a status line,
+// and a monospace log that follows its newest line. This variant runs all four of the
+// index's steps in one run, so the stats sit under a phase rail — Build the index,
+// Extract, File, Merge — each with its own remaining count and bar.
+//
+// The log is a REPLAY of RUN_LOG (src/data/setup-wizard-ci.ts), derived line by line from
+// the ITP fixture. Lines carry prod's five log levels and a simulated clock stamp; the
+// clock is scaled from CI.5's measured chunk timings. Pause, a speed toggle and Skip to
+// end are prototype controls over the replay; prod's run has none of them because it
+// runs server-side.
+//
+// bcn-lego-checked: the counts ARE esa-stat, the bars ARE esa-progress-bar, the controls
+// ARE esa-button, the phase checks are esa-icon. Checked Ecology for a log / console lego
+// (none: esa-file-list and esa-search-panel are lists of records, not a streaming text
+// pane) and Beacon (processing-run-log IS this pane — a cdk virtual-scroll of fixed-height
+// monospace lines with a modifier per log level — ported here under a bcn- name).
+// bcn-ci-run-panel is the reusable home for any processing run's live view.
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { RUN_LOG, RUN_PHASES, RUN_SECONDS, CI_TOTALS } from '../../data/setup-wizard-ci';
+import { STEP_GLYPH } from '../../data/setup-wizard';
+
+interface Props {
+  /** Where "Review the index" goes once the run finishes. */
+  doneHref: string;
+}
+const { doneHref } = Astro.props;
+
+const STATS = [
+  { key: 'r', label: 'Requirements read', sub: `of ${CI_TOTALS.requirements.toLocaleString('en-US')}` },
+  { key: 'a', label: 'Action items' },
+  { key: 'o', label: 'Obligation items' },
+  { key: 'n', label: 'Requirements binding nothing' },
+  { key: 'f', label: 'Items filed' },
+  { key: 's', label: 'Obligations after merge' },
+];
+---
+
+<section class="bcn-cirun" data-ci-run>
+  <ol class="bcn-cirun__phases" aria-label="Run steps">
+    {
+      RUN_PHASES.map((p, i) => (
+        <li class="bcn-cirun__phase" data-phase={p.id} data-state={i === 0 ? 'running' : 'pending'}>
+          <div class="bcn-cirun__phase-head">
+            <span class="bcn-cirun__phase-n" aria-hidden="true">{i + 1}</span>
+            <span class="bcn-cirun__phase-check" aria-hidden="true"><EsaIcon name="check" size="xs" paths={STEP_GLYPH.check} /></span>
+            <span class="bcn-cirun__phase-label">{p.label}</span>
+            <span class="bcn-cirun__phase-count"><span data-phase-done>0</span> / {p.total.toLocaleString('en-US')} {p.unit}</span>
+          </div>
+          <EsaProgressBar value={0} size="xs" showValue={false} />
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="bcn-cirun__stats">
+    {
+      STATS.map((s) => (
+        <div data-stat={s.key}>
+          <EsaStat value="0" label={s.label} sub={s.sub} />
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="bcn-cirun__bar">
+    <p class="bcn-cirun__status" data-run-status role="status">Running</p>
+    <span class="bcn-cirun__clock" data-run-clock aria-label="Elapsed">00:00:00</span>
+    <div class="bcn-cirun__controls">
+      <EsaButton variant="secondary" size="xs" data-run-toggle>Pause</EsaButton>
+      <EsaButton variant="secondary" size="xs" data-run-speed>Speed 1×</EsaButton>
+      <EsaButton variant="secondary" size="xs" data-run-skip>Skip to end</EsaButton>
+      <EsaButton variant="primary" size="sm" href={doneHref} data-run-done hidden>Review the Compliance Index</EsaButton>
+    </div>
+  </div>
+
+  <div class="bcn-cirun__log" role="log" aria-label="Run log" tabindex="0" data-run-log></div>
+
+  <script type="application/json" data-run-script set:html={JSON.stringify({ lines: RUN_LOG, phases: RUN_PHASES, seconds: RUN_SECONDS })} />
+</section>
+
+<style>
+  .bcn-cirun {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding: var(--spacing-500);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+
+  .bcn-cirun__phases {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--spacing-400);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .bcn-cirun__phase { display: flex; flex-direction: column; gap: var(--spacing-150); min-width: 0; }
+  .bcn-cirun__phase-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-cirun__phase-n,
+  .bcn-cirun__phase-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border-default);
+    font-size: 0.6875rem;
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-cirun__phase-check { display: none; }
+  .bcn-cirun__phase-label { font-weight: var(--typography-font-weight-semibold); }
+  .bcn-cirun__phase-count { margin-left: auto; font-variant-numeric: tabular-nums; }
+  .bcn-cirun__phase[data-state='running'] .bcn-cirun__phase-head { color: var(--color-content-default); }
+  .bcn-cirun__phase[data-state='running'] .bcn-cirun__phase-n {
+    background: var(--color-background-brand);
+    border-color: var(--color-background-brand);
+    color: var(--color-content-on-brand);
+  }
+  .bcn-cirun__phase[data-state='done'] .bcn-cirun__phase-n { display: none; }
+  .bcn-cirun__phase[data-state='done'] .bcn-cirun__phase-check {
+    display: inline-flex;
+    background: var(--color-background-success-subtle);
+    border-color: var(--color-border-success);
+    color: var(--color-content-success);
+  }
+
+  .bcn-cirun__stats {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--spacing-400);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-default-subtle);
+  }
+
+  .bcn-cirun__bar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
+  .bcn-cirun__status { margin: 0; font-size: var(--font-size-150); color: var(--color-content-default); }
+  .bcn-cirun__clock {
+    font-family: var(--typography-font-family-mono);
+    font-size: var(--font-size-100);
+    color: var(--color-content-default-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-cirun__controls { display: flex; gap: var(--spacing-200); margin-left: auto; align-items: center; }
+
+  .bcn-cirun__log {
+    height: 26rem;
+    overflow-y: auto;
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border-default-subtle);
+    border-radius: var(--radius-150, var(--radius-200));
+    background: var(--color-background-elevation-sunken);
+    font-family: var(--typography-font-family-mono);
+    font-size: var(--font-size-100);
+    line-height: 22px;
+  }
+  .bcn-cirun__log:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+
+  /* Lines are built by the controller, so they are reached through :global(). */
+  .bcn-cirun__log :global(.bcn-cirun__line) {
+    display: flex;
+    gap: var(--spacing-300);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-cirun__log :global(.bcn-cirun__stamp) { flex-shrink: 0; color: var(--color-content-disabled); }
+  .bcn-cirun__log :global(.bcn-cirun__msg) { overflow: hidden; text-overflow: ellipsis; }
+  .bcn-cirun__log :global([data-level='info'] .bcn-cirun__msg) { padding-left: var(--spacing-300); }
+  .bcn-cirun__log :global([data-level='heading']) { color: var(--color-content-default); font-weight: var(--typography-font-weight-semibold); }
+  .bcn-cirun__log :global([data-level='finding']) { color: var(--color-content-brand); }
+  .bcn-cirun__log :global([data-level='warning']) { color: var(--color-content-warning); }
+  .bcn-cirun__log :global([data-level='warning'] .bcn-cirun__msg) { padding-left: var(--spacing-300); }
+  .bcn-cirun__log :global([data-level='error']) { color: var(--color-content-danger); font-weight: var(--typography-font-weight-semibold); }
+
+  @media (max-width: 960px) {
+    .bcn-cirun__phases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .bcn-cirun__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+</style>
+
+<script>
+  import { setupCiRun } from './ci-run';
+  document.querySelectorAll<HTMLElement>('[data-ci-run]').forEach(setupCiRun);
+</script>

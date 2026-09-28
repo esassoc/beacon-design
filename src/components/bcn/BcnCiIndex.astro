@@ -1,0 +1,221 @@
+---
+// <BcnCiIndex> — the Compliance Index as the wizard's hub (CI plan Thread 7): the
+// coverage rollup across the project, then the index itself in its three levels —
+// CATEGORY › SUBCATEGORY › ACTION / OBLIGATION. It loads folded to the subcategory
+// level; a subcategory's chevron opens its rows. Only the Review button opens
+// <BcnCiBinReview>, where merging, dismissing and reviewing happen; once a bin is
+// reviewed the button reads Reviewed, with a check.
+//
+// Row type and chips follow the obligations step's registry tree: 13px rows, the
+// category zebra from bcn-tree.css, and the class chip and hue map from
+// bcn-obligation-card.css (obligations by class, actions in the action hue).
+//
+// bcn-lego-checked: the rollup IS esa-stat, the search IS esa-text-field, the state
+// filter IS esa-button-toggle, the verbs ARE esa-button, empty results IS
+// esa-empty-state, the chip and zebra ARE the shared
+// bcn-obligation-card.css / bcn-tree.css rules this namespace is paired into. Checked
+// Ecology for a three-level tree (esa-collapsible is one titled section, not a list of
+// sections with rows; there is no tree-view lego) and Beacon (compliance-index-step
+// renders its categories as a drag-sortable nested list, read here without the drag).
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import '../../styles/bcn-tree.css';
+import '../../styles/bcn-obligation-card.css';
+import {
+  CI_INDEX,
+  CI_TOTALS,
+  CI_ACTION_BY_ID,
+  CI_OBLIGATION_BY_ID,
+  CLASS_ORDER,
+  OBLIGATION_CLASS_LABEL,
+  type CiSubcategory,
+} from '../../data/setup-wizard-ci';
+
+interface Line {
+  id: string;
+  /** 'action', or the obligation's class — the chip's hue key. */
+  chip: string;
+  label: string;
+  title: string;
+  /** Filed here; homed in another subcategory. */
+  also?: boolean;
+}
+// Actions first, then obligations by class; obligations filed here from another home
+// fold in with the rest.
+const linesOf = (sub: CiSubcategory): Line[] => [
+  ...sub.actionIds.map((id) => ({ id, chip: 'action', label: 'Action', title: CI_ACTION_BY_ID.get(id)!.title })),
+  ...[...sub.obligationIds, ...sub.alsoFiledIds]
+    .map((id) => CI_OBLIGATION_BY_ID.get(id)!)
+    .sort((x, y) => CLASS_ORDER.indexOf(x.class) - CLASS_ORDER.indexOf(y.class))
+    .map((o) => ({ id: o.id, chip: o.class, label: OBLIGATION_CLASS_LABEL[o.class], title: o.title, also: sub.alsoFiledIds.includes(o.id) })),
+];
+
+const neither = CI_TOTALS.byVerdict.find((v) => v.verdict === 'neither')!.count;
+const n = (x: number) => x.toLocaleString('en-US');
+const FILTERS = [
+  { label: 'All', value: 'all' },
+  { label: 'Not reviewed', value: 'open' },
+  { label: 'Reviewed', value: 'approved' },
+];
+---
+
+<section class="bcn-ciidx" data-ci-index>
+  <div class="bcn-ciidx__rollup">
+    <EsaStat value={n(CI_TOTALS.requirements)} label="Requirements read" sub={`${n(CI_TOTALS.commitments)} commitments`} />
+    <EsaStat value={n(CI_TOTALS.actions)} label="Actions" />
+    <EsaStat value={n(CI_TOTALS.obligations)} label="Obligations" />
+    <EsaStat value={n(neither)} label="Requirements binding nothing" />
+    <div data-ci-approved-stat>
+      <EsaStat value="0" label="Subcategories reviewed" sub={`of ${CI_TOTALS.subcategories}`} />
+    </div>
+  </div>
+
+  <div class="bcn-ciidx__tools">
+    <esa-text-field class="bcn-ciidx__search" label="Search the index" placeholder="e.g. Fugitive dust" size="sm" data-ci-search></esa-text-field>
+    <esa-button-toggle label="Review state" size="sm" value="all" options={JSON.stringify(FILTERS)} data-ci-filter></esa-button-toggle>
+    <span class="bcn-ciidx__verbs">
+      <EsaButton variant="ghost" size="xs" data-ci-expand>Expand all</EsaButton>
+      <EsaButton variant="ghost" size="xs" data-ci-collapse>Collapse all</EsaButton>
+    </span>
+  </div>
+
+  <div class="bcn-ciidx__list">
+    {
+      CI_INDEX.map((cat) => (
+        <section class="bcn-ciidx__cat" data-cat={cat.id}>
+          <h3 class="bcn-ciidx__row bcn-ciidx__row--cat">{cat.name}</h3>
+          <ul class="bcn-ciidx__subs">
+            {cat.subcategories.map((sub) => {
+              const lines = linesOf(sub);
+              return (
+                <li class="bcn-ciidx__sub" data-bin={sub.id} data-name={`${cat.name} ${sub.name}`.toLowerCase()}>
+                  <div class="bcn-ciidx__row bcn-ciidx__row--sub">
+                    <button
+                      type="button"
+                      class="bcn-ciidx__chev"
+                      aria-expanded="false"
+                      aria-label={`Show ${sub.name}`}
+                      data-ci-toggle
+                      disabled={!lines.length}
+                    >
+                      <EsaIcon name="chevron-right" size="xs" />
+                    </button>
+                    <span class="bcn-ciidx__sub-name">{sub.name}</span>
+                    <span class="bcn-ciidx__review" data-state-open>
+                      <EsaButton variant="ghost" appearance="outline" size="xs" data-ci-open={sub.id}>Review</EsaButton>
+                    </span>
+                    <span class="bcn-ciidx__review" data-state-approved hidden>
+                      <EsaButton variant="ghost" appearance="outline" size="xs" icon="circle-check" data-ci-open={sub.id} data-ci-reviewed>Reviewed</EsaButton>
+                    </span>
+                  </div>
+                  <ul class="bcn-ciidx__items" data-ci-items hidden>
+                    {lines.map((l) => (
+                      <li class="bcn-ciidx__item" data-ci-item={l.id} data-ci-also={l.also ? '' : undefined} data-text={l.title.toLowerCase()}>
+                        <span class="bcn-ci-chip" data-class={l.chip} data-ci-chip>{l.label}</span>
+                        <span class="bcn-ciidx__item-title" data-ci-title>{l.title}</span>
+                        <span class="bcn-ciidx__item-merged" data-ci-merged hidden></span>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))
+    }
+    <div data-ci-empty hidden>
+      <EsaEmptyState title="Nothing in the index matches" description="Clear the search or the review filter." size="sm" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .bcn-ciidx { display: flex; flex-direction: column; gap: var(--spacing-400); }
+
+  .bcn-ciidx__rollup {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--spacing-400);
+    padding: var(--spacing-500);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+  }
+
+  .bcn-ciidx__tools { display: flex; align-items: flex-end; gap: var(--spacing-400); flex-wrap: wrap; }
+  .bcn-ciidx__search { flex: 1 1 18rem; max-width: 28rem; }
+  .bcn-ciidx__verbs { display: inline-flex; gap: var(--spacing-100); margin-left: auto; }
+
+  /* The registry tree's frame and type: one bordered panel, every line 13px. */
+  .bcn-ciidx__list {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+    font-size: 0.8125rem;
+    color: var(--color-content-default);
+  }
+  .bcn-ciidx__cat { border-bottom: 1px solid var(--color-border-default); }
+  .bcn-ciidx__cat:last-of-type { border-bottom: none; }
+  .bcn-ciidx__subs { list-style: none; margin: 0; padding: 0; }
+  .bcn-ciidx__sub + .bcn-ciidx__sub { border-top: 1px solid var(--color-border-default-subtle); }
+
+  .bcn-ciidx__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 34px;
+    margin: 0;
+    padding: var(--spacing-100) var(--spacing-400);
+    font-size: inherit;
+    line-height: 1.4;
+  }
+  .bcn-ciidx__row--cat { font-weight: 600; }
+  .bcn-ciidx__row--sub:hover { background: var(--color-background-default); }
+  .bcn-ciidx__chev {
+    all: unset;
+    display: inline-flex;
+    flex-shrink: 0;
+    cursor: pointer;
+    color: var(--color-content-default-tertiary);
+    transition: transform 120ms ease;
+  }
+  .bcn-ciidx__chev[aria-expanded='true'] { transform: rotate(90deg); }
+  .bcn-ciidx__chev:disabled { visibility: hidden; }
+  .bcn-ciidx__chev:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; border-radius: var(--radius-100); }
+  .bcn-ciidx__sub-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-ciidx__review { display: inline-flex; flex-shrink: 0; }
+  .bcn-ciidx__review[hidden] { display: none; }
+
+  .bcn-ciidx__items { list-style: none; margin: 0; padding: 0 var(--spacing-400) var(--spacing-200) calc(var(--spacing-400) + 22px); }
+  .bcn-ciidx__items[hidden] { display: none; }
+  .bcn-ciidx__item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 30px;
+    padding: 0 var(--spacing-200);
+  }
+  .bcn-ciidx__item + .bcn-ciidx__item { border-top: 1px solid var(--color-border-default-subtle); }
+  .bcn-ciidx__item[hidden] { display: none; }
+  .bcn-ciidx__item-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-ciidx__item-merged { color: var(--color-content-brand); white-space: nowrap; }
+  .bcn-ciidx__item[data-dismissed] .bcn-ciidx__item-title { text-decoration: line-through; color: var(--color-content-default-tertiary); }
+  .bcn-ciidx__sub[hidden], .bcn-ciidx__cat[hidden] { display: none; }
+
+  @media (max-width: 960px) {
+    .bcn-ciidx__rollup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
+  import { setupCiIndex } from './ci-index';
+  document.querySelectorAll<HTMLElement>('[data-ci-index]').forEach(setupCiIndex);
+</script>
