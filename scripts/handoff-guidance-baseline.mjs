@@ -70,4 +70,6 @@ export default [
   'setup-wizard-actions',
   'setup-wizard-obligations',
   'setup-wizard-obligations-chain',
+  'setup-wizard-ci-run',
+  'setup-wizard-ci-index',
 ];
