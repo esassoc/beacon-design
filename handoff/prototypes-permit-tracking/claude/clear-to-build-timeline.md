@@ -30,7 +30,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
       ><span class="ctb-tick" style="left: 50.2732%">Sep</span
       ><span class="ctb-tick" style="left: 66.6667%">Oct</span
       ><span class="ctb-tick" style="left: 83.6066%">Nov</span
-      ><span class="ctb-tick ctb-tick--today" style="left: 65.0273%">Today</span>
+      ><span class="ctb-tick ctb-tick--today" style="left: 66.6667%">Today</span>
     </div>
     <span></span>
   </div>
@@ -44,7 +44,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 0.546448087431694%;
-            width: 64.48087431693988%;
+            width: 66.12021857923496%;
             background: var(--st-cleared);
           "
         ></span>
@@ -64,7 +64,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 0.546448087431694%;
-            width: 64.48087431693988%;
+            width: 66.12021857923496%;
             background: var(--st-cleared);
           "
         ></span>
@@ -84,7 +84,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 0.546448087431694%;
-            width: 64.48087431693988%;
+            width: 66.12021857923496%;
             background: var(--st-cleared);
           "
         ></span>
@@ -104,7 +104,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 26.775956284153008%;
-            width: 38.25136612021856%;
+            width: 39.890710382513646%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -124,7 +124,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 43.71584699453552%;
-            width: 21.311475409836056%;
+            width: 22.95081967213114%;
             background: var(--st-under-review);
           "
         ></span>
@@ -144,7 +144,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 49.18032786885246%;
-            width: 15.846994535519116%;
+            width: 17.4863387978142%;
             background: var(--st-under-review);
           "
         ></span>
@@ -164,7 +164,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 49.18032786885246%;
-            width: 15.846994535519116%;
+            width: 17.4863387978142%;
             background: var(--st-under-review);
           "
         ></span>
@@ -184,7 +184,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 52.459016393442624%;
-            width: 12.56830601092895%;
+            width: 14.207650273224033%;
             background: var(--st-submitted);
           "
         ></span>
@@ -204,7 +204,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 55.19125683060109%;
-            width: 9.836065573770483%;
+            width: 11.475409836065566%;
             background: var(--st-submitted);
           "
         ></span>
@@ -224,7 +224,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 55.19125683060109%;
-            width: 9.836065573770483%;
+            width: 11.475409836065566%;
             background: var(--st-submitted);
           "
         ></span>
@@ -244,7 +244,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 63.387978142076506%;
-            width: 1.6393442622950687%;
+            width: 3.2786885245901516%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -264,7 +264,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 63.387978142076506%;
-            width: 1.6393442622950687%;
+            width: 3.2786885245901516%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -284,7 +284,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
           class="ctb-row__bar"
           style="
             left: 63.387978142076506%;
-            width: 1.6393442622950687%;
+            width: 3.2786885245901516%;
             background: var(--st-in-preparation);
           "
         ></span>
@@ -303,8 +303,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 65.02732240437157%;
-            width: 9.289617486338813%;
+            left: 66.66666666666666%;
+            width: 7.65027322404373%;
             background: var(--st-not-started);
           "
         ></span>
@@ -323,8 +323,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 65.02732240437157%;
-            width: 9.289617486338813%;
+            left: 66.66666666666666%;
+            width: 7.65027322404373%;
             background: var(--st-not-started);
           "
         ></span>
@@ -343,8 +343,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 65.02732240437157%;
-            width: 9.289617486338813%;
+            left: 66.66666666666666%;
+            width: 7.65027322404373%;
             background: var(--st-not-started);
           "
         ></span>
@@ -363,8 +363,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 65.02732240437157%;
-            width: 18.57923497267761%;
+            left: 66.66666666666666%;
+            width: 16.939890710382528%;
             background: var(--st-not-started);
           "
         ></span>
@@ -383,8 +383,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 65.02732240437157%;
-            width: 18.57923497267761%;
+            left: 66.66666666666666%;
+            width: 16.939890710382528%;
             background: var(--st-not-started);
           "
         ></span>
@@ -403,8 +403,8 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
         ><span
           class="ctb-row__bar"
           style="
-            left: 65.02732240437157%;
-            width: 18.57923497267761%;
+            left: 66.66666666666666%;
+            width: 16.939890710382528%;
             background: var(--st-not-started);
           "
         ></span>
