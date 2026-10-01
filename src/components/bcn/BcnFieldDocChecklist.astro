@@ -1,0 +1,301 @@
+---
+// <BcnFieldDocChecklist> — one drill hole's full document checklist, the body of the
+// record drawer the field-documentation matrix opens. Location facts first, then every
+// once-per-hole document in due-date order (due date, where it is uploaded, the
+// received record or its absence, the derived status), then the daily logs one drill
+// day at a time — each day expands to its three records.
+//
+// Record-panel density (13–15px), inside the dense-surface carve-out: this panel reads
+// out of a matrix row.
+//
+// bcn-lego-checked: BcnKeyValue carries the location facts, BcnStatusChip each row's
+// status and BcnFieldDocMark the drill-day marks (the value-driven chip — esa-badge / esa-pill are fixed-variant). The
+// checklist is a semantic <table>; the drill days use native <details>/<summary>
+// because esa-collapsible's summary is title-string-only and cannot hold the day's
+// three status marks (the gap BcnReadiness already flagged for /request-lego).
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import BcnFieldDocMark from './BcnFieldDocMark.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import {
+  DOC_TYPE,
+  DOC_STATUS_META,
+  SOURCE_LABEL,
+  drillRange,
+  shortDate,
+  type ChecklistItem,
+  type DocKind,
+  type HoleSummary,
+} from '../../data/field-notifications-fixture';
+
+interface Props {
+  hole: HoleSummary;
+}
+const { hole } = Astro.props;
+const loc = hole.location;
+
+const perHole = hole.checklist.filter((i) => !i.expected.drillDay);
+const DAILY: DocKind[] = ['bioLog', 'coordinatorLog', 'geologistLog'];
+const days = hole.drillDays.map((day) => ({
+  day,
+  items: DAILY.map((k) => hole.checklist.find((i) => i.expected.drillDay === day && i.expected.kind === k)).filter(
+    (i): i is ChecklistItem => Boolean(i),
+  ),
+}));
+const worst = (items: ChecklistItem[]) =>
+  items.some((i) => i.status === 'missing')
+    ? 'missing'
+    : items.some((i) => i.status === 'late')
+      ? 'late'
+      : items.some((i) => i.status === 'upcoming')
+        ? 'upcoming'
+        : 'received';
+
+const dueLabel = (i: ChecklistItem) =>
+  i.expected.windowStart ? `${shortDate(i.expected.windowStart)} – ${shortDate(i.expected.due)}` : shortDate(i.expected.due);
+const rigLabel = /^\d+$/.test(loc.rig) ? `Rig ${loc.rig}` : loc.rig === 'HA' ? 'Hand auger' : loc.rig;
+---
+
+<div class="stack bcn-fd-checklist" data-gap="lg">
+  <div class="bcn-fd-checklist__facts">
+    <BcnKeyValue label="Agreement" value={loc.agreement} />
+    <BcnKeyValue label="Property" value={loc.property} />
+    <BcnKeyValue label="County" value={loc.county} />
+    <BcnKeyValue label="Drilling" value={drillRange(loc)} />
+    <BcnKeyValue label="Rig" value={rigLabel} />
+    <BcnKeyValue label="Depth" value={`${loc.depthFt} ft`} />
+    <BcnKeyValue label="Activity" value={loc.activity} />
+    <BcnKeyValue label="Access window" value={loc.accessWindow} />
+    {loc.notes && <BcnKeyValue label="Field notes" value={loc.notes} />}
+  </div>
+
+  {
+    perHole.length > 0 && (
+      <section class="stack" data-gap="sm">
+        <h3 class="bcn-fd-checklist__title">Pre-drilling documents</h3>
+        <table class="bcn-fd-checklist__table">
+          <thead>
+            <tr>
+              <th scope="col">Document</th>
+              <th scope="col">Due</th>
+              <th scope="col">Received</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {perHole.map((i) => (
+              <tr data-status={i.status} data-fd-doc={i.expected.kind}>
+                <th scope="row">
+                  <span class="bcn-fd-checklist__doc">{DOC_TYPE[i.expected.kind].label}</span>
+                  <span class="bcn-fd-checklist__sub">{SOURCE_LABEL[DOC_TYPE[i.expected.kind].source]}</span>
+                  {i.record && <a class="bcn-fd-checklist__file" href="#">{i.record.fileName}</a>}
+                </th>
+                <td><span class="bcn-fd-checklist__date">{dueLabel(i)}</span></td>
+                <td>
+                  {i.record ? <span class="bcn-fd-checklist__date">{shortDate(i.record.receivedOn)}</span> : <span class="bcn-fd-checklist__none">–</span>}
+                </td>
+                <td>
+                  <BcnStatusChip status={`fd-${i.status}`} label={DOC_STATUS_META[i.status].label} hex={DOC_STATUS_META[i.status].hex} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    )
+  }
+
+  {
+    days.length > 0 && (
+      <section class="stack" data-gap="sm">
+        <h3 class="bcn-fd-checklist__title">Daily logs</h3>
+        <div class="bcn-fd-days">
+          <div class="bcn-fd-days__head" aria-hidden="true">
+            <span>Drill day</span>
+            <span>Biological</span>
+            <span>Field coordinator</span>
+            <span>Geologist</span>
+          </div>
+          {days.map((d) => (
+            <details class="bcn-fd-days__day" data-fd-day={d.day} open={worst(d.items) === 'missing' || days.length === 1}>
+              <summary class="bcn-fd-days__summary">
+                <span class="bcn-fd-days__date">
+                  <EsaIcon name="chevron-right" size="sm" />
+                  {shortDate(d.day)}
+                </span>
+                {d.items.map((i) => (
+                  <span class="bcn-fd-days__mark">
+                    <BcnFieldDocMark status={i.status} size="sm" label={`${DOC_TYPE[i.expected.kind].label}: ${DOC_STATUS_META[i.status].label}`} />
+                  </span>
+                ))}
+              </summary>
+              <table class="bcn-fd-checklist__table bcn-fd-days__records">
+                <tbody>
+                  {d.items.map((i) => (
+                    <tr data-status={i.status}>
+                      <th scope="row">
+                        <span class="bcn-fd-checklist__doc">{DOC_TYPE[i.expected.kind].label}</span>
+                        <span class="bcn-fd-checklist__sub">{SOURCE_LABEL[DOC_TYPE[i.expected.kind].source]}</span>
+                        {i.record && <a class="bcn-fd-checklist__file" href="#">{i.record.fileName}</a>}
+                      </th>
+                      <td>
+                        {i.record ? <span class="bcn-fd-checklist__date">{shortDate(i.record.receivedOn)}</span> : <span class="bcn-fd-checklist__none">–</span>}
+                      </td>
+                      <td>
+                        <BcnStatusChip status={`fd-${i.status}`} label={DOC_STATUS_META[i.status].label} hex={DOC_STATUS_META[i.status].hex} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </details>
+          ))}
+        </div>
+      </section>
+    )
+  }
+</div>
+
+<style>
+  /* Chip colours follow the Beacon status standard through BcnStatusChip's --st-* hook. */
+  .bcn-fd-checklist {
+    --st-fd-received: var(--bcn-status-completed);
+    --st-fd-late: var(--bcn-status-in-progress);
+    --st-fd-missing: var(--bcn-status-overdue);
+    --st-fd-upcoming: var(--bcn-gray-500);
+    font-size: 14px;
+  }
+
+  .bcn-fd-checklist__facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-400) var(--spacing-500);
+  }
+
+  .bcn-fd-checklist__title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+
+  .bcn-fd-checklist__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-fd-checklist__table th,
+  .bcn-fd-checklist__table td {
+    text-align: left;
+    vertical-align: top;
+    padding: var(--spacing-200) var(--spacing-300) var(--spacing-200) 0;
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-fd-checklist__table thead th {
+    font-size: 13px;
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-tertiary);
+    border-bottom-color: var(--color-border-default);
+  }
+  .bcn-fd-checklist__table tbody th {
+    font-weight: var(--typography-font-weight-regular);
+  }
+  /* Due, Received and Status hold short values; the document column takes the rest. */
+  .bcn-fd-checklist__table td {
+    width: 5.5rem;
+  }
+  .bcn-fd-checklist__table td:last-child {
+    width: 8rem;
+    padding-right: 0;
+  }
+  .bcn-fd-checklist__table tr[data-status='missing'] > * {
+    background: color-mix(in srgb, var(--bcn-status-overdue) 6%, transparent);
+  }
+
+  .bcn-fd-checklist__doc,
+  .bcn-fd-checklist__date,
+  .bcn-fd-checklist__file,
+  .bcn-fd-checklist__sub {
+    display: block;
+  }
+  .bcn-fd-checklist__doc {
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+  .bcn-fd-checklist__sub {
+    font-size: 13px;
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-fd-checklist__date {
+    white-space: nowrap;
+  }
+  .bcn-fd-checklist__file {
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--color-content-default-secondary);
+    overflow-wrap: anywhere;
+  }
+  .bcn-fd-checklist__none {
+    color: var(--color-content-default-tertiary);
+  }
+
+  /* ── Daily logs, one drill day per disclosure ── */
+  .bcn-fd-days__head,
+  .bcn-fd-days__summary {
+    display: grid;
+    grid-template-columns: 1fr repeat(3, 7.5rem);
+    align-items: center;
+    column-gap: var(--spacing-300);
+  }
+  .bcn-fd-days__head {
+    font-size: 13px;
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-default-tertiary);
+    padding-bottom: var(--spacing-200);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .bcn-fd-days__head span:not(:first-child) {
+    text-align: center;
+  }
+  .bcn-fd-days__day {
+    border-bottom: 1px solid var(--color-border-default-subtle);
+  }
+  .bcn-fd-days__summary {
+    list-style: none;
+    cursor: pointer;
+    padding: var(--spacing-200) 0;
+  }
+  .bcn-fd-days__summary::-webkit-details-marker {
+    display: none;
+  }
+  .bcn-fd-days__date {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-fd-days__date :global(svg) {
+    transition: transform 120ms ease;
+    color: var(--color-content-default-tertiary);
+  }
+  .bcn-fd-days__day[open] .bcn-fd-days__date :global(svg) {
+    transform: rotate(90deg);
+  }
+  .bcn-fd-days__mark {
+    justify-self: center;
+    display: inline-flex;
+  }
+  /* The document or drill day a timeline mark opened the drawer on. */
+  .bcn-fd-checklist__table tr[data-fd-target] > *,
+  .bcn-fd-days__day[data-fd-target] {
+    background: color-mix(in srgb, var(--color-background-utility-info) 9%, transparent);
+  }
+
+  .bcn-fd-days__records {
+    margin: 0 0 var(--spacing-200) var(--spacing-500);
+    width: calc(100% - var(--spacing-500));
+  }
+  .bcn-fd-days__records tr:last-child > * {
+    border-bottom: 0;
+  }
+</style>

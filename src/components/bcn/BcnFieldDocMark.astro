@@ -1,0 +1,127 @@
+---
+// <BcnFieldDocMark> — the status mark for one expected field document (or a run of
+// them): a small squared tile in the Beacon status standard. Received is a green tint
+// with a check, Received late the amber tint with a check, Missing a solid red tile
+// with an x, Upcoming an empty grey outline. With `text` it becomes the daily-log
+// fraction tile ("8/9") in the same four tones.
+//
+// Used by the field-documentation matrix cells, its key, the drawer's drill-day rows
+// and the timeline, so they always agree. Two timeline sizes: `dot` (12px, a notice on
+// its due date — a circle, except Missing, which is a square so the red never relies
+// on hue alone) and `bar` (one drill-day segment of a hole's drill bar).
+//
+// bcn-lego-checked: esa-icon draws the glyphs. esa-badge / esa-pill are fixed-variant
+// pills and BcnStatusChip is dot + word; none is a glyph-only squared tile that can
+// sit 11 to a row. bcn-field-doc-mark is the reusable home; colours read
+// --bcn-status-*, never literals.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import type { DocStatus } from '../../data/field-notifications-fixture';
+
+interface Props {
+  status?: DocStatus;
+  /** Accessible name. Omit only where adjacent text already says it (the key). */
+  label?: string;
+  /** Replaces the glyph, e.g. "8/9". */
+  text?: string;
+  size?: 'dot' | 'bar' | 'sm' | 'md';
+}
+const { status, label, text, size = 'md' } = Astro.props;
+const received = status === 'received' || status === 'late';
+---
+
+<span
+  class:list={['bcn-fd-mark', `bcn-fd-mark--${size}`, text !== undefined && 'bcn-fd-mark--text']}
+  data-status={status}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  {
+    text !== undefined
+      ? text
+      : size === 'dot' || size === 'bar'
+        ? null
+        : received
+          ? <EsaIcon name="check" size="sm" />
+          : status === 'missing'
+            ? <EsaIcon name="x" size="sm" />
+            : null
+  }
+</span>
+
+<style>
+  .bcn-fd-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 24px;
+    border-radius: var(--radius-100);
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .bcn-fd-mark--sm {
+    width: 22px;
+    height: 20px;
+  }
+  .bcn-fd-mark--dot {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-full);
+  }
+  .bcn-fd-mark--dot[data-status='missing'] {
+    border-radius: 2px;
+  }
+  .bcn-fd-mark--bar {
+    width: calc(var(--tl-col, 30px) - 2px);
+    height: 22px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-fd-mark--text {
+    width: auto;
+    min-width: 3.25rem;
+    padding: 0 var(--spacing-200);
+    font-size: 13px;
+    font-weight: var(--typography-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+  }
+  /* A bar segment keeps its column width even when it carries the rig label. */
+  .bcn-fd-mark--bar.bcn-fd-mark--text {
+    width: calc(var(--tl-col, 30px) - 2px);
+    min-width: 0;
+    padding: 0;
+    font-size: 12px;
+  }
+  .bcn-fd-mark[data-status='received'] {
+    background: color-mix(in srgb, var(--bcn-status-completed) 14%, transparent);
+    color: var(--bcn-status-completed);
+  }
+  .bcn-fd-mark[data-status='late'] {
+    background: color-mix(in srgb, var(--bcn-status-in-progress) 26%, transparent);
+    color: color-mix(in srgb, var(--bcn-status-in-progress) 45%, var(--color-content-default));
+  }
+  .bcn-fd-mark[data-status='missing'] {
+    background: var(--bcn-status-overdue);
+    color: var(--color-content-on-utility-danger);
+  }
+  .bcn-fd-mark[data-status='upcoming'] {
+    box-shadow: inset 0 0 0 1px var(--bcn-status-not-started);
+    color: var(--color-content-default-tertiary);
+  }
+  /* A 12px dot has no room for a glyph, so it carries the status as a solid fill. */
+  .bcn-fd-mark--dot[data-status='received'] {
+    background: var(--bcn-status-completed);
+  }
+  .bcn-fd-mark--dot[data-status='late'] {
+    background: var(--bcn-status-in-progress);
+  }
+  .bcn-fd-mark--dot[data-status='upcoming'] {
+    box-shadow: inset 0 0 0 1.5px var(--bcn-gray-500);
+    background: var(--color-background-elevation-raised);
+  }
+  .bcn-fd-mark--bar[data-status='upcoming'] {
+    background: var(--color-background-elevation-raised);
+  }
+</style>

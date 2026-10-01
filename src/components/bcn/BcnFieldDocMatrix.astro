@@ -1,0 +1,339 @@
+---
+// <BcnFieldDocMatrix> — drill holes × expected field documents, one status mark per
+// cell. Rows are exploration locations grouped by agreement batch; columns are the
+// document types in three groups (Notifications | Site clearance + USA | Daily logs).
+// A once-per-hole document renders as one mark; a daily log renders as
+// received / expected drill days. Red is spent only on Missing, so the gaps are the
+// first thing the grid shows.
+//
+// Behaviour: BcnFieldDocFilters broadcasts the shared filter state; this applies it
+// to its own rows (src/lib/field-doc-filter.ts, the same predicate the timeline uses).
+// A row click — or its id link, a real ?hole= href — dispatches `field-doc-select`
+// with { holeId } so the host opens the record. The component holds no drawer.
+//
+// bcn-lego-checked: BcnFieldDocMark draws every status; the controls live in
+// BcnFieldDocFilters. The pivot itself is a semantic <table> with a
+// sticky two-row header, the precedent BcnRolesMatrix set: checked the catalog (no
+// esa-* grid or matrix lego) and the AG Grid kit (community AG Grid has no row
+// grouping, and a batch-grouped pivot with column groups is the whole point here).
+import BcnFieldDocMark from './BcnFieldDocMark.astro';
+import {
+  DOC_TYPES,
+  DOC_GROUP_LABEL,
+  DOC_STATUS_META,
+  drillRange,
+  type CellSummary,
+  type DocGroup,
+  type HoleSummary,
+} from '../../data/field-notifications-fixture';
+import { rowAttrs, sortHoles } from '../../lib/field-doc-filter';
+
+interface Props {
+  holes: HoleSummary[];
+}
+const { holes } = Astro.props;
+
+const groups = [...new Set(holes.map((h) => h.location.agreement))];
+const byGroup = groups.map((agreement) => {
+  const rows = sortHoles(holes.filter((h) => h.location.agreement === agreement));
+  return { agreement, rows, withMissing: rows.filter((h) => h.missing > 0).length };
+});
+
+const docGroups: { group: DocGroup; span: number }[] = (['notifications', 'clearance', 'daily'] as DocGroup[]).map((group) => ({
+  group,
+  span: DOC_TYPES.filter((t) => t.group === group).length,
+}));
+
+const cellLabel = (label: string, c: CellSummary) => {
+  if (!c.status) return `${label}: none expected`;
+  if (c.expected > 1 || DOC_TYPES.find((t) => t.kind === c.kind)?.cadence === 'per-drill-day') {
+    const parts = [`${c.received} of ${c.expected} received`];
+    if (c.missing) parts.push(`${c.missing} missing`);
+    if (c.late) parts.push(`${c.late} late`);
+    return `${label}: ${parts.join(', ')}`;
+  }
+  return `${label}: ${DOC_STATUS_META[c.status].label}`;
+};
+
+---
+
+<div class="bcn-fd-matrix" data-fd-matrix>
+  <div class="bcn-fd-matrix__module">
+    <div class="bcn-fd-matrix__scroll">
+      <table class="bcn-fd-table">
+        <colgroup>
+          <col class="bcn-fd-table__col-id" />
+          <col class="bcn-fd-table__col-rig" />
+          <col class="bcn-fd-table__col-drill" />
+          {DOC_TYPES.map((t) => <col class:list={['bcn-fd-table__col-doc', t.group === 'daily' && 'bcn-fd-table__col-daily']} />)}
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col" rowspan="2" class="bcn-fd-table__lead">Exploration ID</th>
+            <th scope="col" rowspan="2" class="bcn-fd-table__lead">Rig</th>
+            <th scope="col" rowspan="2" class="bcn-fd-table__lead">Drilling</th>
+            {docGroups.map((g) => (
+              <th scope="colgroup" colspan={g.span} class="bcn-fd-table__group-head">{DOC_GROUP_LABEL[g.group]}</th>
+            ))}
+          </tr>
+          <tr>
+            {DOC_TYPES.map((t) => (
+              <th scope="col" class:list={['bcn-fd-table__doc-head', `is-${t.group}`]}>{t.column}</th>
+            ))}
+          </tr>
+        </thead>
+        {byGroup.map((g) => (
+          <tbody data-fd-group={g.agreement}>
+            <tr class="bcn-fd-table__batch">
+              <th scope="colgroup" colspan={3 + DOC_TYPES.length}>
+                <span class="cluster" data-gap="sm">
+                  <span class="bcn-fd-table__batch-name">{g.agreement}</span>
+                  {g.withMissing > 0 && (
+                    <span class="bcn-fd-table__batch-alert">
+                      {g.withMissing} {g.withMissing === 1 ? 'hole' : 'holes'} missing documents
+                    </span>
+                  )}
+                </span>
+              </th>
+            </tr>
+            {g.rows.map((h) => {
+              const loc = h.location;
+              const scheduled = loc.schedule.kind === 'scheduled';
+              return (
+                <tr class="bcn-fd-table__row" {...rowAttrs(h)}>
+                  <th scope="row" class="bcn-fd-table__id">
+                    <a href={`?hole=${loc.id}`} data-fd-link={loc.id}>{loc.id}</a>
+                  </th>
+                  <td class="bcn-fd-table__rig">{loc.rig}</td>
+                  <td class:list={['bcn-fd-table__drill', !scheduled && 'is-unscheduled']}>{drillRange(loc)}</td>
+                  {scheduled ? (
+                    DOC_TYPES.map((t) => {
+                      const c = h.cells[t.kind];
+                      const label = cellLabel(t.label, c);
+                      if (t.cadence === 'per-drill-day') {
+                        return (
+                          <td class:list={['bcn-fd-table__cell', `is-${t.group}`]} title={label}>
+                            <BcnFieldDocMark status={c.status} label={label} text={`${c.received}/${c.expected}`} />
+                          </td>
+                        );
+                      }
+                      return (
+                        <td class:list={['bcn-fd-table__cell', `is-${t.group}`]} title={label}>
+                          <BcnFieldDocMark status={c.status} label={label} />
+                        </td>
+                      );
+                    })
+                  ) : (
+                    <td class="bcn-fd-table__note" colspan={DOC_TYPES.length}>
+                      {loc.notes ?? '–'}
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        ))}
+      </table>
+    </div>
+
+    <div class="repel bcn-fd-matrix__foot">
+      <ul class="cluster bcn-fd-legend" data-gap="md" aria-label="Status key">
+        {(['received', 'late', 'missing', 'upcoming'] as const).map((s) => (
+          <li class="cluster" data-gap="xs">
+            <BcnFieldDocMark status={s} size="sm" />
+            <span>{DOC_STATUS_META[s].label}</span>
+          </li>
+        ))}
+      </ul>
+      <span class="bcn-fd-matrix__count">
+        Drill holes: <span data-fd-total>{holes.length}</span>
+        <span data-fd-shown hidden></span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { applyFieldDocFilter, FILTER_EVENT, SELECT_EVENT, type FieldDocFilterState } from '../../lib/field-doc-filter';
+
+  const root = document.querySelector<HTMLElement>('[data-fd-matrix]');
+  if (root) {
+    const total = root.querySelectorAll('[data-fd-row]').length;
+    const shownEl = root.querySelector<HTMLElement>('[data-fd-shown]')!;
+    document.addEventListener(FILTER_EVENT, (e) => {
+      const shown = applyFieldDocFilter(root, (e as CustomEvent<FieldDocFilterState>).detail);
+      shownEl.hidden = shown === total;
+      shownEl.textContent = `Showing: ${shown}`;
+    });
+
+    // Row → record. The id link is a real ?hole= href; only a plain left click is intercepted.
+    for (const r of root.querySelectorAll<HTMLElement>('[data-fd-row]')) {
+      r.addEventListener('click', (e) => {
+        const me = e as MouseEvent;
+        if (me.metaKey || me.ctrlKey || me.shiftKey || me.button !== 0) return;
+        e.preventDefault();
+        document.dispatchEvent(new CustomEvent(SELECT_EVENT, { detail: { holeId: r.dataset.hole } }));
+      });
+    }
+  }
+</script>
+
+<style>
+  /* Dense data surface: 13px cells and headers, Beacon's grid numbers (Andy's explicit
+     override of the 16px floor for data grids, 2026-08-14). */
+  .bcn-fd-matrix__module {
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-100);
+    background: var(--color-background-elevation-raised);
+  }
+  /* The header sticks to the page scroller, so the wrapper only becomes a scroll box
+     (which would capture the sticky header) once the matrix no longer fits. */
+  @media (max-width: 87.5rem) {
+    .bcn-fd-matrix__scroll {
+      overflow-x: auto;
+    }
+  }
+
+  .bcn-fd-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-default);
+  }
+  .bcn-fd-table__col-id { width: 8.5rem; }
+  .bcn-fd-table__col-rig { width: 2.75rem; }
+  .bcn-fd-table__col-drill { width: 6.75rem; }
+  .bcn-fd-table__col-doc { width: 4.5rem; }
+  .bcn-fd-table__col-daily { width: 5rem; }
+
+  /* ── Header ── */
+  .bcn-fd-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--color-background-default);
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default-secondary);
+    text-align: left;
+    vertical-align: bottom;
+    padding: var(--spacing-200);
+    border-bottom: 1px solid var(--color-border-default);
+    line-height: 1.25;
+  }
+  /* Second header row sticks under the first; the upward shadow closes the sub-pixel
+     seam between them so scrolled rows never show through. */
+  .bcn-fd-table thead tr:nth-child(2) th {
+    top: 2.1rem;
+    box-shadow: 0 -3px 0 var(--color-background-default);
+  }
+  .bcn-fd-table__group-head {
+    text-align: center !important;
+    color: var(--color-content-default) !important;
+  }
+  .bcn-fd-table__doc-head {
+    text-align: center !important;
+    font-weight: var(--typography-font-weight-medium) !important;
+  }
+  /* Group seams: a hairline before the first column of each document group. */
+  .bcn-fd-table__group-head,
+  .bcn-fd-table__doc-head.is-notifications:first-child,
+  .bcn-fd-table__doc-head.is-notifications + .is-clearance,
+  .bcn-fd-table__doc-head.is-clearance + .is-daily,
+  .bcn-fd-table__cell.is-notifications:nth-child(4),
+  .bcn-fd-table__cell.is-notifications + .is-clearance,
+  .bcn-fd-table__cell.is-clearance + .is-daily,
+  .bcn-fd-table__note {
+    border-left: 1px solid var(--color-border-default);
+  }
+
+  /* ── Batch rows ── */
+  .bcn-fd-table__batch th {
+    text-align: left;
+    padding: var(--spacing-250) var(--spacing-300);
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-border-default);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  tbody + tbody .bcn-fd-table__batch th {
+    border-top: 1px solid var(--color-border-default);
+  }
+  .bcn-fd-table__batch-name {
+    font-size: 14px;
+    color: var(--color-content-default);
+  }
+  .bcn-fd-table__batch-alert {
+    font-weight: var(--typography-font-weight-medium);
+    color: var(--color-content-utility-danger);
+  }
+
+  /* ── Hole rows ── */
+  .bcn-fd-table__row > * {
+    height: 40px;
+    padding: 0 var(--spacing-200);
+    border-bottom: 1px solid var(--color-border-default-subtle);
+    white-space: nowrap;
+  }
+  .bcn-fd-table__row {
+    cursor: pointer;
+  }
+  .bcn-fd-table__row:hover > * {
+    background: var(--color-background-default);
+  }
+  .bcn-fd-table__row[hidden],
+  .bcn-fd-table tbody[hidden] {
+    display: none;
+  }
+  .bcn-fd-table__id {
+    text-align: left;
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-fd-table__id a {
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+  .bcn-fd-table__row:hover .bcn-fd-table__id a,
+  .bcn-fd-table__id a:focus-visible {
+    text-decoration: underline;
+  }
+  .bcn-fd-table__rig,
+  .bcn-fd-table__drill {
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fd-table__drill.is-unscheduled {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+  .bcn-fd-table__cell {
+    text-align: center;
+  }
+  .bcn-fd-table__note {
+    color: var(--color-content-default-tertiary);
+    white-space: normal;
+  }
+
+  /* ── Count strip (legend + total) ── */
+  .bcn-fd-matrix__foot {
+    padding: var(--spacing-200) var(--spacing-400);
+    border-top: 1px solid var(--color-border-default);
+    background: var(--color-background-default);
+    border-radius: 0 0 var(--radius-100) var(--radius-100);
+    font-size: 13px;
+    color: var(--color-content-default-secondary);
+  }
+  .bcn-fd-legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bcn-fd-matrix__count {
+    font-variant-numeric: tabular-nums;
+  }
+  [data-fd-shown] {
+    color: var(--color-content-default-tertiary);
+    margin-left: var(--spacing-200);
+  }
+  [data-fd-shown][hidden] {
+    display: none;
+  }
+</style>
