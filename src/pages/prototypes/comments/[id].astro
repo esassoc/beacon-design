@@ -1,0 +1,51 @@
+---
+// One submission, its comments shown as highlights, with the tools to correct them and
+// plan their responses. Previous and Next walk the inbox in its own order (newest first).
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCommentsPeriod from '../../../components/bcn/BcnCommentsPeriod.astro';
+import BcnSubmissionReader from '../../../components/bcn/BcnSubmissionReader.astro';
+import { SUBMISSIONS } from '../../../data/comments';
+import type { Submission } from '../../../data/comments-types';
+import { commentsNav, COMMENTS_PROJECT } from '../../../data/comments-nav';
+import { withBase } from '../../../lib/base';
+
+export function getStaticPaths() {
+  return SUBMISSIONS.map((s) => ({ params: { id: s.id }, props: { sub: s } }));
+}
+const { sub } = Astro.props as { sub: Submission };
+const inbox = [...SUBMISSIONS].sort((a, b) => b.received.localeCompare(a.received));
+const at = inbox.findIndex((s) => s.id === sub.id);
+const prev = inbox[at - 1];
+const next = inbox[at + 1];
+const base = withBase('/prototypes/comments');
+---
+
+<!-- manifest:
+  layout: PageLayout > stack(lg)                    # SPINE
+  sections:
+    - inbox nav     -> esa-button                   # Previous / Next submission, in inbox order
+    - period header -> bcn-comments-period          # burn-down falls as comments are planned
+    - reader        -> bcn-submission-reader        # text with highlights, margin notes, comment popover, resize handles, select-to-add
+-->
+
+<AppShell title={`Submission #${sub.key}`} tenantName={COMMENTS_PROJECT.tenant} projectName={COMMENTS_PROJECT.name} navSections={commentsNav()}>
+  <PageLayout
+    title={`Submission #${sub.key}`}
+    icon="notepad-text"
+    iconColor="var(--color-content-brand)"
+    breadcrumbs={[{ label: 'Planning', href: '#planning' }, { label: 'Comments', href: base }, { label: `#${sub.key}` }]}
+  >
+    <Fragment slot="utilities">
+      <div class="cluster" data-gap="sm">
+        <EsaButton variant="ghost" appearance="outline" size="sm" icon="chevron-left" href={prev ? `${base}/${prev.id}` : undefined} disabled={!prev}>Previous</EsaButton>
+        <EsaButton variant="ghost" appearance="outline" size="sm" iconRight="chevron-right" href={next ? `${base}/${next.id}` : undefined} disabled={!next}>Next</EsaButton>
+      </div>
+    </Fragment>
+    <div class="stack" data-gap="lg">
+      <BcnCommentsPeriod />
+      <BcnSubmissionReader submissionId={sub.id} />
+    </div>
+  </PageLayout>
+</AppShell>

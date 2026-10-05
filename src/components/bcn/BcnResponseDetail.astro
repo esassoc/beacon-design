@@ -1,0 +1,154 @@
+---
+// <BcnResponseDetail> — one summary response: its text, the comments it answers
+// grouped by submission (each quote links back to its passage), the past ESA responses
+// the draft drew on, and the redraft loop.
+//
+// Redraft follows the compliance-index taxonomy pattern (Stuart, 2026-10-05):
+// "Guidance for the next draft" plus Redraft makes one best-effort new draft, with a
+// one-step undo; no chat, no version history. An accepted response is locked and is
+// not redrafted. Accept plans every comment linked to the response at once.
+//
+// The response is read from ?id= so a response started from a comment in this session
+// opens here like any other.
+//
+// bcn-lego-checked: esa-card frames the text and the citations, esa-textarea and
+// esa-button carry the redraft controls, esa-side-dialog opens a past response. The
+// comment groups are runtime markup (links and marks) styled :global.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { withBase } from '../../lib/base';
+const base = withBase('/prototypes/comments');
+---
+
+<div class="bcn-rd sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 22rem; --sidebar-content-min: 55%;" data-rd data-base={base}>
+  <aside>
+    <EsaCard title="Drafted from" padding="compact">
+      <ol class="bcn-rd__cites" data-rd-cites></ol>
+    </EsaCard>
+  </aside>
+  <div class="stack" data-gap="lg">
+    <EsaCard padding="spacious">
+      <div class="stack" data-gap="lg">
+        <div class="repel" data-gap="md">
+          <span class="bcn-rd__topic" data-rd-topic></span>
+          <div class="cluster" data-gap="sm">
+            <span class="bcn-rd__planned typography-label-md-strong" data-rd-planned hidden>Accepted</span>
+            <span data-rd-accept><EsaButton variant="primary" size="sm" icon="check">Accept response</EsaButton></span>
+          </div>
+        </div>
+        <div class="bcn-rd__body typography-body-lg" data-rd-body></div>
+        <div class="bcn-rd__guide stack" data-gap="sm" data-rd-guide>
+          <esa-textarea data-rd-guidance label="Guidance for the next draft" rows="3" placeholder="e.g. lead with what the Port can change on its own, and name the fall 2026 workshop"></esa-textarea>
+          <div class="cluster" data-gap="sm">
+            <EsaButton variant="ai" appearance="soft" size="sm" icon="rotate-ccw" data-rd-redraft>Redraft</EsaButton>
+            <span data-rd-undo hidden><EsaButton variant="ghost" size="sm">Undo redraft</EsaButton></span>
+          </div>
+        </div>
+      </div>
+    </EsaCard>
+    <section class="stack" data-gap="sm">
+      <h2 class="typography-title-sm-strong bcn-rd__h">Comments <span class="bcn-rd__count" data-rd-count></span></h2>
+      <div class="stack" data-gap="sm" data-rd-comments></div>
+    </section>
+  </div>
+</div>
+
+<esa-side-dialog data-rd-past size="md" position="right" heading="Past response"></esa-side-dialog>
+
+<script>
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-side-dialog';
+  import * as S from './comments-store';
+
+  const root = document.querySelector<HTMLElement>('[data-rd]');
+  const params = new URLSearchParams(location.search);
+  const rid = params.get('id') ?? 'r-04';
+  if (root) {
+    const base = root.dataset.base ?? '';
+    const q = <T extends Element = HTMLElement>(s: string) => document.querySelector<T>(s)!;
+    const esc = (s: string) => s.replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]!);
+    const past = q<HTMLElement & { open: boolean; heading: string }>('[data-rd-past]');
+    const guidance = q<HTMLElement & { value: string }>('[data-rd-guidance]');
+
+    const render = () => {
+      const r = S.response(rid);
+      if (!r) return;
+      const t = S.topic(r.topicId);
+      document.title = `${r.title} – Beacon`;
+      const h1 = document.querySelector('.page-layout__title h1');
+      if (h1) { const last = h1.lastChild; if (last && last.nodeType === Node.TEXT_NODE) last.textContent = r.title; else h1.append(r.title); }
+      const crumb = [...document.querySelectorAll('nav[aria-label] li, .page-layout nav li')].pop();
+      if (crumb && crumb.textContent?.trim() === 'Response') crumb.lastChild!.textContent = r.title;
+
+      q('[data-rd-topic]').innerHTML = t ? `<span class="bcn-rd-chip" style="--chip-fill: var(--color-${t.family}-6); --chip-edge: var(--color-${t.family}-9)"></span>${esc(t.name)}` : '';
+      q('[data-rd-body]').innerHTML = r.body.map((p) => `<p>${esc(p)}</p>`).join('');
+      q('[data-rd-accept]').hidden = r.accepted;
+      q('[data-rd-planned]').hidden = !r.accepted;
+      q('[data-rd-guide]').hidden = r.accepted;
+      q('[data-rd-undo]').hidden = !r.previous;
+
+      const cs = S.commentsOn(rid);
+      q('[data-rd-count]').textContent = String(cs.length);
+      const bySub = new Map<string, S.LiveComment[]>();
+      for (const c of cs) bySub.set(c.submissionId, [...(bySub.get(c.submissionId) ?? []), c]);
+      const subs = [...bySub.keys()].map((id) => S.submission(id)!).filter(Boolean).sort((a, b) => b.received.localeCompare(a.received));
+      q('[data-rd-comments]').innerHTML = subs.map((sub) => {
+        const who = S.submitter(sub.submitterId);
+        const items = bySub.get(sub.id)!.sort((a, b) => a.start - b.start).map((c) => {
+          const sh = S.shade(c.subtopicId);
+          const st = S.subtopic(c.subtopicId)?.sub.name ?? '';
+          return `<li><a href="${base}/${sub.id}#${c.id}"><mark class="bcn-rd-mark" style="--hl: ${sh.fill}; --hl-edge: ${sh.edge}">${esc(c.quote)}</mark></a>
+            <span class="bcn-rd-sub">${esc(st)}${S.isPlanned(c) ? ', planned' : ''}</span></li>`;
+        }).join('');
+        return `<div class="bcn-rd-group"><a class="bcn-rd-who" href="${base}/${sub.id}">${esc(who?.name ?? '')}</a><span class="bcn-rd-sub">#${sub.key}, ${S.formatDate(sub.received)}</span><ul>${items}</ul></div>`;
+      }).join('');
+
+      const cites = r.draftedFrom.map((id) => S.pastResponses.find((p) => p.id === id)).filter(Boolean);
+      q('[data-rd-cites]').innerHTML = cites.length
+        ? cites.map((p) => `<li><a href="#" data-past="${p!.id}">${esc(p!.title)}</a><span class="bcn-rd-sub">${esc(p!.source)}, ${esc(p!.issued.slice(0, 4))}</span></li>`).join('')
+        : '<li class="bcn-rd-sub">–</li>';
+    };
+
+    q('[data-rd-accept]').addEventListener('click', () => S.acceptResponse(rid));
+    q('[data-rd-redraft]').closest('.esa-button')!.addEventListener('click', () => { S.redraft(rid); guidance.value = ''; });
+    q('[data-rd-undo]').addEventListener('click', () => S.undoRedraft(rid));
+    q('[data-rd-cites]').addEventListener('click', (e) => {
+      const a = (e.target as HTMLElement).closest<HTMLElement>('[data-past]');
+      if (!a) return;
+      e.preventDefault();
+      const p = S.pastResponses.find((x) => x.id === a.dataset.past);
+      if (!p) return;
+      past.heading = p.title;
+      past.innerHTML = `<div class="bcn-rd-past"><p class="bcn-rd-sub">${esc(p.source)}, ${esc(p.issued)}</p>${p.body.map((x) => `<p>${esc(x)}</p>`).join('')}</div>`;
+      past.open = true;
+    });
+    document.addEventListener('comments:change', render);
+    render();
+  }
+</script>
+
+<style>
+  .bcn-rd { font-size: 1rem; }
+  .bcn-rd__topic { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-content-secondary); }
+  .bcn-rd__planned { color: var(--color-content-success); }
+  [data-rd-accept][hidden], [data-rd-planned][hidden], [data-rd-undo][hidden], [data-rd-guide][hidden] { display: none; }
+  .bcn-rd__body { max-width: 46rem; }
+  .bcn-rd__body :global(p) { margin: 0 0 var(--spacing-300); line-height: 1.7; }
+  .bcn-rd__body :global(p:last-child) { margin-bottom: 0; }
+  .bcn-rd__guide { padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-subtle); }
+  .bcn-rd__h { margin: 0; }
+  .bcn-rd__count { color: var(--color-content-tertiary); font-weight: 400; }
+  .bcn-rd :global(.bcn-rd-chip) { display: inline-block; inline-size: 1rem; block-size: 0.75rem; border-radius: var(--radius-xs); background: var(--chip-fill); border-bottom: 2px solid var(--chip-edge); }
+  .bcn-rd :global(.bcn-rd-group) { padding: var(--spacing-200) var(--spacing-300); background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-card); font-size: var(--font-size-md, 1rem); }
+  .bcn-rd :global(.bcn-rd-who) { font-weight: 600; color: var(--color-content-primary); text-decoration: none; margin-right: var(--spacing-100); }
+  .bcn-rd :global(.bcn-rd-who:hover) { text-decoration: underline; }
+  .bcn-rd :global(.bcn-rd-sub) { color: var(--color-content-tertiary); }
+  .bcn-rd :global(.bcn-rd-group ul) { list-style: none; margin: var(--spacing-150) 0 0; padding: 0; display: grid; gap: var(--spacing-150); }
+  .bcn-rd :global(.bcn-rd-group li .bcn-rd-sub) { display: block; }
+  .bcn-rd :global(.bcn-rd-group a) { color: var(--color-content-primary); text-decoration: none; }
+  .bcn-rd :global(.bcn-rd-mark) { background: var(--hl); color: inherit; box-shadow: inset 0 -2px 0 var(--hl-edge); padding: 0.1em 0.15em; border-radius: var(--radius-xs); -webkit-box-decoration-break: clone; box-decoration-break: clone; line-height: 1.6; }
+  .bcn-rd__cites { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--spacing-200); font-size: var(--font-size-md, 1rem); }
+  .bcn-rd__cites :global(a) { color: var(--color-content-link); }
+  .bcn-rd__cites :global(.bcn-rd-sub) { display: block; color: var(--color-content-tertiary); }
+  :global(.bcn-rd-past p) { margin: 0 0 var(--spacing-300); line-height: 1.7; font-size: var(--font-size-md, 1rem); }
+</style>

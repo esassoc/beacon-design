@@ -777,6 +777,39 @@ export const prototypeGroups: PrototypeGroup[] = [
     ],
   },
   {
+    slug: 'comments',
+    tenant: 'platform',
+    title: 'Comments',
+    description:
+      'A Planning module for responding to public comment: submissions arrive split into comments, each filed under a topic and subtopic and shown as a highlight in its topic color. Comments roll up to summary responses, and progress is a burn-down to zero comments without a planned response.',
+    pages: [
+      {
+        slug: 'comments-index',
+        title: 'Submissions',
+        description: 'One comment period: dates, response format and the burn-down, then every submission By date (an inbox) or By topic (topic > subtopic > quote).',
+        route: '/prototypes/comments',
+        createdAt: '2026-10-05',
+        status: 'in-progress',
+      },
+      {
+        slug: 'comments-submission',
+        title: 'Submission',
+        description: 'One submission with its comments as highlights: click one to reclassify, reassign or accept its response, or start a new response from it; drag a highlight\'s ends to resize it; select text to add a comment.',
+        route: '/prototypes/comments/sub-29',
+        createdAt: '2026-10-05',
+        status: 'in-progress',
+      },
+      {
+        slug: 'comments-response',
+        title: 'Response',
+        description: 'One summary response: its text, every comment it answers grouped by submission, the past responses it was drafted from, guidance and Redraft with one-step undo, and Accept, which plans every linked comment at once.',
+        route: '/prototypes/comments/response',
+        createdAt: '2026-10-05',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'lists',
     tenant: 'dcp',
     title: 'Lists',

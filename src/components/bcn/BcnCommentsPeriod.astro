@@ -1,0 +1,68 @@
+---
+// <BcnCommentsPeriod> — the comment period's header band: which period (with a
+// switcher, since a project can hold several), its dates, its response format, and the
+// burn-down to zero. The burn-down is the module's one progress measure (shaping brief,
+// 2026-10-05): comments without a planned response, and submissions with no planned
+// comment at all. A comment is planned once a person accepts its response link.
+//
+// The two counts are recomputed from comments-store on every `comments:change`, so a
+// reviewer accepting a response on any page sees the number fall.
+//
+// bcn-lego-checked: esa-stat is a single value tile, and the burn-down is ONE sentence
+// with two counts in it (Andy's wording); esa-card carries the band, esa-select the
+// period switch. bcn-comments-period is the reusable home for the module's header.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import { COMMENT_PERIOD, OTHER_PERIODS, COMMENTS, SUBMISSIONS } from '../../data/comments';
+
+const DATE = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const fmt = (iso: string) => DATE.format(new Date(`${iso}T00:00:00Z`));
+const FORMAT = { summary: 'Summary by topic', letter: 'Letter by letter' } as const;
+
+// First paint uses the fixture; the script swaps in the session's numbers.
+const planned = COMMENTS.filter((c) => c.responseId && c.accepted);
+const unplanned = COMMENTS.length - planned.length;
+const untouched = SUBMISSIONS.filter((s) => !planned.some((c) => c.submissionId === s.id)).length;
+const periods = [COMMENT_PERIOD, ...OTHER_PERIODS].map((p) => ({ label: p.name, value: p.id }));
+---
+
+<EsaCard padding="compact">
+  <div class="bcn-cp repel" data-gap="lg">
+    <div class="stack" data-gap="xs">
+      <esa-select class="bcn-cp__switch" data-cp-switch data-options={JSON.stringify(periods)} data-value={COMMENT_PERIOD.id} size="sm"></esa-select>
+      <div class="cluster bcn-cp__meta" data-gap="md">
+        <span>{fmt(COMMENT_PERIOD.opens)} – {fmt(COMMENT_PERIOD.closes)}</span>
+        <span>Response format: {FORMAT[COMMENT_PERIOD.responseFormat]}</span>
+      </div>
+    </div>
+    <p class="bcn-cp__burn typography-body-lg" data-cp-burn>
+      <strong data-cp-unplanned>{unplanned}</strong> comments without a planned response
+      <span class="bcn-cp__sep" aria-hidden="true">·</span>
+      <strong data-cp-untouched>{untouched}</strong> submissions untouched
+    </p>
+  </div>
+</EsaCard>
+
+<script>
+  import '@esa/ecology/esa-select';
+  import { burndown } from './comments-store';
+
+  const sw = document.querySelector<HTMLElement & { options: unknown[]; value: string }>('[data-cp-switch]');
+  if (sw) { sw.options = JSON.parse(sw.dataset.options || '[]'); sw.value = sw.dataset.value ?? ''; }
+
+  const paint = () => {
+    const { unplanned, untouched } = burndown();
+    document.querySelectorAll('[data-cp-unplanned]').forEach((el) => (el.textContent = String(unplanned)));
+    document.querySelectorAll('[data-cp-untouched]').forEach((el) => (el.textContent = String(untouched)));
+  };
+  paint();
+  document.addEventListener('comments:change', paint);
+</script>
+
+<style>
+  .bcn-cp { align-items: center; font-size: 1rem; }
+  .bcn-cp__switch { min-width: 22rem; }
+  .bcn-cp__meta { color: var(--color-content-secondary); }
+  .bcn-cp__burn { margin: 0; color: var(--color-content-secondary); }
+  .bcn-cp__burn strong { color: var(--color-content-primary); font-variant-numeric: tabular-nums; }
+  .bcn-cp__sep { margin-inline: var(--spacing-100); }
+</style>

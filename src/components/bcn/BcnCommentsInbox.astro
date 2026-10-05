@@ -1,0 +1,136 @@
+---
+// <BcnCommentsInbox> — the submissions index, two views on one tab switch (Kim's Lists
+// pattern, esa-tab-layout as a bare switch; ?view= keeps the choice):
+//
+//   By date   the inbox. One row per submission, newest first: received date,
+//             submitter, an excerpt, a swatch per topic its comments fall under, and
+//             how many of its comments are planned. A submission with no planned
+//             comment reads unread (semibold), the way an inbox marks what nobody
+//             has opened.
+//   By topic  topic > subtopic > every comment filed there, each quote in its
+//             subtopic's shade, linking to the passage in its submission.
+//
+// Both views render in the browser from comments-store, because a reviewer reclassifies
+// and accepts on other pages and the index must show the session's state, not the
+// fixture's. The markup is links, text and swatches only; no control is string-built.
+//
+// bcn-lego-checked: no esa- lego renders an inbox table or a grouped quote list; the
+// tab switch is esa-tab-layout. Swatch styles are :global because the rows are runtime
+// markup and Astro's scoped CSS never reaches them.
+import { withBase } from '../../lib/base';
+const base = withBase('/prototypes/comments');
+---
+
+<div class="bcn-ci stack" data-gap="md" data-ci data-base={base}>
+  <esa-tab-layout data-ci-tabs appearance="underline" size="sm"></esa-tab-layout>
+  <div data-ci-panel="date"></div>
+  <div data-ci-panel="topic" hidden></div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-tab-layout';
+  import * as S from './comments-store';
+
+  const root = document.querySelector<HTMLElement>('[data-ci]');
+  if (root) {
+    const base = root.dataset.base ?? '';
+    const VIEWS = [{ id: 'date', label: 'By date' }, { id: 'topic', label: 'By topic' }];
+    const tabs = root.querySelector<HTMLElement & { tabs: { label: string }[]; activeIndex: number }>('[data-ci-tabs]')!;
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-ci-panel]')];
+    const show = (id: string) => panels.forEach((p) => (p.hidden = p.dataset.ciPanel !== id));
+    const initial = new URLSearchParams(location.search).get('view') === 'topic' ? 1 : 0;
+    tabs.tabs = VIEWS.map((v) => ({ label: v.label }));
+    tabs.activeIndex = initial;
+    show(VIEWS[initial].id);
+    tabs.addEventListener('tabchange', (e) => {
+      const id = VIEWS[(e as CustomEvent<{ index: number }>).detail.index]?.id ?? 'date';
+      const url = new URL(location.href);
+      if (id === 'date') url.searchParams.delete('view'); else url.searchParams.set('view', id);
+      history.replaceState(null, '', url);
+      show(id);
+    });
+
+    const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+    const chip = (topicId: string) => {
+      const t = S.topic(topicId);
+      return t ? `<span class="bcn-ci-chip" style="--chip-fill: var(--color-${t.family}-6); --chip-edge: var(--color-${t.family}-9)" title="${esc(t.name)}"><span class="visually-hidden">${esc(t.name)}</span></span>` : '';
+    };
+    const excerpt = (text: string) => {
+      const flat = text.replace(/\s+/g, ' ').trim();
+      return flat.length > 150 ? `${flat.slice(0, 150).replace(/\s\S*$/, '')}…` : flat;
+    };
+
+    const renderDate = () => {
+      const rows = S.submissions.map((sub) => {
+        const who = S.submitter(sub.submitterId);
+        const cs = S.commentsFor(sub.id);
+        const planned = cs.filter(S.isPlanned).length;
+        const topics = [...new Set(cs.map((c) => c.topicId))];
+        const href = `${base}/${sub.id}`;
+        return `<tr class="${planned === 0 ? 'is-untouched' : ''}">
+          <td class="bcn-ci-date">${S.formatDate(sub.received)}</td>
+          <td class="bcn-ci-who"><a href="${href}">${esc(who?.name ?? 'Unknown')}</a><span class="bcn-ci-sub">${esc(who?.organization ?? who?.city ?? '')}</span></td>
+          <td class="bcn-ci-text">${esc(excerpt(sub.text))}</td>
+          <td><span class="bcn-ci-chips">${topics.map(chip).join('')}</span></td>
+          <td class="bcn-ci-state">${planned} of ${cs.length}</td>
+        </tr>`;
+      }).join('');
+      panels[0].innerHTML = `<table class="bcn-ci-table">
+        <thead><tr><th scope="col">Received</th><th scope="col">Submitter</th><th scope="col">Submission</th><th scope="col">Topics</th><th scope="col">Planned</th></tr></thead>
+        <tbody>${rows}</tbody></table>`;
+    };
+
+    const renderTopic = () => {
+      panels[1].innerHTML = S.topics.map((t) => {
+        const inTopic = S.comments().filter((c) => c.topicId === t.id);
+        if (!inTopic.length) return '';
+        const open = inTopic.filter((c) => !S.isPlanned(c)).length;
+        const subs = t.subtopics.map((st) => {
+          const cs = inTopic.filter((c) => c.subtopicId === st.id);
+          if (!cs.length) return '';
+          const sh = S.shade(st.id);
+          const items = cs.map((c) => {
+            const sub = S.submission(c.submissionId);
+            const who = sub ? S.submitter(sub.submitterId) : undefined;
+            return `<li class="bcn-ci-quote">
+              <a href="${base}/${c.submissionId}#${c.id}"><mark class="bcn-ci-mark" style="--hl: ${sh.fill}; --hl-edge: ${sh.edge}">${esc(c.quote)}</mark></a>
+              <span class="bcn-ci-sub">${esc(who?.name ?? '')}, ${sub ? S.formatDate(sub.received) : ''}${S.isPlanned(c) ? ' · Planned' : ''}</span>
+            </li>`;
+          }).join('');
+          return `<section class="bcn-ci-subtopic"><h4 class="typography-label-md-strong"><span class="bcn-ci-chip" style="--chip-fill: ${sh.fill}; --chip-edge: ${sh.edge}"></span>${esc(st.name)}</h4><ul>${items}</ul></section>`;
+        }).join('');
+        return `<section class="bcn-ci-topic"><header class="bcn-ci-topic-head"><h3 class="typography-title-sm-strong">${chip(t.id)}${esc(t.name)}</h3><span class="bcn-ci-sub">${open} of ${inTopic.length} without a planned response</span></header>${subs}</section>`;
+      }).join('');
+    };
+
+    const render = () => { renderDate(); renderTopic(); };
+    render();
+    document.addEventListener('comments:change', render);
+  }
+</script>
+
+<style>
+  .bcn-ci { font-size: 1rem; }
+  .bcn-ci :global(.bcn-ci-table) { width: 100%; border-collapse: collapse; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-card); }
+  .bcn-ci :global(.bcn-ci-table th) { text-align: left; font-weight: 600; color: var(--color-content-secondary); padding: var(--spacing-150) var(--spacing-200); border-bottom: 1px solid var(--color-border-subtle); white-space: nowrap; }
+  .bcn-ci :global(.bcn-ci-table td) { padding: var(--spacing-150) var(--spacing-200); border-bottom: 1px solid var(--color-border-subtle); vertical-align: top; }
+  .bcn-ci :global(.bcn-ci-table tbody tr:hover) { background: var(--color-surface-hover); }
+  .bcn-ci :global(.bcn-ci-date), .bcn-ci :global(.bcn-ci-state) { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--color-content-secondary); }
+  .bcn-ci :global(.bcn-ci-who) { white-space: nowrap; }
+  .bcn-ci :global(.bcn-ci-who a) { display: block; color: var(--color-content-primary); text-decoration: none; }
+  .bcn-ci :global(.bcn-ci-who a:hover) { text-decoration: underline; }
+  .bcn-ci :global(tr.is-untouched .bcn-ci-who a), .bcn-ci :global(tr.is-untouched .bcn-ci-state) { font-weight: 600; color: var(--color-content-primary); }
+  .bcn-ci :global(.bcn-ci-text) { color: var(--color-content-secondary); max-width: 46rem; }
+  .bcn-ci :global(.bcn-ci-sub) { display: block; color: var(--color-content-tertiary); }
+  .bcn-ci :global(.bcn-ci-chips) { display: inline-flex; gap: var(--spacing-050); flex-wrap: wrap; }
+  .bcn-ci :global(.bcn-ci-chip) { display: inline-block; inline-size: 1rem; block-size: 0.75rem; border-radius: var(--radius-xs); background: var(--chip-fill); border-bottom: 2px solid var(--chip-edge); flex: none; }
+  .bcn-ci :global(.bcn-ci-topic) { background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-card); padding: var(--spacing-300); margin-bottom: var(--spacing-300); }
+  .bcn-ci :global(.bcn-ci-topic-head) { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-200); margin-bottom: var(--spacing-200); }
+  .bcn-ci :global(.bcn-ci-topic-head .bcn-ci-sub) { display: inline; }
+  .bcn-ci :global(.bcn-ci-topic h3), .bcn-ci :global(.bcn-ci-subtopic h4) { display: flex; align-items: center; gap: var(--spacing-100); margin: 0; }
+  .bcn-ci :global(.bcn-ci-subtopic) { padding-block: var(--spacing-200); border-top: 1px solid var(--color-border-subtle); }
+  .bcn-ci :global(.bcn-ci-subtopic ul) { list-style: none; margin: var(--spacing-150) 0 0; padding: 0 0 0 var(--spacing-300); display: grid; gap: var(--spacing-150); }
+  .bcn-ci :global(.bcn-ci-quote a) { color: var(--color-content-primary); text-decoration: none; }
+  .bcn-ci :global(.bcn-ci-mark) { background: var(--hl); color: inherit; box-shadow: inset 0 -2px 0 var(--hl-edge); padding: 0.1em 0.15em; border-radius: var(--radius-xs); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .bcn-ci :global(.bcn-ci-quote a:hover .bcn-ci-mark) { text-decoration: underline; }
+</style>

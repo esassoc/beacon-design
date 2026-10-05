@@ -1,0 +1,515 @@
+---
+// <BcnSubmissionReader> — one submission, read with its comments as highlights. The
+// module's human-in-the-loop surface (shaping brief, 2026-10-05): the passages arrive
+// already split and filed, and a reviewer corrects them by hand.
+//
+//   Text     each comment is a highlight in its subtopic's shade of its topic's hue
+//            (comments-store `shade()`); a planned comment's edge is solid, an
+//            unplanned one's is dashed.
+//   Margin   the comments in reading order: topic, subtopic, linked response, state.
+//   Popover  click a highlight (or its margin note): reclassify, see and reassign the
+//            linked response, start a new response from the comment, accept the link,
+//            remove the highlight. While it is open, the highlight shows a handle at
+//            each end; drag one to move that end, snapping to whole words.
+//   Select   select text that no highlight covers to add a comment under a topic.
+//
+// All state goes through comments-store, so the period header's burn-down and the
+// inbox follow every edit.
+//
+// bcn-lego-checked: esa-popover anchors to a trigger slotted inside its own wrapper,
+// and a highlight is a text range that wraps across lines inside a paragraph; it
+// cannot be slotted. The floating panel here is positioned against the range's client
+// rects and every control inside it is a lego (esa-select, esa-button). Highlights and
+// margin notes are runtime markup (marks and links), styled :global for that reason.
+// bcn-submission-reader is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { SUBMISSIONS, SUBMITTERS, TOPICS } from '../../data/comments';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  submissionId: string;
+}
+const { submissionId } = Astro.props;
+const sub = SUBMISSIONS.find((s) => s.id === submissionId)!;
+const who = SUBMITTERS.find((s) => s.id === sub.submitterId);
+const DATE = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const received = DATE.format(new Date(`${sub.received}T00:00:00Z`));
+const topicOptions = TOPICS.flatMap((t) => t.subtopics.map((s) => ({ label: `${t.name}: ${s.name}`, value: s.id })));
+const base = withBase('/prototypes/comments');
+---
+
+<div class="bcn-sr sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 24rem; --sidebar-content-min: 55%;" data-sr data-sub={submissionId} data-base={base}>
+  <aside class="bcn-sr__margin" aria-label="Comments">
+    <ol class="bcn-sr__notes" data-sr-notes></ol>
+  </aside>
+  <div>
+    <EsaCard padding="spacious">
+      <div class="stack" data-gap="lg">
+        <div class="repel" data-gap="md">
+          <div class="stack" data-gap="2xs">
+            <span class="typography-title-sm-strong">{who?.name}</span>
+            <span class="bcn-sr__meta">{[who?.organization, who?.city].filter(Boolean).join(', ')}</span>
+          </div>
+          <div class="bcn-sr__meta stack" data-gap="2xs">
+            <span>{received}</span>
+            <span>{sub.channel}</span>
+          </div>
+        </div>
+        <div class="bcn-sr__text typography-body-lg" data-sr-text>
+          {sub.text.split('\n\n').map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+    </EsaCard>
+  </div>
+</div>
+
+<!-- The comment popover: one panel, re-pointed at whichever highlight is open. -->
+<div class="bcn-sr-pop" data-sr-pop hidden role="dialog" aria-label="Comment">
+  <div class="stack" data-gap="md">
+    <esa-select data-pop-topic label="Topic" size="sm" searchable data-options={JSON.stringify(topicOptions)}></esa-select>
+    <div class="stack" data-gap="xs">
+      <esa-select data-pop-response label="Response" size="sm" searchable placeholder="No response linked"></esa-select>
+      <div class="bcn-sr-pop__resp stack" data-gap="xs" data-pop-resp>
+        <p class="bcn-sr-pop__lede" data-pop-resp-body></p>
+        <a class="bcn-sr-pop__open" data-pop-open href="#">Open response</a>
+      </div>
+    </div>
+    <div class="cluster" data-gap="sm">
+      <span data-pop-accept><EsaButton variant="primary" size="sm" icon="check" data-pop-accept-btn>Accept response</EsaButton></span>
+      <span class="bcn-sr-pop__planned typography-label-md-strong" data-pop-planned hidden>Planned</span>
+      <EsaButton variant="ai" appearance="soft" size="sm" data-pop-new>New response from this comment</EsaButton>
+    </div>
+    <div class="bcn-sr-pop__foot repel" data-gap="sm">
+      <span class="bcn-sr__meta">Drag either end to resize</span>
+      <EsaButton variant="danger" appearance="outline" size="sm" icon="trash-2" data-pop-remove>Remove highlight</EsaButton>
+    </div>
+  </div>
+</div>
+
+<!-- Selecting unhighlighted text offers this: file the passage as a new comment. -->
+<div class="bcn-sr-pop bcn-sr-pop--add" data-sr-add hidden role="dialog" aria-label="Add comment">
+  <div class="stack" data-gap="sm">
+    <esa-select data-add-topic label="Topic" size="sm" searchable placeholder="Choose a topic" data-options={JSON.stringify(topicOptions)}></esa-select>
+    <div class="cluster" data-gap="sm">
+      <EsaButton variant="primary" size="sm" icon="plus" data-add-go>Add comment</EsaButton>
+      <EsaButton variant="ghost" size="sm" data-add-cancel>Cancel</EsaButton>
+    </div>
+  </div>
+</div>
+
+<span class="bcn-sr-handle" data-sr-handle="start" hidden aria-hidden="true"></span>
+<span class="bcn-sr-handle" data-sr-handle="end" hidden aria-hidden="true"></span>
+
+<script>
+  import '@esa/ecology/esa-select';
+  import * as S from './comments-store';
+
+  type Sel = HTMLElement & { options: { label: string; value: string }[]; value: string };
+  const root = document.querySelector<HTMLElement>('[data-sr]');
+  if (root) {
+    const subId = root.dataset.sub!;
+    const base = root.dataset.base ?? '';
+    const text = S.submission(subId)?.text ?? '';
+    const body = root.querySelector<HTMLElement>('[data-sr-text]')!;
+    const notes = root.querySelector<HTMLElement>('[data-sr-notes]')!;
+    const pop = document.querySelector<HTMLElement>('[data-sr-pop]')!;
+    const addPanel = document.querySelector<HTMLElement>('[data-sr-add]')!;
+    const handles = [...document.querySelectorAll<HTMLElement>('[data-sr-handle]')];
+    const q = <T extends Element = HTMLElement>(el: Element, s: string) => el.querySelector<T>(s)!;
+
+    const topicSel = q<Sel>(pop, '[data-pop-topic]');
+    const respSel = q<Sel>(pop, '[data-pop-response]');
+    const addSel = q<Sel>(addPanel, '[data-add-topic]');
+    for (const s of [topicSel, addSel]) s.options = JSON.parse(s.dataset.options || '[]');
+
+    let selected: string | null = null;
+    let dragging: 'start' | 'end' | null = null;
+    let pending: { start: number; end: number } | null = null;
+
+    // ── paragraphs and offsets ──────────────────────────────────────────────
+    const paras: { start: number; end: number }[] = [];
+    { let pos = 0; for (const p of text.split('\n\n')) { paras.push({ start: pos, end: pos + p.length }); pos += p.length + 2; } }
+    const paraOf = (o: number) => paras.find((p) => o >= p.start && o <= p.end) ?? paras[0];
+    const isWord = (ch: string | undefined) => !!ch && /\S/.test(ch);
+    const snapStart = (o: number) => { while (o > 0 && isWord(text[o - 1])) o--; while (o < text.length && /\s/.test(text[o])) o++; return o; };
+    const snapEnd = (o: number) => { while (o < text.length && isWord(text[o])) o++; while (o > 0 && /\s/.test(text[o - 1])) o--; return o; };
+
+    const base0 = new WeakMap<Node, number>();
+    const appendText = (parent: Node, a: number, b: number) => {
+      const t = document.createTextNode(text.slice(a, b));
+      base0.set(t, a);
+      parent.appendChild(t);
+    };
+    const offsetOf = (node: Node, off: number): number | null => {
+      if (node.nodeType === Node.TEXT_NODE) { const b = base0.get(node); return b == null ? null : b + off; }
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+      const kids = node.childNodes;
+      if (off < kids.length) {
+        const w = document.createTreeWalker(kids[off], NodeFilter.SHOW_TEXT);
+        const t = kids[off].nodeType === Node.TEXT_NODE ? kids[off] : w.nextNode();
+        return t ? base0.get(t) ?? null : null;
+      }
+      let last: Node | null = null;
+      while (walker.nextNode()) last = walker.currentNode;
+      return last ? (base0.get(last) ?? 0) + (last.textContent?.length ?? 0) : null;
+    };
+    const caretAt = (x: number, y: number): number | null => {
+      const d = document as Document & { caretPositionFromPoint?: (x: number, y: number) => { offsetNode: Node; offset: number } | null };
+      if (d.caretPositionFromPoint) { const p = d.caretPositionFromPoint(x, y); return p ? offsetOf(p.offsetNode, p.offset) : null; }
+      const r = document.caretRangeFromPoint?.(x, y);
+      return r ? offsetOf(r.startContainer, r.startOffset) : null;
+    };
+
+    // ── render ──────────────────────────────────────────────────────────────
+    const markOf = (id: string) => body.querySelector<HTMLElement>(`mark[data-comment="${id}"]`);
+    const label = (c: S.LiveComment) => {
+      const hit = S.subtopic(c.subtopicId);
+      return { topic: hit?.topic.name ?? 'Unfiled', sub: hit?.sub.name ?? '' };
+    };
+
+    const renderText = () => {
+      const cs = S.commentsFor(subId);
+      body.textContent = '';
+      for (const p of paras) {
+        const el = document.createElement('p');
+        let cur = p.start;
+        for (const c of cs.filter((c) => c.start >= p.start && c.end <= p.end)) {
+          if (c.start > cur) appendText(el, cur, c.start);
+          const m = document.createElement('mark');
+          const sh = S.shade(c.subtopicId);
+          m.className = 'bcn-hl';
+          m.dataset.comment = c.id;
+          m.id = c.id;
+          m.tabIndex = 0;
+          m.title = `${label(c).topic}: ${label(c).sub}`;
+          m.style.setProperty('--hl', sh.fill);
+          m.style.setProperty('--hl-edge', sh.edge);
+          m.classList.toggle('is-planned', S.isPlanned(c));
+          m.classList.toggle('is-selected', c.id === selected);
+          appendText(m, c.start, c.end);
+          el.appendChild(m);
+          cur = c.end;
+        }
+        if (cur < p.end) appendText(el, cur, p.end);
+        body.appendChild(el);
+      }
+    };
+
+    const esc = (s: string) => s.replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]!);
+    const renderNotes = () => {
+      notes.innerHTML = S.commentsFor(subId).map((c) => {
+        const l = label(c);
+        const sh = S.shade(c.subtopicId);
+        const r = S.response(c.responseId);
+        const state = S.isPlanned(c) ? 'Planned' : r ? 'Suggested' : 'No response';
+        return `<li><a href="#${c.id}" class="bcn-sr-note${c.id === selected ? ' is-selected' : ''}" data-note="${c.id}">
+          <span class="bcn-sr-note__head"><span class="bcn-sr-chip" style="--chip-fill: ${sh.fill}; --chip-edge: ${sh.edge}"></span><span class="bcn-sr-note__topic">${esc(l.topic)}</span><span class="bcn-sr-note__sub">${esc(l.sub)}</span></span>
+          ${r ? `<span class="bcn-sr-note__resp">${esc(r.title)}</span>` : ''}
+          <span class="bcn-sr-note__state is-${state === 'Planned' ? 'planned' : 'open'}">${state}</span>
+        </a></li>`;
+      }).join('');
+    };
+
+    // ── popover ─────────────────────────────────────────────────────────────
+    const place = (panel: HTMLElement, rects: DOMRect[]) => {
+      if (!rects.length) return;
+      const last = rects[rects.length - 1];
+      const first = rects[0];
+      panel.style.left = '0px';
+      panel.style.top = '0px';
+      const w = panel.offsetWidth;
+      const h = panel.offsetHeight;
+      let top = last.bottom + 12;
+      if (top + h > innerHeight - 8) top = first.top - h - 12 > 8 ? first.top - h - 12 : innerHeight - h - 8;
+      top = Math.max(8, top);
+      const left = Math.min(Math.max(8, last.left), innerWidth - w - 16);
+      panel.style.left = `${left}px`;
+      panel.style.top = `${top}px`;
+    };
+    // The comment popover sits in the margin column, level with its highlight, so the
+    // passage being edited is never covered.
+    const aside = root.querySelector<HTMLElement>('.bcn-sr__margin')!;
+    const placeSide = (rects: DOMRect[]) => {
+      if (!rects.length) return;
+      const a = aside.getBoundingClientRect();
+      pop.style.inlineSize = `${Math.max(a.width, 352)}px`;
+      const h = pop.offsetHeight;
+      const top = Math.min(Math.max(8, rects[0].top - 8), innerHeight - h - 8);
+      pop.style.left = `${Math.min(a.left, innerWidth - pop.offsetWidth - 16)}px`;
+      pop.style.top = `${top}px`;
+    };
+    const markRects = (id: string) => {
+      const marks = body.querySelectorAll<HTMLElement>(`mark[data-comment="${id}"]`);
+      return [...marks].flatMap((m) => [...m.getClientRects()]);
+    };
+
+    const placeHandles = () => {
+      const rects = selected ? markRects(selected) : [];
+      handles.forEach((h) => (h.hidden = !rects.length));
+      if (!rects.length) return;
+      const a = rects[0];
+      const b = rects[rects.length - 1];
+      Object.assign(handles[0].style, { left: `${a.left - 2}px`, top: `${a.top}px`, height: `${a.height}px` });
+      Object.assign(handles[1].style, { left: `${b.right - 2}px`, top: `${b.top}px`, height: `${b.height}px` });
+    };
+
+    const fillPop = () => {
+      const c = selected ? S.comment(selected) : undefined;
+      if (!c) return;
+      topicSel.value = c.subtopicId;
+      const sameTopic = S.responses().filter((r) => r.topicId === c.topicId);
+      const others = S.responses().filter((r) => r.topicId !== c.topicId);
+      respSel.options = [...sameTopic, ...others].map((r) => ({ label: r.title, value: r.id }));
+      respSel.value = c.responseId ?? '';
+      const r = S.response(c.responseId);
+      q(pop, '[data-pop-resp]').hidden = !r;
+      if (r) {
+        q(pop, '[data-pop-resp-body]').textContent = r.body[0] ?? '';
+        q<HTMLAnchorElement>(pop, '[data-pop-open]').href = `${base}/response?id=${r.id}&from=${subId}`;
+      }
+      const planned = S.isPlanned(c);
+      q(pop, '[data-pop-accept]').hidden = planned || !r;
+      q(pop, '[data-pop-planned]').hidden = !planned;
+    };
+
+    const openPop = (id: string) => {
+      selected = id;
+      addPanel.hidden = true;
+      renderText();
+      renderNotes();
+      fillPop();
+      pop.hidden = false;
+      const r = markRects(id);
+      if (r.length && (r[0].top < 80 || r[r.length - 1].bottom > innerHeight - 40)) markOf(id)?.scrollIntoView({ block: 'center', behavior: 'instant' as ScrollBehavior });
+      placeSide(markRects(id));
+      placeHandles();
+    };
+    const closePop = () => {
+      selected = null;
+      pop.hidden = true;
+      handles.forEach((h) => (h.hidden = true));
+      renderText();
+      renderNotes();
+    };
+
+    // ── events ──────────────────────────────────────────────────────────────
+    body.addEventListener('click', (e) => {
+      const m = (e.target as HTMLElement).closest<HTMLElement>('mark[data-comment]');
+      if (m && getSelection()?.isCollapsed !== false) openPop(m.dataset.comment!);
+    });
+    body.addEventListener('keydown', (e) => {
+      const m = (e.target as HTMLElement).closest<HTMLElement>('mark[data-comment]');
+      if (m && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openPop(m.dataset.comment!); }
+    });
+    notes.addEventListener('click', (e) => {
+      const a = (e.target as HTMLElement).closest<HTMLElement>('[data-note]');
+      if (!a) return;
+      e.preventDefault();
+      const id = a.dataset.note!;
+      markOf(id)?.scrollIntoView({ block: 'center', behavior: 'instant' as ScrollBehavior });
+      openPop(id);
+    });
+    document.addEventListener('pointerdown', (e) => {
+      const path = e.composedPath();
+      const inside = [pop, addPanel, ...handles, body, notes].some((el) => path.includes(el));
+      if (!inside) { if (!pop.hidden) closePop(); addPanel.hidden = true; }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (!pop.hidden) closePop();
+      addPanel.hidden = true;
+    });
+    const reflow = () => {
+      if (!pop.hidden && selected) { placeSide(markRects(selected)); placeHandles(); }
+    };
+    addEventListener('scroll', reflow, true);
+    addEventListener('resize', reflow);
+
+    topicSel.addEventListener('change', (e) => {
+      const v = (e as CustomEvent<{ value: string }>).detail.value;
+      if (selected && v) S.reclassify(selected, v);
+    });
+    respSel.addEventListener('change', (e) => {
+      const v = (e as CustomEvent<{ value: string }>).detail.value;
+      if (selected && v && v !== S.comment(selected)?.responseId) S.relink(selected, v);
+    });
+    q(pop, '[data-pop-accept]').addEventListener('click', () => { if (selected) S.acceptLink(selected); });
+    q(pop, '[data-pop-new]').closest('.esa-button')!.addEventListener('click', () => { if (selected) S.newResponseFrom(selected); });
+    q(pop, '[data-pop-remove]').closest('.esa-button')!.addEventListener('click', () => {
+      if (!selected) return;
+      const id = selected;
+      closePop();
+      S.remove(id);
+    });
+
+    // Drag a handle: the caret under the pointer becomes that end, snapped to a word,
+    // held inside its paragraph and clear of the neighbouring highlights.
+    handles.forEach((h) => {
+      h.addEventListener('pointerdown', (e) => {
+        if (!selected) return;
+        e.preventDefault();
+        dragging = h.dataset.srHandle as 'start' | 'end';
+        h.setPointerCapture(e.pointerId);
+        pop.hidden = true;
+        document.body.classList.add('bcn-sr-dragging');
+      });
+      h.addEventListener('pointermove', (e) => {
+        if (!dragging || !selected) return;
+        const c = S.comment(selected);
+        if (!c) return;
+        h.style.visibility = 'hidden';
+        const o = caretAt(e.clientX, e.clientY);
+        h.style.visibility = '';
+        if (o == null) return;
+        const p = paraOf(c.start);
+        const sibs = S.commentsFor(subId).filter((x) => x.id !== c.id);
+        if (dragging === 'start') {
+          const floor = Math.max(p.start, ...sibs.filter((x) => x.end <= c.start).map((x) => x.end));
+          const s = Math.min(Math.max(snapStart(o), floor), c.end - 1);
+          if (s !== c.start) S.resize(c.id, s, c.end);
+        } else {
+          const ceil = Math.min(p.end, ...sibs.filter((x) => x.start >= c.end).map((x) => x.start));
+          const en = Math.max(Math.min(snapEnd(o), ceil), c.start + 1);
+          if (en !== c.end) S.resize(c.id, c.start, en);
+        }
+      });
+      const end = () => {
+        if (!dragging) return;
+        dragging = null;
+        document.body.classList.remove('bcn-sr-dragging');
+        if (selected) { fillPop(); pop.hidden = false; placeSide(markRects(selected)); placeHandles(); }
+      };
+      h.addEventListener('pointerup', end);
+      h.addEventListener('pointercancel', end);
+    });
+
+    // Select unhighlighted text: offer to file it as a new comment.
+    body.addEventListener('mouseup', () => {
+      const sel = getSelection();
+      if (!sel || sel.isCollapsed || !sel.rangeCount) return;
+      const range = sel.getRangeAt(0);
+      if (!body.contains(range.commonAncestorContainer)) return;
+      let a = offsetOf(range.startContainer, range.startOffset);
+      let b = offsetOf(range.endContainer, range.endOffset);
+      if (a == null || b == null || b <= a) return;
+      const p = paraOf(a);
+      a = snapStart(a);
+      b = snapEnd(Math.min(b, p.end));
+      if (b - a < 2) return;
+      if (S.commentsFor(subId).some((c) => a! < c.end && b! > c.start)) return;
+      pending = { start: a, end: b };
+      if (!pop.hidden) closePop();
+      addSel.value = '';
+      addPanel.hidden = false;
+      place(addPanel, [...range.getClientRects()]);
+    });
+    q(addPanel, '[data-add-go]').closest('.esa-button')!.addEventListener('click', () => {
+      if (!pending || !addSel.value) return;
+      const id = S.add(subId, pending.start, pending.end, addSel.value);
+      pending = null;
+      addPanel.hidden = true;
+      getSelection()?.removeAllRanges();
+      openPop(id);
+    });
+    q(addPanel, '[data-add-cancel]').closest('.esa-button')!.addEventListener('click', () => { addPanel.hidden = true; pending = null; });
+
+    document.addEventListener('comments:change', () => {
+      renderText();
+      renderNotes();
+      if (selected && !pop.hidden) { fillPop(); placeSide(markRects(selected)); }
+      if (selected) placeHandles();
+    });
+
+    renderText();
+    renderNotes();
+    const hash = decodeURIComponent(location.hash.slice(1));
+    if (hash && S.comment(hash)?.submissionId === subId) {
+      requestAnimationFrame(() => { markOf(hash)?.scrollIntoView({ block: 'center' }); openPop(hash); });
+    }
+  }
+</script>
+
+<style>
+  .bcn-sr, .bcn-sr-pop { font-size: 1rem; }
+  .bcn-sr__meta { color: var(--color-content-secondary); }
+  .bcn-sr__text { max-width: 44rem; }
+  .bcn-sr__text :global(p) { margin: 0 0 var(--spacing-300); white-space: pre-line; line-height: 1.75; }
+  .bcn-sr__text :global(p:last-child) { margin-bottom: 0; }
+
+  .bcn-sr__text :global(.bcn-hl) {
+    background: var(--hl);
+    color: var(--color-content-primary);
+    border-radius: var(--radius-xs);
+    padding: 0.12em 0.1em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    text-decoration: underline dashed var(--hl-edge);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.28em;
+    cursor: pointer;
+  }
+  .bcn-sr__text :global(.bcn-hl.is-planned) { text-decoration-style: solid; }
+  .bcn-sr__text :global(.bcn-hl:hover),
+  .bcn-sr__text :global(.bcn-hl:focus-visible) { outline: 2px solid var(--hl-edge); outline-offset: 1px; }
+  .bcn-sr__text :global(.bcn-hl.is-selected) { outline: 2px solid var(--color-content-primary); outline-offset: 1px; }
+
+  .bcn-sr__margin { position: sticky; top: var(--spacing-300); align-self: start; }
+  .bcn-sr__notes { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--spacing-100); }
+  .bcn-sr__notes :global(.bcn-sr-note) {
+    display: grid;
+    gap: var(--spacing-050);
+    padding: var(--spacing-150) var(--spacing-200);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    color: var(--color-content-primary);
+    text-decoration: none;
+    font-size: var(--font-size-md, 1rem);
+    line-height: 1.4;
+  }
+  .bcn-sr__notes :global(.bcn-sr-note:hover) { background: var(--color-surface-hover); }
+  .bcn-sr__notes :global(.bcn-sr-note.is-selected) { border-color: var(--color-content-primary); }
+  .bcn-sr__notes :global(.bcn-sr-note__head) { display: flex; align-items: center; gap: var(--spacing-100); flex-wrap: wrap; }
+  .bcn-sr__notes :global(.bcn-sr-note__topic) { font-weight: 600; }
+  .bcn-sr__notes :global(.bcn-sr-note__sub) { color: var(--color-content-secondary); }
+  .bcn-sr__notes :global(.bcn-sr-note__resp) { color: var(--color-content-secondary); }
+  .bcn-sr__notes :global(.bcn-sr-note__state) { color: var(--color-content-tertiary); }
+  .bcn-sr__notes :global(.bcn-sr-note__state.is-planned) { color: var(--color-content-success); font-weight: 600; }
+  .bcn-sr__notes :global(.bcn-sr-chip) { inline-size: 1rem; block-size: 0.75rem; border-radius: var(--radius-xs); background: var(--chip-fill); border-bottom: 2px solid var(--chip-edge); flex: none; }
+
+  .bcn-sr-pop {
+    position: fixed;
+    z-index: var(--z-dropdown);
+    inline-size: min(26rem, calc(100vw - 2rem));
+    padding: var(--spacing-300);
+    background: var(--color-surface-elevated, var(--color-surface));
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-overlay);
+    box-shadow: var(--elevation-4);
+  }
+  .bcn-sr-pop[hidden] { display: none; }
+  .bcn-sr-pop--add { inline-size: min(22rem, calc(100vw - 2rem)); }
+  .bcn-sr-pop__resp { padding: var(--spacing-150) var(--spacing-200); background: var(--color-surface-sunken); border-radius: var(--radius-sm); }
+  .bcn-sr-pop__resp[hidden] { display: none; }
+  .bcn-sr-pop__lede { margin: 0; color: var(--color-content-secondary); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .bcn-sr-pop__open { color: var(--color-content-link); }
+  .bcn-sr-pop__planned { color: var(--color-content-success); align-self: center; }
+  .bcn-sr-pop__foot { padding-top: var(--spacing-200); border-top: 1px solid var(--color-border-subtle); }
+  [data-pop-accept][hidden], [data-pop-planned][hidden] { display: none; }
+
+  .bcn-sr-handle {
+    position: fixed;
+    z-index: var(--z-dropdown);
+    inline-size: 4px;
+    background: var(--color-content-primary);
+    border-radius: var(--radius-full);
+    cursor: ew-resize;
+    touch-action: none;
+  }
+  .bcn-sr-handle::before { content: ''; position: absolute; inset: -6px -8px; }
+  .bcn-sr-handle::after { content: ''; position: absolute; left: 50%; top: -5px; inline-size: 10px; block-size: 10px; margin-left: -5px; border-radius: var(--radius-full); background: var(--color-content-primary); }
+  .bcn-sr-handle[data-sr-handle="end"]::after { top: auto; bottom: -5px; }
+  .bcn-sr-handle[hidden] { display: none; }
+  :global(body.bcn-sr-dragging) { user-select: none; cursor: ew-resize; }
+</style>

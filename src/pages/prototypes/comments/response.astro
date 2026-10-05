@@ -1,0 +1,31 @@
+---
+// One response, read from ?id= so responses started in this session open here too.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnCommentsPeriod from '../../../components/bcn/BcnCommentsPeriod.astro';
+import BcnResponseDetail from '../../../components/bcn/BcnResponseDetail.astro';
+import { commentsNav, COMMENTS_PROJECT } from '../../../data/comments-nav';
+import { withBase } from '../../../lib/base';
+const base = withBase('/prototypes/comments');
+---
+
+<!-- manifest:
+  layout: PageLayout > stack(lg)                    # SPINE
+  sections:
+    - period header -> bcn-comments-period          # burn-down; Accept here clears every linked comment
+    - response      -> bcn-response-detail          # text, Accept, guidance + Redraft, comments by submission, Drafted from
+-->
+
+<AppShell title="Response" tenantName={COMMENTS_PROJECT.tenant} projectName={COMMENTS_PROJECT.name} navSections={commentsNav('responses')}>
+  <PageLayout
+    title="Response"
+    icon="file-text"
+    iconColor="var(--color-content-brand)"
+    breadcrumbs={[{ label: 'Planning', href: '#planning' }, { label: 'Comments', href: base }, { label: 'Response' }]}
+  >
+    <div class="stack" data-gap="lg">
+      <BcnCommentsPeriod />
+      <BcnResponseDetail />
+    </div>
+  </PageLayout>
+</AppShell>

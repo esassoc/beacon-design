@@ -1,0 +1,32 @@
+---
+// Comments — the submissions index for one comment period (Planning module). Shaped
+// 2026-10-05 for the SEA Part 150 demo: the period header with its burn-down, then the
+// inbox By date and By topic. Every row opens its submission at
+// /prototypes/comments/<submission id>.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnCommentsPeriod from '../../../components/bcn/BcnCommentsPeriod.astro';
+import BcnCommentsInbox from '../../../components/bcn/BcnCommentsInbox.astro';
+import { commentsNav, COMMENTS_PROJECT } from '../../../data/comments-nav';
+---
+
+<!-- manifest:
+  layout: PageLayout > stack(lg)                    # SPINE
+  sections:
+    - period header -> bcn-comments-period          # period switch, dates, response format, burn-down
+    - inbox         -> bcn-comments-inbox           # By date / By topic tabs over every submission
+-->
+
+<AppShell title="Comments" tenantName={COMMENTS_PROJECT.tenant} projectName={COMMENTS_PROJECT.name} navSections={commentsNav()}>
+  <PageLayout
+    title="Comments"
+    icon="notepad-text"
+    iconColor="var(--color-content-brand)"
+    breadcrumbs={[{ label: 'Planning', href: '#planning' }, { label: 'Comments' }]}
+  >
+    <div class="stack" data-gap="lg">
+      <BcnCommentsPeriod />
+      <BcnCommentsInbox />
+    </div>
+  </PageLayout>
+</AppShell>
