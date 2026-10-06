@@ -1,0 +1,599 @@
+---
+// <BcnResponseNotes> — a response's internal notes, set as footnotes under the letter
+// (it sits in BcnResponseEditor's card, below the text, after a short footnote rule).
+// Each open note is a slim card: its number (a quiet neutral badge, matching the
+// superior figure in the text), the passage it is about in the document's italic, then
+// its thread, each entry an avatar, a meta line (who · when) and the note itself, set
+// in under the passage. The card's footer: Reply and Resolve. Each note folds
+// to its passage and a one-line summary; Expand all / Collapse all head the list. Resolved notes fold into "Resolved (n)" and
+// can be reopened. Notes are the study team's own and never part of the published
+// response.
+//
+// Reply opens BcnNoteComposer inside the card.
+//
+// The passage selects its span in the letter; hovering a card lights its span; clicking
+// a noted span brings its card into view. A note whose span was deleted keeps its
+// thread and shows no number.
+//
+// Contract, on `document`:
+//   in   response:note-order   detail { ids, texts }   open notes in reading order, and
+//                                                    each note's passage as it reads now
+//   in   response:note-focus   detail { id }          bring that card into view
+//   out  response:note-select  detail { id }          select the note's span
+//   out  response:note-hover   detail { id | null }   light the note's span
+//   out  response:note-order-request                ask the editor for the order
+//   in   comments:change                             re-render
+//
+// bcn-lego-checked: each note IS an esa-card (outlined, compact), its number IS esa-badge
+// (re-pointed quiet and neutral through the lego's --badge-bg / --badge-text-color, as
+// BcnEvidenceTargets does), each author IS esa-avatar, the actions
+// ARE esa-button, the composer IS BcnNoteComposer. The list is built at runtime, so the
+// card and the entry are pre-rendered once in <template>s and cloned (the
+// BcnEvidenceTargets / BcnGuidanceDrawer trick). No esa- thread lego; checked Beacon (its
+// "Notes" are single free-text fields; BcnDiscussion is flat and prod-faithful, with no
+// passage, no resolve). bcn-response-notes is the home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnNoteComposer from './BcnNoteComposer.astro';
+---
+
+<section class="bcn-rn" data-response-notes aria-labelledby="bcn-rn-heading" hidden>
+  <header class="bcn-rn__head">
+    <h2 id="bcn-rn-heading" class="bcn-rn__title">Notes</h2>
+    <span class="bcn-rn__count" data-rn-count><EsaBadge value="0" size="sm" /></span>
+    <span class="bcn-rn__all">
+      <EsaButton size="sm" variant="ghost" data-rn-expand-all>Expand All</EsaButton>
+      <EsaButton size="sm" variant="ghost" data-rn-collapse-all>Collapse All</EsaButton>
+    </span>
+  </header>
+  <ol class="bcn-rn__list" role="list" data-rn-open></ol>
+  <div class="bcn-rn__resolved" data-rn-resolved-wrap hidden>
+    <EsaButton size="sm" variant="ghost" icon="chevron-right" data-rn-toggle>Resolved</EsaButton>
+    <ol class="bcn-rn__list" role="list" data-rn-resolved hidden></ol>
+  </div>
+  <div data-rn-park hidden><BcnNoteComposer /></div>
+
+  <template data-rn-card>
+    <li class="bcn-rn__item">
+      <EsaCard variant="outlined" padding="compact">
+        <div class="bcn-rn__card">
+          <span class="bcn-rn__num" data-rn-num><EsaBadge value="1" size="sm" /></span>
+          <button type="button" class="bcn-rn__passage" data-rn-select><span class="bcn-rn__hl" data-rn-hl></span></button>
+          <span class="bcn-rn__fold"><EsaButton size="sm" variant="ghost" iconOnly icon="chevron-down" label="Collapse Note" data-rn-fold /></span>
+          <p class="bcn-rn__summary" data-rn-summary hidden></p>
+          <div class="bcn-rn__body" data-rn-body>
+            <ul class="bcn-rn__thread" role="list" data-rn-thread></ul>
+            <div class="bcn-rn__compose" data-rn-compose-slot></div>
+          </div>
+        </div>
+        <div slot="footer" class="bcn-rn__acts" data-rn-acts>
+          <EsaButton size="sm" variant="secondary" appearance="soft" data-rn-reply>Reply</EsaButton>
+          <span class="bcn-rn__end">
+            <EsaButton size="sm" variant="secondary" appearance="soft" icon="check" data-rn-resolve>Resolve</EsaButton>
+            <EsaButton size="sm" variant="secondary" appearance="soft" icon="rotate-ccw" data-rn-reopen>Reopen</EsaButton>
+          </span>
+        </div>
+      </EsaCard>
+    </li>
+  </template>
+
+  <template data-rn-entry>
+    <li class="bcn-rn__entry">
+      <span class="bcn-rn__who-mark" data-rn-person><EsaAvatar name="Study team" size="xs" /></span>
+      <div class="bcn-rn__entry-body">
+        <p class="bcn-rn__meta"><span class="bcn-rn__who" data-rn-who></span><time class="bcn-rn__when" data-rn-when></time></p>
+        <p class="bcn-rn__text" data-rn-text></p>
+      </div>
+    </li>
+  </template>
+</section>
+
+<script>
+  import type { NoteEntry, ResponseNote } from '../../data/comments-types';
+  import { currentResponseId, notesOf, replyNote, setNoteResolved } from './comments-store';
+  import { mountComposer, type ComposerMode } from './note-composer';
+
+  const root = document.querySelector<HTMLElement>('[data-response-notes]');
+  const id = currentResponseId();
+  if (root) {
+    const $ = <T extends HTMLElement = HTMLElement>(s: string, from: ParentNode = root) => from.querySelector<T>(s)!;
+    const native = (el: Element) => (el.matches('button') ? el : el.querySelector('button')) as HTMLButtonElement;
+    const cardTpl = $<HTMLTemplateElement>('[data-rn-card]');
+    const entryTpl = $<HTMLTemplateElement>('[data-rn-entry]');
+    const park = $('[data-rn-park]');
+    const when = (iso: string) =>
+      new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    // esa-avatar's own derivation (initials, and the hue its name hashes to), for clones.
+    const initials = (name: string) => {
+      const p = name.trim().split(/\s+/);
+      return (p.length === 1 ? p[0][0] : p[0][0] + p[p.length - 1][0]).toUpperCase();
+    };
+    const hue = (name: string) => {
+      let h = 0;
+      for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h);
+      return Math.abs(h) % 360;
+    };
+    const setBadge = (host: Element, value: string | number) => {
+      const t = host.querySelector('.esa-badge__text');
+      if (t) t.textContent = String(value);
+    };
+
+    let order: string[] = [];
+    let texts: Record<string, string> = {};
+    let orderKey = '';
+    let showResolved = false;
+    // Notes folded to their passage (thread, composer and actions hidden).
+    const collapsed = new Set<string>();
+    let composing: { id: string; mode: ComposerMode } | null = null;
+
+    const composer = mountComposer($('[data-note-composer]', park), {
+      submit: (_mode, text) => {
+        const nid = composing?.id;
+        composing = null;
+        composer.close();
+        if (nid) replyNote(nid, text);
+        render();
+      },
+      cancel: () => {
+        composing = null;
+        render();
+      },
+    });
+
+    const entry = (e: NoteEntry) => {
+      const li = entryTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+      const av = li.querySelector<HTMLElement>('.esa-avatar')!;
+      av.style.setProperty('--_avatar-hue', String(hue(e.author)));
+      const ini = av.querySelector('.esa-avatar__initials');
+      if (ini) ini.textContent = initials(e.author);
+      $('[data-rn-who]', li).textContent = e.author;
+      const t = $<HTMLTimeElement>('[data-rn-when]', li);
+      t.dateTime = e.at;
+      t.textContent = when(e.at);
+      $('[data-rn-text]', li).textContent = e.text;
+      return li;
+    };
+
+    const card = (n: ResponseNote) => {
+      const li = cardTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+      const num = order.indexOf(n.id) + 1;
+      li.id = `note-${n.id}`;
+      li.dataset.noteId = n.id;
+      if (n.resolved) li.dataset.resolved = '';
+      const numHost = $('[data-rn-num]', li);
+      numHost.hidden = !num || n.resolved;
+      setBadge(numHost, num);
+      const passage = $<HTMLButtonElement>('[data-rn-select]', li);
+      const text = texts[n.id] ?? n.quote;
+      $('[data-rn-hl]', li).textContent = text;
+      const placed = n.id in texts;
+      passage.disabled = !placed;
+      passage.setAttribute('aria-label', placed ? `Note ${num || ''}: show “${text}” in the response` : `Note on “${text}”, no longer in the response`);
+      // Fold: the passage stays; a one-line summary stands in for the thread.
+      const folded = collapsed.has(n.id);
+      li.toggleAttribute('data-collapsed', folded);
+      const fold = native($('[data-rn-fold]', li));
+      fold.setAttribute('aria-expanded', String(!folded));
+      fold.setAttribute('aria-label', folded ? 'Expand note' : 'Collapse note');
+      fold.title = folded ? 'Expand note' : 'Collapse note';
+      $('[data-rn-body]', li).hidden = folded;
+      const last = n.entries[n.entries.length - 1];
+      const summary = $('[data-rn-summary]', li);
+      summary.hidden = !folded;
+      summary.textContent = last
+        ? `${n.entries.length} ${n.entries.length === 1 ? 'note' : 'notes'} · ${last.author}, ${when(last.at)}`
+        : '';
+      $('[data-rn-thread]', li).replaceChildren(...n.entries.map(entry));
+      $('[data-rn-reply]', li).closest('.esa-button')!.toggleAttribute('hidden', n.resolved);
+      $('[data-rn-resolve]', li).closest('.esa-button')!.toggleAttribute('hidden', n.resolved);
+      $('[data-rn-reopen]', li).closest('.esa-button')!.toggleAttribute('hidden', !n.resolved);
+      return li;
+    };
+
+    const render = () => {
+      // The composer outlives the cards: park it while they are rebuilt.
+      park.append(composer.el);
+      const notes = notesOf(id);
+      root.hidden = notes.length === 0;
+      const rank = (n: ResponseNote) => (order.includes(n.id) ? order.indexOf(n.id) : order.length);
+      const open = notes.filter((n) => !n.resolved).sort((a, b) => rank(a) - rank(b));
+      const resolved = notes.filter((n) => n.resolved);
+      $('[data-rn-open]').replaceChildren(...open.map(card));
+      $('[data-rn-resolved]').replaceChildren(...resolved.map(card));
+      setBadge($('[data-rn-count]'), open.length);
+      $('[data-rn-count]').hidden = open.length === 0;
+      $('[data-rn-resolved-wrap]').hidden = resolved.length === 0;
+      $('[data-rn-resolved]').hidden = !showResolved;
+      const toggle = native($('[data-rn-toggle]'));
+      const label = toggle.querySelector('.esa-button__label');
+      if (label) label.textContent = `Resolved (${resolved.length})`;
+      toggle.setAttribute('aria-expanded', String(showResolved));
+      $('[data-rn-resolved-wrap]').toggleAttribute('data-open', showResolved);
+      const all = notes.map((n) => n.id);
+      const setOff = (sel: string, off: boolean) => {
+        const b = native($(sel));
+        b.disabled = off;
+        b.closest('.esa-button')?.classList.toggle('esa-button--disabled', off);
+      };
+      setOff('[data-rn-expand-all]', all.every((x) => !collapsed.has(x)));
+      setOff('[data-rn-collapse-all]', all.every((x) => collapsed.has(x)));
+      if (composing) {
+        const li = root.querySelector<HTMLElement>(`#note-${composing.id}`);
+        if (li) {
+          $('[data-rn-compose-slot]', li).append(composer.el);
+          li.setAttribute('data-composing', '');
+        } else {
+          composing = null;
+          composer.close();
+        }
+      }
+    };
+
+    const startCompose = (nid: string, mode: ComposerMode) => {
+      if (!notesOf(id).some((x) => x.id === nid)) return;
+      composing = { id: nid, mode };
+      collapsed.delete(nid);
+      render();
+      composer.open({ mode, inline: true });
+    };
+
+    root.addEventListener('click', (e) => {
+      const t = e.target as Element;
+      if (t.closest('[data-rn-toggle]')) {
+        showResolved = !showResolved;
+        return render();
+      }
+      if (t.closest('[data-rn-expand-all]')) {
+        collapsed.clear();
+        return render();
+      }
+      if (t.closest('[data-rn-collapse-all]')) {
+        if (composing) {
+          composing = null;
+          composer.close();
+        }
+        for (const n of notesOf(id)) collapsed.add(n.id);
+        return render();
+      }
+      if (t.closest('[data-note-composer]')) return;
+      const li = t.closest<HTMLElement>('[data-note-id]');
+      const nid = li?.dataset.noteId;
+      if (!nid) return;
+      if (t.closest('[data-rn-fold]')) {
+        if (collapsed.has(nid)) collapsed.delete(nid);
+        else {
+          collapsed.add(nid);
+          if (composing?.id === nid) {
+            composing = null;
+            composer.close();
+          }
+        }
+        render();
+        native($('[data-rn-fold]', root.querySelector(`#note-${nid}`)!)).focus();
+        return;
+      }
+      if (t.closest('[data-rn-select]')) document.dispatchEvent(new CustomEvent('response:note-select', { detail: { id: nid } }));
+      else if (t.closest('[data-rn-reply]')) startCompose(nid, 'reply');
+      else if (t.closest('[data-rn-resolve]')) setNoteResolved(nid, true);
+      else if (t.closest('[data-rn-reopen]')) setNoteResolved(nid, false);
+    });
+    // A card under the pointer (or holding focus) lights its passage in the letter.
+    const hover = (nid: string | null) => document.dispatchEvent(new CustomEvent('response:note-hover', { detail: { id: nid } }));
+    root.addEventListener('pointerover', (e) => hover((e.target as Element).closest<HTMLElement>('[data-note-id]')?.dataset.noteId ?? null));
+    root.addEventListener('pointerleave', () => hover(null));
+    root.addEventListener('focusin', (e) => hover((e.target as Element).closest<HTMLElement>('[data-note-id]')?.dataset.noteId ?? null));
+
+    document.addEventListener('response:note-order', (e) => {
+      const d = (e as CustomEvent<{ ids: string[]; texts: Record<string, string> }>).detail;
+      const key = JSON.stringify(d);
+      if (key === orderKey) return;
+      orderKey = key;
+      order = d.ids;
+      texts = d.texts ?? {};
+      // Re-render unless a person is writing in a card (the composer keeps its place).
+      if (!composing) render();
+    });
+    document.addEventListener('response:note-focus', (e) => {
+      const nid = (e as CustomEvent<{ id: string }>).detail.id;
+      const wasFolded = collapsed.delete(nid);
+      if (notesOf(id).find((n) => n.id === nid)?.resolved && !showResolved) showResolved = true;
+      if (wasFolded || showResolved) render();
+      const li = root.querySelector<HTMLElement>(`#note-${nid}`);
+      if (!li) return;
+      li.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      li.dataset.flash = '';
+      setTimeout(() => delete li.dataset.flash, 1400);
+    });
+    document.addEventListener('comments:change', () => {
+      if (!composing) render();
+    });
+    render();
+    document.dispatchEvent(new CustomEvent('response:note-order-request'));
+  }
+</script>
+
+<style>
+  /* The footnotes: a short rule, as a printed page sets them off from the text. */
+  .bcn-rn {
+    max-width: 44rem;
+    margin-top: var(--spacing-700, 2.5rem);
+  }
+
+  .bcn-rn::before {
+    content: '';
+    display: block;
+    width: 6rem;
+    height: 1px;
+    margin-bottom: var(--spacing-400);
+    background: var(--color-content-default-tertiary);
+  }
+
+  /* [hidden] wins over every display rule here, on our nodes and on cloned legos
+     (doubled: :global() drops the scope attribute that used to carry its weight). */
+  .bcn-rn[hidden],
+  .bcn-rn :global([hidden][hidden]) {
+    display: none;
+  }
+
+  .bcn-rn__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-bottom: var(--spacing-300);
+  }
+
+  .bcn-rn__all {
+    display: inline-flex;
+    gap: var(--spacing-100);
+    margin-left: auto;
+  }
+
+  .bcn-rn__title {
+    margin: 0;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-size: var(--typography-title-font-size);
+    font-weight: var(--typography-font-weight-semibold);
+    letter-spacing: -0.005em;
+    color: var(--color-content-default);
+  }
+
+  /* Numbers and the count: esa-badge, quiet and neutral (the house chip). */
+  .bcn-rn :global(.bcn-rn__num .esa-badge),
+  .bcn-rn__count :global(.esa-badge) {
+    --badge-bg: var(--color-background-elevation-sunken);
+    --badge-text-color: var(--color-content-default);
+    border: 1px solid var(--color-border-default);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-rn__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+
+  .bcn-rn :global(.bcn-rn__item .esa-card) {
+    transition: box-shadow 200ms ease, border-color 200ms ease;
+  }
+
+  .bcn-rn :global(.bcn-rn__item:hover .esa-card) {
+    border-color: var(--color-border-default-strong, var(--color-border-default));
+  }
+
+  .bcn-rn :global(.bcn-rn__item[data-flash] .esa-card) {
+    border-color: var(--color-content-default-tertiary);
+    box-shadow: var(--elevation-2);
+  }
+
+  /* The card: number | passage | fold on the first row; the thread, its composer and
+     the folded summary indented under the passage. */
+  .bcn-rn :global(.bcn-rn__card) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: var(--spacing-200);
+    row-gap: var(--spacing-300);
+    align-items: start;
+  }
+
+  .bcn-rn :global(.bcn-rn__num) {
+    grid-column: 1;
+    padding-top: 0.15em;
+  }
+
+  .bcn-rn :global(.bcn-rn__passage) {
+    all: unset;
+    grid-column: 2;
+    font-family: var(--font-decorative, var(--typography-font-family-sans));
+    font-style: italic;
+    font-size: var(--typography-body-md-font-size);
+    line-height: 1.6;
+    color: var(--color-content-default);
+    cursor: pointer;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bcn-rn :global(.bcn-rn__num[hidden] + .bcn-rn__passage) {
+    grid-column: 1 / 3;
+  }
+
+  /* The passage wears the letter's highlight. */
+  .bcn-rn :global(.bcn-rn__hl) {
+    padding: 0.05em 0.1em;
+    border-radius: 2px;
+    background: var(--bcn-note-tint);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    transition: background-color 150ms ease;
+  }
+
+  .bcn-rn :global(.bcn-rn__passage:hover:not(:disabled) .bcn-rn__hl) {
+    background: var(--bcn-note-tint-lit);
+  }
+
+  .bcn-rn :global(.bcn-rn__item[data-resolved] .bcn-rn__hl),
+  .bcn-rn :global(.bcn-rn__passage:disabled .bcn-rn__hl) {
+    background: none;
+  }
+
+  .bcn-rn :global(.bcn-rn__passage:disabled) {
+    cursor: default;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rn :global(.bcn-rn__passage:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+    border-radius: var(--radius-sm);
+  }
+
+  .bcn-rn :global(.bcn-rn__fold) {
+    grid-column: 3;
+    grid-row: 1;
+    margin: calc(-1 * var(--spacing-100)) calc(-1 * var(--spacing-100)) 0 0;
+  }
+
+  .bcn-rn :global(.bcn-rn__fold svg) {
+    transition: transform 150ms ease;
+  }
+
+  .bcn-rn :global(.bcn-rn__item[data-collapsed] .bcn-rn__fold svg) {
+    transform: rotate(-90deg);
+  }
+
+  .bcn-rn :global(.bcn-rn__summary),
+  .bcn-rn :global(.bcn-rn__body) {
+    grid-column: 2 / 4;
+    min-width: 0;
+  }
+
+  .bcn-rn :global(.bcn-rn__summary) {
+    margin: calc(-1 * var(--spacing-200)) 0 0;
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rn :global(.bcn-rn__body) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+
+  /* The footer (esa-card's own, with its rule): hidden while folded or writing. */
+  .bcn-rn :global(.bcn-rn__item:is([data-collapsed], [data-composing]) .esa-card__footer) {
+    display: none;
+  }
+
+  /* The thread: avatar, then meta (sans, small, who · when) over the note (body). */
+  .bcn-rn :global(.bcn-rn__thread) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+
+  .bcn-rn :global(.bcn-rn__entry) {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: var(--spacing-200);
+    align-items: start;
+  }
+
+  .bcn-rn :global(.bcn-rn__who-mark) {
+    display: inline-flex;
+    padding-top: 1px;
+  }
+
+  .bcn-rn :global(.bcn-rn__meta) {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-150, 0.375rem);
+    margin: 0;
+    font-family: var(--typography-font-family-sans);
+    font-size: var(--typography-label-sm-font-size);
+    line-height: 20px;
+  }
+
+  .bcn-rn :global(.bcn-rn__who) {
+    font-weight: var(--typography-font-weight-semibold);
+    color: var(--color-content-default);
+  }
+
+  .bcn-rn :global(.bcn-rn__when) {
+    /* adherence-allow: font-too-small — a timestamp is meta; 13px is the meta floor */
+    font-size: 0.8125rem;
+    color: var(--color-content-default-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-rn :global(.bcn-rn__when::before) {
+    content: '·';
+    margin-right: var(--spacing-150, 0.375rem);
+  }
+
+  .bcn-rn :global(.bcn-rn__text) {
+    margin: var(--spacing-050, 0.125rem) 0 0;
+    max-width: 62ch;
+    font-family: var(--typography-font-family-sans);
+    font-size: var(--typography-body-md-font-size);
+    line-height: 1.55;
+    color: var(--color-content-default);
+    text-wrap: pretty;
+  }
+
+  /* Actions: Reply at the start, Resolve at the end. */
+  .bcn-rn :global(.bcn-rn__acts) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    margin: calc(-1 * var(--spacing-100)) calc(-1 * var(--spacing-200));
+  }
+
+  .bcn-rn :global(.bcn-rn__end) {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .bcn-rn :global(.bcn-rn__compose:empty) {
+    display: none;
+  }
+
+  /* Resolved: kept, but stepped back. */
+  .bcn-rn :global(.bcn-rn__item[data-resolved] :is(.bcn-rn__passage, .bcn-rn__text, .bcn-rn__who)) {
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rn__resolved {
+    margin-top: var(--spacing-400);
+  }
+
+  .bcn-rn__resolved > .bcn-rn__list {
+    margin-top: var(--spacing-200);
+  }
+
+  .bcn-rn__resolved :global([data-rn-toggle] svg) {
+    transition: transform 150ms ease;
+  }
+
+  .bcn-rn__resolved[data-open] :global([data-rn-toggle] svg) {
+    transform: rotate(90deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-rn :global(.bcn-rn__item .esa-card),
+    .bcn-rn :global(.bcn-rn__fold svg),
+    .bcn-rn :global(.bcn-rn__hl),
+    .bcn-rn__resolved :global([data-rn-toggle] svg) {
+      transition: none;
+    }
+  }
+</style>

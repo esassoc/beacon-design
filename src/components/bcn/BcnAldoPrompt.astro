@@ -1,0 +1,386 @@
+---
+// <BcnAldoPrompt> — where a person gives Aldo guidance that will operate on their data.
+//
+// Closed, it is a bar in Aldo's green wash: the mark and one line naming what guidance
+// is for. Clicking it opens the composer in place, floating over the content below it:
+// a deep-shadowed card with a textarea that grows as the prompt grows, the context Aldo
+// will respect, and a round send button. ⌘/Ctrl+Enter sends; Esc or a click outside
+// closes it and keeps the draft.
+//
+// Sending is a visible act. The composer holds for a beat while a shimmer runs along
+// its edge and the mark turns, then folds back into the bar and hands the text to the
+// host, so the change lands in view; the bar then carries the outcome and an Undo:
+//
+//   aldo-prompt:submit   detail { text, refs } fired on the root; the host runs the change
+//                                             (refs: the chips in a rich prompt, in order)
+//   aldo-prompt:result   detail { text }      the host answers on the root; shown in the bar
+//   aldo-prompt:undo                          fired on the root when Undo is pressed
+//   aldo-prompt:open                          fired on the root, so the host can refresh
+//                                             [data-ap-context] before it shows
+//
+// rich: the field is a one-line TipTap editor instead of esa-textarea, so the prompt can
+// carry references: "@" the Response Library, "#" a comment (response-editor/reference.ts;
+// the page registers what each lists). The rest of the composer is the same.
+//
+// Placeholders here are examples of guidance, not instructions.
+//
+// bcn-lego-checked: the textarea IS esa-textarea (auto-resize, border hooks zeroed so the
+// card carries the focus ring); send, close and Undo ARE esa-button (send re-points the
+// button radius and brand tokens to a round Aldo-green control); the mark IS
+// bcn-aldo-mark. The anchored card is this component's own: esa-popover's anchor is an
+// inline-block that shrink-wraps its trigger and centres its panel under it, so it
+// cannot anchor a full-width composer, and clicks inside its panel reach the trigger's
+// toggle. Checked Beacon (no AI composer). bcn-aldo-prompt is the reusable home: the
+// response page's Redraft is the next consumer.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnAldoMark from './BcnAldoMark.astro';
+
+interface Props {
+  /** The bar's one line: what guidance is for. */
+  prompt: string;
+  /** The composer's heading. */
+  heading: string;
+  /** An example of guidance. */
+  placeholder?: string;
+  /** Accessible name of the textarea. */
+  label?: string;
+  /** A rich field that takes "@" / "#" references. */
+  rich?: boolean;
+}
+const { prompt, heading, placeholder = '', label = 'Guidance', rich = false } = Astro.props;
+---
+
+<div class="bcn-ap" data-aldo-prompt>
+  <div class="bcn-ap__bar">
+    <button type="button" class="bcn-ap__open" aria-expanded="false" data-ap-open>
+      <BcnAldoMark size="sm" />
+      <span class="bcn-ap__prompt typography-label-md-strong">{prompt}</span>
+    </button>
+    <span class="bcn-ap__result typography-body-sm" data-ap-result hidden>
+      <span data-ap-result-text></span>
+      <EsaButton size="sm" variant="ghost" data-ap-undo>Undo</EsaButton>
+    </span>
+  </div>
+
+  <div class="bcn-ap__card" role="dialog" aria-label={heading} data-ap-card hidden>
+    <div class="bcn-ap__shimmer" aria-hidden="true"></div>
+    <div class="bcn-ap__head">
+      <span data-ap-mark><BcnAldoMark size="sm" /></span>
+      <span class="typography-label-md-strong">{heading}</span>
+      <span class="bcn-ap__close"><EsaButton variant="chrome" iconOnly icon="x" size="sm" label="Close" data-ap-close /></span>
+    </div>
+    {rich ? (
+      <div class="bcn-ap__rich" data-ap-rich data-label={label} data-placeholder={placeholder}></div>
+    ) : (
+      <esa-textarea
+        class="bcn-ap__input"
+        size="lg"
+        rows="2"
+        max-rows="10"
+        auto-resize
+        aria-label={label}
+        placeholder={placeholder}
+        data-ap-input
+      ></esa-textarea>
+    )}
+    <div class="bcn-ap__foot">
+      <span class="bcn-ap__context typography-body-sm" data-ap-context></span>
+      <span class="bcn-ap__keys typography-body-sm" aria-hidden="true">⌘ Enter</span>
+      <span class="bcn-ap__send"><EsaButton iconOnly icon="arrow-up" size="md" label="Send guidance" data-ap-send /></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-textarea';
+  import { createPromptEditor } from './response-editor';
+  import { referencesIn } from './response-editor/reference';
+
+  type Field = HTMLElement & { value: string; readonly?: boolean; disabled?: boolean };
+  /** The composer's field, plain or rich, behind one face. */
+  interface Input {
+    text(): string;
+    refs(): { kind: string; id: string }[];
+    clear(): void;
+    focus(): void;
+  }
+  const HOLD = 1100;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-aldo-prompt]')) {
+    const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const open = $<HTMLButtonElement>('[data-ap-open]');
+    const card = $('[data-ap-card]');
+    const richHost = root.querySelector<HTMLElement>('[data-ap-rich]');
+    let input: Input;
+    if (richHost) {
+      const ed = createPromptEditor(richHost, {
+        label: richHost.dataset.label ?? 'Guidance',
+        placeholder: richHost.dataset.placeholder ?? '',
+        onUpdate: () => setSend(),
+        onSubmit: () => submit(),
+      });
+      input = {
+        text: () => ed.getText({ blockSeparator: '\n' }).trim(),
+        refs: () => referencesIn(ed),
+        clear: () => ed.commands.clearContent(true),
+        focus: () => ed.commands.focus('end'),
+      };
+    } else {
+      const field = $<Field>('[data-ap-input]');
+      input = {
+        text: () => (field.value ?? '').trim(),
+        refs: () => [],
+        clear: () => { field.value = ''; },
+        focus: () => field.focus(),
+      };
+      field.addEventListener('input', () => setSend());
+      field.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+          e.preventDefault();
+          submit();
+        }
+      });
+    }
+    const send = root.querySelector<HTMLButtonElement>('[data-ap-send] button, button[data-ap-send]') ?? $<HTMLButtonElement>('[data-ap-send]');
+    const result = $('[data-ap-result]');
+    const mark = $('[data-ap-mark] .bcn-aldo-mark');
+    let busy = false;
+
+    const setSend = () => {
+      const off = !input.text() || busy;
+      // The lego paints its disabled look from the wrapper's state class, not :disabled.
+      send.toggleAttribute('disabled', off);
+      send.closest('.esa-button')?.classList.toggle('esa-button--disabled', off);
+    };
+
+    const show = () => {
+      root.dispatchEvent(new CustomEvent('aldo-prompt:open'));
+      card.hidden = false;
+      root.dataset.open = '';
+      open.setAttribute('aria-expanded', 'true');
+      requestAnimationFrame(() => input.focus());
+    };
+    const hide = (refocus = true) => {
+      if (busy) return;
+      card.hidden = true;
+      delete root.dataset.open;
+      open.setAttribute('aria-expanded', 'false');
+      if (refocus) open.focus();
+    };
+
+    const submit = () => {
+      const text = input.text();
+      const refs = input.refs();
+      if (!text || busy) return;
+      busy = true;
+      root.dataset.working = '';
+      card.setAttribute('aria-busy', 'true');
+      mark?.setAttribute('data-animated', '');
+      setSend();
+      // Hold, then fold the card away and hand over: the change lands in view.
+      setTimeout(() => {
+        busy = false;
+        delete root.dataset.working;
+        card.removeAttribute('aria-busy');
+        mark?.removeAttribute('data-animated');
+        input.clear();
+        setSend();
+        hide();
+        root.dispatchEvent(new CustomEvent('aldo-prompt:submit', { detail: { text, refs } }));
+      }, reduce ? 200 : HOLD);
+    };
+
+    setSend();
+    open.addEventListener('click', () => (card.hidden ? show() : hide()));
+    $('[data-ap-close]').addEventListener('click', () => hide());
+    send.addEventListener('click', submit);
+    card.addEventListener('keydown', (e) => {
+      // An Esc the reference menu took (it prevents default) closes only the menu.
+      if (e.key === 'Escape' && !e.defaultPrevented) hide();
+    });
+    document.addEventListener('pointerdown', (e) => {
+      const t = e.target as Element;
+      // The reference menu hangs off <body>: a pick there is inside the composer.
+      if (!card.hidden && !root.contains(t) && !t.closest?.('.bcn-slash')) hide(false);
+    });
+
+    root.addEventListener('aldo-prompt:result', (e) => {
+      const text = (e as CustomEvent<{ text: string }>).detail.text;
+      $('[data-ap-result-text]').textContent = text;
+      result.hidden = !text;
+    });
+    $('[data-ap-undo]').addEventListener('click', () => {
+      result.hidden = true;
+      root.dispatchEvent(new CustomEvent('aldo-prompt:undo'));
+    });
+  }
+</script>
+
+<style>
+  .bcn-ap {
+    position: relative;
+    min-width: 0;
+  }
+
+  /* Closed: a bar in Aldo's wash. */
+  .bcn-ap__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    min-height: 44px;
+    padding-right: var(--spacing-300);
+    background: var(--bcn-aldo-prompt-wash);
+    border: 1px solid var(--bcn-aldo-100);
+    border-radius: 999px;
+  }
+
+  .bcn-ap__open {
+    all: unset;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250, 0.625rem);
+    flex: 1;
+    min-width: 0;
+    align-self: stretch;
+    padding: 0 var(--spacing-300) 0 var(--spacing-250, 0.625rem);
+    border-radius: 999px;
+    cursor: pointer;
+    color: var(--bcn-aldo-600);
+  }
+
+  .bcn-ap__open:hover .bcn-ap__prompt { color: var(--color-content-default); }
+
+  .bcn-ap__open:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+
+  .bcn-ap__prompt {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 150ms ease;
+  }
+
+  .bcn-ap__result {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    flex-shrink: 0;
+    color: var(--color-content-default);
+  }
+
+  .bcn-ap__result[hidden] { display: none; }
+
+  /* Open: the composer floats over what lies below, anchored to the bar's top edge. */
+  .bcn-ap__card {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-400) var(--spacing-300);
+    background: var(--color-background-elevation-raised);
+    border: 1px solid var(--bcn-aldo-100);
+    border-radius: 20px;
+    box-shadow: var(--bcn-aldo-prompt-shadow);
+    overflow: hidden;
+    transform-origin: top center;
+    animation: bcn-ap-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    /* esa-textarea, borderless: the card is the field. */
+    --form-border-width: 0;
+    --color-background-field: transparent;
+  }
+
+  .bcn-ap__card[hidden] { display: none; }
+
+  /* The card carries the text field's focus (a sanctioned :focus-within wrapper). */
+  .bcn-ap__card:focus-within {
+    outline: 2px solid var(--bcn-aldo-prompt-ring);
+    outline-offset: 0;
+  }
+
+  @keyframes bcn-ap-in {
+    from { opacity: 0; transform: translateY(-4px) scale(0.985); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .bcn-ap__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    color: var(--color-content-default);
+  }
+
+  .bcn-ap__close { margin-left: auto; }
+
+  .bcn-ap__rich {
+    display: block;
+  }
+
+  /* One ring, not two: the card's :focus-within outline above IS this field's focus
+     indicator, so the field's own band is re-pointed to the card's surface here. */
+  .bcn-ap__input {
+    display: block;
+    margin: 0 calc(-1 * var(--spacing-200));
+    --focus-ring-color: var(--color-background-elevation-raised);
+  }
+
+  .bcn-ap__foot {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+
+  .bcn-ap__context {
+    flex: 1;
+    min-width: 0;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-ap__keys {
+    color: var(--color-content-default-tertiary);
+    white-space: nowrap;
+  }
+
+  /* Send: a round Aldo-green control, by re-pointing the button's own tokens. */
+  .bcn-ap__send {
+    --button-radius-md: 999px;
+    --color-background-brand: var(--bcn-aldo);
+    --color-background-brand-hover: var(--bcn-aldo-600);
+    display: inline-flex;
+  }
+
+  /* Working: a shimmer runs the card's top edge while Aldo holds. */
+  .bcn-ap__shimmer {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--bcn-aldo-prompt-shimmer);
+    background-size: 40% 100%;
+    background-repeat: no-repeat;
+    opacity: 0;
+  }
+
+  .bcn-ap[data-working] .bcn-ap__shimmer {
+    opacity: 1;
+    animation: bcn-ap-shimmer 900ms linear infinite;
+  }
+
+  .bcn-ap[data-working] .bcn-ap__input { opacity: 0.6; }
+
+  @keyframes bcn-ap-shimmer {
+    from { background-position: -40% 0; }
+    to { background-position: 140% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-ap__card { animation: none; }
+    .bcn-ap[data-working] .bcn-ap__shimmer { animation: none; }
+  }
+</style>

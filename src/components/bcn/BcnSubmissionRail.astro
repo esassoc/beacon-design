@@ -1,0 +1,227 @@
+---
+// <BcnSubmissionRail> — the submission page's rail, beside the text as the Lists page
+// carries its details rail. Two cards:
+//
+// Details      who sent it and how: submitter, organization, city, received, channel.
+// Comments     an outline of every highlighted passage in reading order: its number
+//              (18.003, as the panel titles it), the swatch and name of each subtopic it
+//              is filed under, its state (Planned, Draft, No response) and the opening
+//              of the passage.
+//
+// The outline and the text are one selection. Click an item and its highlight
+// activates, scrolls into view and opens the comment panel; click a highlight (or J / K)
+// and the outline marks that item. It re-renders on every comments:change, so a
+// reclassify, resize, add or accept shows here at once.
+//
+// Contract, on `document`:
+//   in   comments:active / comments:activate   mark the current item
+//   in   comments:change                       re-render
+//   out  comments:activate  detail: id         (bcn-submission-text activates the mark)
+//   out  comments:active    detail: { id }     (bcn-comment-panel opens)
+//
+// bcn-lego-checked: the frames ARE esa-card (outlined, titled, as BcnListDetailsRail),
+// the facts ARE BcnKeyValue. The outline is a list of plain buttons that each select a passage:
+// esa-sidebar-nav is page navigation (hrefs, sections), esa-tab-layout switches panels,
+// and neither selects inside a document. Checked Beacon (no document outline; its
+// annotation panel lists records, not passages). bcn-submission-rail is the home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import '../../styles/bcn-comment-topics.css';
+
+interface Fact {
+  label: string;
+  value: string;
+  icon: string;
+  iconPaths?: string;
+}
+interface Props {
+  submissionId: string;
+  facts: Fact[];
+}
+const { submissionId, facts } = Astro.props;
+---
+
+<div class="bcn-sr stack" data-gap="md" data-submission-rail={submissionId}>
+  <EsaCard title="Details" variant="outlined" padding="compact">
+    <div class="bcn-sr__facts">
+      {facts.map((f) => <BcnKeyValue size="sm" icon={f.icon} iconPaths={f.iconPaths} label={f.label} value={f.value} />)}
+    </div>
+  </EsaCard>
+
+  <EsaCard title="Comments" variant="outlined" padding="compact">
+    <ol class="bcn-sr__outline" role="list" aria-label="Comments in Reading Order" data-sr-outline></ol>
+  </EsaCard>
+</div>
+
+<script>
+  import { isPlanned, passageNote, passageOf, passages, responsesOf, shadeOf, subtopicName, topicOf, UNFILED } from './comments-store';
+  import { glyph } from './comment-glyphs';
+
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const STATE = {
+    planned: { icon: 'file-check', word: 'Planned' },
+    draft: { icon: 'file-pen-line', word: 'Draft' },
+    none: { icon: 'file-minus', word: 'No Response' },
+  } as const;
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-submission-rail]')) {
+    const sid = root.dataset.submissionRail!;
+    const outline = root.querySelector<HTMLElement>('[data-sr-outline]')!;
+    let current: string | null = null;
+
+    const mark = () => {
+      for (const b of outline.querySelectorAll<HTMLElement>('[data-sr-item]')) {
+        const on = b.dataset.srItem === current;
+        b.toggleAttribute('aria-current', on);
+        // Scroll the outline only: scrollIntoView would also move the page and cancel
+        // the scroll that brings the passage into view.
+        if (on) {
+          const top = b.offsetTop;
+          if (top < outline.scrollTop) outline.scrollTop = top;
+          else if (top + b.offsetHeight > outline.scrollTop + outline.clientHeight) outline.scrollTop = top + b.offsetHeight - outline.clientHeight;
+        }
+      }
+    };
+
+    // One item per passage, numbered as the panel titles it; a passage filed under
+    // several subtopics shows each one's swatch and name.
+    const render = () => {
+      outline.innerHTML = passages(sid)
+        .map((g) => {
+          const c = g[0];
+          const key = isPlanned(c) ? 'planned' : responsesOf(c).length ? 'draft' : 'none';
+          const st = STATE[key];
+          const names = g.map((x) => (x.topicId === UNFILED ? 'Unfiled' : subtopicName(x.topicId, x.subtopicId))).join(', ');
+          return (
+            `<li><button type="button" class="bcn-sr__item" data-sr-item="${c.id}">` +
+            `<span class="bcn-sr__note">${passageNote(c.id)}</span>` +
+            `<span class="bcn-sr__dots">${g.map((x) => `<span class="bcn-topic-dot" data-family="${topicOf(x.topicId).family}" data-shade="${shadeOf(x.topicId, x.subtopicId)}"></span>`).join('')}</span>` +
+            `<span class="bcn-sr__sub">${esc(names)}</span>` +
+            `<span class="bcn-sr__state" data-state="${key}">${glyph(st.icon, 13)}${st.word}</span>` +
+            `<span class="bcn-sr__quote">${esc(c.quote)}</span>` +
+            `</button></li>`
+          );
+        })
+        .join('');
+      mark();
+    };
+
+    outline.addEventListener('click', (e) => {
+      const b = (e.target as Element).closest<HTMLElement>('[data-sr-item]');
+      if (!b) return;
+      const id = b.dataset.srItem!;
+      current = id;
+      mark();
+      document.dispatchEvent(new CustomEvent('comments:activate', { detail: id }));
+      document.querySelector<HTMLElement>(`[data-submission-text="${sid}"] mark[data-cid="${id}"]`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      document.dispatchEvent(new CustomEvent('comments:active', { detail: { id } }));
+    });
+
+    document.addEventListener('comments:active', (e) => {
+      const id = (e as CustomEvent<{ id: string } | null>).detail?.id ?? null;
+      current = id ? (passageOf(id)[0]?.id ?? id) : null;
+      mark();
+    });
+    document.addEventListener('comments:activate', (e) => {
+      const id = (e as CustomEvent<string | null>).detail;
+      current = id ? (passageOf(id)[0]?.id ?? id) : null;
+      mark();
+    });
+    document.addEventListener('comments:change', () => requestAnimationFrame(render));
+    render();
+  }
+</script>
+
+<style>
+  /* Stays in view as the text scrolls, so the outline is always one click away. */
+  .bcn-sr {
+    position: sticky;
+    top: var(--spacing-400);
+  }
+
+  .bcn-sr__facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-300) var(--spacing-400);
+  }
+
+  .bcn-sr__outline {
+    position: relative;
+    list-style: none;
+    margin: 0 calc(-1 * var(--spacing-200));
+    padding: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  /* JS-built: reached through :global() under the rail. */
+  .bcn-sr__outline :global(.bcn-sr__item) {
+    all: unset;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--spacing-150, 0.375rem);
+    row-gap: 2px;
+    width: 100%;
+    padding: var(--spacing-150, 0.375rem) var(--spacing-200);
+    border-radius: var(--radius-100);
+    cursor: pointer;
+  }
+  .bcn-sr__outline :global(.bcn-sr__item:hover) {
+    background: var(--color-background-default-hover, var(--color-background-elevation-sunken));
+  }
+  .bcn-sr__outline :global(.bcn-sr__item[aria-current]) {
+    background: var(--color-background-brand-subtle);
+  }
+  .bcn-sr__outline :global(.bcn-sr__item:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+
+  .bcn-sr__outline :global(.bcn-sr__sub) {
+    font-size: var(--typography-label-sm-strong-font-size);
+    font-weight: var(--typography-label-sm-strong-font-weight);
+    color: var(--color-content-default);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bcn-sr__outline :global(.bcn-sr__state) {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    /* adherence-allow: font-too-small — a row's state word is meta; 13px is the meta floor */
+    font-size: 0.8125rem;
+    color: var(--color-content-secondary);
+    white-space: nowrap;
+  }
+  .bcn-sr__outline :global(.bcn-sr__state[data-state='planned']) {
+    color: var(--color-content-success, var(--color-content-default));
+  }
+
+  .bcn-sr__outline :global(.bcn-sr__note) {
+    /* adherence-allow: font-too-small — the passage number is meta; 13px is the meta floor */
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-sr__outline :global(.bcn-sr__dots) {
+    display: inline-flex;
+    gap: 2px;
+  }
+
+  .bcn-sr__outline :global(.bcn-sr__quote) {
+    grid-column: 3 / -1;
+    /* adherence-allow: font-too-small — the passage's opening, dense in the outline; 13px floor */
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    color: var(--color-content-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

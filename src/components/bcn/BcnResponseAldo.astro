@@ -1,0 +1,125 @@
+---
+// <BcnResponseAldo> — Aldo, over the response editor: the house prompt (BcnAldoPrompt,
+// rich) where a person asks for a rewrite and points at what it should draw on.
+//   @   the Response Library: ESA's past responses, anonymized
+//   #   a comment this response answers, by its passage number (18.003)
+//
+// Send, and the letter in the editor is replaced by Aldo's draft in one undoable step
+// (⌘Z in the editor, or Undo in the bar); nothing is saved until Save. The prototype runs
+// no model: the draft is the response's prebuilt redraft, then a paragraph drawn from
+// each library response referenced, and each referenced comment quoted where the letter
+// answers it. "shorter" / "concise" in the prompt keeps each paragraph's first sentence.
+//
+// bcn-lego-checked: it IS BcnAldoPrompt (rich) plus the controller that feeds it; no
+// markup or style of its own.
+import BcnAldoPrompt from './BcnAldoPrompt.astro';
+---
+
+<div data-response-aldo>
+  <BcnAldoPrompt
+    rich
+    prompt="Ask Aldo to rewrite this response"
+    heading="Rewrite with Aldo"
+    label="What Aldo should change"
+    placeholder="e.g. Answer #C-018.001 directly, in the tone of @Use of DNL"
+  />
+</div>
+
+<script>
+  import type { JSONContent } from '@tiptap/core';
+  import { PAST_RESPONSES, SUBMISSIONS } from '../../data/comments';
+  import { registerReferences } from './response-editor/reference';
+  import { glyph } from './response-editor/blocks';
+  import { currentResponseId, linkedTo, passageNote, passageOf, responseOf, submissionNo, subtopicName, topicOf } from './comments-store';
+
+  const root = document.querySelector<HTMLElement>('[data-response-aldo]');
+  const id = currentResponseId();
+  if (root && responseOf(id)) {
+    const prompt = root.querySelector<HTMLElement>('[data-aldo-prompt]')!;
+    const editor = document.querySelector<HTMLElement & { getDoc?: () => JSONContent }>('[data-response-editor]');
+    const year = (ym: string) => ym.slice(0, 4);
+
+    // The passages this response answers, one per passage.
+    const passages = () => {
+      const seen = new Set<string>();
+      return linkedTo(id).filter((c) => {
+        const lead = passageOf(c.id)[0]?.id ?? c.id;
+        if (seen.has(lead)) return false;
+        seen.add(lead);
+        return true;
+      });
+    };
+
+    registerReferences(
+      {
+        kind: 'library',
+        char: '@',
+        group: 'Response Library',
+        options: () =>
+          PAST_RESPONSES.map((p) => ({ id: p.id, label: p.title, hint: year(p.issued), icon: glyph('library', 14), keywords: p.source })),
+      },
+      {
+        kind: 'comment',
+        char: '#',
+        group: 'Comments',
+        options: () =>
+          passages().map((c) => ({
+            id: c.id,
+            label: passageNote(c.id),
+            hint: subtopicName(c.topicId, c.subtopicId),
+            family: topicOf(c.topicId).family,
+            keywords: `${subtopicName(c.topicId, c.subtopicId)} ${c.quote}`,
+          })),
+      },
+    );
+
+    const para = (text: string): JSONContent => ({ type: 'paragraph', content: [{ type: 'text', text }] });
+    const firstSentence = (t: string) => t.match(/^.*?[.!?](\s|$)/)?.[0].trim() ?? t;
+    let previous: JSONContent | null = null;
+    let useRedraft = true;
+
+    const draft = (text: string, refs: { kind: string; id: string }[]): JSONContent => {
+      const r = responseOf(id)!;
+      const concise = /\b(short|shorter|concise|brief|tighter)\b/i.test(text);
+      // Alternate between the two prebuilt drafts, so a second ask gives a second answer.
+      let body = (useRedraft ? r.redraft : r.body).slice();
+      useRedraft = !useRedraft;
+      if (concise) body = body.map(firstSentence);
+      const blocks: JSONContent[] = body.map(para);
+
+      const library = refs.filter((x) => x.kind === 'library').map((x) => PAST_RESPONSES.find((p) => p.id === x.id)).filter(Boolean);
+      for (const p of library) {
+        const lead = concise ? firstSentence(p!.body[0]) : p!.body[0];
+        blocks.splice(Math.min(1, blocks.length), 0, para(`As in a similar study (${p!.source}, ${year(p!.issued)}): ${lead}`));
+      }
+      const comments = refs.filter((x) => x.kind === 'comment').map((x) => passageOf(x.id)[0]).filter(Boolean);
+      for (const c of comments) {
+        const s = SUBMISSIONS.find((x) => x.id === c!.submissionId)!;
+        blocks.splice(1, 0,
+          { type: 'blockquote', content: [para(c!.quote)] },
+          para(`Comment ${passageNote(c!.id)} (${submissionNo(s.id)}) raises this directly; the study answers it below.`),
+        );
+      }
+      return { type: 'doc', content: blocks };
+    };
+
+    prompt.addEventListener('aldo-prompt:open', () => {
+      const n = passages().length;
+      const ctx = prompt.querySelector<HTMLElement>('[data-ap-context]');
+      if (ctx) ctx.textContent = `@ the Response Library · # one of ${n} comments`;
+    });
+    prompt.addEventListener('aldo-prompt:submit', (e) => {
+      const { text, refs } = (e as CustomEvent<{ text: string; refs: { kind: string; id: string }[] }>).detail;
+      previous = editor?.getDoc?.() ?? null;
+      document.dispatchEvent(new CustomEvent('response:replace', { detail: { doc: draft(text, refs ?? []) } }));
+      const used = (refs ?? []).length;
+      prompt.dispatchEvent(new CustomEvent('aldo-prompt:result', {
+        detail: { text: used ? `Aldo rewrote the response from ${used} ${used === 1 ? 'reference' : 'references'}` : 'Aldo rewrote the response' },
+      }));
+    });
+    prompt.addEventListener('aldo-prompt:undo', () => {
+      if (previous) document.dispatchEvent(new CustomEvent('response:replace', { detail: { doc: previous } }));
+      previous = null;
+    });
+  }
+</script>

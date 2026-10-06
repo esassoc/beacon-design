@@ -1,0 +1,281 @@
+---
+// <BcnSubmissionInbox> — every submission in the comment period, two ways:
+//
+//   Inbox        newest first, grouped by month, read like mail. A submission nobody
+//                has reviewed yet carries the unread mark; once reviewed, its row
+//                goes quiet (secondary ink). Each row: unread mark, number, submitter,
+//                the opening of the text, its topics as overlapping dots (the two most
+//                commented, then a "+N" chip), and the date. Hovering the stack opens a
+//                legend of every topic in the submission with its comment count.
+//   Topic index  <BcnCommentsByTopic>: the editable topic hierarchy, Compliance Index style.
+//   Responses    <BcnResponseIndex>: every response as a slim row, drafts first.
+//
+// "Reviewed" is the burn-down's word and the same fact: a person has accepted a response
+// for, or changed, at least one of the submission's comments.
+//
+// The tab bar is esa-tab-layout as a bare switch (the Lists pattern,
+// <BcnListViewTabs>); the choice rides ?view=. Rows render from comments-store, so a
+// reclassify or an accept elsewhere is already reflected when you come back.
+//
+// bcn-lego-checked: rows are links in a mail-style list; no esa- list-row lego exists
+// (esa-card is a container, not a row), and Beacon's inbox-like surfaces are AG Grid
+// tables. Tabs are esa-tab-layout; the topic legend is an esa-popover (hover); the dots
+// are the shared bcn-comment-topics.css swatch.
+import BcnCommentsByTopic from './BcnCommentsByTopic.astro';
+import BcnResponseIndex from './BcnResponseIndex.astro';
+import { withBase } from '../../lib/base';
+import { COMMENTS_BASE } from '../../data/comments-nav';
+import '../../styles/bcn-comment-topics.css';
+---
+
+<div class="bcn-si stack" data-gap="md" data-inbox data-base={withBase(COMMENTS_BASE)}>
+  <esa-tab-layout appearance="underline" size="sm" data-inbox-tabs></esa-tab-layout>
+  <div data-inbox-body></div>
+  <div data-inbox-topic hidden><BcnCommentsByTopic /></div>
+  <div data-inbox-responses hidden><BcnResponseIndex /></div>
+</div>
+
+<script>
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-popover';
+  import { SUBMISSIONS, SUBMITTERS } from '../../data/comments';
+  import { commentsOf, isTouched, submissionNo, submissionOrder, topicOf } from './comments-store';
+
+  // Lucide inbox and list-tree, inlined: esa-tab-layout takes tab icons as SVG strings.
+  const svg = (paths: string) =>
+    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+  const INBOX = svg('<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>');
+  const FILES = svg('<path d="M20 7h-3a2 2 0 0 1-2-2V2"/><path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l4 4v10a2 2 0 0 1-2 2Z"/><path d="M3 7.6v12.8A1.6 1.6 0 0 0 4.6 22h9.8"/>');
+  const TREE = svg('<path d="M21 12h-8"/><path d="M21 6H8"/><path d="M21 18h-8"/><path d="M3 6v4c0 1.1.9 2 2 2h3"/><path d="M3 10v6c0 1.1.9 2 2 2h3"/>');
+
+  type View = 'date' | 'topic' | 'responses';
+  const VIEWS: { id: View; label: string; icon: string }[] = [
+    { id: 'date', label: 'Inbox', icon: INBOX },
+    { id: 'topic', label: 'Topic Index', icon: TREE },
+    { id: 'responses', label: 'Responses', icon: FILES },
+  ];
+
+  const root = document.querySelector<HTMLElement>('[data-inbox]')!;
+  const base = root.dataset.base!.replace(/\/$/, '');
+  const body = root.querySelector<HTMLElement>('[data-inbox-body]')!;
+  const topicView = root.querySelector<HTMLElement>('[data-inbox-topic]')!;
+  const responsesView = root.querySelector<HTMLElement>('[data-inbox-responses]')!;
+  const tabs = root.querySelector<HTMLElement & { tabs: { label: string; icon?: string }[]; activeIndex: number }>('[data-inbox-tabs]')!;
+
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const day = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const month = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const who = (submitterId: string) => SUBMITTERS.find((s) => s.id === submitterId)!;
+
+  const asked = new URLSearchParams(location.search).get('view');
+  let view: View = VIEWS.find((v) => v.id === asked)?.id ?? 'date';
+
+  const byDate = () => {
+    const subs = submissionOrder();
+    let html = '';
+    let group = '';
+    for (const s of subs) {
+      const m = month(s.received);
+      if (m !== group) {
+        if (group) html += '</ul></section>';
+        html += `<section class="bcn-si__month"><h3 class="bcn-si__group typography-label-sm-strong">${m}</h3><ul class="bcn-si__list" role="list">`;
+        group = m;
+      }
+      const p = who(s.submitterId);
+      const unread = !isTouched(s.id);
+      // Distinct topics, most comments first; two dots, then a +N chip. The legend lists all.
+      const tally = new Map<string, number>();
+      for (const c of commentsOf(s.id)) tally.set(c.topicId, (tally.get(c.topicId) ?? 0) + 1);
+      const ranked = [...tally.entries()].sort((a, b) => b[1] - a[1]);
+      const ts = ranked.map(([id]) => topicOf(id));
+      const legend = ranked
+        .map(([id, n]) => `<li><span class="bcn-topic-dot" data-family="${topicOf(id).family}"></span><span>${esc(topicOf(id).name)}</span><span class="bcn-si__legend-n">${n}</span></li>`)
+        .join('');
+      const dots =
+        `<esa-popover trigger="hover" position="bottom" class="bcn-si__stack">` +
+        `<span class="bcn-si__dots" tabindex="0" aria-label="${esc(ts.map((t) => t.name).join(', '))}">` +
+        ts.slice(0, 2).map((t) => `<span class="bcn-topic-dot" data-family="${t.family}"></span>`).join('') +
+        (ts.length > 2 ? `<span class="bcn-si__more">+${ts.length - 2}</span>` : '') +
+        `</span><ul slot="content" class="bcn-si__legend typography-body-sm" role="list">${legend}</ul></esa-popover>`;
+      html +=
+        `<li><a class="bcn-si__row" href="${base}/${s.id}"${unread ? ' data-unread' : ''}>` +
+        `<span class="bcn-si__mark">${unread ? '<span class="bcn-si__unread"></span><span class="visually-hidden">Not Reviewed</span>' : ''}</span>` +
+        `<span class="bcn-si__key typography-body-sm">${submissionNo(s.id)}</span>` +
+        `<span class="bcn-si__who typography-body-md">${esc(p.name)}${p.organization ? `<span class="bcn-si__org">, ${esc(p.organization)}</span>` : ''}</span>` +
+        `<span class="bcn-si__text typography-body-md">${esc(s.text.split('\n\n')[0])}</span>` +
+        `<span class="bcn-si__topics">${dots}</span>` +
+        `<span class="bcn-si__date typography-body-sm">${day(s.received)}</span>` +
+        `</a></li>`;
+    }
+    return html + '</ul></section>';
+  };
+
+  const render = () => {
+    body.hidden = view !== 'date';
+    topicView.hidden = view !== 'topic';
+    responsesView.hidden = view !== 'responses';
+    if (view === 'date') body.innerHTML = `<div class="bcn-si__months">${byDate()}</div>`;
+  };
+
+  tabs.tabs = VIEWS.map((v) => ({ label: v.label, icon: v.icon }));
+  tabs.activeIndex = VIEWS.findIndex((v) => v.id === view);
+  tabs.addEventListener('tabchange', (e) => {
+    view = VIEWS[(e as CustomEvent<{ index: number }>).detail.index].id;
+    const url = new URL(location.href);
+    if (view === 'date') url.searchParams.delete('view');
+    else url.searchParams.set('view', view);
+    history.replaceState(null, '', url);
+    render();
+  });
+  document.addEventListener('comments:change', render);
+  render();
+</script>
+
+<style>
+  .bcn-si :global(.bcn-si__months) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+
+  .bcn-si :global(.bcn-si__group) {
+    margin: 0 0 var(--spacing-200);
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-si :global(.bcn-si__list) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: var(--color-background-elevation-raised);
+    border: var(--border-width-default, 1px) solid var(--color-border-default);
+    border-radius: var(--radius-md);
+  }
+
+  /* No overflow clip on the list (the legend hangs out of its row), so the end rows
+     round their own corners for the hover band. */
+  .bcn-si :global(.bcn-si__list > li:first-child .bcn-si__row) { border-radius: var(--radius-md) var(--radius-md) 0 0; }
+  .bcn-si :global(.bcn-si__list > li:last-child .bcn-si__row) { border-radius: 0 0 var(--radius-md) var(--radius-md); }
+  .bcn-si :global(.bcn-si__list > li:only-child .bcn-si__row) { border-radius: var(--radius-md); }
+
+  .bcn-si :global(.bcn-si__list > li + li) {
+    border-top: var(--border-width-default, 1px) solid var(--color-border-subtle, var(--color-border-default));
+  }
+
+  /* One mail row: unread mark, number, sender, the opening line, topics, date. */
+  .bcn-si :global(.bcn-si__row) {
+    display: grid;
+    grid-template-columns: 0.5rem 3.75rem 13rem minmax(0, 1fr) 3.5rem 4.5rem;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-400) var(--spacing-200) var(--spacing-300);
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+
+  .bcn-si :global(.bcn-si__row:hover) {
+    background: var(--color-background-default-hover, var(--color-background-elevation-sunken));
+  }
+
+  .bcn-si :global(.bcn-si__row:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+
+  /* Unread: a brand dot in the gutter, the way a mail client marks it. */
+  .bcn-si :global(.bcn-si__unread) {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-background-brand);
+  }
+
+  .bcn-si :global(.bcn-si__who),
+  .bcn-si :global(.bcn-si__text) {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .bcn-si :global(.bcn-si__who) { font-weight: var(--typography-font-weight-semibold); }
+  .bcn-si :global(.bcn-si__text) { font-weight: var(--typography-font-weight-medium); }
+  .bcn-si :global(.bcn-si__date) { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .bcn-si :global(.bcn-si__key),
+  .bcn-si :global(.bcn-si__org),
+  .bcn-si :global(.bcn-si__date) {
+    color: var(--color-content-secondary);
+    font-weight: var(--typography-font-weight-regular);
+  }
+
+  /* Reviewed rows go quiet: everything in secondary ink, the sender no longer heavy. */
+  .bcn-si :global(.bcn-si__row:not([data-unread]) :is(.bcn-si__who, .bcn-si__text)) {
+    color: var(--color-content-secondary);
+  }
+  .bcn-si :global(.bcn-si__row:not([data-unread]) .bcn-si__who) {
+    font-weight: var(--typography-font-weight-medium);
+  }
+
+  /* Topic dots overlap by half, each ringed in the row's surface so the stack reads. */
+  .bcn-si :global(.bcn-si__dots) {
+    display: inline-flex;
+    align-items: center;
+  }
+  .bcn-si :global(.bcn-si__dots > *) {
+    margin-left: -0.4375rem;
+  }
+  .bcn-si :global(.bcn-si__dots > :first-child) {
+    margin-left: 0;
+  }
+  .bcn-si :global(.bcn-si__dots .bcn-topic-dot),
+  .bcn-si :global(.bcn-si__more) {
+    width: 0.875rem;
+    height: 0.875rem;
+    box-shadow: 0 0 0 2px var(--color-background-elevation-raised);
+  }
+  .bcn-si :global(.bcn-si__topics) { display: inline-flex; }
+  .bcn-si :global(.bcn-si__dots:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 3px;
+    border-radius: 999px;
+  }
+
+  /* The legend: every topic in the submission, with its comment count. */
+  .bcn-si :global(.bcn-si__legend) {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-100) 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    column-gap: var(--spacing-200);
+    row-gap: var(--spacing-150, 0.375rem);
+    min-width: 12rem;
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-regular);
+  }
+  .bcn-si :global(.bcn-si__legend li) { display: contents; }
+  .bcn-si :global(.bcn-si__legend .bcn-topic-dot) { align-self: center; }
+  .bcn-si :global(.bcn-si__legend-n) {
+    color: var(--color-content-secondary);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .bcn-si :global(.bcn-si__more) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-width: 0.875rem;
+    padding: 0 0.25rem;
+    box-sizing: border-box;
+    border-radius: 999px;
+    background: var(--color-background-elevation-sunken);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-content-default);
+    font-size: 0.625rem; /* adherence-allow: font-too-small — Andy, 2026-10-05: the +N count chip sits in the dot stack at dot size */
+    font-weight: var(--typography-font-weight-semibold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

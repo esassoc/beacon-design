@@ -1,0 +1,54 @@
+---
+// One response, named by ?id= (r-04 when absent — the 21-comment response the demo
+// accepts). The letter in a block editor modeled on WordPress's, Aldo above it for a
+// rewrite that can point at the Response Library (@) and at the comments it answers (#),
+// and beside it the rail: details, Save, Accept, the comments it answers, and the past
+// responses it was drafted from.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnResponseAldo from '../../../components/bcn/BcnResponseAldo.astro';
+import BcnResponseEditor from '../../../components/bcn/BcnResponseEditor.astro';
+import BcnResponseNotes from '../../../components/bcn/BcnResponseNotes.astro';
+import BcnResponseRail from '../../../components/bcn/BcnResponseRail.astro';
+import BcnDraftedFrom from '../../../components/bcn/BcnDraftedFrom.astro';
+import BcnRecordId from '../../../components/bcn/BcnRecordId.astro';
+import BcnRecordPager from '../../../components/bcn/BcnRecordPager.astro';
+import { commentsNav, COMMENTS_BASE, COMMENTS_PROJECT } from '../../../data/comments-nav';
+import { COMMENT_PERIOD } from '../../../data/comments';
+import { withBase } from '../../../lib/base';
+---
+
+<!-- manifest:
+  layout: PageLayout > sidebar(end)                    # SPINE: the letter, the rail on the right (as the submission page)
+  sections:
+    - record number -> bcn-record-id                  # R-004, trailing the H1 (filled from ?id=)
+    - pager        -> bcn-record-pager                # Previous / contents / Next in the Responses tab's order; contents with a status filter
+    - aldo         -> bcn-response-aldo               # BcnAldoPrompt (rich): rewrite, @ library / # comment references, one-step undo
+    - editor       -> bcn-response-editor             # TipTap block editor: / inserter + Response Library, block toolbar, selection bubble (Note, Aldo rewrite), ⌘S
+    - notes        -> bcn-response-notes              # internal notes as footnotes under the letter: threads, reply, resolve
+    - rail         -> bcn-response-rail               # Details (status, topic, counts, saved) + Accept / Save footer; the comments it answers, in a side panel
+    - drafted from -> bcn-drafted-from                # the past ESA responses the draft drew on
+-->
+
+<AppShell title="Response" tenantName={COMMENTS_PROJECT.tenant} projectName={COMMENTS_PROJECT.name} navSections={commentsNav()} activeNavId="comments">
+  <PageLayout
+    title="Response"
+    breadcrumbs={[
+      { label: 'Planning', href: '#planning' },
+      { label: 'Comments', href: '#comments' },
+      { label: COMMENT_PERIOD.name, href: withBase(COMMENTS_BASE) },
+      { label: 'Responses', href: withBase(`${COMMENTS_BASE}?view=responses`) },
+      { label: 'Response' },
+    ]}
+  >
+    <BcnRecordId slot="title-badge" />
+    <Fragment slot="utilities">
+      <BcnRecordPager kind="response" />
+    </Fragment>
+    {/* Rail first in the DOM with data-side="end", both sides wrapped (see [id].astro). */}
+    <div class="sidebar" data-side="end" data-gap="lg" style="--sidebar-width: 20rem; --sidebar-content-min: 60%;">
+      <div><div class="stack" data-gap="md"><BcnResponseRail /><BcnDraftedFrom /></div></div>
+      <div><div class="stack" data-gap="md"><BcnResponseAldo /><BcnResponseEditor><BcnResponseNotes /></BcnResponseEditor></div></div>
+    </div>
+  </PageLayout>
+</AppShell>

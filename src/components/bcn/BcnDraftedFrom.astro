@@ -1,0 +1,77 @@
+---
+// <BcnDraftedFrom> — the past ESA responses a draft drew on, anonymized to the kind of
+// study and region. Each opens in place to its full text, so a reviewer can see where a
+// sentence came from. Read only; the Response Library itself is a separate admin
+// feature, out of this module.
+//
+// bcn-lego-checked: esa-collapsible's title is label-sm with no slot for the source
+// and date beneath it; a native <details> per past response carries both. Checked
+// Beacon (no library surface).
+import EsaCard from '@esa/ecology/esa-card.astro';
+---
+
+<div class="bcn-df" data-drafted-from>
+  <EsaCard title="Drafted From" padding="default">
+    <div class="stack" data-gap="sm" data-df-body></div>
+  </EsaCard>
+</div>
+
+<script>
+  import { PAST_RESPONSES } from '../../data/comments';
+  import { responseOf, currentResponseId } from './comments-store';
+
+  const root = document.querySelector<HTMLElement>('[data-drafted-from]');
+  const id = currentResponseId();
+  if (root) {
+    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    const month = (ym: string) => new Date(`${ym}-15T12:00:00`).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    const paint = () => {
+      const r = responseOf(id);
+      const past = (r?.draftedFrom ?? []).map((p) => PAST_RESPONSES.find((x) => x.id === p)).filter(Boolean);
+      root.hidden = past.length === 0;
+      root.querySelector('[data-df-body]')!.innerHTML = past.map((p) =>
+        `<details class="bcn-df__item"><summary><span class="typography-label-md-strong">${esc(p!.title)}</span>` +
+        `<span class="typography-body-sm bcn-df__src">${esc(p!.source)}</span><span class="typography-body-sm bcn-df__src">${month(p!.issued)}</span></summary>` +
+        `<div class="typography-body-sm bcn-df__text stack" data-gap="xs">${p!.body.map((b) => `<p>${esc(b)}</p>`).join('')}</div></details>`).join('');
+    };
+    document.addEventListener('comments:change', paint);
+    paint();
+  }
+</script>
+
+<style>
+  .bcn-df :global(.bcn-df__item + .bcn-df__item) {
+    border-top: var(--border-width-default, 1px) solid var(--color-border-subtle, var(--color-border-default));
+    padding-top: var(--spacing-200);
+  }
+
+  .bcn-df :global(summary) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .bcn-df :global(summary::-webkit-details-marker) {
+    display: none;
+  }
+
+  .bcn-df :global(summary:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+
+  .bcn-df :global(.bcn-df__src) {
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-df :global(.bcn-df__text) {
+    margin-top: var(--spacing-200);
+    color: var(--color-content-default);
+  }
+
+  .bcn-df :global(.bcn-df__text p) {
+    margin: 0;
+  }
+</style>

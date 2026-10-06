@@ -89,6 +89,39 @@ export function allPrototypeEfforts(): PrototypeEffort[] {
 
 export const prototypeGroups: PrototypeGroup[] = [
   {
+    slug: 'comments',
+    tenant: 'platform',
+    title: 'Comments',
+    description:
+      'A Planning module for responding to public comment on an environmental document: submissions arrive split into comments, each filed under a topic and subtopic and read as a highlight in its topic color. Comments roll up to summary responses, and progress is a burn-down to zero comments without a planned response.',
+    pages: [
+      {
+        slug: 'comments-index',
+        title: 'Submissions',
+        description: 'One comment period: its dates, response format and burn-down, then every submission By date (a mail-style inbox where untouched submissions read bold) or By topic (topic > subtopic > each comment as a highlighted quote).',
+        route: '/prototypes/comments',
+        createdAt: '2026-10-05',
+        status: 'in-progress',
+      },
+      {
+        slug: 'comments-submission',
+        title: 'Submission',
+        description: 'One submission with its comments as highlighter passages (topic = hue, subtopic = shade). Click one and a single card opens in the margin beside it: refile it, point it at another response or a new one, or remove it. Drag a passage\'s end grips to resize it; select text to add a comment, already filed by a quiet helper. J / K step through the highlights.',
+        route: '/prototypes/comments/sub-18',
+        createdAt: '2026-10-05',
+        status: 'in-progress',
+      },
+      {
+        slug: 'comments-response',
+        title: 'Response',
+        description: 'One summary response: its text with guidance + Redraft (one new draft, one-step undo), the comments it answers grouped by submission, and the past responses it was drafted from. Accept plans every linked comment at once, and the burn-down beside it counts down by that many.',
+        route: '/prototypes/comments/response',
+        createdAt: '2026-10-05',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'actions-obligations',
     tenant: 'dcp',
     title: 'Actions and Obligations',

@@ -1,0 +1,302 @@
+---
+// <BcnRecordPager> — the pager in a detail page's title row (upper right): Previous, the
+// contents, Next. Submissions walk in inbox order, responses in the Responses tab's
+// order (comments-store submissionOrder / responseOrder), so the pager and the list
+// agree.
+//
+// The contents button opens a side panel listing every record of the kind: its status
+// mark, its number, its name, and a second line with its status in words and its
+// first topic (+N for the rest, named on hover). A status filter heads the list (All / Not Reviewed / Reviewed for
+// submissions; All / Draft / Accepted for responses), each option with its count. The
+// current record is marked; a row goes to that record.
+//
+// Live from comments-store, so an Accept or a review elsewhere moves a record between
+// statuses. The current record is `current` (a submission page knows it at build) or
+// read from ?id= (the response page).
+//
+// bcn-lego-checked: the three controls ARE esa-button (the contents glyph swapped in at
+// runtime, the house trick), the panel IS esa-side-dialog, the filter IS esa-button-toggle.
+// The rows are links in a list, the inbox's anatomy; no esa- list-row lego. Checked
+// Beacon (detail pages carry back links, no record pager). Two consumers (submission and
+// response pages), so bcn-record-pager is the reusable home.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { withBase } from '../../lib/base';
+import { COMMENTS_BASE } from '../../data/comments-nav';
+import '../../styles/bcn-comment-topics.css';
+
+interface Props {
+  kind: 'submission' | 'response';
+  /** The record on this page (omit to read ?id=). */
+  current?: string;
+}
+const { kind, current = '' } = Astro.props;
+const noun = kind === 'submission' ? 'submission' : 'response';
+const Nouns = kind === 'submission' ? 'Submissions' : 'Responses';
+---
+
+<div class="bcn-rp" data-record-pager data-kind={kind} data-current={current} data-base={withBase(COMMENTS_BASE)}>
+  <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="chevron-left" label={`Previous ${noun}`} href="#" data-rp-prev />
+  <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="x" label={`All ${noun}s`} data-rp-open data-glyph="list" />
+  <EsaButton size="sm" variant="secondary" appearance="outline" iconOnly icon="chevron-right" label={`Next ${noun}`} href="#" data-rp-next />
+
+  <esa-side-dialog heading={Nouns} position="right" show-close-button data-rp-panel>
+    <div class="bcn-rp__body">
+      <esa-button-toggle size="sm" label="Status" data-rp-filter></esa-button-toggle>
+      <ul class="bcn-rp__list" role="list" data-rp-list></ul>
+    </div>
+  </esa-side-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-button-toggle';
+  import { SUBMITTERS } from '../../data/comments';
+  import {
+    commentsOf, currentResponseId, isTouched, responseNo, responseOrder, submissionNo, submissionOrder, topicOf,
+  } from './comments-store';
+  import { glyph } from './comment-glyphs';
+
+  interface Rec {
+    id: string;
+    no: string;
+    name: string;
+    href: string;
+    status: string;
+    state: 'open' | 'done';
+    topics: { name: string; family: string }[];
+  }
+
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-record-pager]')) {
+    const kind = root.dataset.kind as 'submission' | 'response';
+    const base = root.dataset.base!.replace(/\/$/, '');
+    const current = root.dataset.current || (kind === 'response' ? currentResponseId() : '');
+    const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const native = (el: Element) => (el.matches('a, button') ? el : el.querySelector('a, button')) as HTMLAnchorElement & HTMLButtonElement;
+    const panel = $<HTMLElement & { open: boolean }>('[data-rp-panel]');
+    const filter = $<HTMLElement & { options: { label: string; value: string }[]; value: string }>('[data-rp-filter]');
+    let show = 'all';
+
+    const openBtn = native($('[data-rp-open]'));
+    const svg = openBtn.querySelector('svg');
+    if (svg) svg.outerHTML = glyph('list', 16);
+
+    const records = (): Rec[] => {
+      if (kind === 'submission') {
+        return submissionOrder().map((s) => {
+          const p = SUBMITTERS.find((x) => x.id === s.submitterId)!;
+          const seen = new Map<string, { name: string; family: string }>();
+          for (const c of commentsOf(s.id)) {
+            const t = topicOf(c.topicId);
+            if (!seen.has(t.id)) seen.set(t.id, { name: t.name, family: t.family });
+          }
+          const done = isTouched(s.id);
+          return {
+            id: s.id,
+            no: submissionNo(s.id),
+            name: p.organization ? `${p.name}, ${p.organization}` : p.name,
+            href: `${base}/${s.id}`,
+            status: done ? 'Reviewed' : 'Not Reviewed',
+            state: done ? 'done' : 'open',
+            topics: [...seen.values()],
+          };
+        });
+      }
+      return responseOrder().map((r) => {
+        const t = topicOf(r.topicId);
+        return {
+          id: r.id,
+          no: responseNo(r.id),
+          name: r.title,
+          href: `${base}/response?id=${r.id}`,
+          status: r.accepted ? 'Accepted' : 'Draft',
+          state: r.accepted ? 'done' : 'open',
+          topics: [{ name: t.name, family: t.family }],
+        };
+      });
+    };
+
+    const mark = (r: Rec) =>
+      kind === 'submission'
+        ? r.state === 'open'
+          ? '<span class="bcn-rp__unread" aria-hidden="true"></span>'
+          : `<span class="bcn-rp__glyph" data-state="done" aria-hidden="true">${glyph('circle-check', 14)}</span>`
+        : `<span class="bcn-rp__glyph" data-state="${r.state}" aria-hidden="true">${glyph(r.state === 'done' ? 'file-check' : 'file-pen-line', 14)}</span>`;
+
+    const topicsHtml = (ts: Rec['topics']) => {
+      const shown = ts.slice(0, 1)
+        .map((t) => `<span class="bcn-rp__topic"><span class="bcn-topic-dot" data-family="${t.family}"></span>${esc(t.name)}</span>`)
+        .join('');
+      return shown + (ts.length > 1 ? `<span class="bcn-rp__more" title="${esc(ts.slice(1).map((t) => t.name).join(', '))}">+${ts.length - 1}</span>` : '');
+    };
+
+    const setLink = (sel: string, r: Rec | undefined) => {
+      const a = native($(sel));
+      a.closest('.esa-button')?.classList.toggle('esa-button--disabled', !r);
+      if (r) {
+        a.setAttribute('href', r.href);
+        a.removeAttribute('aria-disabled');
+        a.title = `${r.no} ${r.name}`;
+      } else {
+        a.removeAttribute('href');
+        a.setAttribute('aria-disabled', 'true');
+        a.removeAttribute('title');
+      }
+    };
+
+    const render = () => {
+      const all = records();
+      const i = all.findIndex((r) => r.id === current);
+      setLink('[data-rp-prev]', i > 0 ? all[i - 1] : undefined);
+      setLink('[data-rp-next]', i !== -1 && i < all.length - 1 ? all[i + 1] : undefined);
+
+      const statuses = kind === 'submission' ? ['Not Reviewed', 'Reviewed'] : ['Draft', 'Accepted'];
+      filter.options = [
+        { label: `All ${all.length}`, value: 'all' },
+        ...statuses.map((st) => ({ label: `${st} ${all.filter((r) => r.status === st).length}`, value: st })),
+      ];
+      filter.value = show;
+
+      const list = show === 'all' ? all : all.filter((r) => r.status === show);
+      $('[data-rp-list]').innerHTML = list
+        .map(
+          (r) =>
+            `<li><a class="bcn-rp__row" href="${r.href}"${r.id === current ? ' aria-current="page"' : ''}>` +
+            `<span class="bcn-rp__mark">${mark(r)}</span>` +
+            `<span class="bcn-rp__no">${r.no}</span>` +
+            `<span class="bcn-rp__name">${esc(r.name)}</span>` +
+            `<span class="bcn-rp__meta"><span class="bcn-rp__status" data-state="${r.state}">${r.status}</span>${topicsHtml(r.topics)}</span>` +
+            `</a></li>`,
+        )
+        .join('');
+    };
+
+    openBtn.addEventListener('click', () => {
+      render();
+      panel.open = true;
+      requestAnimationFrame(() => root.querySelector<HTMLElement>('.bcn-rp__row[aria-current]')?.scrollIntoView({ block: 'center' }));
+    });
+    filter.addEventListener('change', () => {
+      show = filter.value || 'all';
+      render();
+    });
+    // Keyboard: [ and ] step to the previous / next record (not while typing).
+    addEventListener('keydown', (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey || (e.target as Element).closest('input, textarea, [contenteditable], esa-side-dialog')) return;
+      const sel = e.key === '[' ? '[data-rp-prev]' : e.key === ']' ? '[data-rp-next]' : null;
+      const href = sel && native($(sel)).getAttribute('href');
+      if (href) location.href = href;
+    });
+    document.addEventListener('comments:change', render);
+    render();
+  }
+</script>
+
+<style>
+  .bcn-rp {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+
+  .bcn-rp__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+
+  .bcn-rp__list {
+    list-style: none;
+    margin: 0 calc(-1 * var(--spacing-200));
+    padding: 0;
+  }
+
+  /* A row: mark | number | name, then status · topics under the name. */
+  .bcn-rp :global(.bcn-rp__row) {
+    display: grid;
+    grid-template-columns: 1rem 3.75rem minmax(0, 1fr);
+    column-gap: var(--spacing-200);
+    row-gap: 2px;
+    align-items: baseline;
+    padding: var(--spacing-200);
+    border-radius: var(--radius-md);
+    color: var(--color-content-default);
+    text-decoration: none;
+  }
+
+  .bcn-rp :global(.bcn-rp__row:hover) {
+    background: var(--color-background-elevation-sunken);
+  }
+
+  .bcn-rp :global(.bcn-rp__row[aria-current]) {
+    background: var(--color-background-elevation-sunken);
+    box-shadow: inset 0 0 0 1px var(--color-border-default);
+  }
+
+  .bcn-rp :global(.bcn-rp__row:focus-visible) {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+
+  .bcn-rp :global(.bcn-rp__mark) {
+    display: inline-flex;
+    align-self: center;
+    justify-content: center;
+  }
+
+  .bcn-rp :global(.bcn-rp__unread) {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-background-brand);
+  }
+
+  .bcn-rp :global(.bcn-rp__glyph) {
+    display: inline-flex;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rp :global(.bcn-rp__glyph[data-state='done']) {
+    color: var(--color-content-success, var(--color-content-default));
+  }
+
+  .bcn-rp :global(.bcn-rp__no) {
+    font-size: var(--typography-label-sm-font-size);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rp :global(.bcn-rp__name) {
+    font-size: var(--typography-body-md-font-size);
+    font-weight: var(--typography-font-weight-medium, 500);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bcn-rp :global(.bcn-rp__row[aria-current] .bcn-rp__name) {
+    font-weight: var(--typography-font-weight-semibold);
+  }
+
+  .bcn-rp :global(.bcn-rp__meta) {
+    grid-column: 3;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-100) var(--spacing-300);
+    font-size: var(--typography-label-sm-font-size);
+    color: var(--color-content-secondary);
+  }
+
+  .bcn-rp :global(.bcn-rp__status[data-state='open']) {
+    color: var(--color-content-default);
+    font-weight: var(--typography-font-weight-semibold);
+  }
+
+  .bcn-rp :global(.bcn-rp__topic) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+</style>

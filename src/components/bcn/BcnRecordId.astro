@@ -1,0 +1,34 @@
+---
+// <BcnRecordId> — a record's number (S-018, C-018.003, R-004) as a quiet neutral badge:
+// trailing a detail page's H1 (PageLayout's title-badge slot), or anywhere a number
+// names a record. Pages whose record is read at runtime (the response page, by ?id=)
+// render it empty and fill [data-record-id] .esa-badge__text from their script.
+//
+// bcn-lego-checked: it IS esa-badge, re-pointed quiet and neutral through the lego's own
+// --badge-bg / --badge-text-color (as the response footnotes and BcnEvidenceTargets do).
+// No esa- id/code chip (and ids are never monospace, per the type voices). Checked
+// Beacon (record numbers are plain text). bcn-record-id is the shared home.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+
+interface Props {
+  value?: string;
+  size?: 'sm' | 'md';
+}
+const { value = '', size = 'md' } = Astro.props;
+---
+
+<span class="bcn-record-id" data-record-id><EsaBadge value={value} size={size} /></span>
+
+<style>
+  .bcn-record-id {
+    display: inline-flex;
+    align-self: center;
+  }
+
+  .bcn-record-id :global(.esa-badge) {
+    --badge-bg: var(--color-background-elevation-sunken);
+    --badge-text-color: var(--color-content-default);
+    border: 1px solid var(--color-border-default);
+    font-variant-numeric: tabular-nums;
+  }
+</style>
